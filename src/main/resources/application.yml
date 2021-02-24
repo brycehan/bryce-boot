@@ -1,0 +1,17 @@
+
+spring:
+  ## Datasource
+  datasource:
+    url: jdbc:mysql://192.168.0.104:3306/bryce_boot?serverTimezone=Asia/Shanghai
+    username: root
+    password: 123456
+  application:
+    name: bryce_boot
+
+## Mybatis
+mybatis-plus:
+  mapper-locations: classpath:/com/brycehan/boot/*/mapper/xml/*Mapper.xml
+
+server:
+  port: 8080
+
