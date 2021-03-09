@@ -11,8 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.io.Serializable;
-import java.util.List;
+import java.io.*;
+import java.util.*;
 
 /**
  * <p>
@@ -30,7 +30,7 @@ public class UserController {
     private UserService userService;
 
     @PostMapping
-    public ResultWrapper save(User user){
+    public ResultWrapper save(User user) throws Exception{
         Boolean saved = userService.save(user);
         return ResultWrapper.builder()
                 .result(saved)
@@ -45,11 +45,11 @@ public class UserController {
                 .build();
     }
 
-    @DeleteMapping
-    public ResultWrapper delete(User user){
+    @DeleteMapping(value = "{id}")
+    public ResultWrapper delete(@PathVariable Serializable id){
         Boolean deleted = false;
-        if(user.getId() != null){
-            deleted = userService.removeById(user.getId());
+        if(id != null){
+            deleted = userService.removeById(id);
         }
 
         return ResultWrapper.builder()

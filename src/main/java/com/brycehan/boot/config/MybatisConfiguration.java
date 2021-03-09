@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * @author Bryce Han
- * @date 2021/2/23
+ * @since 2021/2/23
  */
 @Configuration
 @MapperScan(basePackages = "com.brycehan.boot.*.mapper")

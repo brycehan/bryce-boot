@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * @author Bryce Han
- * @date 2021/2/24
+ * @since 2021/2/24
  */
-@ControllerAdvice
+//@ControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = Exception.class)
