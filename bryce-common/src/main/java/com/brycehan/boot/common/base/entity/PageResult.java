@@ -1,0 +1,30 @@
+package com.brycehan.boot.common.base.entity;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+import java.io.Serial;
+import java.io.Serializable;
+import java.util.List;
+
+/**
+ * 分页结果数据
+ *
+ * @author Bryce Han
+ * @since 2023/4/10
+ */
+@Schema(description = "分页结果数据")
+@Data
+@AllArgsConstructor
+public class PageResult<T> implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
+    @Schema(description = "总记录数")
+    private long total;
+
+    @Schema(description = "列表数据")
+    private List<T> data;
+
+}

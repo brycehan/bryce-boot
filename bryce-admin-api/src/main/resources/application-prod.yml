@@ -1,0 +1,26 @@
+# spring配置
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.0.10:3306/bryce_boot?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8
+    username: root
+    password: root
+  devtools:
+    restart:
+      enabled: false
+  data:
+    # data redis配置
+    redis:
+      host: 192.168.0.10
+      port: 6379
+      database: 0
+# 接口配置
+springdoc:
+  api-docs:
+    enabled: false
+# 日志配置
+logging:
+  level:
+    root: info
+    web: info
+    com.brycehan.boot: info

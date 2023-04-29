@@ -1,0 +1,22 @@
+package com.brycehan.boot.common.exception.file;
+
+import com.brycehan.boot.common.base.http.UploadResponseStatusEnum;
+import com.brycehan.boot.common.exception.BusinessException;
+
+import java.io.Serial;
+
+/**
+ * 文件大小限制异常类
+ *
+ * @author Bryce Han
+ * @since 2022/11/2
+ */
+public class FileSizeLimitExceededException extends BusinessException {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
+
+    public FileSizeLimitExceededException(long defaultFileMaxSize) {
+        super(UploadResponseStatusEnum.UPLOAD_EXCEED_MAX_SIZE, Long.toString(defaultFileMaxSize));
+    }
+}

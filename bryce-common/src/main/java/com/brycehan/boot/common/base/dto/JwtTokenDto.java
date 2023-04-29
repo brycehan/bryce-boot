@@ -1,0 +1,27 @@
+package com.brycehan.boot.common.base.dto;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import jakarta.validation.constraints.NotNull;
+
+/**
+ * Jwt令牌Dto
+ *
+ * @author Bryce Han
+ * @since 2022/5/18
+ */
+@Schema(description = "Jwt令牌Dto")
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
+public class JwtTokenDto {
+    /**
+     * jwt令牌
+     */
+    @NotNull
+    @Schema(description = "jwt令牌")
+    private String token;
+}

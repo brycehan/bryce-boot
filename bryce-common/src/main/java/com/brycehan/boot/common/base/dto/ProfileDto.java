@@ -1,0 +1,51 @@
+package com.brycehan.boot.common.base.dto;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
+
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
+
+/**
+ * 个人信息Dto
+ *
+ * @author Bryce Han
+ * @since 2022/5/10
+ */
+@Data
+@Schema(description = "个人信息Dto")
+public class ProfileDto {
+
+    /**
+     * 用户昵称
+     */
+    @NotNull
+    @Size(min = 2, max = 50)
+    @Schema(description = "用户昵称")
+    private String fullName;
+
+    /**
+     * 手机号码
+     */
+    @NotNull
+    @Size(max = 20)
+    @Schema(description = "手机号码")
+    private String phone;
+
+    /**
+     * 邮箱
+     */
+    @NotNull
+    @Size(max = 50)
+    @Schema(description = "邮箱")
+    private String email;
+
+    /**
+     * 性别（M：男, F：女）
+     */
+    @Schema(description = "性别（M：男, F：女）")
+    @Pattern(regexp = "^[MF]$", message = "性别值只能是M或F")
+    private String gender;
+
+}

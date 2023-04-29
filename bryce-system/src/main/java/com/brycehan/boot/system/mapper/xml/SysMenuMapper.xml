@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.brycehan.boot.system.mapper.SysMenuMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.brycehan.boot.system.entity.SysMenu">
+        <id column="id" property="id"/>
+        <result column="menu_name" property="menuName"/>
+        <result column="menu_type" property="menuType"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="icon" property="icon"/>
+        <result column="path" property="path"/>
+        <result column="component" property="component"/>
+        <result column="query" property="query"/>
+        <result column="is_frame" property="isFrame"/>
+        <result column="is_cache" property="isCache"/>
+        <result column="visible" property="visible"/>
+        <result column="permission" property="permission"/>
+        <result column="delete_flag" property="deleteFlag"/>
+        <result column="sort_number" property="sortNumber"/>
+        <result column="status" property="status"/>
+        <result column="create_user_id" property="createUserId"/>
+        <result column="create_username" property="createUsername"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_user_id" property="updateUserId"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="remark" property="remark"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id
+        , menu_name, menu_type, parent_id, icon, path, component, query, is_frame, is_cache, visible, permission,
+        delete_flag, sort_number, status, create_user_id, create_username, create_time, update_user_id, update_time, remark
+    </sql>
+
+    <!-- 分页查询 -->
+    <select id="page" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from brc_sys_menu
+        <where>
+            <if test="menuName != null and menuName != ''">
+                and menuName like concat('%', #{menu_name}, '%')
+            </if>
+        </where>
+    </select>
+
+    <!-- 根据用户ID查询菜单权限 -->
+    <select id="selectMenuPermissionByUserId" resultType="java.lang.String">
+        select bsm.permission
+        from brc_sys_menu bsm
+        left join brc_sys_role_menu bsrm on bsm.id = bsrm.menu_id
+        left join brc_sys_user_role bsur on bsrm.role_id = bsur.role_id
+        where bsm.status = '1'
+        and bsm.permission is not null
+        and bsur.user_id = #{userId}
+    </select>
+    <select id="selectMenuTreeByUserId" resultType="com.brycehan.boot.system.entity.SysMenu">
+        select distinct bsm.id,
+        bsm.menu_name,
+        bsm.menu_type,
+        bsm.parent_id,
+        bsm.icon,
+        bsm.path,
+        bsm.component,
+        bsm.query,
+        bsm.is_frame,
+        bsm.is_cache,
+        bsm.visible,
+        bsm.permission,
+        bsm.sort_number,
+        bsm.status,
+        bsm.create_time
+        from brc_sys_menu bsm
+        left join brc_sys_role_menu bsrm on bsm.id = bsrm.menu_id
+        left join brc_sys_user_role bsur on bsrm.role_id = bsur.role_id
+        left join brc_sys_role bsr on bsur.role_id = bsr.id
+        where bsm.menu_type in ('D', 'M')
+        and bsm.status = '1'
+        and bsr.status = '1'
+        and bsur.user_id = #{userId}
+        order by bsm.parent_id, bsm.sort_number
+    </select>
+</mapper>

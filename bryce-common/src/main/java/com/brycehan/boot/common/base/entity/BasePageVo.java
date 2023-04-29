@@ -1,0 +1,46 @@
+package com.brycehan.boot.common.base.entity;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
+import java.util.List;
+
+/**
+ * 基础分页VO视图对象
+ *
+ * @author Bryce Han
+ * @since 2021/8/31
+ */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+public class BasePageVo<T> extends BaseEntity {
+
+    /**
+     * 总条数
+     */
+    @Schema(description = "总条数")
+    private Long total;
+
+    /**
+     * 当前页数
+     */
+    @Schema(description = "当前页数")
+    private Integer pageNum;
+
+    /**
+     * 每页数量
+     */
+    @Schema(description = "每页数量")
+    private Integer pageSize;
+
+    /**
+     * 分页数据
+     */
+    @Schema(description = "分页数据")
+    private List<T> list;
+}

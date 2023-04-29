@@ -1,0 +1,34 @@
+package com.brycehan.boot.system.mapper;
+
+import com.brycehan.boot.common.base.mapper.BryceBaseMapper;
+import com.brycehan.boot.system.dto.SysPostPageDto;
+import com.brycehan.boot.system.entity.SysPost;
+import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
+
+/**
+ * 系统岗位Mapper接口
+ *
+ * @author Bryce Han
+ * @since 2022/10/31
+ */
+@Mapper
+public interface SysPostMapper extends BryceBaseMapper<SysPost> {
+
+    /**
+     * 分页查询
+     *
+     * @param sysPostPageDto 系统岗位分页数据传输对象
+     * @return 系统岗位列表
+     */
+    List<SysPost> page(SysPostPageDto sysPostPageDto);
+
+    /**
+     * 根据用户账号查询所属岗位组
+     *
+     * @param username 用户账号
+     * @return 所属岗位组
+     */
+    List<SysPost> selectPostsByUsername(String username);
+}

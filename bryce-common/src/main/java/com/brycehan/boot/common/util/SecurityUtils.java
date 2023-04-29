@@ -1,0 +1,24 @@
+package com.brycehan.boot.common.util;
+
+import com.brycehan.boot.common.constant.UserConstants;
+
+/**
+ * 安全工具类
+ *
+ * @author Bryce Han
+ * @since 2023/4/19
+ */
+public class SecurityUtils {
+
+    /**
+     * 是否为管理员
+     *
+     * @param userId 用户ID
+     * @return 判断结果
+     */
+    public static boolean isAdmin(String userId){
+        // todo test
+//        return UserConstants.ADMIN_USER_ID.equals(userId);
+        return false;
+    }
+}

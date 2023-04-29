@@ -1,0 +1,50 @@
+package com.brycehan.boot.common.base.dto;
+
+import com.brycehan.boot.common.constant.UserConstants;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
+
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
+
+/**
+ * 注册Dto
+ *
+ * @author Bryce Han
+ * @since 2022/5/10
+ */
+@Data
+@Schema(description = "注册Dto")
+public class RegisterDto {
+
+    /**
+     * 账号
+     */
+    @NotEmpty
+    @Size(min = UserConstants.USERNAME_MIN_LENGTH, max = UserConstants.USERNAME_MAX_LENGTH)
+    @Schema(description = "账号")
+    private String username;
+
+    /**
+     * 密码
+     */
+    @NotEmpty
+    @Size(min = UserConstants.PASSWORD_MIN_LENGTH, max = UserConstants.PASSWORD_MAX_LENGTH)
+    @Schema(description = "密码")
+    private String password;
+
+    /**
+     * uuid
+     */
+    @Size(max = 36)
+    @Schema(description = "uuid")
+    private String uuid;
+
+    /**
+     * 验证码
+     */
+    @Size(max = 8)
+    @Schema(description = "验证码")
+    private String code;
+
+}

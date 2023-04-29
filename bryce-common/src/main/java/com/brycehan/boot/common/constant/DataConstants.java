@@ -1,0 +1,51 @@
+package com.brycehan.boot.common.constant;
+
+/**
+ * 数据状态常量
+ *
+ * @author Bryce Han
+ * @since 2022/7/21
+ */
+public class DataConstants {
+
+    /**
+     * 启用
+     */
+    public static final int ENABLE = 1;
+
+    /**
+     * 禁用
+     */
+    public static final int DISABLE = 0;
+
+    /**
+     * 默认
+     */
+    public static final int DEFAULT = 1;
+
+    /**
+     * 非默认
+     */
+    public static final int NON_DEFAULT = 0;
+
+    /**
+     * 默认角色ID
+     */
+    public static final String DEFAULT_ROLE_ID = "2";
+
+    /**
+     * 根ID
+     */
+    public static final String TREE_ROOT_ID = "0";
+
+    /**
+     * 默认排序列
+     */
+    public static final String DEFAULT_SORT_COLUMN = "sortNumber";
+
+    /**
+     * 默认排序升序
+     */
+    public static final boolean DEFAULT_SORT_IS_ASC = true;
+
+}

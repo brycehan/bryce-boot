@@ -1,0 +1,119 @@
+package com.brycehan.boot.common.constant;
+
+import java.nio.charset.StandardCharsets;
+
+/**
+ * 常用常量
+ *
+ * @author Bryce Han
+ * @since 2022/5/18
+ */
+public class CommonConstants {
+
+    /**
+     * 界定符匹配正则表达式
+     */
+    public static final String DELI_STR_PATTERN = "\\{\\}";
+
+    /**
+     * 上传文件路径
+     */
+    public static final String UPLOAD_FILE_PATH = "/attachment/file/";
+
+    /**
+     * UTF-8 字符集
+     */
+    public static final String UTF8 = StandardCharsets.UTF_8.name();
+
+    /**
+     * GBK 字符集
+     */
+    public static final String GBK = "GBK";
+
+    /**
+     * www主域
+     */
+    public static final String WWW = "www.";
+
+    /**
+     * http请求
+     */
+    public static final String HTTP = "http://";
+
+    /**
+     * https请求
+     */
+    public static final String HTTPS = "https://";
+
+    /**
+     * 通用成功标识
+     */
+    public static final String SUCCESS = "1";
+
+    /**
+     * 通用失败标识
+     */
+    public static final String FAIL = "0";
+
+    /**
+     * 登录成功
+     */
+    public static final Integer LOGIN_SUCCESS = 1;
+
+    /**
+     * 注销
+     */
+    public static final Integer LOGOUT_SUCCESS = 1;
+
+    /**
+     * 注册成功
+     */
+    public static final Integer REGISTER_SUCCESS = 1;
+
+    /**
+     * 注册
+     */
+    public static final String REGISTER = "Register";
+
+    /**
+     * 登录失败
+     */
+    public static final Integer LOGIN_FAIL = 0;
+
+    /**
+     * 资源映射路径前缀
+     */
+    public static final String RESOURCE_PREFIX = "/upload";
+
+    /**
+     * RMI 远程方法调用
+     */
+    public static final String LOOKUP_RMI = "rmi:";
+
+    /**
+     * LDAP 远程方法调用
+     */
+    public static final String LOOKUP_LDAP = "ldap:";
+
+    /**
+     * LDAPS 远程方法调用
+     */
+    public static final String LOOKUP_LDAPS = "ldaps:";
+
+    /**
+     * 系统模块
+     */
+    public static final String SYSTEM_MODULE = "system";
+
+    /**
+     * 定时任务白名单配置（仅允许访问的包名，如其他需要可以自行添加）
+     */
+    public static final String[] JOB_WHITELIST_STR = {"com.brycehan"};
+
+    /**
+     * 定时任务违规的字符
+     */
+    public static final String[] JOB_ERROR_STR = {"java.net.URL", "javax.naming.InitialContext", "org.yaml.snakeyaml",
+            "org.springframework", "org.apache", "com.brycehan.common.utils.file"};
+
+}

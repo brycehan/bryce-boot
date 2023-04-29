@@ -1,0 +1,74 @@
+package com.brycehan.boot.framework.security.listener;
+
+import com.brycehan.boot.common.constant.CommonConstants;
+import com.brycehan.boot.common.util.HttpContextUtils;
+import com.brycehan.boot.common.util.MessageUtils;
+import com.brycehan.boot.framework.security.event.UserLoginFailedEvent;
+import com.brycehan.boot.framework.security.event.UserLoginSuccessEvent;
+import com.brycehan.boot.framework.service.AuthenticationService;
+import com.brycehan.boot.system.service.SysLoginInfoService;
+import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.stereotype.Component;
+
+import java.util.concurrent.ThreadPoolExecutor;
+
+/**
+ * 用户登录事件监听器
+ *
+ * @author Bryce Han
+ * @since 2022/11/3
+ */
+@Component
+public class UserLoginListener {
+
+    private final SysLoginInfoService sysLoginInfoService;
+
+    private final AuthenticationService authenticationService;
+
+    private final ThreadPoolExecutor executor;
+
+    public UserLoginListener(SysLoginInfoService sysLoginInfoService, AuthenticationService authenticationService, ThreadPoolExecutor executor) {
+        this.sysLoginInfoService = sysLoginInfoService;
+        this.authenticationService = authenticationService;
+        this.executor = executor;
+    }
+
+    /**
+     * 登录成功事件处理
+     *
+     * @param userLoginSuccessEvent 登录成功事件
+     */
+    @Async
+    @EventListener
+    public void onSuccess(UserLoginSuccessEvent userLoginSuccessEvent) {
+        String userAgent = HttpContextUtils.getRequest().getHeader("User-Agent");
+        // 1、异步记录登录日志
+        sysLoginInfoService.AsyncRecordLoginInfo(userAgent, userLoginSuccessEvent.getLoginUser().getUsername(),
+                CommonConstants.LOGIN_SUCCESS,
+                MessageUtils.message("user.login.success"));
+        // 2、更新用户登录信息
+        executor.execute(() -> this.authenticationService.updateLoginInfo(userLoginSuccessEvent.getLoginUser().getId()));
+    }
+
+    /**
+     * 登录失败事件处理
+     *
+     * @param userLoginFailedEvent 登录失败事件
+     */
+    @Async
+    @EventListener
+    public void onFailed(UserLoginFailedEvent userLoginFailedEvent) {
+
+        String message = userLoginFailedEvent.getException().getMessage();
+        if (userLoginFailedEvent.getException() instanceof BadCredentialsException) {
+            message = MessageUtils.message("user.username.or.password.error");
+        }
+        String userAgent = HttpContextUtils.getRequest().getHeader("User-Agent");
+        // 异步记录登录日志
+        sysLoginInfoService.AsyncRecordLoginInfo(userAgent, userLoginFailedEvent.getLoginUser().getUsername(),
+                CommonConstants.LOGIN_FAIL,
+                message);
+    }
+}

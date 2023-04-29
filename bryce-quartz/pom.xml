@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.brycehan.boot</groupId>
+        <artifactId>bryce-boot</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+    <artifactId>bryce-quartz</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>bryce-quartz</name>
+    <description>bryce-quartz</description>
+
+    <!-- 版本属性 -->
+    <properties>
+        <java.version>17</java.version>
+    </properties>
+
+    <!-- 依赖 -->
+    <dependencies>
+        <!-- Bryce框架组件 -->
+        <!-- 公共工具组件 -->
+        <dependency>
+            <groupId>com.brycehan.boot</groupId>
+            <artifactId>bryce-common</artifactId>
+        </dependency>
+
+        <!-- 工具 -->
+        <!-- devtools -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <scope>runtime</scope>
+            <optional>true</optional>
+        </dependency>
+        <!-- Lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>

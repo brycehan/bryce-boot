@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.brycehan.boot</groupId>
+        <artifactId>bryce-boot</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+    <artifactId>bryce-framework</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>bryce-framework</name>
+    <description>bryce-framework</description>
+
+    <!-- 版本属性 -->
+    <properties>
+        <java.version>17</java.version>
+    </properties>
+
+    <!-- 依赖 -->
+    <dependencies>
+        <!-- Bryce框架组件 -->
+        <!-- 系统模块组件 -->
+        <dependency>
+            <groupId>com.brycehan.boot</groupId>
+            <artifactId>bryce-system</artifactId>
+        </dependency>
+
+        <!-- Web框架 -->
+        <!-- Web安全 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <!-- WebSocket -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-json</artifactId>
+        </dependency>
+
+        <!-- ORM框架 -->
+        <!-- Mybatis Plus框架 -->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+            <version>${mybatis-plus.version}</version>
+        </dependency>
+
+        <!-- 存储框架 -->
+        <!-- Data Redis -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>
