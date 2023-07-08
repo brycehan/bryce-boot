@@ -25,11 +25,6 @@
             <groupId>com.brycehan.boot</groupId>
             <artifactId>bryce-framework</artifactId>
         </dependency>
-        <!-- quartz组件 -->
-        <dependency>
-            <groupId>com.brycehan.boot</groupId>
-            <artifactId>bryce-quartz</artifactId>
-        </dependency>
         <!-- Swagger接口文档 -->
         <dependency>
             <groupId>org.springdoc</groupId>

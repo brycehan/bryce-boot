@@ -47,7 +47,6 @@
         <module>bryce-common</module>
         <module>bryce-framework</module>
         <module>bryce-system</module>
-        <module>bryce-quartz</module>
         <module>bryce-module</module>
         <module>bryce-admin-server</module>
     </modules>
