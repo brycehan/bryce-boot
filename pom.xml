@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.0.4</version>
+        <version>3.1.0</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.brycehan.boot</groupId>
@@ -24,6 +24,7 @@
         <pagehelper-spring-boot.version>1.4.6</pagehelper-spring-boot.version>
         <!-- Swagger接口文档 -->
         <springdoc.version>2.0.2</springdoc.version>
+        <sa-token.version>1.34.0</sa-token.version>
         <aliyun-oss.version>3.16.1</aliyun-oss.version>
         <!-- 工具 -->
         <guava.version>31.1-jre</guava.version>
@@ -47,8 +48,8 @@
         <module>bryce-framework</module>
         <module>bryce-system</module>
         <module>bryce-quartz</module>
-        <module>bryce-generator</module>
-        <module>bryce-admin-api</module>
+        <module>bryce-module</module>
+        <module>bryce-admin-server</module>
     </modules>
     <!-- 依赖管理 -->
     <dependencyManagement>
@@ -87,8 +88,8 @@
             <!-- 接口组件 -->
             <dependency>
                 <groupId>com.brycehan.boot</groupId>
-                <artifactId>bryce-admin-api</artifactId>
-                <version>${project.version}</version>
+                <artifactId>bryce-admin-server</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
             </dependency>
 
             <!-- Swagger接口文档 -->
@@ -119,6 +120,12 @@
                 <version>${pagehelper-spring-boot.version}</version>
             </dependency>
 
+            <!-- Sa-Token 权限认证，在线文档：https://sa-token.cc -->
+            <dependency>
+                <groupId>cn.dev33</groupId>
+                <artifactId>sa-token-spring-boot3-starter</artifactId>
+                <version>${sa-token.version}</version>
+            </dependency>
             <!-- 工具 -->
             <!-- 字符串算法库 -->
             <dependency>

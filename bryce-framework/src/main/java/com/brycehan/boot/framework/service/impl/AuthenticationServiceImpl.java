@@ -19,12 +19,15 @@ import com.brycehan.boot.system.entity.SysUser;
 import com.brycehan.boot.system.service.SysConfigService;
 import com.brycehan.boot.system.service.SysLoginInfoService;
 import com.brycehan.boot.system.service.SysUserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 
@@ -38,16 +41,14 @@ import java.util.concurrent.ThreadPoolExecutor;
  * @since 2022/9/16
  */
 @Service
+@RequiredArgsConstructor
 public class AuthenticationServiceImpl implements AuthenticationService {
 
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
     private final JwtTokenProvider jwtTokenProvider;
 
-    @Resource
-    private StringRedisTemplate stringRedisTemplate;
-
-    private final ThreadPoolExecutor executor;
+    private final StringRedisTemplate stringRedisTemplate;
 
     private final SysConfigService sysConfigService;
 
@@ -55,17 +56,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     private final SysUserService sysUserService;
 
-    private final ApplicationEventPublisher applicationEventPublisher;
+    private final UserDetailsService userDetailsService;
 
-    public AuthenticationServiceImpl(AuthenticationManagerBuilder authenticationManagerBuilder, JwtTokenProvider jwtTokenProvider, ThreadPoolExecutor executor, SysConfigService sysConfigService, SysLoginInfoService sysLoginInfoService, SysUserService sysUserService, ApplicationEventPublisher applicationEventPublisher) {
-        this.authenticationManagerBuilder = authenticationManagerBuilder;
-        this.jwtTokenProvider = jwtTokenProvider;
-        this.executor = executor;
-        this.sysConfigService = sysConfigService;
-        this.sysLoginInfoService = sysLoginInfoService;
-        this.sysUserService = sysUserService;
-        this.applicationEventPublisher = applicationEventPublisher;
-    }
+    private final ApplicationEventPublisher applicationEventPublisher;
 
     @Override
     public String login(LoginDto loginDto) {
@@ -88,6 +81,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             authentication = this.authenticationManagerBuilder.getObject().authenticate(authenticationToken);
             // 3）更新当前用户为已经认证成功
             SecurityContextHolder.getContext().setAuthentication(authentication);
+
         } catch (Exception e) {
             // 发布登录失败事件
             applicationEventPublisher.publishEvent(new UserLoginFailedEvent(this, loginDto, e));

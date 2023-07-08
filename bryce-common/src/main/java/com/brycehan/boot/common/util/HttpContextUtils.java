@@ -59,7 +59,7 @@ public class HttpContextUtils {
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setCharacterEncoding(StandardCharsets.UTF_8.name());
         try {
-            response.getWriter().print(JsonUtils.objectMapper.writeValueAsString(t));
+            response.getWriter().print(JsonUtils.writeValueAsString(t));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

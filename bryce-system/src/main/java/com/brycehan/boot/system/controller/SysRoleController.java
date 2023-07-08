@@ -85,7 +85,7 @@ public class SysRoleController {
      */
     @Operation(summary = "根据系统角色ID 查询系统角色详情")
     @Secured(value = "ROLE_ADMIN")
-    @GetMapping(path = "/item/{id}")
+    @GetMapping(path = "/{id}")
     public ResponseResult<SysRole> getById(@Parameter(description = "系统角色ID", required = true) @PathVariable String id) {
         SysRole sysRole = this.sysRoleService.getById(id);
         return ResponseResult.ok(sysRole);

@@ -8,14 +8,13 @@ import com.brycehan.boot.common.util.MessageUtils;
 import com.brycehan.boot.framework.security.JwtTokenProvider;
 import com.brycehan.boot.system.context.LoginUser;
 import com.brycehan.boot.system.service.SysLoginInfoService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.web.context.request.RequestContextHolder;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.Objects;
 
 /**
@@ -42,10 +41,9 @@ public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
      * @param request        请求
      * @param response       响应
      * @param authentication 认证
-     * @throws IOException IO异常
      */
     @Override
-    public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
+    public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
         LoginUser loginUser = this.jwtTokenProvider.getLoginUser(request);
         if (Objects.nonNull(loginUser)) {
             // 1、删除登录用户缓存记录
@@ -58,7 +56,7 @@ public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
         }
 
         // 3、返回响应结果
-        HttpContextUtils.renderString(response, JsonUtils.objectMapper.writeValueAsString(ResponseResult.ok(null, MessageUtils.message("user.logout.success"))));
+        HttpContextUtils.renderString(response, JsonUtils.writeValueAsString(ResponseResult.ok(null, MessageUtils.message("user.logout.success"))));
     }
 
 }

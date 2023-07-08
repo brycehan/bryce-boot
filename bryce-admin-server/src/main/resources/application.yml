@@ -1,0 +1,175 @@
+bryce:
+  # 项目配置
+  application:
+    # 名称
+    name: BryceBoot
+    # 版本
+    version: 0.1.0
+    # 版权年份
+    copyright-year: 2023
+    # 实例演示开关
+    demo-enabled: true
+    # String userHomeDir = System.getProperty("user.home") + projectName + "/uploadFile";
+    # 文件路径 System.getProperty("user.home") + projectName + "/uploadFile";
+    upload-path: /uploadFile
+    # 获取IP地址开关
+    ip-address-enabled: false
+  # 用户配置
+  user:
+    password:
+      # 密码最大错误次数
+      max-retry-count: 5
+      # 密码锁定间隔（默认10分钟）
+      lock-duration-minutes: 10
+  # 验证码配置
+  captcha:
+    width: 120
+    height: 35
+    captcha-type: line
+    expiration: 10
+  # jwt令牌
+  jwt:
+    # 令牌密钥
+    secret: UZCiSM60eRJMOFA9mbiy
+    # 权限键
+    authorities-key: auth
+    #令牌有效期（默认2小时）
+    token-validity-in-seconds: 7200
+  # id生成器
+  id:
+    # 机器码
+    worker-id: 0
+    # 机器码位长
+    worker-id-bit-length: 6
+    # 基础开始时间
+    base-time: 1652425513464
+  # 线程池
+  thread-pool:
+    # 核心线程数
+    core-pool-size: 20
+    # 最大线程数
+    maximum-pool-size: 200
+    # 存活时间（单位：秒）
+    keep-alive-time: 60
+    # 任务队列的任务数
+    work-queue-size: 1000
+# 数据翻译插件
+easy-trans:
+  #启用redis缓存 如果不用redis请设置为false
+  is-enable-redis: true
+  #启用全局翻译(拦截所有responseBody进行自动翻译)，如果对于性能要求很高可关闭此配置
+  is-enable-global: false
+  #启用平铺模式
+  is-enable-tile: true
+  #字典缓存放到redis 微服务模式请开启
+  dict-use-redis: true
+  # ruoyi相关的请开启
+  is-enable-map-result: true
+# spring配置
+spring:
+  # Spring应用
+  application:
+    # 名称
+    name: bryce-boot
+  # 资源信息
+  messages:
+    # i18n国际化资源文件路径
+    basename: i18n/messages
+  data:
+    # data redis配置
+    redis:
+      # 主机
+      host: localhost
+      # 端口，默认为6379
+      port: 6379
+      # 数据库索引
+      database: 0
+      password:
+  # Jackson配置
+  jackson:
+    # 序列化
+    serialization:
+      # 缩进输出
+      indent-output: true
+  profiles:
+    active: dev
+############## Sa-Token 配置 (文档: https://sa-token.cc) ##############
+sa-token:
+  # token名称 (同时也是cookie名称)
+  token-name: satoken
+  # token有效期，单位s 默认30天, -1代表永不过期
+  timeout: 2592000
+  # token临时有效期 (指定时间内无操作就视为token过期) 单位: 秒
+  activity-timeout: -1
+  # 是否允许同一账号并发登录 (为true时允许一起登录, 为false时新登录挤掉旧登录)
+  is-concurrent: true
+  # 在多人登录同一账号时，是否共用一个token (为true时所有登录共用一个token, 为false时每次登录新建一个token)
+  is-share: true
+  # token风格
+  token-style: uuid
+  # 是否输出操作日志
+  is-log: false
+# mybatis plus配置
+mybatis-plus:
+  # mapper.xml映射文件位置
+  mapper-locations: classpath*:com/brycehan/boot/*/mapper/xml/*Mapper.xml
+  configuration:
+    call-setters-on-nulls: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+# PageHelper配置
+pagehelper:
+  # 关闭合理化的设置项
+  reasonable: false
+  support-methods-arguments: true
+  ## 配置参数映射
+  params: count=countSql
+
+# 服务配置
+server:
+  # 服务器HTTP端口，默认是8080
+  port: 8082
+  servlet:
+    # 应用的访问路径
+    context-path: /
+  # undertow Web容器
+  undertow:
+    threads:
+      # 工作线程数
+      worker: 400
+# 接口配置
+springdoc:
+  api-docs:
+    # swagger开关
+    enabled: true
+    # 文档api元数据访问路径，默认/v3/api-docs
+    path: /api-docs
+    # 分组
+    groups:
+      # 分组开关
+      enabled: true
+  # OpenApi json 美化打印
+  writer-with-default-pretty-printer: true
+  # 分组配置
+  group-configs:
+    - group: auth
+      display-name: 登录认证组
+      packages-to-scan: com.brycehan.boot.api.controller
+      paths-to-match: /auth/**
+    - group: system
+      display-name: 系统组
+      packages-to-scan: com.brycehan.boot.system.controller
+      paths-to-match: /system/**
+
+# 日志配置
+logging:
+  level:
+    root: info
+    web: info
+    com.brycehan.boot: info
+    com.brycehan.boot.system.mapper: debug
+
+
+
+
+
+

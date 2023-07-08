@@ -26,6 +26,7 @@ public class PasswordUtils {
     public static void main(String[] args) {
 
         System.out.println("appId：" + RandomStringUtils.randomAlphanumeric(20));
+        System.out.println("appId：" + RandomStringUtils.randomAlphanumeric(10));
         String p = new BCryptPasswordEncoder().encode("123456");
 
         System.out.println("password：".concat(p));

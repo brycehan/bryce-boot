@@ -59,7 +59,7 @@ public class IPAddressServiceImpl implements IPAddressService {
                 ResponseEntity<String> responseEntity = restTemplate.getForEntity(IP_URL, String.class, uriVariables);
                 log.info("IP：{}, 获取地理位置响应数据：{}", ip, responseEntity.getBody());
                 if (responseEntity.getStatusCodeValue() == 200) {
-                    Map<String, String> body = JsonUtils.objectMapper.readValue(responseEntity.getBody(), Map.class);
+                    Map<String, String> body = JsonUtils.readValue(responseEntity.getBody(), Map.class);
                     String pro = body.get("pro");
                     String city = body.get("city");
                     return String.format("%s %s", pro, city);

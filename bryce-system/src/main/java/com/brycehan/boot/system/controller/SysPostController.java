@@ -74,7 +74,6 @@ public class SysPostController {
     @DeleteMapping
     public ResponseResult<Void> delete(@Parameter(description = "系统岗位Dto", required = true)
                                        @Validated @RequestBody DeleteDto deleteDto) {
-        // 批量删除
         this.sysPostService.delete(deleteDto);
         return ResponseResult.ok();
     }

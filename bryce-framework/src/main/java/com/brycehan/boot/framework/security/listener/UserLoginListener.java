@@ -49,7 +49,7 @@ public class UserLoginListener {
                 CommonConstants.LOGIN_SUCCESS,
                 MessageUtils.message("user.login.success"));
         // 2、更新用户登录信息
-        executor.execute(() -> this.authenticationService.updateLoginInfo(userLoginSuccessEvent.getLoginUser().getId()));
+        this.authenticationService.updateLoginInfo(userLoginSuccessEvent.getLoginUser().getId());
     }
 
     /**

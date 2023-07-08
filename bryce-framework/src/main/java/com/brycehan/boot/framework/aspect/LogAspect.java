@@ -147,7 +147,7 @@ public class LogAspect {
         }
         // 是否保存响应数据
         if(controllerLog.isSaveResponseData() && Objects.nonNull(jsonResult)){
-            operationLog.setJsonResult(StringUtils.substring(JsonUtils.objectMapper.writeValueAsString(jsonResult), 0, 2000));
+            operationLog.setJsonResult(StringUtils.substring(JsonUtils.writeValueAsString(jsonResult), 0, 2000));
         }
     }
 

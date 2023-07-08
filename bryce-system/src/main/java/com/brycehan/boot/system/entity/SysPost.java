@@ -11,6 +11,8 @@ import lombok.Setter;
 
 import jakarta.validation.constraints.Null;
 import jakarta.validation.constraints.Size;
+
+import java.io.Serial;
 import java.time.LocalDateTime;
 
 /**
@@ -25,6 +27,7 @@ import java.time.LocalDateTime;
 @Schema(description = "SysPost实体")
 public class SysPost extends BasePo {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     /**

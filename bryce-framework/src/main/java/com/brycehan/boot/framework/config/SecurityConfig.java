@@ -3,6 +3,7 @@ package com.brycehan.boot.framework.config;
 import com.brycehan.boot.framework.filter.JwtAuthenticationFilter;
 import com.brycehan.boot.framework.security.JwtAccessDeniedHandler;
 import com.brycehan.boot.framework.security.JwtAuthenticationEntryPoint;
+import jakarta.annotation.PostConstruct;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,6 +11,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -18,7 +21,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
-import jakarta.annotation.PostConstruct;
+import static org.springframework.security.config.Customizer.withDefaults;
 
 /**
  * Spring Security 配置
@@ -65,58 +68,49 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 // 禁用csrf，jwt不需要csrf开启
-                .csrf().disable()
+                .csrf(AbstractHttpConfigurer::disable)
                 // 禁用X-Frame-Options
-                .headers()
-                .frameOptions().disable()
-                // 开启跨域
-                .and().cors()
-
-                .and().exceptionHandling()
-                // 认证失败处理
-                .authenticationEntryPoint(authenticationEntryPoint)
-                // 无权限访问处理
-                .accessDeniedHandler(accessDeniedHandler)
-
+                .headers(headersConfigurer -> headersConfigurer.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
                 // 基于token，不需要session
-                .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-
+                .sessionManagement(sessionManagementConfigurer -> sessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 // 过滤请求
-                .and()
-                .authorizeHttpRequests()
-                // 对于登录login、注册register、注册开关，验证码captcha允许匿名访问
-                .requestMatchers(HttpMethod.POST, "/auth/login", "/register").permitAll()
-                .requestMatchers(HttpMethod.GET, "/register/enabled", "/captcha", "/error").permitAll()
-                // todo test
-//                .requestMatchers("/system/post/**").permitAll()
-                .requestMatchers("/system/menu/**").permitAll()
-                // 校验令牌允许访问
-                .requestMatchers(HttpMethod.POST,
-                        "/auth/validateToken").permitAll()
-                .requestMatchers(HttpMethod.OPTIONS).permitAll()
-                // 静态资源，可以匿名访问
-                .requestMatchers(HttpMethod.GET,
-                        "/webjars/**",
-                        "/swagger-ui/index.html",
-                        "/swagger-ui/**",
-                        "/swagger-resources/**",
-                        "/v3/api-docs/**",
-                        "/api-docs/**",
-                        "/favicon.ico",
-                        "/upload/**"
-                ).permitAll()
-                // 除上面外的所有请求全部需要鉴权认证
-                .anyRequest().authenticated()
+                .authorizeHttpRequests(requestMatcherRegistry -> requestMatcherRegistry
+                        // 静态资源，可以匿名访问
+                        .requestMatchers(HttpMethod.GET,
+                                "/webjars/**",
+                                "/swagger-ui/index.html",
+                                "/swagger-ui/**",
+                                "/swagger-resources/**",
+                                "/v3/api-docs/**",
+                                "/api-docs/**",
+                                "/favicon.ico",
+                                "/upload/**").permitAll()
+                        .requestMatchers(HttpMethod.GET,
+                                "/register/enabled",
+                                "/captcha",
+                                "/error",
+                                "/auth/validateToken").permitAll()
+                        // 对于登录login、注册register、注册开关，验证码captcha允许匿名访问
+                        .requestMatchers(HttpMethod.POST,
+                                "/auth/login",
+                                "/register",
+                                "/auth/validateToken").permitAll()
 
-                .and()
+                        .requestMatchers(HttpMethod.OPTIONS).permitAll()
+                        // 除上面外的所有请求全部需要鉴权认证
+                        .anyRequest().authenticated())
+                .httpBasic(withDefaults())
                 // 添加 jwt 过滤器
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                // 添加 退出 过滤器
-                .logout().logoutUrl("/auth/logout")
-                .logoutSuccessHandler(logoutSuccessHandler)
-                .and().build();
+                .exceptionHandling(exceptionHandlingConfigurer -> exceptionHandlingConfigurer
+                        .authenticationEntryPoint(authenticationEntryPoint)
+                        .accessDeniedHandler(accessDeniedHandler))
+                // 添加 退出 处理器
+                .logout(httpSecurityLogoutConfigurer -> httpSecurityLogoutConfigurer
+                        .logoutUrl("/auth/logout")
+                        .logoutSuccessHandler(logoutSuccessHandler))
+
+                .build();
     }
 
     /**
@@ -127,6 +121,14 @@ public class SecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    /**
+     * 配置子线程共享用户登录信息
+     */
+    @PostConstruct
+    public void enableLoginUserContextOnSpawnedThreads(){
+        SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_INHERITABLETHREADLOCAL);
     }
 
 }
