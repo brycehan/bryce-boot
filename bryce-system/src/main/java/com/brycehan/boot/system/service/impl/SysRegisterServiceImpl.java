@@ -11,11 +11,11 @@ import com.brycehan.boot.system.entity.SysUser;
 import com.brycehan.boot.system.service.SysConfigService;
 import com.brycehan.boot.system.service.SysRegisterService;
 import com.brycehan.boot.system.service.SysUserService;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
-import jakarta.annotation.Resource;
 import java.util.Objects;
 
 /**

@@ -3,7 +3,7 @@ package com.brycehan.boot.common.property;
 import lombok.Data;
 import lombok.Getter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Configuration;
 
 /**
  * Bryce应用配置
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
  * @since 2022/9/19
  */
 @Data
-@Component
+@Configuration
 @ConfigurationProperties(prefix = "bryce.application")
 public class BryceApplicationProperties {
 

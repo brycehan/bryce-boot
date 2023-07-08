@@ -1,9 +1,8 @@
 package com.brycehan.boot.system.service;
 
 import com.brycehan.boot.common.base.dto.RegisterDto;
-import org.springframework.validation.annotation.Validated;
-
 import jakarta.validation.constraints.NotNull;
+import org.springframework.validation.annotation.Validated;
 
 /**
  * 注册服务类

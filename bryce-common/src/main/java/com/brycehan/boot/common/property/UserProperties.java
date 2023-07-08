@@ -4,7 +4,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Configuration;
 
 /**
  * 用户属性
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
  * @since 2022/9/19
  */
 @Data
-@Component
+@Configuration
 @ConfigurationProperties(prefix = "bryce.user")
 public class UserProperties {
 

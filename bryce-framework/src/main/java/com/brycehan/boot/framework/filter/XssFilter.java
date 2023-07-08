@@ -1,10 +1,10 @@
 package com.brycehan.boot.framework.filter;
 
 import com.brycehan.boot.framework.xss.XssHttpServletRequestWrapper;
-
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
+
 import java.io.IOException;
 
 /**

@@ -2,10 +2,9 @@ package com.brycehan.boot.common.base.dto;
 
 import com.brycehan.boot.common.constant.UserConstants;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
-
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
+import lombok.Data;
 
 /**
  * 注册Dto

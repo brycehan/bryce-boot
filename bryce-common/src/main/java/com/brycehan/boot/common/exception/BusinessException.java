@@ -1,6 +1,5 @@
 package com.brycehan.boot.common.exception;
 
-import com.brycehan.boot.common.base.http.HttpResponseStatusEnum;
 import com.brycehan.boot.common.base.http.ResponseStatus;
 import com.brycehan.boot.common.util.MessageUtils;
 import com.brycehan.boot.common.util.StringFormatUtils;

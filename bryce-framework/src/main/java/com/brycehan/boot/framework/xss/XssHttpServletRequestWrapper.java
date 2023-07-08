@@ -1,10 +1,9 @@
 package com.brycehan.boot.framework.xss;
 
-import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.text.StringEscapeUtils;
-
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletRequestWrapper;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.text.StringEscapeUtils;
 
 /**
  * Cross Site Scripting 跨站脚本攻击Http请求包装类

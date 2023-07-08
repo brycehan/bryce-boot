@@ -2,7 +2,7 @@ package com.brycehan.boot.common.property;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
 
 /**
  * Jwt属性
@@ -11,7 +11,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
  * @since 2022/5/10
  */
 @Data
-@EnableConfigurationProperties(JwtProperties.class)
+@Configuration
 @ConfigurationProperties(prefix = "bryce.jwt")
 public class JwtProperties {
 

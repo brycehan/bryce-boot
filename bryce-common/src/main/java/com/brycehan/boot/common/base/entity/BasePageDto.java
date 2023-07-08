@@ -1,7 +1,5 @@
 package com.brycehan.boot.common.base.entity;
 
-import com.baomidou.mybatisplus.core.metadata.OrderItem;
-import com.brycehan.boot.common.validator.group.QueryGroup;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;

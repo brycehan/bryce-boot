@@ -1,17 +1,14 @@
 package com.brycehan.boot.system.dto;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.brycehan.boot.common.base.entity.BasePo;
-import java.time.LocalDateTime;
 import com.brycehan.boot.common.base.entity.BasePageDto;
 import com.brycehan.boot.common.validator.group.QueryGroup;
-import jakarta.validation.constraints.Size;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.time.LocalDateTime;
 
 /**
  * 系统操作日志分页数据传输对象

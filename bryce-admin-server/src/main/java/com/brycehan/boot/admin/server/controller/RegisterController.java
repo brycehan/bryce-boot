@@ -1,8 +1,8 @@
 package com.brycehan.boot.admin.server.controller;
 
 import com.brycehan.boot.common.base.dto.RegisterDto;
-import com.brycehan.boot.common.base.http.UserResponseStatusEnum;
 import com.brycehan.boot.common.base.http.ResponseResult;
+import com.brycehan.boot.common.base.http.UserResponseStatusEnum;
 import com.brycehan.boot.system.service.SysConfigService;
 import com.brycehan.boot.system.service.SysRegisterService;
 import io.swagger.v3.oas.annotations.Operation;

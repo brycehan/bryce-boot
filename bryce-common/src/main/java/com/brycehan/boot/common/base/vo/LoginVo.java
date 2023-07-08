@@ -1,10 +1,8 @@
 package com.brycehan.boot.common.base.vo;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import org.springframework.context.annotation.Bean;
 
 /**
  * jwt视图对象

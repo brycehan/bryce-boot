@@ -2,9 +2,9 @@ package com.brycehan.boot.admin.server.controller;
 
 import com.brycehan.boot.common.annotation.Log;
 import com.brycehan.boot.common.base.dto.ProfileDto;
-import com.brycehan.boot.common.base.http.UserResponseStatusEnum;
 import com.brycehan.boot.common.base.http.HttpResponseStatusEnum;
 import com.brycehan.boot.common.base.http.ResponseResult;
+import com.brycehan.boot.common.base.http.UserResponseStatusEnum;
 import com.brycehan.boot.common.enums.BusinessType;
 import com.brycehan.boot.common.exception.BusinessException;
 import com.brycehan.boot.framework.security.JwtTokenProvider;

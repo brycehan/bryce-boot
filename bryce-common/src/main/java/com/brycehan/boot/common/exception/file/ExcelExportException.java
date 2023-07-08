@@ -1,7 +1,6 @@
 package com.brycehan.boot.common.exception.file;
 
 import com.brycehan.boot.common.base.http.HttpResponseStatusEnum;
-import com.brycehan.boot.common.base.http.UploadResponseStatusEnum;
 import com.brycehan.boot.common.exception.BusinessException;
 
 import java.io.Serial;

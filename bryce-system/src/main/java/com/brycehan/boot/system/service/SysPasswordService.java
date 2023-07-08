@@ -1,9 +1,8 @@
 package com.brycehan.boot.system.service;
 
 import com.brycehan.boot.system.entity.SysUser;
-import org.springframework.validation.annotation.Validated;
-
 import jakarta.validation.constraints.NotNull;
+import org.springframework.validation.annotation.Validated;
 
 /**
  * 系统密码服务

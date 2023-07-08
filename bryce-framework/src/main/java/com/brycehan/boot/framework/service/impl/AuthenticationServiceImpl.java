@@ -19,6 +19,7 @@ import com.brycehan.boot.system.entity.SysUser;
 import com.brycehan.boot.system.service.SysConfigService;
 import com.brycehan.boot.system.service.SysLoginInfoService;
 import com.brycehan.boot.system.service.SysUserService;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -26,15 +27,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 
-import jakarta.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.Objects;
-import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * @author Bryce Han
@@ -56,12 +53,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     private final SysUserService sysUserService;
 
-    private final UserDetailsService userDetailsService;
-
     private final ApplicationEventPublisher applicationEventPublisher;
 
     @Override
-    public String login(LoginDto loginDto) {
+    public String login(@NotNull LoginDto loginDto) {
         // 1、验证码开关
         boolean captchaEnabled = this.sysConfigService.selectCaptchaEnabled();
         if (captchaEnabled) {
@@ -105,7 +100,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    public void updateLoginInfo(String id) {
+    public void updateLoginInfo(@NotNull String id) {
         SysUser sysUser = new SysUser();
         sysUser.setId(id);
         sysUser.setLastLoginIp(IpUtils.getIpAddress(HttpContextUtils.getRequest()));

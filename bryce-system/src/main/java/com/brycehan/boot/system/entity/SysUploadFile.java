@@ -6,11 +6,11 @@ import com.brycehan.boot.common.validator.group.AddGroup;
 import com.brycehan.boot.common.validator.group.UpdateGroup;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Null;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
-import jakarta.validation.constraints.Null;
-import jakarta.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 /**

@@ -4,10 +4,10 @@ import com.brycehan.boot.common.base.entity.BasePageDto;
 import com.brycehan.boot.common.validator.group.QueryGroup;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
-import jakarta.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 /**

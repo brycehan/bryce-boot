@@ -1,7 +1,5 @@
 package com.brycehan.boot.common.util;
 
-import com.brycehan.boot.common.constant.UserConstants;
-
 /**
  * 安全工具类
  *

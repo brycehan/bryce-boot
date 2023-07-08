@@ -1,10 +1,11 @@
 package com.brycehan.boot.system.mapper;
 
-import java.util.List;
-import com.brycehan.boot.system.entity.SysOperationLog;
 import com.brycehan.boot.common.base.mapper.BryceBaseMapper;
 import com.brycehan.boot.system.dto.SysOperationLogPageDto;
+import com.brycehan.boot.system.entity.SysOperationLog;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 /**
  * 系统操作日志Mapper接口

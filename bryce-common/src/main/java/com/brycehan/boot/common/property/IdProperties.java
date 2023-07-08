@@ -10,8 +10,8 @@ import org.springframework.context.annotation.Configuration;
  * @author Bryce Han
  * @since 2022/5/13
  */
-@Configuration
 @Data
+@Configuration
 @ConfigurationProperties(prefix = "bryce.id")
 public class IdProperties {
 

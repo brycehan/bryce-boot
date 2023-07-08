@@ -1,20 +1,10 @@
 package com.brycehan.boot.common.util;
 
 import com.brycehan.boot.common.constant.CommonConstants;
-import com.brycehan.boot.common.exception.file.FileNameLengthLimitExceededException;
-import com.brycehan.boot.common.exception.file.FileSizeLimitExceededException;
-import com.brycehan.boot.common.exception.file.InvalidExtensionException;
-//import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Paths;
-import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.Objects;
 
 /**
  * 文件上传工具类

@@ -9,11 +9,11 @@ import com.brycehan.boot.system.mapper.SysConfigMapper;
 import com.brycehan.boot.system.service.SysConfigService;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
+import jakarta.annotation.Resource;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
-import jakarta.annotation.Resource;
 import java.util.Objects;
 
 import static com.github.pagehelper.page.PageMethod.startPage;
