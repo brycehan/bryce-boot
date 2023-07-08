@@ -1,4 +1,4 @@
-package com.brycehan.boot.api.controller;
+package com.brycehan.boot.admin.server.controller;
 
 import com.brycehan.boot.common.base.dto.RegisterDto;
 import com.brycehan.boot.common.base.http.UserResponseStatusEnum;

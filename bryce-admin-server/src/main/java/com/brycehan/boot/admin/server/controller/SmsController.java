@@ -1,4 +1,4 @@
-package com.brycehan.boot.api.controller;
+package com.brycehan.boot.admin.server.controller;
 
 import com.brycehan.boot.common.base.http.ResponseResult;
 import com.brycehan.boot.common.constant.CacheConstants;

@@ -1,6 +1,5 @@
-package com.brycehan.boot.api.controller;
+package com.brycehan.boot.admin.server.controller;
 
-import cn.dev33.satoken.annotation.SaIgnore;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -46,7 +45,6 @@ import java.util.stream.Stream;
  * @since 2022/5/10
  */
 @Slf4j
-@SaIgnore
 @Tag(name = "auth", description = "登录API")
 @RestController
 @RequestMapping("/auth")

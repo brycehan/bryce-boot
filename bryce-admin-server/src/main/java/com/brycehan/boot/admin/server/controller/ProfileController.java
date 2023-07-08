@@ -1,4 +1,4 @@
-package com.brycehan.boot.api.controller;
+package com.brycehan.boot.admin.server.controller;
 
 import com.brycehan.boot.common.annotation.Log;
 import com.brycehan.boot.common.base.dto.ProfileDto;
@@ -7,9 +7,6 @@ import com.brycehan.boot.common.base.http.HttpResponseStatusEnum;
 import com.brycehan.boot.common.base.http.ResponseResult;
 import com.brycehan.boot.common.enums.BusinessType;
 import com.brycehan.boot.common.exception.BusinessException;
-import com.brycehan.boot.common.property.BryceApplicationProperties;
-import com.brycehan.boot.common.util.FileUploadUtils;
-import com.brycehan.boot.common.util.MimeTypeUtils;
 import com.brycehan.boot.framework.security.JwtTokenProvider;
 import com.brycehan.boot.system.context.LoginUser;
 import com.brycehan.boot.system.context.LoginUserContext;
@@ -17,7 +14,6 @@ import com.brycehan.boot.system.entity.SysUser;
 import com.brycehan.boot.system.service.SysUserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;

@@ -1,4 +1,4 @@
-package com.brycehan.boot.api;
+package com.brycehan.boot.admin.server;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
