@@ -7,7 +7,6 @@ import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.annotation.Resource;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -21,8 +20,7 @@ import org.springframework.data.redis.serializer.RedisSerializer;
  * @author Bryce Han
  * @since 2023/5/8
  */
-@AutoConfiguration
-@AutoConfigureAfter(JacksonAutoConfiguration.class)
+@AutoConfiguration(after = JacksonAutoConfiguration.class)
 public class RedisConfig {
 
     @Resource

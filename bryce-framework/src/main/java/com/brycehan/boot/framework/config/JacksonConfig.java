@@ -10,7 +10,6 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -29,8 +28,7 @@ import static java.time.format.DateTimeFormatter.*;
  * @author Bryce Han
  * @since 2022/5/26
  */
-@AutoConfiguration
-@AutoConfigureBefore(JacksonAutoConfiguration.class)
+@AutoConfiguration(before = JacksonAutoConfiguration.class)
 public class JacksonConfig {
 
     /**

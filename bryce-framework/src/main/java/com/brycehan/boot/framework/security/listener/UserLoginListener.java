@@ -7,12 +7,11 @@ import com.brycehan.boot.framework.security.event.UserLoginFailedEvent;
 import com.brycehan.boot.framework.security.event.UserLoginSuccessEvent;
 import com.brycehan.boot.framework.service.AuthenticationService;
 import com.brycehan.boot.system.service.SysLoginInfoService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Component;
-
-import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * 用户登录事件监听器
@@ -21,19 +20,12 @@ import java.util.concurrent.ThreadPoolExecutor;
  * @since 2022/11/3
  */
 @Component
+@RequiredArgsConstructor
 public class UserLoginListener {
 
     private final SysLoginInfoService sysLoginInfoService;
 
     private final AuthenticationService authenticationService;
-
-    private final ThreadPoolExecutor executor;
-
-    public UserLoginListener(SysLoginInfoService sysLoginInfoService, AuthenticationService authenticationService, ThreadPoolExecutor executor) {
-        this.sysLoginInfoService = sysLoginInfoService;
-        this.authenticationService = authenticationService;
-        this.executor = executor;
-    }
 
     /**
      * 登录成功事件处理
