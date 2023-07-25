@@ -42,19 +42,13 @@ bryce:
   jwt:
     # 测试100天有效期
     token-validity-in-seconds: 8640000
+
 # 日志配置
 logging:
-  pattern:
-    dateformat: yyyy-MM-dd HH:mm:ss.SSSXXX
-  file:
-    path: /var/log
-  logback:
-    rollingpolicy:
-      max-file-size: 10MB
-      total-size-cap: 1GB
   level:
     root: info
     web: info
-    com.brycehan.boot: debug
+    com.brycehan.boot: info
+    com.brycehan.boot.system.mapper: debug
 
 

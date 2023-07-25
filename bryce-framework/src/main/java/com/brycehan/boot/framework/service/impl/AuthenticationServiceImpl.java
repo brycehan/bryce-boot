@@ -7,7 +7,7 @@ import com.brycehan.boot.common.constant.CommonConstants;
 import com.brycehan.boot.common.exception.BusinessException;
 import com.brycehan.boot.common.exception.user.UserCaptchaException;
 import com.brycehan.boot.common.exception.user.UserCaptchaExpireException;
-import com.brycehan.boot.common.util.HttpContextUtils;
+import com.brycehan.boot.common.util.ServletUtils;
 import com.brycehan.boot.common.util.IpUtils;
 import com.brycehan.boot.common.util.MessageUtils;
 import com.brycehan.boot.framework.security.JwtTokenProvider;
@@ -103,7 +103,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public void updateLoginInfo(@NotNull String id) {
         SysUser sysUser = new SysUser();
         sysUser.setId(id);
-        sysUser.setLastLoginIp(IpUtils.getIpAddress(HttpContextUtils.getRequest()));
+        sysUser.setLastLoginIp(IpUtils.getIpAddress(ServletUtils.getRequest()));
         sysUser.setLastLoginTime(LocalDateTime.now());
         sysUserService.updateById(sysUser);
     }
@@ -119,7 +119,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         String captchaKey = CacheConstants.CAPTCHA_CODE_KEY + uuid;
         String captchaValue = this.stringRedisTemplate.opsForValue()
                 .getAndDelete(captchaKey);
-        String userAgent = HttpContextUtils.getRequest().getHeader("User-Agent");
+        String userAgent = ServletUtils.getRequest().getHeader("User-Agent");
         if (Objects.isNull(captchaValue)) {
             sysLoginInfoService.AsyncRecordLoginInfo(userAgent, username, CommonConstants.LOGIN_FAIL, MessageUtils.message("user.captcha.expire"));
             throw new UserCaptchaExpireException();

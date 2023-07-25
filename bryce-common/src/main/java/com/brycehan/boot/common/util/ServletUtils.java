@@ -17,7 +17,7 @@ import java.nio.charset.StandardCharsets;
  * @since 2022/9/20
  */
 @Slf4j
-public class HttpContextUtils {
+public class ServletUtils {
 
     /**
      * 获取ServletRequestAttributes
@@ -78,7 +78,7 @@ public class HttpContextUtils {
         try {
             response.getWriter().print(value);
         } catch (IOException e) {
-            log.info("HttpContextUtils.renderString, 异常：{}", e.getMessage());
+            log.info("ServletUtils.renderString, 异常：{}", e.getMessage());
             throw new RuntimeException(e);
         }
     }

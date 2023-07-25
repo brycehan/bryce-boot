@@ -1,7 +1,7 @@
 package com.brycehan.boot.framework.security.listener;
 
 import com.brycehan.boot.common.constant.CommonConstants;
-import com.brycehan.boot.common.util.HttpContextUtils;
+import com.brycehan.boot.common.util.ServletUtils;
 import com.brycehan.boot.common.util.MessageUtils;
 import com.brycehan.boot.framework.security.event.UserLoginFailedEvent;
 import com.brycehan.boot.framework.security.event.UserLoginSuccessEvent;
@@ -35,7 +35,7 @@ public class UserLoginListener {
     @Async
     @EventListener
     public void onSuccess(UserLoginSuccessEvent userLoginSuccessEvent) {
-        String userAgent = HttpContextUtils.getRequest().getHeader("User-Agent");
+        String userAgent = ServletUtils.getRequest().getHeader("User-Agent");
         // 1、异步记录登录日志
         sysLoginInfoService.AsyncRecordLoginInfo(userAgent, userLoginSuccessEvent.getLoginUser().getUsername(),
                 CommonConstants.LOGIN_SUCCESS,
@@ -57,7 +57,7 @@ public class UserLoginListener {
         if (userLoginFailedEvent.getException() instanceof BadCredentialsException) {
             message = MessageUtils.message("user.username.or.password.error");
         }
-        String userAgent = HttpContextUtils.getRequest().getHeader("User-Agent");
+        String userAgent = ServletUtils.getRequest().getHeader("User-Agent");
         // 异步记录登录日志
         sysLoginInfoService.AsyncRecordLoginInfo(userAgent, userLoginFailedEvent.getLoginUser().getUsername(),
                 CommonConstants.LOGIN_FAIL,

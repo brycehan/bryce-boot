@@ -1041,8 +1041,26 @@ create table brc_gen_table_column
     primary key (id)
 ) engine InnoDB
   default charset utf8mb4 comment '代码生成业务表字段';
+-- 20、租户表
+drop table if exists brc_tenant;
+create table brc_tenant
+(
+    id              varchar(36)     not null comment 'ID',
+    name            varchar(100)    not null comment '租户名称',
+    site_domain     varchar(200)    default null comment '租户域名',
+    site_url        varchar(100)    default null comment '租户网址',
+    site_logo       varchar(200)    default null comment '租户网址logo',
+    site_config     text            default null comment '租户网址配置',
+    admin_id        varchar(36)     not null comment '管理员ID',
+    create_user_id  varchar(36)     default null comment '创建人ID',
+    create_time     datetime        default null comment '创建时间',
+    update_user_id  varchar(36)     default null comment '修改人ID',
+    update_time     datetime        default null comment '修改时间',
+    primary key (id),
+    unique key unique_site_domain (site_domain)
+) engine InnoDB default charset utf8mb4 comment '租户表';
 
---
+-- 21、附件表
 drop table if exists brc_sys_upload_file;
 CREATE TABLE `brc_sys_upload_file`
 (
@@ -1061,7 +1079,6 @@ CREATE TABLE `brc_sys_upload_file`
     `sort`          int          DEFAULT '0' comment '排序',
     `version`       int          DEFAULT 1 comment '版本',
     create_user_id  bigint comment '创建用户ID',
-    create_username varchar(50) comment '创建用户账号',
     create_time     datetime comment '创建时间',
     primary key (id),
     key bryce_file_sort_index (sort) comment '排序索引',

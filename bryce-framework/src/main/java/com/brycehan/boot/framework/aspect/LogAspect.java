@@ -4,7 +4,7 @@ import com.brycehan.boot.common.annotation.Log;
 import com.brycehan.boot.common.base.context.SpringContextHolder;
 import com.brycehan.boot.common.base.id.IdGenerator;
 import com.brycehan.boot.common.enums.OperationStatus;
-import com.brycehan.boot.common.util.HttpContextUtils;
+import com.brycehan.boot.common.util.ServletUtils;
 import com.brycehan.boot.common.util.IpUtils;
 import com.brycehan.boot.common.util.JsonUtils;
 import com.brycehan.boot.system.context.LoginUser;
@@ -97,7 +97,7 @@ public class LogAspect {
             operationLog.setId(IdGenerator.generate());
             operationLog.setOperationStatus(OperationStatus.SUCCESS.value());
             // 请求的IP
-            HttpServletRequest request = HttpContextUtils.getRequest();
+            HttpServletRequest request = ServletUtils.getRequest();
             String ipAddress = IpUtils.getIpAddress(request);
             operationLog.setOperationIp(ipAddress);
             operationLog.setOperationUrl(StringUtils.substring(request.getRequestURI(), 0, 2048));
@@ -164,7 +164,7 @@ public class LogAspect {
             String params = argsToString(joinPoint.getArgs());
             operationLog.setOperationParam(StringUtils.substring(params, 0, 2000));
         }else {
-            Map<?, ?> paramsMap = (Map<?, ?>) HttpContextUtils.getRequest().getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
+            Map<?, ?> paramsMap = (Map<?, ?>) ServletUtils.getRequest().getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
             operationLog.setOperationParam(StringUtils.substring(paramsMap.toString(), 0, 2000));
         }
     }

@@ -2,7 +2,7 @@ package com.brycehan.boot.framework.handler;
 
 import com.brycehan.boot.common.base.http.ResponseResult;
 import com.brycehan.boot.common.constant.CommonConstants;
-import com.brycehan.boot.common.util.HttpContextUtils;
+import com.brycehan.boot.common.util.ServletUtils;
 import com.brycehan.boot.common.util.JsonUtils;
 import com.brycehan.boot.common.util.MessageUtils;
 import com.brycehan.boot.framework.security.JwtTokenProvider;
@@ -51,12 +51,12 @@ public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
             // 子线程共享请求request数据
             RequestContextHolder.setRequestAttributes(RequestContextHolder.getRequestAttributes(), true);
             // 2、记录用户退出日志
-            String userAgent = HttpContextUtils.getRequest().getHeader("User-Agent");
+            String userAgent = ServletUtils.getRequest().getHeader("User-Agent");
             sysLoginInfoService.AsyncRecordLoginInfo(userAgent, loginUser.getUsername(), CommonConstants.LOGOUT_SUCCESS, MessageUtils.message("user.logout.success"));
         }
 
         // 3、返回响应结果
-        HttpContextUtils.renderString(response, JsonUtils.writeValueAsString(ResponseResult.ok(null, MessageUtils.message("user.logout.success"))));
+        ServletUtils.renderString(response, JsonUtils.writeValueAsString(ResponseResult.ok(null, MessageUtils.message("user.logout.success"))));
     }
 
 }

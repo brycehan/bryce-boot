@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.blueconic.browscap.Capabilities;
 import com.brycehan.boot.common.base.id.IdGenerator;
 import com.brycehan.boot.common.service.IPAddressService;
-import com.brycehan.boot.common.util.HttpContextUtils;
+import com.brycehan.boot.common.util.ServletUtils;
 import com.brycehan.boot.common.util.IpUtils;
 import com.brycehan.boot.common.util.UserAgentUtils;
 import com.brycehan.boot.system.dto.SysLoginInfoPageDto;
@@ -74,7 +74,7 @@ public class SysLoginInfoServiceImpl extends ServiceImpl<SysLoginInfoMapper, Sys
         String browser = capabilities.getBrowser();
         // 获取客户端操作系统
         String platform = capabilities.getPlatform();
-        String ip = IpUtils.getIpAddress(HttpContextUtils.getRequest());
+        String ip = IpUtils.getIpAddress(ServletUtils.getRequest());
         String realAddress = ipAddressService.getRealAddressByIP(ip);
         String info = Arrays.toString(ArrayUtils.toArray(ip)) +
                 Arrays.toString(ArrayUtils.toArray(realAddress)) +

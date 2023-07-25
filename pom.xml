@@ -213,6 +213,12 @@
                 <artifactId>weixin-java-miniapp</artifactId>
                 <version>${binarywang-weixin.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.github.binarywang</groupId>
+                <artifactId>weixin-java-pay</artifactId>
+                <version>${binarywang-weixin.version}</version>
+            </dependency>
+
             <!-- 糊涂工具 -->
             <dependency>
                 <groupId>cn.hutool</groupId>

@@ -10,7 +10,7 @@ import com.blueconic.browscap.Capabilities;
 import com.brycehan.boot.common.constant.CacheConstants;
 import com.brycehan.boot.common.constant.JwtConstants;
 import com.brycehan.boot.common.service.IPAddressService;
-import com.brycehan.boot.common.util.HttpContextUtils;
+import com.brycehan.boot.common.util.ServletUtils;
 import com.brycehan.boot.common.util.IpUtils;
 import com.brycehan.boot.common.util.UserAgentUtils;
 import com.brycehan.boot.system.context.LoginUser;
@@ -146,14 +146,14 @@ public class JwtTokenProvider {
      * @param loginUser 登录用户
      */
     private void setUserAgent(LoginUser loginUser) {
-        String userAgent = HttpContextUtils.getRequest().getHeader("User-Agent");
+        String userAgent = ServletUtils.getRequest().getHeader("User-Agent");
         Capabilities capabilities = UserAgentUtils.parser.parse(userAgent);
         // 获取客户端浏览器
         String browser = capabilities.getBrowser();
         // 获取客户端操作系统
         String platform = capabilities.getPlatform();
         // 获取客户端IP和对应登录位置
-        String ip = IpUtils.getIpAddress(HttpContextUtils.getRequest());
+        String ip = IpUtils.getIpAddress(ServletUtils.getRequest());
         String loginLocation = ipAddressService.getRealAddressByIP(ip);
 
         loginUser.setIpAddress(ip);

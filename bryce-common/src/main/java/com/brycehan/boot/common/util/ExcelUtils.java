@@ -28,7 +28,7 @@ public class ExcelUtils {
      */
     public static <T> void export(Class<T> entity, String filename, String sheetName, List<T> data){
         try {
-            HttpServletResponse response = HttpContextUtils.getResponse();
+            HttpServletResponse response = ServletUtils.getResponse();
             response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
             response.setCharacterEncoding("utf-8");
             // 这里URLEncoder.encode可以防止中文乱码 当然和easyexcel没有关系

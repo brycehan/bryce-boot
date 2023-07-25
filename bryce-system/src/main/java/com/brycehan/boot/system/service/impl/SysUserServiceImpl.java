@@ -8,7 +8,7 @@ import com.brycehan.boot.common.constant.CommonConstants;
 import com.brycehan.boot.common.constant.DataConstants;
 import com.brycehan.boot.common.constant.UserConstants;
 import com.brycehan.boot.common.exception.BusinessException;
-import com.brycehan.boot.common.util.HttpContextUtils;
+import com.brycehan.boot.common.util.ServletUtils;
 import com.brycehan.boot.common.util.MessageUtils;
 import com.brycehan.boot.system.context.LoginUserContext;
 import com.brycehan.boot.system.dto.SysUserPageDto;
@@ -74,7 +74,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         this.sysUserRoleService.save(sysUserRole);
 
         int result = this.sysUserMapper.insert(sysUser);
-        String userAgent = HttpContextUtils.getRequest().getHeader("User-Agent");
+        String userAgent = ServletUtils.getRequest().getHeader("User-Agent");
         // 3、异步记录注册成功日志
         if (result == 1) {
             this.sysLoginInfoService.AsyncRecordLoginInfo(userAgent, sysUser.getUsername(), CommonConstants.REGISTER_SUCCESS, MessageUtils.message("user.register.success"));
