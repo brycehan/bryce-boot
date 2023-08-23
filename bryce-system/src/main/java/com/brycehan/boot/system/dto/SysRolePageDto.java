@@ -75,12 +75,7 @@ public class SysRolePageDto extends BasePageDto {
      */
     @Schema(description = "创建人ID")
     private String createUserId;
-    /**
-     * 创建人账号
-     */
-    @Schema(description = "创建人账号")
-    @Size(max = 50, groups = QueryGroup.class)
-    private String createUsername;
+
     /**
      * 创建时间
      */

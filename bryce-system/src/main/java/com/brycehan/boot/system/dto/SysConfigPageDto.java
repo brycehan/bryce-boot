@@ -65,13 +65,6 @@ public class SysConfigPageDto extends BasePageDto {
     private String createUserId;
 
     /**
-     * 创建人账号
-     */
-    @Size(max = 50, groups = QueryGroup.class)
-    @Schema(description = "创建人账号")
-    private String createUsername;
-
-    /**
      * 创建时间
      */
     @Schema(description = "创建时间")

@@ -84,4 +84,13 @@ public interface SysMenuService extends IService<SysMenu> {
      */
     // todo 后期可能不需要
     List<MenuVo> buildMenus(List<SysMenuVo> menus);
+
+    /**
+     * 用户菜单列表
+     * @param userId 用户ID
+     * @param menuType 菜单类型
+     * @return 用户菜单列表
+     */
+    List<SysMenuVo> getMenuTreeList(String userId, String menuType);
+
 }

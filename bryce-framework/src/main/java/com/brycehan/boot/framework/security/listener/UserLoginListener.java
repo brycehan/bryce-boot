@@ -1,6 +1,7 @@
 package com.brycehan.boot.framework.security.listener;
 
 import com.brycehan.boot.common.constant.CommonConstants;
+import com.brycehan.boot.common.util.IpUtils;
 import com.brycehan.boot.common.util.ServletUtils;
 import com.brycehan.boot.common.util.MessageUtils;
 import com.brycehan.boot.framework.security.event.UserLoginFailedEvent;
@@ -36,10 +37,11 @@ public class UserLoginListener {
     @EventListener
     public void onSuccess(UserLoginSuccessEvent userLoginSuccessEvent) {
         String userAgent = ServletUtils.getRequest().getHeader("User-Agent");
+        String ip = IpUtils.getIpAddress(ServletUtils.getRequest());
         // 1、异步记录登录日志
-        sysLoginInfoService.AsyncRecordLoginInfo(userAgent, userLoginSuccessEvent.getLoginUser().getUsername(),
+        sysLoginInfoService.AsyncRecordLoginInfo(userAgent, ip, userLoginSuccessEvent.getLoginUser().getUsername(),
                 CommonConstants.LOGIN_SUCCESS,
-                MessageUtils.message("user.login.success"));
+                MessageUtils.getMessage("user.login.success"));
         // 2、更新用户登录信息
         this.authenticationService.updateLoginInfo(userLoginSuccessEvent.getLoginUser().getId());
     }
@@ -55,11 +57,12 @@ public class UserLoginListener {
 
         String message = userLoginFailedEvent.getException().getMessage();
         if (userLoginFailedEvent.getException() instanceof BadCredentialsException) {
-            message = MessageUtils.message("user.username.or.password.error");
+            message = MessageUtils.getMessage("user.username.or.password.error");
         }
         String userAgent = ServletUtils.getRequest().getHeader("User-Agent");
+        String ip = IpUtils.getIpAddress(ServletUtils.getRequest());
         // 异步记录登录日志
-        sysLoginInfoService.AsyncRecordLoginInfo(userAgent, userLoginFailedEvent.getLoginUser().getUsername(),
+        sysLoginInfoService.AsyncRecordLoginInfo(userAgent, ip, userLoginFailedEvent.getLoginUser().getUsername(),
                 CommonConstants.LOGIN_FAIL,
                 message);
     }

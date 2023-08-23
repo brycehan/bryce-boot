@@ -25,6 +25,6 @@ public class PageResult<T> implements Serializable {
     private long total;
 
     @Schema(description = "列表数据")
-    private List<T> data;
+    private List<T> list;
 
 }

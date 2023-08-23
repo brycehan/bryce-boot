@@ -10,12 +10,10 @@ import com.brycehan.boot.common.base.dto.JwtTokenDto;
 import com.brycehan.boot.common.base.dto.LoginDto;
 import com.brycehan.boot.common.base.http.ResponseResult;
 import com.brycehan.boot.common.base.vo.LoginVo;
-import com.brycehan.boot.common.base.vo.MenuVo;
 import com.brycehan.boot.common.constant.JwtConstants;
 import com.brycehan.boot.common.util.DateTimeUtils;
 import com.brycehan.boot.framework.service.AuthenticationService;
 import com.brycehan.boot.system.context.LoginUserContext;
-import com.brycehan.boot.system.convert.SysMenuConvert;
 import com.brycehan.boot.system.entity.SysUser;
 import com.brycehan.boot.system.service.SysMenuService;
 import com.brycehan.boot.system.service.SysPermissionService;
@@ -32,11 +30,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Stream;
 
 /**
  * 登录控制器
@@ -81,6 +77,7 @@ public class AuthenticationController {
                 .token(JwtConstants.TOKEN_PREFIX.concat(jwt))
                 .type(loginDto.getType())
                 .build();
+
         return ResponseResult.ok(loginVo);
     }
 
@@ -134,21 +131,13 @@ public class AuthenticationController {
      *
      * @return 路由列表
      */
-    @Operation(summary = "获取路由信息")
-    @GetMapping(path = { "/menus"})
-    public ResponseResult<List<MenuVo>> routes() {
-        List<SysMenuVo> menuVos = Stream.of(LoginUserContext.currentUserId())
-                .map(this.sysMenuService::selectMenuTreeByUserId)
-                .flatMap(Collection::stream)
-                .toList();
-        System.out.println(SysMenuConvert.INSTANCE.convertMenu(menuVos));
-        List<MenuVo> menus = Stream.of(LoginUserContext.currentUserId())
-                .map(this.sysMenuService::selectMenuTreeByUserId)
-                .map(this.sysMenuService::buildMenus)
-                .flatMap(Collection::stream)
-                .toList();
+    @Operation(summary = "获取菜单列表")
+    @GetMapping(path =  "/nav")
+    public ResponseResult<List<SysMenuVo>> nav() {
 
-        return ResponseResult.ok(menus);
+        List<SysMenuVo> list = this.sysMenuService.getMenuTreeList(LoginUserContext.currentUserId(), "M");
+
+        return ResponseResult.ok(list);
     }
 
     /**
@@ -157,7 +146,7 @@ public class AuthenticationController {
      * @return 响应结果
      */
     @Operation(summary = "退出登录")
-    @PostMapping(path = "/logout")
+    @GetMapping(path = "/logout")
     public ResponseResult<Void> logout() {
         return ResponseResult.ok();
     }

@@ -69,18 +69,11 @@ public class SysMenu extends BasePo {
     private String icon;
 
     /**
-     * 路由地址
-     */
-    @Schema(description = "路由地址")
-    @Size(max = 200, groups = {AddGroup.class, UpdateGroup.class})
-    private String path;
-
-    /**
      * 组件路径
      */
     @Schema(description = "组件路径")
     @Size(max = 255, groups = {AddGroup.class, UpdateGroup.class})
-    private String component;
+    private String url;
 
     /**
      * 路由参数
@@ -140,15 +133,6 @@ public class SysMenu extends BasePo {
     @Null(groups = {AddGroup.class, UpdateGroup.class})
     @TableField(fill = FieldFill.INSERT)
     private String createUserId;
-
-    /**
-     * 创建人账号
-     */
-    @Schema(description = "创建人账号")
-    @Size(max = 50, groups = {AddGroup.class, UpdateGroup.class})
-    @Null(groups = {AddGroup.class, UpdateGroup.class})
-    @TableField(fill = FieldFill.INSERT)
-    private String createUsername;
 
     /**
      * 创建时间

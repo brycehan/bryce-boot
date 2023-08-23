@@ -17,11 +17,11 @@ import lombok.experimental.Accessors;
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 public enum UploadResponseStatusEnum implements ResponseStatus {
 
-    UPLOAD_EXCEED_MAX_SIZE(700, MessageUtils.message("upload.exceed.max.size")),
+    UPLOAD_EXCEED_MAX_SIZE(700, MessageUtils.getMessage("upload.exceed.max.size")),
 
-    UPLOAD_FILENAME_EXCEED_LENGTH(701, MessageUtils.message("upload.filename.exceed.length")),
+    UPLOAD_FILENAME_EXCEED_LENGTH(701, MessageUtils.getMessage("upload.filename.exceed.length")),
 
-    UPLOAD_INVALID_EXTENSION(702, MessageUtils.message("upload.invalid.extension"));
+    UPLOAD_INVALID_EXTENSION(702, MessageUtils.getMessage("upload.invalid.extension"));
 
     /**
      * 状态编码

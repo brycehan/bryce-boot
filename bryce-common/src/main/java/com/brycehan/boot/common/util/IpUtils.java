@@ -22,6 +22,7 @@ public class IpUtils {
      * @return IP地址
      */
     public static String getIpAddress(HttpServletRequest request) {
+
         if (Objects.isNull(request)) {
             return "unknown";
         }

@@ -57,18 +57,11 @@ public class SysMenuPageDto extends BasePageDto {
     private String icon;
 
     /**
-     * 路由地址
-     */
-    @Size(max = 200, groups = QueryGroup.class)
-    @Schema(description = "路由地址")
-    private String path;
-
-    /**
      * 组件路径
      */
     @Size(max = 255, groups = QueryGroup.class)
     @Schema(description = "组件路径")
-    private String component;
+    private String url;
 
     /**
      * 路由参数

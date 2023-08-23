@@ -8,6 +8,7 @@ import com.brycehan.boot.system.entity.SysUser;
 import com.brycehan.boot.system.mapper.SysUserMapper;
 import com.brycehan.boot.system.service.SysPasswordService;
 import com.brycehan.boot.system.service.SysPermissionService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.GrantedAuthority;
@@ -30,6 +31,7 @@ import java.util.Set;
  */
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final SysUserMapper sysUserMapper;
@@ -37,12 +39,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private final SysPasswordService sysPasswordService;
 
     private final SysPermissionService sysPermissionService;
-
-    public UserDetailsServiceImpl(SysUserMapper sysUserMapper, SysPasswordService sysPasswordService, SysPermissionService sysPermissionService) {
-        this.sysUserMapper = sysUserMapper;
-        this.sysPasswordService = sysPasswordService;
-        this.sysPermissionService = sysPermissionService;
-    }
 
     /**
      * 获取用户登录信息

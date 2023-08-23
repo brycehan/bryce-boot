@@ -1,6 +1,5 @@
 package com.brycehan.boot.common.service.impl;
 
-import com.alibaba.fastjson2.JSONObject;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -10,6 +9,7 @@ import com.brycehan.boot.common.base.entity.BasePageDto;
 import com.brycehan.boot.common.base.entity.OrderItemDto;
 import com.brycehan.boot.common.constant.DataConstants;
 import com.brycehan.boot.common.service.BaseService;
+import com.brycehan.boot.common.util.JsonUtils;
 import com.google.common.base.CaseFormat;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
@@ -31,7 +31,7 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<M, 
      */
     protected IPage<T> getPage(BasePageDto pageDto) {
         Page<T> page = new Page<>(pageDto.getCurrent(), pageDto.getPageSize());
-        log.debug("BaseServiceImpl.getPage 参数：{}", JSONObject.toJSONString(pageDto));
+        log.debug("BaseServiceImpl.getPage 参数：{}", JsonUtils.writeValueAsString(pageDto));
 
         // 排序
         if (CollectionUtils.isNotEmpty(pageDto.getOrderItems())) {
@@ -41,7 +41,7 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<M, 
                     .filter(orderItem -> hasField(pageDto.getClass(), orderItem.getColumn()))
                     .toList();
 
-            log.debug("排序参数: {}", JSONObject.toJSONString(orderItems));
+            log.debug("排序参数: {}", JsonUtils.writeValueAsString(orderItems));
 
             if (CollectionUtils.isNotEmpty(orderItems)) {
                 // 驼峰转下划线命名

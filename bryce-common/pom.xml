@@ -100,11 +100,11 @@
             <groupId>com.github.yitter</groupId>
             <artifactId>yitter-idgenerator</artifactId>
         </dependency>
-        <!-- Fastjson2工具 -->
-        <dependency>
-            <groupId>com.alibaba.fastjson2</groupId>
-            <artifactId>fastjson2</artifactId>
-        </dependency>
+<!--        &lt;!&ndash; Fastjson2工具 &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>com.alibaba.fastjson2</groupId>-->
+<!--            <artifactId>fastjson2</artifactId>-->
+<!--        </dependency>-->
         <!-- Excel工具 -->
         <dependency>
             <groupId>com.alibaba</groupId>

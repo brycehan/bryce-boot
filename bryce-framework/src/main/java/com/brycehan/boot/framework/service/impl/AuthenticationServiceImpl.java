@@ -7,9 +7,9 @@ import com.brycehan.boot.common.constant.CommonConstants;
 import com.brycehan.boot.common.exception.BusinessException;
 import com.brycehan.boot.common.exception.user.UserCaptchaException;
 import com.brycehan.boot.common.exception.user.UserCaptchaExpireException;
-import com.brycehan.boot.common.util.ServletUtils;
 import com.brycehan.boot.common.util.IpUtils;
 import com.brycehan.boot.common.util.MessageUtils;
+import com.brycehan.boot.common.util.ServletUtils;
 import com.brycehan.boot.framework.security.JwtTokenProvider;
 import com.brycehan.boot.framework.security.event.UserLoginFailedEvent;
 import com.brycehan.boot.framework.security.event.UserLoginSuccessEvent;
@@ -23,12 +23,12 @@ import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.request.RequestContextHolder;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -41,7 +41,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class AuthenticationServiceImpl implements AuthenticationService {
 
-    private final AuthenticationManagerBuilder authenticationManagerBuilder;
+    private final AuthenticationManager authenticationManager;
 
     private final JwtTokenProvider jwtTokenProvider;
 
@@ -57,6 +57,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public String login(@NotNull LoginDto loginDto) {
+
         // 1、验证码开关
         boolean captchaEnabled = this.sysConfigService.selectCaptchaEnabled();
         if (captchaEnabled) {
@@ -64,20 +65,18 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                     loginDto.getUuid(),
                     loginDto.getCode());
         }
+
         // 2、账号密码验证
         Authentication authentication;
-        // 子线程共享请求request数据
-        RequestContextHolder.setRequestAttributes(RequestContextHolder.getRequestAttributes(), true);
         try {
             // 1）设置需要认证的用户信息
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword());
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-            // 2）该方法会调用UserDetailsServiceImpl.loadUserByUsername方法
-            authentication = this.authenticationManagerBuilder.getObject().authenticate(authenticationToken);
-            // 3）更新当前用户为已经认证成功
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+            authentication = this.authenticationManager.authenticate(authenticationToken);
+            // 2）更新当前用户为已经认证成功
+//            SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        } catch (Exception e) {
+        } catch (AuthenticationException e) {
             // 发布登录失败事件
             applicationEventPublisher.publishEvent(new UserLoginFailedEvent(this, loginDto, e));
 
@@ -95,6 +94,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         // 发布登录成功事件
         LoginUser loginUser = (LoginUser) authentication.getPrincipal();
         applicationEventPublisher.publishEvent(new UserLoginSuccessEvent(this, loginUser));
+
         // 3、生成令牌token
         return this.jwtTokenProvider.generateToken(loginUser);
     }
@@ -120,11 +120,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         String captchaValue = this.stringRedisTemplate.opsForValue()
                 .getAndDelete(captchaKey);
         String userAgent = ServletUtils.getRequest().getHeader("User-Agent");
+        String ip = IpUtils.getIpAddress(ServletUtils.getRequest());
         if (Objects.isNull(captchaValue)) {
-            sysLoginInfoService.AsyncRecordLoginInfo(userAgent, username, CommonConstants.LOGIN_FAIL, MessageUtils.message("user.captcha.expire"));
+            sysLoginInfoService.AsyncRecordLoginInfo(userAgent, ip, username, CommonConstants.LOGIN_FAIL, MessageUtils.getMessage("user.captcha.expire"));
             throw new UserCaptchaExpireException();
         } else if (!captchaValue.equalsIgnoreCase(code)) {
-            sysLoginInfoService.AsyncRecordLoginInfo(userAgent, username, CommonConstants.LOGIN_FAIL, MessageUtils.message("user.captcha.error"));
+            sysLoginInfoService.AsyncRecordLoginInfo(userAgent, ip, username, CommonConstants.LOGIN_FAIL, MessageUtils.getMessage("user.captcha.error"));
             throw new UserCaptchaException();
         }
     }

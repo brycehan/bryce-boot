@@ -12,6 +12,8 @@ import com.brycehan.boot.common.constant.UserConstants;
 import com.brycehan.boot.common.exception.BusinessException;
 import com.brycehan.boot.common.service.impl.BaseServiceImpl;
 import com.brycehan.boot.common.util.SecurityUtils;
+import com.brycehan.boot.common.util.TreeUtils;
+import com.brycehan.boot.system.context.LoginUser;
 import com.brycehan.boot.system.convert.MenuConvert;
 import com.brycehan.boot.system.convert.SysMenuConvert;
 import com.brycehan.boot.system.dto.DeleteDto;
@@ -228,4 +230,22 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuMapper, SysMenu> 
                 .anyMatch(menu -> menu.getParentId().equals(sysMenu.getId()));
     }
 
+    @Override
+    public List<SysMenuVo> getMenuTreeList(String userId, String menuType) {
+        List<SysMenu> menuList;
+
+        if(SecurityUtils.isAdmin(userId)){
+            // 1、管理员菜单处理
+            LambdaQueryWrapper<SysMenu> queryWrapper = new LambdaQueryWrapper<>();
+            queryWrapper.eq(SysMenu::getStatus, DataConstants.ENABLE);
+            queryWrapper.in(SysMenu::getMenuType, Sets.newHashSet("D", "M"));
+            queryWrapper.orderByAsc(Arrays.asList(SysMenu::getParentId, SysMenu::getSortNumber));
+            menuList = this.sysMenuMapper.selectList(queryWrapper);
+        }else {
+            // 2、普通用户菜单处理
+            menuList = this.sysMenuMapper.selectMenuTreeByUserId(userId);
+        }
+
+        return TreeUtils.build(SysMenuConvert.INSTANCE.convert(formatTree(menuList)));
+    }
 }

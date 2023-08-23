@@ -8,6 +8,7 @@ import com.brycehan.boot.common.constant.CommonConstants;
 import com.brycehan.boot.common.constant.DataConstants;
 import com.brycehan.boot.common.constant.UserConstants;
 import com.brycehan.boot.common.exception.BusinessException;
+import com.brycehan.boot.common.util.IpUtils;
 import com.brycehan.boot.common.util.ServletUtils;
 import com.brycehan.boot.common.util.MessageUtils;
 import com.brycehan.boot.system.context.LoginUserContext;
@@ -20,6 +21,7 @@ import com.brycehan.boot.system.mapper.SysUserMapper;
 import com.brycehan.boot.system.service.*;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,6 +44,7 @@ import static com.github.pagehelper.page.PageMethod.startPage;
  * @since 2022/5/08
  */
 @Service
+@RequiredArgsConstructor
 public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements SysUserService {
 
     private final SysUserMapper sysUserMapper;
@@ -53,14 +56,6 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     private final SysRoleService sysRoleService;
 
     private final SysPostService sysPostService;
-
-    public SysUserServiceImpl(SysUserMapper sysUserMapper, SysUserRoleService sysUserRoleService, SysLoginInfoService sysLoginInfoService, SysRoleService sysRoleService, SysPostService sysPostService) {
-        this.sysUserMapper = sysUserMapper;
-        this.sysUserRoleService = sysUserRoleService;
-        this.sysLoginInfoService = sysLoginInfoService;
-        this.sysRoleService = sysRoleService;
-        this.sysPostService = sysPostService;
-    }
 
     @Transactional
     @Override
@@ -75,9 +70,10 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
         int result = this.sysUserMapper.insert(sysUser);
         String userAgent = ServletUtils.getRequest().getHeader("User-Agent");
+        String ip = IpUtils.getIpAddress(ServletUtils.getRequest());
         // 3、异步记录注册成功日志
         if (result == 1) {
-            this.sysLoginInfoService.AsyncRecordLoginInfo(userAgent, sysUser.getUsername(), CommonConstants.REGISTER_SUCCESS, MessageUtils.message("user.register.success"));
+            this.sysLoginInfoService.AsyncRecordLoginInfo(userAgent, ip, sysUser.getUsername(), CommonConstants.REGISTER_SUCCESS, MessageUtils.getMessage("user.register.success"));
         } else {
             throw BusinessException.responseStatus(UserResponseStatusEnum.USER_REGISTER_ERROR);
         }
@@ -116,7 +112,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
                 .eq("username", sysUser.getUsername())
                 .last("limit 1");
         SysUser user = this.sysUserMapper.selectOne(queryWrapper);
-        String userId = Objects.isNull(sysUser.getId()) ? UserConstants.NULL_USER_ID : sysUser.getId();
+        String userId = sysUser.getId() == null ? UserConstants.NULL_USER_ID : sysUser.getId();
 
         // 修改时，同账号同ID为账号唯一
         return Objects.isNull(user) ||  userId.equals(user.getId());

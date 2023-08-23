@@ -1,6 +1,6 @@
 package com.brycehan.boot.common.base.entity;
 
-import com.alibaba.fastjson2.JSONObject;
+import com.brycehan.boot.common.util.JsonUtils;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -17,7 +17,7 @@ public abstract class BaseEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     String toJson() {
-        return JSONObject.toJSONString(this);
+        return JsonUtils.writeValueAsString(this);
     }
 
 }

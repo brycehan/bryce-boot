@@ -4,6 +4,7 @@ import com.blueconic.browscap.ParseException;
 import com.blueconic.browscap.UserAgentParser;
 import com.blueconic.browscap.UserAgentService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
@@ -11,10 +12,11 @@ import java.io.IOException;
  * UserAgent工具类
  *
  * @author Bryce Han
- * @link https://github.com/blueconic/browscap-java
+ * @link <a href="https://github.com/blueconic/browscap-java">browscap-java</a>
  * @since 2022/9/20
  */
 @Slf4j
+@Component
 public class UserAgentUtils {
 
     /**

@@ -67,18 +67,11 @@ public class SysMenuDto extends BasePo {
     private String icon;
 
     /**
-     * 路由地址
-     */
-    @Schema(description = "路由地址")
-    @Size(max = 200, groups = {AddGroup.class, UpdateGroup.class})
-    private String path;
-
-    /**
      * 组件路径
      */
     @Schema(description = "组件路径")
     @Size(max = 255, groups = {AddGroup.class, UpdateGroup.class})
-    private String component;
+    private String url;
 
     /**
      * 路由参数

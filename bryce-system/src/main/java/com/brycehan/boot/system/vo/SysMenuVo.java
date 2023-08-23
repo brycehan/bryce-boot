@@ -1,12 +1,9 @@
 package com.brycehan.boot.system.vo;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.brycehan.boot.common.base.entity.BaseVo;
+import com.brycehan.boot.common.util.TreeNode;
 import com.brycehan.boot.common.validator.group.AddGroup;
 import com.brycehan.boot.common.validator.group.UpdateGroup;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Null;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -14,8 +11,6 @@ import lombok.Setter;
 import org.hibernate.validator.constraints.Range;
 
 import java.io.Serial;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 系统菜单数据传输对象
@@ -26,18 +21,10 @@ import java.util.List;
 @Schema(description = "系统菜单Vo")
 @Getter
 @Setter
-public class SysMenuVo extends BaseVo {
+public class SysMenuVo extends TreeNode<SysMenuVo> {
 
     @Serial
     private static final long serialVersionUID = 1L;
-
-    /**
-     * ID
-     */
-    @Schema(description = "ID")
-    @Null(groups = AddGroup.class)
-    @NotNull(groups = UpdateGroup.class)
-    private String id;
 
     /**
      * 菜单名称
@@ -54,12 +41,6 @@ public class SysMenuVo extends BaseVo {
     private String menuType;
 
     /**
-     * 父菜单ID，一级菜单为0
-     */
-    @Schema(description = "父菜单ID，一级菜单为0")
-    private String parentId;
-
-    /**
      * 菜单图标
      */
     @Schema(description = "菜单图标")
@@ -67,18 +48,11 @@ public class SysMenuVo extends BaseVo {
     private String icon;
 
     /**
-     * 路由地址
-     */
-    @Schema(description = "路由地址")
-    @Size(max = 200, groups = {AddGroup.class, UpdateGroup.class})
-    private String path;
-
-    /**
      * 组件路径
      */
     @Schema(description = "组件路径")
     @Size(max = 255, groups = {AddGroup.class, UpdateGroup.class})
-    private String component;
+    private String url;
 
     /**
      * 路由参数
@@ -138,12 +112,5 @@ public class SysMenuVo extends BaseVo {
     @Schema(description = "备注")
     @Size(max = 500, groups = {AddGroup.class, UpdateGroup.class})
     private String remark;
-
-    /**
-     * 子菜单列表
-     */
-    @Schema(hidden = true)
-    @TableField(exist = false)
-    private List<SysMenuVo> children = new ArrayList<>();
 
 }

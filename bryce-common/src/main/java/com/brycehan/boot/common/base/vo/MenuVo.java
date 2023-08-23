@@ -23,11 +23,6 @@ public class MenuVo {
     private String name;
 
     /**
-     * 路由地址
-     */
-    private String path;
-
-    /**
      * 图标
      */
     private String icon;
@@ -40,7 +35,7 @@ public class MenuVo {
     /**
      * 组件地址
      */
-    private String component;
+    private String url;
 
     /**
      * 子路由

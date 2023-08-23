@@ -8,6 +8,7 @@ import com.brycehan.boot.common.util.PasswordUtils;
 import com.brycehan.boot.system.entity.SysUser;
 import com.brycehan.boot.system.service.SysPasswordService;
 import jakarta.annotation.Resource;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.Authentication;
@@ -46,7 +47,7 @@ public class SysPasswordServiceImpl implements SysPasswordService {
     }
 
     @Override
-    public void validate(SysUser sysUser) {
+    public void validate(@NotNull SysUser sysUser) {
         // 1、获取用户录入账户
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
@@ -74,10 +75,6 @@ public class SysPasswordServiceImpl implements SysPasswordService {
             throw BusinessException
                     .responseStatus(UserResponseStatusEnum.USER_USERNAME_OR_PASSWORD_ERROR);
         }
-    }
-
-    public static void main(String[] args) {
-
     }
 
 }

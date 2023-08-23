@@ -21,7 +21,7 @@ public class MessageUtils {
      * @param args 参数
      * @return 获取国际化值
      */
-    public static String message(String code, Object... args) {
+    public static String getMessage(String code, Object... args) {
 
         assert MessageUtils.messageSource != null;
         return MessageUtils.messageSource.getMessage(code, args, LocaleContextHolder.getLocale());

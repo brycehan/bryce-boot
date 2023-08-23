@@ -112,16 +112,20 @@ public class JwtTokenProvider {
      * @return 令牌
      */
     public String generateToken(LoginUser loginUser) {
+
         // 1、生成token
         String token = UUID.randomUUID().toString();
         loginUser.setToken(token);
         // 2、设置用户代理
         setUserAgent(loginUser);
+
         // 3、刷新令牌
         refreshToken(loginUser);
+
         // 4、创建jwt令牌
         Map<String, Object> claims = new HashMap<>();
         claims.put(JwtConstants.LOGIN_USER_KEY, token);
+
         return generateToken(claims);
     }
 
@@ -146,16 +150,27 @@ public class JwtTokenProvider {
      * @param loginUser 登录用户
      */
     private void setUserAgent(LoginUser loginUser) {
+        var now1 = System.currentTimeMillis();
+        System.out.println("时间160：" + (now1));
         String userAgent = ServletUtils.getRequest().getHeader("User-Agent");
+        var now21 = System.currentTimeMillis();
+        System.out.println("时间1611：" + (now21-now1));
         Capabilities capabilities = UserAgentUtils.parser.parse(userAgent);
+
+        var now2 = System.currentTimeMillis();
+        System.out.println("时间161：" + (now2-now21));
+
         // 获取客户端浏览器
         String browser = capabilities.getBrowser();
         // 获取客户端操作系统
         String platform = capabilities.getPlatform();
         // 获取客户端IP和对应登录位置
         String ip = IpUtils.getIpAddress(ServletUtils.getRequest());
+        var now3 = System.currentTimeMillis();
+        System.out.println("时间162：" + (now3 -now2));
         String loginLocation = ipAddressService.getRealAddressByIP(ip);
-
+        var now4 = System.currentTimeMillis();
+        System.out.println("时间163：" + (now4-now3));
         loginUser.setIpAddress(ip);
         loginUser.setLoginLocation(loginLocation);
         loginUser.setBrowser(browser);

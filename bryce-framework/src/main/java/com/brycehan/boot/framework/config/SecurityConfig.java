@@ -5,9 +5,15 @@ import com.brycehan.boot.framework.security.JwtAccessDeniedHandler;
 import com.brycehan.boot.framework.security.JwtAuthenticationEntryPoint;
 import jakarta.annotation.PostConstruct;
 import lombok.AllArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.DefaultAuthenticationEventPublisher;
+import org.springframework.security.authentication.ProviderManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -15,11 +21,15 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -43,22 +53,37 @@ public class SecurityConfig {
 
     private final LogoutSuccessHandler logoutSuccessHandler;
 
+    private final UserDetailsService userDetailsService;
+
+    private final ApplicationEventPublisher applicationEventPublisher;
+
+    @Bean
+    public AuthenticationManager authenticationManager() {
+        List<AuthenticationProvider> providers = new ArrayList<>();
+        providers.add(daoAuthenticationProvider());
+
+        ProviderManager providerManager = new ProviderManager(providers);
+        providerManager.setAuthenticationEventPublisher(new DefaultAuthenticationEventPublisher(applicationEventPublisher));
+
+        return providerManager;
+    }
+
+    @Bean
+    DaoAuthenticationProvider daoAuthenticationProvider(){
+        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
+        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
+        daoAuthenticationProvider.setUserDetailsService(userDetailsService);
+        return daoAuthenticationProvider;
+    }
+
     /**
      * httpSecurity 配置
      * <p>
-     * anyRequest       匹配任何请求路径
-     * anonymous        匿名可以访问
-     * hasAnyAuthority  如果有参数，参数表示权限，则其中任何一个权限可以访问
-     * hasAnyRole       如果有参数，参数表示角色，则其中任何一个角色可以访问
-     * hasAuthority     如果有参数，参数表示权限，则其权限可以访问
-     * hasRole          如果有参数，参数表示角色，则其角色可以访问
      * hasIpAddress     如果有参数，参数表示IP地址，如果用户IP和参数匹配，则可以访问
      * access           SpringEL表达式结果为true时可以访问
      * rememberMe       允许通过remember-me登录的用户访问
      * authenticated    用户登录后可以访问
      * fullyAuthenticated   用户完全认证可以访问（非remember-me下的自动登录）
-     * permitAll        用户可以任意访问
-     * denyAll          用户不能访问
      *
      * @param http the {@link HttpSecurity} to modify
      * @return SecurityFilterChain实例

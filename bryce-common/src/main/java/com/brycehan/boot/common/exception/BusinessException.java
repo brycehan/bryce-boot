@@ -88,7 +88,7 @@ public class BusinessException extends RuntimeException {
     @Override
     public String getMessage() {
         if (StringUtils.isNotEmpty(this.messageKey)) {
-            return MessageUtils.message(this.messageKey, this.messageArgs);
+            return MessageUtils.getMessage(this.messageKey, this.messageArgs);
         } else if (StringUtils.isNotEmpty(message)) {
             return message;
         }

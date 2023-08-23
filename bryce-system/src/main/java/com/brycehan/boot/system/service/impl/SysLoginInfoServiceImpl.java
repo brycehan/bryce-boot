@@ -67,14 +67,13 @@ public class SysLoginInfoServiceImpl extends ServiceImpl<SysLoginInfoMapper, Sys
     }
 
     @Override
-    public void AsyncRecordLoginInfo(String userAgent, String username, Integer status, String message, Object... args) {
+    public void AsyncRecordLoginInfo(String userAgent, String ip, String username, Integer status, String message, Object... args) {
 
         Capabilities capabilities = UserAgentUtils.parser.parse(userAgent);
         // 获取客户端浏览器
         String browser = capabilities.getBrowser();
         // 获取客户端操作系统
         String platform = capabilities.getPlatform();
-        String ip = IpUtils.getIpAddress(ServletUtils.getRequest());
         String realAddress = ipAddressService.getRealAddressByIP(ip);
         String info = Arrays.toString(ArrayUtils.toArray(ip)) +
                 Arrays.toString(ArrayUtils.toArray(realAddress)) +

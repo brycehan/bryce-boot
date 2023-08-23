@@ -168,8 +168,7 @@ create table brc_sys_menu
     menu_type       char(1)         default null comment '类型（D：目录，M：菜单，B：按钮）',
     parent_id       varchar(36) default '0' comment '父菜单ID，一级菜单为0',
     icon            varchar(100)    default '#' comment '菜单图标',
-    path            varchar(200)    default '' comment '路由地址',
-    component       varchar(255)    default null comment '组件路径',
+    url       varchar(255)    default null comment '组件路径',
     query           varchar(255)    default null comment '路由参数',
     is_frame        tinyint(1)      default '0' comment '是否为外链（0：否，1：是）',
     is_cache        tinyint(1)      default '1' comment '是否缓存（0：否，1：是）',
@@ -179,7 +178,6 @@ create table brc_sys_menu
     sort_number     integer         default '0' comment '显示顺序',
     status          tinyint(1)      default '1' comment '状态（0：停用，1：正常）',
     create_user_id  varchar(36) default null comment '创建人ID',
-    create_username varchar(50)     default '' comment '创建人账号',
     create_time     datetime        default null comment '创建时间',
     update_user_id  varchar(36) default null comment '修改人ID',
     update_time     datetime        default null comment '修改时间',
@@ -192,274 +190,272 @@ create table brc_sys_menu
 -- 初始化-系统菜单表数据
 -- 一级菜单
 insert into brc_sys_menu
-values ('1', '系统管理', 'D', '0', 'SettingOutlined', '/system', null, '', '0', '1', '1', null, '0', '0', '1', '1',
-        'admin', sysdate(), null, null, '系统管理目录');
+values ('1', '系统管理', 'D', '0', 'icon-setting', null, '', '0', '1', '1', null, '0', '0', '1', '1', sysdate(), null, null, '系统管理目录');
 insert into brc_sys_menu
-values ('2', '系统监控', 'D', '0', 'monitor', 'monitor', 'Layout', '', '0', '1', '1', null, '0', '0', '1', '1', 'admin',
-        sysdate(), null, null, '系统监控目录');
+values ('2', '系统监控', 'D', '0', 'monitor', 'Layout', '', '0', '1', '1', null, '0', '0', '1', '1', sysdate(), null, null, '系统监控目录');
 insert into brc_sys_menu
-values ('3', '系统工具', 'D', '0', 'tool', 'tool', 'Layout', '', '0', '1', '1', null, '0', '0', '1', '1', 'admin',
+values ('3', '系统工具', 'D', '0', 'tool', 'Layout', '', '0', '1', '1', null, '0', '0', '1', '1',
         sysdate(), null, null, '系统工具目录');
 insert into brc_sys_menu
-values ('4', 'Bryce官网', 'D', '0', 'guide', 'http://brycehan.vip', 'Layout', '', '1', '1', '1', null, '0', '0', '1', '1',
-        'admin', sysdate(), null, null, 'Bryce官网地址');
+values ('4', 'Bryce官网', 'D', '0', 'guide', 'Layout', '', '1', '1', '1', null, '0', '0', '1', '1',
+         sysdate(), null, null, 'Bryce官网地址');
 -- 二级菜单
 insert into brc_sys_menu
-values ('100', '用户管理', 'M', '1', 'el-icon-user-solid', 'user', 'system/user/index', null, 0, '1', '1',
+values ('100', '用户管理', 'M', '1', 'icon-user', 'system/user/index', null, 0, '1', '1',
         'system:user:page', '0', '1', '1', '1', 'admin', sysdate(), null, null, '用户管理菜单');
 insert into brc_sys_menu
-values ('101', '角色管理', 'M', '1', 'peoples', 'role', 'system/role/index', null, 0, '1', '1', 'system:role:page', '0',
+values ('101', '角色管理', 'M', '1', 'icon-team',  'system/role/index', null, 0, '1', '1', 'system:role:page', '0',
         '2', '1', '1', 'admin', sysdate(), null, null, '角色管理菜单');
 insert into brc_sys_menu
-values ('102', '菜单管理', 'M', '1', 'tree-table', 'menu', 'system/menu/index', null, 0, '1', '1', 'system:menu:page', '0',
+values ('102', '菜单管理', 'M', '1', 'tree-table', 'system/menu/index', null, 0, '1', '1', 'system:menu:page', '0',
         '3', '1', '1', 'admin', sysdate(), null, null, '菜单管理菜单');
 insert into brc_sys_menu
-values ('103', '部门管理', 'M', '1', 'tree', 'dept', 'system/dept/index', null, 0, '1', '1', 'system:dept:page', '0', '4',
+values ('103', '部门管理', 'M', '1', 'tree',  'system/dept/index', null, 0, '1', '1', 'system:dept:page', '0', '4',
         '1', '1', 'admin', sysdate(), null, null, '部门管理菜单');
 insert into brc_sys_menu
-values ('104', '岗位管理', 'M', '1', '', '/system/sys-post', '@/pages/system/SysPost', null, 0, '1', '1', 'system:post:page', '0', '5',
+values ('104', '岗位管理', 'M', '1', '', '@/pages/system/SysPost', null, 0, '1', '1', 'system:post:page', '0', '5',
         '1', '1', 'admin', sysdate(), null, null, '岗位管理菜单');
 insert into brc_sys_menu
-values ('105', '字典管理', 'M', '1', 'dict', 'dict', 'system/dict/index', null, 0, '1', '1', 'system:dict:page', '0', '6',
+values ('105', '字典管理', 'M', '1', 'dict', 'system/dict/index', null, 0, '1', '1', 'system:dict:page', '0', '6',
         '1', '1', 'admin', sysdate(), null, null, '字典管理菜单');
 insert into brc_sys_menu
-values ('106', '参数设置', 'M', '1', 'edit', 'config', 'system/config/index', null, 0, '1', '1', 'system:config:page', '0',
+values ('106', '参数设置', 'M', '1', 'edit', 'system/config/index', null, 0, '1', '1', 'system:config:page', '0',
         '7', '1', '1', 'admin', sysdate(), null, null, '参数设置菜单');
 insert into brc_sys_menu
-values ('107', '通知公告', 'M', '1', 'message', 'notice', 'system/notice/index', null, 0, '1', '1', 'system:notice:page',
+values ('107', '通知公告', 'M', '1', 'message', 'system/notice/index', null, 0, '1', '1', 'system:notice:page',
         '0', '8', '1', '1', 'admin', sysdate(), null, null, '通知公告菜单');
 insert into brc_sys_menu
-values ('108', '日志管理', 'M', '1', 'log', 'log', '', null, 0, '1', '1', '', '0', '9', '1', '1', 'admin', sysdate(), null,
+values ('108', '日志管理', 'M', '1', 'log', '', null, 0, '1', '1', '', '0', '9', '1', '1', 'admin', sysdate(), null,
         null, '日志管理菜单');
 insert into brc_sys_menu
-values ('109', '在线用户', 'M', '2', 'online', 'online', 'monitor/online/index', null, 0, '1', '1', 'monitor:online:page',
+values ('109', '在线用户', 'M', '2', 'online', 'monitor/online/index', null, 0, '1', '1', 'monitor:online:page',
         '0', '1', '1', '1', 'admin', sysdate(), null, null, '在线用户菜单');
 insert into brc_sys_menu
-values ('110', '定时任务', 'M', '2', 'job', 'job', 'monitor/job/index', null, 0, '1', '1', 'monitor:job:page', '0', '2',
+values ('110', '定时任务', 'M', '2', 'job',  'monitor/job/index', null, 0, '1', '1', 'monitor:job:page', '0', '2',
         '1', '1', 'admin', sysdate(), null, null, '定时任务菜单');
 insert into brc_sys_menu
-values ('111', '数据监控', 'M', '2', 'druid', 'druid', 'monitor/druid/index', null, 0, '1', '1', 'monitor:druid:page', '0',
+values ('111', '数据监控', 'M', '2', 'druid', 'monitor/druid/index', null, 0, '1', '1', 'monitor:druid:page', '0',
         '3', '1', '1', 'admin', sysdate(), null, null, '数据监控菜单');
 insert into brc_sys_menu
-values ('112', '服务监控', 'M', '2', 'server', 'server', 'monitor/server/index', null, 0, '1', '1', 'monitor:server:page',
+values ('112', '服务监控', 'M', '2', 'server',  'monitor/server/index', null, 0, '1', '1', 'monitor:server:page',
         '0', '4', '1', '1', 'admin', sysdate(), null, null, '服务监控菜单');
 insert into brc_sys_menu
-values ('113', '缓存监控', 'M', '2', 'redis', 'cache', 'monitor/cache/index', null, 0, '1', '1', 'monitor:cache:page', '0',
+values ('113', '缓存监控', 'M', '2', 'redis',  'monitor/cache/index', null, 0, '1', '1', 'monitor:cache:page', '0',
         '5', '1', '1', 'admin', sysdate(), null, null, '缓存监控菜单');
 insert into brc_sys_menu
-values ('114', '缓存列表', 'M', '2', 'redis-list', 'cacheList', 'monitor/cache/list', null, 0, '1', '1',
+values ('114', '缓存列表', 'M', '2', 'redis-list',  'monitor/cache/list', null, 0, '1', '1',
         'monitor:cache:page', '0', '6', '1', '1', 'admin', sysdate(), null, null, '缓存列表菜单');
 insert into brc_sys_menu
-values ('115', '表单构建', 'M', '3', 'build', 'build', 'tool/build/index', null, 0, '1', '1', 'tool:build:page', '0', '1',
+values ('115', '表单构建', 'M', '3', 'build', 'tool/build/index', null, 0, '1', '1', 'tool:build:page', '0', '1',
         '1', '1', 'admin', sysdate(), null, null, '表单构建菜单');
 insert into brc_sys_menu
-values ('116', '代码生成', 'M', '3', 'code', 'gen', 'tool/gen/index', null, 0, '1', '1', 'tool:gen:page', '0', '2', '1',
+values ('116', '代码生成', 'M', '3', 'code', 'tool/gen/index', null, 0, '1', '1', 'tool:gen:page', '0', '2', '1',
         '1', 'admin', sysdate(), null, null, '代码生成菜单');
 insert into brc_sys_menu
-values ('117', '系统接口', 'M', '3', 'swagger', 'swagger', 'tool/swagger/index', null, 0, '1', '1', 'tool:swagger:page',
+values ('117', '系统接口', 'M', '3', 'swagger', 'tool/swagger/index', null, 0, '1', '1', 'tool:swagger:page',
         '0', '3', '1', '1', 'admin', sysdate(), null, null, '系统接口菜单');
 -- 三级菜单
 insert into brc_sys_menu
-values ('500', '操作日志', 'M', '108', 'form', 'operlog', 'monitor/operlog/index', null, 0, '1', '1',
+values ('500', '操作日志', 'M', '108', 'form', 'monitor/operlog/index', null, 0, '1', '1',
         'monitor:operlog:page', '0', '1', '1', '1', 'admin', sysdate(), null, null, '操作日志菜单');
 insert into brc_sys_menu
-values ('501', '登录日志', 'M', '108', 'logininfor', 'logininfor', 'monitor/logininfor/index', null, 0, '1', '1',
+values ('501', '登录日志', 'M', '108', 'logininfor', 'monitor/logininfor/index', null, 0, '1', '1',
         'monitor:logininfor:page', '0', '2', '1', '1', 'admin', sysdate(), null, null, '登录日志菜单');
 -- 用户管理按钮
 insert into brc_sys_menu
-values ('1000', '用户查询', 'B', '100', '#', '', null, null, '0', '1', '1', 'system:user:info', '0', '1', '1', '1',
+values ('1000', '用户查询', 'B', '100', '#', null, null, '0', '1', '1', 'system:user:info', '0', '1', '1', '1',
         'admin', sysdate(), null, null, null);
 insert into brc_sys_menu
-values ('1001', '用户新增', 'B', '100', '#', '', null, null, '0', '1', '1', 'system:user:add', '0', '2', '1', '1', 'admin',
+values ('1001', '用户新增', 'B', '100', '#',null, null, '0', '1', '1', 'system:user:add', '0', '2', '1', '1', 'admin',
         sysdate(), null, null, null);
 insert into brc_sys_menu
-values ('1002', '用户修改', 'B', '100', '#', '', null, null, '0', '1', '1', 'system:user:update', '0', '3', '1', '1', 'admin',
+values ('1002', '用户修改', 'B', '100', '#', null, null, '0', '1', '1', 'system:user:update', '0', '3', '1', '1', 'admin',
         sysdate(), null, null, null);
 insert into brc_sys_menu
-values ('1003', '用户删除', 'B', '100', '#', '', null, null, '0', '1', '1', 'system:user:delete', '0', '4', '1', '1',
+values ('1003', '用户删除', 'B', '100', '#', null, null, '0', '1', '1', 'system:user:delete', '0', '4', '1', '1',
         'admin', sysdate(), null, null, null);
 insert into brc_sys_menu
-values ('1004', '用户导出', 'B', '100', '#', '', null, null, '0', '1', '1', 'system:user:export', '0', '5', '1', '1',
+values ('1004', '用户导出', 'B', '100', '#', null, null, '0', '1', '1', 'system:user:export', '0', '5', '1', '1',
         'admin', sysdate(), null, null, null);
 insert into brc_sys_menu
-values ('1005', '用户导入', 'B', '100', '#', '', null, null, '0', '1', '1', 'system:user:import', '0', '6', '1', '1',
+values ('1005', '用户导入', 'B', '100', '#', null, null, '0', '1', '1', 'system:user:import', '0', '6', '1', '1',
         'admin', sysdate(), null, null, null);
 insert into brc_sys_menu
-values ('1006', '重置密码', 'B', '100', '#', '', null, null, '0', '1', '1', 'system:user:resetPwd', '0', '7', '1', '1',
+values ('1006', '重置密码', 'B', '100', '#', null, null, '0', '1', '1', 'system:user:resetPwd', '0', '7', '1', '1',
         'admin', sysdate(), null, null, null);
 -- 角色管理按钮
 insert into brc_sys_menu
-values ('1007', '角色查询', 'B', '101', '#', '', null, null, '0', '1', '1', 'system:role:info', '0', '1', '1', '1',
+values ('1007', '角色查询', 'B', '101', '#', null, null, '0', '1', '1', 'system:role:info', '0', '1', '1', '1',
         'admin', sysdate(), null, null, null);
 insert into brc_sys_menu
-values ('1008', '角色新增', 'B', '101', '#', '', null, null, '0', '1', '1', 'system:role:add', '0', '2', '1', '1', 'admin',
+values ('1008', '角色新增', 'B', '101', '#', null, null, '0', '1', '1', 'system:role:add', '0', '2', '1', '1', 'admin',
         sysdate(), null, null, null);
 insert into brc_sys_menu
-values ('1009', '角色修改', 'B', '101', '#', '', null, null, '0', '1', '1', 'system:role:update', '0', '3', '1', '1', 'admin',
+values ('1009', '角色修改', 'B', '101', '#', null, null, '0', '1', '1', 'system:role:update', '0', '3', '1', '1', 'admin',
         sysdate(), null, null, null);
 insert into brc_sys_menu
-values ('1010', '角色删除', 'B', '101', '#', '', null, null, '0', '1', '1', 'system:role:delete', '0', '4', '1', '1',
+values ('1010', '角色删除', 'B', '101', '#', null, null, '0', '1', '1', 'system:role:delete', '0', '4', '1', '1',
         'admin', sysdate(), null, null, null);
 insert into brc_sys_menu
-values ('1011', '角色导出', 'B', '101', '#', '', null, null, '0', '1', '1', 'system:role:export', '0', '5', '1', '1',
+values ('1011', '角色导出', 'B', '101', '#', null, null, '0', '1', '1', 'system:role:export', '0', '5', '1', '1',
         'admin', sysdate(), null, null, null);
 -- 菜单管理按钮
 insert into brc_sys_menu
-values ('1012', '菜单查询', 'B', '102', '#', '', null, null, '0', '1', '1', 'system:menu:info', '0', '1', '1', '1',
+values ('1012', '菜单查询', 'B', '102', '#', null, null, '0', '1', '1', 'system:menu:info', '0', '1', '1', '1',
         'admin', sysdate(), null, null, null);
 insert into brc_sys_menu
-values ('1013', '菜单新增', 'B', '102', '#', '', null, null, '0', '1', '1', 'system:menu:add', '0', '2', '1', '1', 'admin',
+values ('1013', '菜单新增', 'B', '102', '#', null, null, '0', '1', '1', 'system:menu:add', '0', '2', '1', '1', 'admin',
         sysdate(), null, null, null);
 insert into brc_sys_menu
-values ('1014', '菜单修改', 'B', '102', '#', '', null, null, '0', '1', '1', 'system:menu:update', '0', '3', '1', '1', 'admin',
+values ('1014', '菜单修改', 'B', '102', '#', null, null, '0', '1', '1', 'system:menu:update', '0', '3', '1', '1', 'admin',
         sysdate(), null, null, null);
 insert into brc_sys_menu
-values ('1015', '菜单删除', 'B', '102', '#', '', null, null, '0', '1', '1', 'system:menu:delete', '0', '4', '1', '1',
+values ('1015', '菜单删除', 'B', '102', '#', null, null, '0', '1', '1', 'system:menu:delete', '0', '4', '1', '1',
         'admin', sysdate(), null, null, null);
 -- 部门管理按钮
 insert into brc_sys_menu
-values ('1016', '部门查询', 'B', '103', '#', '', null, null, '0', '1', '1', 'system:dept:info', '0', '1', '1', '1',
+values ('1016', '部门查询', 'B', '103', '#', null, null, '0', '1', '1', 'system:dept:info', '0', '1', '1', '1',
         'admin', sysdate(), null, null, null);
 insert into brc_sys_menu
-values ('1017', '部门新增', 'B', '103', '#', '', null, null, '0', '1', '1', 'system:dept:add', '0', '2', '1', '1', 'admin',
+values ('1017', '部门新增', 'B', '103', '#', null, null, '0', '1', '1', 'system:dept:add', '0', '2', '1', '1', 'admin',
         sysdate(), null, null, null);
 insert into brc_sys_menu
-values ('1018', '部门修改', 'B', '103', '#', '', null, null, '0', '1', '1', 'system:dept:update', '0', '3', '1', '1', 'admin',
+values ('1018', '部门修改', 'B', '103', '#', null, null, '0', '1', '1', 'system:dept:update', '0', '3', '1', '1', 'admin',
         sysdate(), null, null, null);
 insert into brc_sys_menu
-values ('1019', '部门删除', 'B', '103', '#', '', null, null, '0', '1', '1', 'system:dept:delete', '0', '4', '1', '1',
+values ('1019', '部门删除', 'B', '103', '#', null, null, '0', '1', '1', 'system:dept:delete', '0', '4', '1', '1',
         'admin', sysdate(), null, null, null);
 -- 岗位管理按钮
 insert into brc_sys_menu
-values ('1020', '岗位查询', 'B', '104', '#', '', null, null, '0', '1', '1', 'system:post:info', '0', '1', '1', '1',
+values ('1020', '岗位查询', 'B', '104', '#', null, null, '0', '1', '1', 'system:post:info', '0', '1', '1', '1',
         'admin', sysdate(), null, null, null);
 insert into brc_sys_menu
-values ('1021', '岗位新增', 'B', '104', '#', '', null, null, '0', '1', '1', 'system:post:add', '0', '2', '1', '1', 'admin',
+values ('1021', '岗位新增', 'B', '104', '#', null, null, '0', '1', '1', 'system:post:add', '0', '2', '1', '1', 'admin',
         sysdate(), null, null, null);
 insert into brc_sys_menu
-values ('1022', '岗位修改', 'B', '104', '#', '', null, null, '0', '1', '1', 'system:post:update', '0', '3', '1', '1', 'admin',
+values ('1022', '岗位修改', 'B', '104', '#', null, null, '0', '1', '1', 'system:post:update', '0', '3', '1', '1', 'admin',
         sysdate(), null, null, null);
 insert into brc_sys_menu
-values ('1023', '岗位删除', 'B', '104', '#', '', null, null, '0', '1', '1', 'system:post:delete', '0', '4', '1', '1',
+values ('1023', '岗位删除', 'B', '104', '#', null, null, '0', '1', '1', 'system:post:delete', '0', '4', '1', '1',
         'admin', sysdate(), null, null, null);
 insert into brc_sys_menu
-values ('1024', '岗位导出', 'B', '104', '#', '', null, null, '0', '1', '1', 'system:post:export', '0', '5', '1', '1',
+values ('1024', '岗位导出', 'B', '104', '#', null, null, '0', '1', '1', 'system:post:export', '0', '5', '1', '1',
         'admin', sysdate(), null, null, null);
 -- 字典管理按钮
 insert into brc_sys_menu
-values ('1025', '字典查询', 'B', '105', '#', '', null, null, '0', '1', '1', 'system:dict:info', '0', '1', '1', '1',
+values ('1025', '字典查询', 'B', '105', '#', null, null, '0', '1', '1', 'system:dict:info', '0', '1', '1', '1',
         'admin', sysdate(), null, null, null);
 insert into brc_sys_menu
-values ('1026', '字典新增', 'B', '105', '#', '', null, null, '0', '1', '1', 'system:dict:add', '0', '2', '1', '1', 'admin',
+values ('1026', '字典新增', 'B', '105', '#', null, null, '0', '1', '1', 'system:dict:add', '0', '2', '1', '1', 'admin',
         sysdate(), null, null, null);
 insert into brc_sys_menu
-values ('1027', '字典修改', 'B', '105', '#', '', null, null, '0', '1', '1', 'system:dict:update', '0', '3', '1', '1', 'admin',
+values ('1027', '字典修改', 'B', '105', '#', null, null, '0', '1', '1', 'system:dict:update', '0', '3', '1', '1', 'admin',
         sysdate(), null, null, null);
 insert into brc_sys_menu
-values ('1028', '字典删除', 'B', '105', '#', '', null, null, '0', '1', '1', 'system:dict:delete', '0', '4', '1', '1',
+values ('1028', '字典删除', 'B', '105', '#', null, null, '0', '1', '1', 'system:dict:delete', '0', '4', '1', '1',
         'admin', sysdate(), null, null, null);
 insert into brc_sys_menu
-values ('1029', '字典导出', 'B', '105', '#', '', null, null, '0', '1', '1', 'system:dict:export', '0', '5', '1', '1',
+values ('1029', '字典导出', 'B', '105', '#', null, null, '0', '1', '1', 'system:dict:export', '0', '5', '1', '1',
         'admin', sysdate(), null, null, null);
 -- 参数设置按钮
 insert into brc_sys_menu
-values ('1030', '参数查询', 'B', '106', '#', '', null, null, '0', '1', '1', 'system:config:info', '0', '1', '1', '1',
+values ('1030', '参数查询', 'B', '106', '#', null, null, '0', '1', '1', 'system:config:info', '0', '1', '1', '1',
         'admin', sysdate(), null, null, null);
 insert into brc_sys_menu
-values ('1031', '参数新增', 'B', '106', '#', '', null, null, '0', '1', '1', 'system:config:add', '0', '2', '1', '1',
+values ('1031', '参数新增', 'B', '106', '#', null, null, '0', '1', '1', 'system:config:add', '0', '2', '1', '1',
         'admin', sysdate(), null, null, null);
 insert into brc_sys_menu
-values ('1032', '参数修改', 'B', '106', '#', '', null, null, '0', '1', '1', 'system:config:update', '0', '3', '1', '1',
+values ('1032', '参数修改', 'B', '106', '#', null, null, '0', '1', '1', 'system:config:update', '0', '3', '1', '1',
         'admin', sysdate(), null, null, null);
 insert into brc_sys_menu
-values ('1033', '参数删除', 'B', '106', '#', '', null, null, '0', '1', '1', 'system:config:delete', '0', '4', '1', '1',
+values ('1033', '参数删除', 'B', '106', '#', null, null, '0', '1', '1', 'system:config:delete', '0', '4', '1', '1',
         'admin', sysdate(), null, null, null);
 insert into brc_sys_menu
-values ('1034', '参数导出', 'B', '106', '#', '', null, null, '0', '1', '1', 'system:config:export', '0', '5', '1', '1',
+values ('1034', '参数导出', 'B', '106', '#', null, null, '0', '1', '1', 'system:config:export', '0', '5', '1', '1',
         'admin', sysdate(), null, null, null);
 -- 通知公告按钮
 insert into brc_sys_menu
-values ('1035', '公告查询', 'B', '107', '#', '', null, null, '0', '1', '1', 'system:notice:info', '0', '1', '1', '1',
+values ('1035', '公告查询', 'B', '107', '#', null, null, '0', '1', '1', 'system:notice:info', '0', '1', '1', '1',
         'admin', sysdate(), null, null, null);
 insert into brc_sys_menu
-values ('1036', '公告新增', 'B', '107', '#', '', null, null, '0', '1', '1', 'system:notice:add', '0', '2', '1', '1',
+values ('1036', '公告新增', 'B', '107', '#', null, null, '0', '1', '1', 'system:notice:add', '0', '2', '1', '1',
         'admin', sysdate(), null, null, null);
 insert into brc_sys_menu
-values ('1037', '公告修改', 'B', '107', '#', '', null, null, '0', '1', '1', 'system:notice:update', '0', '3', '1', '1',
+values ('1037', '公告修改', 'B', '107', '#', null, null, '0', '1', '1', 'system:notice:update', '0', '3', '1', '1',
         'admin', sysdate(), null, null, null);
 insert into brc_sys_menu
-values ('1038', '公告删除', 'B', '107', '#', '', null, null, '0', '1', '1', 'system:notice:delete', '0', '4', '1', '1',
+values ('1038', '公告删除', 'B', '107', '#', null, null, '0', '1', '1', 'system:notice:delete', '0', '4', '1', '1',
         'admin', sysdate(), null, null, null);
 -- 操作日志按钮
 insert into brc_sys_menu
-values ('1039', '操作查询', 'B', '500', '#', '', null, null, '0', '1', '1', 'monitor:operlog:info', '0', '1', '1', '1',
+values ('1039', '操作查询', 'B', '500', '#', null, null, '0', '1', '1', 'monitor:operlog:info', '0', '1', '1', '1',
         'admin', sysdate(), null, null, null);
 insert into brc_sys_menu
-values ('1040', '操作删除', 'B', '500', '#', '', null, null, '0', '1', '1', 'monitor:operlog:delete', '0', '2', '1', '1',
+values ('1040', '操作删除', 'B', '500', '#', null, null, '0', '1', '1', 'monitor:operlog:delete', '0', '2', '1', '1',
         'admin', sysdate(), null, null, null);
 insert into brc_sys_menu
-values ('1041', '日志导出', 'B', '500', '#', '', null, null, '0', '1', '1', 'monitor:operlog:export', '0', '3', '1', '1',
+values ('1041', '日志导出', 'B', '500', '#', null, null, '0', '1', '1', 'monitor:operlog:export', '0', '3', '1', '1',
         'admin', sysdate(), null, null, null);
 -- 登录日志按钮
 insert into brc_sys_menu
-values ('1042', '登录查询', 'B', '501', '#', '', null, null, '0', '1', '1', 'monitor:logininfor:info', '0', '1', '1', '1',
+values ('1042', '登录查询', 'B', '501', '#', null, null, '0', '1', '1', 'monitor:logininfor:info', '0', '1', '1', '1',
         'admin', sysdate(), null, null, null);
 insert into brc_sys_menu
-values ('1043', '登录删除', 'B', '501', '#', '', null, null, '0', '1', '1', 'monitor:logininfor:delete', '0', '2', '1', '1',
+values ('1043', '登录删除', 'B', '501', '#', null, null, '0', '1', '1', 'monitor:logininfor:delete', '0', '2', '1', '1',
         'admin', sysdate(), null, null, null);
 insert into brc_sys_menu
-values ('1044', '日志导出', 'B', '501', '#', '', null, null, '0', '1', '1', 'monitor:logininfor:export', '0', '3', '1', '1',
+values ('1044', '日志导出', 'B', '501', '#', null, null, '0', '1', '1', 'monitor:logininfor:export', '0', '3', '1', '1',
         'admin', sysdate(), null, null, null);
 insert into brc_sys_menu
-values ('1045', '账户解锁', 'B', '501', '#', '', null, null, '0', '1', '1', 'monitor:logininfor:unlock', '0', '4', '1', '1',
+values ('1045', '账户解锁', 'B', '501', '#', null, null, '0', '1', '1', 'monitor:logininfor:unlock', '0', '4', '1', '1',
         'admin', sysdate(), null, null, null);
 -- 在线用户按钮
 insert into brc_sys_menu
-values ('1046', '在线查询', 'B', '109', '#', '', null, null, '0', '1', '1', 'monitor:online:info', '0', '1', '1', '1',
+values ('1046', '在线查询', 'B', '109', '#', null, null, '0', '1', '1', 'monitor:online:info', '0', '1', '1', '1',
         'admin', sysdate(), null, null, null);
 insert into brc_sys_menu
-values ('1047', '批量强退', 'B', '109', '#', '', null, null, '0', '1', '1', 'monitor:online:batchLogout', '0', '2', '1',
+values ('1047', '批量强退', 'B', '109', '#', null, null, '0', '1', '1', 'monitor:online:batchLogout', '0', '2', '1',
         '1', 'admin', sysdate(), null, null, null);
 insert into brc_sys_menu
-values ('1048', '单条强退', 'B', '109', '#', '', null, null, '0', '1', '1', 'monitor:online:forceLogout', '0', '3', '1',
+values ('1048', '单条强退', 'B', '109', '#', null, null, '0', '1', '1', 'monitor:online:forceLogout', '0', '3', '1',
         '1', 'admin', sysdate(), null, null, null);
 -- 定时任务按钮
 insert into brc_sys_menu
-values ('1049', '任务查询', 'B', '110', '#', '', null, null, '0', '1', '1', 'monitor:job:info', '0', '1', '1', '1',
+values ('1049', '任务查询', 'B', '110', '#', null, null, '0', '1', '1', 'monitor:job:info', '0', '1', '1', '1',
         'admin', sysdate(), null, null, null);
 insert into brc_sys_menu
-values ('1050', '任务新增', 'B', '110', '#', '', null, null, '0', '1', '1', 'monitor:job:add', '0', '2', '1', '1', 'admin',
+values ('1050', '任务新增', 'B', '110', '#', null, null, '0', '1', '1', 'monitor:job:add', '0', '2', '1', '1', 'admin',
         sysdate(), null, null, null);
 insert into brc_sys_menu
-values ('1051', '任务修改', 'B', '110', '#', '', null, null, '0', '1', '1', 'monitor:job:update', '0', '3', '1', '1', 'admin',
+values ('1051', '任务修改', 'B', '110', '#', null, null, '0', '1', '1', 'monitor:job:update', '0', '3', '1', '1', 'admin',
         sysdate(), null, null, null);
 insert into brc_sys_menu
-values ('1052', '任务删除', 'B', '110', '#', '', null, null, '0', '1', '1', 'monitor:job:delete', '0', '4', '1', '1',
+values ('1052', '任务删除', 'B', '110', '#', null, null, '0', '1', '1', 'monitor:job:delete', '0', '4', '1', '1',
         'admin', sysdate(), null, null, null);
 insert into brc_sys_menu
-values ('1053', '状态修改', 'B', '110', '#', '', null, null, '0', '1', '1', 'monitor:job:changeStatus', '0', '5', '1', '1',
+values ('1053', '状态修改', 'B', '110', '#', null, null, '0', '1', '1', 'monitor:job:changeStatus', '0', '5', '1', '1',
         'admin', sysdate(), null, null, null);
 insert into brc_sys_menu
-values ('1054', '任务导出', 'B', '110', '#', '', null, null, '0', '1', '1', 'monitor:job:export', '0', '6', '1', '1',
+values ('1054', '任务导出', 'B', '110', '#', null, null, '0', '1', '1', 'monitor:job:export', '0', '6', '1', '1',
         'admin', sysdate(), null, null, null);
 -- 代码生成按钮
 insert into brc_sys_menu
-values ('1055', '生成查询', 'B', '116', '#', '', null, null, '0', '1', '1', 'tool:gen:info', '0', '1', '1', '1', 'admin',
+values ('1055', '生成查询', 'B', '116', '#', null, null, '0', '1', '1', 'tool:gen:info', '0', '1', '1', '1', 'admin',
         sysdate(), null, null, null);
 insert into brc_sys_menu
-values ('1056', '生成修改', 'B', '116', '#', '', null, null, '0', '1', '1', 'tool:gen:update', '0', '2', '1', '1', 'admin',
+values ('1056', '生成修改', 'B', '116', '#', null, null, '0', '1', '1', 'tool:gen:update', '0', '2', '1', '1', 'admin',
         sysdate(), null, null, null);
 insert into brc_sys_menu
-values ('1057', '生成删除', 'B', '116', '#', '', null, null, '0', '1', '1', 'tool:gen:delete', '0', '3', '1', '1', 'admin',
+values ('1057', '生成删除', 'B', '116', '#', null, null, '0', '1', '1', 'tool:gen:delete', '0', '3', '1', '1', 'admin',
         sysdate(), null, null, null);
 insert into brc_sys_menu
-values ('1058', '导入代码', 'B', '116', '#', '', null, null, '0', '1', '1', 'tool:gen:import', '0', '4', '1', '1', 'admin',
+values ('1058', '导入代码', 'B', '116', '#', null, null, '0', '1', '1', 'tool:gen:import', '0', '4', '1', '1', 'admin',
         sysdate(), null, null, null);
 insert into brc_sys_menu
-values ('1059', '预览代码', 'B', '116', '#', '', null, null, '0', '1', '1', 'tool:gen:preview', '0', '5', '1', '1', 'admin',
+values ('1059', '预览代码', 'B', '116', '#', null, null, '0', '1', '1', 'tool:gen:preview', '0', '5', '1', '1', 'admin',
         sysdate(), null, null, null);
 insert into brc_sys_menu
-values ('1060', '生成代码', 'B', '116', '#', '', null, null, '0', '1', '1', 'tool:gen:code', '0', '6', '1', '1', 'admin',
+values ('1060', '生成代码', 'B', '116', '#', null, null, '0', '1', '1', 'tool:gen:code', '0', '6', '1', '1', 'admin',
         sysdate(), null, null, null);
 
 -- 6、系统用户与角色关联表

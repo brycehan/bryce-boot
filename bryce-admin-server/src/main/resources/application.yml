@@ -110,8 +110,8 @@ pagehelper:
 
 # 服务配置
 server:
-  # 服务器HTTP端口，默认是8080
-  port: 8082
+  # 服务器HTTP端口
+  port: 8090
   servlet:
     # 应用的访问路径
     context-path: /
@@ -137,7 +137,7 @@ springdoc:
   group-configs:
     - group: auth
       display-name: 登录认证组
-      packages-to-scan: com.brycehan.boot.api.controller
+      packages-to-scan: com.brycehan.boot.admin.server.controller
       paths-to-match: /auth/**
     - group: system
       display-name: 系统组
@@ -155,9 +155,9 @@ logging:
       max-file-size: 10MB
       total-size-cap: 1GB
   level:
-    root: info
-    web: info
-    com.brycehan.boot: info
+    root: debug
+    web: debug
+    com.brycehan.boot: debug
 
 
 

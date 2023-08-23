@@ -35,6 +35,7 @@ public interface SysLoginInfoService extends IService<SysLoginInfo> {
      */
     @Async
     void AsyncRecordLoginInfo(String userAgent,
+                              String ip,
                               final String username,
                               final Integer status,
                               final String message,
