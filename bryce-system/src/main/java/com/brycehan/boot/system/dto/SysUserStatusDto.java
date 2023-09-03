@@ -25,7 +25,7 @@ public class SysUserStatusDto implements Serializable {
      * ID
      */
     @Schema(description = "ID")
-    private String id;
+    private Long id;
 
     /**
      * 状态（0：停用，1：正常）

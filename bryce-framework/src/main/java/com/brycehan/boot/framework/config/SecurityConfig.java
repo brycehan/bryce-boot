@@ -3,8 +3,7 @@ package com.brycehan.boot.framework.config;
 import com.brycehan.boot.framework.filter.JwtAuthenticationFilter;
 import com.brycehan.boot.framework.security.JwtAccessDeniedHandler;
 import com.brycehan.boot.framework.security.JwtAuthenticationEntryPoint;
-import jakarta.annotation.PostConstruct;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,18 +19,14 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.springframework.security.config.Customizer.withDefaults;
 
 /**
  * Spring Security 配置
@@ -41,8 +36,8 @@ import static org.springframework.security.config.Customizer.withDefaults;
  */
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity(securedEnabled = true, jsr250Enabled = true)
-@AllArgsConstructor
+@EnableMethodSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
@@ -50,8 +45,6 @@ public class SecurityConfig {
     private final JwtAuthenticationEntryPoint authenticationEntryPoint;
 
     private final JwtAccessDeniedHandler accessDeniedHandler;
-
-    private final LogoutSuccessHandler logoutSuccessHandler;
 
     private final UserDetailsService userDetailsService;
 
@@ -95,11 +88,11 @@ public class SecurityConfig {
                 // 禁用csrf，jwt不需要csrf开启
                 .csrf(AbstractHttpConfigurer::disable)
                 // 禁用X-Frame-Options
-                .headers(headersConfigurer -> headersConfigurer.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
+                .headers(configurer -> configurer.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
                 // 基于token，不需要session
-                .sessionManagement(sessionManagementConfigurer -> sessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .sessionManagement(configurer -> configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 // 过滤请求
-                .authorizeHttpRequests(requestMatcherRegistry -> requestMatcherRegistry
+                .authorizeHttpRequests(registry -> registry
                         // 静态资源，可以匿名访问
                         .requestMatchers(HttpMethod.GET,
                                 "/webjars/**",
@@ -120,21 +113,15 @@ public class SecurityConfig {
                                 "/auth/login",
                                 "/register",
                                 "/auth/validateToken").permitAll()
-
                         .requestMatchers(HttpMethod.OPTIONS).permitAll()
                         // 除上面外的所有请求全部需要鉴权认证
                         .anyRequest().authenticated())
-                .httpBasic(withDefaults())
+//                .httpBasic(withDefaults())
                 // 添加 jwt 过滤器
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .exceptionHandling(exceptionHandlingConfigurer -> exceptionHandlingConfigurer
+                .exceptionHandling(configurer -> configurer
                         .authenticationEntryPoint(authenticationEntryPoint)
                         .accessDeniedHandler(accessDeniedHandler))
-                // 添加 退出 处理器
-                .logout(httpSecurityLogoutConfigurer -> httpSecurityLogoutConfigurer
-                        .logoutUrl("/auth/logout")
-                        .logoutSuccessHandler(logoutSuccessHandler))
-
                 .build();
     }
 
@@ -146,14 +133,6 @@ public class SecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
-    }
-
-    /**
-     * 配置子线程共享用户登录信息
-     */
-    @PostConstruct
-    public void enableLoginUserContextOnSpawnedThreads(){
-        SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_INHERITABLETHREADLOCAL);
     }
 
 }

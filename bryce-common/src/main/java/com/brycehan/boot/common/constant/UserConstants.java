@@ -11,7 +11,7 @@ public class UserConstants {
     /**
      * null 用户ID
      */
-    public static final String NULL_USER_ID = "-1";
+    public static final Long NULL_USER_ID = -1L;
 
     /**
      * 平台内系统用户的唯一标志

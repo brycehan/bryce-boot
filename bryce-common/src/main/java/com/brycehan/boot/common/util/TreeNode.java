@@ -22,12 +22,12 @@ public class TreeNode<T> implements Serializable {
     /**
      * ID
      */
-    private String id;
+    private Long id;
 
     /**
      * 上级ID
      */
-    private String parentId;
+    private Long parentId;
 
     /**
      * 子节点列表

@@ -21,7 +21,7 @@ public interface MenuConvert {
     MenuConvert INSTANCE = Mappers.getMapper(MenuConvert.class);
 
     @Mappings({
-            @Mapping(source = "menuName", target = "name"),
+            @Mapping(source = "name", target = "name"),
             @Mapping(source = "children", target = "routes"),
     })
     MenuVo convert(SysMenuVo sysMenuVo);

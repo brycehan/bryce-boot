@@ -83,7 +83,7 @@ public class CommonConstants {
     /**
      * 资源映射路径前缀
      */
-    public static final String RESOURCE_PREFIX = "/upload";
+    public static final String RESOURCE_PREFIX = "/attachment";
 
     /**
      * RMI 远程方法调用

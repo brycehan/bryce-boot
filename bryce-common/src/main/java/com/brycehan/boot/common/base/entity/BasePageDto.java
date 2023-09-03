@@ -1,29 +1,33 @@
 package com.brycehan.boot.common.base.entity;
 
+import com.brycehan.boot.common.util.JsonUtils;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Range;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.List;
 
 /**
- * 基础分页 DTO 数据传输对象
+ * 基础分页 Dto 数据传输对象
  *
  * @author Bryce Han
  * @since 2021/8/31
  */
 @Data
-@EqualsAndHashCode(callSuper = false)
-public class BasePageDto extends BaseEntity {
+public abstract class BasePageDto implements Serializable {
 
+    @Serial
+    private static final long serialVersionUID = 1L;
+    
     /**
-     * 起始页数，从1开始计算
+     * 当前页码（从1开始计算）
      */
-    @Schema(description = "起始页数，从1开始计算")
-    @Range(min = 1)
+    @Schema(description = "当前页码（从1开始计算）")
+    @Range(min = 1, message = "页码最小值为1")
     @NotNull(message = "页码不能为空")
     private Integer current;
 
@@ -31,9 +35,9 @@ public class BasePageDto extends BaseEntity {
      * 每页条数
      */
     @Schema(description = "每页条数")
-    @Range(min = 1)
+    @Range(min = 1, max = 1000, message = "每页条数，取值范围在1-1000")
     @NotNull(message = "每页条数不能为空")
-    private Integer pageSize;
+    private Integer size;
 
     /**
      * 排序项
@@ -41,5 +45,9 @@ public class BasePageDto extends BaseEntity {
     @Schema(description = "排序项")
     @Valid
     private List<OrderItemDto> orderItems;
+
+    public String toString(){
+        return JsonUtils.writeValueAsString(this);
+    }
 
 }

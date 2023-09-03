@@ -1,6 +1,6 @@
 package com.brycehan.boot.common.exception.file;
 
-import com.brycehan.boot.common.base.http.HttpResponseStatusEnum;
+import com.brycehan.boot.common.base.http.HttpResponseStatus;
 import com.brycehan.boot.common.exception.BusinessException;
 
 import java.io.Serial;
@@ -17,6 +17,6 @@ public class ExcelExportException extends BusinessException {
     private static final long serialVersionUID = 1L;
 
     public ExcelExportException() {
-        super(HttpResponseStatusEnum.HTTP_INTERNAL_ERROR, "导出文件出错了");
+        super(HttpResponseStatus.HTTP_INTERNAL_ERROR, "导出文件出错了");
     }
 }

@@ -1,20 +1,21 @@
 package com.brycehan.boot.system.controller;
 
-import com.brycehan.boot.common.annotation.Log;
-import com.brycehan.boot.common.base.http.HttpResponseStatusEnum;
+import com.brycehan.boot.common.base.entity.PageResult;
+import com.brycehan.boot.common.base.http.HttpResponseStatus;
 import com.brycehan.boot.common.base.http.ResponseResult;
 import com.brycehan.boot.common.base.id.IdGenerator;
-import com.brycehan.boot.common.enums.BusinessType;
-import com.brycehan.boot.common.validator.group.AddGroup;
-import com.brycehan.boot.common.validator.group.UpdateGroup;
-import com.brycehan.boot.system.context.LoginUserContext;
+import com.brycehan.boot.common.validator.AddGroup;
+import com.brycehan.boot.common.validator.UpdateGroup;
+import com.brycehan.boot.framework.operationlog.annotation.OperateLog;
+import com.brycehan.boot.framework.operationlog.annotation.OperateType;
+import com.brycehan.boot.framework.security.context.LoginUserContext;
 import com.brycehan.boot.system.dto.SysUserPageDto;
 import com.brycehan.boot.system.dto.SysUserStatusDto;
 import com.brycehan.boot.system.entity.SysRole;
 import com.brycehan.boot.system.entity.SysUser;
 import com.brycehan.boot.system.service.SysRoleService;
 import com.brycehan.boot.system.service.SysUserService;
-import com.github.pagehelper.PageInfo;
+import com.brycehan.boot.system.vo.SysUserVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -26,7 +27,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.util.Arrays;
 import java.util.List;
 
@@ -65,7 +65,7 @@ public class SysUserController {
     @PostMapping
     public ResponseResult<Void> add(@Parameter(description = "系统用户", required = true)
                                     @Validated(value = AddGroup.class) @RequestBody SysUser sysUser) {
-        sysUser.setId(IdGenerator.generate());
+        sysUser.setId(IdGenerator.nextId());
         sysUser.setPassword(passwordEncoder.encode(sysUser.getPassword()));
 
         this.sysUserService.save(sysUser);
@@ -94,12 +94,12 @@ public class SysUserController {
      * @return 响应结果
      */
     @Operation(summary = "删除系统用户")
-    @Log(title = "用户管理", businessType = BusinessType.DELETE)
+    @OperateLog(type = OperateType.DELETE)
     @Secured(value = "system:user:remove")
     @DeleteMapping(path = "/{ids}")
     public ResponseResult<Void> deleteById(@Parameter(description = "系统用户IDs", required = true) @PathVariable Long[] ids) {
         if(ArrayUtils.contains(ids, LoginUserContext.currentUserId())){
-            return ResponseResult.error(HttpResponseStatusEnum.HTTP_FORBIDDEN);
+            return ResponseResult.error(HttpResponseStatus.HTTP_FORBIDDEN);
         }
         this.sysUserService.removeByIds(Arrays.asList(ids));
         return ResponseResult.ok();
@@ -143,9 +143,9 @@ public class SysUserController {
     @Operation(summary = "分页查询")
     @Secured(value = "system:user:list")
     @GetMapping(path = "/page")
-    public ResponseResult<PageInfo<SysUser>> page(@Parameter(description = "查询信息", required = true) @RequestBody SysUserPageDto sysUserPageDto) {
-        PageInfo<SysUser> pageInfo = this.sysUserService.page(sysUserPageDto);
-        return ResponseResult.ok(pageInfo);
+    public ResponseResult<PageResult<SysUserVo>> page(@Parameter(description = "查询信息", required = true) @RequestBody SysUserPageDto sysUserPageDto) {
+        PageResult<SysUserVo> page = this.sysUserService.page(sysUserPageDto);
+        return ResponseResult.ok(page);
     }
 
     /**
@@ -155,7 +155,7 @@ public class SysUserController {
      * @param sysUser 系统用户
      */
     @Operation(summary = "导出用户")
-    @Log(title = "用户管理", businessType = BusinessType.EXPORT)
+    @OperateLog(type = OperateType.EXPORT)
     @Secured(value = "system:user:export")
     @PostMapping(path = "/export")
     public void export(HttpServletResponse response, SysUser sysUser){
@@ -169,7 +169,7 @@ public class SysUserController {
      * @param updateSupport 更新支持
      */
     @Operation(summary = "导入系统用户")
-    @Log(title = "用户管理", businessType = BusinessType.IMPORT)
+    @OperateLog(type = OperateType.IMPORT)
     @Secured(value = "system:user:import")
     @PostMapping(path = "/importData")
     public void importData(MultipartFile file, boolean updateSupport){
@@ -193,7 +193,7 @@ public class SysUserController {
      * @return
      */
     @Operation(summary = "重置密码")
-    @Log(title = "用户管理", businessType = BusinessType.UPDATE)
+    @OperateLog(type = OperateType.UPDATE)
     @Secured(value = "system:user:resetPassword")
     @PostMapping(path = "/resetPassword")
     public ResponseResult<Void> resetPassword(@RequestBody SysUser sysUser) {
@@ -211,7 +211,7 @@ public class SysUserController {
      * @return 响应结果
      */
     @Operation(summary = "修改用户状态")
-    @Log(title = "修改用户状态", businessType = BusinessType.UPDATE)
+    @OperateLog(type = OperateType.UPDATE)
     @Secured(value = "system:user:edit")
     @PutMapping(path = "/status")
     public ResponseResult<Void> status(@RequestBody SysUserStatusDto sysUserStatusDto) {
@@ -231,7 +231,7 @@ public class SysUserController {
      */
     @Secured(value = "system:user:query")
     @GetMapping(path = "/authRole/{userId}")
-    public ResponseResult authRole(@PathVariable(value = "userId") String userId){
+    public ResponseResult authRole(@PathVariable(value = "userId") Long userId){
         SysUser sysUser = this.sysUserService.getById(userId);
         List<SysRole> strings = this.sysRoleService.selectRolesByUserId(userId);
 //        Set<SysRole> stringss = Sets.newHashSet(strings);
@@ -240,9 +240,9 @@ public class SysUserController {
     }
 
     @Secured(value = "system:user:edit")
-    @Log(title = "用户管理", businessType = BusinessType.GRANT)
+    @OperateLog(type = OperateType.GRANT)
     @PutMapping(path = "/authRole")
-    public ResponseResult<Void> insertAuthRole(String userId, Long[] roleIds){
+    public ResponseResult<Void> insertAuthRole(Long userId, Long[] roleIds){
         this.sysUserService.insertAuthRole(userId, roleIds);
         return ResponseResult.ok();
     }

@@ -1,9 +1,9 @@
 package com.brycehan.boot.system.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
-import com.brycehan.boot.common.base.entity.BasePo;
-import com.brycehan.boot.common.validator.group.AddGroup;
-import com.brycehan.boot.common.validator.group.UpdateGroup;
+import com.brycehan.boot.common.base.entity.BaseEntity;
+import com.brycehan.boot.common.validator.AddGroup;
+import com.brycehan.boot.common.validator.UpdateGroup;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
@@ -27,7 +27,7 @@ import java.util.List;
 @Setter
 @TableName("brc_sys_menu")
 @Schema(description = "SysMenu实体")
-public class SysMenu extends BasePo {
+public class SysMenu extends BaseEntity {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -38,22 +38,22 @@ public class SysMenu extends BasePo {
     @Null(groups = AddGroup.class)
     @NotNull(groups = UpdateGroup.class)
     @Schema(description = "ID")
-    @TableId(value = "id", type = IdType.ASSIGN_UUID)
-    private String id;
+    @TableId(value = "id")
+    private Long id;
 
     /**
      * 菜单名称
      */
     @Schema(description = "菜单名称")
     @Size(max = 50, groups = {AddGroup.class, UpdateGroup.class})
-    private String menuName;
+    private String name;
 
     /**
-     * 类型（D：目录，M：菜单，B：按钮）
+     * 类型（M：菜单，B：按钮）
      */
-    @Schema(description = "类型（D：目录，M：菜单，B：按钮）")
+    @Schema(description = "类型（M：菜单，B：按钮）")
     @Size(max = 1, groups = {AddGroup.class, UpdateGroup.class})
-    private String menuType;
+    private String type;
 
     /**
      * 父菜单ID，一级菜单为0
@@ -62,69 +62,44 @@ public class SysMenu extends BasePo {
     private String parentId;
 
     /**
-     * 菜单图标
-     */
-    @Schema(description = "菜单图标")
-    @Size(max = 100, groups = {AddGroup.class, UpdateGroup.class})
-    private String icon;
-
-    /**
      * 组件路径
      */
-    @Schema(description = "组件路径")
-    @Size(max = 255, groups = {AddGroup.class, UpdateGroup.class})
     private String url;
-
-    /**
-     * 路由参数
-     */
-    @Schema(description = "路由参数")
-    @Size(max = 255, groups = {AddGroup.class, UpdateGroup.class})
-    private String query;
-
-    /**
-     * 是否为外链（0：否，1：是）
-     */
-    @Schema(description = "是否为外链（0：否，1：是）")
-    private Boolean isFrame;
-
-    /**
-     * 是否缓存（0：否，1：是）
-     */
-    @Schema(description = "是否缓存（0：否，1：是）")
-    private Boolean isCache;
-
-    /**
-     * 菜单状态（0：隐藏，1：显示）
-     */
-    @Schema(description = "菜单状态（0：隐藏，1：显示）")
-    private Boolean visible;
 
     /**
      * 权限标识
      */
-    @Schema(description = "权限标识")
-    @Size(max = 100, groups = {AddGroup.class, UpdateGroup.class})
-    private String permission;
+    private String authority;
 
     /**
-     * 状态（0：正式数据，1：删除）
+     * 菜单图标
      */
-    @Schema(description = "状态（0：正式数据，1：删除）")
-    private Boolean deleteFlag;
+    private String icon;
+
+    /**
+     * 打开方式（0：内部，1：外部）
+     */
+    private Integer openStyle;
 
     /**
      * 显示顺序
      */
-    @Schema(description = "显示顺序")
-    private Integer sortNumber;
+    private Integer sort;
+
+    /**
+     * 备注
+     */
+    private String remark;
 
     /**
      * 状态（0：停用，1：正常）
      */
-    @Schema(description = "状态（0：停用，1：正常）")
-    @Null(groups = {AddGroup.class, UpdateGroup.class})
     private Integer status;
+
+    /**
+     * 状态（0：正式数据，1：删除）
+     */
+    private Boolean deleted;
 
     /**
      * 创建人ID
@@ -132,7 +107,7 @@ public class SysMenu extends BasePo {
     @Schema(description = "创建人ID")
     @Null(groups = {AddGroup.class, UpdateGroup.class})
     @TableField(fill = FieldFill.INSERT)
-    private String createUserId;
+    private Long createdUserId;
 
     /**
      * 创建时间
@@ -141,7 +116,7 @@ public class SysMenu extends BasePo {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @Null(groups = {AddGroup.class, UpdateGroup.class})
     @TableField(fill = FieldFill.INSERT)
-    private LocalDateTime createTime;
+    private LocalDateTime createdTime;
 
     /**
      * 修改人ID
@@ -149,7 +124,7 @@ public class SysMenu extends BasePo {
     @Schema(description = "修改人ID")
     @Null(groups = {AddGroup.class, UpdateGroup.class})
     @TableField(fill = FieldFill.UPDATE)
-    private String updateUserId;
+    private Long updatedUserId;
 
     /**
      * 修改时间
@@ -158,14 +133,7 @@ public class SysMenu extends BasePo {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @Null(groups = {AddGroup.class, UpdateGroup.class})
     @TableField(fill = FieldFill.UPDATE)
-    private LocalDateTime updateTime;
-
-    /**
-     * 备注
-     */
-    @Schema(description = "备注")
-    @Size(max = 500, groups = {AddGroup.class, UpdateGroup.class})
-    private String remark;
+    private LocalDateTime updatedTime;
 
     /**
      * 子菜单列表

@@ -19,14 +19,15 @@
 
     <!-- 依赖 -->
     <dependencies>
-        <!-- Bryce框架组件 -->
-        <!-- 公共工具组件 -->
         <dependency>
             <groupId>com.brycehan.boot</groupId>
             <artifactId>bryce-common</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.brycehan.boot</groupId>
+            <artifactId>bryce-framework</artifactId>
+        </dependency>
 
-        <!-- 数据库驱动 -->
         <!-- MySQL驱动 -->
         <dependency>
             <groupId>com.mysql</groupId>

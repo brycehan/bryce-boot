@@ -1,65 +1,78 @@
 package com.brycehan.boot.system.service.impl;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.brycehan.boot.common.base.entity.PageResult;
+import com.brycehan.boot.common.base.id.IdGenerator;
+import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
+import com.brycehan.boot.system.convert.SysRoleConvert;
+import com.brycehan.boot.system.dto.SysRoleDto;
 import com.brycehan.boot.system.dto.SysRolePageDto;
-import com.brycehan.boot.system.entity.SysRole;
 import com.brycehan.boot.system.mapper.SysRoleMapper;
 import com.brycehan.boot.system.service.SysRoleService;
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageInfo;
+import com.brycehan.boot.system.vo.SysRoleVo;
+import com.brycehan.boot.system.entity.SysRole;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Set;
 
-import static com.github.pagehelper.page.PageMethod.startPage;
-
 /**
- * 系统角色服务实现类
+ * 系统角色表服务实现类
  *
  * @author Bryce Han
- * @since 2022/5/15
+ * @since 2023/08/24
  */
 @Service
-public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> implements SysRoleService {
+@RequiredArgsConstructor
+public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> implements SysRoleService {
 
-    private final SysRoleMapper sysRoleMapper;
-
-    public SysRoleServiceImpl(SysRoleMapper sysRoleMapper) {
-        this.sysRoleMapper = sysRoleMapper;
+    @Override
+    public void save(SysRoleDto sysRoleDto) {
+        SysRole sysRole = SysRoleConvert.INSTANCE.convert(sysRoleDto);
+        sysRole.setId(IdGenerator.nextId());
+        this.baseMapper.insert(sysRole);
     }
 
     @Override
-    public PageInfo<SysRole> page(SysRolePageDto sysRolePageDto) {
-
-        //1.根据page、size初始化分页参数，此时分页插件内部会将这两个参数放到ThreadLocal线程上下文中
-        Page<SysRole> page = startPage(sysRolePageDto.getCurrent(), sysRolePageDto.getPageSize());
-
-        /*
-          2.紧跟初始化代码，查询业务数据
-          2.1.分页拦截器根据page、size参数改写sql语句，生成count并查询
-          2.2.分页拦截器执行实际的业务查询
-          2.3.分页拦截器将2.1.的总记录数与2.2查询的分页数据封装到1中的page
-          2.4.分页拦截器清空ThreadLocal上下文中记录的分页参数信息，防止内存泄漏
-         */
-        this.sysRoleMapper.page(sysRolePageDto);
-
-        //3.转换为PageInfo后返回
-        return new PageInfo<>(page);
+    public void update(SysRoleDto sysRoleDto) {
+        SysRole sysRole = SysRoleConvert.INSTANCE.convert(sysRoleDto);
+        this.baseMapper.updateById(sysRole);
     }
 
     @Override
-    public Set<String> selectRolePermissionByUserId(String userId) {
-        return this.sysRoleMapper.selectRolePermissionByUserId(userId);
+    public PageResult<SysRoleVo> page(SysRolePageDto sysRolePageDto) {
+
+        IPage<SysRole> page = this.baseMapper.selectPage(getPage(sysRolePageDto), getWrapper(sysRolePageDto));
+
+        return new PageResult<>(page.getTotal(), SysRoleConvert.INSTANCE.convert(page.getRecords()));
+    }
+
+    /**
+     * 封装查询条件
+     *
+     * @param sysRolePageDto 系统角色表分页dto
+     * @return 查询条件Wrapper
+     */
+    private Wrapper<SysRole> getWrapper(SysRolePageDto sysRolePageDto){
+        LambdaQueryWrapper<SysRole> wrapper = new LambdaQueryWrapper<>();
+        return wrapper;
+    }
+
+    @Override
+    public Set<String> selectRolePermissionByUserId(Long userId) {
+        return this.baseMapper.selectRolePermissionByUserId(userId);
     }
 
     @Override
     public List<SysRole> selectRolesByUsername(String username) {
-        return this.sysRoleMapper.selectRolesByUsername(username);
+        return this.baseMapper.selectRolesByUsername(username);
     }
 
     @Override
-    public List<SysRole> selectRolesByUserId(String userId) {
+    public List<SysRole> selectRolesByUserId(Long userId) {
         return null;
     }
 }

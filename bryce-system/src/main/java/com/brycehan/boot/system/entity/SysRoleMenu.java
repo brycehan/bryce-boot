@@ -1,7 +1,7 @@
 package com.brycehan.boot.system.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.brycehan.boot.common.base.entity.BasePo;
+import com.brycehan.boot.common.base.entity.BaseEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,7 +16,7 @@ import lombok.Setter;
 @Setter
 @TableName("brc_sys_role_menu")
 @Schema(description = "SysRoleMenu实体")
-public class SysRoleMenu extends BasePo {
+public class SysRoleMenu extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
 
@@ -24,12 +24,12 @@ public class SysRoleMenu extends BasePo {
      * 角色ID
      */
     @Schema(description = "角色ID")
-    private String roleId;
+    private Long roleId;
 
     /**
      * 菜单ID
      */
     @Schema(description = "菜单ID")
-    private String menuId;
+    private Long menuId;
 
 }

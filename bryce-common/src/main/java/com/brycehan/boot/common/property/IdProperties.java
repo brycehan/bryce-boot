@@ -16,11 +16,6 @@ import org.springframework.context.annotation.Configuration;
 public class IdProperties {
 
     /**
-     * 基础时间
-     */
-    private long baseTime;
-
-    /**
      * 机器码
      */
     private short workerId;
@@ -29,5 +24,15 @@ public class IdProperties {
      * 机器码位长
      */
     private byte workerIdBitLength;
+
+    /**
+     * 用来限制每毫秒生成的ID个数
+     */
+    private long seqBitLength;
+
+    /**
+     * 基础时间
+     */
+    private long baseTime;
 
 }

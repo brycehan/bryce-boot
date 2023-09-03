@@ -1,14 +1,15 @@
 package com.brycehan.boot.system.controller;
 
 import cn.hutool.core.io.FileUtil;
+import com.brycehan.boot.common.base.entity.PageResult;
 import com.brycehan.boot.common.base.http.ResponseResult;
 import com.brycehan.boot.common.base.id.IdGenerator;
 import com.brycehan.boot.common.constant.CommonConstants;
 import com.brycehan.boot.common.util.FileUtils;
 import com.brycehan.boot.system.dto.SysUploadFilePageDto;
-import com.brycehan.boot.system.entity.SysUploadFile;
 import com.brycehan.boot.system.service.SysUploadFileService;
-import com.github.pagehelper.PageInfo;
+import com.brycehan.boot.system.vo.SysUploadFileVo;
+import com.brycehan.boot.system.entity.SysUploadFile;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -54,7 +55,7 @@ public class SysUploadFileController {
             // 路径
             String fullPath = CommonConstants.UPLOAD_FILE_PATH.concat(LocalDate.now().toString());
             SysUploadFile sysUploadFile = new SysUploadFile();
-            sysUploadFile.setId(IdGenerator.generate());
+            sysUploadFile.setId(IdGenerator.nextId());
             sysUploadFile.setOldName(file.getOriginalFilename());
             // 获取文件的后缀名
             sysUploadFile.setSuffix(FileUtils.getSuffix(file.getOriginalFilename()));
@@ -121,9 +122,9 @@ public class SysUploadFileController {
      */
     @Operation(summary = "分页查询")
     @GetMapping(path = "/page")
-    public ResponseResult<PageInfo<SysUploadFile>> page(@Parameter(description = "查询信息", required = true) @RequestBody SysUploadFilePageDto sysUploadFilePageDto) {
-        PageInfo<SysUploadFile> pageInfo = this.sysUploadFileService.page(sysUploadFilePageDto);
-        return ResponseResult.ok(pageInfo);
+    public ResponseResult<PageResult<SysUploadFileVo>> page(@Parameter(description = "查询信息", required = true) @RequestBody SysUploadFilePageDto sysUploadFilePageDto) {
+        PageResult<SysUploadFileVo> page = this.sysUploadFileService.page(sysUploadFilePageDto);
+        return ResponseResult.ok(page);
     }
 
 }

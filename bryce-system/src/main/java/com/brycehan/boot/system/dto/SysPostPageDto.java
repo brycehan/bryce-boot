@@ -1,7 +1,7 @@
 package com.brycehan.boot.system.dto;
 
 import com.brycehan.boot.common.base.entity.BasePageDto;
-import com.brycehan.boot.common.validator.group.QueryGroup;
+import com.brycehan.boot.common.validator.QueryGroup;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Size;
@@ -43,7 +43,7 @@ public class SysPostPageDto extends BasePageDto {
      * 显示顺序
      */
     @Schema(description = "显示顺序")
-    private Integer sortNumber;
+    private Integer sort;
 
     /**
      * 状态（0：停用，1：正常）
@@ -56,6 +56,6 @@ public class SysPostPageDto extends BasePageDto {
      */
     @Schema(description = "创建时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private LocalDateTime createTime;
+    private LocalDateTime createdTime;
 
 }

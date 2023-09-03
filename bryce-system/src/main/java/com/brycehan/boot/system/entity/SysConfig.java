@@ -1,9 +1,9 @@
 package com.brycehan.boot.system.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
-import com.brycehan.boot.common.base.entity.BasePo;
-import com.brycehan.boot.common.validator.group.AddGroup;
-import com.brycehan.boot.common.validator.group.UpdateGroup;
+import com.brycehan.boot.common.base.entity.BaseEntity;
+import com.brycehan.boot.common.validator.AddGroup;
+import com.brycehan.boot.common.validator.UpdateGroup;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Null;
@@ -23,7 +23,7 @@ import java.time.LocalDateTime;
 @Setter
 @TableName("brc_sys_config")
 @Schema(description = "SysConfig实体")
-public class SysConfig extends BasePo {
+public class SysConfig extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
 
@@ -32,7 +32,7 @@ public class SysConfig extends BasePo {
      */
     @Schema(description = "ID")
     @TableId(value = "id", type = IdType.INPUT)
-    private String id;
+    private Long id;
 
     /**
      * 配置名称
@@ -67,7 +67,7 @@ public class SysConfig extends BasePo {
     @Schema(description = "创建人ID")
     @Null(groups = {AddGroup.class, UpdateGroup.class})
     @TableField(fill = FieldFill.INSERT)
-    private String createUserId;
+    private Long createdUserId;
 
     /**
      * 创建人账号
@@ -85,7 +85,7 @@ public class SysConfig extends BasePo {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @Null(groups = {AddGroup.class, UpdateGroup.class})
     @TableField(fill = FieldFill.INSERT)
-    private LocalDateTime createTime;
+    private LocalDateTime createdTime;
 
     /**
      * 修改人ID
@@ -93,7 +93,7 @@ public class SysConfig extends BasePo {
     @Schema(description = "修改人ID")
     @Null(groups = {AddGroup.class, UpdateGroup.class})
     @TableField(fill = FieldFill.UPDATE)
-    private String updateUserId;
+    private Long updatedUserId;
 
     /**
      * 修改时间
@@ -102,7 +102,7 @@ public class SysConfig extends BasePo {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @Null(groups = {AddGroup.class, UpdateGroup.class})
     @TableField(fill = FieldFill.UPDATE)
-    private LocalDateTime updateTime;
+    private LocalDateTime updatedTime;
 
     /**
      * 备注

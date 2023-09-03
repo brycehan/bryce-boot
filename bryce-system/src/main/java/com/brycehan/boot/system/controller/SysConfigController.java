@@ -1,18 +1,21 @@
 package com.brycehan.boot.system.controller;
 
-import com.brycehan.boot.common.annotation.Log;
+import com.brycehan.boot.common.base.entity.PageResult;
 import com.brycehan.boot.common.base.http.ResponseResult;
 import com.brycehan.boot.common.base.id.IdGenerator;
-import com.brycehan.boot.common.enums.BusinessType;
-import com.brycehan.boot.common.validator.group.AddGroup;
-import com.brycehan.boot.common.validator.group.UpdateGroup;
+import com.brycehan.boot.common.validator.AddGroup;
+import com.brycehan.boot.common.validator.UpdateGroup;
+import com.brycehan.boot.framework.operationlog.annotation.OperateLog;
+import com.brycehan.boot.framework.operationlog.annotation.OperateType;
 import com.brycehan.boot.system.dto.SysConfigPageDto;
 import com.brycehan.boot.system.entity.SysConfig;
 import com.brycehan.boot.system.service.SysConfigService;
-import com.github.pagehelper.PageInfo;
+import com.brycehan.boot.system.vo.SysConfigVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,13 +29,10 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "sysConfig", description = "系统配置API")
 @RequestMapping("/system/config")
 @RestController
+@RequiredArgsConstructor
 public class SysConfigController {
 
     private final SysConfigService sysConfigService;
-
-    public SysConfigController(SysConfigService sysConfigService) {
-        this.sysConfigService = sysConfigService;
-    }
 
     /**
      * 保存系统配置
@@ -41,10 +41,10 @@ public class SysConfigController {
      * @return 响应结果
      */
     @Operation(summary = "保存系统配置")
-    @Log(title = "参数管理", businessType = BusinessType.INSERT)
+    @OperateLog(type = OperateType.INSERT)
     @PostMapping
     public ResponseResult<Void> save(@Parameter(description = "系统配置", required = true) @Validated(value = AddGroup.class) @RequestBody SysConfig sysConfig) {
-        sysConfig.setId(IdGenerator.generate());
+        sysConfig.setId(IdGenerator.nextId());
         this.sysConfigService.save(sysConfig);
         return ResponseResult.ok();
     }
@@ -56,7 +56,7 @@ public class SysConfigController {
      * @return 响应结果
      */
     @Operation(summary = "更新系统配置")
-    @Log(title = "参数管理", businessType = BusinessType.UPDATE)
+    @OperateLog(type = OperateType.UPDATE)
     @PatchMapping
     public ResponseResult<Void> update(@Parameter(description = "系统配置实体", required = true) @Validated(value = UpdateGroup.class) @RequestBody SysConfig sysConfig) {
         this.sysConfigService.updateById(sysConfig);
@@ -70,7 +70,7 @@ public class SysConfigController {
      * @return 响应结果
      */
     @Operation(summary = "删除系统配置")
-    @Log(title = "参数管理", businessType = BusinessType.DELETE)
+    @OperateLog(type = OperateType.DELETE)
     @DeleteMapping(path = "/{id}")
     public ResponseResult<Void> deleteById(@Parameter(description = "系统配置ID", required = true) @PathVariable String id) {
         this.sysConfigService.removeById(id);
@@ -97,10 +97,11 @@ public class SysConfigController {
      * @return 分页系统配置
      */
     @Operation(summary = "分页查询")
-    @GetMapping(path = "/page")
-    public ResponseResult<PageInfo<SysConfig>> page(@Parameter(description = "查询信息", required = true) @RequestBody SysConfigPageDto sysConfigPageDto) {
-        PageInfo<SysConfig> pageInfo = this.sysConfigService.page(sysConfigPageDto);
-        return ResponseResult.ok(pageInfo);
+    @Secured("system:config:page")
+    @PostMapping(path = "/page")
+    public ResponseResult<PageResult<SysConfigVo>> page(@Validated @RequestBody SysConfigPageDto sysConfigPageDto) {
+        PageResult<SysConfigVo> page = this.sysConfigService.page(sysConfigPageDto);
+        return ResponseResult.ok(page);
     }
 
 }

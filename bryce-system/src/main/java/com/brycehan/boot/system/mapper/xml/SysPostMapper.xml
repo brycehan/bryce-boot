@@ -7,21 +7,21 @@
         <id column="id" property="id"/>
         <result column="post_code" property="postCode"/>
         <result column="post_name" property="postName"/>
-        <result column="sort_number" property="sortNumber"/>
+        <result column="sort" property="sort"/>
         <result column="status" property="status"/>
-        <result column="create_user_id" property="createUserId"/>
+        <result column="created_user_id" property="createdUserId"/>
         <result column="create_username" property="createUsername"/>
-        <result column="create_time" property="createTime"/>
-        <result column="update_user_id" property="updateUserId"/>
-        <result column="update_time" property="updateTime"/>
+        <result column="created_time" property="createdTime"/>
+        <result column="updated_user_id" property="updatedUserId"/>
+        <result column="updated_time" property="updatedTime"/>
         <result column="remark" property="remark"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id
-        , post_code, post_name, sort_number, status, create_user_id, create_username, create_time, update_user_id,
-        update_time, remark
+        , post_code, post_name, sort, status, created_user_id, create_username, created_time, updated_user_id,
+        updated_time, remark
     </sql>
 
     <!-- 分页查询 -->
@@ -37,7 +37,7 @@
         left join brc_sys_user_post bsup on bsp.id = bsup.post_id
         left join brc_sys_user bsu on bsup.user_id = bsu.id
         where bsp.status = 1
-        and bsu.delete_flag = 0
+        and bsu.deleted = 0
         and bsu.status = 1
         and bsu.username = #{username}
     </select>

@@ -1,6 +1,6 @@
 package com.brycehan.boot.framework.security.event;
 
-import com.brycehan.boot.system.context.LoginUser;
+import com.brycehan.boot.framework.security.context.LoginUser;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.context.ApplicationEvent;

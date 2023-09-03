@@ -1,9 +1,9 @@
 package com.brycehan.boot.system.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
-import com.brycehan.boot.common.base.entity.BasePo;
-import com.brycehan.boot.common.validator.group.AddGroup;
-import com.brycehan.boot.common.validator.group.UpdateGroup;
+import com.brycehan.boot.common.base.entity.BaseEntity;
+import com.brycehan.boot.common.validator.AddGroup;
+import com.brycehan.boot.common.validator.UpdateGroup;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
@@ -25,7 +25,7 @@ import java.time.LocalDateTime;
 @Setter
 @TableName("brc_sys_role")
 @Schema(description = "SysRole实体")
-public class SysRole extends BasePo {
+public class SysRole extends BaseEntity {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -37,27 +37,27 @@ public class SysRole extends BasePo {
     @Null(groups = AddGroup.class)
     @NotNull(groups = UpdateGroup.class)
     @TableId(value = "id", type = IdType.INPUT)
-    private String id;
+    private Long id;
 
     /**
      * 角色名称
      */
     @Schema(description = "角色名称")
     @Size(max = 50, groups = {AddGroup.class, UpdateGroup.class})
-    private String roleName;
+    private String name;
 
     /**
      * 角色编码
      */
     @Schema(description = "角色编码")
     @Size(max = 50, groups = {AddGroup.class, UpdateGroup.class})
-    private String roleCode;
+    private String code;
 
     /**
      * 数据范围（1：全部数据权限，2：自定数据权限，3：本部门数据权限，4：本部门及以下数据权限）
      */
     @Schema(description = "数据范围（1：全部数据权限，2：自定数据权限，3：本部门数据权限，4：本部门及以下数据权限）")
-    private Boolean dataScope;
+    private Integer dataScope;
 
     /**
      * 菜单树父子选择项是否关联显示（1：是，0：否）
@@ -75,7 +75,7 @@ public class SysRole extends BasePo {
      * 状态（0：正式数据，1：删除）
      */
     @Schema(description = "状态（0：正式数据，1：删除）")
-    private Boolean deleteFlag;
+    private Boolean deleted;
 
     /**
      * 显示顺序
@@ -95,7 +95,7 @@ public class SysRole extends BasePo {
     @Schema(description = "创建人ID")
     @Null(groups = {AddGroup.class, UpdateGroup.class})
     @TableField(fill = FieldFill.INSERT)
-    private String createUserId;
+    private Long createdUserId;
 
     /**
      * 创建人账号
@@ -113,7 +113,7 @@ public class SysRole extends BasePo {
     @Null(groups = {AddGroup.class, UpdateGroup.class})
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @TableField(fill = FieldFill.INSERT)
-    private LocalDateTime createTime;
+    private LocalDateTime createdTime;
 
     /**
      * 修改人ID
@@ -121,7 +121,7 @@ public class SysRole extends BasePo {
     @Schema(description = "修改人ID")
     @Null(groups = {AddGroup.class, UpdateGroup.class})
     @TableField(fill = FieldFill.UPDATE)
-    private String updateUserId;
+    private Long updatedUserId;
 
     /**
      * 修改时间
@@ -130,7 +130,7 @@ public class SysRole extends BasePo {
     @Null(groups = {AddGroup.class, UpdateGroup.class})
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @TableField(fill = FieldFill.UPDATE)
-    private LocalDateTime updateTime;
+    private LocalDateTime updatedTime;
 
     /**
      * 备注

@@ -1,15 +1,13 @@
 package com.brycehan.boot.system.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.brycehan.boot.common.base.entity.PageResult;
 import com.brycehan.boot.common.base.vo.MenuVo;
-import com.brycehan.boot.system.dto.DeleteDto;
+import com.brycehan.boot.framework.mybatis.service.BaseService;
+import com.brycehan.boot.framework.security.context.LoginUser;
 import com.brycehan.boot.system.dto.SysMenuDto;
 import com.brycehan.boot.system.dto.SysMenuPageDto;
 import com.brycehan.boot.system.entity.SysMenu;
 import com.brycehan.boot.system.vo.SysMenuVo;
-import jakarta.validation.constraints.NotNull;
-import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 import java.util.Set;
@@ -20,8 +18,7 @@ import java.util.Set;
  * @author Bryce Han
  * @since 2022/5/15
  */
-@Validated
-public interface SysMenuService extends IService<SysMenu> {
+public interface SysMenuService extends BaseService<SysMenu> {
 
     /**
      * 添加系统菜单
@@ -38,19 +35,12 @@ public interface SysMenuService extends IService<SysMenu> {
     void update(SysMenuDto sysMenuDto);
 
     /**
-     * 删除系统菜单
-     *
-     * @param deleteDto 系统菜单删除Dto
-     */
-    void delete(DeleteDto deleteDto);
-
-    /**
      * 系统菜单分页查询信息
      *
      * @param sysMenuPageDto 系统菜单分页搜索条件
      * @return 分页信息
      */
-    PageResult<SysMenuVo> page(@NotNull SysMenuPageDto sysMenuPageDto);
+    PageResult<SysMenuVo> page(SysMenuPageDto sysMenuPageDto);
 
     /**
      * 获取用户的系统菜单列表
@@ -58,7 +48,7 @@ public interface SysMenuService extends IService<SysMenu> {
      * @param userId 用户ID
      * @return 系统菜单列表
      */
-    List<SysMenu> getSysMenuListByUserId(String userId);
+    List<SysMenu> getSysMenuListByUserId(Long userId);
 
     /**
      * 根据用户ID查询菜单权限
@@ -66,15 +56,7 @@ public interface SysMenuService extends IService<SysMenu> {
      * @param userId 用户ID
      * @return 菜单权限集合
      */
-    Set<String> selectMenuPermissionByUserId(String userId);
-
-    /**
-     * 根据用户ID查询菜单树信息
-     *
-     * @param userId 用户ID
-     * @return 菜单列表
-     */
-    List<SysMenuVo> selectMenuTreeByUserId(@NotNull String userId);
+    Set<String> findAuthorityByUserId(Long userId);
 
     /**
      * 构建前端路由所需要的菜单
@@ -86,11 +68,12 @@ public interface SysMenuService extends IService<SysMenu> {
     List<MenuVo> buildMenus(List<SysMenuVo> menus);
 
     /**
-     * 用户菜单列表
-     * @param userId 用户ID
-     * @param menuType 菜单类型
+     * 查询用户菜单列表
+     *
+     * @param loginUser 登录用户
+     * @param type 菜单类型
      * @return 用户菜单列表
      */
-    List<SysMenuVo> getMenuTreeList(String userId, String menuType);
+    List<SysMenuVo> getMenuTreeList(LoginUser loginUser, String type);
 
 }

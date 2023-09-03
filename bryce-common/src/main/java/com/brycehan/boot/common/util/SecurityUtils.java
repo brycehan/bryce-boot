@@ -14,7 +14,7 @@ public class SecurityUtils {
      * @param userId 用户ID
      * @return 判断结果
      */
-    public static boolean isAdmin(String userId){
+    public static boolean isAdmin(Long userId){
         // todo test
 //        return UserConstants.ADMIN_USER_ID.equals(userId);
         return false;

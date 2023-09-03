@@ -5,10 +5,8 @@ import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import jakarta.annotation.Resource;
-import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
@@ -20,12 +18,10 @@ import org.springframework.data.redis.serializer.RedisSerializer;
  * @author Bryce Han
  * @since 2023/5/8
  */
-@AutoConfiguration(after = JacksonAutoConfiguration.class)
+@Configuration
 public class RedisConfig {
 
-    @Resource
-    private RedisConnectionFactory redisConnectionFactory;
-
+    @Bean
     public Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer(){
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
@@ -35,20 +31,20 @@ public class RedisConfig {
     }
 
     @Bean
-    public RedisTemplate<String, Object> redisTemplate() {
-        RedisTemplate<String, Object> template = new RedisTemplate<>();
-        template.setConnectionFactory(redisConnectionFactory);
+    public RedisTemplate<?, ?> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
+        RedisTemplate<Object, Object> redisTemplate = new RedisTemplate<>();
+        redisTemplate.setConnectionFactory(redisConnectionFactory);
 
         // Key、HashKey使用String来序列化
-        template.setKeySerializer(RedisSerializer.string());
-        template.setHashKeySerializer(RedisSerializer.string());
+        redisTemplate.setKeySerializer(RedisSerializer.string());
+        redisTemplate.setHashKeySerializer(RedisSerializer.string());
 
         // Value、HashValue使用Jackson2JsonRedisSerializer来序列化
-        template.setValueSerializer(jackson2JsonRedisSerializer());
-        template.setHashValueSerializer(jackson2JsonRedisSerializer());
+        redisTemplate.setValueSerializer(jackson2JsonRedisSerializer());
+        redisTemplate.setHashValueSerializer(jackson2JsonRedisSerializer());
 
-        template.afterPropertiesSet();
-        return template;
+        redisTemplate.afterPropertiesSet();
+        return redisTemplate;
     }
 
 }

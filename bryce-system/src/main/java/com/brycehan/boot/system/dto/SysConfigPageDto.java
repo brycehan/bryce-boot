@@ -1,7 +1,7 @@
 package com.brycehan.boot.system.dto;
 
 import com.brycehan.boot.common.base.entity.BasePageDto;
-import com.brycehan.boot.common.validator.group.QueryGroup;
+import com.brycehan.boot.common.validator.QueryGroup;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Size;
@@ -29,7 +29,7 @@ public class SysConfigPageDto extends BasePageDto {
      * ID
      */
     @Schema(description = "ID")
-    private String id;
+    private Long id;
 
     /**
      * 配置名称
@@ -62,27 +62,27 @@ public class SysConfigPageDto extends BasePageDto {
      * 创建人ID
      */
     @Schema(description = "创建人ID")
-    private String createUserId;
+    private Long createdUserId;
 
     /**
      * 创建时间
      */
     @Schema(description = "创建时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private LocalDateTime createTime;
+    private LocalDateTime createdTime;
 
     /**
      * 修改人ID
      */
     @Schema(description = "修改人ID")
-    private String updateUserId;
+    private Long updatedUserId;
 
     /**
      * 修改时间
      */
     @Schema(description = "修改时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private LocalDateTime updateTime;
+    private LocalDateTime updatedTime;
 
     /**
      * 备注

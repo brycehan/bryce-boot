@@ -41,7 +41,7 @@ public class JwtConstants {
     /**
      * 创建时间
      */
-    public static final String JWT_CREATED = "createTime";
+    public static final String JWT_CREATED = "createdTime";
 
     /**
      * 刷新最小分钟数

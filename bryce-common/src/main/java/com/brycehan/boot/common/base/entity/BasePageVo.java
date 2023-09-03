@@ -1,10 +1,7 @@
 package com.brycehan.boot.common.base.entity;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.List;
 
@@ -15,10 +12,8 @@ import java.util.List;
  * @since 2021/8/31
  */
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@ToString
-public class BasePageVo<T> extends BaseEntity {
+@EqualsAndHashCode(callSuper = false)
+public abstract class BasePageVo<T> extends BaseEntity {
 
     /**
      * 总条数
@@ -36,7 +31,7 @@ public class BasePageVo<T> extends BaseEntity {
      * 每页数量
      */
     @Schema(description = "每页数量")
-    private Integer pageSize;
+    private Integer size;
 
     /**
      * 分页数据

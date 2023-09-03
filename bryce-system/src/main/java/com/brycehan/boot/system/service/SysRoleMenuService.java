@@ -2,7 +2,6 @@ package com.brycehan.boot.system.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.brycehan.boot.system.entity.SysRoleMenu;
-import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 
@@ -12,7 +11,6 @@ import java.util.List;
  * @author Bryce Han
  * @since 2022/5/15
  */
-@Validated
 public interface SysRoleMenuService extends IService<SysRoleMenu> {
 
     /**
@@ -21,5 +19,5 @@ public interface SysRoleMenuService extends IService<SysRoleMenu> {
      * @param roleIdList 角色ID列表
      * @return 拥有的菜单ID列表
      */
-    List<String> getMenuIdListByRoleIdList(List<String> roleIdList);
+    List<Long> getMenuIdListByRoleIdList(List<Long> roleIdList);
 }

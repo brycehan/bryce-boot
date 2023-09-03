@@ -31,13 +31,14 @@ public interface SysMenuMapper extends BryceBaseMapper<SysMenu> {
      * @param userId 用户ID
      * @return 菜单权限集合
      */
-    Set<String> selectMenuPermissionByUserId(String userId);
+    Set<String> findAuthorityByUserId(Long userId);
 
     /**
-     * 根据用户ID查询菜单树
+     * 查询菜单树列表
      *
      * @param userId 用户ID
+     * @param type 菜单类型
      * @return 菜单列表
      */
-    List<SysMenu> selectMenuTreeByUserId(String userId);
+    List<SysMenu> selectMenuTreeList(Long userId, String type);
 }

@@ -17,12 +17,12 @@ public class StringFormatUtils {
      * params：{"奥巴马", "川普", "2016-12-12早8点"}
      * 你好，奥巴马，我是你孩子的老师川普，请你2016-12-12早8点来参加家长会
      *
-     * @param format
-     * @param args
-     * @return
+     * @param format 需要格式化的文本
+     * @param params 参数
+     * @return 处理后的文本
      */
-    public static String format(String format, String... args) {
-        for (String param : args) {
+    public static String format(String format, String... params) {
+        for (String param : params) {
             format = RegExUtils.replaceFirst(format, "\\{\\}", param);
         }
         return format;

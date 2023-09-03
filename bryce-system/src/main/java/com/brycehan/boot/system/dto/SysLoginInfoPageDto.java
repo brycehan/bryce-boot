@@ -1,7 +1,7 @@
 package com.brycehan.boot.system.dto;
 
 import com.brycehan.boot.common.base.entity.BasePageDto;
-import com.brycehan.boot.common.validator.group.QueryGroup;
+import com.brycehan.boot.common.validator.QueryGroup;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Size;
@@ -27,7 +27,7 @@ public class SysLoginInfoPageDto extends BasePageDto {
      * ID
      */
     @Schema(description = "ID")
-    private String id;
+    private Long id;
 
     /**
      * 用户账号

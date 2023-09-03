@@ -2,7 +2,6 @@ package com.brycehan.boot.system.service;
 
 import com.brycehan.boot.common.base.dto.RegisterDto;
 import jakarta.validation.constraints.NotNull;
-import org.springframework.validation.annotation.Validated;
 
 /**
  * 注册服务类
@@ -10,7 +9,6 @@ import org.springframework.validation.annotation.Validated;
  * @author Bryce Han
  * @since 2022/9/20
  */
-@Validated
 public interface SysRegisterService {
 
     /**

@@ -19,14 +19,11 @@
 
     <!-- 依赖 -->
     <dependencies>
-        <!-- Bryce框架组件 -->
-        <!-- 系统模块组件 -->
+        <!-- 公共工具组件 -->
         <dependency>
             <groupId>com.brycehan.boot</groupId>
-            <artifactId>bryce-system</artifactId>
+            <artifactId>bryce-common</artifactId>
         </dependency>
-
-        <!-- Web框架 -->
         <!-- Web安全 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

@@ -1,7 +1,7 @@
 package com.brycehan.boot.framework.config;
 
 import com.brycehan.boot.common.constant.CommonConstants;
-import com.brycehan.boot.common.util.FileUploadUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.lang.NonNull;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -16,12 +16,13 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class ResourceConfig implements WebMvcConfigurer {
 
+    @Value("${bryce.application.upload-path}")
+    private String uploadPath;
+
     @Override
     public void addResourceHandlers(@NonNull ResourceHandlerRegistry registry) {
         // 本地文件访问路径映射
         registry.addResourceHandler(CommonConstants.RESOURCE_PREFIX.concat("/**"))
-                .addResourceLocations("file:"
-                        .concat(FileUploadUtils.DEFAULT_BASE_DIR)
-                        .concat("/"));
+                .addResourceLocations("file:".concat(uploadPath));
     }
 }

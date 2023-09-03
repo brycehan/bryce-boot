@@ -31,7 +31,7 @@ public interface SysRoleMapper extends BryceBaseMapper<SysRole> {
      * @param userId 用户ID
      * @return 角色权限集合
      */
-    Set<String> selectRolePermissionByUserId(String userId);
+    Set<String> selectRolePermissionByUserId(Long userId);
 
     /**
      * 根据用户账号查询角色
@@ -47,6 +47,6 @@ public interface SysRoleMapper extends BryceBaseMapper<SysRole> {
      * @param userId 用户ID
      * @return 角色列表
      */
-    List<SysRole> selectRolesByUserId(String userId);
+    List<SysRole> selectRolesByUserId(Long userId);
 
 }

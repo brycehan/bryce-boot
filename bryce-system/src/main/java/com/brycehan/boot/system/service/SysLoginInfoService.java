@@ -1,12 +1,13 @@
 package com.brycehan.boot.system.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.brycehan.boot.system.dto.SysLoginInfoPageDto;
+import com.brycehan.boot.common.base.entity.PageResult;
 import com.brycehan.boot.system.entity.SysLoginInfo;
-import com.github.pagehelper.PageInfo;
-import jakarta.validation.constraints.NotNull;
+import com.brycehan.boot.common.base.dto.IdsDto;
+import com.brycehan.boot.system.dto.SysLoginInfoDto;
+import com.brycehan.boot.system.dto.SysLoginInfoPageDto;
+import com.brycehan.boot.system.vo.SysLoginInfoVo;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.validation.annotation.Validated;
 
 /**
  * 系统登录信息服务类
@@ -14,16 +15,29 @@ import org.springframework.validation.annotation.Validated;
  * @author Bryce Han
  * @since 2022/9/20
  */
-@Validated
 public interface SysLoginInfoService extends IService<SysLoginInfo> {
 
     /**
-     * 分页查询信息结果
+     * 添加系统登录信息
      *
-     * @param sysLoginInfoPageDto 搜索条件
+     * @param sysLoginInfoDto 系统登录信息Dto
+     */
+    void save(SysLoginInfoDto sysLoginInfoDto);
+
+    /**
+     * 更新系统登录信息
+     *
+     * @param sysLoginInfoDto 系统登录信息Dto
+     */
+    void update(SysLoginInfoDto sysLoginInfoDto);
+
+    /**
+     * 系统登录信息分页查询信息
+     *
+     * @param sysLoginInfoPageDto 系统登录信息分页搜索条件
      * @return 分页信息
      */
-    PageInfo<SysLoginInfo> page(@NotNull SysLoginInfoPageDto sysLoginInfoPageDto);
+    PageResult<SysLoginInfoVo> page(SysLoginInfoPageDto sysLoginInfoPageDto);
 
     /**
      * 异步记录登录信息

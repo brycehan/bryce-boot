@@ -3,9 +3,9 @@ package com.brycehan.boot.system.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.brycehan.boot.common.base.entity.BasePo;
-import com.brycehan.boot.common.validator.group.AddGroup;
-import com.brycehan.boot.common.validator.group.UpdateGroup;
+import com.brycehan.boot.common.base.entity.BaseEntity;
+import com.brycehan.boot.common.validator.AddGroup;
+import com.brycehan.boot.common.validator.UpdateGroup;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Null;
@@ -13,6 +13,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serial;
 import java.time.LocalDateTime;
 
 /**
@@ -23,10 +24,11 @@ import java.time.LocalDateTime;
  */
 @Getter
 @Setter
-@TableName("brc_sys_login_info")
+@TableName("brc_sys_login_log")
 @Schema(description = "SysLoginInfo实体")
-public class SysLoginInfo extends BasePo {
+public class SysLoginInfo extends BaseEntity {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     /**
@@ -34,7 +36,7 @@ public class SysLoginInfo extends BasePo {
      */
     @Schema(description = "ID")
     @TableId(value = "id", type = IdType.INPUT)
-    private String id;
+    private Long id;
 
     /**
      * 用户账号

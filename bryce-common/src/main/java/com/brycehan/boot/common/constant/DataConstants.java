@@ -31,17 +31,22 @@ public class DataConstants {
     /**
      * 默认角色ID
      */
-    public static final String DEFAULT_ROLE_ID = "2";
+    public static final Long DEFAULT_ROLE_ID = 2L;
 
     /**
      * 根ID
      */
-    public static final String TREE_ROOT_ID = "0";
+    public static final Long TREE_ROOT_ID = 0L;
+
+    /**
+     * 数据权限范围
+     */
+    public static final String DATA_SCOPE = "dataScope";
 
     /**
      * 默认排序列
      */
-    public static final String DEFAULT_SORT_COLUMN = "sortNumber";
+    public static final String DEFAULT_SORT_COLUMN = "sort";
 
     /**
      * 默认排序升序

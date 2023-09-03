@@ -9,9 +9,8 @@ import com.alibaba.excel.annotation.write.style.HeadFontStyle;
 import com.alibaba.excel.enums.poi.HorizontalAlignmentEnum;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.brycehan.boot.common.base.entity.BaseVo;
-import com.brycehan.boot.common.validator.group.AddGroup;
-import com.brycehan.boot.common.validator.group.UpdateGroup;
+import com.brycehan.boot.common.validator.AddGroup;
+import com.brycehan.boot.common.validator.UpdateGroup;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
@@ -22,6 +21,7 @@ import lombok.Setter;
 import org.hibernate.validator.constraints.Range;
 
 import java.io.Serial;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
@@ -36,7 +36,7 @@ import java.time.LocalDateTime;
 @HeadFontStyle(fontHeightInPoints = 12)
 @ContentFontStyle(fontHeightInPoints = 12, fontName = "宋体")
 @ExcelIgnoreUnannotated
-public class SysPostVo extends BaseVo {
+public class SysPostVo implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -47,7 +47,7 @@ public class SysPostVo extends BaseVo {
     @Schema(description = "ID")
     @Null(groups = AddGroup.class)
     @NotNull(groups = UpdateGroup.class)
-    private String id;
+    private Long id;
 
     /**
      * 岗位编码
@@ -77,7 +77,7 @@ public class SysPostVo extends BaseVo {
     @ContentStyle(horizontalAlignment = HorizontalAlignmentEnum.CENTER)
     @ExcelProperty(value = "岗位排序", index = 2)
     @Range(max = 2147483647, groups = {AddGroup.class, UpdateGroup.class})
-    private Integer sortNumber;
+    private Integer sort;
 
     /**
      * 状态（0：停用，1：正常）
@@ -101,7 +101,7 @@ public class SysPostVo extends BaseVo {
     @Schema(description = "创建人ID")
     @Null(groups = {AddGroup.class, UpdateGroup.class})
     @TableField(fill = FieldFill.INSERT)
-    private String createUserId;
+    private Long createdUserId;
 
     /**
      * 创建时间
@@ -110,7 +110,7 @@ public class SysPostVo extends BaseVo {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @Null(groups = {AddGroup.class, UpdateGroup.class})
     @TableField(fill = FieldFill.INSERT)
-    private LocalDateTime createTime;
+    private LocalDateTime createdTime;
 
     /**
      * 修改人ID
@@ -118,7 +118,7 @@ public class SysPostVo extends BaseVo {
     @Schema(description = "修改人ID")
     @Null(groups = {AddGroup.class, UpdateGroup.class})
     @TableField(fill = FieldFill.UPDATE)
-    private String updateUserId;
+    private Long updatedUserId;
 
     /**
      * 修改时间
@@ -127,5 +127,5 @@ public class SysPostVo extends BaseVo {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @Null(groups = {AddGroup.class, UpdateGroup.class})
     @TableField(fill = FieldFill.UPDATE)
-    private LocalDateTime updateTime;
+    private LocalDateTime updatedTime;
 }

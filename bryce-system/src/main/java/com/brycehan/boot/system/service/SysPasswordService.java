@@ -1,8 +1,6 @@
 package com.brycehan.boot.system.service;
 
 import com.brycehan.boot.system.entity.SysUser;
-import jakarta.validation.constraints.NotNull;
-import org.springframework.validation.annotation.Validated;
 
 /**
  * 系统密码服务
@@ -10,7 +8,6 @@ import org.springframework.validation.annotation.Validated;
  * @author Bryce Han
  * @since 2022/9/29
  */
-@Validated
 public interface SysPasswordService {
 
     /**
@@ -18,6 +15,6 @@ public interface SysPasswordService {
      *
      * @param sysUser 系统用户
      */
-    void validate(@NotNull SysUser sysUser);
+    void validate(SysUser sysUser);
 
 }

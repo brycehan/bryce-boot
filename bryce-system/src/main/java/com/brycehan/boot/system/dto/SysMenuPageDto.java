@@ -1,7 +1,7 @@
 package com.brycehan.boot.system.dto;
 
 import com.brycehan.boot.common.base.entity.BasePageDto;
-import com.brycehan.boot.common.validator.group.QueryGroup;
+import com.brycehan.boot.common.validator.QueryGroup;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Size;
@@ -27,21 +27,21 @@ public class SysMenuPageDto extends BasePageDto {
      * ID
      */
     @Schema(description = "ID")
-    private String id;
+    private Long id;
 
     /**
      * 菜单名称
      */
     @Size(max = 50, groups = QueryGroup.class)
     @Schema(description = "菜单名称")
-    private String menuName;
+    private String name;
 
     /**
      * 类型（D：目录，M：菜单，B：按钮）
      */
     @Size(max = 1, groups = QueryGroup.class)
     @Schema(description = "类型（D：目录，M：菜单，B：按钮）")
-    private String menuType;
+    private String type;
 
     /**
      * 父菜单ID，一级菜单为0
@@ -93,13 +93,13 @@ public class SysMenuPageDto extends BasePageDto {
      */
     @Size(max = 100, groups = QueryGroup.class)
     @Schema(description = "权限标识")
-    private String permission;
+    private String authority;
 
     /**
      * 状态（0：正式数据，1：删除）
      */
     @Schema(description = "状态（0：正式数据，1：删除）")
-    private Boolean deleteFlag;
+    private Boolean deleted;
 
     /**
      * 显示顺序
@@ -117,7 +117,7 @@ public class SysMenuPageDto extends BasePageDto {
      * 创建人ID
      */
     @Schema(description = "创建人ID")
-    private String createUserId;
+    private Long createdUserId;
 
     /**
      * 创建人账号
@@ -131,20 +131,20 @@ public class SysMenuPageDto extends BasePageDto {
      */
     @Schema(description = "创建时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private LocalDateTime createTime;
+    private LocalDateTime createdTime;
 
     /**
      * 修改人ID
      */
     @Schema(description = "修改人ID")
-    private String updateUserId;
+    private Long updatedUserId;
 
     /**
      * 修改时间
      */
     @Schema(description = "修改时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private LocalDateTime updateTime;
+    private LocalDateTime updatedTime;
 
     /**
      * 备注

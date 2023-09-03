@@ -1,7 +1,7 @@
 package com.brycehan.boot.system.dto;
 
 import com.brycehan.boot.common.base.entity.BasePageDto;
-import com.brycehan.boot.common.validator.group.QueryGroup;
+import com.brycehan.boot.common.validator.QueryGroup;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Size;
@@ -29,7 +29,7 @@ public class SysUserPageDto extends BasePageDto {
      * ID
      */
     @Schema(description = "ID")
-    private String id;
+    private Long id;
 
     /**
      * 账号
@@ -70,13 +70,13 @@ public class SysUserPageDto extends BasePageDto {
      * 用户类型（0：系统用户）
      */
     @Schema(description = "用户类型（0：系统用户）")
-    private Boolean userType;
+    private Boolean type;
 
     /**
      * 部门ID
      */
     @Schema(description = "部门ID")
-    private String deptId;
+    private String orgId;
 
     /**
      * 手机号码
@@ -125,16 +125,16 @@ public class SysUserPageDto extends BasePageDto {
     private Integer status;
 
     /**
-     * 删除标志（0：存在，1：删除）
+     * 删除标识（0：存在，1：删除）
      */
-    @Schema(description = "删除标志（0：存在，1：删除）")
-    private Boolean deleteFlag;
+    @Schema(description = "删除标识（0：存在，1：删除）")
+    private Boolean deleted;
 
     /**
      * 创建人ID
      */
     @Schema(description = "创建人ID")
-    private String createUserId;
+    private Long createdUserId;
 
     /**
      * 创建人账号
@@ -148,20 +148,20 @@ public class SysUserPageDto extends BasePageDto {
      */
     @Schema(description = "创建时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private LocalDateTime createTime;
+    private LocalDateTime createdTime;
 
     /**
      * 修改人ID
      */
     @Schema(description = "修改人ID")
-    private String updateUserId;
+    private Long updatedUserId;
 
     /**
      * 修改时间
      */
     @Schema(description = "修改时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private LocalDateTime updateTime;
+    private LocalDateTime updatedTime;
 
     /**
      * 备注

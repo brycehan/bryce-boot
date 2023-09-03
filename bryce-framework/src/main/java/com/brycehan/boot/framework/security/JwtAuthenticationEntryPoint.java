@@ -1,6 +1,8 @@
 package com.brycehan.boot.framework.security;
 
-import com.brycehan.boot.common.base.http.HttpResponseStatusEnum;
+import com.brycehan.boot.common.base.http.HttpResponseStatus;
+import com.brycehan.boot.common.base.http.ResponseResult;
+import com.brycehan.boot.common.util.JsonUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +25,11 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException {
         log.error("验证不通过，请求地址：{}，提示信息：{}", request.getRequestURI(), authException.getMessage());
-        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, HttpResponseStatusEnum.HTTP_UNAUTHORIZED.message());
+        response.setContentType("application/json;charset=utf-8");
+        response.setHeader("Access-Control-Allow-Credentials", "true");
+        response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
+//        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, HttpResponseStatus.HTTP_UNAUTHORIZED.message());
+        response.getWriter().print(JsonUtils.writeValueAsString(ResponseResult.error(HttpResponseStatus.HTTP_UNAUTHORIZED)));
     }
 
 }

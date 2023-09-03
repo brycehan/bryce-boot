@@ -52,7 +52,7 @@ public class BusinessException extends RuntimeException {
     private String message;
 
 //    public BusinessException(String module, Integer value, String key, Object[] args) {
-//        this(module, value, key, args, HttpResponseStatusEnum.HTTP_INTERNAL_ERROR.message());
+//        this(module, value, key, args, HttpResponseStatus.HTTP_INTERNAL_ERROR.message());
 //    }
 
 //    public BusinessException(String module, Integer value, String defaultMessage) {

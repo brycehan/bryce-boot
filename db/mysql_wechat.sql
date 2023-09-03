@@ -7,11 +7,11 @@ create table brc_app
     key             varchar(10)     not null comment '应用key',
     secret          varchar(255)    not null comment '应用密钥',
     tenant_id       varchar(36)     not null comment '租户ID',
-    create_user_id  varchar(36)     default null comment '创建人ID',
-    create_time     datetime        default null comment '创建时间',
-    update_user_id  varchar(36)     default null comment '修改人ID',
-    update_time     datetime        default null comment '修改时间',
-    delete_flag     tinyint(1)      default '0' comment '删除标志（0：存在，1：删除）',
+    created_user_id  varchar(36)     default null comment '创建人ID',
+    created_time     datetime        default null comment '创建时间',
+    updated_user_id  varchar(36)     default null comment '修改人ID',
+    updated_time     datetime        default null comment '修改时间',
+    deleted     tinyint(1)      default '0' comment '删除标识（0：存在，1：删除）',
     primary key (id),
     unique key unique_key(key)
 ) engine InnoDB default charset utf8mb4 comment '应用表';
@@ -26,10 +26,10 @@ create table brc_wechat_config
     token           varchar(255)    not null comment '令牌',
     redirect_url    varchar(500)    not null comment '重定向地址',
     tenant_id       varchar(36)     not null comment '租户ID',
-    create_user_id  varchar(36)     default null comment '创建人ID',
-    create_time     datetime        default null comment '创建时间',
-    update_user_id  varchar(36)     default null comment '修改人ID',
-    update_time     datetime        default null comment '修改时间',
-    delete_flag     tinyint(1)      default '0' comment '删除标志（0：存在，1：删除）',
+    created_user_id  varchar(36)     default null comment '创建人ID',
+    created_time     datetime        default null comment '创建时间',
+    updated_user_id  varchar(36)     default null comment '修改人ID',
+    updated_time     datetime        default null comment '修改时间',
+    deleted     tinyint(1)      default '0' comment '删除标识（0：存在，1：删除）',
     primary key (id)
 ) engine InnoDB default charset utf8mb4 comment '微信配置表';

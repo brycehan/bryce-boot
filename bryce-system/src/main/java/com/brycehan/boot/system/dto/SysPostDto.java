@@ -1,8 +1,7 @@
 package com.brycehan.boot.system.dto;
 
-import com.brycehan.boot.common.base.entity.BaseDto;
-import com.brycehan.boot.common.validator.group.AddGroup;
-import com.brycehan.boot.common.validator.group.UpdateGroup;
+import com.brycehan.boot.common.validator.AddGroup;
+import com.brycehan.boot.common.validator.UpdateGroup;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Null;
@@ -12,6 +11,7 @@ import lombok.Setter;
 import org.hibernate.validator.constraints.Range;
 
 import java.io.Serial;
+import java.io.Serializable;
 
 /**
  * 系统岗位分页数据传输对象
@@ -22,7 +22,7 @@ import java.io.Serial;
 @Schema(description = "系统岗位Dto")
 @Getter
 @Setter
-public class SysPostDto extends BaseDto {
+public class SysPostDto implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -33,7 +33,7 @@ public class SysPostDto extends BaseDto {
     @Schema(description = "ID")
     @Null(groups = AddGroup.class)
     @NotNull(groups = UpdateGroup.class)
-    private String id;
+    private Long id;
 
     /**
      * 岗位编码
@@ -54,7 +54,7 @@ public class SysPostDto extends BaseDto {
      */
     @Schema(description = "显示顺序")
     @Range(max = 2147483647, groups = {AddGroup.class, UpdateGroup.class})
-    private Integer sortNumber;
+    private Integer sort;
 
     /**
      * 状态（0：停用，1：正常）

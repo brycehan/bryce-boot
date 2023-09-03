@@ -1,13 +1,16 @@
 package com.brycehan.boot.system.entity;
 
-import com.baomidou.mybatisplus.annotation.*;
-import com.brycehan.boot.common.base.entity.BasePo;
-import com.brycehan.boot.common.validator.group.AddGroup;
-import com.brycehan.boot.common.validator.group.UpdateGroup;
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.brycehan.boot.common.base.entity.BaseEntity;
+import com.brycehan.boot.common.validator.AddGroup;
+import com.brycehan.boot.common.validator.UpdateGroup;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
-import lombok.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.springframework.util.CollectionUtils;
 
 import java.io.Serial;
@@ -20,26 +23,13 @@ import java.util.Set;
  * @author Bryce Han
  * @since 2022/5/8
  */
-@Schema(description = "SysUser实体")
 @Data
 @EqualsAndHashCode(callSuper = false)
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 @TableName("brc_sys_user")
-public class SysUser extends BasePo {
+public class SysUser extends BaseEntity {
 
     @Serial
     private static final long serialVersionUID = 1L;
-
-    /**
-     * ID
-     */
-    @Null(groups = AddGroup.class)
-    @NotNull(groups = UpdateGroup.class)
-    @Schema(description = "ID")
-    @TableId(value = "id", type = IdType.ASSIGN_UUID)
-    private String id;
 
     /**
      * 账号
@@ -83,13 +73,13 @@ public class SysUser extends BasePo {
      * 用户类型（0：系统用户）
      */
     @Schema(description = "用户类型（0：系统用户）")
-    private Boolean userType;
+    private Integer type;
 
     /**
      * 部门ID
      */
     @Schema(description = "部门ID")
-    private String deptId;
+    private String orgId;
 
     /**
      * 手机号码
@@ -139,10 +129,10 @@ public class SysUser extends BasePo {
     private Integer status;
 
     /**
-     * 删除标志（0：存在，1：删除）
+     * 删除标识（0：存在，1：删除）
      */
-    @Schema(description = "删除标志（0：存在，1：删除）")
-    private Boolean deleteFlag;
+    @Schema(description = "删除标识（0：存在，1：删除）")
+    private Boolean deleted;
 
     /**
      * 创建人ID
@@ -150,16 +140,7 @@ public class SysUser extends BasePo {
     @Schema(description = "创建人ID")
     @Null(groups = {AddGroup.class, UpdateGroup.class})
     @TableField(fill = FieldFill.INSERT)
-    private String createUserId;
-
-    /**
-     * 创建人账号
-     */
-    @Schema(description = "创建人账号")
-    @Size(max = 50, groups = {AddGroup.class, UpdateGroup.class})
-    @Null(groups = {AddGroup.class, UpdateGroup.class})
-    @TableField(fill = FieldFill.INSERT)
-    private String createUsername;
+    private Long createdUserId;
 
     /**
      * 创建时间
@@ -168,7 +149,7 @@ public class SysUser extends BasePo {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @Null(groups = {AddGroup.class, UpdateGroup.class})
     @TableField(fill = FieldFill.INSERT)
-    private LocalDateTime createTime;
+    private LocalDateTime createdTime;
 
     /**
      * 修改人ID
@@ -176,7 +157,7 @@ public class SysUser extends BasePo {
     @Schema(description = "修改人ID")
     @Null(groups = {AddGroup.class, UpdateGroup.class})
     @TableField(fill = FieldFill.UPDATE)
-    private String updateUserId;
+    private Long updatedUserId;
 
     /**
      * 修改时间
@@ -185,7 +166,7 @@ public class SysUser extends BasePo {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @Null(groups = {AddGroup.class, UpdateGroup.class})
     @TableField(fill = FieldFill.UPDATE)
-    private LocalDateTime updateTime;
+    private LocalDateTime updatedTime;
 
     /**
      * 备注
@@ -206,7 +187,7 @@ public class SysUser extends BasePo {
      */
     @Schema(description = "权限")
     @TableField(exist = false)
-    private Set<String> permissions;
+    private Set<String> authoritySet;
 
     /**
      * 是否是管理员

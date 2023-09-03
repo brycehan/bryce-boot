@@ -5,27 +5,27 @@
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.brycehan.boot.system.entity.SysRole">
         <id column="id" property="id"/>
-        <result column="role_name" property="roleName"/>
-        <result column="role_code" property="roleCode"/>
+        <result column="name" property="name"/>
+        <result column="code" property="code"/>
         <result column="data_scope" property="dataScope"/>
         <result column="menu_association_displayed" property="menuAssociationDisplayed"/>
         <result column="dept_association_displayed" property="deptAssociationDisplayed"/>
-        <result column="delete_flag" property="deleteFlag"/>
+        <result column="deleted" property="deleted"/>
         <result column="sort" property="sort"/>
         <result column="status" property="status"/>
-        <result column="create_user_id" property="createUserId"/>
+        <result column="created_user_id" property="createdUserId"/>
         <result column="create_username" property="createUsername"/>
-        <result column="create_time" property="createTime"/>
-        <result column="update_user_id" property="updateUserId"/>
-        <result column="update_time" property="updateTime"/>
+        <result column="created_time" property="createdTime"/>
+        <result column="updated_user_id" property="updatedUserId"/>
+        <result column="updated_time" property="updatedTime"/>
         <result column="remark" property="remark"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id
-        , role_name, role_code, data_scope, menu_association_displayed, dept_association_displayed, delete_flag, sort,
-        status, create_user_id, create_username, create_time, update_user_id, update_time, remark
+        , name, code, data_scope, menu_association_displayed, dept_association_displayed, deleted, sort,
+        status, created_user_id, create_username, created_time, updated_user_id, updated_time, remark
     </sql>
 
     <!-- 分页查询 -->
@@ -37,31 +37,31 @@
 
     <!-- 根据用户ID查询角色权限 -->
     <select id="selectRolePermissionByUserId" resultType="java.lang.String">
-        select role_code
+        select code
         from brc_sys_role sr
         left join brc_sys_user_role sur on sr.id = sur.role_id
-        where sr.delete_flag = 0
+        where sr.deleted = 0
         and sur.user_id = #{userId}
     </select>
 
     <!-- 根据用户ID查询角色权限 -->
     <select id="selectRolesByUsername" resultType="com.brycehan.boot.system.entity.SysRole">
-        select distinct bsr.id, bsr.role_code, bsr.role_name
+        select distinct bsr.id, bsr.code, bsr.name
         from brc_sys_role bsr
         left join brc_sys_user_role bsur on bsr.id = bsur.role_id
         left join brc_sys_user bsu on bsur.user_id = bsu.id
-        where bsr.delete_flag = '0'
+        where bsr.deleted = '0'
         and bsr.status = 1
         and bsu.username = #{username}
     </select>
 
     <!-- 根据用户ID查询用户的角色 -->
     <select id="selectRolesByUserId" resultType="com.brycehan.boot.system.entity.SysRole">
-        select distinct bsr.id, bsr.role_code, bsr.role_name
+        select distinct bsr.id, bsr.code, bsr.name
         from brc_sys_role bsr
                  left join brc_sys_user_role bsur on bsr.id = bsur.role_id
                  left join brc_sys_user bsu on bsur.user_id = bsu.id
-        where bsr.delete_flag = '0'
+        where bsr.deleted = '0'
           and bsr.status = 1
           and bsu.id = #{userId}
     </select>

@@ -3,7 +3,6 @@ package com.brycehan.boot.common.property;
 import lombok.Data;
 import lombok.Getter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -42,11 +41,6 @@ public class BryceApplicationProperties {
      */
     @Getter
     private static String uploadPath;
-
-    /**
-     * 获取IP地址开关
-     */
-    private boolean ipAddressEnabled;
 
     public static String getAvatarPath() {
         return "/profile".concat("/avatar");

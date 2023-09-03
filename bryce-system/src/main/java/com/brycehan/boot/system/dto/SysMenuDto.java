@@ -1,9 +1,9 @@
 package com.brycehan.boot.system.dto;
 
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.brycehan.boot.common.base.entity.BasePo;
-import com.brycehan.boot.common.validator.group.AddGroup;
-import com.brycehan.boot.common.validator.group.UpdateGroup;
+import com.brycehan.boot.common.base.entity.BaseEntity;
+import com.brycehan.boot.common.validator.AddGroup;
+import com.brycehan.boot.common.validator.UpdateGroup;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Null;
@@ -26,7 +26,7 @@ import java.util.List;
 @Schema(description = "系统菜单Dto")
 @Getter
 @Setter
-public class SysMenuDto extends BasePo {
+public class SysMenuDto extends BaseEntity {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -37,21 +37,21 @@ public class SysMenuDto extends BasePo {
     @Schema(description = "ID")
     @Null(groups = AddGroup.class)
     @NotNull(groups = UpdateGroup.class)
-    private String id;
+    private Long id;
 
     /**
      * 菜单名称
      */
     @Schema(description = "菜单名称")
     @Size(max = 50, groups = {AddGroup.class, UpdateGroup.class})
-    private String menuName;
+    private String name;
 
     /**
      * 类型（D：目录，M：菜单，B：按钮）
      */
     @Schema(description = "菜单类型（D：目录，M：菜单，B：按钮）")
     @Pattern(regexp = "^[DMB]$", groups = {AddGroup.class, UpdateGroup.class}, message = "菜单类型值只能是D、M或B")
-    private String menuType;
+    private String type;
 
     /**
      * 父菜单ID，一级菜单为0
@@ -103,20 +103,20 @@ public class SysMenuDto extends BasePo {
      */
     @Schema(description = "权限标识")
     @Size(max = 100, groups = {AddGroup.class, UpdateGroup.class})
-    private String permission;
+    private String authority;
 
     /**
      * 状态（0：正式数据，1：删除）
      */
     @Schema(description = "状态（0：正式数据，1：删除）")
-    private Boolean deleteFlag;
+    private Boolean deleted;
 
     /**
      * 显示顺序
      */
     @Schema(description = "显示顺序")
     @Range(max = 2147483647, groups = {AddGroup.class, UpdateGroup.class})
-    private Integer sortNumber;
+    private Integer sort;
 
     /**
      * 状态（0：停用，1：正常）

@@ -2,9 +2,9 @@ package com.brycehan.boot.system.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.brycehan.boot.system.entity.SysRoleMenu;
 import com.brycehan.boot.system.mapper.SysRoleMenuMapper;
 import com.brycehan.boot.system.service.SysRoleMenuService;
+import com.brycehan.boot.system.entity.SysRoleMenu;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -33,7 +33,7 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRo
      * @return 菜单ID列表
      */
     @Override
-    public List<String> getMenuIdListByRoleIdList(List<String> roleIdList) {
+    public List<Long> getMenuIdListByRoleIdList(List<Long> roleIdList) {
         QueryWrapper<SysRoleMenu> queryWrapper = new QueryWrapper<>();
         queryWrapper.in(!CollectionUtils.isEmpty(roleIdList), "role_id", roleIdList);
         List<SysRoleMenu> sysRoleMenuList = this.sysRoleMenuMapper.selectList(queryWrapper);

@@ -1,14 +1,12 @@
 package com.brycehan.boot.system.controller;
 
+import com.brycehan.boot.common.base.dto.IdsDto;
 import com.brycehan.boot.common.base.entity.PageResult;
-import com.brycehan.boot.common.base.http.HttpResponseStatusEnum;
 import com.brycehan.boot.common.base.http.ResponseResult;
-import com.brycehan.boot.common.exception.BusinessException;
-import com.brycehan.boot.common.validator.group.AddGroup;
-import com.brycehan.boot.common.validator.group.UpdateGroup;
-import com.brycehan.boot.system.context.LoginUserContext;
+import com.brycehan.boot.common.validator.AddGroup;
+import com.brycehan.boot.common.validator.UpdateGroup;
+import com.brycehan.boot.framework.security.context.LoginUserContext;
 import com.brycehan.boot.system.convert.SysMenuConvert;
-import com.brycehan.boot.system.dto.DeleteDto;
 import com.brycehan.boot.system.dto.SysMenuDto;
 import com.brycehan.boot.system.dto.SysMenuPageDto;
 import com.brycehan.boot.system.entity.SysMenu;
@@ -18,8 +16,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -73,24 +69,14 @@ public class SysMenuController {
     /**
      * 删除系统菜单
      *
-     * @param deleteDto 系统菜单删除Dto
+     * @param idsDto 系统菜单删除Dto
      * @return 响应结果
      */
     @Operation(summary = "删除系统菜单")
     //    @Secured("system:menu:delete")
     @DeleteMapping
-    public ResponseResult<Void> delete(@Parameter(description = "系统菜单IDs", required = true)
-                                           @Validated @RequestBody DeleteDto deleteDto) {
-        // 过滤空数据
-        List<String> ids = deleteDto.getIds()
-                .stream()
-                .filter(StringUtils::isNotBlank)
-                .toList();
-        if(CollectionUtils.isEmpty(ids)){
-            throw BusinessException.responseStatus(HttpResponseStatusEnum.HTTP_BAD_REQUEST);
-        }
-        // 批量删除
-        this.sysMenuService.delete(deleteDto);
+    public ResponseResult<Void> delete(@Validated @RequestBody IdsDto idsDto) {
+        this.sysMenuService.delete(idsDto);
         return ResponseResult.ok();
     }
 

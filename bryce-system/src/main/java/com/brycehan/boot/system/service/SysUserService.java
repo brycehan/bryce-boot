@@ -1,23 +1,27 @@
 package com.brycehan.boot.system.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.brycehan.boot.common.base.entity.PageResult;
+import com.brycehan.boot.common.base.dto.IdsDto;
+import com.brycehan.boot.system.dto.SysUserDto;
 import com.brycehan.boot.system.dto.SysUserPageDto;
 import com.brycehan.boot.system.entity.SysUser;
-import com.github.pagehelper.PageInfo;
-import jakarta.validation.constraints.NotNull;
-import org.springframework.validation.annotation.Validated;
+import com.brycehan.boot.system.vo.SysUserVo;
 
 /**
- * <p>
- * 系统用户 服务类
- * </p>
+ * 系统用户服务类
  *
  * @author Bryce Han
  * @since 2022/5/08
  */
-@Validated
 public interface SysUserService extends IService<SysUser> {
 
+    /**
+     * 添加系统用户
+     *
+     * @param sysUserDto 系统用户Dto
+     */
+    void save(SysUserDto sysUserDto);
 
     /**
      * 注册用户
@@ -27,12 +31,19 @@ public interface SysUserService extends IService<SysUser> {
     void registerUser(SysUser sysUser);
 
     /**
-     * 分页查询信息结果
+     * 更新系统用户
      *
-     * @param sysUserPageDto 搜索条件
+     * @param sysUserDto 系统用户Dto
+     */
+    void update(SysUserDto sysUserDto);
+
+    /**
+     * 系统用户分页查询信息
+     *
+     * @param sysUserPageDto 系统用户分页搜索条件
      * @return 分页信息
      */
-    PageInfo<SysUser> page(@NotNull SysUserPageDto sysUserPageDto);
+    PageResult<SysUserVo> page(SysUserPageDto sysUserPageDto);
 
     /**
      * 校验用户账号是否唯一
@@ -88,8 +99,8 @@ public interface SysUserService extends IService<SysUser> {
      * @param avatar 头像地址
      * @return 修改结果
      */
-    boolean updateUserAvatar(String userId, String avatar);
+    boolean updateUserAvatar(Long userId, String avatar);
 
-    void insertAuthRole(String userId, Long[] roleIds);
+    void insertAuthRole(Long userId, Long[] roleIds);
 
 }

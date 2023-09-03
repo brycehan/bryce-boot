@@ -1,5 +1,6 @@
 package com.brycehan.boot.framework.security;
 
+import cn.hutool.core.util.StrUtil;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -9,13 +10,12 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.blueconic.browscap.Capabilities;
 import com.brycehan.boot.common.constant.CacheConstants;
 import com.brycehan.boot.common.constant.JwtConstants;
-import com.brycehan.boot.common.service.IPAddressService;
-import com.brycehan.boot.common.util.ServletUtils;
 import com.brycehan.boot.common.util.IpUtils;
+import com.brycehan.boot.common.util.LocationUtils;
+import com.brycehan.boot.common.util.ServletUtils;
 import com.brycehan.boot.common.util.UserAgentUtils;
-import com.brycehan.boot.system.context.LoginUser;
+import com.brycehan.boot.framework.security.context.LoginUser;
 import jakarta.annotation.Resource;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,7 +23,10 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -49,36 +52,26 @@ public class JwtTokenProvider {
     // todo 单位调整为分钟
     private long tokenValidityInSeconds;
 
-    private final IPAddressService ipAddressService;
-
     @Resource
     private RedisTemplate<String, LoginUser> redisTemplate;
-
-    public JwtTokenProvider(IPAddressService ipAddressService) {
-        this.ipAddressService = ipAddressService;
-    }
 
     /**
      * 获取登录用户信息
      *
-     * @param request 请求
+     * @param accessToken 访问令牌
      * @return 登录用户
      */
-    public LoginUser getLoginUser(HttpServletRequest request) {
-        // 1、获取请求携带的令牌
-        Optional<String> token = getTokenFromRequest(request);
-        if (token.isPresent()) {
-            // todo 取消异常处理
-            try {
-                // 2、解析对应的权限以及用户信息
-                Map<String, Claim> claimMap = parseToken(token.get());
-                String uuid = claimMap.get(JwtConstants.LOGIN_USER_KEY).asString();
-                String loginUserKey = CacheConstants.LOGIN_USER_KEY.concat(uuid);
-                return this.redisTemplate.opsForValue().get(loginUserKey);
-            } catch (Exception e) {
-                log.debug("JwtTokenProvider.getLoginUser, 异常：{}", e.getMessage());
-            }
+    public LoginUser getLoginUser(String accessToken) {
+        try {
+            // 解析对应的权限以及用户信息
+            Map<String, Claim> claimMap = parseToken(accessToken);
+            String uuid = claimMap.get(JwtConstants.LOGIN_USER_KEY).asString();
+            String loginUserKey = CacheConstants.LOGIN_USER_KEY.concat(uuid);
+            return this.redisTemplate.opsForValue().get(loginUserKey);
+        } catch (Exception e) {
+            log.warn("JwtTokenProvider.getLoginUser, 异常：{}", e.getMessage());
         }
+
         return null;
     }
 
@@ -96,11 +89,11 @@ public class JwtTokenProvider {
     /**
      * 删除登录用户
      *
-     * @param token 令牌
+     * @param accessToken 令牌
      */
-    public void deleteLoginUser(String token) {
-        if (StringUtils.isNotEmpty(token)) {
-            String loginUserKey = CacheConstants.LOGIN_USER_KEY.concat(token);
+    public void deleteLoginUser(String accessToken) {
+        if (StrUtil.isNotBlank(accessToken)) {
+            String loginUserKey = CacheConstants.LOGIN_USER_KEY.concat(accessToken);
             this.redisTemplate.delete(loginUserKey);
         }
     }
@@ -150,15 +143,8 @@ public class JwtTokenProvider {
      * @param loginUser 登录用户
      */
     private void setUserAgent(LoginUser loginUser) {
-        var now1 = System.currentTimeMillis();
-        System.out.println("时间160：" + (now1));
         String userAgent = ServletUtils.getRequest().getHeader("User-Agent");
-        var now21 = System.currentTimeMillis();
-        System.out.println("时间1611：" + (now21-now1));
         Capabilities capabilities = UserAgentUtils.parser.parse(userAgent);
-
-        var now2 = System.currentTimeMillis();
-        System.out.println("时间161：" + (now2-now21));
 
         // 获取客户端浏览器
         String browser = capabilities.getBrowser();
@@ -166,11 +152,8 @@ public class JwtTokenProvider {
         String platform = capabilities.getPlatform();
         // 获取客户端IP和对应登录位置
         String ip = IpUtils.getIpAddress(ServletUtils.getRequest());
-        var now3 = System.currentTimeMillis();
-        System.out.println("时间162：" + (now3 -now2));
-        String loginLocation = ipAddressService.getRealAddressByIP(ip);
-        var now4 = System.currentTimeMillis();
-        System.out.println("时间163：" + (now4-now3));
+        String loginLocation = LocationUtils.getLocationByIP(ip);
+
         loginUser.setIpAddress(ip);
         loginUser.setLoginLocation(loginLocation);
         loginUser.setBrowser(browser);
@@ -185,7 +168,7 @@ public class JwtTokenProvider {
     public void autoRefreshToken(LoginUser loginUser) {
         LocalDateTime expireTime = loginUser.getExpireTime();
         LocalDateTime now = LocalDateTime.now();
-        // todo 分界点
+
         if (expireTime.isAfter(now) && expireTime.isBefore(now.plusMinutes(JwtConstants.REFRESH_LIMIT_MIN_MINUTE))) {
             refreshToken(loginUser);
         }
@@ -204,23 +187,6 @@ public class JwtTokenProvider {
         String loginUserKey = CacheConstants.LOGIN_USER_KEY.concat(loginUser.getToken());
         this.redisTemplate.opsForValue()
                 .set(loginUserKey, loginUser, tokenValidityInSeconds, TimeUnit.SECONDS);
-    }
-
-    /**
-     * 获取请求携带的令牌
-     *
-     * @param request 请求request
-     * @return optional令牌
-     */
-    public Optional<String> getTokenFromRequest(HttpServletRequest request) {
-        String bearerToken = request.getHeader(JwtConstants.AUTHORIZATION_HEADER);
-        if (bearerToken != null && bearerToken.startsWith(JwtConstants.TOKEN_PREFIX)) {
-            return Optional.of(bearerToken.split(" ")[1].trim());
-        }
-
-        log.debug("请求头不含 jwt token");
-
-        return Optional.empty();
     }
 
     /**

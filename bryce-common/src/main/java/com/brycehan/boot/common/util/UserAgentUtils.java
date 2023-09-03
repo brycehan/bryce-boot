@@ -25,10 +25,12 @@ public class UserAgentUtils {
     public static UserAgentParser parser = null;
 
     static {
+        log.info("初始化UserAgent解析器...");
         try {
             parser = new UserAgentService().loadParser();
         } catch (IOException | ParseException e) {
             log.error("UserAgentParser初始化失败：{}", e.getMessage());
         }
+        log.info("初始化UserAgent解析器完成");
     }
 }

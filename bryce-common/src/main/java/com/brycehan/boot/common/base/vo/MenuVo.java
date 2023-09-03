@@ -30,7 +30,7 @@ public class MenuVo {
     /**
      * 类型（D：目录，M：菜单，B：按钮）
      */
-    private String menuType;
+    private String type;
 
     /**
      * 组件地址

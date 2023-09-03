@@ -4,24 +4,18 @@ import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.brycehan.boot.common.base.entity.PageResult;
-import com.brycehan.boot.common.base.http.HttpResponseStatusEnum;
 import com.brycehan.boot.common.base.id.IdGenerator;
-import com.brycehan.boot.common.exception.BusinessException;
-import com.brycehan.boot.common.service.impl.BaseServiceImpl;
+import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
 import com.brycehan.boot.common.util.ExcelUtils;
 import com.brycehan.boot.system.convert.SysPostConvert;
-import com.brycehan.boot.system.dto.DeleteDto;
 import com.brycehan.boot.system.dto.SysPostDto;
 import com.brycehan.boot.system.dto.SysPostPageDto;
-import com.brycehan.boot.system.entity.SysPost;
 import com.brycehan.boot.system.mapper.SysPostMapper;
 import com.brycehan.boot.system.service.SysPostService;
 import com.brycehan.boot.system.vo.SysPostVo;
-import lombok.AllArgsConstructor;
-import org.apache.commons.collections4.CollectionUtils;
+import com.brycehan.boot.system.entity.SysPost;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
@@ -34,55 +28,32 @@ import java.util.Objects;
  * @since 2022/10/31
  */
 @Service
-@AllArgsConstructor
 public class SysPostServiceImpl extends BaseServiceImpl<SysPostMapper, SysPost> implements SysPostService {
-
-    private final SysPostMapper sysPostMapper;
 
     @Override
     public void save(SysPostDto sysPostDto) {
         SysPost sysPost = SysPostConvert.INSTANCE.convert(sysPostDto);
-        sysPost.setId(IdGenerator.generate());
-        this.sysPostMapper.insert(sysPost);
+        sysPost.setId(IdGenerator.nextId());
+        this.baseMapper.insert(sysPost);
     }
 
     @Override
     public void update(SysPostDto sysPostDto) {
         SysPost sysPost = SysPostConvert.INSTANCE.convert(sysPostDto);
-        this.sysPostMapper.updateById(sysPost);
+        this.baseMapper.updateById(sysPost);
     }
-
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void delete(DeleteDto deleteDto) {
-        // 过滤空数据
-        List<String> ids = deleteDto.getIds()
-                .stream()
-                .filter(StringUtils::isNotBlank)
-                .toList();
-        if(CollectionUtils.isNotEmpty(ids)){
-            throw BusinessException.responseStatus(HttpResponseStatusEnum.HTTP_BAD_REQUEST);
-        }
-        // 删除岗位
-        removeBatchByIds(ids);
-        // 删除岗位用户关系
-
-    }
-
 
     @Override
     public PageResult<SysPostVo> page(SysPostPageDto sysPostPageDto) {
 
-
-
-        IPage<SysPost> page =  this.sysPostMapper.selectPage(getPage(sysPostPageDto), getWrapper(sysPostPageDto));
+        IPage<SysPost> page =  this.baseMapper.selectPage(getPage(sysPostPageDto), getWrapper(sysPostPageDto));
 
         return new PageResult<>(page.getTotal(), SysPostConvert.INSTANCE.convert(page.getRecords()));
     }
 
     @Override
     public void export(SysPostPageDto sysPostPageDto) {
-        List<SysPost> sysPosts = this.sysPostMapper.selectList(getWrapper(sysPostPageDto));
+        List<SysPost> sysPosts = this.baseMapper.selectList(getWrapper(sysPostPageDto));
         List<SysPostVo> sysPostVos = SysPostConvert.INSTANCE.convert(sysPosts);
         ExcelUtils.export(SysPostVo.class, "岗位表", "岗位", sysPostVos);
     }
@@ -103,6 +74,6 @@ public class SysPostServiceImpl extends BaseServiceImpl<SysPostMapper, SysPost> 
 
     @Override
     public List<SysPost> selectPostsByUsername(String username) {
-        return this.sysPostMapper.selectPostsByUsername(username);
+        return this.baseMapper.selectPostsByUsername(username);
     }
 }

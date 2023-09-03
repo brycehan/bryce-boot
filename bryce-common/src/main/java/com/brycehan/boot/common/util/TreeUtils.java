@@ -23,7 +23,7 @@ public class TreeUtils {
      * @return 树结构数据
      * @param <T> 节点类型
      */
-    public static <T extends TreeNode<T>> List<T> build(List<T> treeNodes, String parentId){
+    public static <T extends TreeNode<T>> List<T> build(List<T> treeNodes, Long parentId){
         Assert.notNull(parentId, "parentId不能为空");
 
         List<T> list = new ArrayList<>();
@@ -63,7 +63,7 @@ public class TreeUtils {
     public static <T extends TreeNode<T>> List<T> build(List<T> treeNodes){
         List<T> list = new ArrayList<>();
 
-        Map<String, T> nodeMap = new LinkedHashMap<>(treeNodes.size());
+        Map<Long, T> nodeMap = new LinkedHashMap<>(treeNodes.size());
         for (T treeNode : treeNodes) {
             nodeMap.put(treeNode.getId(), treeNode);
         }

@@ -1,11 +1,12 @@
 package com.brycehan.boot.system.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.brycehan.boot.common.base.entity.PageResult;
+import com.brycehan.boot.common.base.dto.IdsDto;
+import com.brycehan.boot.system.dto.SysConfigDto;
 import com.brycehan.boot.system.dto.SysConfigPageDto;
 import com.brycehan.boot.system.entity.SysConfig;
-import com.github.pagehelper.PageInfo;
-import jakarta.validation.constraints.NotNull;
-import org.springframework.validation.annotation.Validated;
+import com.brycehan.boot.system.vo.SysConfigVo;
 
 /**
  * 系统配置服务类
@@ -13,16 +14,29 @@ import org.springframework.validation.annotation.Validated;
  * @author Bryce Han
  * @since 2022/9/16
  */
-@Validated
 public interface SysConfigService extends IService<SysConfig> {
 
     /**
-     * 分页查询信息结果
+     * 添加系统配置表
      *
-     * @param sysConfigPageDto 搜索条件
+     * @param sysConfigDto 系统配置表Dto
+     */
+    void save(SysConfigDto sysConfigDto);
+
+    /**
+     * 更新系统配置表
+     *
+     * @param sysConfigDto 系统配置表Dto
+     */
+    void update(SysConfigDto sysConfigDto);
+
+    /**
+     * 系统配置表分页查询信息
+     *
+     * @param sysConfigPageDto 系统配置表分页搜索条件
      * @return 分页信息
      */
-    PageInfo<SysConfig> page(@NotNull SysConfigPageDto sysConfigPageDto);
+    PageResult<SysConfigVo> page(SysConfigPageDto sysConfigPageDto);
 
     /**
      * 根据键名查询参数配置

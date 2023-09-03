@@ -1,13 +1,14 @@
 package com.brycehan.boot.system.controller;
 
+import com.brycehan.boot.common.base.entity.PageResult;
 import com.brycehan.boot.common.base.http.ResponseResult;
 import com.brycehan.boot.common.base.id.IdGenerator;
-import com.brycehan.boot.common.validator.group.AddGroup;
-import com.brycehan.boot.common.validator.group.UpdateGroup;
+import com.brycehan.boot.common.validator.AddGroup;
+import com.brycehan.boot.common.validator.UpdateGroup;
 import com.brycehan.boot.system.dto.SysRolePageDto;
-import com.brycehan.boot.system.entity.SysRole;
 import com.brycehan.boot.system.service.SysRoleService;
-import com.github.pagehelper.PageInfo;
+import com.brycehan.boot.system.vo.SysRoleVo;
+import com.brycehan.boot.system.entity.SysRole;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -43,7 +44,7 @@ public class SysRoleController {
     @Secured(value = "ROLE_ADMIN")
     @PostMapping
     public ResponseResult<SysRole> save(@Parameter(description = "系统角色", required = true) @Validated(value = AddGroup.class) @RequestBody SysRole sysRole) {
-        sysRole.setId(IdGenerator.generate());
+        sysRole.setId(IdGenerator.nextId());
         this.sysRoleService.save(sysRole);
         SysRole role = this.sysRoleService.getById(sysRole.getId());
         return ResponseResult.ok(role);
@@ -99,10 +100,10 @@ public class SysRoleController {
      */
     @Operation(summary = "分页查询")
     @Secured(value = "ROLE_ADMIN")
-    @GetMapping(path = "/page")
-    public ResponseResult<PageInfo<SysRole>> page(@Parameter(description = "查询信息", required = true) @RequestBody SysRolePageDto sysRolePageDto) {
-        PageInfo<SysRole> pageInfo = this.sysRoleService.page(sysRolePageDto);
-        return ResponseResult.ok(pageInfo);
+    @PostMapping(path = "/page")
+    public ResponseResult<PageResult<SysRoleVo>> page(@Parameter(description = "查询信息", required = true) @RequestBody SysRolePageDto sysRolePageDto) {
+        PageResult<SysRoleVo> page = this.sysRoleService.page(sysRolePageDto);
+        return ResponseResult.ok(page);
     }
 
 }

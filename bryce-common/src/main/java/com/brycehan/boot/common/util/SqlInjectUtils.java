@@ -1,6 +1,6 @@
 package com.brycehan.boot.common.util;
 
-import com.brycehan.boot.common.base.http.HttpResponseStatusEnum;
+import com.brycehan.boot.common.base.http.HttpResponseStatus;
 import com.brycehan.boot.common.exception.BusinessException;
 import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -41,7 +41,7 @@ public class SqlInjectUtils {
         String finalParam = param;
         Arrays.stream(keywords).forEach(keyword -> {
             if (finalParam.contains(keyword)) {
-                throw BusinessException.responseStatus(HttpResponseStatusEnum.HTTP_PARAM_CONTAINS_ILLEGAL_CHAR);
+                throw BusinessException.responseStatus(HttpResponseStatus.HTTP_PARAM_CONTAINS_ILLEGAL_CHAR);
             }
         });
 

@@ -25,6 +25,6 @@
     <select id="page" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
-        from brc_sys_login_info
+        from brc_sys_login_log
     </select>
 </mapper>

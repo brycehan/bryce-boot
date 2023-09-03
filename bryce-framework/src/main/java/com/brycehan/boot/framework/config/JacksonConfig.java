@@ -9,10 +9,9 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
-import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
-import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -28,7 +27,7 @@ import static java.time.format.DateTimeFormatter.*;
  * @author Bryce Han
  * @since 2022/5/26
  */
-@AutoConfiguration(before = JacksonAutoConfiguration.class)
+@Configuration
 public class JacksonConfig {
 
     /**
@@ -37,6 +36,7 @@ public class JacksonConfig {
      * @return Jackson自定义配置
      */
     @Bean
+//    @Order(Ordered.HIGHEST_PRECEDENCE)
     public Jackson2ObjectMapperBuilderCustomizer customizer(){
 
         DateTimeFormatter dateTimeFormatter = new DateTimeFormatterBuilder()
@@ -58,5 +58,4 @@ public class JacksonConfig {
             builder.featuresToDisable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         };
     }
-
 }

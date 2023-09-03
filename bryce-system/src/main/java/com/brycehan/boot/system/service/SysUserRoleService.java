@@ -2,7 +2,6 @@ package com.brycehan.boot.system.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.brycehan.boot.system.entity.SysUserRole;
-import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 
@@ -12,7 +11,6 @@ import java.util.List;
  * @author Bryce Han
  * @since 2022/5/15
  */
-@Validated
 public interface SysUserRoleService extends IService<SysUserRole> {
 
     /**
@@ -21,5 +19,5 @@ public interface SysUserRoleService extends IService<SysUserRole> {
      * @param userId 用户ID
      * @return 拥有的角色ID列表
      */
-    List<String> getRoleIdListByUserId(String userId);
+    List<Long> getRoleIdListByUserId(Long userId);
 }

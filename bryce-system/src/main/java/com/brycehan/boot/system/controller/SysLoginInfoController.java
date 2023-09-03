@@ -1,13 +1,14 @@
 package com.brycehan.boot.system.controller;
 
+import com.brycehan.boot.common.base.entity.PageResult;
 import com.brycehan.boot.common.base.http.ResponseResult;
 import com.brycehan.boot.common.base.id.IdGenerator;
-import com.brycehan.boot.common.validator.group.AddGroup;
-import com.brycehan.boot.common.validator.group.UpdateGroup;
+import com.brycehan.boot.common.validator.AddGroup;
+import com.brycehan.boot.common.validator.UpdateGroup;
 import com.brycehan.boot.system.dto.SysLoginInfoPageDto;
 import com.brycehan.boot.system.entity.SysLoginInfo;
 import com.brycehan.boot.system.service.SysLoginInfoService;
-import com.github.pagehelper.PageInfo;
+import com.brycehan.boot.system.vo.SysLoginInfoVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -41,7 +42,7 @@ public class SysLoginInfoController {
     @Operation(summary = "保存系统登录信息")
     @PostMapping
     public ResponseResult<Void> save(@Parameter(description = "系统登录信息", required = true) @Validated(value = AddGroup.class) @RequestBody SysLoginInfo sysLoginInfo) {
-        sysLoginInfo.setId(IdGenerator.generate());
+        sysLoginInfo.setId(IdGenerator.nextId());
         this.sysLoginInfoService.save(sysLoginInfo);
         return ResponseResult.ok();
     }
@@ -93,8 +94,8 @@ public class SysLoginInfoController {
      */
     @Operation(summary = "分页查询")
     @GetMapping(path = "/page")
-    public ResponseResult<PageInfo<SysLoginInfo>> page(@Parameter(description = "查询信息", required = true) @RequestBody SysLoginInfoPageDto sysLoginInfoPageDto) {
-        PageInfo<SysLoginInfo> pageInfo = this.sysLoginInfoService.page(sysLoginInfoPageDto);
+    public ResponseResult<PageResult<SysLoginInfoVo>> page(@Parameter(description = "查询信息", required = true) @RequestBody SysLoginInfoPageDto sysLoginInfoPageDto) {
+        PageResult<SysLoginInfoVo> pageInfo = this.sysLoginInfoService.page(sysLoginInfoPageDto);
         return ResponseResult.ok(pageInfo);
     }
 

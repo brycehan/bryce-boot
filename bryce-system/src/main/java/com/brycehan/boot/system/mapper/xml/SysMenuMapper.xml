@@ -5,31 +5,28 @@
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.brycehan.boot.system.entity.SysMenu">
         <id column="id" property="id"/>
-        <result column="menu_name" property="menuName"/>
-        <result column="menu_type" property="menuType"/>
+        <result column="name" property="name"/>
+        <result column="type" property="type"/>
         <result column="parent_id" property="parentId"/>
         <result column="icon" property="icon"/>
         <result column="url" property="url"/>
-        <result column="query" property="query"/>
-        <result column="is_frame" property="isFrame"/>
-        <result column="is_cache" property="isCache"/>
-        <result column="visible" property="visible"/>
-        <result column="permission" property="permission"/>
-        <result column="delete_flag" property="deleteFlag"/>
-        <result column="sort_number" property="sortNumber"/>
-        <result column="status" property="status"/>
-        <result column="create_user_id" property="createUserId"/>
-        <result column="create_time" property="createTime"/>
-        <result column="update_user_id" property="updateUserId"/>
-        <result column="update_time" property="updateTime"/>
+        <result column="authority" property="authority"/>
+        <result column="icon" property="icon"/>
+        <result column="open_style" property="openStyle"/>
+        <result column="sort" property="sort"/>
         <result column="remark" property="remark"/>
+        <result column="status" property="status"/>
+        <result column="deleted" property="deleted"/>
+        <result column="created_user_id" property="createdUserId"/>
+        <result column="created_time" property="createdTime"/>
+        <result column="updated_user_id" property="updatedUserId"/>
+        <result column="updated_time" property="updatedTime"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id
-        , menu_name, menu_type, parent_id, icon, url, query, is_frame, is_cache, visible, permission,
-        delete_flag, sort_number, status, create_user_id, create_time, update_user_id, update_time, remark
+        id, name, type, parent_id, icon, url, authority,
+        deleted, sort, status, created_user_id, created_time, updated_user_id, updated_time, remark
     </sql>
 
     <!-- 分页查询 -->
@@ -38,45 +35,45 @@
         <include refid="Base_Column_List"/>
         from brc_sys_menu
         <where>
-            <if test="menuName != null and menuName != ''">
-                and menuName like concat('%', #{menu_name}, '%')
+            <if test="name != null and name != ''">
+                and name like concat('%', #{name}, '%')
             </if>
         </where>
     </select>
 
     <!-- 根据用户ID查询菜单权限 -->
-    <select id="selectMenuPermissionByUserId" resultType="java.lang.String">
-        select bsm.permission
+    <select id="findAuthorityByUserId" resultType="java.lang.String">
+        select bsm.authority
         from brc_sys_menu bsm
         left join brc_sys_role_menu bsrm on bsm.id = bsrm.menu_id
         left join brc_sys_user_role bsur on bsrm.role_id = bsur.role_id
         where bsm.status = '1'
-        and bsm.permission is not null
-        and bsur.user_id = #{userId}
+          and bsm.deleted = 0
+          and bsm.authority is not null
+          and bsur.user_id = #{userId}
     </select>
-    <select id="selectMenuTreeByUserId" resultType="com.brycehan.boot.system.entity.SysMenu">
+    <select id="selectMenuTreeList" resultType="com.brycehan.boot.system.entity.SysMenu">
         select distinct bsm.id,
-        bsm.menu_name,
-        bsm.menu_type,
-        bsm.parent_id,
-        bsm.icon,
-        bsm.url,
-        bsm.query,
-        bsm.is_frame,
-        bsm.is_cache,
-        bsm.visible,
-        bsm.permission,
-        bsm.sort_number,
-        bsm.status,
-        bsm.create_time
+            bsm.name,
+            bsm.type,
+            bsm.parent_id,
+            bsm.icon,
+            bsm.url,
+            bsm.authority,
+            bsm.sort,
+            bsm.status,
+            bsm.created_time
         from brc_sys_menu bsm
         left join brc_sys_role_menu bsrm on bsm.id = bsrm.menu_id
         left join brc_sys_user_role bsur on bsrm.role_id = bsur.role_id
-        left join brc_sys_role bsr on bsur.role_id = bsr.id
-        where bsm.menu_type in ('D', 'M')
-        and bsm.status = '1'
-        and bsr.status = '1'
-        and bsur.user_id = #{userId}
-        order by bsm.parent_id, bsm.sort_number
+        where bsm.deleted = 0
+            and bsrm.deleted = 0
+            and bsur.deleted = 0
+            and bsm.status = '1'
+            and bsur.user_id = #{userId}
+        <if test="type != null and type !=''">
+            and bsm.type = #{type}
+        </if>
+        order by bsm.parent_id, bsm.sort
     </select>
 </mapper>

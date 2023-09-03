@@ -1,22 +1,26 @@
 package com.brycehan.boot.system.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.brycehan.boot.common.base.entity.PageResult;
+import com.brycehan.boot.common.base.id.IdGenerator;
 import com.brycehan.boot.common.constant.CacheConstants;
+import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
+import com.brycehan.boot.system.convert.SysConfigConvert;
+import com.brycehan.boot.system.dto.SysConfigDto;
 import com.brycehan.boot.system.dto.SysConfigPageDto;
 import com.brycehan.boot.system.entity.SysConfig;
 import com.brycehan.boot.system.mapper.SysConfigMapper;
 import com.brycehan.boot.system.service.SysConfigService;
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageInfo;
+import com.brycehan.boot.system.vo.SysConfigVo;
 import jakarta.annotation.Resource;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
-
-import static com.github.pagehelper.page.PageMethod.startPage;
 
 /**
  * 系统配置服务实现类
@@ -25,40 +29,41 @@ import static com.github.pagehelper.page.PageMethod.startPage;
  * @since 2022/9/16
  */
 @Service
-public class SysConfigServiceImpl extends ServiceImpl<SysConfigMapper, SysConfig> implements SysConfigService {
-
-    private final SysConfigMapper sysConfigMapper;
+public class SysConfigServiceImpl extends BaseServiceImpl<SysConfigMapper, SysConfig> implements SysConfigService {
 
     @Resource
     private StringRedisTemplate stringRedisTemplate;
 
-    public SysConfigServiceImpl(SysConfigMapper sysConfigMapper) {
-        this.sysConfigMapper = sysConfigMapper;
+    @Override
+    public void save(SysConfigDto sysConfigDto) {
+        SysConfig sysConfig = SysConfigConvert.INSTANCE.convert(sysConfigDto);
+        sysConfig.setId(IdGenerator.nextId());
+        this.baseMapper.insert(sysConfig);
+    }
+
+    @Override
+    public void update(SysConfigDto sysConfigDto) {
+        SysConfig sysConfig = SysConfigConvert.INSTANCE.convert(sysConfigDto);
+        this.baseMapper.updateById(sysConfig);
+    }
+
+    @Override
+    public PageResult<SysConfigVo> page(SysConfigPageDto sysConfigPageDto) {
+
+        IPage<SysConfig> page = this.baseMapper.selectPage(getPage(sysConfigPageDto), getWrapper(sysConfigPageDto));
+
+        return new PageResult<>(page.getTotal(), SysConfigConvert.INSTANCE.convert(page.getRecords()));
     }
 
     /**
-     * 查询多条数据
+     * 封装查询条件
      *
-     * @param sysConfigPageDto 分页查询数据对象
-     * @return 对象列表
+     * @param sysConfigPageDto 系统配置表分页dto
+     * @return 查询条件Wrapper
      */
-    @Override
-    public PageInfo<SysConfig> page(SysConfigPageDto sysConfigPageDto) {
-
-        //1.根据page、size初始化分页参数，此时分页插件内部会将这两个参数放到ThreadLocal线程上下文中
-        Page<SysConfig> page = startPage(sysConfigPageDto.getCurrent(), sysConfigPageDto.getPageSize());
-
-        /*
-          2.紧跟初始化代码，查询业务数据
-          2.1.分页拦截器根据page、size参数改写sql语句，生成count并查询
-          2.2.分页拦截器执行实际的业务查询
-          2.3.分页拦截器将2.1.的总记录数与2.2查询的分页数据封装到1中的page
-          2.4.分页拦截器清空ThreadLocal上下文中记录的分页参数信息，防止内存泄漏
-         */
-        this.sysConfigMapper.page(sysConfigPageDto);
-
-        //3.转换为PageInfo后返回
-        return new PageInfo<>(page);
+    private Wrapper<SysConfig> getWrapper(SysConfigPageDto sysConfigPageDto){
+        LambdaQueryWrapper<SysConfig> wrapper = new LambdaQueryWrapper<>();
+        return wrapper;
     }
 
     // todo 优化
@@ -76,7 +81,7 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigMapper, SysConfig
                 .select("config_value")
                 .eq("config_key", configKey)
                 .last("limit 1");
-        SysConfig sysConfig = this.sysConfigMapper.selectOne(queryWrapper);
+        SysConfig sysConfig = this.baseMapper.selectOne(queryWrapper);
         if (Objects.nonNull(sysConfig)) {
             // 3、添加到缓存中
             this.stringRedisTemplate.opsForValue().set(getCacheKey(configKey), sysConfig.getConfigValue());

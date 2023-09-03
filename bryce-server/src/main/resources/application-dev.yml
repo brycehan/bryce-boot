@@ -1,0 +1,54 @@
+# spring配置
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/bryce_boot?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useServerPrepStmts=true&cachePrepStmts=true
+    username: root
+    password: root
+  devtools:
+    # 热部署开关
+    restart:
+      enabled: true
+  data:
+    # data redis配置
+    redis:
+      host: localhost
+      port: 6379
+      database: 0
+  task:
+    # 定时任务
+    scheduling:
+      thread-name-prefix: bryce-scheduling-
+      pool:
+        size: 8
+    # 异步任务
+    execution:
+      thread-name-prefix: bryce-task-
+      pool:
+        core-size: 20
+        max-size: 100
+        queue-capacity: 20
+        keep-alive: 60s
+# mybatis plus配置
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+# 接口配置
+springdoc:
+  api-docs:
+    enabled: true
+# 自定义配置
+bryce:
+  jwt:
+    # 测试100天有效期
+    token-validity-in-seconds: 8640000
+
+# 日志配置
+logging:
+  level:
+    root: info
+    web: info
+    com.brycehan.boot: info
+    com.brycehan.boot.system.mapper: debug
+
+
