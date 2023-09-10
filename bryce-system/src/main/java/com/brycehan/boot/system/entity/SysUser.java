@@ -76,6 +76,16 @@ public class SysUser extends BaseEntity {
     private Integer type;
 
     /**
+     * 超级管理员
+     */
+    private Boolean superAdmin = false;
+
+    /**
+     * 租户管理员
+     */
+    private Boolean tenantAdmin = false;
+
+    /**
      * 部门ID
      */
     @Schema(description = "部门ID")

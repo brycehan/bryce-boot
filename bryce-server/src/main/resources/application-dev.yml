@@ -31,6 +31,7 @@ spring:
         keep-alive: 60s
 # mybatis plus配置
 mybatis-plus:
+  # 原生配置
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 # 接口配置

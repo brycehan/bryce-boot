@@ -303,41 +303,35 @@ create table brc_sys_operate_log
 drop table if exists brc_sys_dict_type;
 create table brc_sys_dict_type
 (
-    id              bigint not null comment '字典主键',
+    id              bigint not null comment 'ID',
     dict_name       varchar(100)    comment '字典名称',
     dict_type       varchar(100)    comment '字典类型',
+    sort            int         default '0' comment '显示顺序',
     status          tinyint      default '1' comment '状态（0：停用，1：正常）',
-    created_user_id  bigint comment '创建人ID',
-    created_time     datetime        comment '创建时间',
-    updated_user_id  bigint comment '修改人ID',
-    updated_time     datetime        comment '修改时间',
     remark          varchar(500)    comment '备注',
+    tenant_id       bigint          comment '租户ID',
+    version         int             comment '版本号',
+    deleted         tinyint         comment '删除标识（0：存在，1：删除）',
+    created_user_id  bigint          comment '创建人ID',
+    created_time     datetime        comment '创建时间',
+    updated_user_id  bigint          comment '修改人ID',
+    updated_time     datetime        comment '修改时间',
     primary key (id),
-    constraint brc_sys_dict_type_dict_type_unique unique index (dict_type)
-) engine InnoDB
-  default charset utf8mb4 comment '系统字典类型表';
+    constraint uk_dict_type unique (dict_type)
+) engine InnoDB default charset utf8mb4 comment '系统字典类型';
+
 
 -- 初始化-系统字典类型表数据
-insert into brc_sys_dict_type
-values (1, '用户性别', 'sys_user_gender', '1', '1', sysdate(), null, null, '用户性别列表');
-insert into brc_sys_dict_type
-values (2, '菜单状态', 'sys_show_hide', '1', '1', sysdate(), null, null, '菜单状态列表');
-insert into brc_sys_dict_type
-values (3, '系统开关', 'sys_normal_disable', '1', '1', sysdate(), null, null, '系统开关列表');
-insert into brc_sys_dict_type
-values (4, '任务状态', 'sys_job_status', '1', '1', sysdate(), null, null, '任务状态列表');
-insert into brc_sys_dict_type
-values (5, '任务分组', 'sys_job_group', '1', '1', sysdate(), null, null, '任务分组列表');
-insert into brc_sys_dict_type
-values (6, '系统是否', 'sys_yes_no', '1', '1', sysdate(), null, null, '系统是否列表');
-insert into brc_sys_dict_type
-values (7, '通知类型', 'sys_notice_type', '1', '1', sysdate(), null, null, '通知类型列表');
-insert into brc_sys_dict_type
-values (8, '通知状态', 'sys_notice_status', '1', '1', sysdate(), null, null, '通知状态列表');
-insert into brc_sys_dict_type
-values (9, '操作类型', 'sys_operation_type', '1', '1', sysdate(), null, null, '操作类型列表');
-insert into brc_sys_dict_type
-values (10, '系统状态', 'sys_common_status', '1', '1', sysdate(), null, null, '登录状态列表');
+INSERT INTO bryce_boot.brc_sys_dict_type (id, dict_name, dict_type, sort, status, remark, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1, '用户性别', 'sys_user_gender', null, 1, '用户性别列表', null, null, null, 1, '2023-08-25 12:45:16', null, null);
+INSERT INTO bryce_boot.brc_sys_dict_type (id, dict_name, dict_type, sort, status, remark, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (2, '菜单状态', 'sys_show_hide', null, 1, '菜单状态列表', null, null, null, 1, '2023-08-25 12:45:16', null, null);
+INSERT INTO bryce_boot.brc_sys_dict_type (id, dict_name, dict_type, sort, status, remark, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (3, '系统开关', 'sys_normal_disable', null, 1, '系统开关列表', null, null, null, 1, '2023-08-25 12:45:16', null, null);
+INSERT INTO bryce_boot.brc_sys_dict_type (id, dict_name, dict_type, sort, status, remark, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (4, '任务状态', 'sys_job_status', null, 1, '任务状态列表', null, null, null, 1, '2023-08-25 12:45:16', null, null);
+INSERT INTO bryce_boot.brc_sys_dict_type (id, dict_name, dict_type, sort, status, remark, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (5, '任务分组', 'sys_job_group', null, 1, '任务分组列表', null, null, null, 1, '2023-08-25 12:45:16', null, null);
+INSERT INTO bryce_boot.brc_sys_dict_type (id, dict_name, dict_type, sort, status, remark, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (6, '系统是否', 'sys_yes_no', null, 1, '系统是否列表', null, null, null, 1, '2023-08-25 12:45:16', null, null);
+INSERT INTO bryce_boot.brc_sys_dict_type (id, dict_name, dict_type, sort, status, remark, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (7, '通知类型', 'sys_notice_type', null, 1, '通知类型列表', null, null, null, 1, '2023-08-25 12:45:16', null, null);
+INSERT INTO bryce_boot.brc_sys_dict_type (id, dict_name, dict_type, sort, status, remark, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (8, '通知状态', 'sys_notice_status', null, 1, '通知状态列表', null, null, null, 1, '2023-08-25 12:45:16', null, null);
+INSERT INTO bryce_boot.brc_sys_dict_type (id, dict_name, dict_type, sort, status, remark, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (9, '操作类型', 'sys_operate_type', null, 1, '操作类型列表', null, null, null, 1, '2023-08-25 12:45:16', null, null);
+INSERT INTO bryce_boot.brc_sys_dict_type (id, dict_name, dict_type, sort, status, remark, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (10, '系统状态', 'sys_common_status', null, 1, '登录状态列表', null, null, null, 1, '2023-08-25 12:45:16', null, null);
 
 -- 12、系统字典数据表
 drop table if exists brc_sys_dict_data;
@@ -346,80 +340,52 @@ create table brc_sys_dict_data
     id              bigint not null comment 'ID',
     dict_label      varchar(100)    comment '字典标签',
     dict_value      varchar(100)    comment '字典值',
-    dict_type       varchar(100)    comment '字典类型',
-    css_class       varchar(100)    comment '样式属性（其他样式扩展）',
-    list_class      varchar(100)    comment '表格回显样式',
-    is_default      tinyint      default '0' comment '是否默认（1：是，0：否）',
+    dict_type_id    bigint    comment '字典类型',
+    label_class       varchar(100)    comment '标签属性',
     sort            int         default '0' comment '显示顺序',
     status          tinyint      default '1' comment '状态（0：停用，1：正常）',
-    created_user_id  bigint comment '创建人ID',
-    created_time     datetime        comment '创建时间',
-    updated_user_id  bigint comment '修改人ID',
-    updated_time     datetime        comment '修改时间',
     remark          varchar(500)    comment '备注',
+    tenant_id       bigint          comment '租户ID',
+    version         int             comment '版本号',
+    deleted         tinyint         comment '删除标识（0：存在，1：删除）',
+    created_user_id  bigint          comment '创建人ID',
+    created_time     datetime        comment '创建时间',
+    updated_user_id  bigint          comment '修改人ID',
+    updated_time     datetime        comment '修改时间',
     primary key (id)
 ) engine InnoDB
-  default charset utf8mb4 comment '系统字典数据表';
+  default charset utf8mb4 comment '系统字典数据';
 
 -- 初始化-系统字典数据表数据
-insert into brc_sys_dict_data
-values (1, '男', '0', 'sys_user_sex', '', '', '1', 1, '1', '1', sysdate(), null, null, '性别男');
-insert into brc_sys_dict_data
-values (2, '女', '1', 'sys_user_sex', '', '', '0', 2, '1', '1', sysdate(), null, null, '性别女');
-insert into brc_sys_dict_data
-values (3, '未知', '2', 'sys_user_sex', '', '', '0', 3, '1', '1', sysdate(), null, null, '性别未知');
-insert into brc_sys_dict_data
-values (4, '显示', '0', 'sys_show_hide', '', 'primary', '1', 1, '1', '1', sysdate(), null, null, '显示菜单');
-insert into brc_sys_dict_data
-values (5, '隐藏', '1', 'sys_show_hide', '', 'danger', '0', 2, '1', '1', sysdate(), null, null, '隐藏菜单');
-insert into brc_sys_dict_data
-values (6, '正常', '0', 'sys_normal_disable', '', 'primary', '1', 1, '1', '1', sysdate(), null, null, '正常状态');
-insert into brc_sys_dict_data
-values (7, '停用', '1', 'sys_normal_disable', '', 'danger', '0', 2, '1', '1', sysdate(), null, null, '停用状态');
-insert into brc_sys_dict_data
-values (8, '正常', '0', 'sys_job_status', '', 'primary', '1', 1, '1', '1', sysdate(), null, null, '正常状态');
-insert into brc_sys_dict_data
-values (9, '暂停', '1', 'sys_job_status', '', 'danger', '0', 2, '1', '1', sysdate(), null, null, '停用状态');
-insert into brc_sys_dict_data
-values (10, '默认', 'DEFAULT', 'sys_job_group', '', '', '1', 1, '1', '1', sysdate(), null, null, '默认分组');
-insert into brc_sys_dict_data
-values (11, '系统', 'SYSTEM', 'sys_job_group', '', '', '0', 2, '1', '1', sysdate(), null, null, '系统分组');
-insert into brc_sys_dict_data
-values (12, '是', 'Y', 'sys_yes_no', '', 'primary', '1', 1, '1', '1', sysdate(), null, null, '系统默认是');
-insert into brc_sys_dict_data
-values (13, '否', 'N', 'sys_yes_no', '', 'danger', '0', 2, '1', '1', sysdate(), null, null, '系统默认否');
-insert into brc_sys_dict_data
-values (14, '通知', '1', 'sys_notice_type', '', 'warning', '1', 1, '1', '1', sysdate(), null, null, '通知');
-insert into brc_sys_dict_data
-values (15, '公告', '2', 'sys_notice_type', '', 'success', '0', 2, '1', '1', sysdate(), null, null, '公告');
-insert into brc_sys_dict_data
-values (16, '正常', '0', 'sys_notice_status', '', 'primary', '1', 1, '1', '1', sysdate(), null, null, '正常状态');
-insert into brc_sys_dict_data
-values (17, '关闭', '1', 'sys_notice_status', '', 'danger', '0', 2, '1', '1', sysdate(), null, null, '关闭状态');
-insert into brc_sys_dict_data
-values (18, '其他', '0', 'sys_operation_type', '', 'info', '0', 99, '1', '1', sysdate(), null, null, '其他操作');
-insert into brc_sys_dict_data
-values (19, '新增', '1', 'sys_operation_type', '', 'info', '0', 1, '1', '1', sysdate(), null, null, '新增操作');
-insert into brc_sys_dict_data
-values (20, '修改', '2', 'sys_operation_type', '', 'info', '0', 2, '1', '1', sysdate(), null, null, '修改操作');
-insert into brc_sys_dict_data
-values (21, '删除', '3', 'sys_operation_type', '', 'danger', '0', 3, '1', '1', sysdate(), null, null, '删除操作');
-insert into brc_sys_dict_data
-values (22, '授权', '4', 'sys_operation_type', '', 'primary', '0', 4, '1', '1', sysdate(), null, null, '授权操作');
-insert into brc_sys_dict_data
-values (23, '导出', '5', 'sys_operation_type', '', 'warning', '0', 5, '1', '1', sysdate(), null, null, '导出操作');
-insert into brc_sys_dict_data
-values (24, '导入', '6', 'sys_operation_type', '', 'warning', '0', 6, '1', '1', sysdate(), null, null, '导入操作');
-insert into brc_sys_dict_data
-values (25, '强退', '7', 'sys_operation_type', '', 'danger', '0', 7, '1', '1', sysdate(), null, null, '强退操作');
-insert into brc_sys_dict_data
-values (26, '生成代码', '8', 'sys_operation_type', '', 'warning', '0', 8, '1', '1', sysdate(), null, null, '生成操作');
-insert into brc_sys_dict_data
-values (27, '清空数据', '9', 'sys_operation_type', '', 'danger', '0', 9, '1', '1', sysdate(), null, null, '清空操作');
-insert into brc_sys_dict_data
-values (28, '成功', '0', 'sys_common_status', '', 'primary', '0', 1, '1', '1', sysdate(), null, null, '正常状态');
-insert into brc_sys_dict_data
-values (29, '失败', '1', 'sys_common_status', '', 'danger', '0', 2, '1', '1', sysdate(), null, null, '停用状态');
+INSERT INTO bryce_boot.brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, `default`, remark, sort, status, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1, '男', '0', null, '', 1, '', 1, 1, null, null, null, 1, '2023-08-25 12:45:16', null, null);
+INSERT INTO bryce_boot.brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, `default`, remark, sort, status, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (2, '女', '1', null, '', 0, '', 2, 1, null, null, null, 1, '2023-08-25 12:45:16', null, null);
+INSERT INTO bryce_boot.brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, `default`, remark, sort, status, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (3, '未知', '2', null, '', 0, '', 3, 1, null, null, null, 1, '2023-08-25 12:45:16', null, null);
+INSERT INTO bryce_boot.brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, `default`, remark, sort, status, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (4, '显示', '0', '2', 'primary', 1, '', 1, 1, null, null, null, 1, '2023-08-25 12:45:16', null, null);
+INSERT INTO bryce_boot.brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, `default`, remark, sort, status, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (5, '隐藏', '1', '2', 'danger', 0, '', 2, 1, null, null, null, 1, '2023-08-25 12:45:16', null, null);
+INSERT INTO bryce_boot.brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, `default`, remark, sort, status, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (6, '正常', '0', '3', 'primary', 1, '', 1, 1, null, null, null, 1, '2023-08-25 12:45:16', null, null);
+INSERT INTO bryce_boot.brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, `default`, remark, sort, status, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (7, '停用', '1', '3', 'danger', 0, '', 2, 1, null, null, null, 1, '2023-08-25 12:45:16', null, null);
+INSERT INTO bryce_boot.brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, `default`, remark, sort, status, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (8, '正常', '0', '4', 'primary', 1, '', 1, 1, null, null, null, 1, '2023-08-25 12:45:16', null, null);
+INSERT INTO bryce_boot.brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, `default`, remark, sort, status, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (9, '暂停', '1', '4', 'danger', 0, '', 2, 1, null, null, null, 1, '2023-08-25 12:45:16', null, null);
+INSERT INTO bryce_boot.brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, `default`, remark, sort, status, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (10, '默认', 'DEFAULT', '5', '', 1, '', 1, 1, null, null, null, 1, '2023-08-25 12:45:16', null, null);
+INSERT INTO bryce_boot.brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, `default`, remark, sort, status, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (11, '系统', 'SYSTEM', '5', '', 0, '', 2, 1, null, null, null, 1, '2023-08-25 12:45:16', null, null);
+INSERT INTO bryce_boot.brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, `default`, remark, sort, status, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (12, '是', 'Y', '6', 'primary', 1, '', 1, 1, null, null, null, 1, '2023-08-25 12:45:16', null, null);
+INSERT INTO bryce_boot.brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, `default`, remark, sort, status, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (13, '否', 'N', '6', 'danger', 0, '', 2, 1, null, null, null, 1, '2023-08-25 12:45:16', null, null);
+INSERT INTO bryce_boot.brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, `default`, remark, sort, status, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (14, '通知', '1', '7', 'warning', 1, '', 1, 1, null, null, null, 1, '2023-08-25 12:45:16', null, null);
+INSERT INTO bryce_boot.brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, `default`, remark, sort, status, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (15, '公告', '2', '7', 'success', 0, '', 2, 1, null, null, null, 1, '2023-08-25 12:45:16', null, null);
+INSERT INTO bryce_boot.brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, `default`, remark, sort, status, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (16, '正常', '0', '8', 'primary', 1, '', 1, 1, null, null, null, 1, '2023-08-25 12:45:16', null, null);
+INSERT INTO bryce_boot.brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, `default`, remark, sort, status, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (17, '关闭', '1', '8', 'danger', 0, '', 2, 1, null, null, null, 1, '2023-08-25 12:45:16', null, null);
+INSERT INTO bryce_boot.brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, `default`, remark, sort, status, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (18, '其他', '0', '9', 'info', 0, '', 99, 1, null, null, null, 1, '2023-08-25 12:45:16', null, null);
+INSERT INTO bryce_boot.brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, `default`, remark, sort, status, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (19, '新增', '1', '9', 'info', 0, '', 1, 1, null, null, null, 1, '2023-08-25 12:45:16', null, null);
+INSERT INTO bryce_boot.brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, `default`, remark, sort, status, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (20, '修改', '2', '9', 'info', 0, '', 2, 1, null, null, null, 1, '2023-08-25 12:45:16', null, null);
+INSERT INTO bryce_boot.brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, `default`, remark, sort, status, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (21, '删除', '3', '9', 'danger', 0, '', 3, 1, null, null, null, 1, '2023-08-25 12:45:16', null, null);
+INSERT INTO bryce_boot.brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, `default`, remark, sort, status, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (22, '授权', '4', '9', 'primary', 0, '', 4, 1, null, null, null, 1, '2023-08-25 12:45:16', null, null);
+INSERT INTO bryce_boot.brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, `default`, remark, sort, status, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (23, '导出', '5', '9', 'warning', 0, '', 5, 1, null, null, null, 1, '2023-08-25 12:45:16', null, null);
+INSERT INTO bryce_boot.brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, `default`, remark, sort, status, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (24, '导入', '6', '9', 'warning', 0, '', 6, 1, null, null, null, 1, '2023-08-25 12:45:16', null, null);
+INSERT INTO bryce_boot.brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, `default`, remark, sort, status, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (25, '强退', '7', '9', 'danger', 0, '', 7, 1, null, null, null, 1, '2023-08-25 12:45:16', null, null);
+INSERT INTO bryce_boot.brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, `default`, remark, sort, status, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (26, '生成代码', '8', '9', 'warning', 0, '', 8, 1, null, null, null, 1, '2023-08-25 12:45:16', null, null);
+INSERT INTO bryce_boot.brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, `default`, remark, sort, status, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (27, '清空数据', '9', '9', 'danger', 0, '', 9, 1, null, null, null, 1, '2023-08-25 12:45:16', null, null);
+INSERT INTO bryce_boot.brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, `default`, remark, sort, status, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (28, '成功', '0', '10', 'primary', 0, '', 1, 1, null, null, null, 1, '2023-08-25 12:45:16', null, null);
+INSERT INTO bryce_boot.brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, `default`, remark, sort, status, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (29, '失败', '1', '10', 'danger', 0, '', 2, 1, null, null, null, 1, '2023-08-25 12:45:16', null, null);
 
 -- 13、系统参数表
 drop table if exists brc_sys_param;

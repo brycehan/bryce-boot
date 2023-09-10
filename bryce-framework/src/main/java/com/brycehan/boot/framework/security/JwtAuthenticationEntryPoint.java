@@ -25,7 +25,7 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException {
         log.error("验证不通过，请求地址：{}，提示信息：{}", request.getRequestURI(), authException.getMessage());
-        response.setContentType("application/json;charset=utf-8");
+        response.setContentType("application/json");
         response.setHeader("Access-Control-Allow-Credentials", "true");
         response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
 //        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, HttpResponseStatus.HTTP_UNAUTHORIZED.message());

@@ -2,6 +2,7 @@ package com.brycehan.boot.framework.security.context;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -50,7 +51,7 @@ public class LoginUser implements UserDetails {
 
     private Integer status;
 
-    private boolean superAdmin;
+    private Boolean superAdmin;
 
     private Long tenantId;
 
@@ -122,7 +123,8 @@ public class LoginUser implements UserDetails {
     @Override
     @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return authoritySet.stream().map(SimpleGrantedAuthority::new)
+        return authoritySet.stream().filter(StringUtils::isNotBlank)
+                .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toSet());
     }
 

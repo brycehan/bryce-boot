@@ -97,6 +97,6 @@ public class SysLoginInfoServiceImpl extends BaseServiceImpl<SysLoginInfoMapper,
         loginInfo.setStatus(status);
         loginInfo.setLoginTime(LocalDateTime.now());
         // 保存数据
-        save(loginInfo);
+//        save(loginInfo);
     }
 }

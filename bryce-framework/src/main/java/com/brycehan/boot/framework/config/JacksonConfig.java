@@ -12,6 +12,8 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -36,7 +38,7 @@ public class JacksonConfig {
      * @return Jackson自定义配置
      */
     @Bean
-//    @Order(Ordered.HIGHEST_PRECEDENCE)
+    @Order(Ordered.HIGHEST_PRECEDENCE)
     public Jackson2ObjectMapperBuilderCustomizer customizer(){
 
         DateTimeFormatter dateTimeFormatter = new DateTimeFormatterBuilder()

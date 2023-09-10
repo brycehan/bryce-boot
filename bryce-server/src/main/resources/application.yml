@@ -95,10 +95,21 @@ spring:
 mybatis-plus:
   # mapper.xml映射文件位置
   mapper-locations: classpath*:com/brycehan/boot/*/mapper/xml/*Mapper.xml
+  # 原生配置
   configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
     call-setters-on-nulls: true
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-
+    jdbc-type-for-null: null
+  global-config:
+    banner: false
+    # 数据库相关配置
+    db-config:
+      id-type: none
+      # 逻辑已删除值
+      logic-delete-value: 1
+      # 逻辑未删除值
+      logic-not-delete-value: 0
 # 服务配置
 server:
   # 服务器HTTP端口

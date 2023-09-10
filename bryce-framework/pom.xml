@@ -40,15 +40,17 @@
             <artifactId>spring-boot-starter-json</artifactId>
         </dependency>
 
-        <!-- ORM框架 -->
         <!-- Mybatis Plus框架 -->
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
-            <version>${mybatis-plus.version}</version>
         </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.github.yulichang</groupId>-->
+<!--            <artifactId>mybatis-plus-join-boot-starter</artifactId>-->
+<!--        </dependency>-->
 
-        <!-- 存储框架 -->
+
         <!-- Data Redis -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

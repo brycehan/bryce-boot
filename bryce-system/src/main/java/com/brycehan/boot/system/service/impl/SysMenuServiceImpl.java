@@ -132,7 +132,7 @@ import java.util.stream.Collectors;
     public List<SysMenuVo> getMenuTreeList(LoginUser loginUser, String type) {
         List<SysMenu> menuList;
 
-        if(loginUser.isSuperAdmin()){
+        if(loginUser.getSuperAdmin()){
             // 超级管理员菜单处理
             LambdaQueryWrapper<SysMenu> queryWrapper = new LambdaQueryWrapper<>();
             queryWrapper.eq(SysMenu::getStatus, DataConstants.ENABLE);

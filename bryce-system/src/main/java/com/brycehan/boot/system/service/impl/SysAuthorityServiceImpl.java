@@ -42,7 +42,7 @@ public class SysAuthorityServiceImpl extends BaseServiceImpl<SysUserMapper, SysU
     @Override
     public Set<String> getMenuAuthority(LoginUser loginUser) {
         // 管理员拥有所有权限
-        if (loginUser.isSuperAdmin()) {
+        if (loginUser.getSuperAdmin()) {
             return Collections.singleton("*:*:*");
         }
 
@@ -53,7 +53,7 @@ public class SysAuthorityServiceImpl extends BaseServiceImpl<SysUserMapper, SysU
     public Set<String> getUserAuthority(LoginUser loginUser) {
         // 超级管理员，拥有最高权限
         Set<String> authoritySet;
-        if(loginUser.isSuperAdmin()) {
+        if(loginUser.getSuperAdmin()) {
             LambdaQueryWrapper<SysMenu> wrapper = new LambdaQueryWrapper<>();
             wrapper.select(SysMenu::getAuthority);
             // todo deleted 是否需要
