@@ -3,19 +3,24 @@ package com.brycehan.boot.system.service.impl;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.brycehan.boot.common.base.entity.PageResult;
 import com.brycehan.boot.common.util.ExcelUtils;
 import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
 import com.brycehan.boot.system.convert.SysDictTypeConvert;
 import com.brycehan.boot.system.dto.SysDictTypePageDto;
+import com.brycehan.boot.system.entity.SysDictData;
 import com.brycehan.boot.system.entity.SysDictType;
+import com.brycehan.boot.system.mapper.SysDictDataMapper;
 import com.brycehan.boot.system.mapper.SysDictTypeMapper;
 import com.brycehan.boot.system.service.SysDictTypeService;
 import com.brycehan.boot.system.vo.SysDictTypeVo;
+import com.brycehan.boot.system.vo.SysDictVo;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -28,6 +33,8 @@ import java.util.Objects;
 @Service
 @RequiredArgsConstructor
 public class SysDictTypeServiceImpl extends BaseServiceImpl<SysDictTypeMapper, SysDictType> implements SysDictTypeService {
+
+    private final SysDictDataMapper sysDictDataMapper;
 
     @Override
     public PageResult<SysDictTypeVo> page(SysDictTypePageDto sysDictTypePageDto) {
@@ -68,4 +75,29 @@ public class SysDictTypeServiceImpl extends BaseServiceImpl<SysDictTypeMapper, S
         ExcelUtils.export(SysDictTypeVo.class, "系统字典类型", "系统字典类型", sysDictTypeVoList);
     }
 
+    @Override
+    public List<SysDictVo> dictList() {
+        // 全部字典类型列表
+        List<SysDictType> typeList = this.baseMapper.selectList(Wrappers.emptyWrapper());
+
+        // 全部字典数据列表
+        List<SysDictData> dataList = this.sysDictDataMapper.selectList(new LambdaQueryWrapper<SysDictData>()
+                .orderByAsc(SysDictData::getSort));
+
+        // 全部字典列表
+        List<SysDictVo> dictVoList = new ArrayList<>(typeList.size());
+        for (SysDictType sysDictType: typeList) {
+            SysDictVo sysDictVo = new SysDictVo();
+            sysDictVo.setDictType(sysDictType.getDictType());
+
+            List<SysDictVo.DictData> list = dataList.stream()
+                    .filter(data -> sysDictType.getId().equals(data.getDictTypeId()))
+                    .map(data -> new SysDictVo.DictData(data.getDictLabel(), data.getDictValue(), data.getLabelClass()))
+                    .toList();
+
+            sysDictVo.getDatalist().addAll(list);
+            dictVoList.add(sysDictVo);
+        }
+        return dictVoList;
+    }
 }

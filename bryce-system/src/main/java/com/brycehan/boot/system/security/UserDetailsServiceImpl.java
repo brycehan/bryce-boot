@@ -74,9 +74,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         LoginUser loginUser = SysUserConvert.INSTANCE.convertLoginUser(sysUser);
 
         // 账号不可用
-        if (sysUser.getStatus() == 0) {
-//            log.info("UserDetailsServiceImpl.loadUserByUsername, 登录用户：{}已被停用.", loginUser.getUsername());
-//            throw BusinessException.responseStatus(UserResponseStatusEnum.USER_ACCOUNT_DISABLED);
+        if (!sysUser.getStatus()) {
             loginUser.setEnabled(false);
         } else if (!sysUser.getAccountNonLocked()) {
             log.info("UserDetailsServiceImpl.loadUserByUsername, 登录用户：{}已被锁定.", loginUser.getUsername());

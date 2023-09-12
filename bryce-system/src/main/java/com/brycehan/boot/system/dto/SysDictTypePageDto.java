@@ -38,6 +38,12 @@ public class SysDictTypePageDto extends BasePageDto {
     private String dictType;
 
     /**
+     * 显示顺序
+     */
+    @Schema(description = "显示顺序")
+    private Integer sort;
+
+    /**
      * 状态（false：停用，true：正常）
      */
     @Schema(description = "状态（false：停用，true：正常）")

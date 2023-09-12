@@ -8,6 +8,9 @@ import com.brycehan.boot.system.dto.SysDictTypeDto;
 import com.brycehan.boot.system.dto.SysDictTypePageDto;
 import com.brycehan.boot.system.entity.SysDictType;
 import com.brycehan.boot.system.vo.SysDictTypeVo;
+import com.brycehan.boot.system.vo.SysDictVo;
+
+import java.util.List;
 
 /**
  * 系统字典类型服务
@@ -52,5 +55,12 @@ public interface SysDictTypeService extends BaseService<SysDictType> {
      * @param sysDictTypePageDto 系统字典类型查询条件
      */
     void export(SysDictTypePageDto sysDictTypePageDto);
+
+    /**
+     * 获取全部字典列表数据
+     *
+     * @return 字典列表数据
+     */
+    List<SysDictVo> dictList();
 
 }

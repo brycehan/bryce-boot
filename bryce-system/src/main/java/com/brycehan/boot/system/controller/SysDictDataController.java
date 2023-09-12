@@ -43,7 +43,7 @@ public class SysDictDataController {
      */
     @Operation(summary = "保存系统字典数据")
     @OperateLog(type = OperateType.INSERT)
-//    @PreAuthorize("hasAuthority('system:dictData:save')")
+    @PreAuthorize("hasAuthority('system:dictData:save')")
     @PostMapping
     public ResponseResult<Void> save(@Validated(value = AddGroup.class) @RequestBody SysDictDataDto sysDictDataDto) {
         this.sysDictDataService.save(sysDictDataDto);
@@ -58,7 +58,7 @@ public class SysDictDataController {
      */
     @Operation(summary = "更新系统字典数据")
     @OperateLog(type = OperateType.UPDATE)
-//    @PreAuthorize("hasAuthority('system:dictData:update')")
+    @PreAuthorize("hasAuthority('system:dictData:update')")
     @PutMapping
     public ResponseResult<Void> update(@Validated(value = UpdateGroup.class) @RequestBody SysDictDataDto sysDictDataDto) {
         this.sysDictDataService.update(sysDictDataDto);
@@ -73,13 +73,12 @@ public class SysDictDataController {
      */
     @Operation(summary = "删除系统字典数据")
     @OperateLog(type = OperateType.DELETE)
-//    @PreAuthorize("hasAuthority('system:dictData:delete')")
+    @PreAuthorize("hasAuthority('system:dictData:delete')")
     @DeleteMapping
     public ResponseResult<Void> delete(@Validated @RequestBody IdsDto idsDto) {
         this.sysDictDataService.delete(idsDto);
         return ResponseResult.ok();
     }
-
 
     /**
      * 查询系统字典数据详情
@@ -108,7 +107,6 @@ public class SysDictDataController {
         PageResult<SysDictDataVo> page = this.sysDictDataService.page(sysDictDataPageDto);
         return ResponseResult.ok(page);
     }
-
 
     /**
      * 系统字典数据导出数据

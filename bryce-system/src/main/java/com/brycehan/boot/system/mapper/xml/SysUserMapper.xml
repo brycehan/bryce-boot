@@ -4,43 +4,40 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.brycehan.boot.system.entity.SysUser">
-        <id column="id" property="id"/>
-        <result column="username" property="username"/>
-        <result column="password" property="password"/>
-        <result column="full_name" property="fullName"/>
-        <result column="avatar" property="avatar"/>
-        <result column="gender" property="gender"/>
-        <result column="type" property="type"/>
-        <result column="org_id" property="orgId"/>
-        <result column="phone" property="phone"/>
-        <result column="email" property="email"/>
-        <result column="account_non_locked" property="accountNonLocked"/>
-        <result column="last_login_ip" property="lastLoginIp"/>
-        <result column="last_login_time" property="lastLoginTime"/>
-        <result column="sort" property="sort"/>
-        <result column="status" property="status"/>
-        <result column="deleted" property="deleted"/>
-        <result column="created_user_id" property="createdUserId"/>
-        <result column="create_username" property="createUsername"/>
-        <result column="created_time" property="createdTime"/>
-        <result column="updated_user_id" property="updatedUserId"/>
-        <result column="updated_time" property="updatedTime"/>
-        <result column="remark" property="remark"/>
+        <id column="id" property="id" />
+        <result column="username" property="username" />
+        <result column="password" property="password" />
+        <result column="full_name" property="fullName" />
+        <result column="avatar" property="avatar" />
+        <result column="gender" property="gender" />
+        <result column="type" property="type" />
+        <result column="phone" property="phone" />
+        <result column="email" property="email" />
+        <result column="sort" property="sort" />
+        <result column="org_id" property="orgId" />
+        <result column="super_admin" property="superAdmin" />
+        <result column="tenant_admin" property="tenantAdmin" />
+        <result column="status" property="status" />
+        <result column="remark" property="remark" />
+        <result column="account_non_locked" property="accountNonLocked" />
+        <result column="last_login_ip" property="lastLoginIp" />
+        <result column="last_login_time" property="lastLoginTime" />
+        <result column="tenant_id" property="tenantId" />
+        <result column="version" property="version" />
+        <result column="deleted" property="deleted" />
+        <result column="created_user_id" property="createdUserId" />
+        <result column="created_time" property="createdTime" />
+        <result column="updated_user_id" property="updatedUserId" />
+        <result column="updated_time" property="updatedTime" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id
-        , username, password, full_name, avatar, gender, type, org_id, phone, email, account_non_locked,
-        last_login_ip, last_login_time, sort, status, deleted, created_user_id, create_username, created_time,
-        updated_user_id, updated_time, remark
+        id, username, password, full_name, avatar,
+        gender, type, phone, email, sort,
+        org_id, super_admin, tenant_admin, status, remark,
+        account_non_locked, last_login_ip, last_login_time, tenant_id, version,
+        deleted, created_user_id, created_time, updated_user_id, updated_time
     </sql>
-
-    <!-- 分页查询 -->
-    <select id="page" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from brc_sys_user
-    </select>
 
 </mapper>

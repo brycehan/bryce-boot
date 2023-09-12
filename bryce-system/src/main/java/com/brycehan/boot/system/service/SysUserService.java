@@ -3,25 +3,57 @@ package com.brycehan.boot.system.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.brycehan.boot.common.base.entity.PageResult;
 import com.brycehan.boot.common.base.dto.IdsDto;
+import com.brycehan.boot.common.base.id.IdGenerator;
+import com.brycehan.boot.framework.mybatis.service.BaseService;
+import com.brycehan.boot.system.convert.SysUserConvert;
 import com.brycehan.boot.system.dto.SysUserDto;
 import com.brycehan.boot.system.dto.SysUserPageDto;
 import com.brycehan.boot.system.entity.SysUser;
 import com.brycehan.boot.system.vo.SysUserVo;
 
 /**
- * 系统用户服务类
+ * 系统用户服务
  *
  * @author Bryce Han
  * @since 2022/5/08
  */
-public interface SysUserService extends IService<SysUser> {
+public interface SysUserService extends BaseService<SysUser> {
 
     /**
      * 添加系统用户
      *
      * @param sysUserDto 系统用户Dto
      */
-    void save(SysUserDto sysUserDto);
+    default void save(SysUserDto sysUserDto) {
+        SysUser sysUser = SysUserConvert.INSTANCE.convert(sysUserDto);
+        sysUser.setId(IdGenerator.nextId());
+        this.getBaseMapper().insert(sysUser);
+    }
+
+    /**
+     * 更新系统用户
+     *
+     * @param sysUserDto 系统用户Dto
+     */
+    default void update(SysUserDto sysUserDto) {
+        SysUser sysUser = SysUserConvert.INSTANCE.convert(sysUserDto);
+        this.getBaseMapper().updateById(sysUser);
+    }
+
+    /**
+     * 系统用户分页查询
+     *
+     * @param sysUserPageDto 查询条件
+     * @return 分页信息
+     */
+    PageResult<SysUserVo> page(SysUserPageDto sysUserPageDto);
+
+    /**
+     * 系统用户导出数据
+     *
+     * @param sysUserPageDto 系统用户查询条件
+     */
+    void export(SysUserPageDto sysUserPageDto);
 
     /**
      * 注册用户
@@ -29,21 +61,6 @@ public interface SysUserService extends IService<SysUser> {
      * @param sysUser 用户
      */
     void registerUser(SysUser sysUser);
-
-    /**
-     * 更新系统用户
-     *
-     * @param sysUserDto 系统用户Dto
-     */
-    void update(SysUserDto sysUserDto);
-
-    /**
-     * 系统用户分页查询信息
-     *
-     * @param sysUserPageDto 系统用户分页搜索条件
-     * @return 分页信息
-     */
-    PageResult<SysUserVo> page(SysUserPageDto sysUserPageDto);
 
     /**
      * 校验用户账号是否唯一

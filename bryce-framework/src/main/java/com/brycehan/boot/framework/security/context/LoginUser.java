@@ -49,7 +49,7 @@ public class LoginUser implements UserDetails {
 
     private Long orgId;
 
-    private Integer status;
+    private Boolean status;
 
     private Boolean superAdmin;
 

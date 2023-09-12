@@ -13,6 +13,7 @@ import com.brycehan.boot.system.dto.SysDictTypePageDto;
 import com.brycehan.boot.system.entity.SysDictType;
 import com.brycehan.boot.system.service.SysDictTypeService;
 import com.brycehan.boot.system.vo.SysDictTypeVo;
+import com.brycehan.boot.system.vo.SysDictVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -20,6 +21,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 系统字典类型API
@@ -80,7 +83,6 @@ public class SysDictTypeController {
         return ResponseResult.ok();
     }
 
-
     /**
      * 查询系统字典类型详情
      *
@@ -109,7 +111,6 @@ public class SysDictTypeController {
         return ResponseResult.ok(page);
     }
 
-
     /**
      * 系统字典类型导出数据
      *
@@ -120,6 +121,18 @@ public class SysDictTypeController {
     @PostMapping(path = "/export")
     public void export(@Validated @RequestBody SysDictTypePageDto sysDictTypePageDto) {
         this.sysDictTypeService.export(sysDictTypePageDto);
+    }
+
+    /**
+     * 全部字典数据
+     *
+     * @return 全部字典数据列表
+     */
+    @Operation(summary = "全部字典数据")
+    @GetMapping(path = "/dictList")
+    public ResponseResult<List<SysDictVo>> dictList() {
+        List<SysDictVo> dictVoList = this.sysDictTypeService.dictList();
+        return ResponseResult.ok(dictVoList);
     }
 
 }

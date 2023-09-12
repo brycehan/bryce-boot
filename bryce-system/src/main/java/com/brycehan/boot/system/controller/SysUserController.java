@@ -1,14 +1,19 @@
 package com.brycehan.boot.system.controller;
 
+import cn.hutool.core.collection.CollectionUtil;
+import com.brycehan.boot.common.base.dto.IdsDto;
 import com.brycehan.boot.common.base.entity.PageResult;
 import com.brycehan.boot.common.base.http.HttpResponseStatus;
 import com.brycehan.boot.common.base.http.ResponseResult;
 import com.brycehan.boot.common.base.id.IdGenerator;
+import com.brycehan.boot.common.exception.BusinessException;
 import com.brycehan.boot.common.validator.AddGroup;
 import com.brycehan.boot.common.validator.UpdateGroup;
 import com.brycehan.boot.framework.operationlog.annotation.OperateLog;
 import com.brycehan.boot.framework.operationlog.annotation.OperateType;
 import com.brycehan.boot.framework.security.context.LoginUserContext;
+import com.brycehan.boot.system.convert.SysUserConvert;
+import com.brycehan.boot.system.dto.SysUserDto;
 import com.brycehan.boot.system.dto.SysUserPageDto;
 import com.brycehan.boot.system.dto.SysUserStatusDto;
 import com.brycehan.boot.system.entity.SysRole;
@@ -20,9 +25,11 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -31,135 +38,109 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * 系统用户控制器
+ * 系统用户API
  *
  * @author Bryce Han
  * @since 2022/05/14
  */
 @Tag(name = "sysUser", description = "系统用户API")
-@RequestMapping("/system/sysUser")
+@RequestMapping("/system/user")
 @RestController
+@RequiredArgsConstructor
 public class SysUserController {
 
     private final SysUserService sysUserService;
 
     private final SysRoleService sysRoleService;
 
-    private final PasswordEncoder passwordEncoder;
-
-    public SysUserController(SysUserService sysUserService, SysRoleService sysRoleService, PasswordEncoder passwordEncoder) {
-        this.sysUserService = sysUserService;
-        this.sysRoleService = sysRoleService;
-        this.passwordEncoder = passwordEncoder;
-
-    }
-
     /**
      * 保存系统用户
      *
-     * @param sysUser 系统用户
+     * @param sysUserDto 系统用户Dto
      * @return 响应结果
      */
     @Operation(summary = "保存系统用户")
-    @Secured("system:user:add")
+    @OperateLog(type = OperateType.INSERT)
+    @PreAuthorize("hasAuthority('system:user:save')")
     @PostMapping
-    public ResponseResult<Void> add(@Parameter(description = "系统用户", required = true)
-                                    @Validated(value = AddGroup.class) @RequestBody SysUser sysUser) {
-        sysUser.setId(IdGenerator.nextId());
-        sysUser.setPassword(passwordEncoder.encode(sysUser.getPassword()));
-
-        this.sysUserService.save(sysUser);
+    public ResponseResult<Void> save(@Validated(value = AddGroup.class) @RequestBody SysUserDto sysUserDto) {
+        this.sysUserService.save(sysUserDto);
         return ResponseResult.ok();
     }
 
     /**
      * 更新系统用户
      *
-     * @param sysUser 系统用户
+     * @param sysUserDto 系统用户Dto
      * @return 响应结果
      */
     @Operation(summary = "更新系统用户")
-    @Secured(value = "system:user:edit")
-    @PatchMapping
-    public ResponseResult<Void> update(@Parameter(description = "系统用户实体", required = true)
-                                       @Validated(value = UpdateGroup.class) @RequestBody SysUser sysUser) {
-        this.sysUserService.updateById(sysUser);
+    @OperateLog(type = OperateType.UPDATE)
+    @PreAuthorize("hasAuthority('system:user:update')")
+    @PutMapping
+    public ResponseResult<Void> update(@Validated(value = UpdateGroup.class) @RequestBody SysUserDto sysUserDto) {
+        this.sysUserService.update(sysUserDto);
         return ResponseResult.ok();
     }
 
     /**
      * 删除系统用户
      *
-     * @param ids 用户ID
+     * @param idsDto ID列表Dto
      * @return 响应结果
      */
     @Operation(summary = "删除系统用户")
     @OperateLog(type = OperateType.DELETE)
-    @Secured(value = "system:user:remove")
-    @DeleteMapping(path = "/{ids}")
-    public ResponseResult<Void> deleteById(@Parameter(description = "系统用户IDs", required = true) @PathVariable Long[] ids) {
-        if(ArrayUtils.contains(ids, LoginUserContext.currentUserId())){
-            return ResponseResult.error(HttpResponseStatus.HTTP_FORBIDDEN);
+    @PreAuthorize("hasAuthority('system:user:delete')")
+    @DeleteMapping
+    public ResponseResult<Void> delete(@Validated @RequestBody IdsDto idsDto) {
+        // 用户不能删除自己的账号
+        if(CollectionUtil.contains(idsDto.getIds(), LoginUserContext.currentUserId())) {
+            throw BusinessException.responseStatus(HttpResponseStatus.HTTP_FORBIDDEN);
         }
-        this.sysUserService.removeByIds(Arrays.asList(ids));
+        this.sysUserService.delete(idsDto);
         return ResponseResult.ok();
     }
 
     /**
-     * 根据系统用户ID查询系统用户信息
+     * 查询系统用户详情
      *
-     * @param id 用户ID
+     * @param id 系统用户ID
      * @return 响应结果
      */
-    @Operation(summary = "根据系统用户ID查询系统用户详情")
-    @Secured(value = "system:user:query")
-    @GetMapping(path = { "/item/{id}"})
-    public ResponseResult<SysUser> getById(@Parameter(description = "系统用户ID", required = true) @PathVariable String id) {
+    @Operation(summary = "查询系统用户详情")
+    @PreAuthorize("hasAuthority('system:user:info')")
+    @GetMapping(path = "/{id}")
+    public ResponseResult<SysUserVo> get(@Parameter(description = "系统用户ID", required = true) @PathVariable String id) {
         SysUser sysUser = this.sysUserService.getById(id);
         sysUser.setPassword(null);
-        return ResponseResult.ok(sysUser);
-    }
-
-    /**
-     * 根据当前账号查询系统用户信息
-     *
-     * @return 响应结果
-     */
-    @Operation(summary = "根据系统用户ID查询系统用户详情")
-    @Secured(value = "system:user:query")
-    @GetMapping(path = {"/item"})
-    public ResponseResult<SysUser> getById() {
-        SysUser sysUser = this.sysUserService.getById(LoginUserContext.currentUserId());
-        sysUser.setPassword(null);
-        return ResponseResult.ok(sysUser);
+        return ResponseResult.ok(SysUserConvert.INSTANCE.convert(sysUser));
     }
 
     /**
      * 分页查询
      *
      * @param sysUserPageDto 查询条件
-     * @return 分页系统用户
+     * @return 系统用户分页列表
      */
     @Operation(summary = "分页查询")
-    @Secured(value = "system:user:list")
-    @GetMapping(path = "/page")
-    public ResponseResult<PageResult<SysUserVo>> page(@Parameter(description = "查询信息", required = true) @RequestBody SysUserPageDto sysUserPageDto) {
+    @PreAuthorize("hasAuthority('system:user:page')")
+    @PostMapping(path = "/page")
+    public ResponseResult<PageResult<SysUserVo>> page(@Validated @RequestBody SysUserPageDto sysUserPageDto) {
         PageResult<SysUserVo> page = this.sysUserService.page(sysUserPageDto);
         return ResponseResult.ok(page);
     }
 
     /**
-     * 导出系统用户
+     * 系统用户导出数据
      *
-     * @param response 响应
-     * @param sysUser 系统用户
+     * @param sysUserPageDto 查询条件
      */
-    @Operation(summary = "导出用户")
-    @OperateLog(type = OperateType.EXPORT)
-    @Secured(value = "system:user:export")
+    @Operation(summary = "系统用户导出")
+    @PreAuthorize("hasAuthority('system:user:export')")
     @PostMapping(path = "/export")
-    public void export(HttpServletResponse response, SysUser sysUser){
-
+    public void export(@Validated @RequestBody SysUserPageDto sysUserPageDto) {
+        this.sysUserService.export(sysUserPageDto);
     }
 
     /**
@@ -199,7 +180,7 @@ public class SysUserController {
     public ResponseResult<Void> resetPassword(@RequestBody SysUser sysUser) {
         sysUserService.checkUserAllowed(sysUser);
         // todo checkUserDataScope();
-        sysUser.setPassword(passwordEncoder.encode(sysUser.getPassword()));
+//        sysUser.setPassword(passwordEncoder.encode(sysUser.getPassword()));
         this.sysUserService.updateById(sysUser);
         return ResponseResult.ok();
     }
@@ -247,11 +228,5 @@ public class SysUserController {
         return ResponseResult.ok();
     }
 
-
-//    @Secured(value = "system:user:list")
-//    @GetMapping(path = "/deptTree")
-//    public ResponseResult deptTree(){
-//
-//    }
 }
 

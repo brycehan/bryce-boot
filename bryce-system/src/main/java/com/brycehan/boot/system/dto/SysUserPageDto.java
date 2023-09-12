@@ -1,69 +1,40 @@
 package com.brycehan.boot.system.dto;
 
 import com.brycehan.boot.common.base.entity.BasePageDto;
-import com.brycehan.boot.common.validator.QueryGroup;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Size;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.io.Serial;
 import java.time.LocalDateTime;
 
 /**
- * 系统用户分页数据传输对象
+ * 系统用户PageDto
  *
  * @author Bryce Han
- * @since 2022/5/14
+ * @since 2023/09/11
  */
-@Getter
-@Setter
-@Schema(description = "SysUserPageDto对象")
+@Schema(description = "系统用户PageDto")
+@Data
+@EqualsAndHashCode(callSuper = false)
 public class SysUserPageDto extends BasePageDto {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
     /**
-     * ID
-     */
-    @Schema(description = "ID")
-    private Long id;
-
-    /**
      * 账号
      */
-    @Size(max = 50, groups = QueryGroup.class)
     @Schema(description = "账号")
+    @Size(max = 50)
     private String username;
-
-    /**
-     * 密码
-     */
-    @Size(max = 255, groups = QueryGroup.class)
-    @Schema(description = "密码")
-    private String password;
-
-    /**
-     * 姓名
-     */
-    @Size(max = 50, groups = QueryGroup.class)
-    @Schema(description = "姓名")
-    private String fullName;
-
-    /**
-     * 头像地址
-     */
-    @Size(max = 100, groups = QueryGroup.class)
-    @Schema(description = "头像地址")
-    private String avatar;
 
     /**
      * 性别（M：男, F：女）
      */
-    @Size(max = 1, groups = QueryGroup.class)
     @Schema(description = "性别（M：男, F：女）")
+    @Size(max = 1)
     private String gender;
 
     /**
@@ -73,101 +44,40 @@ public class SysUserPageDto extends BasePageDto {
     private Boolean type;
 
     /**
-     * 部门ID
-     */
-    @Schema(description = "部门ID")
-    private String orgId;
-
-    /**
      * 手机号码
      */
-    @Size(max = 20, groups = QueryGroup.class)
     @Schema(description = "手机号码")
+    @Size(max = 20)
     private String phone;
 
     /**
-     * 邮箱
+     * 部门ID
      */
-    @Size(max = 50, groups = QueryGroup.class)
-    @Schema(description = "邮箱")
-    private String email;
-
-    /**
-     * 账号锁定状态（0：锁定，1：正常）
-     */
-    @Schema(description = "账号锁定状态（0：锁定，1：正常）")
-    private Boolean accountNonLocked;
-
-    /**
-     * 最后登录IP
-     */
-    @Size(max = 128, groups = QueryGroup.class)
-    @Schema(description = "最后登录IP")
-    private String lastLoginIp;
-
-    /**
-     * 最后登录时间
-     */
-    @Schema(description = "最后登录时间")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private LocalDateTime lastLoginTime;
-
-    /**
-     * 显示顺序
-     */
-    @Schema(description = "显示顺序")
-    private Integer sort;
+    @Schema(description = "部门ID")
+    private Long orgId;
 
     /**
      * 状态（0：停用，1：正常）
      */
     @Schema(description = "状态（0：停用，1：正常）")
-    private Integer status;
+    private Boolean status;
 
     /**
-     * 删除标识（0：存在，1：删除）
+     * 租户ID
      */
-    @Schema(description = "删除标识（0：存在，1：删除）")
-    private Boolean deleted;
+    @Schema(description = "租户ID")
+    private Long tenantId;
 
     /**
-     * 创建人ID
+     * 创建时间开始
      */
-    @Schema(description = "创建人ID")
-    private Long createdUserId;
+    @Schema(description = "创建时间开始")
+    private LocalDateTime createdTimeStart;
 
     /**
-     * 创建人账号
+     * 创建时间结束
      */
-    @Size(max = 50, groups = QueryGroup.class)
-    @Schema(description = "创建人账号")
-    private String createUsername;
-
-    /**
-     * 创建时间
-     */
-    @Schema(description = "创建时间")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private LocalDateTime createdTime;
-
-    /**
-     * 修改人ID
-     */
-    @Schema(description = "修改人ID")
-    private Long updatedUserId;
-
-    /**
-     * 修改时间
-     */
-    @Schema(description = "修改时间")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private LocalDateTime updatedTime;
-
-    /**
-     * 备注
-     */
-    @Size(max = 500, groups = QueryGroup.class)
-    @Schema(description = "备注")
-    private String remark;
+    @Schema(description = "创建时间结束")
+    private LocalDateTime createdTimeEnd;
 
 }

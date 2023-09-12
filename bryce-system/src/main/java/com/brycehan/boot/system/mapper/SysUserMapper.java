@@ -16,12 +16,4 @@ import java.util.List;
 @Mapper
 public interface SysUserMapper extends BryceBaseMapper<SysUser> {
 
-    /**
-     * 分页查询
-     *
-     * @param sysUserPageDto 系统用户分页数据传输对象
-     * @return 用户列表
-     */
-    List<SysUser> page(SysUserPageDto sysUserPageDto);
-
 }

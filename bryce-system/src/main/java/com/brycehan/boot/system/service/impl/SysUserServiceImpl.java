@@ -11,6 +11,7 @@ import com.brycehan.boot.common.constant.CommonConstants;
 import com.brycehan.boot.common.constant.DataConstants;
 import com.brycehan.boot.common.constant.UserConstants;
 import com.brycehan.boot.common.exception.BusinessException;
+import com.brycehan.boot.common.util.ExcelUtils;
 import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
 import com.brycehan.boot.common.util.IpUtils;
 import com.brycehan.boot.common.util.MessageUtils;
@@ -19,15 +20,13 @@ import com.brycehan.boot.framework.security.context.LoginUserContext;
 import com.brycehan.boot.system.convert.SysUserConvert;
 import com.brycehan.boot.system.dto.SysUserDto;
 import com.brycehan.boot.system.dto.SysUserPageDto;
-import com.brycehan.boot.system.entity.SysPost;
-import com.brycehan.boot.system.entity.SysRole;
-import com.brycehan.boot.system.entity.SysUser;
-import com.brycehan.boot.system.entity.SysUserRole;
+import com.brycehan.boot.system.entity.*;
 import com.brycehan.boot.system.mapper.SysUserMapper;
 import com.brycehan.boot.system.service.*;
 import com.brycehan.boot.system.vo.SysUserVo;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -58,6 +57,60 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
 
     private final SysPostService sysPostService;
 
+    private final PasswordEncoder passwordEncoder;
+
+    @Override
+    public void save(SysUserDto sysUserDto) {
+        sysUserDto.setPassword(passwordEncoder.encode(sysUserDto.getPassword()));
+        SysUserService.super.save(sysUserDto);
+    }
+
+    @Override
+    public PageResult<SysUserVo> page(SysUserPageDto sysUserPageDto) {
+
+        IPage<SysUser> page = this.baseMapper.selectPage(getPage(sysUserPageDto), getWrapper(sysUserPageDto));
+
+        // 去掉密码
+        for (SysUser record : page.getRecords()) {
+            record.setPassword(null);
+        }
+        return new PageResult<>(page.getTotal(), SysUserConvert.INSTANCE.convert(page.getRecords()));
+    }
+
+    /**
+     * 封装查询条件
+     *
+     * @param sysUserPageDto 系统用户分页dto
+     * @return 查询条件Wrapper
+     */
+    private Wrapper<SysUser> getWrapper(SysUserPageDto sysUserPageDto){
+        LambdaQueryWrapper<SysUser> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(StringUtils.isNotEmpty(sysUserPageDto.getGender()), SysUser::getGender, sysUserPageDto.getGender());
+        wrapper.eq(Objects.nonNull(sysUserPageDto.getType()), SysUser::getType, sysUserPageDto.getType());
+        wrapper.eq(Objects.nonNull(sysUserPageDto.getOrgId()), SysUser::getOrgId, sysUserPageDto.getOrgId());
+        wrapper.eq(Objects.nonNull(sysUserPageDto.getStatus()), SysUser::getStatus, sysUserPageDto.getStatus());
+        wrapper.eq(Objects.nonNull(sysUserPageDto.getTenantId()), SysUser::getTenantId, sysUserPageDto.getTenantId());
+        wrapper.like(StringUtils.isNotEmpty(sysUserPageDto.getUsername()), SysUser::getUsername, sysUserPageDto.getUsername());
+        wrapper.like(StringUtils.isNotEmpty(sysUserPageDto.getPhone()), SysUser::getPhone, sysUserPageDto.getPhone());
+
+        if(sysUserPageDto.getCreatedTimeStart() != null && sysUserPageDto.getCreatedTimeEnd() != null) {
+            wrapper.between(SysUser::getCreatedTime, sysUserPageDto.getCreatedTimeStart(), sysUserPageDto.getCreatedTimeEnd());
+        } else if(sysUserPageDto.getCreatedTimeStart() != null) {
+            wrapper.ge(SysUser::getCreatedTime, sysUserPageDto.getCreatedTimeStart());
+        }else if(sysUserPageDto.getCreatedTimeEnd() != null) {
+            wrapper.ge(SysUser::getCreatedTime, sysUserPageDto.getCreatedTimeEnd());
+        }
+
+        return wrapper;
+    }
+
+    @Override
+    public void export(SysUserPageDto sysUserPageDto) {
+        List<SysUser> sysUserList = this.baseMapper.selectList(getWrapper(sysUserPageDto));
+        List<SysUserVo> sysUserVoList = SysUserConvert.INSTANCE.convert(sysUserList);
+        ExcelUtils.export(SysUserVo.class, "系统用户", "系统用户", sysUserVoList);
+    }
+
     @Transactional
     @Override
     public void registerUser(SysUser sysUser) {
@@ -78,38 +131,6 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         } else {
             throw BusinessException.responseStatus(UserResponseStatusEnum.USER_REGISTER_ERROR);
         }
-    }
-
-    @Override
-    public void save(SysUserDto sysUserDto) {
-        SysUser sysUser = SysUserConvert.INSTANCE.convert(sysUserDto);
-        sysUser.setId(IdGenerator.nextId());
-        this.baseMapper.insert(sysUser);
-    }
-
-    @Override
-    public void update(SysUserDto sysUserDto) {
-        SysUser sysUser = SysUserConvert.INSTANCE.convert(sysUserDto);
-        this.baseMapper.updateById(sysUser);
-    }
-
-    @Override
-    public PageResult<SysUserVo> page(SysUserPageDto sysUserPageDto) {
-
-        IPage<SysUser> page = this.baseMapper.selectPage(getPage(sysUserPageDto), getWrapper(sysUserPageDto));
-
-        return new PageResult<>(page.getTotal(), SysUserConvert.INSTANCE.convert(page.getRecords()));
-    }
-
-    /**
-     * 封装查询条件
-     *
-     * @param sysUserPageDto 系统用户分页dto
-     * @return 查询条件Wrapper
-     */
-    private Wrapper<SysUser> getWrapper(SysUserPageDto sysUserPageDto){
-        LambdaQueryWrapper<SysUser> wrapper = new LambdaQueryWrapper<>();
-        return wrapper;
     }
 
     @Override
@@ -167,7 +188,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
             }
         }
         // 1、检查用户权限
-        if(!user.isAdmin() && sysUser.isAdmin()){
+        if(!user.getSuperAdmin() && sysUser.getSuperAdmin()){
             throw new RuntimeException("不允许操作超级管理员用户");
         }
     }
