@@ -1,17 +1,26 @@
 package com.brycehan.boot.system.service;
 
+import com.brycehan.boot.common.base.dto.LoginDto;
 import com.brycehan.boot.framework.security.context.LoginUser;
-import com.brycehan.boot.system.entity.SysUser;
 
 import java.util.Set;
 
 /**
- * 系统权限服务类
+ * 认证服务
  *
  * @author Bryce Han
- * @since 2022/5/15
+ * @since 2022/9/16
  */
-public interface SysAuthorityService {
+
+public interface AuthService {
+
+    /**
+     * 登录
+     *
+     * @param loginDto 登录dto
+     * @return 令牌 jwt token
+     */
+    String login(LoginDto loginDto);
 
     /**
      * 获取用户的角色权限
@@ -36,5 +45,19 @@ public interface SysAuthorityService {
      * @return 用户权限
      */
     Set<String> getUserAuthority(LoginUser loginUser);
+
+    /**
+     * 更新用户登录信息
+     *
+     * @param loginUser 登录用户
+     */
+    void updateLoginInfo(LoginUser loginUser);
+
+    /**
+     * 退出登录
+     *
+     * @param accessToken 访问令牌
+     */
+    void logout(String accessToken);
 
 }

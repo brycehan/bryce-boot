@@ -47,7 +47,7 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<M, 
             // 过滤无效排序参数
             List<OrderItemDto> itemDtoList = pageDto.getOrderItems()
                     .stream()
-                    .filter(orderItem -> hasField(pageDto.getClass(), orderItem.getColumn()))
+                    .filter(orderItem -> hasEntityField(pageDto.getClass(), orderItem.getColumn()))
                     .toList();
 
             log.debug("排序参数: {}", JsonUtils.writeValueAsString(itemDtoList));
@@ -60,7 +60,7 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<M, 
         }
 
         // 无参数时，若有sort字段，默认按sort排序升序
-        if (CollectionUtils.isEmpty(orderItems) && hasField(pageDto.getClass(), DataConstants.DEFAULT_SORT_COLUMN)) {
+        if (CollectionUtils.isEmpty(orderItems) && hasEntityField(pageDto.getClass(), DataConstants.DEFAULT_SORT_COLUMN)) {
             orderItems.add(new OrderItem(DataConstants.DEFAULT_SORT_COLUMN, DataConstants.DEFAULT_SORT_IS_ASC));
         }
 
@@ -74,6 +74,25 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<M, 
         return page;
     }
 
+    /**
+     * 判断一个类中是否含有某个属性字段
+     *
+     * @param pageDtoClazz pageDto类对象
+     * @param fieldName 属性名称
+     * @return 布尔值
+     */
+    public boolean hasEntityField(Class<?> pageDtoClazz, String fieldName) {
+        String clazzName = pageDtoClazz.getName();
+        if(clazzName.endsWith("PageDto")) {
+            clazzName = clazzName.substring(0, clazzName.indexOf("PageDto"));
+        }
+        clazzName = clazzName.replace(".dto.", ".entity.");
+        try {
+            return hasField(Class.forName(clazzName), fieldName);
+        } catch (ClassNotFoundException e) {
+            return false;
+        }
+    }
 
     /**
      * 判断一个类中是否含有某个属性字段

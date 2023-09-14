@@ -2,109 +2,137 @@ package com.brycehan.boot.system.controller;
 
 import com.brycehan.boot.common.base.entity.PageResult;
 import com.brycehan.boot.common.base.http.ResponseResult;
-import com.brycehan.boot.common.base.id.IdGenerator;
+import com.brycehan.boot.common.base.dto.IdsDto;
 import com.brycehan.boot.common.validator.AddGroup;
 import com.brycehan.boot.common.validator.UpdateGroup;
+import com.brycehan.boot.framework.operationlog.annotation.OperateLog;
+import com.brycehan.boot.framework.operationlog.annotation.OperateType;
+import com.brycehan.boot.system.convert.SysRoleConvert;
+import com.brycehan.boot.system.dto.SysRoleDto;
 import com.brycehan.boot.system.dto.SysRolePageDto;
+import com.brycehan.boot.system.entity.SysRole;
 import com.brycehan.boot.system.service.SysRoleService;
 import com.brycehan.boot.system.vo.SysRoleVo;
-import com.brycehan.boot.system.entity.SysRole;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.security.access.annotation.Secured;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 
 /**
- * 系统角色控制器
+ * 系统角色API
  *
  * @author Bryce Han
- * @since 2022/5/15
+ * @since 2023/09/13
  */
 @Tag(name = "sysRole", description = "系统角色API")
-@RequestMapping("/system/sysRole")
+@RequestMapping("/system/role")
 @RestController
+@RequiredArgsConstructor
 public class SysRoleController {
 
     private final SysRoleService sysRoleService;
 
-    public SysRoleController(SysRoleService sysRoleService) {
-        this.sysRoleService = sysRoleService;
-    }
-
     /**
      * 保存系统角色
      *
-     * @param sysRole 系统角色
+     * @param sysRoleDto 系统角色Dto
      * @return 响应结果
      */
     @Operation(summary = "保存系统角色")
-    @Secured(value = "ROLE_ADMIN")
+    @OperateLog(type = OperateType.INSERT)
+    @PreAuthorize("hasAuthority('system:role:save')")
     @PostMapping
-    public ResponseResult<SysRole> save(@Parameter(description = "系统角色", required = true) @Validated(value = AddGroup.class) @RequestBody SysRole sysRole) {
-        sysRole.setId(IdGenerator.nextId());
-        this.sysRoleService.save(sysRole);
-        SysRole role = this.sysRoleService.getById(sysRole.getId());
-        return ResponseResult.ok(role);
-    }
-
-    /**
-     * 删除系统角色
-     *
-     * @param id 系统角色ID
-     * @return 响应结果
-     */
-    @Operation(summary = "删除系统角色")
-    @Secured(value = "ROLE_ADMIN")
-    @DeleteMapping(path = "/{id}")
-    public ResponseResult<Void> deleteById(@Parameter(description = "系统角色ID", required = true) @PathVariable String id) {
-        this.sysRoleService.removeById(id);
+    public ResponseResult<Void> save(@Validated(value = AddGroup.class) @RequestBody SysRoleDto sysRoleDto) {
+        this.sysRoleService.save(sysRoleDto);
         return ResponseResult.ok();
     }
 
     /**
      * 更新系统角色
      *
-     * @param sysRole 系统角色
+     * @param sysRoleDto 系统角色Dto
      * @return 响应结果
      */
     @Operation(summary = "更新系统角色")
-    @Secured(value = "ROLE_ADMIN")
-    @PatchMapping
-    public ResponseResult<Void> update(@Parameter(description = "系统角色实体", required = true) @Validated(value = UpdateGroup.class) @RequestBody SysRole sysRole) {
-        this.sysRoleService.updateById(sysRole);
+    @OperateLog(type = OperateType.UPDATE)
+    @PreAuthorize("hasAuthority('system:role:update')")
+    @PutMapping
+    public ResponseResult<Void> update(@Validated(value = UpdateGroup.class) @RequestBody SysRoleDto sysRoleDto) {
+        this.sysRoleService.update(sysRoleDto);
         return ResponseResult.ok();
     }
 
     /**
-     * 根据系统角色 ID 查询系统角色信息
+     * 删除系统角色
+     *
+     * @param idsDto ID列表Dto
+     * @return 响应结果
+     */
+    @Operation(summary = "删除系统角色")
+    @OperateLog(type = OperateType.DELETE)
+    @PreAuthorize("hasAuthority('system:role:delete')")
+    @DeleteMapping
+    public ResponseResult<Void> delete(@Validated @RequestBody IdsDto idsDto) {
+        this.sysRoleService.delete(idsDto);
+        return ResponseResult.ok();
+    }
+
+    /**
+     * 查询系统角色详情
      *
      * @param id 系统角色ID
      * @return 响应结果
      */
-    @Operation(summary = "根据系统角色ID 查询系统角色详情")
-    @Secured(value = "ROLE_ADMIN")
+    @Operation(summary = "查询系统角色详情")
+    @PreAuthorize("hasAuthority('system:role:info')")
     @GetMapping(path = "/{id}")
-    public ResponseResult<SysRole> getById(@Parameter(description = "系统角色ID", required = true) @PathVariable String id) {
+    public ResponseResult<SysRoleVo> get(@Parameter(description = "系统角色ID", required = true) @PathVariable String id) {
         SysRole sysRole = this.sysRoleService.getById(id);
-        return ResponseResult.ok(sysRole);
+        return ResponseResult.ok(SysRoleConvert.INSTANCE.convert(sysRole));
     }
 
     /**
      * 分页查询
      *
      * @param sysRolePageDto 查询条件
-     * @return 分页系统角色
+     * @return 系统角色分页列表
      */
     @Operation(summary = "分页查询")
-    @Secured(value = "ROLE_ADMIN")
+    @PreAuthorize("hasAuthority('system:role:page')")
     @PostMapping(path = "/page")
-    public ResponseResult<PageResult<SysRoleVo>> page(@Parameter(description = "查询信息", required = true) @RequestBody SysRolePageDto sysRolePageDto) {
+    public ResponseResult<PageResult<SysRoleVo>> page(@Validated @RequestBody SysRolePageDto sysRolePageDto) {
         PageResult<SysRoleVo> page = this.sysRoleService.page(sysRolePageDto);
         return ResponseResult.ok(page);
     }
 
-}
+    /**
+     * 系统角色导出数据
+     *
+     * @param sysRolePageDto 查询条件
+     */
+    @Operation(summary = "系统角色导出")
+    @PreAuthorize("hasAuthority('system:role:export')")
+    @PostMapping(path = "/export")
+    public void export(@Validated @RequestBody SysRolePageDto sysRolePageDto) {
+        this.sysRoleService.export(sysRolePageDto);
+    }
 
+    /**
+     * 列表查询
+     *
+     * @return 系统角色列表
+     */
+    @Operation(summary = "列表查询")
+    @PreAuthorize("hasAuthority('system:role:list')")
+    @GetMapping(path = "/list")
+    public ResponseResult<List<SysRoleVo>> list() {
+        List<SysRoleVo> list = this.sysRoleService.list(new SysRolePageDto());
+        return ResponseResult.ok(list);
+    }
+
+}

@@ -17,7 +17,7 @@ create table brc_sys_org
     status          tinyint      default '1' comment '状态（0：停用，1：正常）',
     tenant_id       bigint          comment '租户ID',
     version         int             comment '版本号',
-    deleted         tinyint         comment '删除标识（0：存在，1：删除）',
+    deleted         tinyint      default '0' comment '删除标识（0：存在，1：已删除）',
     created_user_id  bigint          comment '创建人ID',
     created_time     datetime        comment '创建时间',
     updated_user_id  bigint          comment '修改人ID',
@@ -64,7 +64,7 @@ create table brc_sys_user
     last_login_time    datetime        comment '最后登录时间',
     tenant_id       bigint          comment '租户ID',
     version         int         comment '版本号',
-    deleted         tinyint      default '0' comment '删除标识（0：存在，1：删除）',
+    deleted         tinyint      default '0' comment '删除标识（0：存在，1：已删除）',
     created_user_id  bigint          comment '创建人ID',
     created_time     datetime        comment '创建时间',
     updated_user_id  bigint          comment '修改人ID',
@@ -79,7 +79,35 @@ create table brc_sys_user
 INSERT INTO brc_sys_user (id, username, password, full_name, avatar, gender, type, super_admin, tenant_admin, status, phone, email, remark, sort, org_id, account_non_locked, last_login_ip, last_login_time, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1, 'admin', '$2a$10$H/0p9EJPQjYAspbCO85QzuDXs4v36TvdWftjx1HJSWhVoSQ85GtHi', '管理员', null, 'M', 0, null, null, 1, '15800008888', 'brycehan@163.com', '管理员', 0, 103, 1, '127.0.0.1', '2023-08-27 15:43:42', null, null, 0, 1, '2023-08-25 12:43:01', null, '2023-08-27 15:43:46');
 INSERT INTO brc_sys_user (id, username, password, full_name, avatar, gender, type, super_admin, tenant_admin, status, phone, email, remark, sort, org_id, account_non_locked, last_login_ip, last_login_time, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (2, 'brycehan', '$2a$10$H/0p9EJPQjYAspbCO85QzuDXs4v36TvdWftjx1HJSWhVoSQ85GtHi', 'Bryce Han', null, 'M', 0, null, null, 1, '15800008888', 'brycehan7@gmail.com', '测试员', 0, 105, 1, null, null, null, null, 0, 1, '2023-08-25 12:43:01', null, null);
 
--- 3、系统岗位表
+-- 3、系统角色表
+drop table if exists brc_sys_role;
+create table brc_sys_role
+(
+    id                         bigint not null comment 'ID',
+    name                  varchar(50)     not null comment '角色名称',
+    code                  varchar(50)     not null comment '角色编码',
+    data_scope                 smallint    comment '数据范围（1：全部数据，2：本机构及以下机构数据，3：本机构数据，4：本人数据，5：自定义数据）',
+    sort            int         default '0' comment '显示顺序',
+    status          tinyint      default '1' comment '状态（0：停用，1：正常）',
+    remark                     varchar(500)    comment '备注',
+    org_id            bigint           comment '机构ID',
+    tenant_id       bigint          comment '租户ID',
+    version         int             comment '版本号',
+    deleted         tinyint      default '0' comment '删除标识（0：存在，1：已删除）',
+    created_user_id  bigint          comment '创建人ID',
+    created_time     datetime        comment '创建时间',
+    updated_user_id  bigint          comment '修改人ID',
+    updated_time     datetime        comment '修改时间',
+    primary key (id),
+    constraint ck_deleted check (deleted in ('0', '1')),
+    constraint ck_status check (status in ('0', '1'))
+) engine InnoDB default charset utf8mb4 comment '系统角色';
+
+-- 初始化-系统角色表数据
+INSERT INTO bryce_boot.brc_sys_role (id, name, code, data_scope, sort, status, remark, org_id, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1, '超级管理员', 'admin', 1, 0, 1, '超级管理员', null, null, null, 0, 1, '2023-08-25 12:43:01', null, null);
+INSERT INTO bryce_boot.brc_sys_role (id, name, code, data_scope, sort, status, remark, org_id, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (2, '默认角色', 'default', 2, 0, 1, '默认角色', null, null, null, 0, 1, '2023-08-25 12:43:01', null, null);
+
+-- 4、系统岗位表
 drop table if exists brc_sys_post;
 create table brc_sys_post
 (
@@ -103,33 +131,7 @@ INSERT INTO brc_sys_post (id, name, code, sort, remark, status, created_user_id,
 INSERT INTO brc_sys_post (id, name, code, sort, remark, status, created_user_id, created_time, updated_user_id, updated_time) VALUES (3, '人力资源', 'hr', 3, null, 1, 1, '2023-08-25 12:43:01', null, null);
 INSERT INTO brc_sys_post (id, name, code, sort, remark, status, created_user_id, created_time, updated_user_id, updated_time) VALUES (4, '普通员工', 'user', 4, null, 1, 1, '2023-08-25 12:43:01', null, null);
 
--- 4、系统角色表
-drop table if exists brc_sys_role;
-create table brc_sys_role
-(
-    id                         bigint not null comment 'ID',
-    name                  varchar(50)     not null comment '角色名称',
-    code                  varchar(50)     not null comment '角色编码',
-    data_scope                 tinyint      default '1' comment '数据范围（1：全部数据权限，2：自定数据权限，3：本部门数据权限，4：本部门及以下数据权限）',
-    menu_association_displayed tinyint      default '1' comment '菜单树父子选择项是否关联显示（1：是，0：否）',
-    dept_association_displayed tinyint      default '1' comment '部门树父子选择项是否关联显示（1：是，0：否）',
-    sort                       int         default '0' comment '显示顺序',
-    remark                     varchar(500)    comment '备注',
-    status                     tinyint      default '1' comment '状态（0：停用，1：正常）',
-    deleted                tinyint      default '0' comment '状态（0：正式数据，1：删除）',
-    created_user_id             bigint comment '创建人ID',
-    created_time                datetime        comment '创建时间',
-    updated_user_id             bigint comment '修改人ID',
-    updated_time                datetime        comment '修改时间',
-    primary key (id),
-    constraint brc_sys_role_deleted_check check (deleted in ('0', '1')),
-    constraint brc_sys_role_status_check check (status in ('0', '1'))
-) engine InnoDB
-  default charset utf8mb4 comment '系统角色表';
 
--- 初始化-系统角色表数据
-INSERT INTO brc_sys_role (id, name, code, data_scope, menu_association_displayed, dept_association_displayed, sort, remark, status, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1, '超级管理员', 'admin', 1, 1, 1, 0, '超级管理员', 1, 0, 1, '2023-08-25 12:43:01', null, null);
-INSERT INTO brc_sys_role (id, name, code, data_scope, menu_association_displayed, dept_association_displayed, sort, remark, status, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (2, '默认角色', 'default', 2, 0, 1, 0, '默认角色', 1, 0, 1, '2023-08-25 12:43:01', null, null);
 
 -- 5、系统菜单表
 drop table if exists brc_sys_menu;
@@ -190,7 +192,7 @@ INSERT INTO bryce_boot.brc_sys_menu (id, name, type, parent_id, url, authority, 
 INSERT INTO bryce_boot.brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1005, '用户导入', 'B', 100, null, 'system:user:import', '', 0, 6, null, 1, 0, 1, '2023-08-25 10:48:57', null, null);
 INSERT INTO bryce_boot.brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1006, '重置密码', 'B', 100, null, 'system:user:resetPwd', '', 0, 7, null, 1, 0, 1, '2023-08-25 10:48:57', null, null);
 
--- 6、系统用户与角色关联表
+-- 6、系统用户与角色关系表
 drop table if exists brc_sys_user_role;
 create table brc_sys_user_role
 (
@@ -198,22 +200,19 @@ create table brc_sys_user_role
     user_id         bigint   not null comment '用户ID',
     role_id         bigint   not null comment '角色ID',
     version         int      null comment '版本号',
-    deleted         tinyint  null comment '删除标识（0：存在，1：删除）',
+    deleted         tinyint  null comment '删除标识（0：存在，1：已删除）',
     created_user_id bigint   null comment '创建人ID',
     created_time    datetime null comment '创建时间',
     updated_user_id bigint   null comment '修改人ID',
     updated_time    datetime null comment '修改时间',
-    primary key (id),
-) engine InnoDB default charset utf8mb4 comment '系统用户角色关联表';
+    primary key (id)
+) engine InnoDB default charset utf8mb4 comment '系统用户角色关系';
 
 create index idx_user_id on brc_sys_user_role (user_id);
 create index idx_role_id on brc_sys_user_role (role_id);
 
 -- 初始化-系统用户与角色关联表数据
-insert into brc_sys_user_role
-values ('1', '1');
-insert into brc_sys_user_role
-values ('2', '2');
+
 
 -- 7、系统角色菜单关系表
 drop table if exists brc_sys_role_menu;
@@ -223,7 +222,7 @@ create table brc_sys_role_menu
     role_id bigint not null comment '角色ID',
     menu_id bigint not null comment '菜单ID',
     version         int             comment '版本号',
-    deleted         tinyint         comment '删除标识（0：存在，1：删除）',
+    deleted         tinyint         comment '删除标识（0：存在，1：已删除）',
     created_user_id  bigint          comment '创建人ID',
     created_time     datetime        comment '创建时间',
     updated_user_id  bigint          comment '修改人ID',
@@ -311,7 +310,7 @@ create table brc_sys_dict_type
     remark          varchar(500)    comment '备注',
     tenant_id       bigint          comment '租户ID',
     version         int             comment '版本号',
-    deleted         tinyint         comment '删除标识（0：存在，1：删除）',
+    deleted         tinyint         comment '删除标识（0：存在，1：已删除）',
     created_user_id  bigint          comment '创建人ID',
     created_time     datetime        comment '创建时间',
     updated_user_id  bigint          comment '修改人ID',
@@ -347,7 +346,7 @@ create table brc_sys_dict_data
     remark          varchar(500)    comment '备注',
     tenant_id       bigint          comment '租户ID',
     version         int             comment '版本号',
-    deleted         tinyint         comment '删除标识（0：存在，1：删除）',
+    deleted         tinyint         comment '删除标识（0：存在，1：已删除）',
     created_user_id  bigint          comment '创建人ID',
     created_time     datetime        comment '创建时间',
     updated_user_id  bigint          comment '修改人ID',
@@ -400,7 +399,7 @@ create table brc_sys_param
     remark          varchar(500) null comment '备注',
     tenant_id       bigint       null comment '租户ID',
     version         int          null comment '版本号',
-    deleted         tinyint      null comment '删除标识（0：存在，1：删除）',
+    deleted         tinyint      null comment '删除标识（0：存在，1：已删除）',
     created_user_id bigint       null comment '创建人ID',
     created_time    datetime     null comment '创建时间',
     updated_user_id bigint       null comment '修改人ID',

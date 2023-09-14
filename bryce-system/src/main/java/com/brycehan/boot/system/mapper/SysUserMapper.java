@@ -1,5 +1,6 @@
 package com.brycehan.boot.system.mapper;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.brycehan.boot.common.base.mapper.BryceBaseMapper;
 import com.brycehan.boot.system.dto.SysUserPageDto;
 import com.brycehan.boot.system.entity.SysUser;
@@ -15,5 +16,13 @@ import java.util.List;
  */
 @Mapper
 public interface SysUserMapper extends BryceBaseMapper<SysUser> {
+
+    default SysUser getByUsername(String username) {
+        return this.selectOne(new QueryWrapper<SysUser>().eq("username", username));
+    }
+
+    default SysUser getByPhone(String phone) {
+        return this.selectOne(new QueryWrapper<SysUser>().eq("phone", phone));
+    }
 
 }

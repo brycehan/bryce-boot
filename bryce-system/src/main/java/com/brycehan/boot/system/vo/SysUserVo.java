@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 
 import java.io.Serializable;
 import java.io.Serial;
+import java.util.List;
 
 /**
  * 系统用户Vo
@@ -114,5 +115,17 @@ public class SysUserVo implements Serializable, TransPojo {
      */
     @Schema(description = "创建时间")
     private LocalDateTime createdTime;
+
+    /**
+     * 角色IDs
+     */
+    @Schema(description = "角色IDs")
+    private List<Long> roleIds;
+
+    /**
+     * 岗位IDs
+     */
+    @Schema(description = "岗位ID")
+    private List<Long> postIds;
 
 }

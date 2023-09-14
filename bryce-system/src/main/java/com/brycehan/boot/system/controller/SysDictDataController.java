@@ -101,7 +101,7 @@ public class SysDictDataController {
      * @return 系统字典数据分页列表
      */
     @Operation(summary = "分页查询")
-//    @PreAuthorize("hasAuthority('system:dictData:page')")
+    @PreAuthorize("hasAuthority('system:dictData:page')")
     @PostMapping(path = "/page")
     public ResponseResult<PageResult<SysDictDataVo>> page(@Validated @RequestBody SysDictDataPageDto sysDictDataPageDto) {
         PageResult<SysDictDataVo> page = this.sysDictDataService.page(sysDictDataPageDto);

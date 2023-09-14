@@ -59,10 +59,37 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
 
     private final PasswordEncoder passwordEncoder;
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void save(SysUserDto sysUserDto) {
-        sysUserDto.setPassword(passwordEncoder.encode(sysUserDto.getPassword()));
-        SysUserService.super.save(sysUserDto);
+        // 判断用户名是否存在
+        SysUser user = this.baseMapper.getByUsername(sysUserDto.getUsername());
+        if(user != null) {
+            throw new RuntimeException("用户名已经存在");
+        }
+
+        // 判断手机号是否存在
+        user = this.baseMapper.getByPhone(sysUserDto.getPhone());
+        if(user != null) {
+            throw new RuntimeException("手机号已经存在");
+        }
+
+        SysUser sysUser = SysUserConvert.INSTANCE.convert(sysUserDto);
+
+        // 密码加密
+        sysUser.setPassword(passwordEncoder.encode(sysUserDto.getPassword()));
+        sysUser.setId(IdGenerator.nextId());
+        sysUser.setSuperAdmin(false);
+        sysUser.setTenantAdmin(false);
+
+        // 保存用户
+        this.baseMapper.insert(sysUser);
+
+        // 保存用户角色关系
+        this.sysUserRoleService.saveOrUpdate(sysUser.getId(), sysUserDto.getRoleIds());
+
+        // 保存用户岗位关系
+
     }
 
     @Override

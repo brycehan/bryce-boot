@@ -6,7 +6,7 @@ import com.brycehan.boot.common.util.MessageUtils;
 import com.brycehan.boot.common.util.ServletUtils;
 import com.brycehan.boot.framework.security.event.UserLoginFailedEvent;
 import com.brycehan.boot.framework.security.event.UserLoginSuccessEvent;
-import com.brycehan.boot.system.service.AuthenticationService;
+import com.brycehan.boot.system.service.AuthService;
 import com.brycehan.boot.system.service.SysLoginInfoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
@@ -26,7 +26,7 @@ public class UserLoginListener {
 
     private final SysLoginInfoService sysLoginInfoService;
 
-    private final AuthenticationService authenticationService;
+    private final AuthService authService;
 
     /**
      * 登录成功事件处理
@@ -44,7 +44,7 @@ public class UserLoginListener {
                 CommonConstants.LOGIN_SUCCESS,
                 MessageUtils.getMessage("user.login.success"));
         // 2、更新用户登录信息
-        this.authenticationService.updateLoginInfo(userLoginSuccessEvent.getLoginUser());
+        this.authService.updateLoginInfo(userLoginSuccessEvent.getLoginUser());
     }
 
     /**

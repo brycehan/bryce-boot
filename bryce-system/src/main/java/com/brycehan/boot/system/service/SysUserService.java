@@ -19,6 +19,7 @@ import com.brycehan.boot.system.vo.SysUserVo;
  */
 public interface SysUserService extends BaseService<SysUser> {
 
+
     /**
      * 添加系统用户
      *
@@ -27,6 +28,7 @@ public interface SysUserService extends BaseService<SysUser> {
     default void save(SysUserDto sysUserDto) {
         SysUser sysUser = SysUserConvert.INSTANCE.convert(sysUserDto);
         sysUser.setId(IdGenerator.nextId());
+
         this.getBaseMapper().insert(sysUser);
     }
 

@@ -19,6 +19,7 @@ import com.brycehan.boot.system.dto.SysUserStatusDto;
 import com.brycehan.boot.system.entity.SysRole;
 import com.brycehan.boot.system.entity.SysUser;
 import com.brycehan.boot.system.service.SysRoleService;
+import com.brycehan.boot.system.service.SysUserRoleService;
 import com.brycehan.boot.system.service.SysUserService;
 import com.brycehan.boot.system.vo.SysUserVo;
 import io.swagger.v3.oas.annotations.Operation;
@@ -50,6 +51,8 @@ import java.util.List;
 public class SysUserController {
 
     private final SysUserService sysUserService;
+
+    private final SysUserRoleService sysUserRoleService;
 
     private final SysRoleService sysRoleService;
 
@@ -111,10 +114,19 @@ public class SysUserController {
     @Operation(summary = "查询系统用户详情")
     @PreAuthorize("hasAuthority('system:user:info')")
     @GetMapping(path = "/{id}")
-    public ResponseResult<SysUserVo> get(@Parameter(description = "系统用户ID", required = true) @PathVariable String id) {
+    public ResponseResult<SysUserVo> get(@Parameter(description = "系统用户ID", required = true) @PathVariable Long id) {
         SysUser sysUser = this.sysUserService.getById(id);
         sysUser.setPassword(null);
-        return ResponseResult.ok(SysUserConvert.INSTANCE.convert(sysUser));
+
+        SysUserVo sysUserVo = SysUserConvert.INSTANCE.convert(sysUser);
+
+        // 用户角色Ids
+        List<Long> roleIds = this.sysUserRoleService.getRoleIdsByUserId(id);
+        sysUserVo.setRoleIds(roleIds);
+
+        // 用户岗位Ids
+
+        return ResponseResult.ok(sysUserVo);
     }
 
     /**

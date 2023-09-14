@@ -51,21 +51,12 @@ public interface SysMenuService extends BaseService<SysMenu> {
     List<SysMenu> getSysMenuListByUserId(Long userId);
 
     /**
-     * 根据用户ID查询菜单权限
+     * 查询用户菜单权限
      *
-     * @param userId 用户ID
+     * @param loginUser 登录用户
      * @return 菜单权限集合
      */
-    Set<String> findAuthorityByUserId(Long userId);
-
-    /**
-     * 构建前端路由所需要的菜单
-     *
-     * @param menus 菜单列表
-     * @return 路由列表
-     */
-    // todo 后期可能不需要
-    List<MenuVo> buildMenus(List<SysMenuVo> menus);
+    Set<String> findAuthority(LoginUser loginUser);
 
     /**
      * 查询用户菜单列表

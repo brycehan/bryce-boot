@@ -27,7 +27,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * 系统菜单服务实现类
@@ -71,14 +70,14 @@ import java.util.stream.Collectors;
     }
 
     @Override
-    public Set<String> findAuthorityByUserId(Long userId) {
-        return this.sysMenuMapper.findAuthorityByUserId(userId);
+    public Set<String> findAuthority(LoginUser loginUser) {
+        return this.sysMenuMapper.findAuthorityByUserId(loginUser.getId());
     }
 
     @Override
     public List<SysMenu> getSysMenuListByUserId(Long userId) {
         if (Objects.nonNull(userId)) {
-            List<Long> roleIds = this.sysUserRoleService.getRoleIdListByUserId(userId);
+            List<Long> roleIds = this.sysUserRoleService.getRoleIdsByUserId(userId);
             List<Long> menuIds = this.sysRoleMenuService.getMenuIdListByRoleIdList(roleIds);
             List<SysMenu> sysMenus = this.getSysMenusByMenuIds(menuIds);
             // 将ID和菜单绑定
@@ -111,21 +110,6 @@ import java.util.stream.Collectors;
         queryWrapper.in(!CollectionUtils.isEmpty(menuIds), "id", menuIds)
                 .eq("non_locked", DataConstants.ENABLE);
         return this.sysMenuMapper.selectList(queryWrapper);
-    }
-
-    @Override
-    public List<MenuVo> buildMenus(List<SysMenuVo> menus) {
-        return menus.stream()
-                .map(menu -> {
-                    MenuVo route = MenuConvert.INSTANCE.convert(menu);
-                    List<SysMenuVo> children = menu.getChildren();
-                    // 1、菜单是目录类型时，并且有子菜单
-                    if (UserConstants.TYPE_DIR.equals(menu.getType()) && !CollectionUtils.isEmpty(children)) {
-                        route.setRoutes(buildMenus(children));
-                    }
-
-                    return route;
-                }).toList();
     }
 
     @Override

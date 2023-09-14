@@ -1,5 +1,6 @@
 package com.brycehan.boot.system.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.brycehan.boot.common.base.dto.LoginDto;
 import com.brycehan.boot.common.base.http.UserResponseStatusEnum;
 import com.brycehan.boot.common.constant.CacheConstants;
@@ -14,11 +15,9 @@ import com.brycehan.boot.framework.security.JwtTokenProvider;
 import com.brycehan.boot.framework.security.context.LoginUser;
 import com.brycehan.boot.framework.security.event.UserLoginFailedEvent;
 import com.brycehan.boot.framework.security.event.UserLoginSuccessEvent;
-import com.brycehan.boot.system.service.AuthenticationService;
+import com.brycehan.boot.system.entity.SysMenu;
+import com.brycehan.boot.system.service.*;
 import com.brycehan.boot.system.entity.SysUser;
-import com.brycehan.boot.system.service.SysConfigService;
-import com.brycehan.boot.system.service.SysLoginInfoService;
-import com.brycehan.boot.system.service.SysUserService;
 import jakarta.annotation.Resource;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +32,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * @author Bryce Han
@@ -41,7 +40,7 @@ import java.util.Objects;
  */
 @Service
 @RequiredArgsConstructor
-public class AuthenticationServiceImpl implements AuthenticationService {
+public class AuthServiceImpl implements AuthService {
 
     private final AuthenticationManager authenticationManager;
 
@@ -57,6 +56,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final SysUserService sysUserService;
 
     private final ApplicationEventPublisher applicationEventPublisher;
+
+    private final SysRoleService sysRoleService;
+
+    private final SysMenuService sysMenuService;
 
     @Override
     public String login(@NotNull LoginDto loginDto) {
@@ -102,6 +105,39 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         // 3、生成令牌token
         return this.jwtTokenProvider.generateToken(loginUser);
+    }
+
+    @Override
+    public Set<String> getRoleAuthority(LoginUser loginUser) {
+        return this.sysRoleService.selectRolePermissionByUserId(loginUser.getId());
+    }
+
+    @Override
+    public Set<String> getMenuAuthority(LoginUser loginUser) {
+        // 管理员拥有所有权限
+        if (loginUser.getSuperAdmin()) {
+            return Collections.singleton("*:*:*");
+        }
+
+        return this.sysMenuService.findAuthority(loginUser);
+    }
+
+    @Override
+    public Set<String> getUserAuthority(LoginUser loginUser) {
+        // 超级管理员，拥有最高权限
+        Set<String> authoritySet;
+        if(loginUser.getSuperAdmin()) {
+            LambdaQueryWrapper<SysMenu> wrapper = new LambdaQueryWrapper<>();
+            wrapper.select(SysMenu::getAuthority);
+            // todo deleted 是否需要
+            wrapper.eq(SysMenu::getDeleted, false);
+
+            List<String> authortityList = this.sysMenuService.listObjs(wrapper, Object::toString);
+            authoritySet = new HashSet<>(authortityList);
+        }else {
+            authoritySet = this.sysMenuService.findAuthority(loginUser);
+        }
+        return authoritySet;
     }
 
     @Override

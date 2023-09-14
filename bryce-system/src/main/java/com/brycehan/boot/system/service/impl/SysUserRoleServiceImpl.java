@@ -1,44 +1,72 @@
 package com.brycehan.boot.system.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import cn.hutool.core.collection.CollUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.brycehan.boot.common.base.id.IdGenerator;
+import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
+import com.brycehan.boot.system.entity.SysUserRole;
 import com.brycehan.boot.system.mapper.SysUserRoleMapper;
 import com.brycehan.boot.system.service.SysUserRoleService;
-import com.brycehan.boot.system.entity.SysUserRole;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 /**
- * 系统用户角色中间表服务实现类
+ * 系统用户角色关系服务实现
  *
  * @author Bryce Han
  * @since 2022/5/15
  */
 @Service
-public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUserRole> implements SysUserRoleService {
+public class SysUserRoleServiceImpl extends BaseServiceImpl<SysUserRoleMapper, SysUserRole> implements SysUserRoleService {
 
-    private final SysUserRoleMapper sysUserRoleMapper;
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void saveOrUpdate(Long userId, List<Long> roleIds) {
+        // 数据库用户角色IDs
+        List<Long> dbRoleIds = getRoleIdsByUserId(userId);
 
-    public SysUserRoleServiceImpl(SysUserRoleMapper sysUserRoleMapper) {
-        this.sysUserRoleMapper = sysUserRoleMapper;
+        // 需要新增的角色ID
+        Collection<Long> insertRoleIds = CollUtil.subtract(roleIds, dbRoleIds);
+        if (CollUtil.isNotEmpty(insertRoleIds)) {
+            List<SysUserRole> list = insertRoleIds.stream().map(roleId -> {
+                SysUserRole userRole = new SysUserRole();
+                userRole.setId(IdGenerator.nextId());
+                userRole.setUserId(userId);
+                userRole.setRoleId(roleId);
+                return userRole;
+            }).toList();
+
+            this.saveBatch(list);
+        }
+
+        // 需要删除的角色ID
+        Collection<Long> deleteRoleIds = CollUtil.subtract(dbRoleIds, roleIds);
+        if (CollUtil.isNotEmpty(deleteRoleIds)) {
+            LambdaQueryWrapper<SysUserRole> queryWrapper = new LambdaQueryWrapper<>();
+            queryWrapper.eq(SysUserRole::getUserId, userId);
+            queryWrapper.in(SysUserRole::getRoleId, deleteRoleIds);
+
+            this.remove(queryWrapper);
+        }
     }
 
     /**
      * 根据用户ID查询拥有的角色ID列表
      *
      * @param userId 用户ID
-     * @return 角色ID列表
+     * @return 角色IDs
      */
     @Override
-    public List<Long> getRoleIdListByUserId(Long userId) {
-        QueryWrapper<SysUserRole> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq(Objects.nonNull(userId), "user_id", userId);
-        List<SysUserRole> sysUserRoles = this.sysUserRoleMapper.selectList(queryWrapper);
-        return sysUserRoles.stream()
-                .map(SysUserRole::getRoleId)
-                .collect(Collectors.toList());
+    public List<Long> getRoleIdsByUserId(Long userId) {
+        LambdaQueryWrapper<SysUserRole> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(SysUserRole::getUserId, userId);
+
+        List<SysUserRole> sysUserRoles = this.baseMapper.selectList(queryWrapper);
+
+        return sysUserRoles.stream().map(SysUserRole::getRoleId)
+                .toList();
     }
 }

@@ -1,14 +1,13 @@
 package com.brycehan.boot.system.security;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.brycehan.boot.common.base.http.UserResponseStatusEnum;
 import com.brycehan.boot.common.exception.BusinessException;
 import com.brycehan.boot.framework.security.context.LoginUser;
 import com.brycehan.boot.system.convert.SysUserConvert;
 import com.brycehan.boot.system.entity.SysUser;
 import com.brycehan.boot.system.mapper.SysUserMapper;
+import com.brycehan.boot.system.service.AuthService;
 import com.brycehan.boot.system.service.SysPasswordService;
-import com.brycehan.boot.system.service.SysAuthorityService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -39,7 +38,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final SysPasswordService sysPasswordService;
 
-    private final SysAuthorityService sysAuthorityService;
+    private final AuthService authService;
 
     /**
      * 获取用户登录信息
@@ -51,9 +50,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         // 1、查询用户
-        QueryWrapper<SysUser> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("username", username);
-        SysUser sysUser = sysUserMapper.selectOne(queryWrapper);
+        SysUser sysUser = sysUserMapper.getByUsername(username);
 
         if (Objects.isNull(sysUser)) {
             log.info("UserDetailsServiceImpl.loadUserByUsername, 登录用户：{}不存在.", username);
@@ -88,14 +85,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         this.sysPasswordService.validate(sysUser);
 
         // 用户权限列表
-        Set<String> authoritySet = this.sysAuthorityService.getUserAuthority(loginUser);
+        Set<String> authoritySet = this.authService.getUserAuthority(loginUser);
         loginUser.setAuthoritySet(authoritySet);
 
         // 1、查询用户的权限
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
-        Set<String> rolePermission = this.sysAuthorityService.getRoleAuthority(loginUser);
+        Set<String> rolePermission = this.authService.getRoleAuthority(loginUser);
         sysUser.setRoles(rolePermission);
-        Set<String> menuAuthoritySet = this.sysAuthorityService.getMenuAuthority(loginUser);
+        Set<String> menuAuthoritySet = this.authService.getMenuAuthority(loginUser);
         sysUser.setAuthoritySet(menuAuthoritySet);
         // 2、封装用户的权限数据
         if (Objects.nonNull(rolePermission)) {

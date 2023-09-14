@@ -11,6 +11,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 import java.io.Serializable;
 import java.io.Serial;
+import java.util.List;
 
 /**
  * 系统用户Dto
@@ -36,7 +37,8 @@ public class SysUserDto implements Serializable {
      * 密码
      */
     @Schema(description = "密码")
-    @Size(max = 255, groups = {AddGroup.class, UpdateGroup.class})
+    @Size(max = 30, groups = {UpdateGroup.class})
+    @Size(min = 6, max = 30, groups = AddGroup.class, message = "密码长度在6-30个字符")
     private String password;
 
     /**
@@ -143,5 +145,17 @@ public class SysUserDto implements Serializable {
      */
     @Schema(description = "租户ID")
     private Long tenantId;
+
+    /**
+     * 角色IDs
+     */
+    @Schema(description = "角色IDs")
+    private List<Long> roleIds;
+
+    /**
+     * 岗位IDs
+     */
+    @Schema(description = "岗位ID")
+    private List<Long> postIds;
 
 }

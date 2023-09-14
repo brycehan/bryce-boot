@@ -8,10 +8,10 @@ import org.mapstruct.factory.Mappers;
 import java.util.List;
 
 /**
- * 系统角色表转换器
+ * 系统角色转换器
  *
  * @author Bryce Han
- * @since 2023/08/24
+ * @since 2023/09/13
  */
 @Mapper
 public interface SysRoleConvert {
