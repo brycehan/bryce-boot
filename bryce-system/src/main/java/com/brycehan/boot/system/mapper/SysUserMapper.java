@@ -7,6 +7,7 @@ import com.brycehan.boot.system.entity.SysUser;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 系统用户Mapper接口
@@ -24,5 +25,7 @@ public interface SysUserMapper extends BryceBaseMapper<SysUser> {
     default SysUser getByPhone(String phone) {
         return this.selectOne(new QueryWrapper<SysUser>().eq("phone", phone));
     }
+
+    List<SysUser> roleUserList(Map<String, Object> params);
 
 }

@@ -1,6 +1,5 @@
 package com.brycehan.boot.system.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.brycehan.boot.framework.mybatis.service.BaseService;
 import com.brycehan.boot.system.entity.SysUserRole;
 
@@ -21,6 +20,13 @@ public interface SysUserRoleService extends BaseService<SysUserRole> {
      */
     void saveOrUpdate(Long userId, List<Long> roleIds);
 
+    /**
+     * 分配角色给多个用户
+     *
+     * @param roleId 角色ID
+     * @param userIds 用户IDs
+     */
+    void saveUser(Long roleId, List<Long> userIds);
 
     /**
      * 查询用户的角色IDs
@@ -29,5 +35,19 @@ public interface SysUserRoleService extends BaseService<SysUserRole> {
      * @return 拥有的角色IDs
      */
     List<Long> getRoleIdsByUserId(Long userId);
+
+    /**
+     * 根据角色IDs，删除用户角色关系
+     *
+     * @param roleIds 角色IDs
+     */
+    void deleteByRoleIds(List<Long> roleIds);
+
+    /**
+     * 根据角色ID和用户IDs，删除用户角色关系
+     * @param roleId 角色ID
+     * @param userIds 用户IDs
+     */
+    void deleteByRoleIdAndUserIds(Long roleId, List<Long> userIds);
 
 }

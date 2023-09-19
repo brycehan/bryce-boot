@@ -6,6 +6,7 @@ import lombok.Data;
 import java.io.Serializable;
 import java.io.Serial;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * 系统角色Vo
@@ -73,5 +74,17 @@ public class SysRoleVo implements Serializable {
      */
     @Schema(description = "创建时间")
     private LocalDateTime createdTime;
+
+    /**
+     * 机构IDs
+     */
+    @Schema(description = "机构IDs")
+    private List<Long> orgIds;
+
+    /**
+     * 菜单IDs
+     */
+    @Schema(description = "菜单IDs")
+    private List<Long> menuIds;
 
 }

@@ -1,7 +1,7 @@
 create database if not exists bryce_boot default charset utf8mb4;
 use bryce_boot;
 
--- 1、系统部门表
+-- 1、系统机构表
 drop table if exists brc_sys_org;
 create table brc_sys_org
 (
@@ -107,7 +107,28 @@ create table brc_sys_role
 INSERT INTO bryce_boot.brc_sys_role (id, name, code, data_scope, sort, status, remark, org_id, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1, '超级管理员', 'admin', 1, 0, 1, '超级管理员', null, null, null, 0, 1, '2023-08-25 12:43:01', null, null);
 INSERT INTO bryce_boot.brc_sys_role (id, name, code, data_scope, sort, status, remark, org_id, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (2, '默认角色', 'default', 2, 0, 1, '默认角色', null, null, null, 0, 1, '2023-08-25 12:43:01', null, null);
 
--- 4、系统岗位表
+-- 4、系统用户角色关系表
+drop table if exists brc_sys_user_role;
+create table brc_sys_user_role
+(
+    id              bigint   not null comment 'ID',
+    user_id         bigint   not null comment '用户ID',
+    role_id         bigint   not null comment '角色ID',
+    version         int      null comment '版本号',
+    deleted         tinyint  null comment '删除标识（0：存在，1：已删除）',
+    created_user_id bigint   null comment '创建人ID',
+    created_time    datetime null comment '创建时间',
+    updated_user_id bigint   null comment '修改人ID',
+    updated_time    datetime null comment '修改时间',
+    primary key (id)
+) engine InnoDB default charset utf8mb4 comment '系统用户角色关系';
+
+create index idx_user_id on brc_sys_user_role (user_id);
+create index idx_role_id on brc_sys_user_role (role_id);
+
+-- 初始化-系统用户与角色关联表数据
+
+-- 5、系统岗位表
 drop table if exists brc_sys_post;
 create table brc_sys_post
 (
@@ -122,8 +143,7 @@ create table brc_sys_post
     updated_user_id  bigint comment '修改人ID',
     updated_time     datetime        comment '修改时间',
     primary key (id)
-) engine InnoDB
-  default charset utf8mb4 comment '系统岗位表';
+) engine InnoDB default charset utf8mb4 comment '系统岗位表';
 
 -- 初始化-系统岗位表数据
 INSERT INTO brc_sys_post (id, name, code, sort, remark, status, created_user_id, created_time, updated_user_id, updated_time) VALUES (1, '董事长', 'ceo', 1, null, 1, 1, '2023-08-25 12:43:01', null, null);
@@ -131,9 +151,23 @@ INSERT INTO brc_sys_post (id, name, code, sort, remark, status, created_user_id,
 INSERT INTO brc_sys_post (id, name, code, sort, remark, status, created_user_id, created_time, updated_user_id, updated_time) VALUES (3, '人力资源', 'hr', 3, null, 1, 1, '2023-08-25 12:43:01', null, null);
 INSERT INTO brc_sys_post (id, name, code, sort, remark, status, created_user_id, created_time, updated_user_id, updated_time) VALUES (4, '普通员工', 'user', 4, null, 1, 1, '2023-08-25 12:43:01', null, null);
 
+-- 6、系统用户岗位关系表
+drop table if exists brc_sys_user_post;
+create table brc_sys_user_post
+(
+    user_id bigint not null comment '用户ID',
+    post_id bigint not null comment '岗位ID',
+    primary key (user_id, post_id)
+) engine InnoDB
+  default charset utf8mb4 comment '系统用户岗位关系';
 
+-- 初始化-系统用户与岗位关联表数据
+insert into brc_sys_user_post
+values ('1', '1');
+insert into brc_sys_user_post
+values ('2', '2');
 
--- 5、系统菜单表
+-- 7、系统菜单表
 drop table if exists brc_sys_menu;
 create table brc_sys_menu
 (
@@ -148,6 +182,7 @@ create table brc_sys_menu
     sort     int         default '0' comment '显示顺序',
     remark          varchar(500)    comment '备注',
     status          tinyint      default '1' comment '状态（0：停用，1：正常）',
+    version         int      null comment '版本号',
     deleted     tinyint      default '0' comment '状态（0：正式数据，1：删除）',
     created_user_id  bigint comment '创建人ID',
     created_time     datetime        comment '创建时间',
@@ -155,7 +190,7 @@ create table brc_sys_menu
     updated_time     datetime        comment '修改时间',
     primary key (id),
     constraint brc_sys_menu_status_check check (status in ('0', '1'))
-) engine InnoDB default charset utf8mb4 comment '系统菜单表';
+) engine InnoDB default charset utf8mb4 comment '系统菜单';
 
 -- 初始化-系统菜单表数据
 -- 一级菜单
@@ -192,28 +227,6 @@ INSERT INTO bryce_boot.brc_sys_menu (id, name, type, parent_id, url, authority, 
 INSERT INTO bryce_boot.brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1005, '用户导入', 'B', 100, null, 'system:user:import', '', 0, 6, null, 1, 0, 1, '2023-08-25 10:48:57', null, null);
 INSERT INTO bryce_boot.brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1006, '重置密码', 'B', 100, null, 'system:user:resetPwd', '', 0, 7, null, 1, 0, 1, '2023-08-25 10:48:57', null, null);
 
--- 6、系统用户与角色关系表
-drop table if exists brc_sys_user_role;
-create table brc_sys_user_role
-(
-    id              bigint   not null comment 'ID',
-    user_id         bigint   not null comment '用户ID',
-    role_id         bigint   not null comment '角色ID',
-    version         int      null comment '版本号',
-    deleted         tinyint  null comment '删除标识（0：存在，1：已删除）',
-    created_user_id bigint   null comment '创建人ID',
-    created_time    datetime null comment '创建时间',
-    updated_user_id bigint   null comment '修改人ID',
-    updated_time    datetime null comment '修改时间',
-    primary key (id)
-) engine InnoDB default charset utf8mb4 comment '系统用户角色关系';
-
-create index idx_user_id on brc_sys_user_role (user_id);
-create index idx_role_id on brc_sys_user_role (role_id);
-
--- 初始化-系统用户与角色关联表数据
-
-
 -- 7、系统角色菜单关系表
 drop table if exists brc_sys_role_menu;
 create table brc_sys_role_menu
@@ -228,48 +241,26 @@ create table brc_sys_role_menu
     updated_user_id  bigint          comment '修改人ID',
     updated_time     datetime        comment '修改时间',
     primary key (id)
-) engine InnoDB
-  default charset utf8mb4 comment '系统角色菜单关系';
+) engine InnoDB default charset utf8mb4 comment '系统角色菜单关系';
 
 create index idx_role_id on brc_sys_role_menu (role_id);
 create index idx_menu_id on brc_sys_role_menu (menu_id);
--- 初始化-系统角色菜单关系表数据
-INSERT INTO bryce_boot.brc_sys_user_role (id, user_id, role_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1, 1, 1, 1, 0, 1, null, null, null);
-INSERT INTO bryce_boot.brc_sys_user_role (id, user_id, role_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (2, 2, 2, 1, 0, 1, null, null, null);
 
--- 8、系统角色与部门关联表
-drop table if exists brc_sys_role_dept;
-create table brc_sys_role_dept
+-- 8、系统角色数据范围表
+drop table if exists brc_sys_role_data_scope;
+create table brc_sys_role_data_scope
 (
+    id              bigint not null comment 'ID',
     role_id bigint not null comment '角色ID',
-    org_id bigint not null comment '部门ID',
-    primary key (role_id, org_id)
-) engine InnoDB
-  default charset utf8mb4 comment '系统角色与部门关联表';
-
--- 初始化-系统角色与部门关联表数据
-insert into brc_sys_role_dept
-values ('2', '100');
-insert into brc_sys_role_dept
-values ('2', '101');
-insert into brc_sys_role_dept
-values ('2', '105');
-
--- 9、系统用户与岗位关联表
-drop table if exists brc_sys_user_post;
-create table brc_sys_user_post
-(
-    user_id bigint not null comment '用户ID',
-    post_id bigint not null comment '岗位ID',
-    primary key (user_id, post_id)
-) engine InnoDB
-  default charset utf8mb4 comment '系统用户与岗位关联表';
-
--- 初始化-系统用户与岗位关联表数据
-insert into brc_sys_user_post
-values ('1', '1');
-insert into brc_sys_user_post
-values ('2', '2');
+    org_id bigint not null comment '机构ID',
+    version         int             comment '版本号',
+    deleted         tinyint         comment '删除标识（0：存在，1：已删除）',
+    created_user_id  bigint          comment '创建人ID',
+    created_time     datetime        comment '创建时间',
+    updated_user_id  bigint          comment '修改人ID',
+    updated_time     datetime        comment '修改时间',
+    primary key (id)
+) engine InnoDB default charset utf8mb4 comment '系统角色数据范围';
 
 -- 10、系统操作日志表
 drop table if exists brc_sys_operate_log;

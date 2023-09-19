@@ -4,42 +4,32 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.brycehan.boot.system.entity.SysMenu">
-        <id column="id" property="id"/>
-        <result column="name" property="name"/>
-        <result column="type" property="type"/>
-        <result column="parent_id" property="parentId"/>
-        <result column="icon" property="icon"/>
-        <result column="url" property="url"/>
-        <result column="authority" property="authority"/>
-        <result column="icon" property="icon"/>
-        <result column="open_style" property="openStyle"/>
-        <result column="sort" property="sort"/>
-        <result column="remark" property="remark"/>
-        <result column="status" property="status"/>
-        <result column="deleted" property="deleted"/>
-        <result column="created_user_id" property="createdUserId"/>
-        <result column="created_time" property="createdTime"/>
-        <result column="updated_user_id" property="updatedUserId"/>
-        <result column="updated_time" property="updatedTime"/>
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="type" property="type" />
+        <result column="parent_id" property="parentId" />
+        <result column="url" property="url" />
+        <result column="authority" property="authority" />
+        <result column="icon" property="icon" />
+        <result column="open_style" property="openStyle" />
+        <result column="sort" property="sort" />
+        <result column="remark" property="remark" />
+        <result column="status" property="status" />
+        <result column="version" property="version" />
+        <result column="deleted" property="deleted" />
+        <result column="created_user_id" property="createdUserId" />
+        <result column="created_time" property="createdTime" />
+        <result column="updated_user_id" property="updatedUserId" />
+        <result column="updated_time" property="updatedTime" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, name, type, parent_id, icon, url, authority,
-        deleted, sort, status, created_user_id, created_time, updated_user_id, updated_time, remark
+        id, name, type, parent_id, url,
+        authority, icon, open_style, sort, remark,
+        status, version, deleted, created_user_id, created_time,
+        updated_user_id, updated_time
     </sql>
-
-    <!-- 分页查询 -->
-    <select id="page" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from brc_sys_menu
-        <where>
-            <if test="name != null and name != ''">
-                and name like concat('%', #{name}, '%')
-            </if>
-        </where>
-    </select>
 
     <!-- 根据用户ID查询菜单权限 -->
     <select id="findAuthorityByUserId" resultType="java.lang.String">

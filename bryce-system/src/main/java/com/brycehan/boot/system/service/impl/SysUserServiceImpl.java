@@ -1,9 +1,13 @@
 package com.brycehan.boot.system.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.bean.copier.BeanToMapCopier;
+import com.alibaba.excel.util.BeanMapUtils;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.BeanUtils;
 import com.brycehan.boot.common.base.entity.PageResult;
 import com.brycehan.boot.common.base.http.UserResponseStatusEnum;
 import com.brycehan.boot.common.base.id.IdGenerator;
@@ -18,6 +22,7 @@ import com.brycehan.boot.common.util.MessageUtils;
 import com.brycehan.boot.common.util.ServletUtils;
 import com.brycehan.boot.framework.security.context.LoginUserContext;
 import com.brycehan.boot.system.convert.SysUserConvert;
+import com.brycehan.boot.system.dto.SysRoleUserPageDto;
 import com.brycehan.boot.system.dto.SysUserDto;
 import com.brycehan.boot.system.dto.SysUserPageDto;
 import com.brycehan.boot.system.entity.*;
@@ -26,21 +31,17 @@ import com.brycehan.boot.system.service.*;
 import com.brycehan.boot.system.vo.SysUserVo;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.cglib.beans.BeanMap;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * <p>
- * 系统用户 服务实现类
- * </p>
+ * 系统用户服务实现
  *
  * @author Bryce Han
  * @since 2022/5/08
@@ -136,6 +137,23 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         List<SysUser> sysUserList = this.baseMapper.selectList(getWrapper(sysUserPageDto));
         List<SysUserVo> sysUserVoList = SysUserConvert.INSTANCE.convert(sysUserList);
         ExcelUtils.export(SysUserVo.class, "系统用户", "系统用户", sysUserVoList);
+    }
+
+    @Override
+    public PageResult<SysUserVo> roleUserPage(SysRoleUserPageDto pageDto) {
+        // 查询参数
+        Map<String, Object> params = BeanUtil.beanToMap(pageDto);
+        // 数据权限
+        params.put(DataConstants.DATA_SCOPE, getDataScope("bsu", null));
+
+        // 分页查询
+        IPage<SysUser> page = getPage(pageDto);
+        params.put(DataConstants.PAGE, page);
+
+        // 数据列表
+        List<SysUser> list = this.baseMapper.roleUserList(params);
+
+        return new PageResult<>(page.getTotal(), SysUserConvert.INSTANCE.convert(list));
     }
 
     @Transactional

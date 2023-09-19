@@ -1,9 +1,10 @@
 package com.brycehan.boot.system.service;
 
 import com.brycehan.boot.common.base.entity.PageResult;
-import com.brycehan.boot.common.base.vo.MenuVo;
+import com.brycehan.boot.common.base.id.IdGenerator;
 import com.brycehan.boot.framework.mybatis.service.BaseService;
 import com.brycehan.boot.framework.security.context.LoginUser;
+import com.brycehan.boot.system.convert.SysMenuConvert;
 import com.brycehan.boot.system.dto.SysMenuDto;
 import com.brycehan.boot.system.dto.SysMenuPageDto;
 import com.brycehan.boot.system.entity.SysMenu;
@@ -25,36 +26,42 @@ public interface SysMenuService extends BaseService<SysMenu> {
      *
      * @param sysMenuDto 系统菜单Dto
      */
-    void save(SysMenuDto sysMenuDto);
+    default void save(SysMenuDto sysMenuDto) {
+        SysMenu sysMenu = SysMenuConvert.INSTANCE.convert(sysMenuDto);
+        sysMenu.setId(IdGenerator.nextId());
+        this.getBaseMapper().insert(sysMenu);
+    }
 
     /**
      * 更新系统菜单
      *
      * @param sysMenuDto 系统菜单Dto
      */
-    void update(SysMenuDto sysMenuDto);
+    default void update(SysMenuDto sysMenuDto) {
+        SysMenu sysMenu = SysMenuConvert.INSTANCE.convert(sysMenuDto);
+        this.getBaseMapper().updateById(sysMenu);
+    }
 
     /**
-     * 系统菜单分页查询信息
+     * 系统菜单分页查询
      *
-     * @param sysMenuPageDto 系统菜单分页搜索条件
+     * @param sysMenuPageDto 查询条件
      * @return 分页信息
      */
     PageResult<SysMenuVo> page(SysMenuPageDto sysMenuPageDto);
 
     /**
-     * 获取用户的系统菜单列表
+     * 系统菜单导出数据
      *
-     * @param userId 用户ID
-     * @return 系统菜单列表
+     * @param sysMenuPageDto 系统菜单查询条件
      */
-    List<SysMenu> getSysMenuListByUserId(Long userId);
+    void export(SysMenuPageDto sysMenuPageDto);
 
     /**
-     * 查询用户菜单权限
+     * 查询用户权限集合
      *
      * @param loginUser 登录用户
-     * @return 菜单权限集合
+     * @return 权限集合
      */
     Set<String> findAuthority(LoginUser loginUser);
 

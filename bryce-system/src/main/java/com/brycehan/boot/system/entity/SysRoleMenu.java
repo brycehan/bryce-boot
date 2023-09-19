@@ -3,21 +3,23 @@ package com.brycehan.boot.system.entity;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.brycehan.boot.common.base.entity.BaseEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+import java.io.Serial;
 
 /**
- * 系统角色菜单中间表
+ * 系统角色菜单关系entity
  *
  * @author Bryce Han
  * @since 2022/5/15
  */
-@Getter
-@Setter
+@Data
+@EqualsAndHashCode(callSuper = false)
 @TableName("brc_sys_role_menu")
-@Schema(description = "SysRoleMenu实体")
 public class SysRoleMenu extends BaseEntity {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     /**

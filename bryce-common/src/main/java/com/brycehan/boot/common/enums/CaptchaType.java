@@ -12,12 +12,10 @@ public enum CaptchaType {
      * 线段干扰的
      */
     LINE,
-
     /**
      * 中文
      */
     CHINESE,
-
     /**
      * 闪图
      */

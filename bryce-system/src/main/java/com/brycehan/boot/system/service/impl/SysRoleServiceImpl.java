@@ -3,19 +3,30 @@ package com.brycehan.boot.system.service.impl;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.brycehan.boot.common.base.dto.IdsDto;
 import com.brycehan.boot.common.base.entity.PageResult;
+import com.brycehan.boot.common.base.id.IdGenerator;
+import com.brycehan.boot.common.enums.DataScopeType;
 import com.brycehan.boot.common.util.ExcelUtils;
 import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
 import com.brycehan.boot.system.convert.SysRoleConvert;
+import com.brycehan.boot.system.dto.SysRoleDataScopeDto;
+import com.brycehan.boot.system.dto.SysRoleDto;
 import com.brycehan.boot.system.dto.SysRolePageDto;
 import com.brycehan.boot.system.entity.SysRole;
 import com.brycehan.boot.system.mapper.SysRoleMapper;
+import com.brycehan.boot.system.service.SysRoleDataScopeService;
+import com.brycehan.boot.system.service.SysRoleMenuService;
 import com.brycehan.boot.system.service.SysRoleService;
+import com.brycehan.boot.system.service.SysUserRoleService;
 import com.brycehan.boot.system.vo.SysRoleVo;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -29,6 +40,58 @@ import java.util.Set;
 @Service
 @RequiredArgsConstructor
 public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> implements SysRoleService {
+
+    private final SysUserRoleService sysUserRoleService;
+
+    private final SysRoleMenuService sysRoleMenuService;
+
+    private final SysRoleDataScopeService sysRoleDataScopeService;
+
+    @Override
+    public void save(SysRoleDto sysRoleDto) {
+        SysRole sysRole = SysRoleConvert.INSTANCE.convert(sysRoleDto);
+        sysRole.setId(IdGenerator.nextId());
+
+        // 保存角色
+        sysRole.setDataScope(DataScopeType.SELF.value());
+        this.baseMapper.insert(sysRole);
+
+        // 保存角色菜单关系
+        this.sysRoleMenuService.saveOrUpdate(sysRole.getId(), sysRoleDto.getMenuIds());
+    }
+
+    @Override
+    public void update(SysRoleDto sysRoleDto) {
+        SysRole sysRole = SysRoleConvert.INSTANCE.convert(sysRoleDto);
+        // 更新角色
+        this.baseMapper.updateById(sysRole);
+
+        // 更新角色菜单关系
+        this.sysRoleMenuService.saveOrUpdate(sysRoleDto.getId(), sysRoleDto.getMenuIds());
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void delete(IdsDto idsDto) {
+        // 过滤无效参数
+        List<Long> ids = idsDto.getIds().stream()
+                .filter(Objects::nonNull).toList();
+        if(CollectionUtils.isEmpty(ids)) {
+            return;
+        }
+
+        // 删除角色
+        this.baseMapper.deleteBatchIds(ids);
+
+        // 删除用户角色关系
+        this.sysUserRoleService.deleteByRoleIds(ids);
+
+        // 删除角色菜单关系
+        this.sysRoleMenuService.deleteByRoleIds(ids);
+
+        // 删除角色数据权限关系
+        this.sysRoleDataScopeService.deleteByRoleIds(ids);
+    }
 
     @Override
     public PageResult<SysRoleVo> page(SysRolePageDto sysRolePageDto) {
@@ -94,4 +157,24 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
     public List<SysRole> selectRolesByUserId(Long userId) {
         return null;
     }
+
+    @Override
+    public void dataScope(SysRoleDataScopeDto dataScopeDto) {
+        SysRole sysRole = this.baseMapper.selectById(dataScopeDto.getId());
+        if(sysRole == null) {
+            return;
+        }
+        // 更新角色
+        sysRole.setDataScope(dataScopeDto.getDataScope());
+        this.baseMapper.updateById(sysRole);
+
+        // 更新角色数据范围关系
+        if(dataScopeDto.getDataScope().equals(DataScopeType.CUSTOM.value())) {
+            this.sysRoleDataScopeService.saveOrUpdate(dataScopeDto.getId(), dataScopeDto.getOrgIds());
+        } else {
+            this.sysRoleDataScopeService.deleteByRoleIds(Collections.singletonList(dataScopeDto.getId()));
+        }
+
+    }
+
 }

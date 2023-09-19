@@ -1,32 +1,26 @@
 package com.brycehan.boot.system.dto;
 
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.brycehan.boot.common.base.entity.BaseEntity;
 import com.brycehan.boot.common.validator.AddGroup;
 import com.brycehan.boot.common.validator.UpdateGroup;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Null;
-import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.validator.constraints.Range;
+import lombok.Data;
 
 import java.io.Serial;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 系统菜单数据传输对象
+ * 系统菜单Dto
  *
  * @author Bryce Han
  * @since 2022/5/15
  */
+@Data
 @Schema(description = "系统菜单Dto")
-@Getter
-@Setter
-public class SysMenuDto extends BaseEntity {
+public class SysMenuDto implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -35,8 +29,6 @@ public class SysMenuDto extends BaseEntity {
      * ID
      */
     @Schema(description = "ID")
-    @Null(groups = AddGroup.class)
-    @NotNull(groups = UpdateGroup.class)
     private Long id;
 
     /**
@@ -47,24 +39,17 @@ public class SysMenuDto extends BaseEntity {
     private String name;
 
     /**
-     * 类型（D：目录，M：菜单，B：按钮）
+     * 类型（M：菜单，B：按钮，I：接口）
      */
-    @Schema(description = "菜单类型（D：目录，M：菜单，B：按钮）")
-    @Pattern(regexp = "^[DMB]$", groups = {AddGroup.class, UpdateGroup.class}, message = "菜单类型值只能是D、M或B")
+    @Schema(description = "类型（M：菜单，B：按钮，I：接口）")
+    @Size(max = 1, groups = {AddGroup.class, UpdateGroup.class})
     private String type;
 
     /**
      * 父菜单ID，一级菜单为0
      */
     @Schema(description = "父菜单ID，一级菜单为0")
-    private String parentId;
-
-    /**
-     * 菜单图标
-     */
-    @Schema(description = "菜单图标")
-    @Size(max = 100, groups = {AddGroup.class, UpdateGroup.class})
-    private String icon;
+    private Long parentId;
 
     /**
      * 组件路径
@@ -74,31 +59,6 @@ public class SysMenuDto extends BaseEntity {
     private String url;
 
     /**
-     * 路由参数
-     */
-    @Schema(description = "路由参数")
-    @Size(max = 255, groups = {AddGroup.class, UpdateGroup.class})
-    private String query;
-
-    /**
-     * 是否为外链（0：否，1：是）
-     */
-    @Schema(description = "是否为外链（0：否，1：是）")
-    private Boolean isFrame;
-
-    /**
-     * 是否缓存（0：否，1：是）
-     */
-    @Schema(description = "是否缓存（0：否，1：是）")
-    private Boolean isCache;
-
-    /**
-     * 菜单状态（0：隐藏，1：显示）
-     */
-    @Schema(description = "菜单状态（0：隐藏，1：显示）")
-    private Boolean visible;
-
-    /**
      * 权限标识
      */
     @Schema(description = "权限标识")
@@ -106,24 +66,23 @@ public class SysMenuDto extends BaseEntity {
     private String authority;
 
     /**
-     * 状态（0：正式数据，1：删除）
+     * 菜单图标
      */
-    @Schema(description = "状态（0：正式数据，1：删除）")
-    private Boolean deleted;
+    @Schema(description = "菜单图标")
+    @Size(max = 100, groups = {AddGroup.class, UpdateGroup.class})
+    private String icon;
+
+    /**
+     * 打开方式（0：内部，1：外部）
+     */
+    @Schema(description = "打开方式（0：内部，1：外部）")
+    private Boolean openStyle;
 
     /**
      * 显示顺序
      */
     @Schema(description = "显示顺序")
-    @Range(max = 2147483647, groups = {AddGroup.class, UpdateGroup.class})
     private Integer sort;
-
-    /**
-     * 状态（0：停用，1：正常）
-     */
-    @Schema(description = "状态（0：停用，1：正常）")
-    @Range(max = 1, message = "状态值只能是0或1", groups = {AddGroup.class, UpdateGroup.class})
-    private Integer status;
 
     /**
      * 备注
@@ -131,6 +90,12 @@ public class SysMenuDto extends BaseEntity {
     @Schema(description = "备注")
     @Size(max = 500, groups = {AddGroup.class, UpdateGroup.class})
     private String remark;
+
+    /**
+     * 状态（0：停用，1：正常）
+     */
+    @Schema(description = "状态（0：停用，1：正常）")
+    private Boolean status;
 
     /**
      * 子菜单列表

@@ -123,24 +123,6 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public Set<String> getUserAuthority(LoginUser loginUser) {
-        // 超级管理员，拥有最高权限
-        Set<String> authoritySet;
-        if(loginUser.getSuperAdmin()) {
-            LambdaQueryWrapper<SysMenu> wrapper = new LambdaQueryWrapper<>();
-            wrapper.select(SysMenu::getAuthority);
-            // todo deleted 是否需要
-            wrapper.eq(SysMenu::getDeleted, false);
-
-            List<String> authortityList = this.sysMenuService.listObjs(wrapper, Object::toString);
-            authoritySet = new HashSet<>(authortityList);
-        }else {
-            authoritySet = this.sysMenuService.findAuthority(loginUser);
-        }
-        return authoritySet;
-    }
-
-    @Override
     public void updateLoginInfo(LoginUser user) {
         SysUser sysUser = new SysUser();
         sysUser.setId(user.getId());

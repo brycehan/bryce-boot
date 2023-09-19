@@ -7,11 +7,13 @@ import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
 import com.brycehan.boot.system.entity.SysUserRole;
 import com.brycehan.boot.system.mapper.SysUserRoleMapper;
 import com.brycehan.boot.system.service.SysUserRoleService;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 系统用户角色关系服务实现
@@ -53,6 +55,37 @@ public class SysUserRoleServiceImpl extends BaseServiceImpl<SysUserRoleMapper, S
         }
     }
 
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void saveUser(Long roleId, List<Long> userIds) {
+        // 过滤无效参数
+        List<Long> ids = userIds.stream()
+                .filter(Objects::nonNull)
+                .toList();
+        if (CollectionUtils.isEmpty(ids)) {
+            return;
+        }
+        // 过滤已经添加的数据
+        LambdaQueryWrapper<SysUserRole> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(SysUserRole::getRoleId, roleId);
+        queryWrapper.in(SysUserRole::getUserId, userIds);
+        List<SysUserRole> dbUserRoles = this.baseMapper.selectList(queryWrapper);
+
+        List<SysUserRole> userRoleList = userIds.stream()
+                .filter(userId -> dbUserRoles.stream().noneMatch(sysUserRole -> sysUserRole.getUserId().equals(userId)))
+                .map(userId -> {
+                    SysUserRole userRole = new SysUserRole();
+                    userRole.setId(IdGenerator.nextId());
+                    userRole.setUserId(userId);
+                    userRole.setRoleId(roleId);
+                    return userRole;
+                }).toList();
+
+        if(CollectionUtils.isNotEmpty(userRoleList)) {
+            saveBatch(userRoleList);
+        }
+    }
+
     /**
      * 根据用户ID查询拥有的角色ID列表
      *
@@ -69,4 +102,19 @@ public class SysUserRoleServiceImpl extends BaseServiceImpl<SysUserRoleMapper, S
         return sysUserRoles.stream().map(SysUserRole::getRoleId)
                 .toList();
     }
+
+    @Override
+    public void deleteByRoleIds(List<Long> roleIds) {
+        this.baseMapper.delete(new LambdaQueryWrapper<SysUserRole>().in(SysUserRole::getRoleId, roleIds));
+    }
+
+    @Override
+    public void deleteByRoleIdAndUserIds(Long roleId, List<Long> userIds) {
+        LambdaQueryWrapper<SysUserRole> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(SysUserRole::getRoleId, roleId);
+        queryWrapper.in(SysUserRole::getUserId, userIds);
+
+        remove(queryWrapper);
+    }
+
 }

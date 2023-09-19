@@ -16,19 +16,12 @@ import lombok.experimental.Accessors;
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 public enum OperationStatus {
 
-    /**
-     * 操作成功
-     */
+    /** 操作成功 */
     SUCCESS(true),
-
-    /**
-     * 操作失败
-     */
+    /** 操作失败 */
     FAIL(false);
+    /** 操作状态值 */
 
-    /**
-     * 操作状态值
-     */
     private final boolean value;
 
 }

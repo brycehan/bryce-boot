@@ -4,10 +4,13 @@ import com.brycehan.boot.common.base.entity.PageResult;
 import com.brycehan.boot.common.base.id.IdGenerator;
 import com.brycehan.boot.framework.mybatis.service.BaseService;
 import com.brycehan.boot.system.convert.SysRoleConvert;
+import com.brycehan.boot.system.dto.SysRoleDataScopeDto;
 import com.brycehan.boot.system.dto.SysRoleDto;
 import com.brycehan.boot.system.dto.SysRolePageDto;
+import com.brycehan.boot.system.dto.SysRoleUserPageDto;
 import com.brycehan.boot.system.entity.SysRole;
 import com.brycehan.boot.system.vo.SysRoleVo;
+import com.brycehan.boot.system.vo.SysUserVo;
 
 import java.util.List;
 import java.util.Set;
@@ -86,5 +89,12 @@ public interface SysRoleService extends BaseService<SysRole> {
      * @return 角色列表
      */
     List<SysRole> selectRolesByUserId(Long userId);
+
+    /**
+     * 分配数据权限
+     *
+     * @param dataScopeDto 数据范围Dto
+     */
+    void dataScope(SysRoleDataScopeDto dataScopeDto);
 
 }

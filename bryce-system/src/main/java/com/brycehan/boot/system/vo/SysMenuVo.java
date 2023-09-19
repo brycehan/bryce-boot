@@ -3,17 +3,20 @@ package com.brycehan.boot.system.vo;
 import com.brycehan.boot.common.util.TreeNode;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.io.Serial;
+import java.time.LocalDateTime;
 
 /**
- * 系统菜单数据传输对象
+ * 系统菜单Vo
  *
  * @author Bryce Han
  * @since 2022/5/15
  */
 @Data
 @Schema(description = "系统菜单Vo")
+@EqualsAndHashCode(callSuper = true)
 public class SysMenuVo extends TreeNode<SysMenuVo> {
 
     @Serial
@@ -26,16 +29,10 @@ public class SysMenuVo extends TreeNode<SysMenuVo> {
     private String name;
 
     /**
-     * 类型（D：目录，M：菜单，B：按钮）
+     * 类型（M：菜单，B：按钮，I：接口）
      */
-    @Schema(description = "菜单类型（D：目录，M：菜单，B：按钮）")
+    @Schema(description = "类型（M：菜单，B：按钮，I：接口）")
     private String type;
-
-    /**
-     * 菜单图标
-     */
-    @Schema(description = "菜单图标")
-    private String icon;
 
     /**
      * 组件路径
@@ -44,40 +41,22 @@ public class SysMenuVo extends TreeNode<SysMenuVo> {
     private String url;
 
     /**
-     * 路由参数
-     */
-    @Schema(description = "路由参数")
-    private String query;
-
-    /**
-     * 是否为外链（0：否，1：是）
-     */
-    @Schema(description = "是否为外链（0：否，1：是）")
-    private Boolean isFrame;
-
-    /**
-     * 是否缓存（0：否，1：是）
-     */
-    @Schema(description = "是否缓存（0：否，1：是）")
-    private Boolean isCache;
-
-    /**
-     * 菜单状态（0：隐藏，1：显示）
-     */
-    @Schema(description = "菜单状态（0：隐藏，1：显示）")
-    private Boolean visible;
-
-    /**
      * 权限标识
      */
     @Schema(description = "权限标识")
     private String authority;
 
     /**
-     * 状态（0：正式数据，1：删除）
+     * 菜单图标
      */
-    @Schema(description = "状态（0：正式数据，1：删除）")
-    private Boolean deleted;
+    @Schema(description = "菜单图标")
+    private String icon;
+
+    /**
+     * 打开方式（0：内部，1：外部）
+     */
+    @Schema(description = "打开方式（0：内部，1：外部）")
+    private Boolean openStyle;
 
     /**
      * 显示顺序
@@ -86,15 +65,21 @@ public class SysMenuVo extends TreeNode<SysMenuVo> {
     private Integer sort;
 
     /**
-     * 状态（0：停用，1：正常）
-     */
-    @Schema(description = "状态（0：停用，1：正常）")
-    private Integer status;
-
-    /**
      * 备注
      */
     @Schema(description = "备注")
     private String remark;
+
+    /**
+     * 状态（0：停用，1：正常）
+     */
+    @Schema(description = "状态（0：停用，1：正常）")
+    private Boolean status;
+
+    /**
+     * 创建时间
+     */
+    @Schema(description = "创建时间")
+    private LocalDateTime createdTime;
 
 }

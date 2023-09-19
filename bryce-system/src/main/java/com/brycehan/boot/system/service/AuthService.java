@@ -39,14 +39,6 @@ public interface AuthService {
     Set<String> getMenuAuthority(LoginUser loginUser);
 
     /**
-     * 获取用户权限
-     *
-     * @param loginUser 登录用户
-     * @return 用户权限
-     */
-    Set<String> getUserAuthority(LoginUser loginUser);
-
-    /**
      * 更新用户登录信息
      *
      * @param loginUser 登录用户

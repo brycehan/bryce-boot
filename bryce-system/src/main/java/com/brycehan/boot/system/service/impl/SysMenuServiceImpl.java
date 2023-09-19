@@ -1,19 +1,16 @@
 package com.brycehan.boot.system.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.brycehan.boot.common.base.entity.PageResult;
-import com.brycehan.boot.common.base.id.IdGenerator;
-import com.brycehan.boot.common.base.vo.MenuVo;
 import com.brycehan.boot.common.constant.DataConstants;
-import com.brycehan.boot.common.constant.UserConstants;
+import com.brycehan.boot.common.util.ExcelUtils;
 import com.brycehan.boot.common.util.TreeUtils;
 import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
 import com.brycehan.boot.framework.security.context.LoginUser;
-import com.brycehan.boot.system.convert.MenuConvert;
 import com.brycehan.boot.system.convert.SysMenuConvert;
-import com.brycehan.boot.system.dto.SysMenuDto;
 import com.brycehan.boot.system.dto.SysMenuPageDto;
 import com.brycehan.boot.system.entity.SysMenu;
 import com.brycehan.boot.system.mapper.SysMenuMapper;
@@ -21,7 +18,7 @@ import com.brycehan.boot.system.service.SysMenuService;
 import com.brycehan.boot.system.service.SysRoleMenuService;
 import com.brycehan.boot.system.service.SysUserRoleService;
 import com.brycehan.boot.system.vo.SysMenuVo;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -29,74 +26,63 @@ import org.springframework.util.CollectionUtils;
 import java.util.*;
 
 /**
- * 系统菜单服务实现类
+ * 系统菜单服务实现
  *
  * @author Bryce Han
  * @since 2022/5/15
  */
 @Service
-@AllArgsConstructor
- public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuMapper, SysMenu> implements SysMenuService {
-
-    private final SysMenuMapper sysMenuMapper;
+@RequiredArgsConstructor
+public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuMapper, SysMenu> implements SysMenuService {
 
     private final SysUserRoleService sysUserRoleService;
 
     private final SysRoleMenuService sysRoleMenuService;
 
     @Override
-    public void save(SysMenuDto sysMenuDto) {
-        SysMenu sysMenu = SysMenuConvert.INSTANCE.convert(sysMenuDto);
-        sysMenu.setId(IdGenerator.nextId());
-        this.sysMenuMapper.insert(sysMenu);
-    }
-
-    @Override
-    public void update(SysMenuDto sysMenuDto) {
-        SysMenu sysMenu = SysMenuConvert.INSTANCE.convert(sysMenuDto);
-        this.sysMenuMapper.updateById(sysMenu);
-    }
-
-    @Override
     public PageResult<SysMenuVo> page(SysMenuPageDto sysMenuPageDto) {
 
-        LambdaQueryWrapper<SysMenu> wrapper = new LambdaQueryWrapper<>();
-        wrapper.like(StringUtils.isNotBlank(sysMenuPageDto.getName()), SysMenu::getName, sysMenuPageDto.getName());
-        wrapper.eq(Objects.nonNull(sysMenuPageDto.getStatus()), SysMenu::getStatus, sysMenuPageDto.getStatus());
-
-        IPage<SysMenu> page =  this.sysMenuMapper.selectPage(getPage(sysMenuPageDto), wrapper);
+        IPage<SysMenu> page = this.baseMapper.selectPage(getPage(sysMenuPageDto), getWrapper(sysMenuPageDto));
 
         return new PageResult<>(page.getTotal(), SysMenuConvert.INSTANCE.convert(page.getRecords()));
     }
 
-    @Override
-    public Set<String> findAuthority(LoginUser loginUser) {
-        return this.sysMenuMapper.findAuthorityByUserId(loginUser.getId());
+    /**
+     * 封装查询条件
+     *
+     * @param sysMenuPageDto 系统菜单分页dto
+     * @return 查询条件Wrapper
+     */
+    private Wrapper<SysMenu> getWrapper(SysMenuPageDto sysMenuPageDto){
+        LambdaQueryWrapper<SysMenu> wrapper = new LambdaQueryWrapper<>();
+        wrapper.like(StringUtils.isNotBlank(sysMenuPageDto.getName()), SysMenu::getName, sysMenuPageDto.getName());
+        wrapper.eq(Objects.nonNull(sysMenuPageDto.getType()), SysMenu::getType, sysMenuPageDto.getType());
+        wrapper.eq(Objects.nonNull(sysMenuPageDto.getStatus()), SysMenu::getStatus, sysMenuPageDto.getStatus());
+        wrapper.like(StringUtils.isNotEmpty(sysMenuPageDto.getName()), SysMenu::getName, sysMenuPageDto.getName());
+        return wrapper;
     }
 
     @Override
-    public List<SysMenu> getSysMenuListByUserId(Long userId) {
-        if (Objects.nonNull(userId)) {
-            List<Long> roleIds = this.sysUserRoleService.getRoleIdsByUserId(userId);
-            List<Long> menuIds = this.sysRoleMenuService.getMenuIdListByRoleIdList(roleIds);
-            List<SysMenu> sysMenus = this.getSysMenusByMenuIds(menuIds);
-            // 将ID和菜单绑定
-            Map<Long, SysMenu> sysMenuMap = new HashMap<>();
-            sysMenus.forEach(sysMenu -> sysMenuMap.put(sysMenu.getId(), sysMenu));
-            // 按层级关系组装菜单
-            Iterator<SysMenu> iterator = sysMenus.iterator();
-            while (iterator.hasNext()) {
-                SysMenu sysMenu = iterator.next();
-                SysMenu parent = sysMenuMap.get(sysMenu.getParentId());
-                if (Objects.nonNull(parent)) {
-                    parent.getChildren().add(sysMenu);
-                    // 删除非根当前节点
-                    iterator.remove();
-                }
-            }
-            return sysMenus;
+    public void export(SysMenuPageDto sysMenuPageDto) {
+        List<SysMenu> sysMenuList = this.baseMapper.selectList(getWrapper(sysMenuPageDto));
+        List<SysMenuVo> sysMenuVoList = SysMenuConvert.INSTANCE.convert(sysMenuList);
+        ExcelUtils.export(SysMenuVo.class, "系统菜单", "系统菜单", sysMenuVoList);
+    }
+
+    @Override
+    public Set<String> findAuthority(LoginUser loginUser) {
+        // 超级管理员，拥有最高权限
+        Set<String> authoritySet;
+        if(loginUser.getSuperAdmin()) {
+            LambdaQueryWrapper<SysMenu> wrapper = new LambdaQueryWrapper<>();
+            wrapper.select(SysMenu::getAuthority);
+
+            List<String> authortityList = this.listObjs(wrapper, Object::toString);
+            authoritySet = new HashSet<>(authortityList);
+        }else {
+            authoritySet = this.baseMapper.findAuthorityByUserId(loginUser.getId());
         }
-        return Collections.emptyList();
+        return authoritySet;
     }
 
     /**
@@ -109,7 +95,7 @@ import java.util.*;
         QueryWrapper<SysMenu> queryWrapper = new QueryWrapper<>();
         queryWrapper.in(!CollectionUtils.isEmpty(menuIds), "id", menuIds)
                 .eq("non_locked", DataConstants.ENABLE);
-        return this.sysMenuMapper.selectList(queryWrapper);
+        return this.baseMapper.selectList(queryWrapper);
     }
 
     @Override
@@ -123,10 +109,10 @@ import java.util.*;
             queryWrapper.eq(StringUtils.isNotEmpty(type) ,SysMenu::getType, type);
             queryWrapper.orderByAsc(Arrays.asList(SysMenu::getParentId, SysMenu::getSort));
 
-            menuList = this.sysMenuMapper.selectList(queryWrapper);
+            menuList = this.baseMapper.selectList(queryWrapper);
         }else {
             // 普通用户菜单处理
-            menuList = this.sysMenuMapper.selectMenuTreeList(loginUser.getId(), type);
+            menuList = this.baseMapper.selectMenuTreeList(loginUser.getId(), type);
         }
 
         return TreeUtils.build(SysMenuConvert.INSTANCE.convert(menuList));

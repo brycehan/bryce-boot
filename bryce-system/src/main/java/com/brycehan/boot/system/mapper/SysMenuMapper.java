@@ -1,7 +1,6 @@
 package com.brycehan.boot.system.mapper;
 
 import com.brycehan.boot.common.base.mapper.BryceBaseMapper;
-import com.brycehan.boot.system.dto.SysMenuPageDto;
 import com.brycehan.boot.system.entity.SysMenu;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -16,14 +15,6 @@ import java.util.Set;
  */
 @Mapper
 public interface SysMenuMapper extends BryceBaseMapper<SysMenu> {
-
-    /**
-     * 分页查询
-     *
-     * @param sysMenuPageDto 系统菜单分页数据传输对象
-     * @return 系统菜单列表
-     */
-    List<SysMenu> page(SysMenuPageDto sysMenuPageDto);
 
     /**
      * 根据用户ID查询菜单权限

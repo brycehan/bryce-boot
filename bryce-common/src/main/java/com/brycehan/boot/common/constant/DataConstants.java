@@ -33,14 +33,13 @@ public class DataConstants {
      */
     public static final Long DEFAULT_ROLE_ID = 2L;
 
-    /**
-     * 根ID
-     */
+    /** 分页页码 */
+    public static final String PAGE = "page";
+
+    /** 根ID */
     public static final Long TREE_ROOT_ID = 0L;
 
-    /**
-     * 数据权限范围
-     */
+    /** 数据权限范围 */
     public static final String DATA_SCOPE = "dataScope";
 
     /**

@@ -6,6 +6,7 @@ import com.brycehan.boot.common.base.dto.IdsDto;
 import com.brycehan.boot.common.base.id.IdGenerator;
 import com.brycehan.boot.framework.mybatis.service.BaseService;
 import com.brycehan.boot.system.convert.SysUserConvert;
+import com.brycehan.boot.system.dto.SysRoleUserPageDto;
 import com.brycehan.boot.system.dto.SysUserDto;
 import com.brycehan.boot.system.dto.SysUserPageDto;
 import com.brycehan.boot.system.entity.SysUser;
@@ -56,6 +57,13 @@ public interface SysUserService extends BaseService<SysUser> {
      * @param sysUserPageDto 系统用户查询条件
      */
     void export(SysUserPageDto sysUserPageDto);
+
+    /**
+     * 角色分配用户，用户列表
+     * @param pageDto 查询条件
+     * @return 用户列表
+     */
+    PageResult<SysUserVo> roleUserPage(SysRoleUserPageDto pageDto);
 
     /**
      * 注册用户

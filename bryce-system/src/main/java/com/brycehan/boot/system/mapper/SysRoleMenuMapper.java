@@ -5,7 +5,7 @@ import com.brycehan.boot.system.entity.SysRoleMenu;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
- * 系统角色菜单中间表Mapper接口
+ * 系统角色菜单关系Mapper接口
  *
  * @author Bryce Han
  * @since 2022/5/15

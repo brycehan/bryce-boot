@@ -78,7 +78,7 @@ public class AuthController {
      * @return 响应结果
      */
     @Operation(summary = "获取用户权限标识", description = "用户权限标识集合")
-    @PostMapping(path = "/authority")
+    @GetMapping(path = "/authority")
     public ResponseResult<Set<String>> authority() {
         LoginUser loginUser = LoginUserContext.currentUser();
         Set<String> authoritySet = this.sysMenuService.findAuthority(loginUser);
