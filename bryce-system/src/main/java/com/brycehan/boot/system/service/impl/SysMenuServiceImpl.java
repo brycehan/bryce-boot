@@ -11,6 +11,7 @@ import com.brycehan.boot.common.util.TreeUtils;
 import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
 import com.brycehan.boot.framework.security.context.LoginUser;
 import com.brycehan.boot.system.convert.SysMenuConvert;
+import com.brycehan.boot.system.dto.SysMenuDto;
 import com.brycehan.boot.system.dto.SysMenuPageDto;
 import com.brycehan.boot.system.entity.SysMenu;
 import com.brycehan.boot.system.mapper.SysMenuMapper;
@@ -56,9 +57,8 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuMapper, SysMenu> 
     private Wrapper<SysMenu> getWrapper(SysMenuPageDto sysMenuPageDto){
         LambdaQueryWrapper<SysMenu> wrapper = new LambdaQueryWrapper<>();
         wrapper.like(StringUtils.isNotBlank(sysMenuPageDto.getName()), SysMenu::getName, sysMenuPageDto.getName());
-        wrapper.eq(Objects.nonNull(sysMenuPageDto.getType()), SysMenu::getType, sysMenuPageDto.getType());
+        wrapper.eq(StringUtils.isNotBlank(sysMenuPageDto.getType()), SysMenu::getType, sysMenuPageDto.getType());
         wrapper.eq(Objects.nonNull(sysMenuPageDto.getStatus()), SysMenu::getStatus, sysMenuPageDto.getStatus());
-        wrapper.like(StringUtils.isNotEmpty(sysMenuPageDto.getName()), SysMenu::getName, sysMenuPageDto.getName());
         return wrapper;
     }
 
@@ -67,6 +67,17 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuMapper, SysMenu> 
         List<SysMenu> sysMenuList = this.baseMapper.selectList(getWrapper(sysMenuPageDto));
         List<SysMenuVo> sysMenuVoList = SysMenuConvert.INSTANCE.convert(sysMenuList);
         ExcelUtils.export(SysMenuVo.class, "系统菜单", "系统菜单", sysMenuVoList);
+    }
+
+    @Override
+    public List<SysMenuVo> list(SysMenuDto sysMenuDto) {
+        LambdaQueryWrapper<SysMenu> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.like(StringUtils.isNotBlank(sysMenuDto.getName()), SysMenu::getName, sysMenuDto.getName());
+        queryWrapper.eq(Objects.nonNull(sysMenuDto.getStatus()), SysMenu::getStatus, sysMenuDto.getStatus());
+        queryWrapper.orderByAsc(SysMenu::getSort);
+        List<SysMenu> list = this.baseMapper.selectList(queryWrapper);
+
+        return TreeUtils.build(SysMenuConvert.INSTANCE.convert(list), 0L);
     }
 
     @Override

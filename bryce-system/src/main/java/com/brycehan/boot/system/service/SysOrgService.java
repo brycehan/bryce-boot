@@ -50,6 +50,7 @@ public interface SysOrgService extends BaseService<SysOrg> {
 
     /**
      * 列表查询
+     *
      * @param sysOrgDto 查询参数
      * @return 机构列表
      */

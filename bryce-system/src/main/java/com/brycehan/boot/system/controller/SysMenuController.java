@@ -10,9 +10,11 @@ import com.brycehan.boot.framework.operationlog.annotation.OperateType;
 import com.brycehan.boot.system.convert.SysMenuConvert;
 import com.brycehan.boot.system.dto.SysMenuDto;
 import com.brycehan.boot.system.dto.SysMenuPageDto;
+import com.brycehan.boot.system.dto.SysOrgDto;
 import com.brycehan.boot.system.entity.SysMenu;
 import com.brycehan.boot.system.service.SysMenuService;
 import com.brycehan.boot.system.vo.SysMenuVo;
+import com.brycehan.boot.system.vo.SysOrgVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -20,6 +22,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 /**
@@ -121,5 +125,18 @@ public class SysMenuController {
         this.sysMenuService.export(sysMenuPageDto);
     }
 
+    /**
+     * 列表查询
+     *
+     * @param sysMenuDto 查询条件
+     * @return 系统菜单列表
+     */
+    @Operation(summary = "列表查询")
+    @PreAuthorize("hasAuthority('system:menu:page')")
+    @PostMapping(path = "/list")
+    public ResponseResult<List<SysMenuVo>> list(@Validated @RequestBody SysMenuDto sysMenuDto) {
+        List<SysMenuVo> list = this.sysMenuService.list(sysMenuDto);
+        return ResponseResult.ok(list);
+    }
 }
 

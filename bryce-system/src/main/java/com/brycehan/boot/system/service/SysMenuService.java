@@ -58,6 +58,14 @@ public interface SysMenuService extends BaseService<SysMenu> {
     void export(SysMenuPageDto sysMenuPageDto);
 
     /**
+     * 列表查询
+     *
+     * @param sysMenuDto 查询参数
+     * @return 菜单列表
+     */
+    List<SysMenuVo> list(SysMenuDto sysMenuDto);
+
+    /**
      * 查询用户权限集合
      *
      * @param loginUser 登录用户
