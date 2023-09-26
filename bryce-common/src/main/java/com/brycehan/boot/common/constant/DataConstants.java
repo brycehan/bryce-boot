@@ -1,5 +1,7 @@
 package com.brycehan.boot.common.constant;
 
+import java.time.format.DateTimeFormatter;
+
 /**
  * 数据状态常量
  *
@@ -8,25 +10,23 @@ package com.brycehan.boot.common.constant;
  */
 public class DataConstants {
 
-    /**
-     * 启用
-     */
+    /** 启用 */
     public static final int ENABLE = 1;
 
-    /**
-     * 禁用
-     */
+    /** 禁用 */
     public static final int DISABLE = 0;
 
-    /**
-     * 默认
-     */
+    /** 默认 */
     public static final int DEFAULT = 1;
 
-    /**
-     * 非默认
-     */
+    /** 非默认 */
     public static final int NON_DEFAULT = 0;
+
+    /** 通用成功标识 */
+    public static final boolean SUCCESS = true;
+
+    /** 通用失败标识 */
+    public static final boolean FAIL = false;
 
     /**
      * 默认角色ID

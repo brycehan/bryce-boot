@@ -2,6 +2,7 @@ package com.brycehan.boot.system.service;
 
 import com.brycehan.boot.common.base.dto.LoginDto;
 import com.brycehan.boot.framework.security.context.LoginUser;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Set;
 
@@ -43,7 +44,7 @@ public interface AuthService {
      *
      * @param loginUser 登录用户
      */
-    void updateLoginInfo(LoginUser loginUser);
+    void updateLoginInfo(UserDetails loginUser);
 
     /**
      * 退出登录

@@ -262,13 +262,32 @@ create table brc_sys_role_data_scope
     primary key (id)
 ) engine InnoDB default charset utf8mb4 comment '系统角色数据范围';
 
+-- 9、系统登录日志表
+drop table if exists brc_sys_login_log;
+create table brc_sys_login_log
+(
+    id             bigint not null comment 'ID',
+    username       varchar(50)  comment '用户账号',
+    info        smallint comment '操作信息',
+    ip              varchar(128) comment '登录IP地址',
+    location        varchar(255) comment '登录地点',
+    browser        varchar(50)  comment '浏览器类型',
+    os             varchar(50)  comment '操作系统',
+    user_agent        varchar(500)  comment 'User Agent',
+    status         tinyint comment '状态（0：失败，1：成功）',
+    access_time     datetime     comment '访问时间',
+    tenant_id     bigint     comment '租户ID',
+    created_time     datetime     comment '创建时间',
+    primary key (id)
+) engine InnoDB default charset utf8mb4 comment '系统登录日志';
+
 -- 10、系统操作日志表
 drop table if exists brc_sys_operate_log;
 create table brc_sys_operate_log
 (
     id                 bigint not null comment 'ID',
-    name              varchar(50)   comment '操作名',
-    module              varchar(50)   comment '模块名',
+    name              varchar(50)   comment '操作名称',
+    module_name     varchar(50)   comment '模块名',
     request_uri      varchar(2048)  comment '请求URI',
     request_method     varchar(10)   comment '请求方法',
     request_param    text  comment '请求参数',
@@ -286,8 +305,7 @@ create table brc_sys_operate_log
     tenant_id              bigint comment '租户ID',
     created_time     datetime      comment '创建时间',
     primary key (id)
-) engine InnoDB
-  default charset utf8mb4 comment '系统操作日志';
+) engine InnoDB default charset utf8mb4 comment '系统操作日志';
 
 -- 11、系统字典类型表
 drop table if exists brc_sys_dict_type;
@@ -417,25 +435,6 @@ values (5, '账号自助-短信验证码开关', 'sys.account.smsEnabled', 'true
 insert into brc_sys_config
 values (6, '账号自助-用户注册功能开关', 'sys.account.registerEnabled', 'false', '1', '1', sysdate(), null, null,
         '是否开启注册用户功能（true开启，false关闭）');
-
--- 14、系统登录日志表
-drop table if exists brc_sys_login_log;
-create table brc_sys_login_log
-(
-    id             bigint not null comment 'ID',
-    username       varchar(50)  comment '用户账号',
-    message        varchar(255) comment '操作消息',
-    ip              varchar(128) comment '登录IP地址',
-    location        varchar(255) comment '登录地点',
-    browser        varchar(50)  comment '浏览器类型',
-    os             varchar(50)  comment '操作系统',
-    user_agent        varchar(50)  comment 'User Agent',
-    status         tinyint comment '状态（0：失败，1：成功）',
-    access_time     datetime     comment '访问时间',
-    tenant_id     bigint     comment '租户ID',
-    created_time     datetime     comment '创建时间',
-    primary key (id)
-) engine InnoDB default charset utf8mb4 comment '系统登录日志';
 
 -- 15、系统定时任务调度表
 drop table if exists brc_sys_job;

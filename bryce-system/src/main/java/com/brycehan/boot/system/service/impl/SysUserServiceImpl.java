@@ -1,37 +1,37 @@
 package com.brycehan.boot.system.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.bean.copier.BeanToMapCopier;
-import com.alibaba.excel.util.BeanMapUtils;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.BeanUtils;
 import com.brycehan.boot.common.base.entity.PageResult;
 import com.brycehan.boot.common.base.http.UserResponseStatusEnum;
 import com.brycehan.boot.common.base.id.IdGenerator;
-import com.brycehan.boot.common.constant.CommonConstants;
 import com.brycehan.boot.common.constant.DataConstants;
 import com.brycehan.boot.common.constant.UserConstants;
 import com.brycehan.boot.common.exception.BusinessException;
 import com.brycehan.boot.common.util.ExcelUtils;
-import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
 import com.brycehan.boot.common.util.IpUtils;
-import com.brycehan.boot.common.util.MessageUtils;
 import com.brycehan.boot.common.util.ServletUtils;
+import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
 import com.brycehan.boot.framework.security.context.LoginUserContext;
 import com.brycehan.boot.system.convert.SysUserConvert;
 import com.brycehan.boot.system.dto.SysRoleUserPageDto;
 import com.brycehan.boot.system.dto.SysUserDto;
 import com.brycehan.boot.system.dto.SysUserPageDto;
-import com.brycehan.boot.system.entity.*;
+import com.brycehan.boot.system.entity.SysPost;
+import com.brycehan.boot.system.entity.SysRole;
+import com.brycehan.boot.system.entity.SysUser;
+import com.brycehan.boot.system.entity.SysUserRole;
 import com.brycehan.boot.system.mapper.SysUserMapper;
-import com.brycehan.boot.system.service.*;
+import com.brycehan.boot.system.service.SysPostService;
+import com.brycehan.boot.system.service.SysRoleService;
+import com.brycehan.boot.system.service.SysUserRoleService;
+import com.brycehan.boot.system.service.SysUserService;
 import com.brycehan.boot.system.vo.SysUserVo;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.cglib.beans.BeanMap;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,8 +51,6 @@ import java.util.stream.Collectors;
 public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> implements SysUserService {
 
     private final SysUserRoleService sysUserRoleService;
-
-    private final SysLoginInfoService sysLoginInfoService;
 
     private final SysRoleService sysRoleService;
 
@@ -156,7 +154,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         return new PageResult<>(page.getTotal(), SysUserConvert.INSTANCE.convert(list));
     }
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void registerUser(SysUser sysUser) {
         // 1、保存用户
@@ -172,7 +170,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         String ip = IpUtils.getIpAddress(ServletUtils.getRequest());
         // 3、异步记录注册成功日志
         if (result == 1) {
-            this.sysLoginInfoService.AsyncRecordLoginInfo(userAgent, ip, sysUser.getUsername(), CommonConstants.REGISTER_SUCCESS, MessageUtils.getMessage("user.register.success"));
+            // todo 添加操作日志
         } else {
             throw BusinessException.responseStatus(UserResponseStatusEnum.USER_REGISTER_ERROR);
         }

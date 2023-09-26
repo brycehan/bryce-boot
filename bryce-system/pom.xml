@@ -48,16 +48,6 @@
         </dependency>
 
         <!-- 工具 -->
-        <!-- easy-trans 数据翻译插件 -->
-<!--        <dependency>-->
-<!--            <groupId>com.fhs-opensource</groupId>-->
-<!--            <artifactId>easy-trans-spring-boot-starter</artifactId>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>com.fhs-opensource</groupId>-->
-<!--            <artifactId>easy-trans-mybatis-plus-extend</artifactId>-->
-<!--        </dependency>-->
-<!--        &lt;!&ndash; Lombok &ndash;&gt;-->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>

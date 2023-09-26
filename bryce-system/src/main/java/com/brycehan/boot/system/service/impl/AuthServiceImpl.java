@@ -1,38 +1,38 @@
 package com.brycehan.boot.system.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.brycehan.boot.common.base.dto.LoginDto;
 import com.brycehan.boot.common.base.http.UserResponseStatusEnum;
 import com.brycehan.boot.common.constant.CacheConstants;
 import com.brycehan.boot.common.constant.CommonConstants;
+import com.brycehan.boot.common.constant.DataConstants;
 import com.brycehan.boot.common.exception.BusinessException;
 import com.brycehan.boot.common.exception.user.UserCaptchaException;
 import com.brycehan.boot.common.exception.user.UserCaptchaExpireException;
 import com.brycehan.boot.common.util.IpUtils;
-import com.brycehan.boot.common.util.MessageUtils;
 import com.brycehan.boot.common.util.ServletUtils;
 import com.brycehan.boot.framework.security.JwtTokenProvider;
 import com.brycehan.boot.framework.security.context.LoginUser;
-import com.brycehan.boot.framework.security.event.UserLoginFailedEvent;
-import com.brycehan.boot.framework.security.event.UserLoginSuccessEvent;
-import com.brycehan.boot.system.entity.SysMenu;
-import com.brycehan.boot.system.service.*;
 import com.brycehan.boot.system.entity.SysUser;
+import com.brycehan.boot.system.enums.LoginInfoType;
+import com.brycehan.boot.system.service.*;
 import jakarta.annotation.Resource;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Collections;
+import java.util.Objects;
+import java.util.Set;
 
 /**
  * @author Bryce Han
@@ -51,11 +51,9 @@ public class AuthServiceImpl implements AuthService {
 
     private final SysConfigService sysConfigService;
 
-    private final SysLoginInfoService sysLoginInfoService;
+    private final SysLoginLogService sysLoginLogService;
 
     private final SysUserService sysUserService;
-
-    private final ApplicationEventPublisher applicationEventPublisher;
 
     private final SysRoleService sysRoleService;
 
@@ -85,8 +83,6 @@ public class AuthServiceImpl implements AuthService {
 //            SecurityContextHolder.getContext().setAuthentication(authentication);
 
         } catch (AuthenticationException e) {
-            // 发布登录失败事件
-            applicationEventPublisher.publishEvent(new UserLoginFailedEvent(this, loginDto, e));
 
             if(e.getCause() instanceof BusinessException){
                 throw (BusinessException) e.getCause();
@@ -99,11 +95,8 @@ public class AuthServiceImpl implements AuthService {
             }
         }
 
-        // 发布登录成功事件
         LoginUser loginUser = (LoginUser) authentication.getPrincipal();
-        applicationEventPublisher.publishEvent(new UserLoginSuccessEvent(this, loginUser));
-
-        // 3、生成令牌token
+        // 2、生成令牌token
         return this.jwtTokenProvider.generateToken(loginUser);
     }
 
@@ -123,12 +116,15 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public void updateLoginInfo(LoginUser user) {
+    public void updateLoginInfo(UserDetails user) {
         SysUser sysUser = new SysUser();
-        sysUser.setId(user.getId());
         sysUser.setLastLoginIp(IpUtils.getIpAddress(ServletUtils.getRequest()));
         sysUser.setLastLoginTime(LocalDateTime.now());
-        sysUserService.updateById(sysUser);
+
+        UpdateWrapper<SysUser> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.eq("username", user.getUsername());
+
+        this.sysUserService.update(sysUser, updateWrapper);
     }
 
     /**
@@ -142,13 +138,12 @@ public class AuthServiceImpl implements AuthService {
         String captchaKey = CacheConstants.CAPTCHA_CODE_KEY + uuid;
         String captchaValue = this.stringRedisTemplate.opsForValue()
                 .getAndDelete(captchaKey);
-        String userAgent = ServletUtils.getRequest().getHeader("User-Agent");
-        String ip = IpUtils.getIpAddress(ServletUtils.getRequest());
+
         if (Objects.isNull(captchaValue)) {
-            sysLoginInfoService.AsyncRecordLoginInfo(userAgent, ip, username, CommonConstants.LOGIN_FAIL, MessageUtils.getMessage("user.captcha.expire"));
+            this.sysLoginLogService.save(username, CommonConstants.LOGIN_FAIL, LoginInfoType.CAPTCHA_FAIL.getValue());
             throw new UserCaptchaExpireException();
         } else if (!captchaValue.equalsIgnoreCase(code)) {
-            sysLoginInfoService.AsyncRecordLoginInfo(userAgent, ip, username, CommonConstants.LOGIN_FAIL, MessageUtils.getMessage("user.captcha.error"));
+            this.sysLoginLogService.save(username, CommonConstants.LOGIN_FAIL, LoginInfoType.CAPTCHA_FAIL.getValue());
             throw new UserCaptchaException();
         }
     }
@@ -162,7 +157,7 @@ public class AuthServiceImpl implements AuthService {
             this.jwtTokenProvider.deleteLoginUser(loginUser.getToken());
 
             // 2、记录用户退出日志
-//            sysLoginInfoService.AsyncRecordLoginInfo(loginUser.getUsername(), CommonConstants.LOGOUT_SUCCESS);
+            this.sysLoginLogService.save(loginUser.getUsername(), DataConstants.SUCCESS, LoginInfoType.LOGOUT_SUCCESS.getValue());
         }
     }
 

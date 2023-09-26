@@ -46,19 +46,9 @@ public class CommonConstants {
     public static final String HTTPS = "https://";
 
     /**
-     * 通用成功标识
-     */
-    public static final String SUCCESS = "1";
-
-    /**
-     * 通用失败标识
-     */
-    public static final String FAIL = "0";
-
-    /**
      * 登录成功
      */
-    public static final Integer LOGIN_SUCCESS = 1;
+    public static final boolean LOGIN_SUCCESS = true;
 
     /**
      * 注销
@@ -78,7 +68,7 @@ public class CommonConstants {
     /**
      * 登录失败
      */
-    public static final Integer LOGIN_FAIL = 0;
+    public static final boolean LOGIN_FAIL = false;
 
     /**
      * 资源映射路径前缀

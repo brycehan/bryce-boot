@@ -50,8 +50,6 @@ public class AuthController {
 
     private final JwtTokenProvider jwtTokenProvider;
 
-    private final SysLoginInfoService sysLoginInfoService;
-
     /**
      * 登录
      *

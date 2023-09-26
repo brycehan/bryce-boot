@@ -16,13 +16,18 @@ import com.brycehan.boot.system.mapper.SysDictTypeMapper;
 import com.brycehan.boot.system.service.SysDictTypeService;
 import com.brycehan.boot.system.vo.SysDictTypeVo;
 import com.brycehan.boot.system.vo.SysDictVo;
+import com.fhs.trans.service.impl.DictionaryTransService;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 /**
  * 系统字典类型服务实现类
@@ -32,9 +37,11 @@ import java.util.Objects;
  */
 @Service
 @RequiredArgsConstructor
-public class SysDictTypeServiceImpl extends BaseServiceImpl<SysDictTypeMapper, SysDictType> implements SysDictTypeService {
+public class SysDictTypeServiceImpl extends BaseServiceImpl<SysDictTypeMapper, SysDictType> implements SysDictTypeService, InitializingBean {
 
     private final SysDictDataMapper sysDictDataMapper;
+
+    private final DictionaryTransService dictionaryTransService;
 
     @Override
     public PageResult<SysDictTypeVo> page(SysDictTypePageDto sysDictTypePageDto) {
@@ -99,5 +106,34 @@ public class SysDictTypeServiceImpl extends BaseServiceImpl<SysDictTypeMapper, S
             dictVoList.add(sysDictVo);
         }
         return dictVoList;
+    }
+
+    @Override
+    public void afterPropertiesSet() {
+        refreshTransCache();
+    }
+
+    /**
+     * 刷新字典缓存
+     */
+    public void refreshTransCache() {
+
+        CompletableFuture.runAsync(() -> {
+            // 获取所有的字典项数据
+            List<SysDictData> dataList = this.sysDictDataMapper.selectList(new LambdaQueryWrapper<>());
+            // 根据类型分组
+            Map<Long, List<SysDictData>> dictTypeDataMap = dataList.stream().collect(Collectors
+                    .groupingBy(SysDictData::getDictTypeId));
+
+            List<SysDictType> dictTypeList = super.list();
+            for (SysDictType dictType : dictTypeList) {
+                if(dictTypeDataMap.containsKey(dictType.getId())) {
+                    Map<String, String> dictTypeMap = dictTypeDataMap.get(dictType.getId()).stream().collect(Collectors
+                            .toMap(SysDictData::getDictValue, SysDictData::getDictLabel));
+
+                    this.dictionaryTransService.refreshCache(dictType.getDictType(), dictTypeMap);
+                }
+            }
+        });
     }
 }
