@@ -5,9 +5,8 @@ import com.brycehan.boot.common.base.dto.IdsDto;
 import com.brycehan.boot.common.base.entity.PageResult;
 import com.brycehan.boot.common.base.http.HttpResponseStatus;
 import com.brycehan.boot.common.base.http.ResponseResult;
-import com.brycehan.boot.common.base.id.IdGenerator;
 import com.brycehan.boot.common.exception.BusinessException;
-import com.brycehan.boot.common.validator.AddGroup;
+import com.brycehan.boot.common.validator.SaveGroup;
 import com.brycehan.boot.common.validator.UpdateGroup;
 import com.brycehan.boot.framework.operationlog.annotation.OperateLog;
 import com.brycehan.boot.framework.operationlog.annotation.OperateType;
@@ -27,15 +26,13 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import java.util.Arrays;
+
 import java.util.List;
 
 /**
@@ -66,7 +63,7 @@ public class SysUserController {
     @OperateLog(type = OperateType.INSERT)
     @PreAuthorize("hasAuthority('system:user:save')")
     @PostMapping
-    public ResponseResult<Void> save(@Validated(value = AddGroup.class) @RequestBody SysUserDto sysUserDto) {
+    public ResponseResult<Void> save(@Validated(value = SaveGroup.class) @RequestBody SysUserDto sysUserDto) {
         this.sysUserService.save(sysUserDto);
         return ResponseResult.ok();
     }

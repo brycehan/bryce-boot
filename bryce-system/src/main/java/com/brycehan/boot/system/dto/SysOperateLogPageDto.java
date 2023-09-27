@@ -1,10 +1,13 @@
 package com.brycehan.boot.system.dto;
 
 import com.brycehan.boot.common.base.entity.BasePageDto;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import jakarta.validation.constraints.Null;
+import jakarta.validation.constraints.Size;
+import java.time.LocalDateTime;
 
 import java.io.Serial;
 
@@ -12,10 +15,10 @@ import java.io.Serial;
  * 系统操作日志PageDto
  *
  * @author Bryce Han
- * @since 2023/08/30
+ * @since 2023/09/27
  */
-@Schema(description = "系统操作日志PageDto")
 @Data
+@Schema(description = "系统操作日志PageDto")
 @EqualsAndHashCode(callSuper = false)
 public class SysOperateLogPageDto extends BasePageDto {
 
@@ -23,9 +26,9 @@ public class SysOperateLogPageDto extends BasePageDto {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 操作名
+     * 操作名称
      */
-    @Schema(description = "操作名")
+    @Schema(description = "操作名称")
     @Size(max = 50)
     private String name;
 
@@ -34,7 +37,7 @@ public class SysOperateLogPageDto extends BasePageDto {
      */
     @Schema(description = "模块名")
     @Size(max = 50)
-    private String module;
+    private String moduleName;
 
     /**
      * 请求URI
@@ -67,5 +70,17 @@ public class SysOperateLogPageDto extends BasePageDto {
      */
     @Schema(description = "租户ID")
     private Long tenantId;
+
+    /**
+     * 创建时间开始
+     */
+    @Schema(description = "创建时间开始")
+    private LocalDateTime createdTimeStart;
+
+    /**
+     * 创建时间结束
+     */
+    @Schema(description = "创建时间结束")
+    private LocalDateTime createdTimeEnd;
 
 }

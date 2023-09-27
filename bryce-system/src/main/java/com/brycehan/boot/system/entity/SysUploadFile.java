@@ -2,7 +2,7 @@ package com.brycehan.boot.system.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.brycehan.boot.common.base.entity.BaseEntity;
-import com.brycehan.boot.common.validator.AddGroup;
+import com.brycehan.boot.common.validator.SaveGroup;
 import com.brycehan.boot.common.validator.UpdateGroup;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -37,35 +37,35 @@ public class SysUploadFile extends BaseEntity {
     /**
      * 文件原始名称
      */
-    @Size(max = 100, groups = {AddGroup.class, UpdateGroup.class})
+    @Size(max = 100, groups = {SaveGroup.class, UpdateGroup.class})
     @Schema(description = "文件原始名称")
     private String oldName;
 
     /**
      * 文件路径
      */
-    @Size(max = 255, groups = {AddGroup.class, UpdateGroup.class})
+    @Size(max = 255, groups = {SaveGroup.class, UpdateGroup.class})
     @Schema(description = "文件路径")
     private String newPath;
 
     /**
      * 文件类型
      */
-    @Size(max = 50, groups = {AddGroup.class, UpdateGroup.class})
+    @Size(max = 50, groups = {SaveGroup.class, UpdateGroup.class})
     @Schema(description = "文件类型")
     private String fileType;
 
     /**
      * 文件名后缀
      */
-    @Size(max = 10, groups = {AddGroup.class, UpdateGroup.class})
+    @Size(max = 10, groups = {SaveGroup.class, UpdateGroup.class})
     @Schema(description = "文件名后缀")
     private String suffix;
 
     /**
      * 哈希码
      */
-    @Size(max = 255, groups = {AddGroup.class, UpdateGroup.class})
+    @Size(max = 255, groups = {SaveGroup.class, UpdateGroup.class})
     @Schema(description = "哈希码")
     private String hash;
 
@@ -90,21 +90,21 @@ public class SysUploadFile extends BaseEntity {
     /**
      * 纬度
      */
-    @Size(max = 30, groups = {AddGroup.class, UpdateGroup.class})
+    @Size(max = 30, groups = {SaveGroup.class, UpdateGroup.class})
     @Schema(description = "纬度")
     private String lat;
 
     /**
      * 经度
      */
-    @Size(max = 30, groups = {AddGroup.class, UpdateGroup.class})
+    @Size(max = 30, groups = {SaveGroup.class, UpdateGroup.class})
     @Schema(description = "经度")
     private String lng;
 
     /**
      * 标签
      */
-    @Size(max = 255, groups = {AddGroup.class, UpdateGroup.class})
+    @Size(max = 255, groups = {SaveGroup.class, UpdateGroup.class})
     @Schema(description = "标签")
     private String tags;
 
@@ -123,29 +123,29 @@ public class SysUploadFile extends BaseEntity {
     /**
      * 创建用户ID
      */
-    @Null(groups = {AddGroup.class, UpdateGroup.class})
+    @Null(groups = {SaveGroup.class, UpdateGroup.class})
     @Schema(description = "创建用户ID")
-    @Null(groups = {AddGroup.class, UpdateGroup.class})
+    @Null(groups = {SaveGroup.class, UpdateGroup.class})
     @TableField(fill = FieldFill.INSERT)
     private Long createdUserId;
 
     /**
      * 创建用户账号
      */
-    @Null(groups = {AddGroup.class, UpdateGroup.class})
-    @Size(max = 50, groups = {AddGroup.class, UpdateGroup.class})
+    @Null(groups = {SaveGroup.class, UpdateGroup.class})
+    @Size(max = 50, groups = {SaveGroup.class, UpdateGroup.class})
     @Schema(description = "创建用户账号")
-    @Null(groups = {AddGroup.class, UpdateGroup.class})
+    @Null(groups = {SaveGroup.class, UpdateGroup.class})
     @TableField(fill = FieldFill.INSERT)
     private String createUsername;
 
     /**
      * 创建时间
      */
-    @Null(groups = {AddGroup.class, UpdateGroup.class})
+    @Null(groups = {SaveGroup.class, UpdateGroup.class})
     @Schema(description = "创建时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    @Null(groups = {AddGroup.class, UpdateGroup.class})
+    @Null(groups = {SaveGroup.class, UpdateGroup.class})
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createdTime;
 

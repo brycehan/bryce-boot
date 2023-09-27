@@ -1,7 +1,10 @@
 package com.brycehan.boot.system.controller;
 
+import com.brycehan.boot.common.base.dto.IdsDto;
 import com.brycehan.boot.common.base.entity.PageResult;
 import com.brycehan.boot.common.base.http.ResponseResult;
+import com.brycehan.boot.framework.operationlog.annotation.OperateLog;
+import com.brycehan.boot.framework.operationlog.annotation.OperateType;
 import com.brycehan.boot.system.convert.SysOperateLogConvert;
 import com.brycehan.boot.system.dto.SysOperateLogPageDto;
 import com.brycehan.boot.system.entity.SysOperateLog;
@@ -11,7 +14,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
  * 系统操作日志API
  *
  * @author Bryce Han
- * @since 2023/08/30
+ * @since 2023/09/27
  */
 @Tag(name = "sysOperateLog", description = "系统操作日志API")
 @RequestMapping("/system/operateLog")
@@ -30,16 +33,30 @@ public class SysOperateLogController {
     private final SysOperateLogService sysOperateLogService;
 
     /**
-     * 查询系统操作日志信息
+     * 删除系统操作日志
+     *
+     * @param idsDto ID列表Dto
+     * @return 响应结果
+     */
+    @Operation(summary = "删除系统操作日志")
+    @OperateLog(type = OperateType.DELETE)
+    @PreAuthorize("hasAuthority('system:operateLog:delete')")
+    @DeleteMapping
+    public ResponseResult<Void> delete(@Validated @RequestBody IdsDto idsDto) {
+        this.sysOperateLogService.delete(idsDto);
+        return ResponseResult.ok();
+    }
+
+    /**
+     * 查询系统操作日志详情
      *
      * @param id 系统操作日志ID
      * @return 响应结果
      */
     @Operation(summary = "查询系统操作日志详情")
-    @Secured("system:operateLog:info")
+    @PreAuthorize("hasAuthority('system:operateLog:info')")
     @GetMapping(path = "/{id}")
-    public ResponseResult<SysOperateLogVo> get(@Parameter(description = "系统操作日志ID", required = true)
-                                               @PathVariable String id) {
+    public ResponseResult<SysOperateLogVo> get(@Parameter(description = "系统操作日志ID", required = true) @PathVariable String id) {
         SysOperateLog sysOperateLog = this.sysOperateLogService.getById(id);
         return ResponseResult.ok(SysOperateLogConvert.INSTANCE.convert(sysOperateLog));
     }
@@ -51,12 +68,23 @@ public class SysOperateLogController {
      * @return 系统操作日志分页列表
      */
     @Operation(summary = "分页查询")
-    @Secured("system:operateLog:page")
+    @PreAuthorize("hasAuthority('system:operateLog:page')")
     @PostMapping(path = "/page")
-    public ResponseResult<PageResult<SysOperateLogVo>> page(@Parameter(description = "查询信息", required = true)
-                                                            @Validated @RequestBody SysOperateLogPageDto sysOperateLogPageDto) {
+    public ResponseResult<PageResult<SysOperateLogVo>> page(@Validated @RequestBody SysOperateLogPageDto sysOperateLogPageDto) {
         PageResult<SysOperateLogVo> page = this.sysOperateLogService.page(sysOperateLogPageDto);
         return ResponseResult.ok(page);
+    }
+
+    /**
+     * 系统操作日志导出数据
+     *
+     * @param sysOperateLogPageDto 查询条件
+     */
+    @Operation(summary = "系统操作日志导出")
+    @PreAuthorize("hasAuthority('system:operateLog:export')")
+    @PostMapping(path = "/export")
+    public void export(@Validated @RequestBody SysOperateLogPageDto sysOperateLogPageDto) {
+        this.sysOperateLogService.export(sysOperateLogPageDto);
     }
 
 }

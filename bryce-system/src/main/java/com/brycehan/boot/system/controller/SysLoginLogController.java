@@ -1,14 +1,11 @@
 package com.brycehan.boot.system.controller;
 
+import com.brycehan.boot.common.base.dto.IdsDto;
 import com.brycehan.boot.common.base.entity.PageResult;
 import com.brycehan.boot.common.base.http.ResponseResult;
-import com.brycehan.boot.common.base.dto.IdsDto;
-import com.brycehan.boot.common.validator.AddGroup;
-import com.brycehan.boot.common.validator.UpdateGroup;
 import com.brycehan.boot.framework.operationlog.annotation.OperateLog;
 import com.brycehan.boot.framework.operationlog.annotation.OperateType;
 import com.brycehan.boot.system.convert.SysLoginLogConvert;
-import com.brycehan.boot.system.dto.SysLoginLogDto;
 import com.brycehan.boot.system.dto.SysLoginLogPageDto;
 import com.brycehan.boot.system.entity.SysLoginLog;
 import com.brycehan.boot.system.service.SysLoginLogService;
@@ -34,36 +31,6 @@ import org.springframework.web.bind.annotation.*;
 public class SysLoginLogController {
 
     private final SysLoginLogService sysLoginLogService;
-
-    /**
-     * 保存系统登录日志
-     *
-     * @param sysLoginLogDto 系统登录日志Dto
-     * @return 响应结果
-     */
-    @Operation(summary = "保存系统登录日志")
-    @OperateLog(type = OperateType.INSERT)
-    @PreAuthorize("hasAuthority('system:loginLog:save')")
-    @PostMapping
-    public ResponseResult<Void> save(@Validated(value = AddGroup.class) @RequestBody SysLoginLogDto sysLoginLogDto) {
-        this.sysLoginLogService.save(sysLoginLogDto);
-        return ResponseResult.ok();
-    }
-
-    /**
-     * 更新系统登录日志
-     *
-     * @param sysLoginLogDto 系统登录日志Dto
-     * @return 响应结果
-     */
-    @Operation(summary = "更新系统登录日志")
-    @OperateLog(type = OperateType.UPDATE)
-    @PreAuthorize("hasAuthority('system:loginLog:update')")
-    @PutMapping
-    public ResponseResult<Void> update(@Validated(value = UpdateGroup.class) @RequestBody SysLoginLogDto sysLoginLogDto) {
-        this.sysLoginLogService.update(sysLoginLogDto);
-        return ResponseResult.ok();
-    }
 
     /**
      * 删除系统登录日志

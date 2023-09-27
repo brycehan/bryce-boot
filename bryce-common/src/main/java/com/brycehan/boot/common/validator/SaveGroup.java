@@ -6,5 +6,5 @@ package com.brycehan.boot.common.validator;
  * @author Bryce Han
  * @since 2022/1/1
  */
-public interface AddGroup {
+public interface SaveGroup {
 }

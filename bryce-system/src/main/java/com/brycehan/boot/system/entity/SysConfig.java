@@ -2,7 +2,7 @@ package com.brycehan.boot.system.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.brycehan.boot.common.base.entity.BaseEntity;
-import com.brycehan.boot.common.validator.AddGroup;
+import com.brycehan.boot.common.validator.SaveGroup;
 import com.brycehan.boot.common.validator.UpdateGroup;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -38,21 +38,21 @@ public class SysConfig extends BaseEntity {
      * 配置名称
      */
     @Schema(description = "配置名称")
-    @Size(max = 100, groups = {AddGroup.class, UpdateGroup.class})
+    @Size(max = 100, groups = {SaveGroup.class, UpdateGroup.class})
     private String configName;
 
     /**
      * 配置键
      */
     @Schema(description = "配置键")
-    @Size(max = 100, groups = {AddGroup.class, UpdateGroup.class})
+    @Size(max = 100, groups = {SaveGroup.class, UpdateGroup.class})
     private String configKey;
 
     /**
      * 配置值
      */
     @Schema(description = "配置值")
-    @Size(max = 1000, groups = {AddGroup.class, UpdateGroup.class})
+    @Size(max = 1000, groups = {SaveGroup.class, UpdateGroup.class})
     private String configValue;
 
     /**
@@ -65,7 +65,7 @@ public class SysConfig extends BaseEntity {
      * 创建人ID
      */
     @Schema(description = "创建人ID")
-    @Null(groups = {AddGroup.class, UpdateGroup.class})
+    @Null(groups = {SaveGroup.class, UpdateGroup.class})
     @TableField(fill = FieldFill.INSERT)
     private Long createdUserId;
 
@@ -73,8 +73,8 @@ public class SysConfig extends BaseEntity {
      * 创建人账号
      */
     @Schema(description = "创建人账号")
-    @Size(max = 50, groups = {AddGroup.class, UpdateGroup.class})
-    @Null(groups = {AddGroup.class, UpdateGroup.class})
+    @Size(max = 50, groups = {SaveGroup.class, UpdateGroup.class})
+    @Null(groups = {SaveGroup.class, UpdateGroup.class})
     @TableField(fill = FieldFill.INSERT)
     private String createUsername;
 
@@ -83,7 +83,7 @@ public class SysConfig extends BaseEntity {
      */
     @Schema(description = "创建时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    @Null(groups = {AddGroup.class, UpdateGroup.class})
+    @Null(groups = {SaveGroup.class, UpdateGroup.class})
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createdTime;
 
@@ -91,7 +91,7 @@ public class SysConfig extends BaseEntity {
      * 修改人ID
      */
     @Schema(description = "修改人ID")
-    @Null(groups = {AddGroup.class, UpdateGroup.class})
+    @Null(groups = {SaveGroup.class, UpdateGroup.class})
     @TableField(fill = FieldFill.UPDATE)
     private Long updatedUserId;
 
@@ -100,7 +100,7 @@ public class SysConfig extends BaseEntity {
      */
     @Schema(description = "修改时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    @Null(groups = {AddGroup.class, UpdateGroup.class})
+    @Null(groups = {SaveGroup.class, UpdateGroup.class})
     @TableField(fill = FieldFill.UPDATE)
     private LocalDateTime updatedTime;
 
@@ -108,7 +108,7 @@ public class SysConfig extends BaseEntity {
      * 备注
      */
     @Schema(description = "备注")
-    @Size(max = 500, groups = {AddGroup.class, UpdateGroup.class})
+    @Size(max = 500, groups = {SaveGroup.class, UpdateGroup.class})
     private String remark;
 
 

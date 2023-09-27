@@ -1,7 +1,7 @@
 package com.brycehan.boot.system.dto;
 
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.brycehan.boot.common.validator.AddGroup;
+import com.brycehan.boot.common.validator.SaveGroup;
 import com.brycehan.boot.common.validator.UpdateGroup;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Size;
@@ -35,14 +35,14 @@ public class SysMenuDto implements Serializable {
      * 菜单名称
      */
     @Schema(description = "菜单名称")
-    @Size(max = 50, groups = {AddGroup.class, UpdateGroup.class})
+    @Size(max = 50, groups = {SaveGroup.class, UpdateGroup.class})
     private String name;
 
     /**
      * 类型（M：菜单，B：按钮，I：接口）
      */
     @Schema(description = "类型（M：菜单，B：按钮，I：接口）")
-    @Size(max = 1, groups = {AddGroup.class, UpdateGroup.class})
+    @Size(max = 1, groups = {SaveGroup.class, UpdateGroup.class})
     private String type;
 
     /**
@@ -55,21 +55,21 @@ public class SysMenuDto implements Serializable {
      * 组件路径
      */
     @Schema(description = "组件路径")
-    @Size(max = 255, groups = {AddGroup.class, UpdateGroup.class})
+    @Size(max = 255, groups = {SaveGroup.class, UpdateGroup.class})
     private String url;
 
     /**
      * 权限标识
      */
     @Schema(description = "权限标识")
-    @Size(max = 100, groups = {AddGroup.class, UpdateGroup.class})
+    @Size(max = 100, groups = {SaveGroup.class, UpdateGroup.class})
     private String authority;
 
     /**
      * 菜单图标
      */
     @Schema(description = "菜单图标")
-    @Size(max = 100, groups = {AddGroup.class, UpdateGroup.class})
+    @Size(max = 100, groups = {SaveGroup.class, UpdateGroup.class})
     private String icon;
 
     /**
@@ -88,7 +88,7 @@ public class SysMenuDto implements Serializable {
      * 备注
      */
     @Schema(description = "备注")
-    @Size(max = 500, groups = {AddGroup.class, UpdateGroup.class})
+    @Size(max = 500, groups = {SaveGroup.class, UpdateGroup.class})
     private String remark;
 
     /**

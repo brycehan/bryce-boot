@@ -26,14 +26,14 @@ public class SysOperateLog implements Serializable {
     private Long id;
 
     /**
-     * 操作名
+     * 操作名称
      */
     private String name;
 
     /**
      * 模块名
      */
-    private String module;
+    private String moduleName;
 
     /**
      * 请求URI

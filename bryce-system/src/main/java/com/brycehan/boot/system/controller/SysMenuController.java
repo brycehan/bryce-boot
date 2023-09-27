@@ -3,18 +3,16 @@ package com.brycehan.boot.system.controller;
 import com.brycehan.boot.common.base.dto.IdsDto;
 import com.brycehan.boot.common.base.entity.PageResult;
 import com.brycehan.boot.common.base.http.ResponseResult;
-import com.brycehan.boot.common.validator.AddGroup;
+import com.brycehan.boot.common.validator.SaveGroup;
 import com.brycehan.boot.common.validator.UpdateGroup;
 import com.brycehan.boot.framework.operationlog.annotation.OperateLog;
 import com.brycehan.boot.framework.operationlog.annotation.OperateType;
 import com.brycehan.boot.system.convert.SysMenuConvert;
 import com.brycehan.boot.system.dto.SysMenuDto;
 import com.brycehan.boot.system.dto.SysMenuPageDto;
-import com.brycehan.boot.system.dto.SysOrgDto;
 import com.brycehan.boot.system.entity.SysMenu;
 import com.brycehan.boot.system.service.SysMenuService;
 import com.brycehan.boot.system.vo.SysMenuVo;
-import com.brycehan.boot.system.vo.SysOrgVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -50,7 +48,7 @@ public class SysMenuController {
     @OperateLog(type = OperateType.INSERT)
     @PreAuthorize("hasAuthority('system:menu:save')")
     @PostMapping
-    public ResponseResult<Void> save(@Validated(value = AddGroup.class) @RequestBody SysMenuDto sysMenuDto) {
+    public ResponseResult<Void> save(@Validated(value = SaveGroup.class) @RequestBody SysMenuDto sysMenuDto) {
         this.sysMenuService.save(sysMenuDto);
         return ResponseResult.ok();
     }

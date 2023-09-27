@@ -2,7 +2,7 @@ package com.brycehan.boot.system.controller;
 
 import com.brycehan.boot.common.base.entity.PageResult;
 import com.brycehan.boot.common.base.http.ResponseResult;
-import com.brycehan.boot.common.validator.AddGroup;
+import com.brycehan.boot.common.validator.SaveGroup;
 import com.brycehan.boot.common.validator.UpdateGroup;
 import com.brycehan.boot.system.convert.SysPostConvert;
 import com.brycehan.boot.common.base.dto.IdsDto;
@@ -44,7 +44,7 @@ public class SysPostController {
     @Secured("system:post:add")
     @PostMapping
     public ResponseResult<Void> add(@Parameter(description = "系统岗位", required = true)
-                                    @Validated(value = AddGroup.class) @RequestBody SysPostDto sysPostDto) {
+                                    @Validated(value = SaveGroup.class) @RequestBody SysPostDto sysPostDto) {
         this.sysPostService.save(sysPostDto);
         return ResponseResult.ok();
     }

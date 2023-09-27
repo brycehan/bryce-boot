@@ -1,6 +1,6 @@
 package com.brycehan.boot.system.dto;
 
-import com.brycehan.boot.common.validator.AddGroup;
+import com.brycehan.boot.common.validator.SaveGroup;
 import com.brycehan.boot.common.validator.UpdateGroup;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
@@ -31,7 +31,7 @@ public class SysPostDto implements Serializable {
      * ID
      */
     @Schema(description = "ID")
-    @Null(groups = AddGroup.class)
+    @Null(groups = SaveGroup.class)
     @NotNull(groups = UpdateGroup.class)
     private Long id;
 
@@ -39,35 +39,35 @@ public class SysPostDto implements Serializable {
      * 岗位编码
      */
     @Schema(description = "岗位编码")
-    @Size(max = 30, groups = {AddGroup.class, UpdateGroup.class})
+    @Size(max = 30, groups = {SaveGroup.class, UpdateGroup.class})
     private String postCode;
 
     /**
      * 岗位名称
      */
     @Schema(description = "岗位名称")
-    @Size(max = 50, groups = {AddGroup.class, UpdateGroup.class})
+    @Size(max = 50, groups = {SaveGroup.class, UpdateGroup.class})
     private String postName;
 
     /**
      * 显示顺序
      */
     @Schema(description = "显示顺序")
-    @Range(max = 2147483647, groups = {AddGroup.class, UpdateGroup.class})
+    @Range(max = 2147483647, groups = {SaveGroup.class, UpdateGroup.class})
     private Integer sort;
 
     /**
      * 状态（0：停用，1：正常）
      */
     @Schema(description = "状态（0：停用，1：正常）")
-    @Range(max = 1, message = "状态值只能是0或1", groups = {AddGroup.class, UpdateGroup.class})
+    @Range(max = 1, message = "状态值只能是0或1", groups = {SaveGroup.class, UpdateGroup.class})
     private Integer status;
 
     /**
      * 备注
      */
     @Schema(description = "备注")
-    @Size(max = 300, groups = {AddGroup.class, UpdateGroup.class})
+    @Size(max = 300, groups = {SaveGroup.class, UpdateGroup.class})
     private String remark;
 
 }

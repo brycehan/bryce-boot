@@ -3,7 +3,7 @@ package com.brycehan.boot.system.controller;
 import com.brycehan.boot.common.base.entity.PageResult;
 import com.brycehan.boot.common.base.http.ResponseResult;
 import com.brycehan.boot.common.base.id.IdGenerator;
-import com.brycehan.boot.common.validator.AddGroup;
+import com.brycehan.boot.common.validator.SaveGroup;
 import com.brycehan.boot.common.validator.UpdateGroup;
 import com.brycehan.boot.framework.operationlog.annotation.OperateLog;
 import com.brycehan.boot.framework.operationlog.annotation.OperateType;
@@ -43,7 +43,7 @@ public class SysConfigController {
     @Operation(summary = "保存系统配置")
     @OperateLog(type = OperateType.INSERT)
     @PostMapping
-    public ResponseResult<Void> save(@Parameter(description = "系统配置", required = true) @Validated(value = AddGroup.class) @RequestBody SysConfig sysConfig) {
+    public ResponseResult<Void> save(@Parameter(description = "系统配置", required = true) @Validated(value = SaveGroup.class) @RequestBody SysConfig sysConfig) {
         sysConfig.setId(IdGenerator.nextId());
         this.sysConfigService.save(sysConfig);
         return ResponseResult.ok();

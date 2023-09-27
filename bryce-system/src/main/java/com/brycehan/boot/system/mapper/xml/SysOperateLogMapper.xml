@@ -6,7 +6,7 @@
     <resultMap id="BaseResultMap" type="com.brycehan.boot.system.entity.SysOperateLog">
         <id column="id" property="id" />
         <result column="name" property="name" />
-        <result column="module" property="module" />
+        <result column="module_name" property="moduleName" />
         <result column="request_uri" property="requestUri" />
         <result column="request_method" property="requestMethod" />
         <result column="request_param" property="requestParam" />
@@ -27,7 +27,10 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, name, module, request_uri, request_method, request_param, result_message, operated_type, operated_time, duration, status, user_agent, ip, location, user_id, username, org_id, tenant_id, created_time
+        id, name, module_name, request_uri, request_method, 
+        request_param, result_message, operated_type, operated_time, duration, 
+        status, user_agent, ip, location, user_id, 
+        username, org_id, tenant_id, created_time
     </sql>
 
 </mapper>

@@ -18,7 +18,7 @@ public @interface OperateLog {
     /**
      * 模块名
      */
-    String module() default "";
+    String moduleName() default "";
 
     /**
      * 操作名

@@ -1,7 +1,6 @@
 package com.brycehan.boot.system.dto;
 
-import com.baomidou.mybatisplus.annotation.*;
-import com.brycehan.boot.common.validator.AddGroup;
+import com.brycehan.boot.common.validator.SaveGroup;
 import com.brycehan.boot.common.validator.UpdateGroup;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
@@ -30,7 +29,7 @@ public class SysUserDto implements Serializable {
      * 账号
      */
     @Schema(description = "账号")
-    @Size(max = 50, groups = {AddGroup.class, UpdateGroup.class})
+    @Size(max = 50, groups = {SaveGroup.class, UpdateGroup.class})
     private String username;
 
     /**
@@ -38,29 +37,29 @@ public class SysUserDto implements Serializable {
      */
     @Schema(description = "密码")
     @Size(max = 30, groups = {UpdateGroup.class})
-    @Size(min = 6, max = 30, groups = AddGroup.class, message = "密码长度在6-30个字符")
+    @Size(min = 6, max = 30, groups = SaveGroup.class, message = "密码长度在6-30个字符")
     private String password;
 
     /**
      * 姓名
      */
     @Schema(description = "姓名")
-    @Size(max = 50, groups = {AddGroup.class, UpdateGroup.class})
+    @Size(max = 50, groups = {SaveGroup.class, UpdateGroup.class})
     private String fullName;
 
     /**
      * 头像地址
      */
     @Schema(description = "头像地址")
-    @Size(max = 100, groups = {AddGroup.class, UpdateGroup.class})
+    @Size(max = 100, groups = {SaveGroup.class, UpdateGroup.class})
     private String avatar;
 
     /**
      * 性别（M：男, F：女，N：未知）
      */
     @Schema(description = "性别（M：男, F：女，N：未知）")
-    @Size(max = 1, groups = {AddGroup.class, UpdateGroup.class})
-    @Pattern(regexp = "^[MFN]$", groups = {AddGroup.class, UpdateGroup.class}, message = "性别值只能是M、F、N")
+    @Size(max = 1, groups = {SaveGroup.class, UpdateGroup.class})
+    @Pattern(regexp = "^[MFN]$", groups = {SaveGroup.class, UpdateGroup.class}, message = "性别值只能是M、F、N")
     private String gender;
 
     /**
@@ -73,7 +72,7 @@ public class SysUserDto implements Serializable {
      * 手机号码
      */
     @Schema(description = "手机号码")
-    @Size(max = 20, groups = {AddGroup.class, UpdateGroup.class})
+    @Size(max = 20, groups = {SaveGroup.class, UpdateGroup.class})
     private String phone;
 
     /**
@@ -81,7 +80,7 @@ public class SysUserDto implements Serializable {
      */
     @Schema(description = "邮箱")
     @Email
-    @Size(max = 50, groups = {AddGroup.class, UpdateGroup.class})
+    @Size(max = 50, groups = {SaveGroup.class, UpdateGroup.class})
     private String email;
 
     /**
@@ -118,7 +117,7 @@ public class SysUserDto implements Serializable {
      * 备注
      */
     @Schema(description = "备注")
-    @Size(max = 500, groups = {AddGroup.class, UpdateGroup.class})
+    @Size(max = 500, groups = {SaveGroup.class, UpdateGroup.class})
     private String remark;
 
     /**
@@ -131,7 +130,7 @@ public class SysUserDto implements Serializable {
      * 最后登录IP
      */
     @Schema(description = "最后登录IP")
-    @Size(max = 128, groups = {AddGroup.class, UpdateGroup.class})
+    @Size(max = 128, groups = {SaveGroup.class, UpdateGroup.class})
     private String lastLoginIp;
 
     /**

@@ -28,12 +28,14 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.boot.context.properties.bind.BindResult;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Array;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -89,9 +91,9 @@ public class OperateLogAspect {
     private void handleLog(final ProceedingJoinPoint joinPoint, OperateLog operateLog, LocalDateTime startTime, Boolean status) {
         OperateLogDto operateLogDto = new OperateLogDto();
 
-
-        RequestMapping requestMapping = getMethodAnnotation(joinPoint, RequestMapping.class);
-        if(requestMapping == null) {
+        Annotation[] annotations = getClassAnnotations(joinPoint);
+        if(Arrays.stream(annotations).noneMatch(annotation ->
+                annotation instanceof RestController || annotation instanceof Controller)) {
             log.error("@OperateLog使用错误，请在控制器层添加");
             return;
         }
@@ -109,18 +111,23 @@ public class OperateLogAspect {
 
         // 操作类型
         operateLogDto.setOperatedType(operateLog.type().name());
-        operateLogDto.setModule(operateLog.module());
+        operateLogDto.setModuleName(operateLog.moduleName());
         operateLogDto.setName(operateLog.name());
         // 如果没有指定module值，则从Tag中读取
-        if(StrUtil.isEmpty(operateLogDto.getModule())){
-            Tag tag = getClassAnnotation(joinPoint);
+        if(StrUtil.isEmpty(operateLogDto.getModuleName())){
+            Tag tag = getClassTagAnnotation(joinPoint);
             if(tag != null) {
-                operateLogDto.setModule(tag.name());
+                String description = tag.description();
+                if(description.endsWith("API")) {
+                    description = description.substring(0, description.lastIndexOf("API"));
+                }
+
+                operateLogDto.setModuleName(description);
             }
         }
         // 如果没有指定name值，则从Operation中读取
         if(StrUtil.isEmpty(operateLogDto.getName())) {
-            Operation operation = getMethodAnnotation(joinPoint, Operation.class);
+            Operation operation = getMethodOperationAnnotation(joinPoint);
             if(operation != null) {
                 operateLogDto.setName(operation.summary());
             }
@@ -135,16 +142,21 @@ public class OperateLogAspect {
 
         operateLogDto.setRequestParam(obtainRequestParam(joinPoint));
         operateLogDto.setStatus(status);
+        operateLogDto.setOperatedTime(LocalDateTime.now());
 
         this.operateLogService.save(operateLogDto);
     }
 
-    private static Tag getClassAnnotation(ProceedingJoinPoint joinPoint) {
-        return ((MethodSignature) joinPoint.getSignature()).getMethod().getAnnotation(Tag.class);
+    private static Tag getClassTagAnnotation(ProceedingJoinPoint joinPoint) {
+        return ((MethodSignature) joinPoint.getSignature()).getMethod().getDeclaringClass().getAnnotation(Tag.class);
     }
 
-    private static <T extends Annotation> T getMethodAnnotation(ProceedingJoinPoint joinPoint, Class<T> annotationClass) {
-        return ((MethodSignature) joinPoint.getSignature()).getMethod().getDeclaringClass().getAnnotation(annotationClass);
+    private static Annotation[] getClassAnnotations(ProceedingJoinPoint joinPoint) {
+        return ((MethodSignature) joinPoint.getSignature()).getMethod().getDeclaringClass().getAnnotations();
+    }
+
+    private static Operation getMethodOperationAnnotation(ProceedingJoinPoint joinPoint) {
+        return ((MethodSignature) joinPoint.getSignature()).getMethod().getAnnotation(Operation.class);
     }
 
     private String obtainRequestParam(ProceedingJoinPoint joinPoint) {

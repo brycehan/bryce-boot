@@ -3,7 +3,7 @@ package com.brycehan.boot.system.controller;
 import com.brycehan.boot.common.base.entity.PageResult;
 import com.brycehan.boot.common.base.http.ResponseResult;
 import com.brycehan.boot.common.base.dto.IdsDto;
-import com.brycehan.boot.common.validator.AddGroup;
+import com.brycehan.boot.common.validator.SaveGroup;
 import com.brycehan.boot.common.validator.UpdateGroup;
 import com.brycehan.boot.framework.operationlog.annotation.OperateLog;
 import com.brycehan.boot.framework.operationlog.annotation.OperateType;
@@ -63,7 +63,7 @@ public class SysRoleController {
     @OperateLog(type = OperateType.INSERT)
     @PreAuthorize("hasAuthority('system:role:save')")
     @PostMapping
-    public ResponseResult<Void> save(@Validated(value = AddGroup.class) @RequestBody SysRoleDto sysRoleDto) {
+    public ResponseResult<Void> save(@Validated(value = SaveGroup.class) @RequestBody SysRoleDto sysRoleDto) {
         this.sysRoleService.save(sysRoleDto);
         return ResponseResult.ok();
     }

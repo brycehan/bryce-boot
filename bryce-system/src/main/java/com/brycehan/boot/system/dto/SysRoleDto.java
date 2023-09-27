@@ -1,6 +1,6 @@
 package com.brycehan.boot.system.dto;
 
-import com.brycehan.boot.common.validator.AddGroup;
+import com.brycehan.boot.common.validator.SaveGroup;
 import com.brycehan.boot.common.validator.UpdateGroup;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Size;
@@ -33,14 +33,14 @@ public class SysRoleDto implements Serializable {
      * 角色名称
      */
     @Schema(description = "角色名称")
-    @Size(max = 50, groups = {AddGroup.class, UpdateGroup.class})
+    @Size(max = 50, groups = {SaveGroup.class, UpdateGroup.class})
     private String name;
 
     /**
      * 角色编码
      */
     @Schema(description = "角色编码")
-    @Size(max = 50, groups = {AddGroup.class, UpdateGroup.class})
+    @Size(max = 50, groups = {SaveGroup.class, UpdateGroup.class})
     private String code;
 
     /**
@@ -65,7 +65,7 @@ public class SysRoleDto implements Serializable {
      * 备注
      */
     @Schema(description = "备注")
-    @Size(max = 500, groups = {AddGroup.class, UpdateGroup.class})
+    @Size(max = 500, groups = {SaveGroup.class, UpdateGroup.class})
     private String remark;
 
     /**

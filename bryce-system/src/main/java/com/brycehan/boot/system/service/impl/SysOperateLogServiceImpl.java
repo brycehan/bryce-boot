@@ -6,6 +6,9 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.brycehan.boot.common.base.RedisKeys;
 import com.brycehan.boot.common.base.entity.PageResult;
+import com.brycehan.boot.common.base.id.IdGenerator;
+import com.brycehan.boot.common.util.DateTimeUtils;
+import com.brycehan.boot.common.util.ExcelUtils;
 import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
 import com.brycehan.boot.framework.operationlog.OperateLogDto;
 import com.brycehan.boot.system.convert.SysOperateLogConvert;
@@ -46,11 +49,10 @@ public class SysOperateLogServiceImpl extends BaseServiceImpl<SysOperateLogMappe
     @Override
     public PageResult<SysOperateLogVo> page(SysOperateLogPageDto sysOperateLogPageDto) {
 
-        IPage<SysOperateLog> page =  this.baseMapper.selectPage(getPage(sysOperateLogPageDto), getWrapper(sysOperateLogPageDto));
+        IPage<SysOperateLog> page = this.baseMapper.selectPage(getPage(sysOperateLogPageDto), getWrapper(sysOperateLogPageDto));
 
         return new PageResult<>(page.getTotal(), SysOperateLogConvert.INSTANCE.convert(page.getRecords()));
     }
-
 
     /**
      * 封装查询条件
@@ -63,11 +65,27 @@ public class SysOperateLogServiceImpl extends BaseServiceImpl<SysOperateLogMappe
         wrapper.eq(Objects.nonNull(sysOperateLogPageDto.getStatus()), SysOperateLog::getStatus, sysOperateLogPageDto.getStatus());
         wrapper.eq(Objects.nonNull(sysOperateLogPageDto.getOrgId()), SysOperateLog::getOrgId, sysOperateLogPageDto.getOrgId());
         wrapper.eq(Objects.nonNull(sysOperateLogPageDto.getTenantId()), SysOperateLog::getTenantId, sysOperateLogPageDto.getTenantId());
+
+        if(sysOperateLogPageDto.getCreatedTimeStart() != null && sysOperateLogPageDto.getCreatedTimeEnd() != null) {
+            wrapper.between(SysOperateLog::getCreatedTime, sysOperateLogPageDto.getCreatedTimeStart(), sysOperateLogPageDto.getCreatedTimeEnd());
+        } else if(sysOperateLogPageDto.getCreatedTimeStart() != null) {
+            wrapper.ge(SysOperateLog::getCreatedTime, sysOperateLogPageDto.getCreatedTimeStart());
+        }else if(sysOperateLogPageDto.getCreatedTimeEnd() != null) {
+            wrapper.ge(SysOperateLog::getCreatedTime, sysOperateLogPageDto.getCreatedTimeEnd());
+        }
+
         wrapper.like(StringUtils.isNotEmpty(sysOperateLogPageDto.getName()), SysOperateLog::getName, sysOperateLogPageDto.getName());
-        wrapper.like(StringUtils.isNotEmpty(sysOperateLogPageDto.getModule()), SysOperateLog::getModule, sysOperateLogPageDto.getModule());
+        wrapper.like(StringUtils.isNotEmpty(sysOperateLogPageDto.getModuleName()), SysOperateLog::getModuleName, sysOperateLogPageDto.getModuleName());
         wrapper.like(StringUtils.isNotEmpty(sysOperateLogPageDto.getRequestUri()), SysOperateLog::getRequestUri, sysOperateLogPageDto.getRequestUri());
         wrapper.like(StringUtils.isNotEmpty(sysOperateLogPageDto.getUsername()), SysOperateLog::getUsername, sysOperateLogPageDto.getUsername());
         return wrapper;
+    }
+
+    @Override
+    public void export(SysOperateLogPageDto sysOperateLogPageDto) {
+        List<SysOperateLog> sysOperateLogList = this.baseMapper.selectList(getWrapper(sysOperateLogPageDto));
+        List<SysOperateLogVo> sysOperateLogVoList = SysOperateLogConvert.INSTANCE.convert(sysOperateLogList);
+        ExcelUtils.export(SysOperateLogVo.class, "系统操作日志_".concat(DateTimeUtils.today()), "系统操作日志", sysOperateLogVoList);
     }
 
     /**
@@ -89,8 +107,11 @@ public class SysOperateLogServiceImpl extends BaseServiceImpl<SysOperateLogMappe
                 if(operateLogDto == null) {
                     break;
                 }
+
                 SysOperateLog sysOperateLog = SysOperateLogConvert.INSTANCE.convert(operateLogDto);
+                sysOperateLog.setId(IdGenerator.nextId());
                 sysOperateLog.setCreatedTime(now);
+
                 sysOperateLogList.add(sysOperateLog);
             }
 

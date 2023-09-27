@@ -1,6 +1,6 @@
 package com.brycehan.boot.system.dto;
 
-import com.brycehan.boot.common.validator.AddGroup;
+import com.brycehan.boot.common.validator.SaveGroup;
 import com.brycehan.boot.common.validator.UpdateGroup;
 import jakarta.validation.constraints.Size;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -31,14 +31,14 @@ public class SysDictDataDto implements Serializable {
      * 字典标签
      */
     @Schema(description = "字典标签")
-    @Size(max = 100, groups = {AddGroup.class, UpdateGroup.class})
+    @Size(max = 100, groups = {SaveGroup.class, UpdateGroup.class})
     private String dictLabel;
 
     /**
      * 字典值
      */
     @Schema(description = "字典值")
-    @Size(max = 100, groups = {AddGroup.class, UpdateGroup.class})
+    @Size(max = 100, groups = {SaveGroup.class, UpdateGroup.class})
     private String dictValue;
 
     /**
@@ -51,7 +51,7 @@ public class SysDictDataDto implements Serializable {
      * 标签属性
      */
     @Schema(description = "标签属性")
-    @Size(max = 100, groups = {AddGroup.class, UpdateGroup.class})
+    @Size(max = 100, groups = {SaveGroup.class, UpdateGroup.class})
     private String labelClass;
 
     /**
@@ -70,7 +70,7 @@ public class SysDictDataDto implements Serializable {
      * 备注
      */
     @Schema(description = "备注")
-    @Size(max = 500, groups = {AddGroup.class, UpdateGroup.class})
+    @Size(max = 500, groups = {SaveGroup.class, UpdateGroup.class})
     private String remark;
 
     /**

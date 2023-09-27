@@ -1,14 +1,9 @@
 package com.brycehan.boot.system.entity;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.brycehan.boot.common.base.entity.BaseEntity;
-import com.brycehan.boot.common.validator.AddGroup;
-import com.brycehan.boot.common.validator.UpdateGroup;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.util.CollectionUtils;
