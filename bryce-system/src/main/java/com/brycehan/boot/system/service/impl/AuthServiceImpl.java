@@ -46,10 +46,9 @@ public class AuthServiceImpl implements AuthService {
 
     private final JwtTokenProvider jwtTokenProvider;
 
-    @Resource
-    private StringRedisTemplate stringRedisTemplate;
+    private final StringRedisTemplate stringRedisTemplate;
 
-    private final SysConfigService sysConfigService;
+    private final SysParamService sysParamService;
 
     private final SysLoginLogService sysLoginLogService;
 
@@ -63,7 +62,7 @@ public class AuthServiceImpl implements AuthService {
     public String login(@NotNull LoginDto loginDto) {
 
         // 1、验证码开关
-//        boolean captchaEnabled = this.sysConfigService.selectCaptchaEnabled();
+//        boolean captchaEnabled = this.sysParamService.selectCaptchaEnabled();
 //        if (captchaEnabled) {
 //            validateCaptcha(loginDto.getUsername(),
 //                    loginDto.getUuid(),

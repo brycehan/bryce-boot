@@ -399,12 +399,11 @@ INSERT INTO bryce_boot.brc_sys_dict_data (id, dict_label, dict_value, dict_type_
 drop table if exists brc_sys_param;
 create table brc_sys_param
 (
-    id              bigint       not null comment 'ID'
-
-    name            varchar(100) null comment '参数名称',
-    built_in        tinyint      null comment '是否系统内置（1：是，0：否）',
-    `key`           varchar(100) null comment '参数键',
-    value           text         null comment '参数值',
+    id              bigint       not null comment 'ID',
+    param_name            varchar(100) null comment '参数名称',
+    param_key           varchar(100) null comment '参数键名',
+    param_value           text         null comment '参数值',
+    built_in        char      null comment '是否系统内置（Y：是，N：否）',
     remark          varchar(500) null comment '备注',
     tenant_id       bigint       null comment '租户ID',
     version         int          null comment '版本号',
@@ -414,7 +413,7 @@ create table brc_sys_param
     updated_user_id bigint       null comment '修改人ID',
     updated_time    datetime     null comment '修改时间',
     primary key(id),
-    constraint uk_key unique (`key`)
+    constraint uk_key unique (param_key)
 ) comment '系统参数';
 
 -- 初始化-系统配置表数据

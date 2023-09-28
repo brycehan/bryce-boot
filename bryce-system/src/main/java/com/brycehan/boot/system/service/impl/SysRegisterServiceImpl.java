@@ -7,7 +7,7 @@ import com.brycehan.boot.common.exception.BusinessException;
 import com.brycehan.boot.common.exception.user.UserCaptchaException;
 import com.brycehan.boot.common.exception.user.UserCaptchaExpireException;
 import com.brycehan.boot.common.util.PasswordUtils;
-import com.brycehan.boot.system.service.SysConfigService;
+import com.brycehan.boot.system.service.SysParamService;
 import com.brycehan.boot.system.service.SysRegisterService;
 import com.brycehan.boot.system.service.SysUserService;
 import com.brycehan.boot.system.entity.SysUser;
@@ -30,20 +30,20 @@ public class SysRegisterServiceImpl implements SysRegisterService {
 
     private final SysUserService sysUserService;
 
-    private final SysConfigService sysConfigService;
+    private final SysParamService sysParamService;
 
     @Resource
     private StringRedisTemplate stringRedisTemplate;
 
-    public SysRegisterServiceImpl(SysUserService sysUserService, SysConfigService sysConfigService) {
+    public SysRegisterServiceImpl(SysUserService sysUserService, SysParamService sysParamService) {
         this.sysUserService = sysUserService;
-        this.sysConfigService = sysConfigService;
+        this.sysParamService = sysParamService;
     }
 
     @Override
     public void register(RegisterDto registerDto) {
         // 1、验证码开关
-        boolean captchaEnabled = this.sysConfigService.selectCaptchaEnabled();
+        boolean captchaEnabled = this.sysParamService.selectCaptchaEnabled();
         if (captchaEnabled) {
             validateCaptcha(registerDto.getUuid(), registerDto.getCode());
         }

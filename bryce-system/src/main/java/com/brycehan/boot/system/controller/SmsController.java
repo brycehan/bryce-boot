@@ -1,6 +1,6 @@
 package com.brycehan.boot.system.controller;
 
-import com.brycehan.boot.system.service.SysConfigService;
+import com.brycehan.boot.system.service.SysParamService;
 import com.brycehan.boot.system.service.SysSmsService;
 import com.brycehan.boot.common.base.http.ResponseResult;
 import com.brycehan.boot.common.constant.CacheConstants;
@@ -34,16 +34,16 @@ public class SmsController {
 
     private final CaptchaProperties captchaProperties;
 
-    private final SysConfigService sysConfigService;
+    private final SysParamService sysParamService;
 
     private final SysSmsService sysSmsService;
 
     @Resource
     private StringRedisTemplate stringRedisTemplate;
 
-    public SmsController(CaptchaProperties captchaProperties, SysConfigService sysConfigService, SysSmsService sysSmsService) {
+    public SmsController(CaptchaProperties captchaProperties, SysParamService sysParamService, SysSmsService sysSmsService) {
         this.captchaProperties = captchaProperties;
-        this.sysConfigService = sysConfigService;
+        this.sysParamService = sysParamService;
         this.sysSmsService = sysSmsService;
     }
 
@@ -55,7 +55,7 @@ public class SmsController {
     @Operation(summary = "生成注册验证码")
     @GetMapping(path = "/code/register")
     public ResponseResult<?> register(String phoneNumber) {
-        boolean smsEnabled = this.sysConfigService.selectSmsEnabled();
+        boolean smsEnabled = this.sysParamService.selectSmsEnabled();
         Map<String, Object> data = new HashMap<>();
         data.put("smsEnabled", smsEnabled);
         if (!smsEnabled) {

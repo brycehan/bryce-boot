@@ -1,18 +1,19 @@
 package com.brycehan.boot.system.controller;
 
 import com.brycehan.boot.common.base.http.UserResponseStatusEnum;
-import com.brycehan.boot.system.service.SysConfigService;
+import com.brycehan.boot.system.service.SysParamService;
 import com.brycehan.boot.system.service.SysRegisterService;
 import com.brycehan.boot.common.base.dto.RegisterDto;
 import com.brycehan.boot.common.base.http.ResponseResult;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * 系统注册控制器
+ * 系统注册API
  *
  * @author Bryce Han
  * @since 2022/9/20
@@ -20,16 +21,12 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "register", description = "注册API")
 @RequestMapping(path = "/register")
 @RestController
+@RequiredArgsConstructor
 public class RegisterController {
 
     private final SysRegisterService sysRegisterService;
 
-    private final SysConfigService sysConfigService;
-
-    public RegisterController(SysRegisterService sysRegisterService, SysConfigService sysConfigService) {
-        this.sysRegisterService = sysRegisterService;
-        this.sysConfigService = sysConfigService;
-    }
+    private final SysParamService sysParamService;
 
     /**
      * 注册
@@ -41,7 +38,7 @@ public class RegisterController {
     @PostMapping
     public ResponseResult<Void> register(@Parameter(description = "注册参数", required = true) @Validated @RequestBody RegisterDto registerDto) {
         // 1、查询注册开关
-        String registerEnabled = this.sysConfigService.selectConfigValueByConfigKey("sys.account.registerEnabled");
+        String registerEnabled = this.sysParamService.selectParamValueByParamKey("system.account.registerEnabled");
         if (Boolean.parseBoolean(registerEnabled)) {
             // 2、注册
             this.sysRegisterService.register(registerDto);
@@ -60,7 +57,7 @@ public class RegisterController {
     @GetMapping(path = "enabled")
     public ResponseResult<Boolean> registerEnabled() {
         // 1、查询注册开关
-        String registerEnabled = this.sysConfigService.selectConfigValueByConfigKey("sys.account.registerEnabled");
+        String registerEnabled = this.sysParamService.selectParamValueByParamKey("system.account.registerEnabled");
         return ResponseResult.ok(Boolean.parseBoolean(registerEnabled));
     }
 

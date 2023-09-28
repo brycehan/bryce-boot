@@ -1,0 +1,53 @@
+package com.brycehan.boot.system.entity;
+
+import com.baomidou.mybatisplus.annotation.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import com.brycehan.boot.common.base.entity.BaseEntity;
+import java.io.Serial;
+
+/**
+ * 系统参数entity
+ *
+ * @author Bryce Han
+ * @since 2023/09/28
+ */
+@Data
+@EqualsAndHashCode(callSuper=false)
+@TableName("brc_sys_param")
+public class SysParam extends BaseEntity {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * 参数名称
+     */
+    private String paramName;
+
+    /**
+     * 参数键名
+     */
+    private String paramKey;
+
+    /**
+     * 参数值
+     */
+    private String paramValue;
+
+    /**
+     * 是否系统内置（Y：是，N：否）
+     */
+    private String builtIn;
+
+    /**
+     * 备注
+     */
+    private String remark;
+
+    /**
+     * 租户ID
+     */
+    private Long tenantId;
+
+}

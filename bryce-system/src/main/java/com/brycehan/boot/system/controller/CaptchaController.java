@@ -1,7 +1,7 @@
 package com.brycehan.boot.system.controller;
 
 import cn.hutool.captcha.AbstractCaptcha;
-import com.brycehan.boot.system.service.SysConfigService;
+import com.brycehan.boot.system.service.SysParamService;
 import com.brycehan.boot.common.base.http.ResponseResult;
 import com.brycehan.boot.common.constant.CacheConstants;
 import com.brycehan.boot.common.property.CaptchaProperties;
@@ -35,15 +35,15 @@ public class CaptchaController {
 
     private final AbstractCaptcha captcha;
 
-    private final SysConfigService sysConfigService;
+    private final SysParamService sysParamService;
 
     @Resource
     private StringRedisTemplate stringRedisTemplate;
 
-    public CaptchaController(SysConfigService sysConfigService, AbstractCaptcha captcha, CaptchaProperties captchaProperties) {
+    public CaptchaController(SysParamService sysParamService, AbstractCaptcha captcha, CaptchaProperties captchaProperties) {
         this.captchaProperties = captchaProperties;
         this.captcha = captcha;
-        this.sysConfigService = sysConfigService;
+        this.sysParamService = sysParamService;
     }
 
     /**
@@ -54,7 +54,7 @@ public class CaptchaController {
     @Operation(summary = "生成验证码")
     @GetMapping
     public ResponseResult<?> captcha() {
-        boolean captchaEnabled = this.sysConfigService.selectCaptchaEnabled();
+        boolean captchaEnabled = this.sysParamService.selectCaptchaEnabled();
         Map<String, Object> data = new HashMap<>();
         data.put("captchaEnabled", captchaEnabled);
         if (!captchaEnabled) {
