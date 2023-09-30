@@ -19,7 +19,7 @@ import java.util.Set;
  * @since 2022/5/8
  */
 @Data
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(callSuper = true)
 @TableName("brc_sys_user")
 public class SysUser extends BaseEntity {
 

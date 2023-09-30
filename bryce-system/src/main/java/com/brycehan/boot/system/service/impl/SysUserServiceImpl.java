@@ -1,10 +1,12 @@
 package com.brycehan.boot.system.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.brycehan.boot.common.base.dto.IdsDto;
 import com.brycehan.boot.common.base.entity.PageResult;
 import com.brycehan.boot.common.base.http.UserResponseStatusEnum;
 import com.brycehan.boot.common.base.id.IdGenerator;
@@ -25,10 +27,7 @@ import com.brycehan.boot.system.entity.SysRole;
 import com.brycehan.boot.system.entity.SysUser;
 import com.brycehan.boot.system.entity.SysUserRole;
 import com.brycehan.boot.system.mapper.SysUserMapper;
-import com.brycehan.boot.system.service.SysPostService;
-import com.brycehan.boot.system.service.SysRoleService;
-import com.brycehan.boot.system.service.SysUserRoleService;
-import com.brycehan.boot.system.service.SysUserService;
+import com.brycehan.boot.system.service.*;
 import com.brycehan.boot.system.vo.SysUserVo;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -51,6 +50,8 @@ import java.util.stream.Collectors;
 public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> implements SysUserService {
 
     private final SysUserRoleService sysUserRoleService;
+
+    private final SysUserPostService sysUserPostService;
 
     private final SysRoleService sysRoleService;
 
@@ -88,7 +89,48 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         this.sysUserRoleService.saveOrUpdate(sysUser.getId(), sysUserDto.getRoleIds());
 
         // 保存用户岗位关系
+        this.sysUserPostService.saveOrUpdate(sysUser.getId(), sysUserDto.getPostIds());
+    }
 
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void update(SysUserDto sysUserDto) {
+        // 判断手机号是否存在
+        SysUser user = this.baseMapper.getByPhone(sysUserDto.getPhone());
+        if(user != null && !user.getId().equals(sysUserDto.getId())) {
+            throw new RuntimeException("手机号已经存在");
+        }
+
+        SysUser sysUser = SysUserConvert.INSTANCE.convert(sysUserDto);
+
+        // 更新用户
+        this.baseMapper.updateById(sysUser);
+
+        // 更新用户角色关系
+        this.sysUserRoleService.saveOrUpdate(sysUserDto.getId(), sysUserDto.getRoleIds());
+
+        // 更新用户岗位关系
+        this.sysUserPostService.saveOrUpdate(sysUserDto.getId(), sysUserDto.getPostIds());
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void delete(IdsDto idsDto) {
+        // 过滤无效参数
+        List<Long> ids = idsDto.getIds().stream()
+                .filter(Objects::nonNull)
+                .toList();
+
+        if(CollUtil.isNotEmpty(ids)) {
+            // 删除用户
+            this.baseMapper.deleteBatchIds(ids);
+
+            // 删除用户角色关系
+            this.sysUserRoleService.deleteByUserIds(ids);
+
+            // 删除用户岗位关系
+            this.sysUserPostService.deleteByUserIds(ids);
+        }
     }
 
     @Override
@@ -254,7 +296,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
             return StringUtils.EMPTY;
         }
         return sysPosts.stream()
-                .map(SysPost::getPostName)
+                .map(SysPost::getName)
                 .collect(Collectors.joining("，"));
     }
 

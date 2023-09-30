@@ -5,14 +5,13 @@ import com.brycehan.boot.system.entity.SysPost;
 import com.brycehan.boot.system.vo.SysPostVo;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
-
 import java.util.List;
 
 /**
  * 系统岗位转换器
  *
  * @author Bryce Han
- * @since 2023/4/7
+ * @since 2023/09/28
  */
 @Mapper
 public interface SysPostConvert {

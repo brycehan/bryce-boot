@@ -135,12 +135,15 @@ create table brc_sys_post
     id              bigint not null comment 'ID',
     name       varchar(50)     not null comment '岗位名称',
     code       varchar(30)     not null comment '岗位编码',
-    sort     int         default '0' comment '显示顺序',
-    remark          varchar(500)    comment '备注',
+    sort            int         default '0' comment '显示顺序',
     status          tinyint      default '1' comment '状态（0：停用，1：正常）',
-    created_user_id  bigint comment '创建人ID',
+    remark                     varchar(500)    comment '备注',
+    tenant_id       bigint          comment '租户ID',
+    version         int             comment '版本号',
+    deleted         tinyint      default '0' comment '删除标识（0：存在，1：已删除）',
+    created_user_id  bigint          comment '创建人ID',
     created_time     datetime        comment '创建时间',
-    updated_user_id  bigint comment '修改人ID',
+    updated_user_id  bigint          comment '修改人ID',
     updated_time     datetime        comment '修改时间',
     primary key (id)
 ) engine InnoDB default charset utf8mb4 comment '系统岗位表';
@@ -155,11 +158,21 @@ INSERT INTO brc_sys_post (id, name, code, sort, remark, status, created_user_id,
 drop table if exists brc_sys_user_post;
 create table brc_sys_user_post
 (
-    user_id bigint not null comment '用户ID',
-    post_id bigint not null comment '岗位ID',
-    primary key (user_id, post_id)
-) engine InnoDB
-  default charset utf8mb4 comment '系统用户岗位关系';
+    id              bigint   not null comment 'ID',
+    user_id         bigint   not null comment '用户ID',
+    post_id         bigint   not null comment '岗位ID',
+    version         int      null comment '版本号',
+    deleted         tinyint  null comment '删除标识（0：存在，1：已删除）',
+    created_user_id bigint   null comment '创建人ID',
+    created_time    datetime null comment '创建时间',
+    updated_user_id bigint   null comment '修改人ID',
+    updated_time    datetime null comment '修改时间',
+    primary key (id)
+) engine InnoDB default charset utf8mb4 comment '系统用户岗位关系';
+
+create index idx_user_id on brc_sys_user_post (user_id);
+create index idx_post_id on brc_sys_user_post (post_id);
+
 
 -- 初始化-系统用户与岗位关联表数据
 insert into brc_sys_user_post

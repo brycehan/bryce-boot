@@ -26,6 +26,12 @@ public class SysUserDto implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
+     * ID
+     */
+    @Schema(description = "ID")
+    private Long id;
+
+    /**
      * 账号
      */
     @Schema(description = "账号")

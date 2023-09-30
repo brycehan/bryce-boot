@@ -2,72 +2,68 @@ package com.brycehan.boot.system.dto;
 
 import com.brycehan.boot.common.validator.SaveGroup;
 import com.brycehan.boot.common.validator.UpdateGroup;
-import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Null;
 import jakarta.validation.constraints.Size;
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.validator.constraints.Range;
-
-import java.io.Serial;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
 import java.io.Serializable;
+import java.io.Serial;
 
 /**
- * 系统岗位分页数据传输对象
+ * 系统岗位Dto
  *
  * @author Bryce Han
- * @since 2022/10/31
+ * @since 2023/09/28
  */
+@Data
 @Schema(description = "系统岗位Dto")
-@Getter
-@Setter
 public class SysPostDto implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
     /**
-     * ID
-     */
+    * ID
+    */
     @Schema(description = "ID")
-    @Null(groups = SaveGroup.class)
-    @NotNull(groups = UpdateGroup.class)
     private Long id;
-
-    /**
-     * 岗位编码
-     */
-    @Schema(description = "岗位编码")
-    @Size(max = 30, groups = {SaveGroup.class, UpdateGroup.class})
-    private String postCode;
 
     /**
      * 岗位名称
      */
     @Schema(description = "岗位名称")
     @Size(max = 50, groups = {SaveGroup.class, UpdateGroup.class})
-    private String postName;
+    private String name;
+
+    /**
+     * 岗位编码
+     */
+    @Schema(description = "岗位编码")
+    @Size(max = 30, groups = {SaveGroup.class, UpdateGroup.class})
+    private String code;
 
     /**
      * 显示顺序
      */
     @Schema(description = "显示顺序")
-    @Range(max = 2147483647, groups = {SaveGroup.class, UpdateGroup.class})
     private Integer sort;
 
     /**
      * 状态（0：停用，1：正常）
      */
     @Schema(description = "状态（0：停用，1：正常）")
-    @Range(max = 1, message = "状态值只能是0或1", groups = {SaveGroup.class, UpdateGroup.class})
-    private Integer status;
+    private Boolean status;
 
     /**
      * 备注
      */
     @Schema(description = "备注")
-    @Size(max = 300, groups = {SaveGroup.class, UpdateGroup.class})
+    @Size(max = 500, groups = {SaveGroup.class, UpdateGroup.class})
     private String remark;
+
+    /**
+     * 租户ID
+     */
+    @Schema(description = "租户ID")
+    private Long tenantId;
 
 }

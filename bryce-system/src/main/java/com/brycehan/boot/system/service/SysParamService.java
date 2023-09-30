@@ -75,6 +75,4 @@ public interface SysParamService extends BaseService<SysParam> {
      */
     boolean selectSmsEnabled();
 
-    // todo 缓存
-
 }

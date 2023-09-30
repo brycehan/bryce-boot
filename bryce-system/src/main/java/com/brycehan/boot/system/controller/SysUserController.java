@@ -18,6 +18,7 @@ import com.brycehan.boot.system.dto.SysUserStatusDto;
 import com.brycehan.boot.system.entity.SysRole;
 import com.brycehan.boot.system.entity.SysUser;
 import com.brycehan.boot.system.service.SysRoleService;
+import com.brycehan.boot.system.service.SysUserPostService;
 import com.brycehan.boot.system.service.SysUserRoleService;
 import com.brycehan.boot.system.service.SysUserService;
 import com.brycehan.boot.system.vo.SysUserVo;
@@ -50,6 +51,8 @@ public class SysUserController {
     private final SysUserService sysUserService;
 
     private final SysUserRoleService sysUserRoleService;
+
+    private final SysUserPostService sysUserPostService;
 
     private final SysRoleService sysRoleService;
 
@@ -120,8 +123,9 @@ public class SysUserController {
         // 用户角色Ids
         List<Long> roleIds = this.sysUserRoleService.getRoleIdsByUserId(id);
         sysUserVo.setRoleIds(roleIds);
-
         // 用户岗位Ids
+        List<Long> postIds = this.sysUserPostService.getPostIdsByUserId(id);
+        sysUserVo.setPostIds(postIds);
 
         return ResponseResult.ok(sysUserVo);
     }

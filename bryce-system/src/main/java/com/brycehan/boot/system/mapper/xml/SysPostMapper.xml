@@ -4,41 +4,37 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.brycehan.boot.system.entity.SysPost">
-        <id column="id" property="id"/>
-        <result column="post_code" property="postCode"/>
-        <result column="post_name" property="postName"/>
-        <result column="sort" property="sort"/>
-        <result column="status" property="status"/>
-        <result column="created_user_id" property="createdUserId"/>
-        <result column="create_username" property="createUsername"/>
-        <result column="created_time" property="createdTime"/>
-        <result column="updated_user_id" property="updatedUserId"/>
-        <result column="updated_time" property="updatedTime"/>
-        <result column="remark" property="remark"/>
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="code" property="code" />
+        <result column="sort" property="sort" />
+        <result column="status" property="status" />
+        <result column="remark" property="remark" />
+        <result column="tenant_id" property="tenantId" />
+        <result column="version" property="version" />
+        <result column="deleted" property="deleted" />
+        <result column="created_user_id" property="createdUserId" />
+        <result column="created_time" property="createdTime" />
+        <result column="updated_user_id" property="updatedUserId" />
+        <result column="updated_time" property="updatedTime" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id
-        , post_code, post_name, sort, status, created_user_id, create_username, created_time, updated_user_id,
-        updated_time, remark
+        id, name, code, sort, status, 
+        remark, tenant_id, version, deleted, created_user_id, 
+        created_time, updated_user_id, updated_time
     </sql>
 
-    <!-- 分页查询 -->
-    <select id="page" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from brc_sys_post
-    </select>
-
     <select id="selectPostsByUsername" resultType="com.brycehan.boot.system.entity.SysPost">
-        select bsp.id, bsp.post_name, bsp.post_code
+        select bsp.id, bsp.name, bsp.code
         from brc_sys_post bsp
         left join brc_sys_user_post bsup on bsp.id = bsup.post_id
         left join brc_sys_user bsu on bsup.user_id = bsu.id
         where bsp.status = 1
-        and bsu.deleted = 0
-        and bsu.status = 1
-        and bsu.username = #{username}
+          and bsu.deleted = 0
+          and bsu.status = 1
+          and bsu.username = #{username}
     </select>
+
 </mapper>

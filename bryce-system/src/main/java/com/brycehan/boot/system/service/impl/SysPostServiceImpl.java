@@ -3,17 +3,24 @@ package com.brycehan.boot.system.service.impl;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.brycehan.boot.common.base.dto.IdsDto;
 import com.brycehan.boot.common.base.entity.PageResult;
 import com.brycehan.boot.common.base.id.IdGenerator;
+import com.brycehan.boot.common.util.DateTimeUtils;
 import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
 import com.brycehan.boot.common.util.ExcelUtils;
 import com.brycehan.boot.system.convert.SysPostConvert;
+import com.brycehan.boot.system.convert.SysRoleConvert;
 import com.brycehan.boot.system.dto.SysPostDto;
 import com.brycehan.boot.system.dto.SysPostPageDto;
+import com.brycehan.boot.system.entity.SysRole;
 import com.brycehan.boot.system.mapper.SysPostMapper;
 import com.brycehan.boot.system.service.SysPostService;
+import com.brycehan.boot.system.service.SysUserPostService;
 import com.brycehan.boot.system.vo.SysPostVo;
 import com.brycehan.boot.system.entity.SysPost;
+import lombok.RequiredArgsConstructor;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
@@ -22,40 +29,39 @@ import java.util.Objects;
 
 
 /**
- * 系统岗位服务实现类
+ * 系统岗位服务实现
  *
  * @author Bryce Han
  * @since 2022/10/31
  */
 @Service
+@RequiredArgsConstructor
 public class SysPostServiceImpl extends BaseServiceImpl<SysPostMapper, SysPost> implements SysPostService {
 
-    @Override
-    public void save(SysPostDto sysPostDto) {
-        SysPost sysPost = SysPostConvert.INSTANCE.convert(sysPostDto);
-        sysPost.setId(IdGenerator.nextId());
-        this.baseMapper.insert(sysPost);
-    }
+    private final SysUserPostService sysUserPostService;
 
     @Override
-    public void update(SysPostDto sysPostDto) {
-        SysPost sysPost = SysPostConvert.INSTANCE.convert(sysPostDto);
-        this.baseMapper.updateById(sysPost);
+    public void delete(IdsDto idsDto) {
+        // 过滤无效参数
+        List<Long> ids = idsDto.getIds().stream()
+                .filter(Objects::nonNull).toList();
+        if(CollectionUtils.isEmpty(ids)) {
+            return;
+        }
+
+        // 删除岗位
+        this.baseMapper.deleteBatchIds(ids);
+
+        // 删除岗位用户关系
+        this.sysUserPostService.deleteByPostIds(ids);
     }
 
     @Override
     public PageResult<SysPostVo> page(SysPostPageDto sysPostPageDto) {
 
-        IPage<SysPost> page =  this.baseMapper.selectPage(getPage(sysPostPageDto), getWrapper(sysPostPageDto));
+        IPage<SysPost> page = this.baseMapper.selectPage(getPage(sysPostPageDto), getWrapper(sysPostPageDto));
 
         return new PageResult<>(page.getTotal(), SysPostConvert.INSTANCE.convert(page.getRecords()));
-    }
-
-    @Override
-    public void export(SysPostPageDto sysPostPageDto) {
-        List<SysPost> sysPosts = this.baseMapper.selectList(getWrapper(sysPostPageDto));
-        List<SysPostVo> sysPostVos = SysPostConvert.INSTANCE.convert(sysPosts);
-        ExcelUtils.export(SysPostVo.class, "岗位表", "岗位", sysPostVos);
     }
 
     /**
@@ -66,10 +72,25 @@ public class SysPostServiceImpl extends BaseServiceImpl<SysPostMapper, SysPost> 
      */
     private Wrapper<SysPost> getWrapper(SysPostPageDto sysPostPageDto){
         LambdaQueryWrapper<SysPost> wrapper = new LambdaQueryWrapper<>();
-        wrapper.like(StringUtils.isNotBlank(sysPostPageDto.getPostCode()), SysPost::getPostCode, sysPostPageDto.getPostCode());
-        wrapper.like(StringUtils.isNotBlank(sysPostPageDto.getPostName()), SysPost::getPostName, sysPostPageDto.getPostName());
         wrapper.eq(Objects.nonNull(sysPostPageDto.getStatus()), SysPost::getStatus, sysPostPageDto.getStatus());
+        wrapper.eq(Objects.nonNull(sysPostPageDto.getTenantId()), SysPost::getTenantId, sysPostPageDto.getTenantId());
+        wrapper.like(StringUtils.isNotEmpty(sysPostPageDto.getName()), SysPost::getName, sysPostPageDto.getName());
+        wrapper.like(StringUtils.isNotEmpty(sysPostPageDto.getCode()), SysPost::getCode, sysPostPageDto.getCode());
         return wrapper;
+    }
+
+    @Override
+    public void export(SysPostPageDto sysPostPageDto) {
+        List<SysPost> sysPostList = this.baseMapper.selectList(getWrapper(sysPostPageDto));
+        List<SysPostVo> sysPostVoList = SysPostConvert.INSTANCE.convert(sysPostList);
+        ExcelUtils.export(SysPostVo.class, "系统岗位_".concat(DateTimeUtils.today()), "系统岗位", sysPostVoList);
+    }
+
+    @Override
+    public List<SysPostVo> list(SysPostPageDto sysPostPageDto) {
+        List<SysPost> sysPostList = this.baseMapper.selectList(getWrapper(sysPostPageDto));
+
+        return SysPostConvert.INSTANCE.convert(sysPostList);
     }
 
     @Override
