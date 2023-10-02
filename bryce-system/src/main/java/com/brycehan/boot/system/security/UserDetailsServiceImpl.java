@@ -1,6 +1,6 @@
 package com.brycehan.boot.system.security;
 
-import com.brycehan.boot.common.base.http.UserResponseStatusEnum;
+import com.brycehan.boot.common.base.http.UserResponseStatus;
 import com.brycehan.boot.common.exception.BusinessException;
 import com.brycehan.boot.framework.security.context.LoginUser;
 import com.brycehan.boot.system.convert.SysUserConvert;
@@ -49,7 +49,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         if (Objects.isNull(sysUser)) {
             log.info("UserDetailsServiceImpl.loadUserByUsername, 登录用户：{}不存在.", username);
-            throw BusinessException.responseStatus(UserResponseStatusEnum.USER_USERNAME_OR_PASSWORD_ERROR);
+            throw BusinessException.responseStatus(UserResponseStatus.USER_USERNAME_OR_PASSWORD_ERROR);
         }
 
         // 4、创建用户详情
@@ -70,10 +70,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             loginUser.setEnabled(false);
         } else if (!sysUser.getAccountNonLocked()) {
             log.info("UserDetailsServiceImpl.loadUserByUsername, 登录用户：{}已被锁定.", loginUser.getUsername());
-            throw BusinessException.responseStatus(UserResponseStatusEnum.USER_ACCOUNT_LOCKED);
+            throw BusinessException.responseStatus(UserResponseStatus.USER_ACCOUNT_LOCKED);
         } else if (sysUser.getDeleted()) {
             log.info("UserDetailsServiceImpl.loadUserByUsername, 登录用户：{}已被删除.", loginUser.getUsername());
-            throw BusinessException.responseStatus(UserResponseStatusEnum.USER_ACCOUNT_DELETED);
+            throw BusinessException.responseStatus(UserResponseStatus.USER_ACCOUNT_DELETED);
         }
 
         // 2、处理密码错误重试次数

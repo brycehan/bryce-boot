@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 /**
  * 操作日志服务
  *
- * @author brycehan
+ * @author Bryce Han
  * @since 2023/8/28
  */
 @Service

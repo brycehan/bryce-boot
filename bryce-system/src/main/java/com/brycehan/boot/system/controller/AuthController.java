@@ -112,6 +112,7 @@ public class AuthController {
     @GetMapping(path =  "/nav")
     public ResponseResult<List<SysMenuVo>> nav() {
         List<SysMenuVo> list = this.sysMenuService.getMenuTreeList(LoginUserContext.currentUser(), "M");
+
         return ResponseResult.ok(list);
     }
 

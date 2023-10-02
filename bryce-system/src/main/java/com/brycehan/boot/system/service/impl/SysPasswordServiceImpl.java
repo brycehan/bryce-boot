@@ -1,6 +1,6 @@
 package com.brycehan.boot.system.service.impl;
 
-import com.brycehan.boot.common.base.http.UserResponseStatusEnum;
+import com.brycehan.boot.common.base.http.UserResponseStatus;
 import com.brycehan.boot.common.constant.CacheConstants;
 import com.brycehan.boot.common.exception.BusinessException;
 import com.brycehan.boot.common.exception.user.UserPasswordRetryLimitExceedException;
@@ -73,7 +73,7 @@ public class SysPasswordServiceImpl implements SysPasswordService {
             );
 
             throw BusinessException
-                    .responseStatus(UserResponseStatusEnum.USER_USERNAME_OR_PASSWORD_ERROR);
+                    .responseStatus(UserResponseStatus.USER_USERNAME_OR_PASSWORD_ERROR);
         }
     }
 

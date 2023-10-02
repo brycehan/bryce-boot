@@ -1,6 +1,6 @@
 package com.brycehan.boot.common.exception.user;
 
-import com.brycehan.boot.common.base.http.UserResponseStatusEnum;
+import com.brycehan.boot.common.base.http.UserResponseStatus;
 import com.brycehan.boot.common.exception.BusinessException;
 
 /**
@@ -12,7 +12,7 @@ import com.brycehan.boot.common.exception.BusinessException;
 public class UserCaptchaExpireException extends BusinessException {
 
     public UserCaptchaExpireException() {
-        super(UserResponseStatusEnum.USER_CAPTCHA_EXPIRE);
+        super(UserResponseStatus.USER_CAPTCHA_EXPIRE);
     }
 
 }

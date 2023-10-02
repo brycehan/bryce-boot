@@ -11,14 +11,14 @@ public interface ResponseStatus {
     /**
      * 获取响应编码
      *
-     * @return
+     * @return 响应编码
      */
     Integer code();
 
     /**
      * 获取响应消息
      *
-     * @return
+     * @return 响应消息
      */
     String message();
 

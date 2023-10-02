@@ -6,7 +6,7 @@ import lombok.Getter;
 /**
  * 登录信息
  *
- * @author brycehan
+ * @author Bryce Han
  * @since 2023/9/25
  */
 @Getter

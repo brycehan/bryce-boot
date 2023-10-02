@@ -2,7 +2,6 @@ package com.brycehan.boot.common.property;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
 
 /**
  * ID属性
@@ -11,7 +10,6 @@ import org.springframework.context.annotation.Configuration;
  * @since 2022/5/13
  */
 @Data
-@Configuration
 @ConfigurationProperties(prefix = "bryce.id")
 public class IdProperties {
 

@@ -1,6 +1,6 @@
 package com.brycehan.boot.common.exception.user;
 
-import com.brycehan.boot.common.base.http.UserResponseStatusEnum;
+import com.brycehan.boot.common.base.http.UserResponseStatus;
 import com.brycehan.boot.common.exception.BusinessException;
 
 /**
@@ -14,6 +14,6 @@ public class UserPasswordNotMatchException extends BusinessException {
     private static final long serialVersionUID = 1L;
 
     public UserPasswordNotMatchException() {
-        super(UserResponseStatusEnum.USER_PASSWORD_NOT_MATCH);
+        super(UserResponseStatus.USER_PASSWORD_NOT_MATCH);
     }
 }

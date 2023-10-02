@@ -1,7 +1,6 @@
 package com.brycehan.boot.common.property;
 
 import lombok.Data;
-import lombok.Getter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
@@ -35,12 +34,6 @@ public class BryceApplicationProperties {
      * 实例演示开关
      */
     private boolean demoEnabled;
-
-    /**
-     * 上传路径
-     */
-    @Getter
-    private static String uploadPath;
 
     public static String getAvatarPath() {
         return "/profile".concat("/avatar");

@@ -2,7 +2,7 @@ package com.brycehan.boot.system.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.brycehan.boot.common.base.dto.LoginDto;
-import com.brycehan.boot.common.base.http.UserResponseStatusEnum;
+import com.brycehan.boot.common.base.http.UserResponseStatus;
 import com.brycehan.boot.common.constant.CacheConstants;
 import com.brycehan.boot.common.constant.CommonConstants;
 import com.brycehan.boot.common.constant.DataConstants;
@@ -16,7 +16,6 @@ import com.brycehan.boot.framework.security.context.LoginUser;
 import com.brycehan.boot.system.entity.SysUser;
 import com.brycehan.boot.system.enums.LoginInfoType;
 import com.brycehan.boot.system.service.*;
-import jakarta.annotation.Resource;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -88,7 +87,7 @@ public class AuthServiceImpl implements AuthService {
             }else {
                 throw BusinessException.builder()
                         .module("system")
-                        .code(UserResponseStatusEnum.USER_USERNAME_OR_PASSWORD_ERROR.code())
+                        .code(UserResponseStatus.USER_USERNAME_OR_PASSWORD_ERROR.code())
                         .message(e.getMessage())
                         .build();
             }

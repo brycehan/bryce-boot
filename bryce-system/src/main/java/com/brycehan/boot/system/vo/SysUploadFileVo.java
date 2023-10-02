@@ -1,54 +1,52 @@
 package com.brycehan.boot.system.vo;
 
-import com.baomidou.mybatisplus.annotation.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import java.time.LocalDateTime;
-import java.io.Serializable;
+
 import java.io.Serial;
+import java.io.Serializable;
 
 /**
- * 上传文件表Vo
+ * 上传文件Vo
  *
  * @author Bryce Han
  * @since 2023/08/24
  */
 @Data
-@TableName("brc_sys_upload_file")
-@Schema(description = "上传文件表Vo")
+@Schema(description = "上传文件Vo")
 public class SysUploadFileVo implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
     /**
-     * ID
+     * 文件名称
      */
-    @Schema(description = "ID")
-    private Long id;
+    @Schema(description = "文件名称")
+    private String name;
 
     /**
-     * 文件原始名称
+     * 文件地址
      */
-    @Schema(description = "文件原始名称")
-    private String oldName;
+    @Schema(description = "文件地址")
+    private String url;
 
     /**
-     * 文件路径
+     * 文件大小（单位字节）
      */
-    @Schema(description = "文件路径")
-    private String newPath;
+    @Schema(description = "文件大小（单位字节）")
+    private Long size;
 
     /**
-     * 文件类型
+     * 附件类型
      */
-    @Schema(description = "文件类型")
-    private String fileType;
+    @Schema(description = "附件类型")
+    private String type;
 
     /**
-     * 文件名后缀
+     * 附件名后缀
      */
-    @Schema(description = "文件名后缀")
+    @Schema(description = "附件名后缀")
     private String suffix;
 
     /**
@@ -58,63 +56,9 @@ public class SysUploadFileVo implements Serializable {
     private String hash;
 
     /**
-     * 文件大小（单位字节）
+     * 存储平台
      */
-    @Schema(description = "文件大小（单位字节）")
-    private Long size;
-
-    /**
-     * 宽
-     */
-    @Schema(description = "宽")
-    private Integer width;
-
-    /**
-     * 高
-     */
-    @Schema(description = "高")
-    private Integer height;
-
-    /**
-     * 经度
-     */
-    @Schema(description = "经度")
-    private String lng;
-
-    /**
-     * 纬度
-     */
-    @Schema(description = "纬度")
-    private String lat;
-
-    /**
-     * 标签
-     */
-    @Schema(description = "标签")
-    private String tags;
-
-    /**
-     * 排序
-     */
-    @Schema(description = "排序")
-    private Integer sort;
-
-    /**
-     * 版本
-     */
-    @Schema(description = "版本")
-    private Integer version;
-
-    /**
-     * 创建用户ID
-     */
-    @Schema(description = "创建用户ID")
-    private Long createdUserId;
-
-    /**
-     * 创建时间
-     */
-    @Schema(description = "创建时间")
-    private LocalDateTime createdTime;
+    @Schema(description = "存储平台")
+    private String platform;
 
 }

@@ -10,7 +10,7 @@ import java.util.Optional;
 /**
  * 令牌工具类
  *
- * @author brycehan
+ * @author Bryce Han
  * @since 2023/8/30
  */
 @Slf4j

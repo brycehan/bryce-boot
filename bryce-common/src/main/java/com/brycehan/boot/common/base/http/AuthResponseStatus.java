@@ -15,7 +15,7 @@ import lombok.experimental.Accessors;
 @Getter
 @Accessors(fluent = true)
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
-public enum AuthResponseStatusEnum implements ResponseStatus {
+public enum AuthResponseStatus implements ResponseStatus {
 
     AUTH_ROLE_BLOCKED(800, MessageUtils.getMessage("auth.role.blocked")),
 

@@ -15,7 +15,7 @@ import lombok.experimental.Accessors;
 @Getter
 @Accessors(fluent = true)
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
-public enum UserResponseStatusEnum implements ResponseStatus {
+public enum UserResponseStatus implements ResponseStatus {
 
     USER_REGISTER_NOT_ENABLED(600, MessageUtils.getMessage("user.register.not.enabled")),
 

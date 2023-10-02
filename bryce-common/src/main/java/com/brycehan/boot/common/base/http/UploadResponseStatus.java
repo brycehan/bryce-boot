@@ -15,7 +15,7 @@ import lombok.experimental.Accessors;
 @Getter
 @Accessors(fluent = true)
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
-public enum UploadResponseStatusEnum implements ResponseStatus {
+public enum UploadResponseStatus implements ResponseStatus {
 
     UPLOAD_EXCEED_MAX_SIZE(700, MessageUtils.getMessage("upload.exceed.max.size")),
 

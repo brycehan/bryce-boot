@@ -11,7 +11,7 @@ import java.util.List;
  * 树节点
  * 所有需要实现树结构的，需要继承该类
  *
- * @author brycehan
+ * @author Bryce Han
  * @since 2023/8/1
  */
 @Data

@@ -1,7 +1,7 @@
 package com.brycehan.boot.system.controller;
 
 import com.brycehan.boot.common.base.http.HttpResponseStatus;
-import com.brycehan.boot.common.base.http.UserResponseStatusEnum;
+import com.brycehan.boot.common.base.http.UserResponseStatus;
 import com.brycehan.boot.framework.operationlog.annotation.OperateLog;
 import com.brycehan.boot.framework.operationlog.annotation.OperateType;
 import com.brycehan.boot.framework.security.context.LoginUser;
@@ -80,11 +80,11 @@ public class ProfileController {
         user.setId(loginUser.getId());
         // 校验手机号码
         if (!this.sysUserService.checkPhoneUnique(user)) {
-            return ResponseResult.error(UserResponseStatusEnum.USER_PROFILE_PHONE_INVALID, null, loginUser.getUsername());
+            return ResponseResult.error(UserResponseStatus.USER_PROFILE_PHONE_INVALID, null, loginUser.getUsername());
         }
         // 校验邮箱
         if (!this.sysUserService.checkEmailUnique(user)) {
-            return ResponseResult.error(UserResponseStatusEnum.USER_PROFILE_EMAIL_INVALID, null, loginUser.getUsername());
+            return ResponseResult.error(UserResponseStatus.USER_PROFILE_EMAIL_INVALID, null, loginUser.getUsername());
         }
         // 2、更新并更新缓存用户信息
         if (this.sysUserService.updateById(user)) {
@@ -94,7 +94,7 @@ public class ProfileController {
             return ResponseResult.ok();
         }
 
-        return ResponseResult.error(UserResponseStatusEnum.USER_PROFILE_ALTER_ERROR);
+        return ResponseResult.error(UserResponseStatus.USER_PROFILE_ALTER_ERROR);
     }
 
     /**
@@ -137,10 +137,10 @@ public class ProfileController {
         // 1、校验密码
         LoginUser loginUser = LoginUserContext.currentUser();
         if (!this.passwordEncoder.matches(oldPassword, loginUser.getPassword())) {
-            throw BusinessException.responseStatus(UserResponseStatusEnum.USER_PASSWORD_NOT_MATCH);
+            throw BusinessException.responseStatus(UserResponseStatus.USER_PASSWORD_NOT_MATCH);
         }
         if(this.passwordEncoder.matches(newPassword, loginUser.getPassword())){
-            throw BusinessException.responseStatus(UserResponseStatusEnum.USER_PASSWORD_SAME_AS_OLD_ERROR);
+            throw BusinessException.responseStatus(UserResponseStatus.USER_PASSWORD_SAME_AS_OLD_ERROR);
         }
         SysUser sysUser = new SysUser();
         sysUser.setId(loginUser.getId());
@@ -153,7 +153,7 @@ public class ProfileController {
             return ResponseResult.ok();
         }
 
-        return ResponseResult.error(UserResponseStatusEnum.USER_PASSWORD_CHANGE_ERROR);
+        return ResponseResult.error(UserResponseStatus.USER_PASSWORD_CHANGE_ERROR);
     }
 
 }

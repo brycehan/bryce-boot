@@ -1,7 +1,7 @@
 package com.brycehan.boot.system.service.impl;
 
 import com.brycehan.boot.common.base.dto.RegisterDto;
-import com.brycehan.boot.common.base.http.UserResponseStatusEnum;
+import com.brycehan.boot.common.base.http.UserResponseStatus;
 import com.brycehan.boot.common.constant.CacheConstants;
 import com.brycehan.boot.common.exception.BusinessException;
 import com.brycehan.boot.common.exception.user.UserCaptchaException;
@@ -52,7 +52,7 @@ public class SysRegisterServiceImpl implements SysRegisterService {
         sysUser.setUsername(registerDto.getUsername().trim());
         boolean usernameUnique = this.sysUserService.checkUsernameUnique(sysUser);
         if (!usernameUnique) {
-            throw BusinessException.responseStatus(UserResponseStatusEnum.USER_REGISTER_EXISTS, sysUser.getUsername());
+            throw BusinessException.responseStatus(UserResponseStatus.USER_REGISTER_EXISTS, sysUser.getUsername());
         }
         // 3、注册
         sysUser.setFullName(sysUser.getUsername());

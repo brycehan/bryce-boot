@@ -1,6 +1,6 @@
 package com.brycehan.boot.system.controller;
 
-import com.brycehan.boot.common.base.http.UserResponseStatusEnum;
+import com.brycehan.boot.common.base.http.UserResponseStatus;
 import com.brycehan.boot.system.service.SysParamService;
 import com.brycehan.boot.system.service.SysRegisterService;
 import com.brycehan.boot.common.base.dto.RegisterDto;
@@ -45,7 +45,7 @@ public class RegisterController {
             return ResponseResult.ok();
         }
 
-        return ResponseResult.error(UserResponseStatusEnum.USER_REGISTER_NOT_ENABLED);
+        return ResponseResult.error(UserResponseStatus.USER_REGISTER_NOT_ENABLED);
     }
 
     /**

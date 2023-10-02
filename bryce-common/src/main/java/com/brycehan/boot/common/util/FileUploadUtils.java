@@ -111,20 +111,6 @@ public class FileUploadUtils {
         return file;
     }
 
-    /**
-     * 获取资源访问映射文件名
-     *
-     * @param baseDir  基础目录
-     * @param filename 文件名称
-     * @return 资源访问映射文件名
-     */
-    private static String getResourceAccessFilename(String baseDir, String filename) {
-        return CommonConstants.RESOURCE_PREFIX
-                .concat(baseDir)
-                .concat(File.separator)
-                .concat(filename);
-    }
-
 //    /**
 //     * 获取文件的扩展名
 //     *

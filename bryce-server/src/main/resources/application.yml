@@ -9,8 +9,15 @@ bryce:
     copyright-year: 2023
     # 实例演示开关
     demo-enabled: true
-    # 文件路径 System.getProperty("user.home") + projectName + "/uploadFile/";
-    upload-path: ${user.home}/bryce-boot/attachment/
+  # 存储配置
+  storage:
+    enabled: true
+    config:
+      type: local
+      domain: http://localhost:${server.port}
+    local:
+      # 路径 System.getProperty("user.home") + projectName + "/attachment";
+      path: ${user.home}/bryce-boot/attachment
   # 用户配置
   user:
     password:
@@ -67,6 +74,12 @@ spring:
   application:
     # 名称
     name: bryce-boot
+  servlet:
+    # 上传文件
+    multipart:
+      enabled: true
+      max-file-size: 1024MB
+      max-request-size: 1024MB
   # 资源信息
   messages:
     # i18n国际化资源文件路径

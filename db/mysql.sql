@@ -448,7 +448,49 @@ insert into brc_sys_config
 values (6, '账号自助-用户注册功能开关', 'sys.account.registerEnabled', 'false', '1', '1', sysdate(), null, null,
         '是否开启注册用户功能（true开启，false关闭）');
 
--- 15、系统定时任务调度表
+-- 14、租户表
+drop table if exists brc_tenant;
+create table brc_tenant
+(
+    id              bigint       not null comment 'ID',
+    name            varchar(100)    not null comment '租户名称',
+    site_domain     varchar(200)    comment '租户域名',
+    site_url        varchar(100)    comment '租户网址',
+    site_logo       varchar(200)    comment '租户网址logo',
+    site_config     text            comment '租户网址配置',
+    admin_id        bigint     not null comment '管理员ID',
+    created_user_id  bigint     comment '创建人ID',
+    created_time     datetime        comment '创建时间',
+    updated_user_id  bigint     comment '修改人ID',
+    updated_time     datetime        comment '修改时间',
+    primary key (id),
+    unique key unique_site_domain (site_domain)
+) engine InnoDB default charset utf8mb4 comment '租户表';
+
+-- 15、系统附件表
+drop table if exists brc_sys_attachment;
+CREATE TABLE brc_sys_attachment
+(
+    id              bigint       not null comment 'ID',
+    name      varchar(100) comment '附件名称',
+    url       varchar(255) comment '附件地址',
+    size          bigint       comment '附件大小（单位字节）',
+    type     varchar(50)  comment '附件类型',
+    suffix        varchar(10)  comment '附件名后缀',
+    hash          varchar(255) comment '哈希码',
+    platform          varchar(50) comment '存储平台',
+    tenant_id       bigint       null comment '租户ID',
+    version         int          null comment '版本号',
+    deleted         tinyint      null comment '删除标识（0：存在，1：已删除）',
+    created_user_id bigint       null comment '创建人ID',
+    created_time    datetime     null comment '创建时间',
+    updated_user_id bigint       null comment '修改人ID',
+    updated_time    datetime     null comment '修改时间',
+    primary key (id),
+    key idx_file_created_time (created_time) comment '创建时间索引'
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE utf8mb4_0900_ai_ci comment '系统附件表';
+
+-- 16、系统定时任务调度表
 drop table if exists brc_sys_job;
 create table brc_sys_job
 (
@@ -522,52 +564,6 @@ values ('1', '温馨提醒：2022-10-01 Bryce新版本发布啦', '新版本内�
 insert into brc_sys_notice
 values ('2', '维护通知：2022-10-01 Bryce系统凌晨维护', '维护内容', '1', '1', '1', sysdate(), null, null, '管理员');
 
--- 18、租户表
-drop table if exists brc_tenant;
-create table brc_tenant
-(
-    id              bigint     not null comment 'ID',
-    name            varchar(100)    not null comment '租户名称',
-    site_domain     varchar(200)    comment '租户域名',
-    site_url        varchar(100)    comment '租户网址',
-    site_logo       varchar(200)    comment '租户网址logo',
-    site_config     text            comment '租户网址配置',
-    admin_id        bigint     not null comment '管理员ID',
-    created_user_id  bigint     comment '创建人ID',
-    created_time     datetime        comment '创建时间',
-    updated_user_id  bigint     comment '修改人ID',
-    updated_time     datetime        comment '修改时间',
-    primary key (id),
-    unique key unique_site_domain (site_domain)
-) engine InnoDB default charset utf8mb4 comment '租户表';
-
--- 19、附件表
-drop table if exists brc_sys_upload_file;
-CREATE TABLE `brc_sys_upload_file`
-(
-    `id`            bigint not null comment 'ID',
-    `old_name`      varchar(100) comment '文件原始名称',
-    `new_path`      varchar(255) comment '文件路径',
-    `file_type`     varchar(50)  comment '文件类型',
-    `suffix`        varchar(10)  comment '文件名后缀',
-    `hash`          varchar(255) comment '哈希码',
-    `size`          bigint       comment '文件大小（单位字节）',
-    `width`         int          DEFAULT '0' comment '宽',
-    `height`        int          DEFAULT '0' comment '高',
-    `lng`           varchar(30)  comment '经度',
-    `lat`           varchar(30)  comment '纬度',
-    `tags`          varchar(255) comment '标签',
-    `sort`          int          DEFAULT '0' comment '排序',
-    `version`       int          DEFAULT 1 comment '版本',
-    created_user_id  bigint comment '创建用户ID',
-    created_time     datetime comment '创建时间',
-    primary key (id),
-    key bryce_file_sort_index (sort) comment '排序索引',
-    key bryce_file_created_user_id_index (created_user_id) comment '创建用户ID索引',
-    key bryce_file_created_time_index (created_time) comment '创建时间索引'
-) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE utf8mb4_general_ci comment '上传文件表';
 
 
 

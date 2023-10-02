@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.brycehan.boot.common.base.dto.IdsDto;
 import com.brycehan.boot.common.base.entity.PageResult;
-import com.brycehan.boot.common.base.http.UserResponseStatusEnum;
+import com.brycehan.boot.common.base.http.UserResponseStatus;
 import com.brycehan.boot.common.base.id.IdGenerator;
 import com.brycehan.boot.common.constant.DataConstants;
 import com.brycehan.boot.common.constant.UserConstants;
@@ -214,7 +214,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         if (result == 1) {
             // todo 添加操作日志
         } else {
-            throw BusinessException.responseStatus(UserResponseStatusEnum.USER_REGISTER_ERROR);
+            throw BusinessException.responseStatus(UserResponseStatus.USER_REGISTER_ERROR);
         }
     }
 

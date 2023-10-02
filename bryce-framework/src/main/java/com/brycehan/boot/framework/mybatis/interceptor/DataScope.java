@@ -6,7 +6,7 @@ import lombok.Data;
 /**
  * 数据范围
  *
- * @author brycehan
+ * @author Bryce Han
  * @since 2023/8/28
  */
 @Data

@@ -2,11 +2,13 @@ package com.brycehan.boot.framework.handler;
 
 import com.brycehan.boot.common.base.http.HttpResponseStatus;
 import com.brycehan.boot.common.base.http.ResponseResult;
-import com.brycehan.boot.common.base.http.UserResponseStatusEnum;
+import com.brycehan.boot.common.base.http.UploadResponseStatus;
+import com.brycehan.boot.common.base.http.UserResponseStatus;
 import com.brycehan.boot.common.exception.BusinessException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.DisabledException;
@@ -17,6 +19,7 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.multipart.MultipartException;
 
 import java.time.format.DateTimeParseException;
 import java.util.List;
@@ -33,6 +36,9 @@ import java.util.stream.Collectors;
 @Slf4j
 @RestControllerAdvice
 public class ServerExceptionHandler {
+
+    @Value("spring.servlet.multipart.max-request-size")
+    private String maxRequestSize;
 
     /**
      * 数据绑定异常处理
@@ -63,6 +69,18 @@ public class ServerExceptionHandler {
     }
 
     /**
+     * 上传文件异常
+     * @param e 上传文件异常
+     * @return 响应结果
+     */
+    @ExceptionHandler(MultipartException.class)
+    public ResponseResult<Void> multipartException(MultipartException e) {
+        log.info(" 上传异常，{}", e.getMessage());
+
+        return ResponseResult.error(UploadResponseStatus.UPLOAD_EXCEED_MAX_SIZE, maxRequestSize);
+    }
+
+    /**
      * 请求方法不支持异常处理
      *
      * @param e 请求方法不支持异常
@@ -77,8 +95,8 @@ public class ServerExceptionHandler {
     /**
      * 实体字段校验不通过异常处理
      *
-     * @param e
-     * @return
+     * @param e 实体字段校验不通过异常
+     * @return 响应结果
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseResult<Void> methodArgumentNotValidException(MethodArgumentNotValidException e) {
@@ -97,22 +115,22 @@ public class ServerExceptionHandler {
     }
 
     /**
-     * 内部认证服务异常
+     * 内部认证服务异常处理
      *
-     * @param e
-     * @return
+     * @param e 内部认证服务异常
+     * @return 响应结果
      */
     @ExceptionHandler(InternalAuthenticationServiceException.class)
     public ResponseResult<Void> internalAuthenticationServiceException(InternalAuthenticationServiceException e) {
         log.info("业务异常", e);
-        return ResponseResult.error(UserResponseStatusEnum.USER_USERNAME_OR_PASSWORD_ERROR.code(), e.getMessage());
+        return ResponseResult.error(UserResponseStatus.USER_USERNAME_OR_PASSWORD_ERROR.code(), e.getMessage());
     }
 
     /**
      * 约束违反异常处理
      *
-     * @param e
-     * @return
+     * @param e 约束违反异常
+     * @return 响应结果
      */
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseResult<Void> constraintViolationException(ConstraintViolationException e) {
@@ -129,20 +147,20 @@ public class ServerExceptionHandler {
     /**
      * 用户账户没有启用异常处理
      *
-     * @param e
-     * @return
+     * @param e 用户账户没有启用异常
+     * @return 响应结果
      */
     @ExceptionHandler(DisabledException.class)
     public ResponseResult<Void> disabledException(DisabledException e) {
         log.info("用户账户没有启用异常，{}", e.getLocalizedMessage());
-        return ResponseResult.error(UserResponseStatusEnum.USER_ACCOUNT_DISABLED);
+        return ResponseResult.error(UserResponseStatus.USER_ACCOUNT_DISABLED);
     }
 
     /**
      * 业务异常处理
      *
-     * @param e
-     * @return
+     * @param e 业务异常
+     * @return 响应结果
      */
     @ExceptionHandler(BusinessException.class)
     public ResponseResult<Void> businessException(BusinessException e) {

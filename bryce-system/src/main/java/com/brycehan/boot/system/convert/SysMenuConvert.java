@@ -25,8 +25,8 @@ public interface SysMenuConvert {
 
     SysMenuVo convert(SysMenu sysMenu);
 
-    List<SysMenuVo> convert(List<SysMenu> sysMenus);
+    List<SysMenuVo> convert(List<SysMenu> sysMenuList);
 
     @Mapping(source = "name", target = "name")
-    List<MenuVo> convertMenu(List<SysMenuVo> sysMenuVos);
+    List<MenuVo> convertMenu(List<SysMenuVo> sysMenuVoList);
 }

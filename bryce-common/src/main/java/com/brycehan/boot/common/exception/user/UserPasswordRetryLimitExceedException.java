@@ -1,6 +1,6 @@
 package com.brycehan.boot.common.exception.user;
 
-import com.brycehan.boot.common.base.http.UserResponseStatusEnum;
+import com.brycehan.boot.common.base.http.UserResponseStatus;
 import com.brycehan.boot.common.exception.BusinessException;
 
 /**
@@ -14,6 +14,6 @@ public class UserPasswordRetryLimitExceedException extends BusinessException {
     private static final long serialVersionUID = 1L;
 
     public UserPasswordRetryLimitExceedException(int retryLimitCount, int lockTime) {
-        super(UserResponseStatusEnum.USER_PASSWORD_RETRY_LIMIT_EXCEEDED, Integer.toString(retryLimitCount), Integer.toString(lockTime));
+        super(UserResponseStatus.USER_PASSWORD_RETRY_LIMIT_EXCEEDED, Integer.toString(retryLimitCount), Integer.toString(lockTime));
     }
 }
