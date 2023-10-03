@@ -30,8 +30,8 @@ import java.util.stream.Collectors;
 /**
  * 服务器异常处理
  *
- * @author Bryce Han
  * @since 2022/5/6
+ * @author Bryce Han
  */
 @Slf4j
 @RestControllerAdvice

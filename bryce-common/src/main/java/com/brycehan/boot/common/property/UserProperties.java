@@ -9,8 +9,8 @@ import org.springframework.context.annotation.Configuration;
 /**
  * 用户属性
  *
- * @author Bryce Han
  * @since 2022/9/19
+ * @author Bryce Han
  */
 @Data
 @Configuration

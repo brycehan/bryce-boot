@@ -11,8 +11,8 @@ import org.springframework.context.annotation.Configuration;
 /**
  * 开放接口配置
  *
- * @author Bryce Han
  * @since 2022/5/13
+ * @author Bryce Han
  */
 @Configuration
 public class SwaggerConfig {

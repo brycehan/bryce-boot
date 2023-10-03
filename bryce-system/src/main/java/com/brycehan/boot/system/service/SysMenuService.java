@@ -16,8 +16,8 @@ import java.util.Set;
 /**
  * 系统菜单服务
  *
- * @author Bryce Han
  * @since 2022/5/15
+ * @author Bryce Han
  */
 public interface SysMenuService extends BaseService<SysMenu> {
 

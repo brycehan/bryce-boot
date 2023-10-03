@@ -3,8 +3,8 @@ package com.brycehan.boot.common.constant;
 /**
  * 用户常量
  *
- * @author Bryce Han
  * @since 2022/9/22
+ * @author Bryce Han
  */
 public class UserConstants {
 

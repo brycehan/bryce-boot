@@ -3,8 +3,8 @@ package com.brycehan.boot.common.constant;
 /**
  * 任务调度常量
  *
- * @author Bryce Han
  * @since 2022/9/22
+ * @author Bryce Han
  */
 public class ScheduleConstants {
     public static final String TASK_CLASS_NAME = "task_class_name";

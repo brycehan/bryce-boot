@@ -10,8 +10,8 @@ import java.time.LocalDateTime;
 /**
  * 系统字典数据Vo
  *
- * @author Bryce Han
  * @since 2023/09/08
+ * @author Bryce Han
  */
 @Schema(description = "系统字典数据Vo")
 @Data

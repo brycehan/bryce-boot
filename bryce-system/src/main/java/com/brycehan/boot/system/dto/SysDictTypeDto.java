@@ -12,8 +12,8 @@ import java.io.Serializable;
 /**
  * 系统字典类型Dto
  *
- * @author Bryce Han
  * @since 2023/09/05
+ * @author Bryce Han
  */
 @Schema(description = "系统字典类型Dto")
 @Data

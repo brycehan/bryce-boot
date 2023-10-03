@@ -10,8 +10,8 @@ import java.io.IOException;
 /**
  * Cross Site Scripting 跨站脚本攻击JSON字符串请求参数处理
  *
- * @author Bryce Han
  * @since 2022/5/26
+ * @author Bryce Han
  */
 public class XssJacksonDeserializer extends JsonDeserializer<String> {
 

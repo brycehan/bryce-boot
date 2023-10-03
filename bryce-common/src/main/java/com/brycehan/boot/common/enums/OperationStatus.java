@@ -8,8 +8,8 @@ import lombok.experimental.Accessors;
 /**
  * 操作状态
  *
- * @author Bryce Han
  * @since 2022/11/21
+ * @author Bryce Han
  */
 @Getter
 @Accessors(fluent = true)

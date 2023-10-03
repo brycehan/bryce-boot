@@ -39,8 +39,8 @@ import java.util.List;
 /**
  * 系统用户API
  *
- * @author Bryce Han
  * @since 2022/05/14
+ * @author Bryce Han
  */
 @Tag(name = "sysUser", description = "系统用户API")
 @RequestMapping("/system/user")

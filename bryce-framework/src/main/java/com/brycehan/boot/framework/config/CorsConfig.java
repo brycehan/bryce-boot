@@ -9,8 +9,8 @@ import org.springframework.web.filter.CorsFilter;
 /**
  * 跨域资源共享配置
  *
- * @author Bryce Han
  * @since 2022/5/6
+ * @author Bryce Han
  */
 @Configuration
 public class CorsConfig {

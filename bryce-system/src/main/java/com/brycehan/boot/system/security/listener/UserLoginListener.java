@@ -15,8 +15,8 @@ import org.springframework.stereotype.Component;
 /**
  * 认证事件监听器
  *
- * @author Bryce Han
  * @since 2022/11/3
+ * @author Bryce Han
  */
 @Component
 @RequiredArgsConstructor

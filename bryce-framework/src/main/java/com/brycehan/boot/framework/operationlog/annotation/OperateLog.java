@@ -8,8 +8,8 @@ import java.lang.annotation.Target;
 /**
  * 操作日志
  *
- * @author Bryce Han
  * @since 2023/8/28
+ * @author Bryce Han
  */
 @Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)

@@ -5,8 +5,8 @@ import com.brycehan.boot.system.entity.SysUser;
 /**
  * 系统密码服务
  *
- * @author Bryce Han
  * @since 2022/9/29
+ * @author Bryce Han
  */
 public interface SysPasswordService {
 

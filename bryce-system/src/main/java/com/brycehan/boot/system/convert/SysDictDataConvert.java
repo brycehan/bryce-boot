@@ -10,8 +10,8 @@ import java.util.List;
 /**
  * 系统字典数据转换器
  *
- * @author Bryce Han
  * @since 2023/09/08
+ * @author Bryce Han
  */
 @Mapper
 public interface SysDictDataConvert {

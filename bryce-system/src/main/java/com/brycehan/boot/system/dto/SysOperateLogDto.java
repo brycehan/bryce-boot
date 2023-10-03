@@ -14,8 +14,8 @@ import java.io.Serial;
 /**
  * 系统操作日志Dto
  *
- * @author Bryce Han
  * @since 2023/09/27
+ * @author Bryce Han
  */
 @Data
 @Schema(description = "系统操作日志Dto")

@@ -8,8 +8,8 @@ import java.io.Serial;
 /**
  * 文件名称超长限制异常类
  *
- * @author Bryce Han
  * @since 2022/11/2
+ * @author Bryce Han
  */
 public class FileNameLengthLimitExceededException extends BusinessException {
 

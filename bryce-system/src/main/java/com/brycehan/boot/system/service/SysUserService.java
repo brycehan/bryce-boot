@@ -15,8 +15,8 @@ import com.brycehan.boot.system.vo.SysUserVo;
 /**
  * 系统用户服务
  *
- * @author Bryce Han
  * @since 2022/5/08
+ * @author Bryce Han
  */
 public interface SysUserService extends BaseService<SysUser> {
 

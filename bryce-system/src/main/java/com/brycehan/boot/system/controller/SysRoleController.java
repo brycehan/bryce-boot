@@ -32,8 +32,8 @@ import java.util.List;
 /**
  * 系统角色API
  *
- * @author Bryce Han
  * @since 2023/09/13
+ * @author Bryce Han
  */
 @Tag(name = "sysRole", description = "系统角色API")
 @RequestMapping("/system/role")

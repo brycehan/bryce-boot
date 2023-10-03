@@ -9,8 +9,8 @@ import java.io.Serial;
 /**
  * 系统登录日志entity
  *
- * @author Bryce Han
  * @since 2023/09/25
+ * @author Bryce Han
  */
 @Data
 @TableName("brc_sys_login_log")

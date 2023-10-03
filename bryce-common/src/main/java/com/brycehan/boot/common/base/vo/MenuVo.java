@@ -9,8 +9,8 @@ import java.util.List;
 /**
  * 路由配置vo
  *
- * @author Bryce Han
  * @since 2022/10/21
+ * @author Bryce Han
  */
 @Getter
 @Setter

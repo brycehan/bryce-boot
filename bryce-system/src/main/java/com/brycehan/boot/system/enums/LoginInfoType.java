@@ -6,8 +6,8 @@ import lombok.Getter;
 /**
  * 登录信息
  *
- * @author Bryce Han
  * @since 2023/9/25
+ * @author Bryce Han
  */
 @Getter
 @AllArgsConstructor

@@ -10,8 +10,8 @@ import java.time.LocalDateTime;
 /**
  * Mybatis Plus字段填充处理器
  *
- * @author Bryce Han
  * @since 2022/5/12
+ * @author Bryce Han
  */
 public class MetaObjectHandlerImpl implements MetaObjectHandler {
 

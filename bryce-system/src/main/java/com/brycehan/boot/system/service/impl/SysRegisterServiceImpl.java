@@ -21,8 +21,8 @@ import java.util.Objects;
 /**
  * 系统注册服务实现类
  *
- * @author Bryce Han
  * @since 2022/9/20
+ * @author Bryce Han
  */
 @Slf4j
 @Service

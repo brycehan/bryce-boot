@@ -3,8 +3,8 @@ package com.brycehan.boot.common.constant;
 /**
  * 缓存常量
  *
- * @author Bryce Han
  * @since 2022/5/16
+ * @author Bryce Han
  */
 public class CacheConstants {
 

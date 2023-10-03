@@ -10,8 +10,8 @@ import java.io.IOException;
 /**
  * Cross Site Scripting 跨站脚本攻击过滤器
  *
- * @author Bryce Han
  * @since 2022/5/26
+ * @author Bryce Han
  */
 @WebFilter(filterName = "xssFilter", urlPatterns = "/*", asyncSupported = true)
 public class XssFilter implements Filter {

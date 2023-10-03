@@ -10,8 +10,8 @@ import java.util.List;
 /**
  * 系统附件转换器
  *
- * @author Bryce Han
  * @since 2023/10/01
+ * @author Bryce Han
  */
 @Mapper
 public interface SysAttachmentConvert {

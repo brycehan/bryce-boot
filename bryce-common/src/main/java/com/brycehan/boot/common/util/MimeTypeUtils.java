@@ -5,8 +5,8 @@ import org.apache.commons.lang3.StringUtils;
 /**
  * 媒体类型工具类
  *
- * @author Bryce Han
  * @since 2022/11/2
+ * @author Bryce Han
  */
 public class MimeTypeUtils {
 

@@ -8,8 +8,8 @@ import java.util.List;
 /**
  * 系统用户岗位关系服务
  *
- * @author Bryce Han
  * @since 2023/09/30
+ * @author Bryce Han
  */
 public interface SysUserPostService extends BaseService<SysUserPost> {
 

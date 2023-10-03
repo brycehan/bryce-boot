@@ -6,8 +6,8 @@ import jakarta.validation.constraints.NotNull;
 /**
  * 注册服务类
  *
- * @author Bryce Han
  * @since 2022/9/20
+ * @author Bryce Han
  */
 public interface SysRegisterService {
 

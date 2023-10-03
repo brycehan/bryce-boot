@@ -9,8 +9,8 @@ import java.util.Arrays;
 /**
  * 文件上传无效扩展名异常类
  *
- * @author Bryce Han
  * @since 2022/11/2
+ * @author Bryce Han
  */
 public class InvalidExtensionException extends BusinessException {
 

@@ -5,8 +5,8 @@ import java.nio.charset.StandardCharsets;
 /**
  * 常用常量
  *
- * @author Bryce Han
  * @since 2022/5/18
+ * @author Bryce Han
  */
 public class CommonConstants {
 

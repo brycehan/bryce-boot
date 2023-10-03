@@ -26,8 +26,8 @@ import static java.time.format.DateTimeFormatter.*;
 /**
  * Jackson配置
  *
- * @author Bryce Han
  * @since 2022/5/26
+ * @author Bryce Han
  */
 @Configuration
 public class JacksonConfig {

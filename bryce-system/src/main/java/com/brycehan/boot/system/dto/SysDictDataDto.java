@@ -11,8 +11,8 @@ import java.io.Serial;
 /**
  * 系统字典数据Dto
  *
- * @author Bryce Han
  * @since 2023/09/08
+ * @author Bryce Han
  */
 @Schema(description = "系统字典数据Dto")
 @Data

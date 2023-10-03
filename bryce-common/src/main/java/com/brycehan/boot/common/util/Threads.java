@@ -8,8 +8,8 @@ import java.util.concurrent.*;
 /**
  * 线程工具类
  *
- * @author Bryce Han
  * @since 2022/10/12
+ * @author Bryce Han
  */
 @Slf4j
 public class Threads {

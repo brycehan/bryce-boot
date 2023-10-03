@@ -15,8 +15,8 @@ import java.io.File;
 /**
  * 资源配置
  *
- * @author Bryce Han
  * @since 2022/11/4
+ * @author Bryce Han
  */
 @Configuration
 @RequiredArgsConstructor

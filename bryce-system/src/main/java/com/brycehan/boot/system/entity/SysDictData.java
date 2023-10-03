@@ -10,8 +10,8 @@ import java.io.Serial;
 /**
  * 系统字典数据entity
  *
- * @author Bryce Han
  * @since 2023/09/08
+ * @author Bryce Han
  */
 @Data
 @EqualsAndHashCode(callSuper=false)

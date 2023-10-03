@@ -20,10 +20,10 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 /**
- * 验证码控制器
+ * 验证码API
  *
- * @author Bryce Han
  * @since 2022/5/10
+ * @author Bryce Han
  */
 @Slf4j
 @Tag(name = "captcha", description = "验证码API")

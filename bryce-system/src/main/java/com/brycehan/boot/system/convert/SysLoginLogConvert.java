@@ -10,8 +10,8 @@ import java.util.List;
 /**
  * 系统登录日志转换器
  *
- * @author Bryce Han
  * @since 2023/09/25
+ * @author Bryce Han
  */
 @Mapper
 public interface SysLoginLogConvert {

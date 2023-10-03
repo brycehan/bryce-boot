@@ -12,8 +12,8 @@ import java.time.LocalDateTime;
 /**
  * 系统用户PageDto
  *
- * @author Bryce Han
  * @since 2023/09/11
+ * @author Bryce Han
  */
 @Schema(description = "系统用户PageDto")
 @Data

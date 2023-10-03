@@ -12,8 +12,8 @@ import java.util.Map;
 /**
  * 系统用户Mapper接口
  *
- * @author Bryce Han
  * @since 2022/5/08
+ * @author Bryce Han
  */
 @Mapper
 public interface SysUserMapper extends BryceBaseMapper<SysUser> {

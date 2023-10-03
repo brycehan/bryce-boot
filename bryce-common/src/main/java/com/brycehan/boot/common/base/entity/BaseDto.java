@@ -9,8 +9,8 @@ import java.io.Serializable;
 /**
  * 基础分页 DTO 数据传输对象
  *
- * @author Bryce Han
  * @since 2021/8/31
+ * @author Bryce Han
  */
 @Data
 public abstract class BaseDto implements Serializable {

@@ -12,8 +12,8 @@ import org.springframework.context.annotation.Configuration;
 /**
  * MybatisPlus配置
  *
- * @author Bryce Han
  * @since 2022/11/10
+ * @author Bryce Han
  */
 @Configuration
 public class MybatisPlusConfig {

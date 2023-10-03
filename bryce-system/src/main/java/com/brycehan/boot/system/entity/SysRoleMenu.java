@@ -11,8 +11,8 @@ import java.io.Serial;
 /**
  * 系统角色菜单关系entity
  *
- * @author Bryce Han
  * @since 2022/5/15
+ * @author Bryce Han
  */
 @Data
 @EqualsAndHashCode(callSuper = false)

@@ -7,8 +7,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 /**
  * 验证码属性
  *
- * @author Bryce Han
  * @since 2022/9/19
+ * @author Bryce Han
  */
 @Data
 @ConfigurationProperties(prefix = "bryce.captcha")

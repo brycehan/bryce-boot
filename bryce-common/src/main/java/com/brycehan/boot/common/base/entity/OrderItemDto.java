@@ -12,8 +12,8 @@ import java.io.Serializable;
 /**
  * 排序项Dto 数据传输对象
  *
- * @author Bryce Han
  * @since 2021/8/31
+ * @author Bryce Han
  */
 @Schema(description = "排序项Dto")
 @Data

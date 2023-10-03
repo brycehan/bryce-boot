@@ -9,9 +9,9 @@ import lombok.experimental.Accessors;
 /**
  * 通用响应状态枚举
  *
- * @author Bryce Han
  * @see org.springframework.http.HttpStatus
  * @since 2022/5/13
+ * @author Bryce Han
  */
 @Getter
 @Accessors(fluent = true)

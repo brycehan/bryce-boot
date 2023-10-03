@@ -10,8 +10,8 @@ import java.util.Arrays;
 /**
  * Sql注入工具类
  *
- * @author Bryce Han
  * @since 2022/5/26
+ * @author Bryce Han
  */
 public class SqlInjectUtils {
 

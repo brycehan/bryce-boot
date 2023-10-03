@@ -15,8 +15,8 @@ import java.util.List;
 /**
  * 系统字典类型服务
  *
- * @author Bryce Han
  * @since 2023/09/05
+ * @author Bryce Han
  */
 public interface SysDictTypeService extends BaseService<SysDictType> {
 

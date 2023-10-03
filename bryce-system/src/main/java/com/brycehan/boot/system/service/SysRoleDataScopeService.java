@@ -8,8 +8,8 @@ import java.util.List;
 /**
  * 系统角色数据范围服务
  *
- * @author Bryce Han
  * @since 2023/09/15
+ * @author Bryce Han
  */
 public interface SysRoleDataScopeService extends BaseService<SysRoleDataScope> {
 

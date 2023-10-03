@@ -3,8 +3,8 @@ package com.brycehan.boot.common.base.http;
 /**
  * 响应状态
  *
- * @author Bryce Han
  * @since 2022/2/25
+ * @author Bryce Han
  */
 public interface ResponseStatus {
 

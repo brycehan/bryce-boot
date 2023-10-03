@@ -8,8 +8,8 @@ import java.util.concurrent.TimeUnit;
 /**
  * 线程池工具类
  *
- * @author Bryce Han
  * @since 2022/9/26
+ * @author Bryce Han
  */
 public class ExecutorUtils {
     private static ScheduledExecutorService executor = SpringContextHolder.getBean(ScheduledExecutorService.class);

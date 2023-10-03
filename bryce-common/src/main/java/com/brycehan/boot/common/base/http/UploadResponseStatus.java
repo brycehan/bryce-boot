@@ -9,8 +9,8 @@ import lombok.experimental.Accessors;
 /**
  * 上传响应状态枚举
  *
- * @author Bryce Han
  * @since 2022/5/30
+ * @author Bryce Han
  */
 @Getter
 @Accessors(fluent = true)

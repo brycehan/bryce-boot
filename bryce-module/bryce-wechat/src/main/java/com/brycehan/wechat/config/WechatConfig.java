@@ -6,8 +6,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * @author Bryce Han
  * @since 2023/7/17
+ * @author Bryce Han
  */
 @Configuration
 public class WechatConfig {

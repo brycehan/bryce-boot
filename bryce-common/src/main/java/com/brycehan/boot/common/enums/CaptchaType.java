@@ -3,8 +3,8 @@ package com.brycehan.boot.common.enums;
 /**
  * 验证码类型
  *
- * @author Bryce Han
  * @since 2022/9/19
+ * @author Bryce Han
  */
 public enum CaptchaType {
 

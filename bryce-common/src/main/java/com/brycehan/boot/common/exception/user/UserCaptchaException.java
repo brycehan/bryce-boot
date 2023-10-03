@@ -7,8 +7,8 @@ import com.brycehan.boot.common.exception.BusinessException;
 /**
  * 用户验证码异常
  *
- * @author Bryce Han
  * @since 2022/9/22
+ * @author Bryce Han
  */
 public class UserCaptchaException extends BusinessException {
 

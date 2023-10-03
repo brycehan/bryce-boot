@@ -12,8 +12,8 @@ import java.io.IOException;
 /**
  * Jwt访问拒绝处理器
  *
- * @author Bryce Han
  * @since 2022/5/9
+ * @author Bryce Han
  */
 @Component
 public class JwtAccessDeniedHandler implements AccessDeniedHandler {

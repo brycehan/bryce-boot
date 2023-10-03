@@ -10,8 +10,8 @@ import java.util.List;
 /**
  * 系统参数转换器
  *
- * @author Bryce Han
  * @since 2023/09/28
+ * @author Bryce Han
  */
 @Mapper
 public interface SysParamConvert {

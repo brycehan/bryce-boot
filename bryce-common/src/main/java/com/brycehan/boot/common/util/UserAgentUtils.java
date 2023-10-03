@@ -11,9 +11,9 @@ import java.io.IOException;
 /**
  * UserAgent工具类
  *
- * @author Bryce Han
  * @link <a href="https://github.com/blueconic/browscap-java">browscap-java</a>
  * @since 2022/9/20
+ * @author Bryce Han
  */
 @Slf4j
 @Component

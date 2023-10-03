@@ -32,8 +32,8 @@ import java.util.concurrent.TimeUnit;
 /**
  * Jwt令牌工具类
  *
- * @author Bryce Han
  * @since 2022/5/16
+ * @author Bryce Han
  */
 @Slf4j
 @Component

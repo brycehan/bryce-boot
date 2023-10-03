@@ -24,8 +24,8 @@ import org.springframework.web.bind.annotation.*;
 /**
  * 系统附件API
  *
- * @author Bryce Han
  * @since 2023/10/01
+ * @author Bryce Han
  */
 @Tag(name = "sysAttachment", description = "系统附件API")
 @RequestMapping("/system/attachment")

@@ -31,8 +31,8 @@ import java.util.List;
 /**
  * Spring Security 配置
  *
- * @author Bryce Han
  * @since 2022/5/9
+ * @author Bryce Han
  */
 @Configuration
 @EnableWebSecurity

@@ -3,8 +3,8 @@ package com.brycehan.boot.common.constant;
 /**
  * Jwt常量
  *
- * @author Bryce Han
  * @since 2022/5/12
+ * @author Bryce Han
  */
 public class JwtConstants {
 

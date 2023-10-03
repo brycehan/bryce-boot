@@ -11,8 +11,8 @@ import java.time.LocalDateTime;
 /**
  * 系统机构Vo
  *
- * @author Bryce Han
  * @since 2023/08/31
+ * @author Bryce Han
  */
 @Schema(description = "系统机构Vo")
 @Data

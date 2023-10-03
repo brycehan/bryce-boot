@@ -12,8 +12,8 @@ import com.brycehan.boot.system.vo.SysParamVo;
 /**
  * 系统参数服务
  *
- * @author Bryce Han
  * @since 2023/09/28
+ * @author Bryce Han
  */
 public interface SysParamService extends BaseService<SysParam> {
 

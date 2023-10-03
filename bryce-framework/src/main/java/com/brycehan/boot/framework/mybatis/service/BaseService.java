@@ -11,8 +11,8 @@ import java.util.Objects;
 /**
  * 基础服务
  *
- * @author Bryce Han
  * @since 2022/9/16
+ * @author Bryce Han
  */
 public interface BaseService<T> extends IService<T> {
 

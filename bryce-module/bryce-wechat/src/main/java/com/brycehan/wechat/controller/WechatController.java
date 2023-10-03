@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * @author Bryce Han
  * @since 2023/7/12
+ * @author Bryce Han
  */
 @RequiredArgsConstructor
 @RequestMapping(path = "/wechat")

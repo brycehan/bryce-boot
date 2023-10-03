@@ -8,8 +8,8 @@ import java.io.Serial;
 /**
  * 文件大小限制异常类
  *
- * @author Bryce Han
  * @since 2022/11/2
+ * @author Bryce Han
  */
 public class FileSizeLimitExceededException extends BusinessException {
 

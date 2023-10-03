@@ -12,8 +12,8 @@ import com.brycehan.boot.system.vo.SysAttachmentVo;
 /**
  * 系统附件服务
  *
- * @author Bryce Han
  * @since 2023/10/01
+ * @author Bryce Han
  */
 public interface SysAttachmentService extends BaseService<SysAttachment> {
 

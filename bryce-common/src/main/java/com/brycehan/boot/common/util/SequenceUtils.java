@@ -8,8 +8,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * 序列生成工具类
  *
- * @author Bryce Han
  * @since 2022/11/3
+ * @author Bryce Han
  */
 public class SequenceUtils {
 

@@ -14,8 +14,8 @@ import java.util.List;
 /**
  * 系统岗位服务
  *
- * @author Bryce Han
  * @since 2022/10/31
+ * @author Bryce Han
  */
 public interface SysPostService extends BaseService<SysPost> {
 

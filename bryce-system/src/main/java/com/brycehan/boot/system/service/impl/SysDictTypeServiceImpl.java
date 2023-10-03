@@ -32,8 +32,8 @@ import java.util.stream.Collectors;
 /**
  * 系统字典类型服务实现类
  *
- * @author Bryce Han
  * @since 2023/09/05
+ * @author Bryce Han
  */
 @Service
 @RequiredArgsConstructor

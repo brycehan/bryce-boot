@@ -21,8 +21,8 @@ import java.util.concurrent.TimeUnit;
 /**
  * 系统密码服务类
  *
- * @author Bryce Han
  * @since 2022/9/29
+ * @author Bryce Han
  */
 @Service
 public class SysPasswordServiceImpl implements SysPasswordService {

@@ -15,8 +15,8 @@ import java.util.List;
 /**
  * 系统菜单Dto
  *
- * @author Bryce Han
  * @since 2022/5/15
+ * @author Bryce Han
  */
 @Data
 @Schema(description = "系统菜单Dto")

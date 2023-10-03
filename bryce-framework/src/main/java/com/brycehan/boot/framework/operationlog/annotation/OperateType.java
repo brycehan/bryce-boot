@@ -6,8 +6,8 @@ import lombok.RequiredArgsConstructor;
 /**
  * 操作类型
  *
- * @author Bryce Han
  * @since 2023/8/28
+ * @author Bryce Han
  */
 @Getter
 @RequiredArgsConstructor

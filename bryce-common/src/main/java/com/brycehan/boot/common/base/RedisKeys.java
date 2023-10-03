@@ -3,8 +3,8 @@ package com.brycehan.boot.common.base;
 /**
  * Redis Key 管理
  *
- * @author Bryce Han
  * @since 2023/8/28
+ * @author Bryce Han
  */
 public class RedisKeys {
 

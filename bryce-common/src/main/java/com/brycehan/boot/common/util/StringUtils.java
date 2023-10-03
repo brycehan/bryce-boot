@@ -6,8 +6,8 @@ import org.apache.commons.lang3.RegExUtils;
 import java.util.Objects;
 
 /**
- * @author Bryce Han
  * @since 2022/8/2
+ * @author Bryce Han
  */
 public class StringUtils {
 

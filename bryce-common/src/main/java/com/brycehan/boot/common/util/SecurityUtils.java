@@ -3,8 +3,8 @@ package com.brycehan.boot.common.util;
 /**
  * 安全工具类
  *
- * @author Bryce Han
  * @since 2023/4/19
+ * @author Bryce Han
  */
 public class SecurityUtils {
 

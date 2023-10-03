@@ -6,8 +6,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 /**
  * ID属性
  *
- * @author Bryce Han
  * @since 2022/5/13
+ * @author Bryce Han
  */
 @Data
 @ConfigurationProperties(prefix = "bryce.id")

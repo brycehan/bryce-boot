@@ -7,8 +7,8 @@ import org.springframework.context.annotation.Configuration;
 /**
  * Bryce应用配置
  *
- * @author Bryce Han
  * @since 2022/9/19
+ * @author Bryce Han
  */
 @Data
 @Configuration

@@ -19,8 +19,8 @@ import java.util.concurrent.CopyOnWriteArraySet;
  * <p>
  * 注入Spring容器bean时，在无参数构造器中用SpringContextHolder获取bean，有参数的构造器有问题
  *
- * @author Bryce Han
  * @since 2022/5/24
+ * @author Bryce Han
  */
 @Slf4j
 @ServerEndpoint(value = "/websocket/{code}")

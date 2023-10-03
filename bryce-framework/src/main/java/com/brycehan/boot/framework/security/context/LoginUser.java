@@ -15,8 +15,8 @@ import java.util.stream.Collectors;
 /**
  * 登录用户身份权限
  *
- * @author Bryce Han
  * @since 2022/5/6
+ * @author Bryce Han
  */
 @Data
 public class LoginUser implements UserDetails {

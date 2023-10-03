@@ -10,8 +10,8 @@ import java.util.Set;
 /**
  * 系统菜单 Mapper 接口
  *
- * @author Bryce Han
  * @since 2022/5/15
+ * @author Bryce Han
  */
 @Mapper
 public interface SysMenuMapper extends BryceBaseMapper<SysMenu> {

@@ -6,8 +6,8 @@ import com.brycehan.boot.common.exception.BusinessException;
 /**
  * 用户密码错误重试最大次数异常类
  *
- * @author Bryce Han
  * @since 2022/9/22
+ * @author Bryce Han
  */
 public class UserPasswordRetryLimitExceedException extends BusinessException {
 

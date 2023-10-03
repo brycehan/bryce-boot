@@ -9,8 +9,8 @@ import java.io.Serial;
 /**
  * 系统角色entity
  *
- * @author Bryce Han
  * @since 2023/09/13
+ * @author Bryce Han
  */
 @Data
 @EqualsAndHashCode(callSuper=false)

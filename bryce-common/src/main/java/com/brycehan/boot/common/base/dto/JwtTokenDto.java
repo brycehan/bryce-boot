@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 /**
  * Jwt令牌Dto
  *
- * @author Bryce Han
  * @since 2022/5/18
+ * @author Bryce Han
  */
 @Schema(description = "Jwt令牌Dto")
 @AllArgsConstructor

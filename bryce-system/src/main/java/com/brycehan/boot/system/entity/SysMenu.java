@@ -13,8 +13,8 @@ import java.util.List;
 /**
  * 系统菜单entity
  *
- * @author Bryce Han
  * @since 2022/5/15
+ * @author Bryce Han
  */
 @Data
 @EqualsAndHashCode(callSuper=false)

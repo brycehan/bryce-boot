@@ -12,8 +12,8 @@ import java.io.Serial;
 /**
  * 业务异常
  *
- * @author Bryce Han
  * @since 2021/12/31
+ * @author Bryce Han
  */
 @Slf4j
 @NoArgsConstructor

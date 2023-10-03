@@ -8,8 +8,8 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 /**
  * Web 相关配置
  *
- * @author Bryce Han
  * @since 2023/3/20
+ * @author Bryce Han
  */
 @Configuration
 public class WebConfig implements WebMvcConfigurer {

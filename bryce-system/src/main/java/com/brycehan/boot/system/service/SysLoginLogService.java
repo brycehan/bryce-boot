@@ -12,8 +12,8 @@ import com.brycehan.boot.system.vo.SysLoginLogVo;
 /**
  * 系统登录日志服务
  *
- * @author Bryce Han
  * @since 2023/09/25
+ * @author Bryce Han
  */
 public interface SysLoginLogService extends BaseService<SysLoginLog> {
 

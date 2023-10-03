@@ -12,8 +12,8 @@ import java.util.List;
 /**
  * 系统字典Vo
  *
- * @author Bryce Han
  * @since 2023/09/06
+ * @author Bryce Han
  */
 @Data
 @Schema(description = "系统字典Vo")

@@ -5,8 +5,8 @@ import java.time.format.DateTimeFormatter;
 /**
  * 数据状态常量
  *
- * @author Bryce Han
  * @since 2022/7/21
+ * @author Bryce Han
  */
 public class DataConstants {
 

@@ -7,8 +7,8 @@ import org.apache.ibatis.annotations.Mapper;
 /**
  * 系统用户角色关系Mapper接口
  *
- * @author Bryce Han
  * @since 2022/5/15
+ * @author Bryce Han
  */
 @Mapper
 public interface SysUserRoleMapper extends BryceBaseMapper<SysUserRole> {

@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.*;
 /**
  * 系统注册API
  *
- * @author Bryce Han
  * @since 2022/9/20
+ * @author Bryce Han
  */
 @Tag(name = "register", description = "注册API")
 @RequestMapping(path = "/register")

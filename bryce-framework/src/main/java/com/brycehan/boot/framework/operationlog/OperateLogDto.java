@@ -9,8 +9,8 @@ import java.time.LocalDateTime;
 /**
  * 系统操作日志数据传输对象
  *
- * @author Bryce Han
  * @since 2022/11/18
+ * @author Bryce Han
  */
 @Data
 public class OperateLogDto implements Serializable {

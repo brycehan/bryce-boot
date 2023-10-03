@@ -24,8 +24,8 @@ import org.springframework.web.bind.annotation.*;
 /**
  * 系统参数API
  *
- * @author Bryce Han
  * @since 2023/09/28
+ * @author Bryce Han
  */
 @Tag(name = "sysParam", description = "系统参数API")
 @RequestMapping("/system/param")

@@ -11,8 +11,8 @@ import java.util.List;
 /**
  * 系统用户转换器
  *
- * @author Bryce Han
  * @since 2023/08/24
+ * @author Bryce Han
  */
 @Mapper
 public interface SysUserConvert {

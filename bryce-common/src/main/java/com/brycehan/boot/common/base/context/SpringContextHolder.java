@@ -10,8 +10,8 @@ import org.springframework.util.ObjectUtils;
 /**
  * Spring上下文工具类
  *
- * @author Bryce Han
  * @since 2022/5/11
+ * @author Bryce Han
  */
 @Configuration
 @AutoConfigureOrder(Integer.MIN_VALUE)

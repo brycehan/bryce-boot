@@ -27,14 +27,14 @@ import java.util.Objects;
 
 
 /**
- * 用户个人中心控制器
+ * 用户个人中心API
  *
- * @author Bryce Han
  * @since 2022/10/31
+ * @author Bryce Han
  */
 @Tag(name = "profile", description = "用户个人中心API")
-@RestController
 @RequestMapping(path = "/profile")
+@RestController
 @RequiredArgsConstructor
 public class ProfileController {
 
@@ -47,7 +47,7 @@ public class ProfileController {
     /**
      * 个人信息
      *
-     * @return 响应
+     * @return 响应结果
      */
     @Operation(summary = "个人信息")
     @GetMapping
@@ -66,7 +66,7 @@ public class ProfileController {
      * 修改用户个人信息
      *
      * @param profile 用户个人信息
-     * @return 请求响应结果
+     * @return 响应结果
      */
     @OperateLog(type = OperateType.UPDATE)
     @PatchMapping
@@ -129,9 +129,10 @@ public class ProfileController {
     /**
      * 修改密码
      *
-     * @return 响应
+     * @return 响应结果
      */
     @Operation(summary = "修改密码")
+    @OperateLog(type = OperateType.UPDATE)
     @PutMapping(path = "/password")
     public ResponseResult<String> updatePassword(String oldPassword, String newPassword) {
         // 1、校验密码

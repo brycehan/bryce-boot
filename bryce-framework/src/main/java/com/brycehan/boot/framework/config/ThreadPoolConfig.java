@@ -12,8 +12,8 @@ import java.util.concurrent.*;
 /**
  * 线程池配置
  *
- * @author Bryce Han
  * @since 2022/2/23
+ * @author Bryce Han
  */
 @Configuration
 @EnableConfigurationProperties({ThreadPoolProperties.class})

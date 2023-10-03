@@ -12,8 +12,8 @@ import com.brycehan.boot.system.vo.SysDictDataVo;
 /**
  * 系统字典数据服务
  *
- * @author Bryce Han
  * @since 2023/09/08
+ * @author Bryce Han
  */
 public interface SysDictDataService extends BaseService<SysDictData> {
 

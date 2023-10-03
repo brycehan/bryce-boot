@@ -5,8 +5,8 @@ import com.github.yitter.idgen.YitIdHelper;
 /**
  * 分布式ID生成器
  *
- * @author Bryce Han
  * @since 2022/5/16
+ * @author Bryce Han
  */
 public class IdGenerator {
 

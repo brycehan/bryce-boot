@@ -21,8 +21,8 @@ import java.util.Objects;
 /**
  * 系统字典数据服务实现类
  *
- * @author Bryce Han
  * @since 2023/09/08
+ * @author Bryce Han
  */
 @Service
 @RequiredArgsConstructor

@@ -7,8 +7,8 @@ import me.chanjar.weixin.mp.api.WxMpService;
 import org.springframework.stereotype.Service;
 
 /**
- * @author Bryce Han
  * @since 2023/7/12
+ * @author Bryce Han
  */
 @Service
 @RequiredArgsConstructor

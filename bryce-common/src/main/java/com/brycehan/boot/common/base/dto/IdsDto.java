@@ -12,8 +12,8 @@ import java.util.List;
 /**
  * 删除数据传输对象
  *
- * @author Bryce Han
  * @since 2022/10/31
+ * @author Bryce Han
  */
 @Data
 @Schema(description = "删除Dto")

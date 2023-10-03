@@ -2,6 +2,8 @@ package com.brycehan.boot.system.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -14,7 +16,7 @@ import java.io.Serializable;
  */
 @Data
 @Schema(description = "SysUserStatusDto")
-public class SysUserStatusDto implements Serializable {
+public class SysUserPasswordDto implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;

@@ -10,8 +10,8 @@ import org.springframework.context.annotation.Configuration;
 /**
  * 存储配置
  *
- * @author Bryce Han
  * @since 2023/10/2
+ * @author Bryce Han
  */
 @Configuration
 @EnableConfigurationProperties(StorageProperties.class)

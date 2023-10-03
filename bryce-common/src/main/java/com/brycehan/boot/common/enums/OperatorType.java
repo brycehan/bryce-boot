@@ -3,8 +3,8 @@ package com.brycehan.boot.common.enums;
 /**
  * 操作员类别
  *
- * @author Bryce Han
  * @since 2022/11/18
+ * @author Bryce Han
  */
 public enum OperatorType {
 

@@ -14,8 +14,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
  * 2）、@Async`给希望异步执行的方法标注
  * 3）、自动配置类 TaskExecutionAutoConfiguration 属性绑定在 TaskExecutionProperties
  *
- * @author Bryce Han
  * @since 2022/3/15
+ * @author Bryce Han
  */
 @EnableScheduling
 @EnableAsync

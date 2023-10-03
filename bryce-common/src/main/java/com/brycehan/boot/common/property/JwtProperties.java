@@ -7,8 +7,8 @@ import org.springframework.context.annotation.Configuration;
 /**
  * Jwt属性
  *
- * @author Bryce Han
  * @since 2022/5/10
+ * @author Bryce Han
  */
 @Data
 @Configuration

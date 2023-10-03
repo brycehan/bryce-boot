@@ -13,8 +13,8 @@ import java.io.Serial;
 /**
  * 系统附件PageDto
  *
- * @author Bryce Han
  * @since 2023/10/01
+ * @author Bryce Han
  */
 @Data
 @Schema(description = "系统附件PageDto")

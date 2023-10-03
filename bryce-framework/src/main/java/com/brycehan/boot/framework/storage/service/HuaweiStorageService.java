@@ -10,8 +10,8 @@ import java.io.InputStream;
 /**
  * 华为云存储服务
  *
- * @author Bryce Han
  * @since 2023/10/2
+ * @author Bryce Han
  */
 public class HuaweiStorageService extends StorageService {
 

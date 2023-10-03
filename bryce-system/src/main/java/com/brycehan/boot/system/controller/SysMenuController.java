@@ -27,8 +27,8 @@ import java.util.List;
 /**
  * 系统菜单API
  *
- * @author Bryce Han
  * @since 2022/5/15
+ * @author Bryce Han
  */
 @Tag(name = "sysMenu", description = "系统菜单API")
 @RequestMapping("/system/menu")

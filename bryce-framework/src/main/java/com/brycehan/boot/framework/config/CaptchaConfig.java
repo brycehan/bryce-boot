@@ -12,8 +12,8 @@ import org.springframework.context.annotation.Configuration;
 /**
  * 验证码配置
  *
- * @author Bryce Han
  * @since 2022/9/19
+ * @author Bryce Han
  */
 @Slf4j
 @EnableConfigurationProperties(CaptchaProperties.class)

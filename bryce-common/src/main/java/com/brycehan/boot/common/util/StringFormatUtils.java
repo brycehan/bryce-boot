@@ -5,8 +5,8 @@ import org.apache.commons.lang3.RegExUtils;
 /**
  * 字符串格式化工具类
  *
- * @author Bryce Han
  * @since 2022/11/3
+ * @author Bryce Han
  */
 public class StringFormatUtils {
 

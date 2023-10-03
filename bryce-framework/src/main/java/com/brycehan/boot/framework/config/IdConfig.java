@@ -11,8 +11,8 @@ import org.springframework.stereotype.Component;
 /**
  * ID配置
  *
- * @author Bryce Han
  * @since 2022/5/13
+ * @author Bryce Han
  */
 @Component
 @RequiredArgsConstructor

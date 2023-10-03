@@ -3,8 +3,8 @@ package com.brycehan.boot.framework.storage.config;
 /**
  * 存储类型
  *
- * @author Bryce Han
  * @since 2023/10/1
+ * @author Bryce Han
  */
 public enum StorageType {
     /** 本地 */

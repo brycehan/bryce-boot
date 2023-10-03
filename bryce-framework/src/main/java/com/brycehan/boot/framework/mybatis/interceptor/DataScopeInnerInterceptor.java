@@ -12,8 +12,8 @@ import java.sql.SQLException;
 /**
  * 数据权限拦截器
  *
- * @author Bryce Han
  * @since 2023/8/28
+ * @author Bryce Han
  */
 public class DataScopeInnerInterceptor implements InnerInterceptor {
 

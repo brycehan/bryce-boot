@@ -11,8 +11,8 @@ import java.io.Serializable;
 /**
  * Entity 基类
  *
- * @author Bryce Han
  * @since 2021/8/31
+ * @author Bryce Han
  */
 @Data
 public abstract class BaseEntity implements TransPojo, Serializable {

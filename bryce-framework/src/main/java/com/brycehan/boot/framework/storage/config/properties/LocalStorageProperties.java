@@ -6,8 +6,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 /**
  * 本地存储属性
  *
- * @author Bryce Han
  * @since 2023/10/1
+ * @author Bryce Han
  */
 @Data
 @ConfigurationProperties(prefix = "bryce.storage.local")

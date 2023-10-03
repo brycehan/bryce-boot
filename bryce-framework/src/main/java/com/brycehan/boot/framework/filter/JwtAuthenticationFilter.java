@@ -23,8 +23,8 @@ import java.io.IOException;
 /**
  * Jwt认证过滤器
  *
- * @author Bryce Han
  * @since 2022/5/13
+ * @author Bryce Han
  */
 @Slf4j
 @Component

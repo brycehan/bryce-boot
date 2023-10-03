@@ -9,8 +9,8 @@ import lombok.Data;
 /**
  * 个人信息Dto
  *
- * @author Bryce Han
  * @since 2022/5/10
+ * @author Bryce Han
  */
 @Data
 @Schema(description = "个人信息Dto")

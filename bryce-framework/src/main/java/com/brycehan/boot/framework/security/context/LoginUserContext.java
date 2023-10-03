@@ -7,8 +7,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 /**
  * 登录用户上下文
  *
- * @author Bryce Han
  * @since 2021/8/31
+ * @author Bryce Han
  */
 @Slf4j
 public class LoginUserContext {

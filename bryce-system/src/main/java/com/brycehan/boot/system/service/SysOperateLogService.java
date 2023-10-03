@@ -12,8 +12,8 @@ import com.brycehan.boot.system.vo.SysOperateLogVo;
 /**
  * 系统操作日志服务
  *
- * @author Bryce Han
  * @since 2022/11/18
+ * @author Bryce Han
  */
 public interface SysOperateLogService extends BaseService<SysOperateLog> {
 

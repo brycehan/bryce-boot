@@ -15,8 +15,8 @@ import java.io.IOException;
 /**
  * 认证不通过后的处理
  *
- * @author Bryce Han
  * @since 2022/5/7
+ * @author Bryce Han
  */
 @Slf4j
 @Component

@@ -21,8 +21,8 @@ import java.io.IOException;
 /**
  * 上传文件API
  *
- * @author Bryce Han
  * @since 2022/7/15
+ * @author Bryce Han
  */
 @Tag(name = "sysUploadFile", description = "上传文件API")
 @RequestMapping("/system/uploadFile")

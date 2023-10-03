@@ -8,8 +8,8 @@ import org.apache.commons.text.StringEscapeUtils;
 /**
  * Cross Site Scripting 跨站脚本攻击Http请求包装类
  *
- * @author Bryce Han
  * @since 2022/5/26
+ * @author Bryce Han
  */
 public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
 

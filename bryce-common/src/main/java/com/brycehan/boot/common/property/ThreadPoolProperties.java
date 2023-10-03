@@ -6,8 +6,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 /**
  * 线程池配置属性
  *
- * @author Bryce Han
  * @since 2022/2/23
+ * @author Bryce Han
  */
 @Data
 @ConfigurationProperties(prefix = "bryce.thread-pool")

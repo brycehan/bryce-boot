@@ -16,8 +16,8 @@ import java.io.Serial;
 /**
  * 系统登录日志Vo
  *
- * @author Bryce Han
  * @since 2023/09/25
+ * @author Bryce Han
  */
 @Data
 @ExcelIgnoreUnannotated

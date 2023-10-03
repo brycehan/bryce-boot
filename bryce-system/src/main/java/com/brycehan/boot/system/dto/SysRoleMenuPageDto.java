@@ -9,8 +9,8 @@ import lombok.Setter;
 /**
  * 系统角色菜单中间表分页数据传输对象
  *
- * @author Bryce Han
  * @since 2022/5/15
+ * @author Bryce Han
  */
 @Getter
 @Setter
