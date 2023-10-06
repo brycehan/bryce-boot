@@ -3,7 +3,6 @@ package com.brycehan.boot.common.base.dto;
 import com.brycehan.boot.common.constant.UserConstants;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
@@ -34,11 +33,11 @@ public class LoginDto {
     private String password;
 
     /**
-     * uuid
+     * key
      */
     @Size(max = 36)
-    @Schema(description = "uuid")
-    private String uuid;
+    @Schema(description = "key")
+    private String key;
 
     /**
      * 验证码
@@ -47,14 +46,4 @@ public class LoginDto {
     @Schema(description = "验证码")
     private String code;
 
-    /**
-     * 登录类型
-     */
-    @Pattern(regexp = "^account|mobile$", message = "登录类型只能是account、mobile")
-    @Schema(description = "登录类型")
-    private String type;
-
-    // mobile captcha autoLogin
-    // {"username":"adf","password":"adf","autoLogin":true,"type":"account"}
-//    {"autoLogin":true,"mobile":"15853155402","captcha":"sfsd","type":"mobile"}
 }

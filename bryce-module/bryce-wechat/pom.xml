@@ -19,25 +19,17 @@
 
     <!-- 依赖 -->
     <dependencies>
-        <!-- Bryce框架组件 -->
-        <!-- 公共工具组件 -->
+        <!-- Bryce公共工具组件 -->
         <dependency>
             <groupId>com.brycehan.boot</groupId>
             <artifactId>bryce-common</artifactId>
         </dependency>
-
-        <!-- 工具 -->
         <!-- devtools -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
             <scope>runtime</scope>
             <optional>true</optional>
-        </dependency>
-        <!-- Lombok -->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
         </dependency>
     </dependencies>
 

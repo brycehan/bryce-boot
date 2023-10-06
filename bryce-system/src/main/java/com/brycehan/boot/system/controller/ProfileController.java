@@ -6,6 +6,7 @@ import com.brycehan.boot.framework.operationlog.annotation.OperateLog;
 import com.brycehan.boot.framework.operationlog.annotation.OperateType;
 import com.brycehan.boot.framework.security.context.LoginUser;
 import com.brycehan.boot.framework.security.context.LoginUserContext;
+import com.brycehan.boot.system.dto.SysUserPasswordDto;
 import com.brycehan.boot.system.service.SysUserService;
 import com.brycehan.boot.system.entity.SysUser;
 import com.brycehan.boot.common.base.dto.ProfileDto;
@@ -17,6 +18,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -134,18 +136,20 @@ public class ProfileController {
     @Operation(summary = "修改密码")
     @OperateLog(type = OperateType.UPDATE)
     @PutMapping(path = "/password")
-    public ResponseResult<String> updatePassword(String oldPassword, String newPassword) {
+    public ResponseResult<String> updatePassword(@Validated @RequestBody SysUserPasswordDto sysUserPasswordDto) {
         // 1、校验密码
         LoginUser loginUser = LoginUserContext.currentUser();
-        if (!this.passwordEncoder.matches(oldPassword, loginUser.getPassword())) {
+        assert loginUser != null;
+        if (!this.passwordEncoder.matches(sysUserPasswordDto.getPassword(), loginUser.getPassword())) {
             throw BusinessException.responseStatus(UserResponseStatus.USER_PASSWORD_NOT_MATCH);
         }
-        if(this.passwordEncoder.matches(newPassword, loginUser.getPassword())){
+        if(this.passwordEncoder.matches(sysUserPasswordDto.getNewPassword(), loginUser.getPassword())){
             throw BusinessException.responseStatus(UserResponseStatus.USER_PASSWORD_SAME_AS_OLD_ERROR);
         }
+
         SysUser sysUser = new SysUser();
         sysUser.setId(loginUser.getId());
-        sysUser.setPassword(this.passwordEncoder.encode(newPassword));
+        sysUser.setPassword(this.passwordEncoder.encode(sysUserPasswordDto.getNewPassword()));
         // 2、更新密码
         if (this.sysUserService.updateById(sysUser)) {
             // 3、更新缓存用户信息

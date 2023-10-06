@@ -13,7 +13,7 @@ import java.io.Serializable;
  * @author Bryce Han
  */
 @Data
-@Schema(description = "SysUserStatusDto")
+@Schema(description = "系统用户状态Dto")
 public class SysUserStatusDto implements Serializable {
 
     @Serial

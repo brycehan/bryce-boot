@@ -1,22 +1,22 @@
 package com.brycehan.boot.system.controller;
 
-import com.brycehan.boot.framework.security.JwtTokenProvider;
-import com.brycehan.boot.framework.security.TokenUtils;
-import com.brycehan.boot.framework.security.context.LoginUser;
-import com.brycehan.boot.framework.security.context.LoginUserContext;
-import com.brycehan.boot.system.service.*;
-import com.brycehan.boot.system.vo.SysMenuVo;
-import com.brycehan.boot.system.entity.SysUser;
 import com.brycehan.boot.common.base.dto.LoginDto;
 import com.brycehan.boot.common.base.http.ResponseResult;
 import com.brycehan.boot.common.base.vo.LoginVo;
 import com.brycehan.boot.common.constant.JwtConstants;
+import com.brycehan.boot.framework.security.TokenUtils;
+import com.brycehan.boot.framework.security.context.LoginUser;
+import com.brycehan.boot.framework.security.context.LoginUserContext;
+import com.brycehan.boot.system.entity.SysUser;
+import com.brycehan.boot.system.service.AuthService;
+import com.brycehan.boot.system.service.SysMenuService;
+import com.brycehan.boot.system.service.SysUserService;
+import com.brycehan.boot.system.vo.SysMenuVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,35 +36,26 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class AuthController {
 
-    /**
-     * jwt密钥
-     */
-    @Value("${bryce.jwt.secret}")
-    private String jwtSecret;
-
     private final AuthService authService;
 
     private final SysUserService sysUserService;
 
     private final SysMenuService sysMenuService;
 
-    private final JwtTokenProvider jwtTokenProvider;
-
     /**
-     * 登录
+     * 账号登录
      *
      * @param loginDto 登录dto
      * @return 响应结果
      */
     @Operation(summary = "登录")
-    @PostMapping(path = "/login")
-    public ResponseResult<LoginVo> login(@Validated @RequestBody LoginDto loginDto) {
+    @PostMapping(path = "/loginByAccount")
+    public ResponseResult<LoginVo> loginByAccount(@Validated @RequestBody LoginDto loginDto) {
 
-        String jwt = authService.login(loginDto);
+        String jwt = authService.loginByAccount(loginDto);
 
         LoginVo loginVo = LoginVo.builder()
                 .token(JwtConstants.TOKEN_PREFIX.concat(jwt))
-                .type(loginDto.getType())
                 .build();
 
         return ResponseResult.ok(loginVo);

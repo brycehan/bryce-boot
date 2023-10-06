@@ -33,11 +33,11 @@ public class RegisterDto {
     private String password;
 
     /**
-     * uuid
+     * key
      */
     @Size(max = 36)
-    @Schema(description = "uuid")
-    private String uuid;
+    @Schema(description = "key")
+    private String key;
 
     /**
      * 验证码

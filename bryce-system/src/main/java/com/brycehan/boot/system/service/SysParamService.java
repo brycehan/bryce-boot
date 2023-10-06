@@ -23,6 +23,8 @@ public interface SysParamService extends BaseService<SysParam> {
      * @param sysParamDto 系统参数Dto
      */
     default void save(SysParamDto sysParamDto) {
+        // 判断参数键是否存在
+
         SysParam sysParam = SysParamConvert.INSTANCE.convert(sysParamDto);
         sysParam.setId(IdGenerator.nextId());
         this.getBaseMapper().insert(sysParam);
@@ -54,19 +56,36 @@ public interface SysParamService extends BaseService<SysParam> {
     void export(SysParamPageDto sysParamPageDto);
 
     /**
-     * 根据键名查询参数值
+     * 根据paramKey，查询参数值
      *
-     * @param paramKey 参数键名
+     * @param paramKey 参数Key
      * @return 参数值
      */
-    String selectParamValueByParamKey(String paramKey);
+    String getString(String paramKey);
 
     /**
-     * 获取图片验证码开关
+     * 根据paramKey，查询参数值
      *
-     * @return true：开启，false：关闭
+     * @param paramKey 参数Key
+     * @return 参数值
      */
-    boolean selectCaptchaEnabled();
+    Integer getInteger(String paramKey);
+
+    /**
+     * 根据paramKey，查询参数值
+     *
+     * @param paramKey 参数Key
+     * @return 参数值
+     */
+    boolean getBoolean(String paramKey);
+
+    /**
+     * 根据paramKey，查询参数值
+     *
+     * @param paramKey 参数Key
+     * @return 参数值
+     */
+    <T> T getJSONObject(String paramKey, Class<T> valueType);
 
     /**
      * 获取短信验证码开关

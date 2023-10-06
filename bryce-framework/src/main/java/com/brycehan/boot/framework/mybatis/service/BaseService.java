@@ -27,10 +27,11 @@ public interface BaseService<T> extends IService<T> {
         List<Long> ids = idsDto.getIds().stream()
                 .filter(Objects::nonNull)
                 .toList();
-
-        if (CollectionUtils.isNotEmpty(ids)) {
-            this.getBaseMapper().deleteBatchIds(ids);
+        if (CollectionUtils.isEmpty(ids)) {
+            return;
         }
+
+        this.getBaseMapper().deleteBatchIds(ids);
     }
 
 }

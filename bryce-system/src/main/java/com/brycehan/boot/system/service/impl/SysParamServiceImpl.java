@@ -1,20 +1,26 @@
 package com.brycehan.boot.system.service.impl;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.brycehan.boot.common.base.dto.IdsDto;
 import com.brycehan.boot.common.base.entity.PageResult;
+import com.brycehan.boot.common.base.id.IdGenerator;
 import com.brycehan.boot.common.constant.CacheConstants;
 import com.brycehan.boot.common.util.DateTimeUtils;
 import com.brycehan.boot.common.util.ExcelUtils;
+import com.brycehan.boot.common.util.JsonUtils;
 import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
 import com.brycehan.boot.system.convert.SysParamConvert;
+import com.brycehan.boot.system.dto.SysParamDto;
 import com.brycehan.boot.system.dto.SysParamPageDto;
 import com.brycehan.boot.system.entity.SysParam;
 import com.brycehan.boot.system.mapper.SysParamMapper;
 import com.brycehan.boot.system.service.SysParamService;
 import com.brycehan.boot.system.vo.SysParamVo;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
@@ -33,7 +39,72 @@ import java.util.Objects;
 public class SysParamServiceImpl extends BaseServiceImpl<SysParamMapper, SysParam> implements SysParamService {
 
     private final StringRedisTemplate stringRedisTemplate;
-    
+
+    @Override
+    public void save(SysParamDto sysParamDto) {
+        // 判断参数键是否存在
+        boolean exists = this.baseMapper.exists(sysParamDto.getParamKey());
+        if(exists) {
+            throw new RuntimeException("参数键已存在");
+        }
+
+        SysParam sysParam = SysParamConvert.INSTANCE.convert(sysParamDto);
+        sysParam.setId(IdGenerator.nextId());
+        this.baseMapper.insert(sysParam);
+
+        // 保存到缓存
+        this.stringRedisTemplate.opsForHash()
+                .put(CacheConstants.SYSTEM_PARAM_KEY, sysParam.getParamKey(), sysParam.getParamValue());
+    }
+
+    @Override
+    public void update(SysParamDto sysParamDto) {
+        SysParam entity = this.baseMapper.selectById(sysParamDto.getId());
+        // 如果参数键修改过
+        if(!StrUtil.equalsIgnoreCase(entity.getParamKey(), sysParamDto.getParamKey())) {
+            // 判断新参数键是否存在
+            boolean exists = this.baseMapper.exists(sysParamDto.getParamKey());
+            if(exists) {
+                throw new RuntimeException("参数键已存在");
+            }
+
+            // 删除修改前的缓存
+            this.stringRedisTemplate.opsForHash()
+                    .delete(CacheConstants.SYSTEM_PARAM_KEY, entity.getParamKey());
+        }
+
+        // 修改数据
+        SysParam sysParam = SysParamConvert.INSTANCE.convert(sysParamDto);
+        this.baseMapper.updateById(sysParam);
+
+        // 保存到缓存
+        this.stringRedisTemplate.opsForHash()
+                .put(CacheConstants.SYSTEM_PARAM_KEY, sysParam.getParamKey(), sysParam.getParamValue());
+    }
+
+    @Override
+    public void delete(IdsDto idsDto) {
+
+        // 过滤无效参数
+        List<Long> ids = idsDto.getIds().stream()
+                .filter(Objects::nonNull)
+                .toList();
+        if (CollectionUtils.isEmpty(ids)) {
+            return;
+        }
+
+        // 删除数据
+        this.baseMapper.deleteBatchIds(ids);
+
+        // 查询列表
+        List<SysParam> sysParams = this.baseMapper.selectBatchIds(ids);
+
+        // 删除缓存
+        Object[] paramKeys = sysParams.stream().map(SysParam::getParamKey).toArray();
+        this.stringRedisTemplate.opsForHash()
+                .delete(CacheConstants.SYSTEM_PARAM_KEY, paramKeys);
+    }
+
     @Override
     public PageResult<SysParamVo> page(SysParamPageDto sysParamPageDto) {
 
@@ -73,43 +144,42 @@ public class SysParamServiceImpl extends BaseServiceImpl<SysParamMapper, SysPara
         ExcelUtils.export(SysParamVo.class, "系统参数_".concat(DateTimeUtils.today()), "系统参数", sysParamVoList);
     }
 
-    // todo 优化
     @Override
-    public String selectParamValueByParamKey(String paramKey) {
+    public String getString(String paramKey) {
         // 1、从缓存中查询
-        String cacheKey = getCacheKey(paramKey);
-        String configValue = this.stringRedisTemplate.opsForValue().get(cacheKey);
-        if (StringUtils.isNotEmpty(configValue)) {
-            return configValue;
+        String paramValue = (String) this.stringRedisTemplate.opsForHash().get(CacheConstants.SYSTEM_PARAM_KEY, paramKey);
+        if (StringUtils.isNotEmpty(paramValue)) {
+            return paramValue;
         }
+
         // 2、缓存没有时，从数据库中查询
-        LambdaQueryWrapper<SysParam> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.select(SysParam::getParamValue)
-                .eq(SysParam::getParamKey, paramKey)
-                .last("limit 1");
-
-        SysParam sysParam = this.baseMapper.selectOne(queryWrapper);
-        if (Objects.nonNull(sysParam)) {
-            // 3、添加到缓存中
-            this.stringRedisTemplate.opsForValue().set(getCacheKey(paramKey), sysParam.getParamValue());
-            return sysParam.getParamValue();
+        SysParam sysParam = this.baseMapper.selectOne(paramKey);
+        if (Objects.isNull(sysParam)) {
+            throw new RuntimeException("参数值不存在，paramKey：".concat(paramKey));
         }
 
-        return StringUtils.EMPTY;
+        // 3、添加到缓存中
+        this.stringRedisTemplate.opsForHash().put(CacheConstants.SYSTEM_PARAM_KEY, sysParam.getParamKey(), sysParam.getParamValue());
+
+        return sysParam.getParamValue();
     }
 
     @Override
-    public boolean selectCaptchaEnabled() {
-        LambdaQueryWrapper<SysParam> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.select(SysParam::getParamValue)
-                .eq(SysParam::getParamKey, "system.account.captchaEnabled")
-                .last("limit 1");
+    public Integer getInteger(String paramKey) {
+        String value = getString(paramKey);
+        return Integer.parseInt(value);
+    }
 
-        SysParam sysParam = getOne(queryWrapper);
-        if (Objects.nonNull(sysParam)) {
-            return Boolean.parseBoolean(sysParam.getParamValue());
-        }
-        return false;
+    @Override
+    public boolean getBoolean(String paramKey) {
+        String value = getString(paramKey);
+        return Boolean.parseBoolean(value);
+    }
+
+    @Override
+    public <T> T getJSONObject(String paramKey, Class<T> valueType) {
+        String value = getString(paramKey);
+        return JsonUtils.readValue(value, valueType);
     }
 
     @Override
@@ -124,10 +194,6 @@ public class SysParamServiceImpl extends BaseServiceImpl<SysParamMapper, SysPara
             return Boolean.parseBoolean(sysParam.getParamValue());
         }
         return false;
-    }
-
-    public static String getCacheKey(String paramKey) {
-        return CacheConstants.SYS_CONFIG_KEY + paramKey;
     }
     
 }

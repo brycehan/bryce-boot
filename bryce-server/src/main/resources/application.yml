@@ -27,9 +27,9 @@ bryce:
       lock-duration-minutes: 10
   # 验证码配置
   captcha:
-    width: 120
-    height: 35
-    captcha-type: line
+    width: 235
+    height: 30
+    length: 5
     expiration: 10
   # jwt令牌
   jwt:

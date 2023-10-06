@@ -3,7 +3,9 @@ package com.brycehan.boot.common.util;
 import com.blueconic.browscap.ParseException;
 import com.blueconic.browscap.UserAgentParser;
 import com.blueconic.browscap.UserAgentService;
+import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -24,7 +26,9 @@ public class UserAgentUtils {
      */
     public static UserAgentParser parser = null;
 
-    static {
+    @Async
+    @PostConstruct
+    public void init() {
         log.info("初始化UserAgent解析器...");
         try {
             parser = new UserAgentService().loadParser();

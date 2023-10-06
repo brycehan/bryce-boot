@@ -1,22 +1,19 @@
 package com.brycehan.boot.system.service.impl;
 
+import cn.hutool.core.util.StrUtil;
 import com.brycehan.boot.common.base.dto.RegisterDto;
 import com.brycehan.boot.common.base.http.UserResponseStatus;
 import com.brycehan.boot.common.constant.CacheConstants;
 import com.brycehan.boot.common.exception.BusinessException;
-import com.brycehan.boot.common.exception.user.UserCaptchaException;
-import com.brycehan.boot.common.exception.user.UserCaptchaExpireException;
 import com.brycehan.boot.common.util.PasswordUtils;
+import com.brycehan.boot.system.entity.SysUser;
 import com.brycehan.boot.system.service.SysParamService;
 import com.brycehan.boot.system.service.SysRegisterService;
 import com.brycehan.boot.system.service.SysUserService;
-import com.brycehan.boot.system.entity.SysUser;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
-
-import java.util.Objects;
 
 /**
  * 系统注册服务实现类
@@ -43,10 +40,11 @@ public class SysRegisterServiceImpl implements SysRegisterService {
     @Override
     public void register(RegisterDto registerDto) {
         // 1、验证码开关
-        boolean captchaEnabled = this.sysParamService.selectCaptchaEnabled();
-        if (captchaEnabled) {
-            validateCaptcha(registerDto.getUuid(), registerDto.getCode());
+        boolean validated = this.validate(registerDto.getKey(), registerDto.getCode());
+        if(!validated) {
+            throw new RuntimeException("验证码错误");
         }
+
         // 2、用户账号唯一校验
         SysUser sysUser = new SysUser();
         sysUser.setUsername(registerDto.getUsername().trim());
@@ -60,21 +58,29 @@ public class SysRegisterServiceImpl implements SysRegisterService {
         this.sysUserService.registerUser(sysUser);
     }
 
-    /**
-     * 校验验证码
-     *
-     * @param uuid 唯一标识
-     * @param code 验证码
-     */
-    private void validateCaptcha(String uuid, String code) {
-        String captchaKey = CacheConstants.CAPTCHA_CODE_KEY + uuid;
+    @Override
+    public boolean validate(String key, String code) {
+        // 如果关闭了验证码，则直接校验通过
+        if(!isCaptchaEnabled()) {
+            return true;
+        }
+
+        if(StrUtil.isBlank(key) || StrUtil.isBlank(code)) {
+            return false;
+        }
+
+        // 获取缓存验证码
+        String captchaKey = CacheConstants.CAPTCHA_CODE_KEY.concat(key);
         String captchaValue = this.stringRedisTemplate.opsForValue()
                 .getAndDelete(captchaKey);
-        if (Objects.isNull(captchaValue)) {
-            throw new UserCaptchaExpireException();
-        } else if (!captchaValue.equalsIgnoreCase(code)) {
-            throw new UserCaptchaException();
-        }
+
+        // 校验
+        return code.equalsIgnoreCase(captchaValue);
+    }
+
+    @Override
+    public boolean isCaptchaEnabled() {
+        return this.sysParamService.getBoolean("system.account.captchaEnabled");
     }
 
 }

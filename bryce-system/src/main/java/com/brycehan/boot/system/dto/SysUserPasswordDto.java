@@ -1,36 +1,40 @@
 package com.brycehan.boot.system.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
 
 import java.io.Serial;
 import java.io.Serializable;
 
 /**
- * 系统用户状态Dto
+ * 系统用户密码Dto
  *
  * @since 2022/5/14
  * @author Bryce Han
  */
 @Data
-@Schema(description = "SysUserStatusDto")
+@Schema(description = "系统用户密码Dto")
 public class SysUserPasswordDto implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
     /**
-     * ID
+     * 原密码
      */
-    @Schema(description = "ID")
-    private Long id;
+    @Schema(description = "原密码")
+    @NotBlank(message = "原密码不能为空")
+    private String password;
 
     /**
-     * 状态（0：停用，1：正常）
+     * 新密码
      */
-    @Schema(description = "状态（0：停用，1：正常）")
-    private Integer status;
+    @Schema(description = "新密码（长度为6-30位）")
+    @Length(min = 6, max = 30, message = "新密码长度为6-30位")
+    private String newPassword;
 
 }

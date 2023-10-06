@@ -51,7 +51,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         // 用户存在
-//        this.jwtTokenProvider.autoRefreshToken(loginUser);
+        this.jwtTokenProvider.autoRefreshToken(loginUser);
         // 设置认证信息
         Authentication authentication = new UsernamePasswordAuthenticationToken(loginUser, null, loginUser.getAuthorities());
 

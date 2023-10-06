@@ -38,8 +38,8 @@ public class RegisterController {
     @PostMapping
     public ResponseResult<Void> register(@Parameter(description = "注册参数", required = true) @Validated @RequestBody RegisterDto registerDto) {
         // 1、查询注册开关
-        String registerEnabled = this.sysParamService.selectParamValueByParamKey("system.account.registerEnabled");
-        if (Boolean.parseBoolean(registerEnabled)) {
+        boolean registerEnabled = this.sysParamService.getBoolean("system.account.registerEnabled");
+        if (registerEnabled) {
             // 2、注册
             this.sysRegisterService.register(registerDto);
             return ResponseResult.ok();
@@ -56,9 +56,8 @@ public class RegisterController {
     @Operation(summary = "获取注册开关")
     @GetMapping(path = "enabled")
     public ResponseResult<Boolean> registerEnabled() {
-        // 1、查询注册开关
-        String registerEnabled = this.sysParamService.selectParamValueByParamKey("system.account.registerEnabled");
-        return ResponseResult.ok(Boolean.parseBoolean(registerEnabled));
+        boolean registerEnabled = this.sysParamService.getBoolean("system.account.registerEnabled");
+        return ResponseResult.ok(registerEnabled);
     }
 
 }

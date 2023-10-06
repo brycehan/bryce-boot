@@ -21,7 +21,7 @@ public interface AuthService {
      * @param loginDto 登录dto
      * @return 令牌 jwt token
      */
-    String login(LoginDto loginDto);
+    String loginByAccount(LoginDto loginDto);
 
     /**
      * 获取用户的角色权限
