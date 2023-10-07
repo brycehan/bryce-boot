@@ -56,9 +56,9 @@ public class LoginUser implements UserDetails {
     private Long tenantId;
 
     /**
-     * 用户令牌
+     * 用户令牌存储Key
      */
-    private String token;
+    private String tokenKey;
 
     /**
      * 登录时间

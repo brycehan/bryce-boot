@@ -41,8 +41,8 @@ springdoc:
 # 自定义配置
 bryce:
   jwt:
-    # 测试100天有效期
-    token-validity-in-seconds: 8640000
+    # 测试24小时有效期
+    token-validity-in-seconds: 86400
 
 # 日志配置
 logging:

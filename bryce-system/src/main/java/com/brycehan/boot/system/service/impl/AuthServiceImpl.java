@@ -66,13 +66,10 @@ public class AuthServiceImpl implements AuthService {
         // 子线程共享请求request数据
         RequestContextHolder.setRequestAttributes(RequestContextHolder.getRequestAttributes(), true);
         try {
-            // 1）设置需要认证的用户信息
+            // 3、设置需要认证的用户信息
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword());
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             authentication = this.authenticationManager.authenticate(authenticationToken);
-            // 2）更新当前用户为已经认证成功
-//            SecurityContextHolder.getContext().setAuthentication(authentication);
-
         } catch (AuthenticationException e) {
             throw BusinessException.builder()
                     .module("system")
@@ -82,7 +79,7 @@ public class AuthServiceImpl implements AuthService {
         }
 
         LoginUser loginUser = (LoginUser) authentication.getPrincipal();
-        // 2、生成令牌token
+        // 4、生成令牌token
         return this.jwtTokenProvider.generateToken(loginUser);
     }
 
@@ -119,7 +116,7 @@ public class AuthServiceImpl implements AuthService {
         LoginUser loginUser = this.jwtTokenProvider.getLoginUser(accessToken);
         if (Objects.nonNull(loginUser)) {
             // 1、删除登录用户缓存记录
-            this.jwtTokenProvider.deleteLoginUser(loginUser.getToken());
+            this.jwtTokenProvider.deleteLoginUser(loginUser.getTokenKey());
 
             // 2、记录用户退出日志
             this.sysLoginLogService.save(loginUser.getUsername(), DataConstants.SUCCESS, LoginInfoType.LOGOUT_SUCCESS.getValue());

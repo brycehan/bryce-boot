@@ -17,6 +17,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,15 +53,18 @@ public class AuthController {
      */
     @Operation(summary = "登录")
     @PostMapping(path = "/loginByAccount")
-    public ResponseResult<LoginVo> loginByAccount(@Validated @RequestBody LoginDto loginDto) {
+    public ResponseEntity<ResponseResult<LoginVo>> loginByAccount(@Validated @RequestBody LoginDto loginDto) {
 
         String jwt = authService.loginByAccount(loginDto);
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add(JwtConstants.AUTHORIZATION_HEADER, JwtConstants.TOKEN_PREFIX.concat(jwt));
 
         LoginVo loginVo = LoginVo.builder()
                 .token(JwtConstants.TOKEN_PREFIX.concat(jwt))
                 .build();
-
-        return ResponseResult.ok(loginVo);
+        
+        return new ResponseEntity<>(ResponseResult.ok(loginVo), httpHeaders, HttpStatus.OK);
     }
 
     /**
