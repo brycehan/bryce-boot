@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.validation.BindException;
@@ -66,6 +67,18 @@ public class ServerExceptionHandler {
     public ResponseResult<Void> accessDeniedException(AccessDeniedException e) {
         log.info(" 访问不允许异常，{}", e.getMessage());
         return ResponseResult.error(HttpResponseStatus.HTTP_FORBIDDEN);
+    }
+
+    /**
+     * 密码错误处理
+     *
+     * @param e 密码错误异常
+     * @return 响应结果
+     */
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseResult<Void> BadCredentialsException(BadCredentialsException e) {
+        log.info(" 密码错误异常，{}", e.getMessage());
+        return ResponseResult.error(UserResponseStatus.USER_USERNAME_OR_PASSWORD_ERROR);
     }
 
     /**

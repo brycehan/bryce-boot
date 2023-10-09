@@ -56,6 +56,7 @@ public class SysOrgServiceImpl extends BaseServiceImpl<SysOrgMapper, SysOrg> imp
         this.baseMapper.updateById(sysOrg);
     }
 
+    @Override
     public List<Long> getSubOrgIds(Long id) {
         LambdaQueryWrapper<SysOrg> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.select(SysOrg::getId, SysOrg::getParentId);
@@ -72,6 +73,13 @@ public class SysOrgServiceImpl extends BaseServiceImpl<SysOrgMapper, SysOrg> imp
         return subIds;
     }
 
+    /**
+     * 递归查询所有子机构ID列表
+     *
+     * @param id 当前机构ID
+     * @param orgList 所有机构的列表
+     * @param subIds 当前机构的子机构列表
+     */
     private void getTree(Long id, List<SysOrg> orgList, List<Long> subIds) {
         for (SysOrg sysOrg : orgList) {
             if(sysOrg.getParentId().equals(id)) {

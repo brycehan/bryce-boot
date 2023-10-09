@@ -1,6 +1,7 @@
 package com.brycehan.boot.system.controller;
 
-import com.brycehan.boot.common.base.dto.LoginDto;
+import com.brycehan.boot.common.base.dto.AccountLoginDto;
+import com.brycehan.boot.common.base.dto.PhoneLoginDto;
 import com.brycehan.boot.common.base.http.ResponseResult;
 import com.brycehan.boot.common.base.vo.LoginVo;
 import com.brycehan.boot.common.constant.JwtConstants;
@@ -48,14 +49,14 @@ public class AuthController {
     /**
      * 账号登录
      *
-     * @param loginDto 登录dto
+     * @param accountLoginDto 登录dto
      * @return 响应结果
      */
-    @Operation(summary = "登录")
+    @Operation(summary = "账号登录")
     @PostMapping(path = "/loginByAccount")
-    public ResponseEntity<ResponseResult<LoginVo>> loginByAccount(@Validated @RequestBody LoginDto loginDto) {
+    public ResponseEntity<ResponseResult<LoginVo>> loginByAccount(@Validated @RequestBody AccountLoginDto accountLoginDto) {
 
-        String jwt = authService.loginByAccount(loginDto);
+        String jwt = authService.login(accountLoginDto);
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(JwtConstants.AUTHORIZATION_HEADER, JwtConstants.TOKEN_PREFIX.concat(jwt));
@@ -63,7 +64,29 @@ public class AuthController {
         LoginVo loginVo = LoginVo.builder()
                 .token(JwtConstants.TOKEN_PREFIX.concat(jwt))
                 .build();
-        
+
+        return new ResponseEntity<>(ResponseResult.ok(loginVo), httpHeaders, HttpStatus.OK);
+    }
+
+    /**
+     * 手机验证码登录
+     *
+     * @param phoneLoginDto 手机验证码登录dto
+     * @return 响应结果
+     */
+    @Operation(summary = "手机验证码登录")
+    @PostMapping(path = "/loginByPhone")
+    public ResponseEntity<ResponseResult<LoginVo>> loginByPhone(@Validated @RequestBody PhoneLoginDto phoneLoginDto) {
+
+        String jwt = authService.login(phoneLoginDto);
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add(JwtConstants.AUTHORIZATION_HEADER, JwtConstants.TOKEN_PREFIX.concat(jwt));
+
+        LoginVo loginVo = LoginVo.builder()
+                .token(JwtConstants.TOKEN_PREFIX.concat(jwt))
+                .build();
+
         return new ResponseEntity<>(ResponseResult.ok(loginVo), httpHeaders, HttpStatus.OK);
     }
 

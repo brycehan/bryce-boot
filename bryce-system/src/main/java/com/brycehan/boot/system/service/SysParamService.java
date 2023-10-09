@@ -1,8 +1,8 @@
 package com.brycehan.boot.system.service;
 
-import com.brycehan.boot.framework.mybatis.service.BaseService;
 import com.brycehan.boot.common.base.entity.PageResult;
 import com.brycehan.boot.common.base.id.IdGenerator;
+import com.brycehan.boot.framework.mybatis.service.BaseService;
 import com.brycehan.boot.system.convert.SysParamConvert;
 import com.brycehan.boot.system.dto.SysParamDto;
 import com.brycehan.boot.system.dto.SysParamPageDto;
@@ -23,8 +23,6 @@ public interface SysParamService extends BaseService<SysParam> {
      * @param sysParamDto 系统参数Dto
      */
     default void save(SysParamDto sysParamDto) {
-        // 判断参数键是否存在
-
         SysParam sysParam = SysParamConvert.INSTANCE.convert(sysParamDto);
         sysParam.setId(IdGenerator.nextId());
         this.getBaseMapper().insert(sysParam);
@@ -86,12 +84,5 @@ public interface SysParamService extends BaseService<SysParam> {
      * @return 参数值
      */
     <T> T getJSONObject(String paramKey, Class<T> valueType);
-
-    /**
-     * 获取短信验证码开关
-     *
-     * @return true：开启，false：关闭
-     */
-    boolean selectSmsEnabled();
 
 }

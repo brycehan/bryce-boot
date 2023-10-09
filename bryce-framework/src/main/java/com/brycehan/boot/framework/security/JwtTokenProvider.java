@@ -22,7 +22,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
-
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -48,55 +47,12 @@ public class JwtTokenProvider {
     private String jwtSecret = "UZCiSM60eRJMOFA9mbiy";
 
     /**
-     * 2小时过期
+     * 令牌过期时间间隔
      */
     @Value("${bryce.jwt.token-validity-in-seconds}")
     private long tokenValidityInSeconds;
 
     private final RedisTemplate<String, LoginUser> redisTemplate;
-
-    /**
-     * 获取登录用户信息
-     *
-     * @param accessToken 访问令牌
-     * @return 登录用户
-     */
-    public LoginUser getLoginUser(String accessToken) {
-        try {
-            // 解析对应的权限以及用户信息
-            Map<String, Claim> claimMap = parseToken(accessToken);
-            String key = claimMap.get(JwtConstants.LOGIN_USER_KEY).asString();
-            String loginUserKey = CacheConstants.LOGIN_USER_KEY.concat(key);
-            return this.redisTemplate.opsForValue().get(loginUserKey);
-        } catch (Exception e) {
-            log.warn("JwtTokenProvider.getLoginUser, 异常：{}", e.getMessage());
-        }
-
-        return null;
-    }
-
-    /**
-     * 设置登录用户
-     *
-     * @param loginUser 登录用户
-     */
-    public void setLoginUser(LoginUser loginUser) {
-        if (Objects.nonNull(loginUser) && StringUtils.isNotEmpty(loginUser.getTokenKey())) {
-            refreshToken(loginUser);
-        }
-    }
-
-    /**
-     * 删除登录用户
-     *
-     * @param accessToken 令牌
-     */
-    public void deleteLoginUser(String accessToken) {
-        if (StrUtil.isNotBlank(accessToken)) {
-            String loginUserKey = CacheConstants.LOGIN_USER_KEY.concat(accessToken);
-            this.redisTemplate.delete(loginUserKey);
-        }
-    }
 
     /**
      * 生成token
@@ -121,6 +77,21 @@ public class JwtTokenProvider {
         claims.put(JwtConstants.LOGIN_USER_KEY, tokenKey);
 
         return generateToken(claims);
+    }
+
+    /**
+     * 从数据声明生成令牌
+     *
+     * @param claims 数据声明
+     * @return 令牌
+     */
+    private String generateToken(Map<String, Object> claims) {
+        // 指定加密方式
+        Algorithm algorithm = Algorithm.HMAC256(this.jwtSecret);
+        return JWT.create()
+                .withPayload(claims)
+                // 签发 JWT
+                .sign(algorithm);
     }
 
     /**
@@ -157,21 +128,6 @@ public class JwtTokenProvider {
     }
 
     /**
-     * 从数据声明生成令牌
-     *
-     * @param claims 数据声明
-     * @return 令牌
-     */
-    private String generateToken(Map<String, Object> claims) {
-        // 指定加密方式
-        Algorithm algorithm = Algorithm.HMAC256(this.jwtSecret);
-        return JWT.create()
-                .withPayload(claims)
-                // 签发 JWT
-                .sign(algorithm);
-    }
-
-    /**
      * 令牌自动续期，相差不足20分钟，自动刷新延长登录有效期
      *
      * @param loginUser 登录用户
@@ -195,6 +151,49 @@ public class JwtTokenProvider {
         HttpServletResponse response = ServletUtils.getResponse();
         if(response != null) {
             response.setHeader(JwtConstants.AUTHORIZATION_HEADER, JwtConstants.TOKEN_PREFIX.concat(jwt));
+        }
+    }
+
+    /**
+     * 获取登录用户信息
+     *
+     * @param accessToken 访问令牌
+     * @return 登录用户
+     */
+    public LoginUser getLoginUser(String accessToken) {
+        try {
+            // 解析对应的权限以及用户信息
+            Map<String, Claim> claimMap = parseToken(accessToken);
+            String key = claimMap.get(JwtConstants.LOGIN_USER_KEY).asString();
+            String loginUserKey = CacheConstants.LOGIN_USER_KEY.concat(key);
+            return this.redisTemplate.opsForValue().get(loginUserKey);
+        } catch (Exception e) {
+            log.warn("getLoginUser, 异常：{}", e.getMessage());
+        }
+
+        return null;
+    }
+
+    /**
+     * 设置登录用户
+     *
+     * @param loginUser 登录用户
+     */
+    public void setLoginUser(LoginUser loginUser) {
+        if (Objects.nonNull(loginUser) && StringUtils.isNotEmpty(loginUser.getTokenKey())) {
+            refreshToken(loginUser);
+        }
+    }
+
+    /**
+     * 删除登录用户
+     *
+     * @param accessToken 令牌
+     */
+    public void deleteLoginUser(String accessToken) {
+        if (StrUtil.isNotBlank(accessToken)) {
+            String loginUserKey = CacheConstants.LOGIN_USER_KEY.concat(accessToken);
+            this.redisTemplate.delete(loginUserKey);
         }
     }
 

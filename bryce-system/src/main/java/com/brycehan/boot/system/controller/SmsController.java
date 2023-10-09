@@ -1,24 +1,18 @@
 package com.brycehan.boot.system.controller;
 
-import com.brycehan.boot.system.service.SysParamService;
-import com.brycehan.boot.system.service.SysSmsService;
 import com.brycehan.boot.common.base.http.ResponseResult;
-import com.brycehan.boot.common.constant.CacheConstants;
-import com.brycehan.boot.common.property.CaptchaProperties;
+import com.brycehan.boot.system.service.SmsService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.annotation.Resource;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-import java.util.concurrent.TimeUnit;
+import java.util.LinkedHashMap;
 
 /**
  * 短信控制器
@@ -30,21 +24,32 @@ import java.util.concurrent.TimeUnit;
 @Tag(name = "sms", description = "短信API")
 @RequestMapping("/sms")
 @RestController
+@RequiredArgsConstructor
 public class SmsController {
 
-    private final CaptchaProperties captchaProperties;
+    private final SmsService smsService;
 
-    private final SysParamService sysParamService;
+    @Value("${sms.login-template-id}")
+    private String loginTemplateId;
 
-    private final SysSmsService sysSmsService;
+    @Value("${sms.register-template-id}")
+    private String registerTemplateId;
 
-    @Resource
-    private StringRedisTemplate stringRedisTemplate;
+    /**
+     * 生成登录验证码
+     *
+     * @return 响应结果
+     */
+    @Operation(summary = "生成登录验证码")
+    @GetMapping(path = "/login/code")
+    public ResponseResult<?> sendLoginCode(String phone) {
 
-    public SmsController(CaptchaProperties captchaProperties, SysParamService sysParamService, SysSmsService sysSmsService) {
-        this.captchaProperties = captchaProperties;
-        this.sysParamService = sysParamService;
-        this.sysSmsService = sysSmsService;
+        String code = RandomStringUtils.randomNumeric(6);
+
+        LinkedHashMap<String, String> params = new LinkedHashMap<>();
+        params.put("code", code);
+
+        return this.smsService.send(phone, "login", loginTemplateId, params);
     }
 
     /**
@@ -53,24 +58,26 @@ public class SmsController {
      * @return 响应结果
      */
     @Operation(summary = "生成注册验证码")
-    @GetMapping(path = "/code/register")
-    public ResponseResult<?> register(String phoneNumber) {
-        boolean smsEnabled = this.sysParamService.selectSmsEnabled();
-        Map<String, Object> data = new HashMap<>();
-        data.put("smsEnabled", smsEnabled);
-        if (!smsEnabled) {
-            return ResponseResult.ok(data);
-        }
-        String uuid = UUID.randomUUID().toString();
-        String captchaKey = CacheConstants.CAPTCHA_CODE_KEY + uuid;
-        String captchaValue = RandomStringUtils.randomNumeric(6);
-        this.sysSmsService.sendSms(phoneNumber,
-                "【XXXX】您的注册验证码是".concat(captchaValue).concat("，5分钟内有效，请勿泄露。"));
-        // 存储到Redis
-        this.stringRedisTemplate.opsForValue()
-                .set(captchaKey, captchaValue, captchaProperties.getExpiration(), TimeUnit.MINUTES);
-        data.put("uuid", uuid);
-        return ResponseResult.ok(data);
+    @GetMapping(path = "/register/code")
+    public ResponseResult<?> sendRegisterCode(String phone) {
+        String code = RandomStringUtils.randomNumeric(6);
+
+        LinkedHashMap<String, String> params = new LinkedHashMap<>();
+        params.put("code", code);
+
+        return this.smsService.send(phone, "register", registerTemplateId, params);
+    }
+
+    /**
+     * 是否开启短信功能
+     *
+     * @return 响应结果
+     */
+    @Operation(summary = "是否开启短信功能")
+    @GetMapping(path = "/enabled")
+    public ResponseResult<Boolean> enabled() {
+        boolean enabled = this.smsService.isSmsEnabled();
+        return ResponseResult.ok(enabled);
     }
 
 }

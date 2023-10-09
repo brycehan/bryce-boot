@@ -17,6 +17,14 @@ import java.util.Set;
 public interface SysRoleMapper extends BryceBaseMapper<SysRole> {
 
     /**
+     * 根据用户ID，获取用户最大的数据范围
+     *
+     * @param userId 用户ID
+     * @return 最大的数据范围权限
+     */
+    Integer getDataScopeByUserId(Long userId);
+
+    /**
      * 根据用户ID查询角色权限
      *
      * @param userId 用户ID

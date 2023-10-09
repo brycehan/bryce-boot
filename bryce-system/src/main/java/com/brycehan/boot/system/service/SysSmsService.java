@@ -14,6 +14,6 @@ public interface SysSmsService {
      * @param phoneNumber 手机号码
      * @param message 短信内容
      */
-    void sendSms(String phoneNumber, String message);
+    void sendSms(String phone, String message);
 
 }

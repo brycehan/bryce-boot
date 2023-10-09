@@ -3,6 +3,9 @@ package com.brycehan.boot.framework.config;
 import com.brycehan.boot.framework.filter.JwtAuthenticationFilter;
 import com.brycehan.boot.framework.security.JwtAccessDeniedHandler;
 import com.brycehan.boot.framework.security.JwtAuthenticationEntryPoint;
+import com.brycehan.boot.framework.security.phone.PhoneCodeAuthenticationProvider;
+import com.brycehan.boot.framework.security.phone.PhoneCodeUserDetailsService;
+import com.brycehan.boot.framework.security.phone.PhoneCodeValidateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
@@ -19,6 +22,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsChecker;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -48,12 +52,19 @@ public class SecurityConfig {
 
     private final UserDetailsService userDetailsService;
 
+    private final UserDetailsChecker userDetailsChecker;
+
     private final ApplicationEventPublisher applicationEventPublisher;
+
+    private final PhoneCodeUserDetailsService phoneCodeUserDetailsService;
+
+    private final PhoneCodeValidateService phoneCodeValidateService;
 
     @Bean
     public AuthenticationManager authenticationManager() {
         List<AuthenticationProvider> providers = new ArrayList<>();
         providers.add(daoAuthenticationProvider());
+        providers.add(phoneCodeAuthenticationProvider());
 
         ProviderManager providerManager = new ProviderManager(providers);
         providerManager.setAuthenticationEventPublisher(new DefaultAuthenticationEventPublisher(applicationEventPublisher));
@@ -66,7 +77,13 @@ public class SecurityConfig {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
         daoAuthenticationProvider.setUserDetailsService(userDetailsService);
+        daoAuthenticationProvider.setPreAuthenticationChecks(userDetailsChecker);
         return daoAuthenticationProvider;
+    }
+
+    @Bean
+    PhoneCodeAuthenticationProvider phoneCodeAuthenticationProvider() {
+        return new PhoneCodeAuthenticationProvider(phoneCodeUserDetailsService, phoneCodeValidateService);
     }
 
     /**
@@ -107,10 +124,12 @@ public class SecurityConfig {
                                 "/register/enabled",
                                 "/captcha/enabled",
                                 "/captcha/generate",
+                                "/sms/**",
                                 "/error").permitAll()
                         // 对于登录login、注册register、注册开关，验证码captcha允许匿名访问
                         .requestMatchers(HttpMethod.POST,
                                 "/auth/loginByAccount",
+                                "/auth/loginByPhone",
                                 "/register",
                                 "/auth/validateToken").permitAll()
                         .requestMatchers(HttpMethod.OPTIONS).permitAll()

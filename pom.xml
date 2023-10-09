@@ -41,6 +41,7 @@
         <minio.version>8.5.1</minio.version>
         <qcloud-cos.version>5.6.97</qcloud-cos.version>
         <huaweicloud-obs.version>3.22.3</huaweicloud-obs.version>
+        <sms4j.version>3.0.1</sms4j.version>
         <yitter-idgenerator.version>1.0.6</yitter-idgenerator.version>
         <auth0-jwt.version>3.19.2</auth0-jwt.version>
         <easyexcel.version>3.2.1</easyexcel.version>
@@ -245,6 +246,12 @@
                 <groupId>com.tencentcloudapi</groupId>
                 <artifactId>tencentcloud-sdk-java</artifactId>
                 <version>${tencentcloud-sdk.version}</version>
+            </dependency>
+            <!-- sms短信 -->
+            <dependency>
+                <groupId>org.dromara.sms4j</groupId>
+                <artifactId>sms4j-spring-boot-starter</artifactId>
+                <version>${sms4j.version}</version>
             </dependency>
             <!-- 微信公众号 -->
             <dependency>

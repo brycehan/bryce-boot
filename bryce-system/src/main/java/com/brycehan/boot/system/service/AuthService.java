@@ -1,6 +1,7 @@
 package com.brycehan.boot.system.service;
 
-import com.brycehan.boot.common.base.dto.LoginDto;
+import com.brycehan.boot.common.base.dto.AccountLoginDto;
+import com.brycehan.boot.common.base.dto.PhoneLoginDto;
 import com.brycehan.boot.framework.security.context.LoginUser;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -16,12 +17,20 @@ import java.util.Set;
 public interface AuthService {
 
     /**
-     * 登录
+     * 账号登录
      *
-     * @param loginDto 登录dto
+     * @param accountLoginDto 账号登录dto
      * @return 令牌 jwt token
      */
-    String loginByAccount(LoginDto loginDto);
+    String login(AccountLoginDto accountLoginDto);
+
+    /**
+     * 手机号登录
+     *
+     * @param phoneLoginDto 手机号登录dto
+     * @return 令牌 jwt token
+     */
+    String login(PhoneLoginDto phoneLoginDto);
 
     /**
      * 获取用户的角色权限

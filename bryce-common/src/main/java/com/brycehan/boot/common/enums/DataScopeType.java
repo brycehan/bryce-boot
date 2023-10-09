@@ -22,4 +22,12 @@ public enum DataScopeType {
 
     private final Integer value;
 
+    public static DataScopeType getByValue(Integer value) {
+        for (DataScopeType type : DataScopeType.values()) {
+            if(value.equals(type.value)){
+                return type;
+            }
+        }
+        return null;
+    }
 }

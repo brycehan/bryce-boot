@@ -28,6 +28,16 @@
         deleted, created_user_id, created_time, updated_user_id, updated_time
     </sql>
 
+    <select id="getDataScopeByUserId" resultType="integer">
+        select min(bsr.data_scope)
+        from brc_sys_role bsr
+        left join brc_sys_user_role bsur on bsr.id = bsur.role_id
+        where bsr.deleted = 0
+          and bsr.status = 1
+          and bsur.deleted = 0
+          and bsur.user_id = #{userId}
+    </select>
+
     <!-- 根据用户ID查询角色权限 -->
     <select id="selectRolePermissionByUserId" resultType="java.lang.String">
         select code

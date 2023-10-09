@@ -181,19 +181,5 @@ public class SysParamServiceImpl extends BaseServiceImpl<SysParamMapper, SysPara
         String value = getString(paramKey);
         return JsonUtils.readValue(value, valueType);
     }
-
-    @Override
-    public boolean selectSmsEnabled() {
-        LambdaQueryWrapper<SysParam> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.select(SysParam::getParamValue)
-                .eq(SysParam::getParamKey, "system.account.smsEnabled")
-                .last("limit 1");
-
-        SysParam sysParam = getOne(queryWrapper);
-        if (Objects.nonNull(sysParam)) {
-            return Boolean.parseBoolean(sysParam.getParamValue());
-        }
-        return false;
-    }
     
 }

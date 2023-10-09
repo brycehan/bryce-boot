@@ -7,14 +7,14 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 /**
- * 登录Dto
+ * 账号登录Dto
  *
  * @since 2022/5/10
  * @author Bryce Han
  */
 @Data
-@Schema(description = "登录Dto")
-public class LoginDto {
+@Schema(description = "账号登录Dto")
+public class AccountLoginDto {
 
     /**
      * 账号

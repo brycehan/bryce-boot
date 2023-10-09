@@ -11,7 +11,7 @@ public class CacheConstants {
     /**
      * 登录用户键
      */
-    public static final String LOGIN_USER_KEY = "login_user_key:";
+    public static final String LOGIN_USER_KEY = "login_user:";
 
     /**
      * 图片验证码键
@@ -46,6 +46,6 @@ public class CacheConstants {
     /**
      * 登录账户密码错误次数键
      */
-    public static final String PASSWORD_ERROR_COUNT_KEY = "password_error_count:";
+    public static final String PASSWORD_ERROR_COUNT_KEY = "account:password_error_count:";
 
 }

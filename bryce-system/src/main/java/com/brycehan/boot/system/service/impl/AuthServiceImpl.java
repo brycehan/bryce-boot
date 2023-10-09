@@ -1,24 +1,24 @@
 package com.brycehan.boot.system.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
-import com.brycehan.boot.common.base.dto.LoginDto;
-import com.brycehan.boot.common.base.http.UserResponseStatus;
+import com.brycehan.boot.common.base.dto.AccountLoginDto;
+import com.brycehan.boot.common.base.dto.PhoneLoginDto;
 import com.brycehan.boot.common.constant.DataConstants;
-import com.brycehan.boot.common.exception.BusinessException;
 import com.brycehan.boot.common.util.IpUtils;
 import com.brycehan.boot.common.util.ServletUtils;
 import com.brycehan.boot.framework.security.JwtTokenProvider;
 import com.brycehan.boot.framework.security.context.LoginUser;
+import com.brycehan.boot.framework.security.phone.PhoneCodeAuthenticationToken;
 import com.brycehan.boot.system.entity.SysUser;
 import com.brycehan.boot.system.enums.LoginInfoType;
 import com.brycehan.boot.system.service.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -32,6 +32,7 @@ import java.util.Set;
  * @since 2022/9/16
  * @author Bryce Han
  */
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
@@ -50,14 +51,16 @@ public class AuthServiceImpl implements AuthService {
 
     private final CaptchaService captchaService;
 
+    private final PasswordRetryService passwordRetryService;
+
     @Override
-    public String loginByAccount(@NotNull LoginDto loginDto) {
+    public String login(@NotNull AccountLoginDto accountLoginDto) {
 
         // 1、校验验证码
-        boolean validated = this.captchaService.validate(loginDto.getKey(), loginDto.getCode());
+        boolean validated = this.captchaService.validate(accountLoginDto.getKey(), accountLoginDto.getCode());
         if(!validated) {
             // 保存登录日志
-            this.sysLoginLogService.save(loginDto.getUsername(), DataConstants.FAIL, LoginInfoType.CAPTCHA_FAIL.getValue());
+            this.sysLoginLogService.save(accountLoginDto.getUsername(), DataConstants.FAIL, LoginInfoType.CAPTCHA_FAIL.getValue());
             throw new RuntimeException("验证码错误");
         }
 
@@ -67,19 +70,42 @@ public class AuthServiceImpl implements AuthService {
         RequestContextHolder.setRequestAttributes(RequestContextHolder.getRequestAttributes(), true);
         try {
             // 3、设置需要认证的用户信息
-            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword());
-            SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(accountLoginDto.getUsername(), accountLoginDto.getPassword());
             authentication = this.authenticationManager.authenticate(authenticationToken);
         } catch (AuthenticationException e) {
-            throw BusinessException.builder()
-                    .module("system")
-                    .code(UserResponseStatus.USER_USERNAME_OR_PASSWORD_ERROR.code())
-                    .message(e.getMessage())
-                    .build();
+            log.info("认证失败，{}", e.getMessage());
+            // 添加密码错误重试缓存
+            this.passwordRetryService.retryCount(accountLoginDto.getUsername());
+            throw e;
         }
+
+        // 清除密码错误重试缓存
+        this.passwordRetryService.deleteCount(accountLoginDto.getUsername());
 
         LoginUser loginUser = (LoginUser) authentication.getPrincipal();
         // 4、生成令牌token
+        return this.jwtTokenProvider.generateToken(loginUser);
+    }
+
+    @Override
+    public String login(PhoneLoginDto phoneLoginDto) {
+        // 1、账号密码验证
+        Authentication authentication;
+        // 子线程共享请求request数据
+        RequestContextHolder.setRequestAttributes(RequestContextHolder.getRequestAttributes(), true);
+        try {
+            // 2、设置需要认证的用户信息
+            PhoneCodeAuthenticationToken authenticationToken = new PhoneCodeAuthenticationToken(phoneLoginDto.getPhone(), phoneLoginDto.getCode());
+            authentication = this.authenticationManager.authenticate(authenticationToken);
+        } catch (AuthenticationException e) {
+            log.info("认证失败，{}", e.getMessage());
+            throw new RuntimeException("手机号或验证码错误");
+        }
+
+        // 用户信息
+        LoginUser loginUser = (LoginUser) authentication.getPrincipal();
+
+        // 3、生成令牌token
         return this.jwtTokenProvider.generateToken(loginUser);
     }
 

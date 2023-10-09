@@ -56,4 +56,12 @@ public interface SysOrgService extends BaseService<SysOrg> {
      */
     List<SysOrgVo> list(SysOrgDto sysOrgDto);
 
+    /**
+     * 根据机构ID，获取子机构ID列表（包含本机构ID）
+     *
+     * @param id 机构ID
+     * @return 子机构ID列表
+     */
+    List<Long> getSubOrgIds(Long id);
+
 }

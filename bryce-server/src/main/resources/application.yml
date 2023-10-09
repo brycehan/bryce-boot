@@ -101,7 +101,7 @@ spring:
       # 缩进输出
       indent-output: true
   profiles:
-    active: dev
+    active: sms,dev
 # mybatis plus配置
 mybatis-plus:
   # mapper.xml映射文件位置
@@ -156,7 +156,6 @@ springdoc:
       display-name: 系统组
       packages-to-scan: com.brycehan.boot.system.controller
       paths-to-match: /system/**
-
 # 日志配置
 logging:
   pattern:
