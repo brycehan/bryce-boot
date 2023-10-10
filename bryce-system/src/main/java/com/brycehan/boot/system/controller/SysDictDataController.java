@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.*;
  * @since 2023/09/08
  * @author Bryce Han
  */
-@Tag(name = "sysDictData", description = "系统字典数据API")
+@Tag(name = "系统字典数据", description = "sysDictData")
 @RequestMapping("/system/dictData")
 @RestController
 @RequiredArgsConstructor

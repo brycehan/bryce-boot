@@ -30,7 +30,7 @@ import java.util.List;
  * @since 2022/5/15
  * @author Bryce Han
  */
-@Tag(name = "sysMenu", description = "系统菜单API")
+@Tag(name = "系统菜单", description = "sysMenu")
 @RequestMapping("/system/menu")
 @RestController
 @RequiredArgsConstructor

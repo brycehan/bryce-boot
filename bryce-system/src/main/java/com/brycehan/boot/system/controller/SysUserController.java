@@ -42,7 +42,7 @@ import java.util.List;
  * @since 2022/05/14
  * @author Bryce Han
  */
-@Tag(name = "sysUser", description = "系统用户API")
+@Tag(name = "系统用户", description = "sysUser")
 @RequestMapping("/system/user")
 @RestController
 @RequiredArgsConstructor

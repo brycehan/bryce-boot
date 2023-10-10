@@ -29,7 +29,7 @@ import java.util.List;
  * @since 2022/10/31
  * @author Bryce Han
  */
-@Tag(name = "sysPost", description = "系统岗位API")
+@Tag(name = "系统岗位", description = "sysPost")
 @RequestMapping("/system/post")
 @RestController
 @RequiredArgsConstructor

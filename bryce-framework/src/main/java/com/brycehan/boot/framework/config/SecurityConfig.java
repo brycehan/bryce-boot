@@ -119,7 +119,8 @@ public class SecurityConfig {
                                 "/v3/api-docs/**",
                                 "/api-docs/**",
                                 "/favicon.ico",
-                                "/upload/**").permitAll()
+                                "/upload/**",
+                                "/doc.html").permitAll()
                         .requestMatchers(HttpMethod.GET,
                                 "/register/enabled",
                                 "/captcha/enabled",

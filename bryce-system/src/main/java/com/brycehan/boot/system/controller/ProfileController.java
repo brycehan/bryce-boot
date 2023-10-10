@@ -34,7 +34,7 @@ import java.util.Objects;
  * @since 2022/10/31
  * @author Bryce Han
  */
-@Tag(name = "profile", description = "用户个人中心API")
+@Tag(name = "用户个人中心", description = "profile")
 @RequestMapping(path = "/profile")
 @RestController
 @RequiredArgsConstructor

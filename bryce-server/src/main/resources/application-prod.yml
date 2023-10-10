@@ -2,7 +2,7 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://192.168.0.10:3306/bryce_boot?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8
+    url: jdbc:mysql://localhost:3306/bryce_boot?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useServerPrepStmts=true&cachePrepStmts=true
     username: root
     password: root
   devtools:
@@ -20,6 +20,14 @@ springdoc:
     enabled: false
 # 日志配置
 logging:
+  pattern:
+    dateformat: yyyy-MM-dd HH:mm:ss.SSSXXX
+  file:
+    path: /var/log
+  logback:
+    rollingpolicy:
+      max-file-size: 10MB
+      total-size-cap: 1GB
   level:
     root: info
     web: info

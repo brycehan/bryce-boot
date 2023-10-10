@@ -34,22 +34,31 @@ mybatis-plus:
   # 原生配置
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-# 接口配置
-springdoc:
-  api-docs:
-    enabled: true
+# 接口文档
+knife4j:
+  enable: true
+  basic:
+    enable: true
+    username: swagger
+    password: 123456
 # 自定义配置
 bryce:
   jwt:
     # 测试24小时有效期
     token-validity-in-seconds: 86400
-
 # 日志配置
 logging:
+  pattern:
+    dateformat: yyyy-MM-dd HH:mm:ss.SSSXXX
+  file:
+    path: /var/log
+  logback:
+    rollingpolicy:
+      max-file-size: 10MB
+      total-size-cap: 1GB
   level:
     root: info
     web: info
-    com.brycehan.boot: info
+    com.brycehan.boot: debug
     com.brycehan.boot.system.mapper: debug
-
-
+    org.springframework: info

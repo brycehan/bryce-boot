@@ -9,7 +9,7 @@
     </parent>
     <artifactId>bryce-server</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>bryce-admin-api</name>
+    <name>bryce-server</name>
     <description>bryce-admin-api</description>
 
     <!-- 版本属性 -->
@@ -26,10 +26,10 @@
             <artifactId>bryce-system</artifactId>
         </dependency>
         <!-- Swagger接口文档 -->
-        <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.springdoc</groupId>-->
+<!--            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>-->
+<!--        </dependency>-->
 
         <!-- devtools -->
         <dependency>

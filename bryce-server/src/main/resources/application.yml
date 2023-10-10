@@ -1,73 +1,3 @@
-bryce:
-  # 项目配置
-  application:
-    # 名称
-    name: BryceBoot
-    # 版本
-    version: 0.1.0
-    # 版权年份
-    copyright-year: 2023
-    # 实例演示开关
-    demo-enabled: true
-  # 存储配置
-  storage:
-    enabled: true
-    config:
-      type: local
-      domain: http://localhost:${server.port}
-    local:
-      # 路径 System.getProperty("user.home") + projectName + "/attachment";
-      path: ${user.home}/bryce-boot/attachment
-  # 用户配置
-  user:
-    password:
-      # 密码最大错误次数
-      max-retry-count: 5
-      # 密码锁定间隔（默认10分钟）
-      lock-duration-minutes: 10
-  # 验证码配置
-  captcha:
-    width: 235
-    height: 30
-    length: 5
-    expiration: 10
-  # jwt令牌
-  jwt:
-    # 令牌密钥
-    secret: UZCiSM60eRJMOFA9mbiy
-    # 权限键
-    authorities-key: auth
-    #令牌有效期（默认2小时）
-    token-validity-in-seconds: 7200
-  # id生成器
-  id:
-    # 机器码
-    worker-id: 0
-    # 机器码位长
-    worker-id-bit-length: 6
-    seq-bit-length: 10
-    # 起始时间
-    base-time: 1692948713117
-  # 线程池
-  thread-pool:
-    # 核心线程数
-    core-pool-size: 20
-    # 最大线程数
-    maximum-pool-size: 200
-    # 存活时间（单位：秒）
-    keep-alive-time: 60
-    # 任务队列的任务数
-    work-queue-size: 1000
-# 数据翻译插件
-easy-trans:
-  #启用redis缓存 如果不用redis请设置为false
-  is-enable-redis: true
-  #启用全局翻译(拦截所有responseBody进行自动翻译)，如果对于性能要求很高可关闭此配置
-  is-enable-global: true
-  #启用平铺模式
-  is-enable-tile: true
-  #字典缓存放到redis 微服务模式请开启
-  dict-use-redis: true
 # spring配置
 spring:
   # Spring应用
@@ -101,7 +31,7 @@ spring:
       # 缩进输出
       indent-output: true
   profiles:
-    active: sms,dev
+    active: bryce,sms,dev
 # mybatis plus配置
 mybatis-plus:
   # mapper.xml映射文件位置
@@ -133,44 +63,16 @@ server:
     threads:
       # 工作线程数
       worker: 400
-# 接口配置
-springdoc:
-  api-docs:
-    # swagger开关
-    enabled: true
-    # 文档api元数据访问路径，默认/v3/api-docs
-    path: /api-docs
-    # 分组
-    groups:
-      # 分组开关
-      enabled: true
-  # OpenApi json 美化打印
-  writer-with-default-pretty-printer: true
-  # 分组配置
-  group-configs:
-    - group: auth
-      display-name: 登录认证组
-      packages-to-scan: com.brycehan.boot.admin.server.controller
-      paths-to-match: /auth/**
-    - group: system
-      display-name: 系统组
-      packages-to-scan: com.brycehan.boot.system.controller
-      paths-to-match: /system/**
-# 日志配置
-logging:
-  pattern:
-    dateformat: yyyy-MM-dd HH:mm:ss.SSSXXX
-  file:
-    path: /var/log
-  logback:
-    rollingpolicy:
-      max-file-size: 10MB
-      total-size-cap: 1GB
-  level:
-    root: debug
-    web: debug
-    com.brycehan.boot: debug
-    org.springframework: info
+# 数据翻译插件
+easy-trans:
+  #启用redis缓存 如果不用redis请设置为false
+  is-enable-redis: true
+  #启用全局翻译(拦截所有responseBody进行自动翻译)，如果对于性能要求很高可关闭此配置
+  is-enable-global: true
+  #启用平铺模式
+  is-enable-tile: true
+  #字典缓存放到redis 微服务模式请开启
+  dict-use-redis: true
 
 
 

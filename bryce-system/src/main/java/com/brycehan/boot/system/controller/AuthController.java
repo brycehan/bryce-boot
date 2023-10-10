@@ -34,7 +34,7 @@ import java.util.Set;
  * @author Bryce Han
  */
 @Slf4j
-@Tag(name = "auth", description = "认证API")
+@Tag(name = "认证", description = "auth")
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor

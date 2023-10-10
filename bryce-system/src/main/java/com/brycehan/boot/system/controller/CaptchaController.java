@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Bryce Han
  */
 @Slf4j
-@Tag(name = "captcha", description = "验证码API")
+@Tag(name = "验证码", description = "captcha")
 @RequestMapping("/captcha")
 @RestController
 @RequiredArgsConstructor
