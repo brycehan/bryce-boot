@@ -36,7 +36,7 @@ import java.util.Set;
 @Slf4j
 @Tag(name = "认证", description = "auth")
 @RestController
-@RequestMapping("/auth")
+@RequestMapping(path = "/auth")
 @RequiredArgsConstructor
 public class AuthController {
 
