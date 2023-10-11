@@ -25,20 +25,10 @@
             <groupId>com.brycehan.boot</groupId>
             <artifactId>bryce-system</artifactId>
         </dependency>
-        <!-- Swagger接口文档 -->
-<!--        <dependency>-->
-<!--            <groupId>org.springdoc</groupId>-->
-<!--            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>-->
-<!--        </dependency>-->
-
-        <!-- devtools -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-            <scope>runtime</scope>
-            <optional>true</optional>
+            <groupId>com.brycehan.boot</groupId>
+            <artifactId>bryce-module-monitor</artifactId>
         </dependency>
-
         <!-- 测试框架 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

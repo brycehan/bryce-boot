@@ -7,10 +7,10 @@
         <artifactId>bryce-module</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <artifactId>bryce-wechat</artifactId>
+    <artifactId>bryce-module-monitor</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>bryce-wechat</name>
-    <description>bryce-wechat</description>
+    <name>bryce-module-monitor</name>
+    <description>bryce-module-monitor</description>
 
     <!-- 版本属性 -->
     <properties>
@@ -24,13 +24,13 @@
             <groupId>com.brycehan.boot</groupId>
             <artifactId>bryce-common</artifactId>
         </dependency>
-        <!-- devtools -->
+        <!-- 监控工具 -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-            <scope>runtime</scope>
-            <optional>true</optional>
+            <groupId>com.github.oshi</groupId>
+            <artifactId>oshi-core</artifactId>
+            <version>6.4.6</version>
         </dependency>
+
     </dependencies>
 
 </project>

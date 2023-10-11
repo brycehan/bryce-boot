@@ -7,6 +7,7 @@
         <artifactId>bryce-boot</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
+
     <artifactId>bryce-module</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>bryce-module</name>
@@ -19,21 +20,8 @@
     </properties>
 
     <modules>
-        <module>bryce-wechat</module>
+        <module>bryce-module-monitor</module>
+        <module>bryce-module-wechat</module>
     </modules>
 
-    <dependencies>
-        <dependency>
-            <groupId>com.github.binarywang</groupId>
-            <artifactId>weixin-java-mp</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.github.binarywang</groupId>
-            <artifactId>weixin-java-miniapp</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.github.binarywang</groupId>
-            <artifactId>weixin-java-pay</artifactId>
-        </dependency>
-    </dependencies>
 </project>

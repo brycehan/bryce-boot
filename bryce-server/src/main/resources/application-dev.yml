@@ -58,7 +58,7 @@ logging:
       total-size-cap: 1GB
   level:
     root: info
-    web: info
+    web: debug
     com.brycehan.boot: debug
     com.brycehan.boot.system.mapper: debug
     org.springframework: info

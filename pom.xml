@@ -64,31 +64,42 @@
     <!-- 依赖管理 -->
     <dependencyManagement>
         <dependencies>
-            <!-- 公共工具组件 -->
+            <!-- 公共组件 -->
             <dependency>
                 <groupId>com.brycehan.boot</groupId>
                 <artifactId>bryce-common</artifactId>
                 <version>${project.version}</version>
             </dependency>
-            <!-- 框架模块组件 -->
+            <!-- 框架组件 -->
             <dependency>
                 <groupId>com.brycehan.boot</groupId>
                 <artifactId>bryce-framework</artifactId>
                 <version>${project.version}</version>
             </dependency>
-            <!-- 系统模块组件 -->
+            <!-- 系统组件 -->
             <dependency>
                 <groupId>com.brycehan.boot</groupId>
                 <artifactId>bryce-system</artifactId>
                 <version>${project.version}</version>
             </dependency>
-            <!-- 接口组件 -->
+            <!-- 模块组件 -->
+            <dependency>
+                <groupId>com.brycehan.boot</groupId>
+                <artifactId>bryce-module</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+            <!-- 监控模块组件 -->
+            <dependency>
+                <groupId>com.brycehan.boot</groupId>
+                <artifactId>bryce-module-monitor</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+            <!-- 服务组件 -->
             <dependency>
                 <groupId>com.brycehan.boot</groupId>
                 <artifactId>bryce-server</artifactId>
                 <version>0.0.1-SNAPSHOT</version>
             </dependency>
-
             <!-- Swagger UI -->
             <dependency>
                 <groupId>org.springdoc</groupId>
@@ -101,6 +112,7 @@
                 <artifactId>springdoc-openapi-starter-common</artifactId>
                 <version>${springdoc.version}</version>
             </dependency>
+            <!-- Knife4j接口文档 -->
             <dependency>
                 <groupId>com.github.xiaoymin</groupId>
                 <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
