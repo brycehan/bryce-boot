@@ -21,11 +21,6 @@ public class Cpu implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 等待时间
-     */
-    private static final Long JOSHI_WAIT_SECOND = 360L;
-
-    /**
      * CPU型号
      */
     private String cpuModel;
@@ -61,8 +56,8 @@ public class Cpu implements Serializable {
     private double free;
 
     public Cpu() {
-        // 获取 CPU 相关信息，间隔1秒
-        CpuInfo cpuInfo = OshiUtil.getCpuInfo(JOSHI_WAIT_SECOND);
+        // 获取 CPU 相关信息，默认间隔1秒
+        CpuInfo cpuInfo = OshiUtil.getCpuInfo();
         BeanUtils.copyProperties(cpuInfo, this);
         this.setCpuModel(cpuInfo.getCpuModel().split("\n")[0]);
     }

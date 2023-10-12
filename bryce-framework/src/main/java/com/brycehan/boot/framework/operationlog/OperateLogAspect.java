@@ -134,7 +134,7 @@ public class OperateLogAspect {
         }
         // 请求相关
         HttpServletRequest request = ServletUtils.getRequest();
-        operateLogDto.setIp(IpUtils.getIpAddress(request));
+        operateLogDto.setIp(IpUtils.getIp(request));
         operateLogDto.setLocation(LocationUtils.getLocationByIP(operateLogDto.getIp()));
         operateLogDto.setUserAgent(request.getHeader(HttpHeaders.USER_AGENT));
         operateLogDto.setRequestUri(request.getRequestURI());

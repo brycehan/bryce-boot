@@ -73,7 +73,7 @@ public class LoginUser implements UserDetails {
     /**
      * 登录IP地址
      */
-    private String ipAddress;
+    private String loginIp;
 
     /**
      * 登录地址

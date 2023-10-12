@@ -209,7 +209,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
 
         int result = this.baseMapper.insert(sysUser);
         String userAgent = ServletUtils.getRequest().getHeader("User-Agent");
-        String ip = IpUtils.getIpAddress(ServletUtils.getRequest());
+        String ip = IpUtils.getIp(ServletUtils.getRequest());
         // 3、异步记录注册成功日志
         if (result == 1) {
             // todo 添加操作日志

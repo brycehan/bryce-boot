@@ -60,9 +60,6 @@ public class SysUserDetailsServiceImpl implements SysUserDetailsService {
         Set<Long> dataScopeSet = this.getDataScope(loginUser);
         loginUser.setDataScopeSet(dataScopeSet);
 
-        // 处理密码错误重试次数
-//        this.passwordRetryService.validate(sysUser);
-
         // 用户权限集合
         Set<String> authoritySet = this.sysMenuService.findAuthority(loginUser);
         loginUser.setAuthoritySet(authoritySet);

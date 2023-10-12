@@ -12,17 +12,12 @@
     <name>bryce-module-monitor</name>
     <description>bryce-module-monitor</description>
 
-    <!-- 版本属性 -->
-    <properties>
-        <java.version>17</java.version>
-    </properties>
-
     <!-- 依赖 -->
     <dependencies>
-        <!-- Bryce公共工具组件 -->
+        <!-- Bryce 系统 -->
         <dependency>
             <groupId>com.brycehan.boot</groupId>
-            <artifactId>bryce-common</artifactId>
+            <artifactId>bryce-system</artifactId>
         </dependency>
         <!-- 监控工具 -->
         <dependency>
@@ -30,7 +25,6 @@
             <artifactId>oshi-core</artifactId>
             <version>6.4.6</version>
         </dependency>
-
     </dependencies>
 
 </project>

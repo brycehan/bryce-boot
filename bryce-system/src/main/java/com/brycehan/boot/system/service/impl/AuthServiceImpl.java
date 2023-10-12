@@ -66,8 +66,6 @@ public class AuthServiceImpl implements AuthService {
 
         // 2、账号密码验证
         Authentication authentication;
-        // 子线程共享请求request数据
-        RequestContextHolder.setRequestAttributes(RequestContextHolder.getRequestAttributes(), true);
         try {
             // 3、设置需要认证的用户信息
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(accountLoginDto.getUsername(), accountLoginDto.getPassword());
@@ -91,8 +89,6 @@ public class AuthServiceImpl implements AuthService {
     public String login(PhoneLoginDto phoneLoginDto) {
         // 1、账号密码验证
         Authentication authentication;
-        // 子线程共享请求request数据
-        RequestContextHolder.setRequestAttributes(RequestContextHolder.getRequestAttributes(), true);
         try {
             // 2、设置需要认证的用户信息
             PhoneCodeAuthenticationToken authenticationToken = new PhoneCodeAuthenticationToken(phoneLoginDto.getPhone(), phoneLoginDto.getCode());
@@ -127,7 +123,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public void updateLoginInfo(UserDetails user) {
         SysUser sysUser = new SysUser();
-        sysUser.setLastLoginIp(IpUtils.getIpAddress(ServletUtils.getRequest()));
+        sysUser.setLastLoginIp(IpUtils.getIp(ServletUtils.getRequest()));
         sysUser.setLastLoginTime(LocalDateTime.now());
 
         UpdateWrapper<SysUser> updateWrapper = new UpdateWrapper<>();

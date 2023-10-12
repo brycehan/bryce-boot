@@ -83,7 +83,7 @@ public class SysLoginLogServiceImpl extends BaseServiceImpl<SysLoginLogMapper, S
         HttpServletRequest request = ServletUtils.getRequest();
 
         String userAgent = request.getHeader(HttpHeaders.USER_AGENT);
-        String ip = IpUtils.getIpAddress(request);
+        String ip = IpUtils.getIp(request);
         String location = LocationUtils.getLocationByIP(ip);
         Capabilities capabilities = UserAgentUtils.parser.parse(userAgent);
 

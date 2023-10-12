@@ -108,10 +108,10 @@ public class JwtTokenProvider {
         // 获取客户端操作系统
         String platform = capabilities.getPlatform();
         // 获取客户端IP和对应登录位置
-        String ip = IpUtils.getIpAddress(ServletUtils.getRequest());
+        String ip = IpUtils.getIp(ServletUtils.getRequest());
         String loginLocation = LocationUtils.getLocationByIP(ip);
 
-        loginUser.setIpAddress(ip);
+        loginUser.setLoginIp(ip);
         loginUser.setLoginLocation(loginLocation);
         loginUser.setBrowser(browser);
         loginUser.setOs(platform);
@@ -188,11 +188,11 @@ public class JwtTokenProvider {
     /**
      * 删除登录用户
      *
-     * @param accessToken 令牌
+     * @param tokenKey 会话存储key
      */
-    public void deleteLoginUser(String accessToken) {
-        if (StrUtil.isNotBlank(accessToken)) {
-            String loginUserKey = CacheConstants.LOGIN_USER_KEY.concat(accessToken);
+    public void deleteLoginUser(String tokenKey) {
+        if (StrUtil.isNotBlank(tokenKey)) {
+            String loginUserKey = CacheConstants.LOGIN_USER_KEY.concat(tokenKey);
             this.redisTemplate.delete(loginUserKey);
         }
     }

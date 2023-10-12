@@ -116,8 +116,6 @@ public class SysUser extends BaseEntity {
      */
     private Long tenantId;
 
-    // address country国家 geographic位置 group
-
     /**
      * 角色
      */
