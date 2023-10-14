@@ -13,7 +13,7 @@ import java.io.IOException;
  * @since 2022/5/26
  * @author Bryce Han
  */
-public class XssJacksonSerializer extends JsonSerializer<String> {
+public class XssStringSerializer extends JsonSerializer<String> {
 
     @Override
     public void serialize(String value, JsonGenerator jsonGenerator, SerializerProvider serializers) throws IOException {

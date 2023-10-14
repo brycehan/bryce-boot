@@ -1,6 +1,6 @@
 package com.brycehan.boot.framework.config;
 
-import com.brycehan.boot.framework.xss.XssJacksonSerializer;
+import com.brycehan.boot.framework.xss.XssStringSerializer;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
@@ -48,13 +48,16 @@ public class JacksonConfig {
                 .toFormatter();
 
         return builder -> {
-            builder.serializerByType(String.class, new XssJacksonSerializer());
+            // 富文本需要单独自定义配置指定 @JsonSerialize(using = StringSerializer.class)
+            builder.serializerByType(String.class, new XssStringSerializer());
             builder.serializerByType(LocalDate.class, new LocalDateSerializer(ISO_DATE));
             builder.serializerByType(LocalTime.class, new LocalTimeSerializer(ISO_TIME));
             builder.serializerByType(LocalDateTime.class, new LocalDateTimeSerializer(dateTimeFormatter));
+            // 反序列化
             builder.deserializerByType(LocalDate.class, new LocalDateDeserializer(ISO_DATE));
             builder.deserializerByType(LocalTime.class, new LocalTimeDeserializer(ISO_TIME));
             builder.deserializerByType(LocalDateTime.class, new LocalDateTimeDeserializer(dateTimeFormatter));
+
             builder.serializationInclusion(JsonInclude.Include.NON_NULL);
             builder.failOnUnknownProperties(false);
             builder.featuresToDisable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);

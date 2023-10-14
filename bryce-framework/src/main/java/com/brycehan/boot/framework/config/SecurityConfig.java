@@ -113,26 +113,22 @@ public class SecurityConfig {
                         // 静态资源，可以匿名访问
                         .requestMatchers(HttpMethod.GET,
                                 "/webjars/**",
-                                "/swagger-ui/index.html",
                                 "/swagger-ui/**",
                                 "/swagger-resources/**",
                                 "/v3/api-docs/**",
-                                "/api-docs/**",
                                 "/favicon.ico",
-                                "/upload/**",
+                                "/attachment/**",
                                 "/doc.html").permitAll()
                         .requestMatchers(HttpMethod.GET,
                                 "/register/enabled",
-                                "/captcha/enabled",
-                                "/captcha/generate",
+                                "/captcha/**",
                                 "/sms/**",
                                 "/error").permitAll()
                         // 对于登录login、注册register、注册开关，验证码captcha允许匿名访问
                         .requestMatchers(HttpMethod.POST,
                                 "/auth/loginByAccount",
                                 "/auth/loginByPhone",
-                                "/register",
-                                "/auth/validateToken").permitAll()
+                                "/register").permitAll()
                         .requestMatchers(HttpMethod.OPTIONS).permitAll()
                         // 除上面外的所有请求全部需要鉴权认证
                         .anyRequest().authenticated())

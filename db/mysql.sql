@@ -544,21 +544,23 @@ create table brc_sys_job_log
 drop table if exists brc_sys_notice;
 create table brc_sys_notice
 (
-    id              bigint not null comment 'ID',
-    notice_title    varchar(50)     not null comment '公告标题',
-    notice_content  longtext        comment '公告内容',
-    notice_type     tinyint      not null comment '公告类型（0：通知，1：公告）',
+    id              bigint       not null comment 'ID',
+    title    varchar(50)     not null comment '标题',
+    content  longtext        comment '内容',
+    type     smallint      not null comment '公告类型（0：通知，1：公告）',
     status          tinyint      default '1' comment '状态（0：关闭，1：正常）',
-    created_user_id  bigint comment '创建人ID',
-    created_time     datetime        comment '创建时间',
-    updated_user_id  bigint comment '修改人ID',
-    updated_time     datetime        comment '修改时间',
     remark          varchar(500)    comment '备注',
+    tenant_id       bigint       null comment '租户ID',
+    version         int          null comment '版本号',
+    deleted         tinyint      null comment '删除标识（0：存在，1：已删除）',
+    created_user_id bigint       null comment '创建人ID',
+    created_time    datetime     null comment '创建时间',
+    updated_user_id bigint       null comment '修改人ID',
+    updated_time    datetime     null comment '修改时间',
     primary key (id)
-) engine InnoDB
-  default charset utf8mb4 comment '系统通知公告表';
+) engine InnoDB default charset utf8mb4 comment '系统通知公告表';
 
--- 初始化-公告信息表数据
+-- 初始化-系统通知公告表数据
 insert into brc_sys_notice
 values ('1', '温馨提醒：2022-10-01 Bryce新版本发布啦', '新版本内容', '2', '1', '1', sysdate(), null, null, '管理员');
 insert into brc_sys_notice
