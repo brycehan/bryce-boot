@@ -73,7 +73,7 @@ public class SysNoticeVo implements Serializable, TransPojo {
     private Long tenantId;
 
     /**
-     * 创建人ID
+     * 创建者ID
      */
     @Trans(type = TransType.SIMPLE, target = SysUser.class, fields = "username", ref = "createdUsername")
     private Long createdUserId;

@@ -41,7 +41,7 @@ public abstract class BaseEntity implements TransPojo, Serializable {
     private Boolean deleted;
 
     /**
-     * 创建人ID
+     * 创建者ID
      */
     @TableField(fill = FieldFill.INSERT)
     private Long createdUserId;
@@ -53,7 +53,7 @@ public abstract class BaseEntity implements TransPojo, Serializable {
     private LocalDateTime createdTime;
 
     /**
-     * 修改人ID
+     * 修改者ID
      */
     @TableField(fill = FieldFill.UPDATE)
     private Long updatedUserId;
