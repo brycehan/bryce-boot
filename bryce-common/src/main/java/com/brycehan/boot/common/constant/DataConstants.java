@@ -29,6 +29,16 @@ public class DataConstants {
     public static final boolean FAIL = false;
 
     /**
+     * 是
+     */
+    public static final String YES = "Y";
+
+    /**
+     * 否
+     */
+    public static final String NO = "N";
+
+    /**
      * 默认角色ID
      */
     public static final Long DEFAULT_ROLE_ID = 2L;
@@ -52,4 +62,5 @@ public class DataConstants {
      */
     public static final boolean DEFAULT_SORT_IS_ASC = true;
 
+    public static final String PG_DRIVER = "org.postgresql.Driver";
 }

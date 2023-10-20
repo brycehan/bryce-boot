@@ -86,13 +86,19 @@
             <dependency>
                 <groupId>com.brycehan.boot</groupId>
                 <artifactId>bryce-module</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
+                <version>${project.version}</version>
             </dependency>
             <!-- 监控模块组件 -->
             <dependency>
                 <groupId>com.brycehan.boot</groupId>
                 <artifactId>bryce-module-monitor</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
+                <version>${project.version}</version>
+            </dependency>
+            <!-- quartz 组件 -->
+            <dependency>
+                <groupId>com.brycehan.boot</groupId>
+                <artifactId>bryce-module-quartz</artifactId>
+                <version>${project.version}</version>
             </dependency>
             <!-- 服务组件 -->
             <dependency>

@@ -12,10 +12,10 @@ import org.springframework.context.annotation.Configuration;
  */
 @Slf4j
 @Configuration
-@ComponentScan(basePackageClasses = BootMonitorAutoConfiguration.class)
-public class BootMonitorAutoConfiguration {
+@ComponentScan(basePackageClasses = BryceMonitorAutoConfiguration.class)
+public class BryceMonitorAutoConfiguration {
 
-    public BootMonitorAutoConfiguration() {
+    public BryceMonitorAutoConfiguration() {
         log.info("Bryce Monitor 自动配置完成");
     }
 }

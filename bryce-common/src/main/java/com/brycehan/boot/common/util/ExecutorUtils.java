@@ -1,6 +1,6 @@
 package com.brycehan.boot.common.util;
 
-import com.brycehan.boot.common.base.context.SpringContextHolder;
+import cn.hutool.extra.spring.SpringUtil;
 
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -12,7 +12,8 @@ import java.util.concurrent.TimeUnit;
  * @author Bryce Han
  */
 public class ExecutorUtils {
-    private static ScheduledExecutorService executor = SpringContextHolder.getBean(ScheduledExecutorService.class);
+
+    private static ScheduledExecutorService executor = SpringUtil.getBean(ScheduledExecutorService.class);
 
     /**
      * 注：在此线程池中的线程，可以获取servlet中的request对象
@@ -20,6 +21,7 @@ public class ExecutorUtils {
      * @param runnable
      */
     public static void execute(Runnable runnable) {
+
         executor.schedule(runnable, 0L, TimeUnit.SECONDS);
     }
 

@@ -1,6 +1,6 @@
 package com.brycehan.boot.common.util;
 
-import com.brycehan.boot.common.base.context.SpringContextHolder;
+import cn.hutool.extra.spring.SpringUtil;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 
@@ -12,7 +12,7 @@ import org.springframework.context.i18n.LocaleContextHolder;
  */
 public class MessageUtils {
 
-    public static final MessageSource messageSource = SpringContextHolder.getBean(MessageSource.class);
+    public static final MessageSource messageSource = SpringUtil.getBean(MessageSource.class);
 
     /**
      * 根据消息编码和参数，获取消息，委托给Spring MessageSource

@@ -20,6 +20,7 @@
     </properties>
 
     <modules>
+        <module>bryce-module-quartz</module>
         <module>bryce-module-monitor</module>
         <module>bryce-module-wechat</module>
     </modules>

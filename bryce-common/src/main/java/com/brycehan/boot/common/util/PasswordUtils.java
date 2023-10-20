@@ -1,6 +1,6 @@
 package com.brycehan.boot.common.util;
 
-import com.brycehan.boot.common.base.context.SpringContextHolder;
+import cn.hutool.extra.spring.SpringUtil;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -13,7 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  */
 public class PasswordUtils {
 
-    private static PasswordEncoder passwordEncoder = SpringContextHolder.getBean(PasswordEncoder.class);
+    private static PasswordEncoder passwordEncoder = SpringUtil.getBean(PasswordEncoder.class);
 
     public static String encode(String rawPassword) {
         return passwordEncoder.encode(rawPassword);
