@@ -1,12 +1,12 @@
 package com.brycehan.boot.framework.config;
 
-import com.brycehan.boot.common.property.IdProperties;
+import com.brycehan.boot.common.properties.IdProperties;
 import com.github.yitter.contract.IdGeneratorOptions;
 import com.github.yitter.idgen.YitIdHelper;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Configuration;
 
 /**
  * ID配置
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
  * @since 2022/5/13
  * @author Bryce Han
  */
-@Component
+@Configuration
 @RequiredArgsConstructor
 @EnableConfigurationProperties(IdProperties.class)
 public class IdConfig {

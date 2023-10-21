@@ -1,4 +1,4 @@
-package com.brycehan.boot.common.property;
+package com.brycehan.boot.common.properties;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

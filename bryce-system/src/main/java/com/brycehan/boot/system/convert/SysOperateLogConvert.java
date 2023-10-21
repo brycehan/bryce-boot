@@ -1,6 +1,6 @@
 package com.brycehan.boot.system.convert;
 
-import com.brycehan.boot.framework.operationlog.OperateLogDto;
+import com.brycehan.boot.framework.operatelog.OperateLogDto;
 import com.brycehan.boot.system.dto.SysOperateLogDto;
 import com.brycehan.boot.system.entity.SysOperateLog;
 import com.brycehan.boot.system.vo.SysOperateLogVo;

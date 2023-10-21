@@ -2,8 +2,8 @@ package com.brycehan.boot.system.controller;
 
 import com.brycehan.boot.common.base.http.HttpResponseStatus;
 import com.brycehan.boot.common.base.http.UserResponseStatus;
-import com.brycehan.boot.framework.operationlog.annotation.OperateLog;
-import com.brycehan.boot.framework.operationlog.annotation.OperateType;
+import com.brycehan.boot.framework.operatelog.annotation.OperateLog;
+import com.brycehan.boot.framework.operatelog.annotation.OperateType;
 import com.brycehan.boot.framework.security.context.LoginUser;
 import com.brycehan.boot.framework.security.context.LoginUserContext;
 import com.brycehan.boot.system.dto.SysUserPasswordDto;

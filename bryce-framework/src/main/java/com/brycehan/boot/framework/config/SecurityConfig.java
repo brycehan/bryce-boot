@@ -1,5 +1,6 @@
 package com.brycehan.boot.framework.config;
 
+import com.brycehan.boot.common.properties.AuthProperties;
 import com.brycehan.boot.framework.filter.JwtAuthenticationFilter;
 import com.brycehan.boot.framework.security.JwtAccessDeniedHandler;
 import com.brycehan.boot.framework.security.JwtAuthenticationEntryPoint;
@@ -60,6 +61,8 @@ public class SecurityConfig {
 
     private final PhoneCodeValidateService phoneCodeValidateService;
 
+    private final AuthProperties authProperties;
+
     @Bean
     public AuthenticationManager authenticationManager() {
         List<AuthenticationProvider> providers = new ArrayList<>();
@@ -89,11 +92,12 @@ public class SecurityConfig {
     /**
      * httpSecurity 配置
      * <p>
-     * hasIpAddress     如果有参数，参数表示IP地址，如果用户IP和参数匹配，则可以访问
-     * access           SpringEL表达式结果为true时可以访问
-     * rememberMe       允许通过remember-me登录的用户访问
-     * authenticated    用户登录后可以访问
+     * hasIpAddress     如果有参数，参数表示IP地址，如果用户IP和参数匹配，则可以访问<br>
+     * access           SpringEL表达式结果为true时可以访问<br>
+     * rememberMe       允许通过remember-me登录的用户访问<br>
+     * authenticated    用户登录后可以访问<br>
      * fullyAuthenticated   用户完全认证可以访问（非remember-me下的自动登录）
+     * </p>
      *
      * @param http the {@link HttpSecurity} to modify
      * @return SecurityFilterChain实例
@@ -101,7 +105,7 @@ public class SecurityConfig {
      */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http
+        http
                 // 禁用csrf，jwt不需要csrf开启
                 .csrf(AbstractHttpConfigurer::disable)
                 // 禁用X-Frame-Options
@@ -110,35 +114,18 @@ public class SecurityConfig {
                 .sessionManagement(configurer -> configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 // 过滤请求
                 .authorizeHttpRequests(registry -> registry
-                        // 静态资源，可以匿名访问
-                        .requestMatchers(HttpMethod.GET,
-                                "/webjars/**",
-                                "/swagger-ui/**",
-                                "/swagger-resources/**",
-                                "/v3/api-docs/**",
-                                "/favicon.ico",
-                                "/attachment/**",
-                                "/doc.html").permitAll()
-                        .requestMatchers(HttpMethod.GET,
-                                "/register/enabled",
-                                "/captcha/**",
-                                "/sms/**",
-                                "/error").permitAll()
-                        // 对于登录login、注册register、注册开关，验证码captcha允许匿名访问
-                        .requestMatchers(HttpMethod.POST,
-                                "/auth/loginByAccount",
-                                "/auth/loginByPhone",
-                                "/register").permitAll()
+                        .requestMatchers(HttpMethod.GET, authProperties.ignoreUrls().get()).permitAll()
+                        .requestMatchers(HttpMethod.POST, authProperties.ignoreUrls().post()).permitAll()
                         .requestMatchers(HttpMethod.OPTIONS).permitAll()
                         // 除上面外的所有请求全部需要鉴权认证
                         .anyRequest().authenticated())
-//                .httpBasic(withDefaults())
                 // 添加 jwt 过滤器
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling(configurer -> configurer
                         .authenticationEntryPoint(authenticationEntryPoint)
-                        .accessDeniedHandler(accessDeniedHandler))
-                .build();
+                        .accessDeniedHandler(accessDeniedHandler));
+
+        return http.build();
     }
 
     /**

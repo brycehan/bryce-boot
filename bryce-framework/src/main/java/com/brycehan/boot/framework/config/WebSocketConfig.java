@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.socket.server.standard.ServerEndpointExporter;
 
 /**
- * WebSocket配置
+ * WebSocket 配置
  *
  * @since 2022/5/24
  * @author Bryce Han

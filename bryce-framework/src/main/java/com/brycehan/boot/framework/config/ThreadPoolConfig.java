@@ -1,6 +1,6 @@
 package com.brycehan.boot.framework.config;
 
-import com.brycehan.boot.common.property.ThreadPoolProperties;
+import com.brycehan.boot.common.properties.ThreadPoolProperties;
 import com.brycehan.boot.common.util.Threads;
 import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

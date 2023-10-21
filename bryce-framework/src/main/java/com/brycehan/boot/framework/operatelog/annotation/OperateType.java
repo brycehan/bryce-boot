@@ -1,4 +1,4 @@
-package com.brycehan.boot.framework.operationlog.annotation;
+package com.brycehan.boot.framework.operatelog.annotation;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

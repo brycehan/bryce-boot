@@ -10,7 +10,7 @@ import com.brycehan.boot.common.base.id.IdGenerator;
 import com.brycehan.boot.common.util.DateTimeUtils;
 import com.brycehan.boot.common.util.ExcelUtils;
 import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
-import com.brycehan.boot.framework.operationlog.OperateLogDto;
+import com.brycehan.boot.framework.operatelog.OperateLogDto;
 import com.brycehan.boot.system.convert.SysOperateLogConvert;
 import com.brycehan.boot.system.dto.SysOperateLogPageDto;
 import com.brycehan.boot.system.entity.SysOperateLog;

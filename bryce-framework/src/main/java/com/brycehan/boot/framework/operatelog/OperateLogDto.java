@@ -1,4 +1,4 @@
-package com.brycehan.boot.framework.operationlog;
+package com.brycehan.boot.framework.operatelog;
 
 import lombok.Data;
 

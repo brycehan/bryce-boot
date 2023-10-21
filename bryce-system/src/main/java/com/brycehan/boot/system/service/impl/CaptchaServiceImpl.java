@@ -2,7 +2,7 @@ package com.brycehan.boot.system.service.impl;
 
 import cn.hutool.core.util.StrUtil;
 import com.brycehan.boot.common.constant.CacheConstants;
-import com.brycehan.boot.common.property.CaptchaProperties;
+import com.brycehan.boot.common.properties.CaptchaProperties;
 import com.brycehan.boot.system.service.CaptchaService;
 import com.brycehan.boot.system.service.SysParamService;
 import com.brycehan.boot.system.vo.CaptchaVo;

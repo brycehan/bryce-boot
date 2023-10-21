@@ -18,6 +18,24 @@ bryce:
     local:
       # 路径 System.getProperty("user.home") + projectName + "/attachment";
       path: ${user.home}/bryce-boot/attachment
+  auth:
+    ignore-urls:
+      get:
+        - /webjars/**
+        - /swagger-ui/**
+        - /swagger-resources/**
+        - /v3/api-docs/**
+        - /doc.html
+        - /favicon.ico
+        - /attachment/**
+        - /captcha/**
+        - /sms/**
+        - /register/enabled
+        - /error
+      post:
+        - /auth/loginByAccount
+        - /auth/loginByPhone
+        - /register
   # 用户配置
   user:
     password:
@@ -58,6 +76,7 @@ bryce:
     keep-alive-time: 60
     # 任务队列的任务数
     work-queue-size: 1000
+
 
 
 
