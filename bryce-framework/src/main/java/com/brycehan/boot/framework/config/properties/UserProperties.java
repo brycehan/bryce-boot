@@ -1,4 +1,4 @@
-package com.brycehan.boot.common.properties;
+package com.brycehan.boot.framework.config.properties;
 
 import lombok.Data;
 import lombok.Getter;

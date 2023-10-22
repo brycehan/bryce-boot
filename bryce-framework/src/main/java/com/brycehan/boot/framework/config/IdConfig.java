@@ -1,6 +1,6 @@
 package com.brycehan.boot.framework.config;
 
-import com.brycehan.boot.common.properties.IdProperties;
+import com.brycehan.boot.framework.config.properties.IdProperties;
 import com.github.yitter.contract.IdGeneratorOptions;
 import com.github.yitter.idgen.YitIdHelper;
 import jakarta.annotation.PostConstruct;

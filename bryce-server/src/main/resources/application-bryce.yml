@@ -4,7 +4,7 @@ bryce:
     # 名称
     name: BryceBoot
     # 版本
-    version: 0.1.0
+    version: 0.0.1
     # 版权年份
     copyright-year: 2023
     # 实例演示开关

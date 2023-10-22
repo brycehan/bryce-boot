@@ -1,6 +1,6 @@
 package com.brycehan.boot.framework.config;
 
-import com.brycehan.boot.common.properties.AuthProperties;
+import com.brycehan.boot.framework.config.properties.AuthProperties;
 import com.brycehan.boot.framework.filter.JwtAuthenticationFilter;
 import com.brycehan.boot.framework.security.JwtAccessDeniedHandler;
 import com.brycehan.boot.framework.security.JwtAuthenticationEntryPoint;
@@ -8,6 +8,7 @@ import com.brycehan.boot.framework.security.phone.PhoneCodeAuthenticationProvide
 import com.brycehan.boot.framework.security.phone.PhoneCodeUserDetailsService;
 import com.brycehan.boot.framework.security.phone.PhoneCodeValidateService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -43,6 +44,7 @@ import java.util.List;
 @EnableWebSecurity
 @EnableMethodSecurity
 @RequiredArgsConstructor
+@EnableConfigurationProperties(AuthProperties.class)
 public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
@@ -114,8 +116,8 @@ public class SecurityConfig {
                 .sessionManagement(configurer -> configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 // 过滤请求
                 .authorizeHttpRequests(registry -> registry
-                        .requestMatchers(HttpMethod.GET, authProperties.ignoreUrls().get()).permitAll()
-                        .requestMatchers(HttpMethod.POST, authProperties.ignoreUrls().post()).permitAll()
+                        .requestMatchers(HttpMethod.GET, this.authProperties.getIgnoreUrls().getGet()).permitAll()
+                        .requestMatchers(HttpMethod.POST, this.authProperties.getIgnoreUrls().getPost()).permitAll()
                         .requestMatchers(HttpMethod.OPTIONS).permitAll()
                         // 除上面外的所有请求全部需要鉴权认证
                         .anyRequest().authenticated())

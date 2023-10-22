@@ -57,7 +57,7 @@ public class QuartzConfig {
         factoryBean.setQuartzProperties(properties);
 
         // 延时启动
-        factoryBean.setStartupDelay(10);
+//        factoryBean.setStartupDelay(10);
         factoryBean.setApplicationContextSchedulerContextKey("applicationContextKey");
         // 启动时更新已存在的 Job，这样就不用每次修改 targetObject 后删除 qrtz_job_details 表对应的记录了
         factoryBean.setOverwriteExistingJobs(true);

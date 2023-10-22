@@ -64,19 +64,19 @@
     <!-- 依赖管理 -->
     <dependencyManagement>
         <dependencies>
-            <!-- 公共组件 -->
+            <!-- 公共模块 -->
             <dependency>
                 <groupId>com.brycehan.boot</groupId>
                 <artifactId>bryce-common</artifactId>
                 <version>${project.version}</version>
             </dependency>
-            <!-- 框架组件 -->
+            <!-- 框架模块 -->
             <dependency>
                 <groupId>com.brycehan.boot</groupId>
                 <artifactId>bryce-framework</artifactId>
                 <version>${project.version}</version>
             </dependency>
-            <!-- 系统组件 -->
+            <!-- 系统模块 -->
             <dependency>
                 <groupId>com.brycehan.boot</groupId>
                 <artifactId>bryce-system</artifactId>
@@ -88,13 +88,19 @@
                 <artifactId>bryce-module</artifactId>
                 <version>${project.version}</version>
             </dependency>
-            <!-- 监控模块组件 -->
+            <!-- 代码生成器模块 -->
+            <dependency>
+                <groupId>com.brycehan.boot</groupId>
+                <artifactId>bryce-module-generator</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <!-- 监控模块 -->
             <dependency>
                 <groupId>com.brycehan.boot</groupId>
                 <artifactId>bryce-module-monitor</artifactId>
                 <version>${project.version}</version>
             </dependency>
-            <!-- quartz 组件 -->
+            <!-- quartz 模块 -->
             <dependency>
                 <groupId>com.brycehan.boot</groupId>
                 <artifactId>bryce-module-quartz</artifactId>
@@ -104,7 +110,12 @@
             <dependency>
                 <groupId>com.brycehan.boot</groupId>
                 <artifactId>bryce-server</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.brycehan</groupId>
+                <artifactId>bryce-generator-boot-starter</artifactId>
+                <version>${project.version}</version>
             </dependency>
             <!-- Swagger UI -->
             <dependency>

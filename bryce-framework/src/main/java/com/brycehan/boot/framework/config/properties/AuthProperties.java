@@ -1,11 +1,7 @@
-package com.brycehan.boot.common.properties;
+package com.brycehan.boot.framework.config.properties;
 
 import lombok.Data;
-import lombok.experimental.Accessors;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 /**
  * 认证属性
@@ -14,8 +10,6 @@ import java.util.List;
  * @author Bryce Han
  */
 @Data
-@Accessors(fluent = true)
-@Component
 @ConfigurationProperties(prefix = "bryce.auth")
 public class AuthProperties {
 
@@ -26,27 +20,26 @@ public class AuthProperties {
 
 
     @Data
-    @Accessors(fluent = true)
     public static class IgnoreUrls {
 
         /**
          * GET 类型忽略的资源地址
          */
-        private String[] get;
+        private String[] get = { "/webjars/**", "/swagger-ui/**", "/swagger-resources/**", "/v3/api-docs/**"};
 
         /**
          * POST 类型忽略的资源地址
          */
-        private String[] post;
+        private String[] post = {};
 
         /**
          * PUT 类型忽略的资源地址
          */
-        private String[] put;
+        private String[] put = {};
 
         /**
          * DELETE 类型忽略的资源地址
          */
-        private String[] delete;
+        private String[] delete = {};
     }
 }

@@ -116,7 +116,7 @@ public class ProfileController {
         // 2、上传文件
         LoginUser loginUser = LoginUserContext.currentUser();
 //        SysUser sysUser = loginUser.getSysUser();
-//        String avatar = FileUploadUtils.upload(BryceApplicationProperties.getAvatarPath(), file, MimeTypeUtils.IMAGE_EXTENSION);
+//        String avatar = FileUploadUtils.upload(ApplicationProperties.getAvatarPath(), file, MimeTypeUtils.IMAGE_EXTENSION);
 //        // 3、更新头像
 //        if (this.sysUserService.updateUserAvatar(sysUser.getId(), avatar)) {
 //            // 4、更新缓存用户头像

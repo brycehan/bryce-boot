@@ -7,10 +7,10 @@
         <artifactId>bryce-module</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <artifactId>bryce-module-quartz</artifactId>
+    <artifactId>bryce-module-generator</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>bryce-module-quartz</name>
-    <description>bryce-module-quartz</description>
+    <name>bryce-module-generator</name>
+    <description>bryce-module-generator</description>
 
     <!-- 依赖 -->
     <dependencies>
@@ -20,12 +20,8 @@
             <artifactId>bryce-system</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.quartz-scheduler</groupId>
-            <artifactId>quartz</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.brycehan.boot</groupId>
-            <artifactId>bryce-module-monitor</artifactId>
+            <groupId>com.brycehan</groupId>
+            <artifactId>bryce-generator-boot-starter</artifactId>
         </dependency>
     </dependencies>
 

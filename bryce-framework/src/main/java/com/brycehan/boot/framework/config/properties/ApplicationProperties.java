@@ -1,4 +1,4 @@
-package com.brycehan.boot.common.properties;
+package com.brycehan.boot.framework.config.properties;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 @Data
 @Component
 @ConfigurationProperties(prefix = "bryce.application")
-public class BryceApplicationProperties {
+public class ApplicationProperties {
 
     /**
      * 项目名称
