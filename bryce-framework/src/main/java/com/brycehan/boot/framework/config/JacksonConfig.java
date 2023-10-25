@@ -1,6 +1,5 @@
 package com.brycehan.boot.framework.config;
 
-import com.brycehan.boot.framework.xss.XssStringSerializer;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
@@ -48,8 +47,6 @@ public class JacksonConfig {
                 .toFormatter();
 
         return builder -> {
-            // 富文本需要单独自定义配置指定 @JsonSerialize(using = StringSerializer.class)
-            builder.serializerByType(String.class, new XssStringSerializer());
             builder.serializerByType(LocalDate.class, new LocalDateSerializer(ISO_DATE));
             builder.serializerByType(LocalTime.class, new LocalTimeSerializer(ISO_TIME));
             builder.serializerByType(LocalDateTime.class, new LocalDateTimeSerializer(dateTimeFormatter));

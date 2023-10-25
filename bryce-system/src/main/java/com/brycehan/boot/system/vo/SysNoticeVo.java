@@ -2,9 +2,7 @@ package com.brycehan.boot.system.vo;
 
 import com.brycehan.boot.system.entity.SysUser;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.deser.std.StringDeserializer;
-import com.fasterxml.jackson.databind.ser.std.StringSerializer;
 import com.fhs.core.trans.anno.Trans;
 import com.fhs.core.trans.constant.TransType;
 import com.fhs.core.trans.vo.TransPojo;
@@ -43,7 +41,6 @@ public class SysNoticeVo implements Serializable, TransPojo {
     /**
      * 内容
      */
-    @JsonSerialize(using = StringSerializer.class)
     @JsonDeserialize(using = StringDeserializer.class)
     @Schema(description = "内容")
     private String content;

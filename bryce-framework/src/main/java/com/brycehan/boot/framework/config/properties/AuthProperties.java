@@ -41,5 +41,10 @@ public class AuthProperties {
          * DELETE 类型忽略的资源地址
          */
         private String[] delete = {};
+
+        /**
+         * 所有类型忽略的资源地址
+         */
+        private String[] all = {};
     }
 }

@@ -9,15 +9,7 @@ bryce:
     copyright-year: 2023
     # 实例演示开关
     demo-enabled: true
-  # 存储配置
-  storage:
-    enabled: true
-    config:
-      type: local
-      domain: http://localhost:${server.port}
-    local:
-      # 路径 System.getProperty("user.home") + projectName + "/attachment";
-      path: ${user.home}/bryce-boot/attachment
+  # 权限过滤
   auth:
     ignore-urls:
       get:
@@ -32,10 +24,18 @@ bryce:
         - /sms/**
         - /register/enabled
         - /error
+        - /auth/test
       post:
         - /auth/loginByAccount
         - /auth/loginByPhone
         - /register
+      all:
+        - /generator-ui/**
+  # xss 过滤
+  xss:
+    enabled: true
+    exclude-urls:
+      - /system/notice
   # 用户配置
   user:
     password:
@@ -76,6 +76,15 @@ bryce:
     keep-alive-time: 60
     # 任务队列的任务数
     work-queue-size: 1000
+  # 存储配置
+  storage:
+    enabled: true
+    config:
+      type: local
+      domain: http://localhost:${server.port}
+    local:
+      # 路径 System.getProperty("user.home") + projectName + "/attachment";
+      path: ${user.home}/bryce-boot/attachment
 
 
 

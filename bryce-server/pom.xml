@@ -31,8 +31,11 @@
         </dependency>
         <dependency>
             <groupId>com.brycehan.boot</groupId>
+            <artifactId>bryce-module-generator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.brycehan.boot</groupId>
             <artifactId>bryce-module-quartz</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <!-- 测试框架 -->
         <dependency>

@@ -1,0 +1,69 @@
+{
+  "project": {
+    "packageName": "com.brycehan.boot",
+    "version": "1.0.0",
+    "backendPath": "/Users/brycehan/generator/bryce-boot",
+    "frontendPath": "/Users/brycehan/generator/bryce-admin"
+  },
+  "developer": {
+    "author": "Bryce Han"
+  },
+  "templates": [
+    {
+      "templateName": "java/entity.java.ftl",
+      "generatorPath": "${backendPath}/src/main/java/${packagePath}/${moduleName}/entity/${entityName}.java"
+    },
+    {
+      "templateName": "java/entityDto.java.ftl",
+      "generatorPath": "${backendPath}/src/main/java/${packagePath}/${moduleName}/dto/${entityName}Dto.java"
+    },
+    {
+      "templateName": "java/entityPageDto.java.ftl",
+      "generatorPath": "${backendPath}/src/main/java/${packagePath}/${moduleName}/dto/${entityName}PageDto.java"
+    },
+    {
+      "templateName": "java/entityVo.java.ftl",
+      "generatorPath": "${backendPath}/src/main/java/${packagePath}/${moduleName}/vo/${entityName}Vo.java"
+    },
+    {
+      "templateName": "java/convert.java.ftl",
+      "generatorPath": "${backendPath}/src/main/java/${packagePath}/${moduleName}/convert/${entityName}Convert.java"
+    },
+    {
+      "templateName": "java/controller.java.ftl",
+      "generatorPath": "${backendPath}/src/main/java/${packagePath}/${moduleName}/controller/${entityName}Controller.java"
+    },
+    {
+      "templateName": "java/service.java.ftl",
+      "generatorPath": "${backendPath}/src/main/java/${packagePath}/${moduleName}/service/${entityName}Service.java"
+    },
+    {
+      "templateName": "java/serviceImpl.java.ftl",
+      "generatorPath": "${backendPath}/src/main/java/${packagePath}/${moduleName}/service/impl/${entityName}ServiceImpl.java"
+    },
+    {
+      "templateName": "java/mapper.java.ftl",
+      "generatorPath": "${backendPath}/src/main/java/${packagePath}/${moduleName}/mapper/${entityName}Mapper.java"
+    },
+    {
+      "templateName": "java/mapper.xml.ftl",
+      "generatorPath": "${backendPath}/src/main/java/${packagePath}/${moduleName}/mapper/xml/${entityName}Mapper.xml"
+    },
+    {
+      "templateName": "sql/menu.sql.ftl",
+      "generatorPath": "${backendPath}/menu/${tableName}_menu.sql"
+    },
+    {
+      "templateName": "vue/api.ts.ftl",
+      "generatorPath": "${frontendPath}/src/api/${moduleName}/${functionName}.ts"
+    },
+    {
+      "templateName": "vue/index.vue.ftl",
+      "generatorPath": "${frontendPath}/src/views/${moduleName}/${functionName}/index.vue"
+    },
+    {
+      "templateName": "vue/add-or-edit.vue.ftl",
+      "generatorPath": "${frontendPath}/src/views/${moduleName}/${functionName}/add-or-edit.vue"
+    }
+  ]
+}

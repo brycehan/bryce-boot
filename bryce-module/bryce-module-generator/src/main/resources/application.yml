@@ -1,0 +1,11 @@
+# bryce auth 配置
+bryce:
+  auth:
+    ignore-urls:
+      get:
+        - /generator-ui/**
+
+
+
+
+
