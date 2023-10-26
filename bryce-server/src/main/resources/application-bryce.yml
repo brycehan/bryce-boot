@@ -9,6 +9,9 @@ bryce:
     copyright-year: 2023
     # 实例演示开关
     demo-enabled: true
+  # 代码生成
+  generator:
+    table-prefix: brc_
   # 权限过滤
   auth:
     ignore-urls:
@@ -36,19 +39,6 @@ bryce:
     enabled: true
     exclude-urls:
       - /system/notice
-  # 用户配置
-  user:
-    password:
-      # 密码最大错误次数
-      max-retry-count: 5
-      # 密码锁定间隔（默认10分钟）
-      lock-duration-minutes: 10
-  # 验证码配置
-  captcha:
-    width: 235
-    height: 30
-    length: 5
-    expiration: 10
   # jwt令牌
   jwt:
     # 令牌密钥
@@ -66,6 +56,19 @@ bryce:
     seq-bit-length: 10
     # 起始时间
     base-time: 1692948713117
+  # 用户配置
+  user:
+    password:
+      # 密码最大错误次数
+      max-retry-count: 5
+      # 密码锁定间隔（默认10分钟）
+      lock-duration-minutes: 10
+  # 验证码配置
+  captcha:
+    width: 235
+    height: 30
+    length: 5
+    expiration: 10
   # 线程池
   thread-pool:
     # 核心线程数
@@ -85,9 +88,3 @@ bryce:
     local:
       # 路径 System.getProperty("user.home") + projectName + "/attachment";
       path: ${user.home}/bryce-boot/attachment
-
-
-
-
-
-
