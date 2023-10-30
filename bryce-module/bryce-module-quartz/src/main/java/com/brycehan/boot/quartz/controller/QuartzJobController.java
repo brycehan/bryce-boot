@@ -108,7 +108,7 @@ public class QuartzJobController {
     @Operation(summary = "查询quartz 定时任务调度详情")
     @PreAuthorize("hasAuthority('quartz:job:info')")
     @GetMapping(path = "/{id}")
-    public ResponseResult<QuartzJobVo> get(@Parameter(description = "quartz 定时任务调度ID", required = true) @PathVariable String id) {
+    public ResponseResult<QuartzJobVo> get(@Parameter(description = "quartz 定时任务调度ID", required = true) @PathVariable Long id) {
         QuartzJob quartzJob = this.quartzJobService.getById(id);
         return ResponseResult.ok(QuartzJobConvert.INSTANCE.convert(quartzJob));
     }

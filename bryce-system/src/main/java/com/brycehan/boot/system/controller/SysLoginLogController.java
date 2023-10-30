@@ -56,7 +56,7 @@ public class SysLoginLogController {
     @Operation(summary = "查询系统登录日志详情")
     @PreAuthorize("hasAuthority('system:loginLog:info')")
     @GetMapping(path = "/{id}")
-    public ResponseResult<SysLoginLogVo> get(@Parameter(description = "系统登录日志ID", required = true) @PathVariable String id) {
+    public ResponseResult<SysLoginLogVo> get(@Parameter(description = "系统登录日志ID", required = true) @PathVariable Long id) {
         SysLoginLog sysLoginLog = this.sysLoginLogService.getById(id);
         return ResponseResult.ok(SysLoginLogConvert.INSTANCE.convert(sysLoginLog));
     }

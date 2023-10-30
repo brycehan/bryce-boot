@@ -89,7 +89,7 @@ public class SysDictDataController {
     @Operation(summary = "查询系统字典数据详情")
     @PreAuthorize("hasAuthority('system:dictData:info')")
     @GetMapping(path = "/{id}")
-    public ResponseResult<SysDictDataVo> get(@Parameter(description = "系统字典数据ID", required = true) @PathVariable String id) {
+    public ResponseResult<SysDictDataVo> get(@Parameter(description = "系统字典数据ID", required = true) @PathVariable Long id) {
         SysDictData sysDictData = this.sysDictDataService.getById(id);
         return ResponseResult.ok(SysDictDataConvert.INSTANCE.convert(sysDictData));
     }

@@ -56,7 +56,7 @@ public class QuartzJobLogController {
     @Operation(summary = "查询quartz 定时任务调度日志详情")
     @PreAuthorize("hasAuthority('quartz:jobLog:info')")
     @GetMapping(path = "/{id}")
-    public ResponseResult<QuartzJobLogVo> get(@Parameter(description = "quartz 定时任务调度日志ID", required = true) @PathVariable String id) {
+    public ResponseResult<QuartzJobLogVo> get(@Parameter(description = "quartz 定时任务调度日志ID", required = true) @PathVariable Long id) {
         QuartzJobLog quartzJobLog = this.quartzJobLogService.getById(id);
         return ResponseResult.ok(QuartzJobLogConvert.INSTANCE.convert(quartzJobLog));
     }

@@ -89,7 +89,7 @@ public class ${controllerName} {
     @Operation(summary = "查询${tableComment}详情")
     @PreAuthorize("hasAuthority('${moduleName}:${functionName}:info')")
     @GetMapping(path = "/{id}")
-    public ResponseResult<${entityName}Vo> get(@Parameter(description = "${tableComment}ID", required = true) @PathVariable String id) {
+    public ResponseResult<${entityName}Vo> get(@Parameter(description = "${tableComment}ID", required = true) @PathVariable Long id) {
         ${entityName} ${entityParam} = this.${serviceParam}.getById(id);
         return ResponseResult.ok(${convertName}.INSTANCE.convert(${entityParam}));
     }

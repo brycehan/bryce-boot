@@ -45,9 +45,9 @@
         from brc_sys_user bsu
         left join brc_sys_user_role bsur on bsu.id = bsur.user_id
         where bsu.super_admin = 0
-          and bsu.deleted = 0
-          and bsu.status = 1
-          and bsur.deleted = 0
+          and bsu.deleted = false
+          and bsu.status = true
+          and bsur.deleted = false
           and bsur.role_id = #{roleId}
         <if test="username != null and username.trim() != ''">
             and bsu.username like concat('%', #{username}, '%')

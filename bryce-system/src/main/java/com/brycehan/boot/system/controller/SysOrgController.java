@@ -91,7 +91,7 @@ public class SysOrgController {
     @Operation(summary = "查询系统机构详情")
     @PreAuthorize("hasAuthority('system:org:info')")
     @GetMapping(path = "/{id}")
-    public ResponseResult<SysOrgVo> get(@Parameter(description = "系统机构ID", required = true) @PathVariable String id) {
+    public ResponseResult<SysOrgVo> get(@Parameter(description = "系统机构ID", required = true) @PathVariable Long id) {
         SysOrg sysOrg = this.sysOrgService.getById(id);
         return ResponseResult.ok(SysOrgConvert.INSTANCE.convert(sysOrg));
     }

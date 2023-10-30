@@ -31,7 +31,8 @@ spring:
       # 缩进输出
       indent-output: true
   profiles:
-    active: dev
+#    active: dev
+    active: postgres
     include: bryce,sms
 # mybatis plus配置
 mybatis-plus:
@@ -49,9 +50,9 @@ mybatis-plus:
     db-config:
       id-type: none
       # 逻辑已删除值
-      logic-delete-value: 1
+      logic-delete-value: true
       # 逻辑未删除值
-      logic-not-delete-value: 0
+      logic-not-delete-value: false
 # 服务配置
 server:
   # 服务器HTTP端口

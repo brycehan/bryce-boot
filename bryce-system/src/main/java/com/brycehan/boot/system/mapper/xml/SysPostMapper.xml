@@ -31,9 +31,9 @@
         from brc_sys_post bsp
         left join brc_sys_user_post bsup on bsp.id = bsup.post_id
         left join brc_sys_user bsu on bsup.user_id = bsu.id
-        where bsp.status = 1
-          and bsu.deleted = 0
-          and bsu.status = 1
+        where bsp.status = true
+          and bsu.deleted = false
+          and bsu.status = true
           and bsu.username = #{username}
     </select>
 

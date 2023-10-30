@@ -1,10 +1,10 @@
 # spring配置
 spring:
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/bryce_boot?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useServerPrepStmts=true&cachePrepStmts=true
-    username: root
-    password: root
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: bryce_boot
+    password: 123456
   data:
     # data redis配置
     redis:

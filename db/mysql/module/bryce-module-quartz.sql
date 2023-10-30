@@ -12,7 +12,7 @@ INSERT INTO brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_c
 -- 初始化-菜单数据
 -- 二级菜单
 INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (111, '定时任务', 'M', 2, 'quartz/job/index', 'quartz:job:page', 'icon-reloadtime', 0, 1, '定时任务菜单', 1, null, 0, 1, now(), null, null);
-INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (143, '定时任务日志', 'M', 5, 'quartz/jobLog/index', 'quartz:jobLog:page', 'icon-menu', 0, 3, null, 1, null, 0, 1, now(), null, null);
+INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (143, '定时任务日志', 'M', 5, 'quartz/jobLog/index', 'quartz:jobLog:page', 'icon-menu', 0, 3, '定时任务日志菜单', 1, null, 0, 1, now(), null, null);
 -- 三级菜单
 INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1111, '定时任务新增', 'B', 111, null, 'quartz:job:save', '', 0, 1, null, 1, null, 0, 1, now(), null, null);
 INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1112, '定时任务修改', 'B', 111, null, 'quartz:job:update', '', 0, 2, null, 1, null, 0, 1, now(), null, null);

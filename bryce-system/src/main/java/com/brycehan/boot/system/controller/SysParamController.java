@@ -89,7 +89,7 @@ public class SysParamController {
     @Operation(summary = "查询系统参数详情")
     @PreAuthorize("hasAuthority('system:param:info')")
     @GetMapping(path = "/{id}")
-    public ResponseResult<SysParamVo> get(@Parameter(description = "系统参数ID", required = true) @PathVariable String id) {
+    public ResponseResult<SysParamVo> get(@Parameter(description = "系统参数ID", required = true) @PathVariable Long id) {
         SysParam sysParam = this.sysParamService.getById(id);
         return ResponseResult.ok(SysParamConvert.INSTANCE.convert(sysParam));
     }

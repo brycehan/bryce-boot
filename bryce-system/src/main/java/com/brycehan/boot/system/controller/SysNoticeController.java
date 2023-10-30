@@ -89,7 +89,7 @@ public class SysNoticeController {
     @Operation(summary = "查询系统通知公告详情")
     @PreAuthorize("hasAuthority('system:notice:info')")
     @GetMapping(path = "/{id}")
-    public ResponseResult<SysNoticeVo> get(@Parameter(description = "系统通知公告ID", required = true) @PathVariable String id) {
+    public ResponseResult<SysNoticeVo> get(@Parameter(description = "系统通知公告ID", required = true) @PathVariable Long id) {
         SysNotice sysNotice = this.sysNoticeService.getById(id);
         return ResponseResult.ok(SysNoticeConvert.INSTANCE.convert(sysNotice));
     }

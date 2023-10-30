@@ -92,7 +92,7 @@ public class SysDictTypeController {
     @Operation(summary = "查询系统字典类型详情")
     @PreAuthorize("hasAuthority('system:dictType:info')")
     @GetMapping(path = "/{id}")
-    public ResponseResult<SysDictTypeVo> get(@Parameter(description = "系统字典类型ID", required = true) @PathVariable String id) {
+    public ResponseResult<SysDictTypeVo> get(@Parameter(description = "系统字典类型ID", required = true) @PathVariable Long id) {
         SysDictType sysDictType = this.sysDictTypeService.getById(id);
         return ResponseResult.ok(SysDictTypeConvert.INSTANCE.convert(sysDictType));
     }

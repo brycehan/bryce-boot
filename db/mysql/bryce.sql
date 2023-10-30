@@ -9,7 +9,7 @@ create table brc_sys_org
     id              bigint            not null comment 'ID',
     name            varchar(100)      not null comment '机构名称',
     code            varchar(30)       null comment '机构编码',
-    parent_id       bigint  default 0 null comment '父机构ID',
+    parent_id       bigint            null comment '父机构ID',
     ancestor        varchar(255)      null comment '祖级机构列表',
     leader          varchar(50)       null comment '负责人',
     contact_number  varchar(20)       null comment '联系电话',
@@ -30,16 +30,16 @@ create table brc_sys_org
 create index idx_parent_id on brc_sys_org (parent_id);
 
 -- 初始化-系统机构表数据
-INSERT INTO brc_sys_org (id, name, code, parent_id, ancestor, leader, contact_number, email, remark, sort, status, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (100, 'Bryce科技', null, 0, '0', '韩先生', '15800008888', 'brycehan@163.com', null, 0, 1, null, null, 0, 1, now(), null, null);
-INSERT INTO brc_sys_org (id, name, code, parent_id, ancestor, leader, contact_number, email, remark, sort, status, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (101, '北京总公司', null, 100, '0,100', '韩先生', '15800008888', 'brycehan@163.com', null, 1, 1, null, null, 0, 1, now(), null, null);
-INSERT INTO brc_sys_org (id, name, code, parent_id, ancestor, leader, contact_number, email, remark, sort, status, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (102, '济南分公司', null, 100, '0,100', '韩先生', '15800008888', 'brycehan@163.com', null, 2, 1, null, null, 0, 1, now(), null, null);
-INSERT INTO brc_sys_org (id, name, code, parent_id, ancestor, leader, contact_number, email, remark, sort, status, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (103, '研发部门', null, 101, '0,100,101', '韩先生', '15800008888', 'brycehan@163.com', null, 1, 1, null, null, 0, 1, now(), null, null);
-INSERT INTO brc_sys_org (id, name, code, parent_id, ancestor, leader, contact_number, email, remark, sort, status, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (104, '市场部门', null, 101, '0,100,101', '韩先生', '15800008888', 'brycehan@163.com', null, 2, 1, null, null, 0, 1, now(), null, null);
-INSERT INTO brc_sys_org (id, name, code, parent_id, ancestor, leader, contact_number, email, remark, sort, status, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (105, '测试部门', null, 101, '0,100,101', '韩先生', '15800008888', 'brycehan@163.com', null, 3, 1, null, null, 0, 1, now(), null, null);
-INSERT INTO brc_sys_org (id, name, code, parent_id, ancestor, leader, contact_number, email, remark, sort, status, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (106, '财务部门', null, 101, '0,100,101', '韩先生', '15800008888', 'brycehan@163.com', null, 4, 1, null, null, 0, 1, now(), null, null);
-INSERT INTO brc_sys_org (id, name, code, parent_id, ancestor, leader, contact_number, email, remark, sort, status, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (107, '运维部门', null, 101, '0,100,101', '韩先生', '15800008888', 'brycehan@163.com', null, 5, 1, null, null, 0, 1, now(), null, null);
-INSERT INTO brc_sys_org (id, name, code, parent_id, ancestor, leader, contact_number, email, remark, sort, status, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (108, '市场部门', null, 102, '0,100,102', '韩先生', '15800008888', 'brycehan@163.com', null, 1, 1, null, null, 0, 1, now(), null, null);
-INSERT INTO brc_sys_org (id, name, code, parent_id, ancestor, leader, contact_number, email, remark, sort, status, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (109, '财务部门', null, 102, '0,100,102', '韩先生', '15800008888', 'brycehan@163.com', null, 2, 1, null, null, 0, null, now(), null, null);
+INSERT INTO brc_sys_org (id, name, code, parent_id, ancestor, leader, contact_number, email, remark, sort, status, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (100, 'Bryce科技', null, 0, '0', '韩先生', '15800008001', 'brycehan@163.com', null, 0, 1, null, null, 0, 1, now(), null, null);
+INSERT INTO brc_sys_org (id, name, code, parent_id, ancestor, leader, contact_number, email, remark, sort, status, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (101, '北京总公司', null, 100, '0,100', '韩先生', '15800008002', 'brycehan@163.com', null, 1, 1, null, null, 0, 1, now(), null, null);
+INSERT INTO brc_sys_org (id, name, code, parent_id, ancestor, leader, contact_number, email, remark, sort, status, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (102, '济南分公司', null, 100, '0,100', '韩先生', '15800008003', 'brycehan@163.com', null, 2, 1, null, null, 0, 1, now(), null, null);
+INSERT INTO brc_sys_org (id, name, code, parent_id, ancestor, leader, contact_number, email, remark, sort, status, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (103, '研发部门', null, 101, '0,100,101', '韩先生', '15800008004', 'brycehan@163.com', null, 1, 1, null, null, 0, 1, now(), null, null);
+INSERT INTO brc_sys_org (id, name, code, parent_id, ancestor, leader, contact_number, email, remark, sort, status, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (104, '市场部门', null, 101, '0,100,101', '韩先生', '15800008005', 'brycehan@163.com', null, 2, 1, null, null, 0, 1, now(), null, null);
+INSERT INTO brc_sys_org (id, name, code, parent_id, ancestor, leader, contact_number, email, remark, sort, status, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (105, '测试部门', null, 101, '0,100,101', '韩先生', '15800008006', 'brycehan@163.com', null, 3, 1, null, null, 0, 1, now(), null, null);
+INSERT INTO brc_sys_org (id, name, code, parent_id, ancestor, leader, contact_number, email, remark, sort, status, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (106, '财务部门', null, 101, '0,100,101', '韩先生', '15800008007', 'brycehan@163.com', null, 4, 1, null, null, 0, 1, now(), null, null);
+INSERT INTO brc_sys_org (id, name, code, parent_id, ancestor, leader, contact_number, email, remark, sort, status, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (107, '运维部门', null, 101, '0,100,101', '韩先生', '15800008008', 'brycehan@163.com', null, 5, 1, null, null, 0, 1, now(), null, null);
+INSERT INTO brc_sys_org (id, name, code, parent_id, ancestor, leader, contact_number, email, remark, sort, status, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (108, '市场部门', null, 102, '0,100,102', '韩先生', '15800008009', 'brycehan@163.com', null, 1, 1, null, null, 0, 1, now(), null, null);
+INSERT INTO brc_sys_org (id, name, code, parent_id, ancestor, leader, contact_number, email, remark, sort, status, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (109, '财务部门', null, 102, '0,100,102', '韩先生', '15800008010', 'brycehan@163.com', null, 2, 1, null, null, 0, 1, now(), null, null);
 
 -- 2、系统用户表
 drop table if exists brc_sys_user;
@@ -51,7 +51,7 @@ create table brc_sys_user
     full_name          varchar(50)              null comment '姓名',
     avatar             varchar(100)             null comment '头像地址',
     gender             char                     null comment '性别（M：男, F：女，N：未知）',
-    type               tinyint(1)   default 0   null comment '用户类型（0：系统用户）',
+    type               smallint   default 0     null comment '用户类型（0：系统用户）',
     phone              varchar(20)              null comment '手机号码',
     email              varchar(50)              null comment '邮箱',
     sort               int          default 0   null comment '显示顺序',
@@ -75,8 +75,8 @@ create table brc_sys_user
 ) engine InnoDB default charset utf8mb4 collate utf8mb4_0900_ai_ci comment '系统用户表';
 
 -- 初始化-系统用户表数据
-INSERT INTO brc_sys_user (id, username, password, full_name, avatar, gender, type, phone, email, sort, org_id, super_admin, tenant_admin, status, remark, account_non_locked, last_login_ip, last_login_time, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1, 'admin', '$2a$10$TPs3BLw2Ag9iZ5bxo./GsuR2BRqUz5J2KQh6h2aSvwQ6Vi.3LzQB6', '管理员', null, 'M', 0, '15853155402', 'brycehan@163.com', 0, 103, 1, 0, 1, '管理员', 1, '127.0.0.1', now(), null, null, 0, 1, now(), null, now());
-INSERT INTO brc_sys_user (id, username, password, full_name, avatar, gender, type, phone, email, sort, org_id, super_admin, tenant_admin, status, remark, account_non_locked, last_login_ip, last_login_time, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (2, 'brycehan', '$2a$10$H/0p9EJPQjYAspbCO85QzuDXs4v36TvdWftjx1HJSWhVoSQ85GtHi', 'Bryce Han', null, 'M', 0, '15800008888', 'brycehan7@gmail.com', 0, 105, 0, 1, 1, '测试员', 1, '127.0.0.1', now(), null, null, 0, 1, now(), null, now());
+INSERT INTO brc_sys_user (id, username, password, full_name, avatar, gender, type, phone, email, sort, org_id, super_admin, tenant_admin, status, remark, account_non_locked, last_login_ip, last_login_time, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1, 'admin', '$2a$10$TPs3BLw2Ag9iZ5bxo./GsuR2BRqUz5J2KQh6h2aSvwQ6Vi.3LzQB6', '管理员', null, 'M', 0, '15853155402', 'brycehan@163.com', 0, 103, 1, 0, 1, '超级管理员', 1, '127.0.0.1', now(), null, null, 0, 1, now(), null, now());
+INSERT INTO brc_sys_user (id, username, password, full_name, avatar, gender, type, phone, email, sort, org_id, super_admin, tenant_admin, status, remark, account_non_locked, last_login_ip, last_login_time, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (2, 'brycehan', '$2a$10$H/0p9EJPQjYAspbCO85QzuDXs4v36TvdWftjx1HJSWhVoSQ85GtHi', 'Bryce Han', null, 'M', 0, '15800008888', 'brycehan7@gmail.com', 0, 105, 0, 1, 1, '租户管理员', 1, '127.0.0.1', now(), null, null, 0, 1, now(), null, now());
 
 -- 3、系统角色表
 drop table if exists brc_sys_role;
@@ -205,7 +205,7 @@ INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_
 INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (103, '岗位管理', 'M', 1, 'system/post/index', 'system:post:page', 'icon-solution', 0, 3, '岗位管理菜单', 1, null, 0, 1, now(), null, null);
 INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (104, '角色管理', 'M', 1, 'system/role/index', 'system:role:page', 'icon-team', 0, 4, '角色管理菜单', 1, null, 0, 1, now(), null, null);
 INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (105, '菜单管理', 'M', 1, 'system/menu/index', 'system:menu:page', 'icon-menu', 0, 5, '菜单管理菜单', 1, null, 0, 1, now(), null, null);
-INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (112, '数据字典', 'M', 2, 'system/dict/index', 'system:dictType:page', 'icon-insertrowabove', 0, 2, null, 1, null, 0, 1, now(), null, null);
+INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (112, '数据字典', 'M', 2, 'system/dict/index', 'system:dictType:page', 'icon-insertrowabove', 0, 2, '数据字典菜单', 1, null, 0, 1, now(), null, null);
 INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (113, '参数设置', 'M', 2, 'system/param/index', 'system:param:page', 'icon-control', 0, 3, '参数设置菜单', 1, null, 0, 1, now(), null, null);
 INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (114, '附件管理', 'M', 2, 'system/attachment/index', 'system:attachment:page', 'icon-folder', 0, 4, '参数设置菜单', 1, null, 0, 1, now(), null, null);
 INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (116, '通知公告', 'M', 2, 'system/notice/index', 'system:notice:page', 'icon-message-fill', 0, 8, '通知公告菜单', 1, null, 0, 1, now(), null, null);
@@ -479,7 +479,6 @@ create table brc_sys_param
 INSERT INTO brc_sys_param (id, param_name, param_key, param_value, built_in, remark, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1, '用户登录-验证码开关', 'system.account.captchaEnabled', 'false', 'Y', '是否开启验证码功能（true：开启，false：关闭）', null, 1, 0, 1, now(), null, null);
 INSERT INTO brc_sys_param (id, param_name, param_key, param_value, built_in, remark, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (2, '用户账号-注册开关', 'system.account.registerEnabled', 'false', 'Y', '是否开启注册功能（true：开启，false：关闭）', null, 1, 0, 1, now(), null, null);
 INSERT INTO brc_sys_param (id, param_name, param_key, param_value, built_in, remark, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (3, '短信-短信开关', 'system.sms.enabled', 'true', 'Y', '是否开启短信功能（true：开启，false：关闭）', null, 1, 0, 1, now(), null, null);
-INSERT INTO brc_sys_param (id, param_name, param_key, param_value, built_in, remark, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (11964921942021, 'testd', 'aaa', 'b', 'Y', 'c', null, 1, 1, 1, now(), null, null);
 
 -- 15、系统租户表
 drop table if exists brc_sys_tenant;

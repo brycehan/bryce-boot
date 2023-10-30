@@ -1,6 +1,6 @@
-package com.brycehan.wechat.controller;
+package com.brycehan.boot.wechat.controller;
 
-import com.brycehan.wechat.service.WechatService;
+import com.brycehan.boot.wechat.service.WechatService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

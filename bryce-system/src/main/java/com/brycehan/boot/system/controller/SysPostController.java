@@ -91,7 +91,7 @@ public class SysPostController {
     @Operation(summary = "查询系统岗位详情")
     @PreAuthorize("hasAuthority('system:post:info')")
     @GetMapping(path = "/{id}")
-    public ResponseResult<SysPostVo> get(@Parameter(description = "系统岗位ID", required = true) @PathVariable String id) {
+    public ResponseResult<SysPostVo> get(@Parameter(description = "系统岗位ID", required = true) @PathVariable Long id) {
         SysPost sysPost = this.sysPostService.getById(id);
         return ResponseResult.ok(SysPostConvert.INSTANCE.convert(sysPost));
     }

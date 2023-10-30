@@ -1,4 +1,4 @@
-package com.brycehan.wechat.service;
+package com.brycehan.boot.wechat.service;
 
 import com.brycehan.boot.common.util.ServletUtils;
 import jakarta.servlet.http.HttpServletRequest;

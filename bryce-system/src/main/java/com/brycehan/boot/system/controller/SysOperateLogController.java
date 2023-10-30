@@ -56,7 +56,7 @@ public class SysOperateLogController {
     @Operation(summary = "查询系统操作日志详情")
     @PreAuthorize("hasAuthority('system:operateLog:info')")
     @GetMapping(path = "/{id}")
-    public ResponseResult<SysOperateLogVo> get(@Parameter(description = "系统操作日志ID", required = true) @PathVariable String id) {
+    public ResponseResult<SysOperateLogVo> get(@Parameter(description = "系统操作日志ID", required = true) @PathVariable Long id) {
         SysOperateLog sysOperateLog = this.sysOperateLogService.getById(id);
         return ResponseResult.ok(SysOperateLogConvert.INSTANCE.convert(sysOperateLog));
     }

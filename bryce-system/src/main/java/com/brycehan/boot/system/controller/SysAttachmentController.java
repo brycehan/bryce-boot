@@ -89,7 +89,7 @@ public class SysAttachmentController {
     @Operation(summary = "查询系统附件详情")
     @PreAuthorize("hasAuthority('system:attachment:info')")
     @GetMapping(path = "/{id}")
-    public ResponseResult<SysAttachmentVo> get(@Parameter(description = "系统附件ID", required = true) @PathVariable String id) {
+    public ResponseResult<SysAttachmentVo> get(@Parameter(description = "系统附件ID", required = true) @PathVariable Long id) {
         SysAttachment sysAttachment = this.sysAttachmentService.getById(id);
         return ResponseResult.ok(SysAttachmentConvert.INSTANCE.convert(sysAttachment));
     }

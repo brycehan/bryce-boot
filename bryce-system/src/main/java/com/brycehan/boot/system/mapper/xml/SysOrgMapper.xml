@@ -34,7 +34,7 @@
     <select id="list" resultType="com.brycehan.boot.system.entity.SysOrg">
         select so.*
         from brc_sys_org so
-        where so.deleted = 0
+        where so.deleted = false
         order by so.sort asc
     </select>
 </mapper>

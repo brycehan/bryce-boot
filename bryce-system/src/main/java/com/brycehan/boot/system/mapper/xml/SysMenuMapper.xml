@@ -38,7 +38,7 @@
         left join brc_sys_role_menu bsrm on bsm.id = bsrm.menu_id
         left join brc_sys_user_role bsur on bsrm.role_id = bsur.role_id
         where bsm.status = '1'
-          and bsm.deleted = 0
+          and bsm.deleted = false
           and bsm.authority is not null
           and bsur.user_id = #{userId}
     </select>
@@ -56,9 +56,9 @@
         from brc_sys_menu bsm
         left join brc_sys_role_menu bsrm on bsm.id = bsrm.menu_id
         left join brc_sys_user_role bsur on bsrm.role_id = bsur.role_id
-        where bsm.deleted = 0
-            and bsrm.deleted = 0
-            and bsur.deleted = 0
+        where bsm.deleted = false
+            and bsrm.deleted = false
+            and bsur.deleted = false
             and bsm.status = '1'
             and bsur.user_id = #{userId}
         <if test="type != null and type !=''">

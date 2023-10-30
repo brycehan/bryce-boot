@@ -1,4 +1,4 @@
-package com.brycehan.wechat.config;
+package com.brycehan.boot.wechat.config;
 
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.api.impl.WxMpServiceImpl;

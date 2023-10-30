@@ -92,7 +92,7 @@ public class SysMenuController {
     @Operation(summary = "查询系统菜单详情")
     @PreAuthorize("hasAuthority('system:menu:info')")
     @GetMapping(path = "/{id}")
-    public ResponseResult<SysMenuVo> get(@Parameter(description = "系统菜单ID", required = true) @PathVariable String id) {
+    public ResponseResult<SysMenuVo> get(@Parameter(description = "系统菜单ID", required = true) @PathVariable Long id) {
         SysMenu sysMenu = this.sysMenuService.getById(id);
         return ResponseResult.ok(SysMenuConvert.INSTANCE.convert(sysMenu));
     }
