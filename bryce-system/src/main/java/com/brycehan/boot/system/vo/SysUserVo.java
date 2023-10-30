@@ -1,6 +1,7 @@
 package com.brycehan.boot.system.vo;
 
 import com.brycehan.boot.system.entity.SysOrg;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fhs.core.trans.anno.Trans;
 import com.fhs.core.trans.constant.TransType;
 import com.fhs.core.trans.vo.TransPojo;
@@ -114,6 +115,7 @@ public class SysUserVo implements Serializable, TransPojo {
      * 创建时间
      */
     @Schema(description = "创建时间")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime createdTime;
 
     /**
