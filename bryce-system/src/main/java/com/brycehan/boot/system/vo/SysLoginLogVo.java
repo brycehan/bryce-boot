@@ -113,6 +113,7 @@ public class SysLoginLogVo implements Serializable, TransPojo {
     @Schema(description = "访问时间")
     @ColumnWidth(20)
     @ExcelProperty(value = "访问时间", index = 8)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime accessTime;
 
     /**

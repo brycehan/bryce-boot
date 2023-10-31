@@ -84,6 +84,7 @@ public class SysOperateLogVo implements Serializable, TransPojo {
      * 操作时间
      */
     @Schema(description = "操作时间")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime operatedTime;
 
     /**

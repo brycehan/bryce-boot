@@ -59,12 +59,12 @@ public class SysLoginLogServiceImpl extends BaseServiceImpl<SysLoginLogMapper, S
         wrapper.like(StringUtils.isNotEmpty(sysLoginLogPageDto.getUsername()), SysLoginLog::getUsername, sysLoginLogPageDto.getUsername());
         wrapper.like(StringUtils.isNotEmpty(sysLoginLogPageDto.getIp()), SysLoginLog::getIp, sysLoginLogPageDto.getIp());
 
-        if(sysLoginLogPageDto.getCreatedTimeStart() != null && sysLoginLogPageDto.getCreatedTimeEnd() != null) {
-            wrapper.between(SysLoginLog::getCreatedTime, sysLoginLogPageDto.getCreatedTimeStart(), sysLoginLogPageDto.getCreatedTimeEnd());
-        } else if(sysLoginLogPageDto.getCreatedTimeStart() != null) {
-            wrapper.ge(SysLoginLog::getCreatedTime, sysLoginLogPageDto.getCreatedTimeStart());
-        }else if(sysLoginLogPageDto.getCreatedTimeEnd() != null) {
-            wrapper.ge(SysLoginLog::getCreatedTime, sysLoginLogPageDto.getCreatedTimeEnd());
+        if(sysLoginLogPageDto.getAccessTimeStart() != null && sysLoginLogPageDto.getAccessTimeEnd() != null) {
+            wrapper.between(SysLoginLog::getCreatedTime, sysLoginLogPageDto.getAccessTimeStart(), sysLoginLogPageDto.getAccessTimeEnd());
+        } else if(sysLoginLogPageDto.getAccessTimeStart() != null) {
+            wrapper.ge(SysLoginLog::getCreatedTime, sysLoginLogPageDto.getAccessTimeStart());
+        }else if(sysLoginLogPageDto.getAccessTimeEnd() != null) {
+            wrapper.ge(SysLoginLog::getCreatedTime, sysLoginLogPageDto.getAccessTimeEnd());
         }
 
         return wrapper;

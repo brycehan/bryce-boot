@@ -50,15 +50,15 @@ public class SysLoginLogPageDto extends BasePageDto {
     private Long tenantId;
 
     /**
-     * 创建时间开始
+     * 访问时间开始
      */
-    @Schema(description = "创建时间开始")
-    private LocalDateTime createdTimeStart;
+    @Schema(description = "访问时间开始")
+    private LocalDateTime accessTimeStart;
 
     /**
-     * 创建时间结束
+     * 访问时间结束
      */
-    @Schema(description = "创建时间结束")
-    private LocalDateTime createdTimeEnd;
+    @Schema(description = "访问时间结束")
+    private LocalDateTime accessTimeEnd;
 
 }
