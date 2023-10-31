@@ -21,18 +21,18 @@
         <java.version>17</java.version>
         <skipTests>true</skipTests>
         <!-- Swagger接口文档 -->
-        <springdoc.version>2.0.2</springdoc.version>
-        <knife4j.version>4.1.0</knife4j.version>
+        <springdoc.version>2.2.0</springdoc.version>
+        <knife4j.version>4.3.0</knife4j.version>
         <captcha.version>1.6.2</captcha.version>
         <!-- 实体转换器 -->
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <binarywang-weixin.version>4.3.0</binarywang-weixin.version>
         <!-- MybatisPlus -->
-        <mybatis-plus.version>3.5.3.1</mybatis-plus.version>
-        <mybatis-plus-join.version>1.4.6</mybatis-plus-join.version>
-        <dynamic-datasource.version>3.6.1</dynamic-datasource.version>
+        <mybatis-plus.version>3.5.4</mybatis-plus.version>
+        <mybatis-plus-join.version>1.4.7</mybatis-plus-join.version>
+        <dynamic-datasource.version>4.2.0</dynamic-datasource.version>
 
-        <redisson.version>3.21.3</redisson.version>
+        <redisson.version>3.24.3</redisson.version>
         <dameng.version>8.1.2.79</dameng.version>
         <aliyun-oss.version>3.16.1</aliyun-oss.version>
         <aliyun-dysmsapi.version>2.0.23</aliyun-dysmsapi.version>
@@ -40,17 +40,16 @@
         <qiniu.version>7.12.1</qiniu.version>
         <minio.version>8.5.1</minio.version>
         <qcloud-cos.version>5.6.97</qcloud-cos.version>
-        <huaweicloud-obs.version>3.22.3</huaweicloud-obs.version>
-        <sms4j.version>3.0.1</sms4j.version>
+        <huaweicloud-obs.version>3.23.9.1</huaweicloud-obs.version>
+        <sms4j.version>3.0.3</sms4j.version>
         <yitter-idgenerator.version>1.0.6</yitter-idgenerator.version>
-        <auth0-jwt.version>3.19.2</auth0-jwt.version>
-        <easyexcel.version>3.2.1</easyexcel.version>
-        <browscap-java.version>1.4.1</browscap-java.version>
-        <easy-trans.version>2.2.6</easy-trans.version>
-        <transmittable-thread-local.version>2.14.2</transmittable-thread-local.version>
-        <hutool.version>5.8.12</hutool.version>
-        <guava.version>31.1-jre</guava.version>
-        <commons-text.version>1.10.0</commons-text.version>
+        <auth0-jwt.version>4.4.0</auth0-jwt.version>
+        <easyexcel.version>3.3.2</easyexcel.version>
+        <easy-trans.version>2.2.9</easy-trans.version>
+        <transmittable-thread-local.version>2.14.3</transmittable-thread-local.version>
+        <hutool.version>5.8.21</hutool.version>
+        <guava.version>32.0.0-jre</guava.version>
+        <commons-text.version>1.11.0</commons-text.version>
     </properties>
 
     <!-- 模块 -->
@@ -206,13 +205,6 @@
                 <groupId>org.mapstruct</groupId>
                 <artifactId>mapstruct-processor</artifactId>
                 <version>${mapstruct.version}</version>
-            </dependency>
-
-            <!-- 解析客户端操作系统、浏览器等 -->
-            <dependency>
-                <groupId>com.blueconic</groupId>
-                <artifactId>browscap-java</artifactId>
-                <version>${browscap-java.version}</version>
             </dependency>
             <!-- Excel工具 -->
             <dependency>

@@ -1,9 +1,10 @@
 package com.brycehan.boot.system.service.impl;
 
+import cn.hutool.http.useragent.UserAgent;
+import cn.hutool.http.useragent.UserAgentUtil;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.blueconic.browscap.Capabilities;
 import com.brycehan.boot.common.base.entity.PageResult;
 import com.brycehan.boot.common.base.id.IdGenerator;
 import com.brycehan.boot.common.util.*;
@@ -85,12 +86,12 @@ public class SysLoginLogServiceImpl extends BaseServiceImpl<SysLoginLogMapper, S
         String userAgent = request.getHeader(HttpHeaders.USER_AGENT);
         String ip = IpUtils.getIp(request);
         String location = LocationUtils.getLocationByIP(ip);
-        Capabilities capabilities = UserAgentUtils.parser.parse(userAgent);
 
+        UserAgent parser = UserAgentUtil.parse(userAgent);
         // 获取客户端浏览器
-        String browser = capabilities.getBrowser();
+        String browser = parser.getBrowser().getName();
         // 获取客户端操作系统
-        String platform = capabilities.getPlatform();
+        String os = parser.getOs().getName();
 
         // 封装对象
         SysLoginLog loginLog = new SysLoginLog();
@@ -102,7 +103,7 @@ public class SysLoginLogServiceImpl extends BaseServiceImpl<SysLoginLogMapper, S
         loginLog.setLocation(location);
         loginLog.setUserAgent(userAgent);
         loginLog.setBrowser(browser);
-        loginLog.setOs(platform);
+        loginLog.setOs(os);
         loginLog.setAccessTime(LocalDateTime.now());
         loginLog.setCreatedTime(LocalDateTime.now());
 

@@ -1,19 +1,19 @@
 package com.brycehan.boot.framework.security;
 
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.http.useragent.UserAgent;
+import cn.hutool.http.useragent.UserAgentUtil;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.blueconic.browscap.Capabilities;
 import com.brycehan.boot.common.constant.CacheConstants;
 import com.brycehan.boot.common.constant.JwtConstants;
 import com.brycehan.boot.common.util.IpUtils;
 import com.brycehan.boot.common.util.LocationUtils;
 import com.brycehan.boot.common.util.ServletUtils;
-import com.brycehan.boot.common.util.UserAgentUtils;
 import com.brycehan.boot.framework.security.context.LoginUser;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +22,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
+
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -101,12 +102,13 @@ public class JwtTokenProvider {
      */
     private void setUserAgent(LoginUser loginUser) {
         String userAgent = ServletUtils.getRequest().getHeader("User-Agent");
-        Capabilities capabilities = UserAgentUtils.parser.parse(userAgent);
+        UserAgent parser = UserAgentUtil.parse(userAgent);
 
         // 获取客户端浏览器
-        String browser = capabilities.getBrowser();
+        String browser = parser.getBrowser().getName();
+
         // 获取客户端操作系统
-        String platform = capabilities.getPlatform();
+        String os = parser.getOs().getName();
         // 获取客户端IP和对应登录位置
         String ip = IpUtils.getIp(ServletUtils.getRequest());
         String loginLocation = LocationUtils.getLocationByIP(ip);
@@ -114,7 +116,7 @@ public class JwtTokenProvider {
         loginUser.setLoginIp(ip);
         loginUser.setLoginLocation(loginLocation);
         loginUser.setBrowser(browser);
-        loginUser.setOs(platform);
+        loginUser.setOs(os);
     }
 
     private void cacheLoginUser(LoginUser loginUser) {

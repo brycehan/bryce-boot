@@ -75,11 +75,6 @@
             <groupId>com.fhs-opensource</groupId>
             <artifactId>easy-trans-mybatis-plus-extend</artifactId>
         </dependency>
-        <!-- 解析客户端操作系统、浏览器等 -->
-        <dependency>
-            <groupId>com.blueconic</groupId>
-            <artifactId>browscap-java</artifactId>
-        </dependency>
         <!-- Minio 对象存储服务 -->
         <dependency>
             <groupId>io.minio</groupId>

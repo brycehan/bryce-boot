@@ -65,7 +65,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         // 判断用户名是否存在
         SysUser user = this.baseMapper.getByUsername(sysUserDto.getUsername());
         if(user != null) {
-            throw new RuntimeException("用户名已经存在");
+            throw new RuntimeException("账号已经存在");
         }
 
         // 判断手机号是否存在
