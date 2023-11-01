@@ -10,10 +10,6 @@ spring:
       enabled: true
       max-file-size: 1024MB
       max-request-size: 1024MB
-  # 资源信息
-  messages:
-    # i18n国际化资源文件路径
-    basename: i18n/messages
   data:
     # data redis配置
     redis:
