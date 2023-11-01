@@ -2,16 +2,13 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/bryce_boot?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useServerPrepStmts=true&cachePrepStmts=true
+    url: jdbc:mysql://mysql:3306/bryce_boot?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useServerPrepStmts=true&cachePrepStmts=true
     username: root
     password: root
-  devtools:
-    restart:
-      enabled: false
   data:
     # data redis配置
     redis:
-      host: 192.168.0.10
+      host: redis
       port: 6379
       database: 0
 # 接口配置
@@ -30,5 +27,3 @@ logging:
       total-size-cap: 1GB
   level:
     root: info
-    web: info
-    com.brycehan.boot: info

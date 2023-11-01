@@ -5,9 +5,6 @@ spring:
     url: jdbc:mysql://192.168.0.10:3306/bryce_boot?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8
     username: root
     password: root
-  devtools:
-    restart:
-      enabled: false
   data:
       # data redis配置
     redis:

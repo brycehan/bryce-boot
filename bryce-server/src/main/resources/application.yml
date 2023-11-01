@@ -31,8 +31,8 @@ spring:
       # 缩进输出
       indent-output: true
   profiles:
-#    active: dev
-    active: postgres
+    active: dev
+#    active: postgres
     include: bryce,sms
 # mybatis plus配置
 mybatis-plus:
