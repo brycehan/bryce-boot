@@ -1,8 +1,9 @@
 package com.brycehan.boot.common.base.http;
 
-import com.brycehan.boot.common.util.MessageUtils;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.experimental.Accessors;
 
 /**
  * 通用响应状态枚举
@@ -11,6 +12,8 @@ import lombok.AllArgsConstructor;
  * @since 2022/5/13
  * @author Bryce Han
  */
+@Getter
+@Accessors(fluent = true)
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 public enum HttpResponseStatus implements ResponseStatus {
 
@@ -47,17 +50,8 @@ public enum HttpResponseStatus implements ResponseStatus {
     private final Integer code;
 
     /**
-     * 消息
+     * 状态值
      */
-    private final String message;
+    private final String value;
 
-    @Override
-    public Integer code() {
-        return code;
-    }
-
-    @Override
-    public String message() {
-        return MessageUtils.getMessage(message);
-    }
 }

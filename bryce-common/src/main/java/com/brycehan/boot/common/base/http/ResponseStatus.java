@@ -1,5 +1,7 @@
 package com.brycehan.boot.common.base.http;
 
+import com.brycehan.boot.common.util.MessageUtils;
+
 /**
  * 响应状态
  *
@@ -16,10 +18,19 @@ public interface ResponseStatus {
     Integer code();
 
     /**
+     * 获取响应值
+     *
+     * @return 响应值
+     */
+    String value();
+
+    /**
      * 获取响应消息
      *
      * @return 响应消息
      */
-    String message();
+    default String message() {
+        return MessageUtils.getMessage(value());
+    }
 
 }

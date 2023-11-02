@@ -3,7 +3,10 @@ package com.brycehan.boot.common.exception;
 import com.brycehan.boot.common.base.http.ResponseStatus;
 import com.brycehan.boot.common.util.MessageUtils;
 import com.brycehan.boot.common.util.StringFormatUtils;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
@@ -16,25 +19,24 @@ import java.io.Serial;
  * @author Bryce Han
  */
 @Slf4j
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 @Getter
 @ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class BusinessException extends RuntimeException {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
     /**
-     * 所属模块
-     */
-    private String module;
-
-    /**
      * 异常编码
      */
     private Integer code;
+
+    /**
+     * 异常消息
+     */
+    private String message;
 
     /**
      * 异常消息键
@@ -46,33 +48,19 @@ public class BusinessException extends RuntimeException {
      */
     private Object[] messageArgs;
 
-    /**
-     * 异常消息
-     */
-    private String message;
+    protected BusinessException(String message) {
+        super(message);
+        code = 500;
+    }
 
-//    public BusinessException(String module, Integer value, String key, Object[] args) {
-//        this(module, value, key, args, HttpResponseStatus.HTTP_INTERNAL_ERROR.message());
-//    }
-
-//    public BusinessException(String module, Integer value, String defaultMessage) {
-//        this(module, value, null, null, defaultMessage);
-//    }
-
-    protected BusinessException(String module, ResponseStatus responseStatus) {
-        super(responseStatus.message());
-        this.module = module;
-        this.code = responseStatus.code();
+    protected BusinessException(Integer code, String message) {
+        super(message);
+        this.code = code;
     }
 
     protected BusinessException(ResponseStatus responseStatus) {
         super(responseStatus.message());
-        this.module = "system";
         this.code = responseStatus.code();
-    }
-
-    protected BusinessException(String key) {
-        super(key);
     }
 
     protected BusinessException(ResponseStatus responseStatus, String... params) {
@@ -80,9 +68,12 @@ public class BusinessException extends RuntimeException {
         this.code = responseStatus.code();
     }
 
-    protected BusinessException(Integer value, String message) {
-        super(message);
-        this.code = value;
+    public static BusinessException responseStatus(ResponseStatus responseStatus) {
+        return new BusinessException(responseStatus);
+    }
+
+    public static BusinessException responseStatus(ResponseStatus responseStatus, String... params) {
+        return new BusinessException(responseStatus, params);
     }
 
     @Override
@@ -93,14 +84,6 @@ public class BusinessException extends RuntimeException {
             return message;
         }
         return super.getMessage();
-    }
-
-    public static BusinessException responseStatus(ResponseStatus responseStatus) {
-        return new BusinessException(responseStatus);
-    }
-
-    public static BusinessException responseStatus(ResponseStatus responseStatus, String... params) {
-        return new BusinessException(responseStatus, params);
     }
 
 }
