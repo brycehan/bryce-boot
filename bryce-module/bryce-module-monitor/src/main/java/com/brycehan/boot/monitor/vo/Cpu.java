@@ -3,6 +3,7 @@ package com.brycehan.boot.monitor.vo;
 import cn.hutool.system.oshi.CpuInfo;
 import cn.hutool.system.oshi.OshiUtil;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 
 import java.io.Serial;
@@ -14,6 +15,7 @@ import java.io.Serializable;
  * @since 2023/10/10
  * @author Bryce Han
  */
+@Slf4j
 @Data
 public class Cpu implements Serializable {
 
@@ -56,9 +58,14 @@ public class Cpu implements Serializable {
     private double free;
 
     public Cpu() {
-        // 获取 CPU 相关信息，默认间隔1秒
-        CpuInfo cpuInfo = OshiUtil.getCpuInfo();
-        BeanUtils.copyProperties(cpuInfo, this);
-        this.setCpuModel(cpuInfo.getCpuModel().split("\n")[0]);
+        try {
+            // 获取 CPU 相关信息，默认间隔1秒
+            CpuInfo cpuInfo = OshiUtil.getCpuInfo();
+            BeanUtils.copyProperties(cpuInfo, this);
+            this.setCpuModel(cpuInfo.getCpuModel().split("\n")[0]);
+        }catch (Exception e) {
+            log.error("获取 CPU 信息失败：{}", e.getMessage());
+        }
+
     }
 }

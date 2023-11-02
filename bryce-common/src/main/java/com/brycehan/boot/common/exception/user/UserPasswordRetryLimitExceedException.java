@@ -3,6 +3,8 @@ package com.brycehan.boot.common.exception.user;
 import com.brycehan.boot.common.base.http.UserResponseStatus;
 import com.brycehan.boot.common.exception.BusinessException;
 
+import java.io.Serial;
+
 /**
  * 用户密码错误重试最大次数异常类
  *
@@ -11,6 +13,7 @@ import com.brycehan.boot.common.exception.BusinessException;
  */
 public class UserPasswordRetryLimitExceedException extends BusinessException {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     public UserPasswordRetryLimitExceedException(int retryLimitCount, int lockTime) {
