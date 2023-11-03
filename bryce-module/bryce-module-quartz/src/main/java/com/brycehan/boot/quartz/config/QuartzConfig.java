@@ -18,7 +18,7 @@ import java.util.Properties;
 @Configuration
 public class QuartzConfig {
 
-    @Value("${spring.datasource.driver-class-name}")
+    @Value("${spring.datasource.dynamic.datasource.master.driver-class-name}")
     private String driverClassName;
 
     @Bean

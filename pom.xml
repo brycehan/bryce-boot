@@ -30,7 +30,7 @@
         <!-- MybatisPlus -->
         <mybatis-plus.version>3.5.4</mybatis-plus.version>
         <mybatis-plus-join.version>1.4.7</mybatis-plus-join.version>
-        <dynamic-datasource.version>4.2.0</dynamic-datasource.version>
+        <dynamic-datasource.version>3.6.1</dynamic-datasource.version>
 
         <redisson.version>3.24.3</redisson.version>
         <dameng.version>8.1.2.79</dameng.version>
@@ -150,6 +150,7 @@
                 <artifactId>mybatis-plus-join-boot-starter</artifactId>
                 <version>${mybatis-plus-join.version}</version>
             </dependency>
+            <!-- 动态数据源 -->
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>dynamic-datasource-spring-boot-starter</artifactId>

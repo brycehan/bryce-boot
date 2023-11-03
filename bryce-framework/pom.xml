@@ -45,7 +45,7 @@
             <artifactId>spring-boot-starter-json</artifactId>
         </dependency>
 
-        <!-- Mybatis Plus框架 -->
+        <!-- Mybatis Plus 框架 -->
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
@@ -54,6 +54,12 @@
 <!--            <groupId>com.github.yulichang</groupId>-->
 <!--            <artifactId>mybatis-plus-join-boot-starter</artifactId>-->
 <!--        </dependency>-->
+        <!-- 动态数据源 -->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
+            <version>${dynamic-datasource.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>org.dromara.sms4j</groupId>
@@ -65,11 +71,19 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
-        <!-- 配置处理器 -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
+            <groupId>org.redisson</groupId>
+            <artifactId>redisson-spring-boot-starter</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>transmittable-thread-local</artifactId>
+        </dependency>
+        <!-- 配置处理器 -->
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-configuration-processor</artifactId>-->
+<!--        </dependency>-->
     </dependencies>
 
 </project>

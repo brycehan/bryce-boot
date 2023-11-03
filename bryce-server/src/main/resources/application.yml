@@ -1,67 +1,80 @@
-# spring配置
+# spring 配置
 spring:
-  # Spring应用
   application:
-    # 名称
+    # 应用名称
     name: bryce-boot
+  profiles:
+    include: bryce,sms
+    # 环境 dev|test|prod
+    active: dev
+  # Jackson 配置
+  jackson:
+    # 时区
+    time-zone: GMT+8
+    serialization:
+      # 序列化缩进输出
+      indent-output: true
   servlet:
     # 上传文件
     multipart:
       enabled: true
       max-file-size: 1024MB
       max-request-size: 1024MB
-  data:
-    # data redis配置
-    redis:
-      # 主机
-      host: localhost
-      # 端口，默认为6379
-      port: 6379
-      # 数据库索引
-      database: 0
-      password:
-  # Jackson配置
-  jackson:
-    # 序列化
-    serialization:
-      # 缩进输出
-      indent-output: true
-  profiles:
-    active: dev
-#    active: postgres
-    include: bryce,sms
-# mybatis plus配置
+
+# 服务器配置
+server:
+  # 服务器 HTTP 端口
+  port: 8090
+  servlet:
+    # 应用的访问路径
+    context-path: /
+    session:
+      cookie:
+        http-only: true
+  # tomcat 容器
+  tomcat:
+    threads:
+      max: 1000
+      min-spare: 30
+  # undertow 容器
+#  undertow:
+#    threads:
+#      # 工作线程数
+#      worker: 1000
+
+# 接口文档
+knife4j:
+  enable: true
+  basic:
+    enable: true
+    username: swagger
+    password: 123456
+
+# mybatis plus 配置
 mybatis-plus:
-  # mapper.xml映射文件位置
-  mapper-locations: classpath*:com/brycehan/boot/*/mapper/xml/*Mapper.xml,classpath*:com/brycehan/generator/*/mapper/xml/*Mapper.xml
+  # mapper.xml 映射文件位置
+  mapper-locations:
+    - classpath*:com/brycehan/boot/*/mapper/xml/*Mapper.xml
+    - classpath*:com/brycehan/generator/*/mapper/xml/*Mapper.xml
   # 原生配置
   configuration:
     map-underscore-to-camel-case: true
     cache-enabled: false
     call-setters-on-nulls: true
-    jdbc-type-for-null: null
+    jdbc-type-for-null: 'null'
+  # 全局配置
   global-config:
     banner: false
     # 数据库相关配置
     db-config:
+      # 用户输入ID
       id-type: none
       # 逻辑已删除值
       logic-delete-value: true
       # 逻辑未删除值
       logic-not-delete-value: false
-# 服务配置
-server:
-  # 服务器HTTP端口
-  port: 8090
-  servlet:
-    # 应用的访问路径
-    context-path: /
-  # undertow Web容器
-  undertow:
-    threads:
-      # 工作线程数
-      worker: 400
-# 数据翻译插件
+
+# easy trans 数据翻译插件
 easy-trans:
   #启用redis缓存 如果不用redis请设置为false
   is-enable-redis: true
@@ -71,7 +84,6 @@ easy-trans:
   is-enable-tile: true
   #字典缓存放到redis 微服务模式请开启
   dict-use-redis: true
-
 
 
 
