@@ -20,33 +20,41 @@
         <!-- Java版本 -->
         <java.version>17</java.version>
         <skipTests>true</skipTests>
+        <!-- ID 生成 -->
+        <yitter-idgenerator.version>1.0.6</yitter-idgenerator.version>
+        <!-- jwt 令牌 -->
+        <auth0-jwt.version>4.4.0</auth0-jwt.version>
         <!-- Swagger接口文档 -->
         <springdoc.version>2.2.0</springdoc.version>
         <knife4j.version>4.3.0</knife4j.version>
+        <!-- 验证码组件 -->
         <captcha.version>1.6.2</captcha.version>
-        <!-- 实体转换器 -->
-        <mapstruct.version>1.5.5.Final</mapstruct.version>
-        <binarywang-weixin.version>4.3.0</binarywang-weixin.version>
-        <!-- MybatisPlus -->
+        <!-- easy trans 数据翻译插件 -->
+        <easy-trans.version>2.2.9</easy-trans.version>
+        <!-- Mybatis Plus -->
         <mybatis-plus.version>3.5.4</mybatis-plus.version>
         <mybatis-plus-join.version>1.4.7</mybatis-plus-join.version>
         <dynamic-datasource.version>3.6.1</dynamic-datasource.version>
-
-        <redisson.version>3.24.3</redisson.version>
+        <p6spy.version>3.9.1</p6spy.version>
         <dameng.version>8.1.2.79</dameng.version>
-        <aliyun-oss.version>3.16.1</aliyun-oss.version>
+        <!-- redis -->
+        <redisson.version>3.24.3</redisson.version>
+        <!-- 短信组件 -->
+        <sms4j.version>3.0.3</sms4j.version>
         <aliyun-dysmsapi.version>2.0.23</aliyun-dysmsapi.version>
         <tencentcloud-sdk.version>3.1.574</tencentcloud-sdk.version>
-        <qiniu.version>7.12.1</qiniu.version>
+        <!-- 对象存储 -->
         <minio.version>8.5.1</minio.version>
+        <aliyun-oss.version>3.16.1</aliyun-oss.version>
         <qcloud-cos.version>5.6.97</qcloud-cos.version>
+        <qiniu.version>7.12.1</qiniu.version>
         <huaweicloud-obs.version>3.23.9.1</huaweicloud-obs.version>
-        <sms4j.version>3.0.3</sms4j.version>
-        <yitter-idgenerator.version>1.0.6</yitter-idgenerator.version>
-        <auth0-jwt.version>4.4.0</auth0-jwt.version>
-        <easyexcel.version>3.3.2</easyexcel.version>
-        <easy-trans.version>2.2.9</easy-trans.version>
+        <!-- 实体转换器 -->
+        <mapstruct.version>1.5.5.Final</mapstruct.version>
+        <!-- 工具 -->
+        <binarywang-weixin.version>4.3.0</binarywang-weixin.version>
         <transmittable-thread-local.version>2.14.3</transmittable-thread-local.version>
+        <easyexcel.version>3.3.2</easyexcel.version>
         <hutool.version>5.8.21</hutool.version>
         <guava.version>32.0.0-jre</guava.version>
         <commons-text.version>1.11.0</commons-text.version>
@@ -155,6 +163,11 @@
                 <groupId>com.baomidou</groupId>
                 <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
                 <version>${dynamic-datasource.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>p6spy</groupId>
+                <artifactId>p6spy</artifactId>
+                <version>${p6spy.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.redisson</groupId>

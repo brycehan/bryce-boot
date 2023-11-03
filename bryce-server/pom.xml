@@ -37,6 +37,10 @@
             <groupId>com.brycehan.boot</groupId>
             <artifactId>bryce-module-quartz</artifactId>
         </dependency>
+        <dependency>
+            <groupId>p6spy</groupId>
+            <artifactId>p6spy</artifactId>
+        </dependency>
         <!-- 测试框架 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
