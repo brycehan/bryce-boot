@@ -67,3 +67,4 @@ bryce:
 logging:
   level:
     root: info
+    com.brycehan: debug

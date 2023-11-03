@@ -309,6 +309,7 @@
             <!-- 编译时包含 resources 文件夹下资源 -->
             <resource>
                 <directory>src/main/resources</directory>
+                <filtering>true</filtering>
                 <includes>
                     <include>**/*</include>
                 </includes>

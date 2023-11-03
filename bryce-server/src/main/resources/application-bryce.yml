@@ -2,9 +2,9 @@ bryce:
   # 项目配置
   application:
     # 名称
-    name: BryceBoot
+    name: Bryce Boot
     # 版本
-    version: 0.0.1
+    version: @project.version@
     # 版权年份
     copyright-year: 2023
     # 实例演示开关
@@ -54,6 +54,8 @@ bryce:
   # 权限过滤
   auth:
     ignore-urls:
+      all:
+        - /generator-ui/**
       get:
         - /webjars/**
         - /swagger-ui/**
@@ -71,8 +73,6 @@ bryce:
         - /auth/loginByAccount
         - /auth/loginByPhone
         - /register
-      all:
-        - /generator-ui/**
 
   # xss 过滤
   xss:
