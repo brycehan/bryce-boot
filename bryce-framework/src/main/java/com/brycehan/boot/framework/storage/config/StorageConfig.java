@@ -1,6 +1,6 @@
 package com.brycehan.boot.framework.storage.config;
 
-import com.brycehan.boot.framework.storage.config.properties.StorageProperties;
+import com.brycehan.boot.framework.storage.config.properties.*;
 import com.brycehan.boot.framework.storage.service.*;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

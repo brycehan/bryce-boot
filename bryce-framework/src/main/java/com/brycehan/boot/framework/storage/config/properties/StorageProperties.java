@@ -3,6 +3,7 @@ package com.brycehan.boot.framework.storage.config.properties;
 import com.brycehan.boot.framework.storage.config.StorageType;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
 /**
  * 存储属性
@@ -12,6 +13,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  */
 @Data
 @ConfigurationProperties(prefix = "bryce.storage")
+@EnableConfigurationProperties({LocalStorageProperties.class, MinioStorageProperties.class, AliyunStorageProperties.class,
+        TencentStorageProperties.class, HuaweiStorageProperties.class, QiniuStorageProperties.class})
 public class StorageProperties {
     /** 是否开启存储 */
     private boolean enabled;
