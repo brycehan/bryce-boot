@@ -480,7 +480,7 @@ create table brc_sys_tenant
     id              bigint              primary key comment 'ID',
     name            varchar(100)        not null comment '租户名称',
     site_domain     varchar(200)        null comment '站点域名',
-    site_url        varchar(100)        null comment '访问网址',
+    site_url        varchar(100)        not null comment '访问网址',
     site_logo       varchar(200)        null comment 'logo',
     config          text                null comment '系统配置',
     expires_time    datetime            null comment '过期时间',
@@ -490,8 +490,7 @@ create table brc_sys_tenant
     created_user_id bigint              null comment '创建者ID',
     created_time    datetime            null comment '创建时间',
     updated_user_id bigint              null comment '修改者ID',
-    updated_time    datetime            null comment '修改时间',
-    constraint uk_site_domain unique (site_domain)
+    updated_time    datetime            null comment '修改时间'
 ) engine InnoDB comment '系统租户表';
 
 -- 16、系统附件表

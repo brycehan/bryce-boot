@@ -694,15 +694,14 @@ create table brc_sys_tenant
     id             bigint       not null primary key,
     name           varchar(100) not null,
     site_domain    varchar(200),
-    site_url       varchar(100),
+    site_url       varchar(100) not null,
     site_logo      varchar(200),
     site_config    text,
     admin_id       bigint       not null,
     create_user_id bigint,
     create_time    datetime,
     update_user_id bigint,
-    update_time    datetime,
-    constraint uk_site_domain unique (site_domain)
+    update_time    datetime
 );
 
 comment on table brc_sys_tenant is '系统租户表';
