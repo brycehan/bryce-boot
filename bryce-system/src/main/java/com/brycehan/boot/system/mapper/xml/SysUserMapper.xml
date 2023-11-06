@@ -4,36 +4,37 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.brycehan.boot.system.entity.SysUser">
-        <id column="id" property="id" />
-        <result column="username" property="username" />
-        <result column="password" property="password" />
-        <result column="full_name" property="fullName" />
-        <result column="avatar" property="avatar" />
-        <result column="gender" property="gender" />
-        <result column="type" property="type" />
-        <result column="phone" property="phone" />
-        <result column="email" property="email" />
-        <result column="sort" property="sort" />
-        <result column="org_id" property="orgId" />
-        <result column="super_admin" property="superAdmin" />
-        <result column="tenant_admin" property="tenantAdmin" />
-        <result column="status" property="status" />
-        <result column="remark" property="remark" />
-        <result column="account_non_locked" property="accountNonLocked" />
-        <result column="last_login_ip" property="lastLoginIp" />
-        <result column="last_login_time" property="lastLoginTime" />
-        <result column="tenant_id" property="tenantId" />
-        <result column="version" property="version" />
-        <result column="deleted" property="deleted" />
-        <result column="created_user_id" property="createdUserId" />
-        <result column="created_time" property="createdTime" />
-        <result column="updated_user_id" property="updatedUserId" />
-        <result column="updated_time" property="updatedTime" />
+        <id column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="full_name" property="fullName"/>
+        <result column="avatar" property="avatar"/>
+        <result column="gender" property="gender"/>
+        <result column="type" property="type"/>
+        <result column="phone" property="phone"/>
+        <result column="email" property="email"/>
+        <result column="sort" property="sort"/>
+        <result column="org_id" property="orgId"/>
+        <result column="super_admin" property="superAdmin"/>
+        <result column="tenant_admin" property="tenantAdmin"/>
+        <result column="status" property="status"/>
+        <result column="remark" property="remark"/>
+        <result column="account_non_locked" property="accountNonLocked"/>
+        <result column="last_login_ip" property="lastLoginIp"/>
+        <result column="last_login_time" property="lastLoginTime"/>
+        <result column="tenant_id" property="tenantId"/>
+        <result column="version" property="version"/>
+        <result column="deleted" property="deleted"/>
+        <result column="created_user_id" property="createdUserId"/>
+        <result column="created_time" property="createdTime"/>
+        <result column="updated_user_id" property="updatedUserId"/>
+        <result column="updated_time" property="updatedTime"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, username, password, full_name, avatar,
+        id
+        , username, password, full_name, avatar,
         gender, type, phone, email, sort,
         org_id, super_admin, tenant_admin, status, remark,
         account_non_locked, last_login_ip, last_login_time, tenant_id, version,
@@ -45,10 +46,10 @@
         from brc_sys_user bsu
         left join brc_sys_user_role bsur on bsu.id = bsur.user_id
         where bsu.super_admin = 0
-          and bsu.deleted = false
-          and bsu.status = true
-          and bsur.deleted = false
-          and bsur.role_id = #{roleId}
+        and bsu.deleted = false
+        and bsu.status = true
+        and bsur.deleted = false
+        and bsur.role_id = #{roleId}
         <if test="username != null and username.trim() != ''">
             and bsu.username like concat('%', #{username}, '%')
         </if>

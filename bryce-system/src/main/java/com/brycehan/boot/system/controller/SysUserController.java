@@ -98,7 +98,7 @@ public class SysUserController {
     @DeleteMapping
     public ResponseResult<Void> delete(@Validated @RequestBody IdsDto idsDto) {
         // 用户不能删除自己的账号
-        if(CollectionUtil.contains(idsDto.getIds(), LoginUserContext.currentUserId())) {
+        if (CollectionUtil.contains(idsDto.getIds(), LoginUserContext.currentUserId())) {
             throw BusinessException.responseStatus(HttpResponseStatus.HTTP_FORBIDDEN);
         }
         this.sysUserService.delete(idsDto);
@@ -159,14 +159,14 @@ public class SysUserController {
     /**
      * 导入系统用户
      *
-     * @param file 上传的文件
+     * @param file          上传的文件
      * @param updateSupport 更新支持
      */
     @Operation(summary = "导入系统用户")
     @OperateLog(type = OperateType.IMPORT)
     @Secured(value = "system:user:import")
     @PostMapping(path = "/importData")
-    public void importData(MultipartFile file, boolean updateSupport){
+    public void importData(MultipartFile file, boolean updateSupport) {
 
     }
 
@@ -177,12 +177,11 @@ public class SysUserController {
      */
     @Operation(summary = "下载导入模板")
     @PostMapping(path = "/importTemplate")
-    public void importTemplate(HttpServletResponse response){
+    public void importTemplate(HttpServletResponse response) {
 
     }
 
     /**
-     *
      * @param sysUser
      * @return
      */
@@ -225,7 +224,7 @@ public class SysUserController {
      */
     @Secured(value = "system:user:query")
     @GetMapping(path = "/authRole/{userId}")
-    public ResponseResult authRole(@PathVariable(value = "userId") Long userId){
+    public ResponseResult authRole(@PathVariable(value = "userId") Long userId) {
         SysUser sysUser = this.sysUserService.getById(userId);
         List<SysRole> strings = this.sysRoleService.selectRolesByUserId(userId);
 //        Set<SysRole> stringss = Sets.newHashSet(strings);
@@ -236,7 +235,7 @@ public class SysUserController {
     @Secured(value = "system:user:edit")
     @OperateLog(type = OperateType.GRANT)
     @PutMapping(path = "/authRole")
-    public ResponseResult<Void> insertAuthRole(Long userId, Long[] roleIds){
+    public ResponseResult<Void> insertAuthRole(Long userId, Long[] roleIds) {
         this.sysUserService.insertAuthRole(userId, roleIds);
         return ResponseResult.ok();
     }

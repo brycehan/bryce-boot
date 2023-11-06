@@ -16,7 +16,7 @@ public interface SysRoleMenuService extends BaseService<SysRoleMenu> {
     /**
      * 保存或修改
      *
-     * @param roleId 角色ID
+     * @param roleId  角色ID
      * @param menuIds 菜单IDs
      */
     void saveOrUpdate(Long roleId, List<Long> menuIds);

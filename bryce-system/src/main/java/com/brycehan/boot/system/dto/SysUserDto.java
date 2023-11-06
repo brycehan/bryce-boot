@@ -7,9 +7,10 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
-import java.time.LocalDateTime;
-import java.io.Serializable;
+
 import java.io.Serial;
+import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**

@@ -13,8 +13,8 @@ import java.time.LocalDateTime;
 /**
  * quartz 定时任务调度日志entity
  *
- * @author Bryce Han
  * @since 2023/10/19
+ * @author Bryce Han
  */
 @Data
 @TableName("brc_quartz_job_log")

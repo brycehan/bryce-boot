@@ -81,7 +81,7 @@ public class SysUserRoleServiceImpl extends BaseServiceImpl<SysUserRoleMapper, S
                     return userRole;
                 }).toList();
 
-        if(CollectionUtils.isNotEmpty(userRoleList)) {
+        if (CollectionUtils.isNotEmpty(userRoleList)) {
             saveBatch(userRoleList);
         }
     }

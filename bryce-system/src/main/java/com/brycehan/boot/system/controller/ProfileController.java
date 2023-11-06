@@ -1,18 +1,18 @@
 package com.brycehan.boot.system.controller;
 
+import com.brycehan.boot.common.base.dto.ProfileDto;
 import com.brycehan.boot.common.base.http.HttpResponseStatus;
+import com.brycehan.boot.common.base.http.ResponseResult;
 import com.brycehan.boot.common.base.http.UserResponseStatus;
+import com.brycehan.boot.common.exception.BusinessException;
 import com.brycehan.boot.framework.operatelog.annotation.OperateLog;
 import com.brycehan.boot.framework.operatelog.annotation.OperateType;
+import com.brycehan.boot.framework.security.JwtTokenProvider;
 import com.brycehan.boot.framework.security.context.LoginUser;
 import com.brycehan.boot.framework.security.context.LoginUserContext;
 import com.brycehan.boot.system.dto.SysUserPasswordDto;
-import com.brycehan.boot.system.service.SysUserService;
 import com.brycehan.boot.system.entity.SysUser;
-import com.brycehan.boot.common.base.dto.ProfileDto;
-import com.brycehan.boot.common.base.http.ResponseResult;
-import com.brycehan.boot.common.exception.BusinessException;
-import com.brycehan.boot.framework.security.JwtTokenProvider;
+import com.brycehan.boot.system.service.SysUserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -143,7 +143,7 @@ public class ProfileController {
         if (!this.passwordEncoder.matches(sysUserPasswordDto.getPassword(), loginUser.getPassword())) {
             throw BusinessException.responseStatus(UserResponseStatus.USER_PASSWORD_NOT_MATCH);
         }
-        if(this.passwordEncoder.matches(sysUserPasswordDto.getNewPassword(), loginUser.getPassword())){
+        if (this.passwordEncoder.matches(sysUserPasswordDto.getNewPassword(), loginUser.getPassword())) {
             throw BusinessException.responseStatus(UserResponseStatus.USER_PASSWORD_SAME_AS_OLD_ERROR);
         }
 

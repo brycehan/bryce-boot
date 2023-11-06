@@ -5,6 +5,7 @@ import com.brycehan.boot.system.entity.SysDictType;
 import com.brycehan.boot.system.vo.SysDictTypeVo;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
+
 import java.util.List;
 
 /**

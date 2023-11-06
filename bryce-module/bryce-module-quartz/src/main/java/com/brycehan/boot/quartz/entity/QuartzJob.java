@@ -10,8 +10,8 @@ import java.io.Serial;
 /**
  * quartz 定时任务调度entity
  *
- * @author Bryce Han
  * @since 2023/10/17
+ * @author Bryce Han
  */
 @Data
 @EqualsAndHashCode(callSuper=false)

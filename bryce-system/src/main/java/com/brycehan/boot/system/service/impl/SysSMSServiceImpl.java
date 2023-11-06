@@ -14,8 +14,8 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 /**
- * @since 2022/12/6
  * @author Bryce Han
+ * @since 2022/12/6
  */
 @Slf4j
 @Service
@@ -43,7 +43,7 @@ public class SysSMSServiceImpl implements SysSmsService {
         try {
             ResponseEntity<String> responseEntity = this.restTemplate.postForEntity(url, httpEntity, String.class);
             log.debug("SysSMSServiceImpl.sendSms, {}", responseEntity.getBody());
-        } catch (Exception e){
+        } catch (Exception e) {
             log.error("SysSMSServiceImpl.sendSms, {}", e.getMessage());
             log.error("SysSMSServiceImpl.sendSms, 短信发送失败，手机号码：{}, 内容：{}", phoneNumber, message);
         }

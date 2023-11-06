@@ -12,8 +12,8 @@ import com.brycehan.boot.quartz.vo.QuartzJobLogVo;
 /**
  * quartz 定时任务调度日志服务
  *
- * @author Bryce Han
  * @since 2023/10/19
+ * @author Bryce Han
  */
 public interface QuartzJobLogService extends BaseService<QuartzJobLog> {
 

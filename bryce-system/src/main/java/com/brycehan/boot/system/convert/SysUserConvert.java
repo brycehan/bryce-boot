@@ -2,10 +2,11 @@ package com.brycehan.boot.system.convert;
 
 import com.brycehan.boot.framework.security.context.LoginUser;
 import com.brycehan.boot.system.dto.SysUserDto;
-import com.brycehan.boot.system.vo.SysUserVo;
 import com.brycehan.boot.system.entity.SysUser;
+import com.brycehan.boot.system.vo.SysUserVo;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
+
 import java.util.List;
 
 /**

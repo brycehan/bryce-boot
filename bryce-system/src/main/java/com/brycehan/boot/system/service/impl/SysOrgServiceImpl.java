@@ -43,13 +43,13 @@ public class SysOrgServiceImpl extends BaseServiceImpl<SysOrgMapper, SysOrg> imp
         SysOrg sysOrg = SysOrgConvert.INSTANCE.convert(sysOrgDto);
 
         // 上级机构不能为自身
-        if(sysOrg.getId().equals(sysOrgDto.getParentId())) {
+        if (sysOrg.getId().equals(sysOrgDto.getParentId())) {
             throw new RuntimeException("上级机构不能为自身");
         }
 
         // 上级机构不能为下级
         List<Long> subOrgIds = getSubOrgIds(sysOrg.getId());
-        if(subOrgIds.contains(sysOrg.getParentId())) {
+        if (subOrgIds.contains(sysOrg.getParentId())) {
             throw new RuntimeException("上级机构不能为下级");
         }
 
@@ -76,13 +76,13 @@ public class SysOrgServiceImpl extends BaseServiceImpl<SysOrgMapper, SysOrg> imp
     /**
      * 递归查询所有子机构ID列表
      *
-     * @param id 当前机构ID
+     * @param id      当前机构ID
      * @param orgList 所有机构的列表
-     * @param subIds 当前机构的子机构列表
+     * @param subIds  当前机构的子机构列表
      */
     private void getTree(Long id, List<SysOrg> orgList, List<Long> subIds) {
         for (SysOrg sysOrg : orgList) {
-            if(sysOrg.getParentId().equals(id)) {
+            if (sysOrg.getParentId().equals(id)) {
                 this.getTree(sysOrg.getId(), orgList, subIds);
 
                 subIds.add(sysOrg.getId());
@@ -104,13 +104,13 @@ public class SysOrgServiceImpl extends BaseServiceImpl<SysOrgMapper, SysOrg> imp
 
         // 判断是否有子机构
         long orgCount = this.count(new LambdaQueryWrapper<SysOrg>().in(SysOrg::getParentId, ids));
-        if(orgCount > 0) {
+        if (orgCount > 0) {
             throw new RuntimeException("请先删除子机构");
         }
 
         // 判断机构下面是否有用户
         long userCount = this.sysUserMapper.selectCount(new LambdaQueryWrapper<SysUser>().in(SysUser::getOrgId, ids));
-        if(userCount > 0) {
+        if (userCount > 0) {
             throw new RuntimeException("机构下面有用户，不能删除");
         }
 

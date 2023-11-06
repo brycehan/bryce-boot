@@ -20,7 +20,7 @@ public interface SysRegisterService {
     /**
      * 校验验证码
      *
-     * @param key 唯一标识key
+     * @param key  唯一标识key
      * @param code 验证码
      * @return 校验结果（true：正确，false：错误）
      */

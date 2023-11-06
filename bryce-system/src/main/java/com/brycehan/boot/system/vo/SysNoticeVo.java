@@ -17,8 +17,8 @@ import java.time.LocalDateTime;
 /**
  * 系统通知公告Vo
  *
- * @author Bryce Han
  * @since 2023/10/13
+ * @author Bryce Han
  */
 @Data
 @Schema(description = "系统通知公告Vo")

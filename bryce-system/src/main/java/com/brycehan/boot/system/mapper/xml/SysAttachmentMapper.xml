@@ -4,26 +4,27 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.brycehan.boot.system.entity.SysAttachment">
-        <id column="id" property="id" />
-        <result column="name" property="name" />
-        <result column="url" property="url" />
-        <result column="size" property="size" />
-        <result column="type" property="type" />
-        <result column="suffix" property="suffix" />
-        <result column="hash" property="hash" />
-        <result column="platform" property="platform" />
-        <result column="tenant_id" property="tenantId" />
-        <result column="version" property="version" />
-        <result column="deleted" property="deleted" />
-        <result column="created_user_id" property="createdUserId" />
-        <result column="created_time" property="createdTime" />
-        <result column="updated_user_id" property="updatedUserId" />
-        <result column="updated_time" property="updatedTime" />
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="url" property="url"/>
+        <result column="size" property="size"/>
+        <result column="type" property="type"/>
+        <result column="suffix" property="suffix"/>
+        <result column="hash" property="hash"/>
+        <result column="platform" property="platform"/>
+        <result column="tenant_id" property="tenantId"/>
+        <result column="version" property="version"/>
+        <result column="deleted" property="deleted"/>
+        <result column="created_user_id" property="createdUserId"/>
+        <result column="created_time" property="createdTime"/>
+        <result column="updated_user_id" property="updatedUserId"/>
+        <result column="updated_time" property="updatedTime"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, name, url, size, type, 
+        id
+        , name, url, size, type,
         suffix, hash, platform, tenant_id, version, 
         deleted, created_user_id, created_time, updated_user_id, updated_time
     </sql>

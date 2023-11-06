@@ -8,9 +8,9 @@ import com.brycehan.boot.system.convert.SysUserConvert;
 import com.brycehan.boot.system.entity.SysUser;
 import com.brycehan.boot.system.mapper.SysRoleDataScopeMapper;
 import com.brycehan.boot.system.mapper.SysRoleMapper;
+import com.brycehan.boot.system.service.PasswordRetryService;
 import com.brycehan.boot.system.service.SysMenuService;
 import com.brycehan.boot.system.service.SysOrgService;
-import com.brycehan.boot.system.service.PasswordRetryService;
 import com.brycehan.boot.system.service.SysUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,8 +25,8 @@ import java.util.Set;
 /**
  * 系统用户详情服务实现
  *
- * @since 2023/10/7
  * @author Bryce Han
+ * @since 2023/10/7
  */
 @Slf4j
 @Service
@@ -69,11 +69,11 @@ public class SysUserDetailsServiceImpl implements SysUserDetailsService {
 
     private Set<Long> getDataScope(LoginUser loginUser) {
         Integer dataScope = this.sysRoleMapper.getDataScopeByUserId(loginUser.getId());
-        if(dataScope == null) {
+        if (dataScope == null) {
             return new HashSet<>();
         }
 
-        if(dataScope.equals(DataScopeType.ALL.value())) {
+        if (dataScope.equals(DataScopeType.ALL.value())) {
             // 全部数据范围权限，则返回null
             return null;
         } else if (dataScope.equals(DataScopeType.ORG_AND_CHILDREN.value())) {

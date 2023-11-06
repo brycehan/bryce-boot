@@ -57,8 +57,8 @@ public interface SysLoginLogService extends BaseService<SysLoginLog> {
      * 保存登录日志
      *
      * @param username 用户账号
-     * @param status 登录状态
-     * @param info 操作信息
+     * @param status   登录状态
+     * @param info     操作信息
      */
     void save(String username, boolean status, Integer info);
 }

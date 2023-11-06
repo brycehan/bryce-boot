@@ -15,7 +15,8 @@ public interface SysUserRoleService extends BaseService<SysUserRole> {
 
     /**
      * 保存或修改
-     * @param userId 用户ID
+     *
+     * @param userId  用户ID
      * @param roleIds 角色IDs
      */
     void saveOrUpdate(Long userId, List<Long> roleIds);
@@ -23,7 +24,7 @@ public interface SysUserRoleService extends BaseService<SysUserRole> {
     /**
      * 分配角色给多个用户
      *
-     * @param roleId 角色ID
+     * @param roleId  角色ID
      * @param userIds 用户IDs
      */
     void saveUser(Long roleId, List<Long> userIds);
@@ -52,7 +53,8 @@ public interface SysUserRoleService extends BaseService<SysUserRole> {
 
     /**
      * 根据角色ID和用户IDs，删除用户角色关系
-     * @param roleId 角色ID
+     *
+     * @param roleId  角色ID
      * @param userIds 用户IDs
      */
     void deleteByRoleIdAndUserIds(Long roleId, List<Long> userIds);

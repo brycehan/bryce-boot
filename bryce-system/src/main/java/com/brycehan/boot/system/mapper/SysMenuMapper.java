@@ -28,7 +28,7 @@ public interface SysMenuMapper extends BryceBaseMapper<SysMenu> {
      * 查询菜单树列表
      *
      * @param userId 用户ID
-     * @param type 菜单类型
+     * @param type   菜单类型
      * @return 菜单列表
      */
     List<SysMenu> selectMenuTreeList(Long userId, String type);

@@ -16,7 +16,7 @@ public interface SysUserPostService extends BaseService<SysUserPost> {
     /**
      * 保存或修改
      *
-     * @param userId 用户ID
+     * @param userId  用户ID
      * @param postIds 岗位IDs
      */
     void saveOrUpdate(Long userId, List<Long> postIds);

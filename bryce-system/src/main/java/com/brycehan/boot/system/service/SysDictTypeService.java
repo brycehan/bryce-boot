@@ -1,8 +1,8 @@
 package com.brycehan.boot.system.service;
 
+import com.brycehan.boot.common.base.entity.PageResult;
 import com.brycehan.boot.common.base.id.IdGenerator;
 import com.brycehan.boot.framework.mybatis.service.BaseService;
-import com.brycehan.boot.common.base.entity.PageResult;
 import com.brycehan.boot.system.convert.SysDictTypeConvert;
 import com.brycehan.boot.system.dto.SysDictTypeDto;
 import com.brycehan.boot.system.dto.SysDictTypePageDto;

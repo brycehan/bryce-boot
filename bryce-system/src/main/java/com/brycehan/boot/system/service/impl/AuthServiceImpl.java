@@ -21,7 +21,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.request.RequestContextHolder;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
@@ -58,7 +57,7 @@ public class AuthServiceImpl implements AuthService {
 
         // 1、校验验证码
         boolean validated = this.captchaService.validate(accountLoginDto.getKey(), accountLoginDto.getCode());
-        if(!validated) {
+        if (!validated) {
             // 保存登录日志
             this.sysLoginLogService.save(accountLoginDto.getUsername(), DataConstants.FAIL, LoginInfoType.CAPTCHA_FAIL.getValue());
             throw new RuntimeException("验证码错误");

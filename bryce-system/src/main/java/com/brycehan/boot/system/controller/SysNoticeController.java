@@ -1,8 +1,8 @@
 package com.brycehan.boot.system.controller;
 
+import com.brycehan.boot.common.base.dto.IdsDto;
 import com.brycehan.boot.common.base.entity.PageResult;
 import com.brycehan.boot.common.base.http.ResponseResult;
-import com.brycehan.boot.common.base.dto.IdsDto;
 import com.brycehan.boot.common.validator.SaveGroup;
 import com.brycehan.boot.common.validator.UpdateGroup;
 import com.brycehan.boot.framework.operatelog.annotation.OperateLog;
@@ -24,8 +24,8 @@ import org.springframework.web.bind.annotation.*;
 /**
  * 系统通知公告API
  *
- * @author Bryce Han
  * @since 2023/10/13
+ * @author Bryce Han
  */
 @Tag(name = "系统通知公告", description = "sysNotice")
 @RequestMapping("/system/notice")

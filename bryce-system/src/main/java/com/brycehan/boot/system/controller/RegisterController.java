@@ -1,10 +1,10 @@
 package com.brycehan.boot.system.controller;
 
+import com.brycehan.boot.common.base.dto.RegisterDto;
+import com.brycehan.boot.common.base.http.ResponseResult;
 import com.brycehan.boot.common.base.http.UserResponseStatus;
 import com.brycehan.boot.system.service.SysParamService;
 import com.brycehan.boot.system.service.SysRegisterService;
-import com.brycehan.boot.common.base.dto.RegisterDto;
-import com.brycehan.boot.common.base.http.ResponseResult;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;

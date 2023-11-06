@@ -6,10 +6,10 @@ use bryce_boot;
 drop table if exists brc_sys_org;
 create table brc_sys_org
 (
-    id              bigint            not null comment 'ID',
+    id              bigint            primary key comment 'ID',
     name            varchar(100)      not null comment '机构名称',
     code            varchar(30)       null comment '机构编码',
-    parent_id       bigint            null comment '父机构ID',
+    parent_id       bigint            not null comment '父机构ID',
     ancestor        varchar(255)      null comment '祖级机构列表',
     leader          varchar(50)       null comment '负责人',
     contact_number  varchar(20)       null comment '联系电话',
@@ -23,9 +23,8 @@ create table brc_sys_org
     created_user_id bigint            null comment '创建者ID',
     created_time    datetime          null comment '创建时间',
     updated_user_id bigint            null comment '修改者ID',
-    updated_time    datetime          null comment '修改时间',
-    primary key (id)
-) engine InnoDB default charset utf8mb4 collate utf8mb4_0900_ai_ci comment '系统机构表';
+    updated_time    datetime          null comment '修改时间'
+) engine InnoDB comment '系统机构表';
 
 create index idx_parent_id on brc_sys_org (parent_id);
 
@@ -45,7 +44,7 @@ INSERT INTO brc_sys_org (id, name, code, parent_id, ancestor, leader, contact_nu
 drop table if exists brc_sys_user;
 create table brc_sys_user
 (
-    id                 bigint                   not null comment 'ID',
+    id                 bigint                   primary key comment 'ID',
     username           varchar(50)              not null comment '账号',
     password           varchar(255)             null comment '密码',
     full_name          varchar(50)              null comment '姓名',
@@ -70,9 +69,8 @@ create table brc_sys_user
     created_time       datetime                 null comment '创建时间',
     updated_user_id    bigint                   null comment '修改者ID',
     updated_time       datetime                 null comment '修改时间',
-    primary key (id),
     constraint ck_gender check (gender in ('M', 'F'))
-) engine InnoDB default charset utf8mb4 collate utf8mb4_0900_ai_ci comment '系统用户表';
+) engine InnoDB comment '系统用户表';
 
 -- 初始化-系统用户表数据
 INSERT INTO brc_sys_user (id, username, password, full_name, avatar, gender, type, phone, email, sort, org_id, super_admin, tenant_admin, status, remark, account_non_locked, last_login_ip, last_login_time, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1, 'admin', '$2a$10$TPs3BLw2Ag9iZ5bxo./GsuR2BRqUz5J2KQh6h2aSvwQ6Vi.3LzQB6', '管理员', null, 'M', 0, '15853155402', 'brycehan@163.com', 0, 103, 1, 0, 1, '超级管理员', 1, '127.0.0.1', now(), null, null, 0, 1, now(), null, now());
@@ -82,7 +80,7 @@ INSERT INTO brc_sys_user (id, username, password, full_name, avatar, gender, typ
 drop table if exists brc_sys_role;
 create table brc_sys_role
 (
-    id              bigint            not null comment 'ID',
+    id              bigint            primary key comment 'ID',
     name            varchar(50)       not null comment '角色名称',
     code            varchar(50)       not null comment '角色编码',
     data_scope      smallint          null comment '数据范围（1：全部数据，2：本机构及以下机构数据，3：本机构数据，4：本人数据，5：自定义数据）',
@@ -96,9 +94,8 @@ create table brc_sys_role
     created_user_id bigint            null comment '创建者ID',
     created_time    datetime          null comment '创建时间',
     updated_user_id bigint            null comment '修改者ID',
-    updated_time    datetime          null comment '修改时间',
-    primary key (id)
-) engine InnoDB default charset utf8mb4 collate utf8mb4_0900_ai_ci comment '系统角色表';
+    updated_time    datetime          null comment '修改时间'
+) engine InnoDB comment '系统角色表';
 
 -- 初始化-系统角色表数据
 INSERT INTO brc_sys_role (id, name, code, data_scope, sort, status, remark, org_id, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1, '管理员', 'admin', 2, 0, 1, '管理员', null, null, null, 0, 1, now(), null, null);
@@ -108,7 +105,7 @@ INSERT INTO brc_sys_role (id, name, code, data_scope, sort, status, remark, org_
 drop table if exists brc_sys_user_role;
 create table brc_sys_user_role
 (
-    id              bigint   not null comment 'ID',
+    id              bigint   primary key comment 'ID',
     user_id         bigint   not null comment '用户ID',
     role_id         bigint   not null comment '角色ID',
     version         int      null comment '版本号',
@@ -116,9 +113,8 @@ create table brc_sys_user_role
     created_user_id bigint   null comment '创建者ID',
     created_time    datetime null comment '创建时间',
     updated_user_id bigint   null comment '修改者ID',
-    updated_time    datetime null comment '修改时间',
-    primary key (id)
-) engine InnoDB default charset utf8mb4 collate utf8mb4_0900_ai_ci comment '系统用户角色关系表';
+    updated_time    datetime null comment '修改时间'
+) engine InnoDB comment '系统用户角色关系表';
 
 create index idx_user_id on brc_sys_user_role (user_id);
 create index idx_role_id on brc_sys_user_role (role_id);
@@ -127,7 +123,7 @@ create index idx_role_id on brc_sys_user_role (role_id);
 drop table if exists brc_sys_post;
 create table brc_sys_post
 (
-    id              bigint            not null comment 'ID',
+    id              bigint            primary key comment 'ID',
     name            varchar(50)       not null comment '岗位名称',
     code            varchar(30)       not null comment '岗位编码',
     sort            int     default 0 null comment '显示顺序',
@@ -139,9 +135,8 @@ create table brc_sys_post
     created_user_id bigint            null comment '创建者ID',
     created_time    datetime          null comment '创建时间',
     updated_user_id bigint            null comment '修改者ID',
-    updated_time    datetime          null comment '修改时间',
-    primary key (id)
-) engine InnoDB default charset utf8mb4 collate utf8mb4_0900_ai_ci comment '系统岗位表';
+    updated_time    datetime          null comment '修改时间'
+) engine InnoDB comment '系统岗位表';
 
 -- 初始化-系统岗位表数据
 INSERT INTO brc_sys_post (id, name, code, sort, status, remark, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1, '董事长', 'ceo', 1, 1, null, null, null, 0, 1, now(), null, null);
@@ -153,7 +148,7 @@ INSERT INTO brc_sys_post (id, name, code, sort, status, remark, tenant_id, versi
 drop table if exists brc_sys_user_post;
 create table brc_sys_user_post
 (
-    id              bigint   not null comment 'ID',
+    id              bigint   primary key comment 'ID',
     user_id         bigint   not null comment '用户ID',
     post_id         bigint   not null comment '岗位ID',
     version         int      null comment '版本号',
@@ -161,9 +156,8 @@ create table brc_sys_user_post
     created_user_id bigint   null comment '创建者ID',
     created_time    datetime null comment '创建时间',
     updated_user_id bigint   null comment '修改者ID',
-    updated_time    datetime null comment '修改时间',
-    primary key (id)
-) engine InnoDB default charset utf8mb4 collate utf8mb4_0900_ai_ci comment '系统用户岗位关系表';
+    updated_time    datetime null comment '修改时间'
+) engine InnoDB comment '系统用户岗位关系表';
 
 create index idx_user_id on brc_sys_user_post (user_id);
 create index idx_post_id on brc_sys_user_post (post_id);
@@ -172,10 +166,10 @@ create index idx_post_id on brc_sys_user_post (post_id);
 drop table if exists brc_sys_menu;
 create table brc_sys_menu
 (
-    id              bigint               not null comment 'ID',
+    id              bigint               primary key comment 'ID',
     name            varchar(50)          not null comment '菜单名称',
-    type            char                 null comment '类型（M：菜单，B：按钮，I：接口）',
-    parent_id       bigint     default 0 null comment '父菜单ID，一级菜单为0',
+    type            char                 not null comment '类型（M：菜单，B：按钮，I：接口）',
+    parent_id       bigint               not null comment '父菜单ID，一级菜单为0',
     url             varchar(255)         null comment '组件路径',
     authority       varchar(100)         null comment '权限标识',
     icon            varchar(100)         null comment '菜单图标',
@@ -188,9 +182,8 @@ create table brc_sys_menu
     created_user_id bigint               null comment '创建者ID',
     created_time    datetime             null comment '创建时间',
     updated_user_id bigint               null comment '修改者ID',
-    updated_time    datetime             null comment '修改时间',
-    primary key (id)
-) engine InnoDB default charset utf8mb4 collate utf8mb4_0900_ai_ci comment '系统菜单表';
+    updated_time    datetime             null comment '修改时间'
+) engine InnoDB comment '系统菜单表';
 
 -- 初始化-系统菜单表数据
 -- 一级菜单
@@ -208,7 +201,8 @@ INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_
 INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (112, '数据字典', 'M', 2, 'system/dict/index', 'system:dictType:page', 'icon-insertrowabove', 0, 2, '数据字典菜单', 1, null, 0, 1, now(), null, null);
 INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (113, '参数设置', 'M', 2, 'system/param/index', 'system:param:page', 'icon-control', 0, 3, '参数设置菜单', 1, null, 0, 1, now(), null, null);
 INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (114, '附件管理', 'M', 2, 'system/attachment/index', 'system:attachment:page', 'icon-folder', 0, 4, '参数设置菜单', 1, null, 0, 1, now(), null, null);
-INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (116, '通知公告', 'M', 2, 'system/notice/index', 'system:notice:page', 'icon-message-fill', 0, 8, '通知公告菜单', 1, null, 0, 1, now(), null, null);
+INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (116, '通知公告', 'M', 2, 'system/notice/index', 'system:notice:page', 'icon-message', 0, 5, '通知公告菜单', 1, null, 0, 1, now(), null, null);
+INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (117, '租户管理', 'M', 2, 'system/tenant/index', 'system:tenant:page', 'icon-deploymentunit', 0, 6, '系统租户菜单', 1, null, 0, 1, now(), null, null);
 INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (121, '在线用户', 'M', 3, 'monitor/onlineUser/index', 'monitor:onlineUser:page', 'icon-solution', 0, 1, '在线用户菜单', 1, null, 0, 1, now(), null, null);
 INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (122, '服务监控', 'M', 3, 'monitor/server/index', 'monitor:server:info', 'icon-sever', 0, 2, '服务监控菜单', 1, null, 0, 1, now(), null, null);
 INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (123, '缓存监控', 'M', 3, 'monitor/cache/index', 'monitor:cache:info', 'icon-fund-fill', 0, 3, '缓存监控菜单', 1, null, 0, 1, now(), null, null);
@@ -277,6 +271,12 @@ INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_
 INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1164, '通知公告详情', 'B', 116, null, 'system:notice:info', '', 0, 4, null, 1, null, 0, 1, now(), null, null);
 INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1165, '通知公告导出', 'B', 116, null, 'system:notice:export', '', 0, 5, null, 1, null, 0, 1, now(), null, null);
 INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1166, '通知公告导入', 'B', 116, null, 'system:notice:import', '', 0, 6, null, 1, null, 0, 1, now(), null, null);
+INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1171, '租户新增', 'B', 117, null, 'system:tenant:save', '', 0, 1, null, 1, null, 0, 1, now(), null, null);
+INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1172, '租户修改', 'B', 117, null, 'system:tenant:update', '', 0, 2, null, 1, null, 0, 1, now(), null, null);
+INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1173, '租户删除', 'B', 117, null, 'system:tenant:delete', '', 0, 3, null, 1, null, 0, 1, now(), null, null);
+INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1174, '租户详情', 'B', 117, null, 'system:tenant:info', '', 0, 4, null, 1, null, 0, 1, now(), null, null);
+INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1175, '租户导出', 'B', 117, null, 'system:tenant:export', '', 0, 5, null, 1, null, 0, 1, now(), null, null);
+INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1176, '租户导入', 'B', 117, null, 'system:tenant:import', '', 0, 6, null, 1, null, 0, 1, now(), null, null);
 INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1211, '在线用户强退', 'B', 121, null, 'monitor:onlineUser:delete', '', 0, 1, null, 1, null, 0, 1, now(), null, null);
 INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1411, '登录日志删除', 'B', 141, null, 'system:loginLog:delete', '', 0, 3, null, 1, null, 0, 1, now(), null, null);
 INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1412, '登录日志详情', 'B', 141, null, 'system:loginLog:info', '', 0, 4, null, 1, null, 0, 1, now(), null, null);
@@ -289,7 +289,7 @@ INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_
 drop table if exists brc_sys_role_menu;
 create table brc_sys_role_menu
 (
-    id              bigint   not null comment 'ID',
+    id              bigint   primary key comment 'ID',
     role_id         bigint   not null comment '角色ID',
     menu_id         bigint   not null comment '菜单ID',
     version         int      null comment '版本号',
@@ -297,9 +297,8 @@ create table brc_sys_role_menu
     created_user_id bigint   null comment '创建者ID',
     created_time    datetime null comment '创建时间',
     updated_user_id bigint   null comment '修改者ID',
-    updated_time    datetime null comment '修改时间',
-    primary key (id)
-) engine InnoDB default charset utf8mb4 collate utf8mb4_0900_ai_ci comment '系统角色菜单关系表';
+    updated_time    datetime null comment '修改时间'
+) engine InnoDB comment '系统角色菜单关系表';
 
 create index idx_role_id on brc_sys_role_menu (role_id);
 create index idx_menu_id on brc_sys_role_menu (menu_id);
@@ -308,7 +307,7 @@ create index idx_menu_id on brc_sys_role_menu (menu_id);
 drop table if exists brc_sys_role_data_scope;
 create table brc_sys_role_data_scope
 (
-    id              bigint   not null comment 'ID',
+    id              bigint   primary key comment 'ID',
     role_id         bigint   not null comment '角色ID',
     org_id          bigint   not null comment '机构ID',
     version         int      null comment '版本号',
@@ -316,15 +315,14 @@ create table brc_sys_role_data_scope
     created_user_id bigint   null comment '创建者ID',
     created_time    datetime null comment '创建时间',
     updated_user_id bigint   null comment '修改者ID',
-    updated_time    datetime null comment '修改时间',
-    primary key (id)
-) engine InnoDB default charset utf8mb4 collate utf8mb4_0900_ai_ci comment '系统角色数据范围表';
+    updated_time    datetime null comment '修改时间'
+) engine InnoDB comment '系统角色数据范围表';
 
 -- 10、系统登录日志表
 drop table if exists brc_sys_login_log;
 create table brc_sys_login_log
 (
-    id           bigint       not null comment 'ID',
+    id           bigint       primary key comment 'ID',
     username     varchar(50)  null comment '用户账号',
     info         smallint     null comment '操作信息',
     ip           varchar(128) null comment '登录IP地址',
@@ -335,15 +333,14 @@ create table brc_sys_login_log
     status       tinyint      null comment '状态（0：失败，1：成功）',
     access_time  datetime     null comment '访问时间',
     tenant_id    bigint       null comment '租户ID',
-    created_time datetime     null comment '创建时间',
-    primary key (id)
-) engine InnoDB default charset utf8mb4 collate utf8mb4_0900_ai_ci comment '系统登录日志表';
+    created_time datetime     null comment '创建时间'
+) engine InnoDB comment '系统登录日志表';
 
 -- 11、系统操作日志表
 drop table if exists brc_sys_operate_log;
 create table brc_sys_operate_log
 (
-    id             bigint        not null comment 'ID',
+    id             bigint        primary key comment 'ID',
     name           varchar(50)   null comment '操作名称',
     module_name    varchar(50)   null comment '模块名',
     request_uri    varchar(2048) null comment '请求URI',
@@ -361,15 +358,14 @@ create table brc_sys_operate_log
     username       varchar(50)   null comment '操作人账号',
     org_id         bigint        null comment '机构ID',
     tenant_id      bigint        null comment '租户ID',
-    created_time   datetime      null comment '创建时间',
-    primary key (id)
-) engine InnoDB default charset utf8mb4 collate utf8mb4_0900_ai_ci comment '系统操作日志表';
+    created_time   datetime      null comment '创建时间'
+) engine InnoDB comment '系统操作日志表';
 
 -- 12、系统字典类型表
 drop table if exists brc_sys_dict_type;
 create table brc_sys_dict_type
 (
-    id              bigint            not null comment 'ID',
+    id              bigint            primary key comment 'ID',
     dict_name       varchar(100)      null comment '字典名称',
     dict_type       varchar(100)      null comment '字典类型',
     sort            int     default 0 null comment '显示顺序',
@@ -382,9 +378,8 @@ create table brc_sys_dict_type
     created_time    datetime          null comment '创建时间',
     updated_user_id bigint            null comment '修改者ID',
     updated_time    datetime          null comment '修改时间',
-    primary key (id),
     constraint uk_dict_type unique (dict_type)
-) engine InnoDB default charset utf8mb4 collate utf8mb4_0900_ai_ci comment '系统字典类型表';
+) engine InnoDB comment '系统字典类型表';
 
 -- 初始化-系统字典类型表数据
 INSERT INTO brc_sys_dict_type (id, dict_name, dict_type, sort, status, remark, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1, '用户性别', 'sys_user_gender', 0, 1, '用户性别列表', null, 1, 0, 1, now(), null, null);
@@ -401,7 +396,7 @@ INSERT INTO brc_sys_dict_type (id, dict_name, dict_type, sort, status, remark, t
 drop table if exists brc_sys_dict_data;
 create table brc_sys_dict_data
 (
-    id              bigint            not null comment 'ID',
+    id              bigint            primary key comment 'ID',
     dict_label      varchar(100)      null comment '字典标签',
     dict_value      varchar(100)      null comment '字典值',
     dict_type_id    bigint            null comment '字典类型',
@@ -415,9 +410,8 @@ create table brc_sys_dict_data
     created_user_id bigint            null comment '创建者ID',
     created_time    datetime          null comment '创建时间',
     updated_user_id bigint            null comment '修改者ID',
-    updated_time    datetime          null comment '修改时间',
-    primary key (id)
-) engine InnoDB default charset utf8mb4 collate utf8mb4_0900_ai_ci comment '系统字典数据表';
+    updated_time    datetime          null comment '修改时间'
+) engine InnoDB comment '系统字典数据表';
 
 -- 初始化-系统字典数据表数据
 INSERT INTO brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, sort, status, remark, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (11, '男', 'M', 1, '', 1, 1, null, null, 1, 0, 1, now(), null, null);
@@ -458,7 +452,7 @@ INSERT INTO brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_c
 drop table if exists brc_sys_param;
 create table brc_sys_param
 (
-    id              bigint       not null comment 'ID',
+    id              bigint       primary key comment 'ID',
     param_name      varchar(100) null comment '参数名称',
     param_key       varchar(100) null comment '参数键',
     param_value     text         null comment '参数值',
@@ -471,9 +465,8 @@ create table brc_sys_param
     created_time    datetime     null comment '创建时间',
     updated_user_id bigint       null comment '修改者ID',
     updated_time    datetime     null comment '修改时间',
-    primary key(id),
     constraint uk_param_key unique (param_key)
-) engine InnoDB default charset utf8mb4 collate utf8mb4_0900_ai_ci comment '系统参数表';
+) engine InnoDB comment '系统参数表';
 
 -- 初始化-系统配置表数据
 INSERT INTO brc_sys_param (id, param_name, param_key, param_value, built_in, remark, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1, '用户登录-验证码开关', 'system.account.captchaEnabled', 'false', 'Y', '是否开启验证码功能（true：开启，false：关闭）', null, 1, 0, 1, now(), null, null);
@@ -484,26 +477,28 @@ INSERT INTO brc_sys_param (id, param_name, param_key, param_value, built_in, rem
 drop table if exists brc_sys_tenant;
 create table brc_sys_tenant
 (
-    id             bigint       not null comment 'ID',
-    name           varchar(100) not null comment '租户名称',
-    site_domain    varchar(200) null comment '租户域名',
-    site_url       varchar(100) null comment '租户网址',
-    site_logo      varchar(200) null comment '租户网址logo',
-    site_config    text         null comment '租户网址配置',
-    admin_id       bigint       not null comment '管理员ID',
-    create_user_id bigint       null comment '创建者ID',
-    create_time    datetime     null comment '创建时间',
-    update_user_id bigint       null comment '修改者ID',
-    update_time    datetime     null comment '修改时间',
-    primary key (id),
+    id              bigint              primary key comment 'ID',
+    name            varchar(100)        not null comment '租户名称',
+    site_domain     varchar(200)        null comment '站点域名',
+    site_url        varchar(100)        null comment '访问网址',
+    site_logo       varchar(200)        null comment 'logo',
+    config          text                null comment '系统配置',
+    expires_time    datetime            null comment '过期时间',
+    status          tinyint default 1   null comment '状态（0：停用，1：正常）',
+    version         int                 null comment '版本号',
+    deleted         tinyint             null comment '删除标识（0：存在，1：已删除）',
+    created_user_id bigint              null comment '创建者ID',
+    created_time    datetime            null comment '创建时间',
+    updated_user_id bigint              null comment '修改者ID',
+    updated_time    datetime            null comment '修改时间',
     constraint uk_site_domain unique (site_domain)
-) engine InnoDB default charset utf8mb4 collate utf8mb4_0900_ai_ci comment '系统租户表';
+) engine InnoDB comment '系统租户表';
 
 -- 16、系统附件表
 drop table if exists brc_sys_attachment;
 create table brc_sys_attachment
 (
-    id              bigint       not null comment 'ID',
+    id              bigint       primary key comment 'ID',
     name            varchar(100) null comment '附件名称',
     url             varchar(255) null comment '附件地址',
     size            bigint       null comment '附件大小（单位字节）',
@@ -517,9 +512,8 @@ create table brc_sys_attachment
     created_user_id bigint       null comment '创建者ID',
     created_time    datetime     null comment '创建时间',
     updated_user_id bigint       null comment '修改者ID',
-    updated_time    datetime     null comment '修改时间',
-    primary key (id)
-) engine InnoDB default charset utf8mb4 collate utf8mb4_0900_ai_ci comment '系统附件表';
+    updated_time    datetime     null comment '修改时间'
+) engine InnoDB comment '系统附件表';
 
 create index idx_created_time on brc_sys_attachment (created_time) comment '创建时间索引';
 
@@ -527,7 +521,7 @@ create index idx_created_time on brc_sys_attachment (created_time) comment '创�
 drop table if exists brc_sys_notice;
 create table brc_sys_notice
 (
-    id              bigint            not null comment 'ID',
+    id              bigint            primary key comment 'ID',
     title           varchar(50)       not null comment '标题',
     content         longtext          null comment '内容',
     type            smallint          not null comment '公告类型（0：通知，1：公告）',
@@ -539,9 +533,8 @@ create table brc_sys_notice
     created_user_id bigint            null comment '创建者ID',
     created_time    datetime          null comment '创建时间',
     updated_user_id bigint            null comment '修改者ID',
-    updated_time    datetime          null comment '修改时间',
-    primary key (id)
-) engine InnoDB default charset utf8mb4 collate utf8mb4_0900_ai_ci comment '系统通知公告表';
+    updated_time    datetime          null comment '修改时间'
+) engine InnoDB comment '系统通知公告表';
 
 -- 初始化-系统通知公告表数据
 INSERT INTO brc_sys_notice (id, title, content, type, status, remark, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1, '温馨提醒：2022-10-01 Bryce Boot 新版本发布啦', '<p>新版本内容</p>', 2, 1, null, null, 1, 0, 1, now(), null, null);

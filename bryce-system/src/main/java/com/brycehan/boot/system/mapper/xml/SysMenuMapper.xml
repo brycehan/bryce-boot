@@ -4,28 +4,29 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.brycehan.boot.system.entity.SysMenu">
-        <id column="id" property="id" />
-        <result column="name" property="name" />
-        <result column="type" property="type" />
-        <result column="parent_id" property="parentId" />
-        <result column="url" property="url" />
-        <result column="authority" property="authority" />
-        <result column="icon" property="icon" />
-        <result column="open_style" property="openStyle" />
-        <result column="sort" property="sort" />
-        <result column="remark" property="remark" />
-        <result column="status" property="status" />
-        <result column="version" property="version" />
-        <result column="deleted" property="deleted" />
-        <result column="created_user_id" property="createdUserId" />
-        <result column="created_time" property="createdTime" />
-        <result column="updated_user_id" property="updatedUserId" />
-        <result column="updated_time" property="updatedTime" />
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="type" property="type"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="url" property="url"/>
+        <result column="authority" property="authority"/>
+        <result column="icon" property="icon"/>
+        <result column="open_style" property="openStyle"/>
+        <result column="sort" property="sort"/>
+        <result column="remark" property="remark"/>
+        <result column="status" property="status"/>
+        <result column="version" property="version"/>
+        <result column="deleted" property="deleted"/>
+        <result column="created_user_id" property="createdUserId"/>
+        <result column="created_time" property="createdTime"/>
+        <result column="updated_user_id" property="updatedUserId"/>
+        <result column="updated_time" property="updatedTime"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, name, type, parent_id, url,
+        id
+        , name, type, parent_id, url,
         authority, icon, open_style, sort, remark,
         status, version, deleted, created_user_id, created_time,
         updated_user_id, updated_time
@@ -35,8 +36,8 @@
     <select id="findAuthorityByUserId" resultType="java.lang.String">
         select bsm.authority
         from brc_sys_menu bsm
-        left join brc_sys_role_menu bsrm on bsm.id = bsrm.menu_id
-        left join brc_sys_user_role bsur on bsrm.role_id = bsur.role_id
+                 left join brc_sys_role_menu bsrm on bsm.id = bsrm.menu_id
+                 left join brc_sys_user_role bsur on bsrm.role_id = bsur.role_id
         where bsm.status = '1'
           and bsm.deleted = false
           and bsm.authority is not null
@@ -44,23 +45,23 @@
     </select>
     <select id="selectMenuTreeList" resultType="com.brycehan.boot.system.entity.SysMenu">
         select distinct bsm.id,
-            bsm.name,
-            bsm.type,
-            bsm.parent_id,
-            bsm.icon,
-            bsm.url,
-            bsm.authority,
-            bsm.sort,
-            bsm.status,
-            bsm.created_time
+        bsm.name,
+        bsm.type,
+        bsm.parent_id,
+        bsm.icon,
+        bsm.url,
+        bsm.authority,
+        bsm.sort,
+        bsm.status,
+        bsm.created_time
         from brc_sys_menu bsm
         left join brc_sys_role_menu bsrm on bsm.id = bsrm.menu_id
         left join brc_sys_user_role bsur on bsrm.role_id = bsur.role_id
         where bsm.deleted = false
-            and bsrm.deleted = false
-            and bsur.deleted = false
-            and bsm.status = '1'
-            and bsur.user_id = #{userId}
+        and bsrm.deleted = false
+        and bsur.deleted = false
+        and bsm.status = '1'
+        and bsur.user_id = #{userId}
         <if test="type != null and type !=''">
             and bsm.type = #{type}
         </if>

@@ -1,19 +1,20 @@
 package com.brycehan.boot.system.entity;
 
-import com.baomidou.mybatisplus.annotation.*;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.brycehan.boot.common.base.entity.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import com.brycehan.boot.common.base.entity.BaseEntity;
+
 import java.io.Serial;
 
 /**
  * 系统通知公告entity
  *
- * @author Bryce Han
  * @since 2023/10/13
+ * @author Bryce Han
  */
 @Data
-@EqualsAndHashCode(callSuper=false)
+@EqualsAndHashCode(callSuper = false)
 @TableName("brc_sys_notice")
 public class SysNotice extends BaseEntity {
 

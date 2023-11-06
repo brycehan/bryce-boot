@@ -4,29 +4,30 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.brycehan.boot.system.entity.SysRoleDataScope">
-        <id column="id" property="id" />
-        <result column="role_id" property="roleId" />
-        <result column="org_id" property="orgId" />
-        <result column="version" property="version" />
-        <result column="deleted" property="deleted" />
-        <result column="created_user_id" property="createdUserId" />
-        <result column="created_time" property="createdTime" />
-        <result column="updated_user_id" property="updatedUserId" />
-        <result column="updated_time" property="updatedTime" />
+        <id column="id" property="id"/>
+        <result column="role_id" property="roleId"/>
+        <result column="org_id" property="orgId"/>
+        <result column="version" property="version"/>
+        <result column="deleted" property="deleted"/>
+        <result column="created_user_id" property="createdUserId"/>
+        <result column="created_time" property="createdTime"/>
+        <result column="updated_user_id" property="updatedUserId"/>
+        <result column="updated_time" property="updatedTime"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, role_id, org_id, version, deleted, 
+        id
+        , role_id, org_id, version, deleted,
         created_user_id, created_time, updated_user_id, updated_time
     </sql>
 
     <select id="getDataScopeOrgIds" resultType="long">
         select bsrds.org_id
         from brc_sys_user_role bsur
-        left join brc_sys_role_data_scope bsrds on bsur.role_id = bsrds.role_id
+                 left join brc_sys_role_data_scope bsrds on bsur.role_id = bsrds.role_id
         where bsur.deleted = false
-            and bsrds.deleted = false
-            and bsur.user_id = #{userId}
+          and bsrds.deleted = false
+          and bsur.user_id = #{userId}
     </select>
 </mapper>

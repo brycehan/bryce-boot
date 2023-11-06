@@ -6,8 +6,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 /**
  * 系统用户详情服务
  *
- * @since 2023/10/7
  * @author Bryce Han
+ * @since 2023/10/7
  */
 public interface SysUserDetailsService {
 

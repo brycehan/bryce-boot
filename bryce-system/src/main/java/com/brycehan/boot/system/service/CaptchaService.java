@@ -5,8 +5,8 @@ import com.brycehan.boot.system.vo.CaptchaVo;
 /**
  * 验证码服务
  *
- * @since 2023/10/4
  * @author Bryce Han
+ * @since 2023/10/4
  */
 public interface CaptchaService {
 
@@ -20,7 +20,7 @@ public interface CaptchaService {
     /**
      * 校验验证码
      *
-     * @param key key
+     * @param key  key
      * @param code 验证码
      * @return 校验结果（true：正确，false：错误）
      */

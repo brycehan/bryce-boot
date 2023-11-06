@@ -1,8 +1,6 @@
 package com.brycehan.boot.system.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.brycehan.boot.common.base.entity.PageResult;
-import com.brycehan.boot.common.base.dto.IdsDto;
 import com.brycehan.boot.common.base.id.IdGenerator;
 import com.brycehan.boot.framework.mybatis.service.BaseService;
 import com.brycehan.boot.system.convert.SysUserConvert;
@@ -60,6 +58,7 @@ public interface SysUserService extends BaseService<SysUser> {
 
     /**
      * 角色分配用户，用户列表
+     *
      * @param pageDto 查询条件
      * @return 用户列表
      */

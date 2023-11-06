@@ -42,7 +42,7 @@ public class SysDictDataServiceImpl extends BaseServiceImpl<SysDictDataMapper, S
      * @param sysDictDataPageDto 系统字典数据分页dto
      * @return 查询条件Wrapper
      */
-    private Wrapper<SysDictData> getWrapper(SysDictDataPageDto sysDictDataPageDto){
+    private Wrapper<SysDictData> getWrapper(SysDictDataPageDto sysDictDataPageDto) {
         LambdaQueryWrapper<SysDictData> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(Objects.nonNull(sysDictDataPageDto.getDictTypeId()), SysDictData::getDictTypeId, sysDictDataPageDto.getDictTypeId());
         wrapper.eq(Objects.nonNull(sysDictDataPageDto.getStatus()), SysDictData::getStatus, sysDictDataPageDto.getStatus());

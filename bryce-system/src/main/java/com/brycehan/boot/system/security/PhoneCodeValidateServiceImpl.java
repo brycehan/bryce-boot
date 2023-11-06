@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 /**
  * 手机验证码校验服务实现
  *
- * @since 2023/10/9
  * @author Bryce Han
+ * @since 2023/10/9
  */
 @Service
 @RequiredArgsConstructor
@@ -25,7 +25,7 @@ public class PhoneCodeValidateServiceImpl implements PhoneCodeValidateService {
     public boolean validate(String phone, String code) {
 
         // 如果关闭了短信功能，则直接校验通过
-        if(!this.smsService.isSmsEnabled()) {
+        if (!this.smsService.isSmsEnabled()) {
             return true;
         }
 

@@ -4,23 +4,24 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.brycehan.boot.system.entity.SysLoginLog">
-        <id column="id" property="id" />
-        <result column="username" property="username" />
-        <result column="info" property="info" />
-        <result column="ip" property="ip" />
-        <result column="location" property="location" />
-        <result column="browser" property="browser" />
-        <result column="os" property="os" />
-        <result column="user_agent" property="userAgent" />
-        <result column="status" property="status" />
-        <result column="access_time" property="accessTime" />
-        <result column="tenant_id" property="tenantId" />
-        <result column="created_time" property="createdTime" />
+        <id column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="info" property="info"/>
+        <result column="ip" property="ip"/>
+        <result column="location" property="location"/>
+        <result column="browser" property="browser"/>
+        <result column="os" property="os"/>
+        <result column="user_agent" property="userAgent"/>
+        <result column="status" property="status"/>
+        <result column="access_time" property="accessTime"/>
+        <result column="tenant_id" property="tenantId"/>
+        <result column="created_time" property="createdTime"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, username, info, ip, location, 
+        id
+        , username, info, ip, location,
         browser, os, user_agent, status, access_time, 
         tenant_id, created_time
     </sql>

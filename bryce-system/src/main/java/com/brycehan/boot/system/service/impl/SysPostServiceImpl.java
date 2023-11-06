@@ -5,20 +5,16 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.brycehan.boot.common.base.dto.IdsDto;
 import com.brycehan.boot.common.base.entity.PageResult;
-import com.brycehan.boot.common.base.id.IdGenerator;
 import com.brycehan.boot.common.util.DateTimeUtils;
-import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
 import com.brycehan.boot.common.util.ExcelUtils;
+import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
 import com.brycehan.boot.system.convert.SysPostConvert;
-import com.brycehan.boot.system.convert.SysRoleConvert;
-import com.brycehan.boot.system.dto.SysPostDto;
 import com.brycehan.boot.system.dto.SysPostPageDto;
-import com.brycehan.boot.system.entity.SysRole;
+import com.brycehan.boot.system.entity.SysPost;
 import com.brycehan.boot.system.mapper.SysPostMapper;
 import com.brycehan.boot.system.service.SysPostService;
 import com.brycehan.boot.system.service.SysUserPostService;
 import com.brycehan.boot.system.vo.SysPostVo;
-import com.brycehan.boot.system.entity.SysPost;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -45,7 +41,7 @@ public class SysPostServiceImpl extends BaseServiceImpl<SysPostMapper, SysPost> 
         // 过滤无效参数
         List<Long> ids = idsDto.getIds().stream()
                 .filter(Objects::nonNull).toList();
-        if(CollectionUtils.isEmpty(ids)) {
+        if (CollectionUtils.isEmpty(ids)) {
             return;
         }
 
@@ -70,7 +66,7 @@ public class SysPostServiceImpl extends BaseServiceImpl<SysPostMapper, SysPost> 
      * @param sysPostPageDto 系统岗位分页dto
      * @return 查询条件Wrapper
      */
-    private Wrapper<SysPost> getWrapper(SysPostPageDto sysPostPageDto){
+    private Wrapper<SysPost> getWrapper(SysPostPageDto sysPostPageDto) {
         LambdaQueryWrapper<SysPost> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(Objects.nonNull(sysPostPageDto.getStatus()), SysPost::getStatus, sysPostPageDto.getStatus());
         wrapper.eq(Objects.nonNull(sysPostPageDto.getTenantId()), SysPost::getTenantId, sysPostPageDto.getTenantId());

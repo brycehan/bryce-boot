@@ -60,17 +60,17 @@ public class SysOperateLogServiceImpl extends BaseServiceImpl<SysOperateLogMappe
      * @param sysOperateLogPageDto 系统操作日志分页dto
      * @return 查询条件Wrapper
      */
-    private Wrapper<SysOperateLog> getWrapper(SysOperateLogPageDto sysOperateLogPageDto){
+    private Wrapper<SysOperateLog> getWrapper(SysOperateLogPageDto sysOperateLogPageDto) {
         LambdaQueryWrapper<SysOperateLog> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(Objects.nonNull(sysOperateLogPageDto.getStatus()), SysOperateLog::getStatus, sysOperateLogPageDto.getStatus());
         wrapper.eq(Objects.nonNull(sysOperateLogPageDto.getOrgId()), SysOperateLog::getOrgId, sysOperateLogPageDto.getOrgId());
         wrapper.eq(Objects.nonNull(sysOperateLogPageDto.getTenantId()), SysOperateLog::getTenantId, sysOperateLogPageDto.getTenantId());
 
-        if(sysOperateLogPageDto.getCreatedTimeStart() != null && sysOperateLogPageDto.getCreatedTimeEnd() != null) {
+        if (sysOperateLogPageDto.getCreatedTimeStart() != null && sysOperateLogPageDto.getCreatedTimeEnd() != null) {
             wrapper.between(SysOperateLog::getCreatedTime, sysOperateLogPageDto.getCreatedTimeStart(), sysOperateLogPageDto.getCreatedTimeEnd());
-        } else if(sysOperateLogPageDto.getCreatedTimeStart() != null) {
+        } else if (sysOperateLogPageDto.getCreatedTimeStart() != null) {
             wrapper.ge(SysOperateLog::getCreatedTime, sysOperateLogPageDto.getCreatedTimeStart());
-        }else if(sysOperateLogPageDto.getCreatedTimeEnd() != null) {
+        } else if (sysOperateLogPageDto.getCreatedTimeEnd() != null) {
             wrapper.ge(SysOperateLog::getCreatedTime, sysOperateLogPageDto.getCreatedTimeEnd());
         }
 
@@ -104,7 +104,7 @@ public class SysOperateLogServiceImpl extends BaseServiceImpl<SysOperateLogMappe
             for (int i = 0; i < 1000; i++) {
                 OperateLogDto operateLogDto = this.redisTemplate.opsForList()
                         .rightPop(RedisKeys.getOperateLogKey());
-                if(operateLogDto == null) {
+                if (operateLogDto == null) {
                     break;
                 }
 
@@ -115,10 +115,10 @@ public class SysOperateLogServiceImpl extends BaseServiceImpl<SysOperateLogMappe
                 sysOperateLogList.add(sysOperateLog);
             }
 
-            if(CollectionUtils.isNotEmpty(sysOperateLogList)) {
+            if (CollectionUtils.isNotEmpty(sysOperateLogList)) {
                 this.saveBatch(sysOperateLogList);
             }
         }, 10, 10, TimeUnit.SECONDS);
     }
-    
+
 }

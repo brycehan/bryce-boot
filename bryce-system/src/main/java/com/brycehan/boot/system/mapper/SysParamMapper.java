@@ -6,11 +6,11 @@ import com.brycehan.boot.system.entity.SysParam;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
-* 系统参数Mapper接口
-*
-* @author Bryce Han
-* @since 2023/09/28
-*/
+ * 系统参数Mapper接口
+ *
+ * @since 2023/09/28
+ * @author Bryce Han
+ */
 @Mapper
 public interface SysParamMapper extends BryceBaseMapper<SysParam> {
 

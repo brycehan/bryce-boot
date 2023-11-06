@@ -12,8 +12,8 @@ import org.springframework.stereotype.Service;
 /**
  * 手机验证码登录，用户详情服务实现
  *
- * @since 2023/10/7
  * @author Bryce Han
+ * @since 2023/10/7
  */
 @Service
 @RequiredArgsConstructor
@@ -27,7 +27,7 @@ public class PhoneCodeUserDetailsServiceImpl implements PhoneCodeUserDetailsServ
     public UserDetails loadUserByPhone(String phone) throws UsernameNotFoundException {
         // 1、查询用户
         SysUser sysUser = this.sysUserMapper.getByPhone(phone);
-        if(sysUser == null) {
+        if (sysUser == null) {
             throw new UsernameNotFoundException("手机号或验证码错误");
         }
 

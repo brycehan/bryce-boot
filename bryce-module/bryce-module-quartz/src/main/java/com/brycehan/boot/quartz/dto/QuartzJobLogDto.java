@@ -15,8 +15,8 @@ import java.time.LocalDateTime;
 /**
  * quartz 定时任务调度日志Dto
  *
- * @author Bryce Han
  * @since 2023/10/19
+ * @author Bryce Han
  */
 @Data
 @Schema(description = "quartz 定时任务调度日志Dto")

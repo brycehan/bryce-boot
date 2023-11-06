@@ -42,7 +42,7 @@ public class SysUploadFileController {
     @OperateLog(type = OperateType.INSERT)
     @PostMapping
     public ResponseResult<SysUploadFileVo> upload(MultipartFile file) {
-        if(file.isEmpty()) {
+        if (file.isEmpty()) {
             return ResponseResult.ok();
         }
 

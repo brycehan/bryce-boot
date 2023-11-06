@@ -8,8 +8,8 @@ import java.io.Serializable;
 /**
  * 图片验证码
  *
- * @since 2023/10/4
  * @author Bryce Han
+ * @since 2023/10/4
  */
 @Data
 @Schema(description = "图片验证码")

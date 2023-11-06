@@ -57,18 +57,18 @@ public class SysDictTypeServiceImpl extends BaseServiceImpl<SysDictTypeMapper, S
      * @param sysDictTypePageDto 系统字典类型分页dto
      * @return 查询条件Wrapper
      */
-    private Wrapper<SysDictType> getWrapper(SysDictTypePageDto sysDictTypePageDto){
+    private Wrapper<SysDictType> getWrapper(SysDictTypePageDto sysDictTypePageDto) {
         LambdaQueryWrapper<SysDictType> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(Objects.nonNull(sysDictTypePageDto.getStatus()), SysDictType::getStatus, sysDictTypePageDto.getStatus());
         wrapper.eq(Objects.nonNull(sysDictTypePageDto.getTenantId()), SysDictType::getTenantId, sysDictTypePageDto.getTenantId());
         wrapper.like(StringUtils.isNotEmpty(sysDictTypePageDto.getDictName()), SysDictType::getDictName, sysDictTypePageDto.getDictName());
         wrapper.like(StringUtils.isNotEmpty(sysDictTypePageDto.getDictType()), SysDictType::getDictType, sysDictTypePageDto.getDictType());
 
-        if(sysDictTypePageDto.getCreatedTimeStart() != null && sysDictTypePageDto.getCreatedTimeEnd() != null) {
+        if (sysDictTypePageDto.getCreatedTimeStart() != null && sysDictTypePageDto.getCreatedTimeEnd() != null) {
             wrapper.between(SysDictType::getCreatedTime, sysDictTypePageDto.getCreatedTimeStart(), sysDictTypePageDto.getCreatedTimeEnd());
-        } else if(sysDictTypePageDto.getCreatedTimeStart() != null) {
+        } else if (sysDictTypePageDto.getCreatedTimeStart() != null) {
             wrapper.ge(SysDictType::getCreatedTime, sysDictTypePageDto.getCreatedTimeStart());
-        }else if(sysDictTypePageDto.getCreatedTimeEnd() != null) {
+        } else if (sysDictTypePageDto.getCreatedTimeEnd() != null) {
             wrapper.ge(SysDictType::getCreatedTime, sysDictTypePageDto.getCreatedTimeEnd());
         }
 
@@ -93,7 +93,7 @@ public class SysDictTypeServiceImpl extends BaseServiceImpl<SysDictTypeMapper, S
 
         // 全部字典列表
         List<SysDictVo> dictVoList = new ArrayList<>(typeList.size());
-        for (SysDictType sysDictType: typeList) {
+        for (SysDictType sysDictType : typeList) {
             SysDictVo sysDictVo = new SysDictVo();
             sysDictVo.setDictType(sysDictType.getDictType());
 
@@ -127,7 +127,7 @@ public class SysDictTypeServiceImpl extends BaseServiceImpl<SysDictTypeMapper, S
 
             List<SysDictType> dictTypeList = super.list();
             for (SysDictType dictType : dictTypeList) {
-                if(dictTypeDataMap.containsKey(dictType.getId())) {
+                if (dictTypeDataMap.containsKey(dictType.getId())) {
                     Map<String, String> dictTypeMap = dictTypeDataMap.get(dictType.getId()).stream().collect(Collectors
                             .toMap(SysDictData::getDictValue, SysDictData::getDictLabel));
 

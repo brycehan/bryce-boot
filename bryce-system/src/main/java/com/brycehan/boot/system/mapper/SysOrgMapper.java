@@ -8,11 +8,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
-* 系统机构Mapper接口
-*
-* @author Bryce Han
-* @since 2023/08/31
-*/
+ * 系统机构Mapper接口
+ *
+ * @since 2023/08/31
+ * @author Bryce Han
+ */
 @Mapper
 public interface SysOrgMapper extends BaseMapper<SysOrg> {
 

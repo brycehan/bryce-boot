@@ -18,8 +18,8 @@ import java.util.concurrent.TimeUnit;
 /**
  * 验证码服务实现
  *
- * @since 2023/10/4
  * @author Bryce Han
+ * @since 2023/10/4
  */
 @Service
 @RequiredArgsConstructor
@@ -46,8 +46,8 @@ public class CaptchaServiceImpl implements CaptchaService {
         this.stringRedisTemplate.opsForValue()
                 .set(captchaKey, captchaValue, captchaProperties.getExpiration(), TimeUnit.MINUTES);
 
-       CaptchaVo captchaVo = new CaptchaVo();
-       captchaVo.setKey(key);
+        CaptchaVo captchaVo = new CaptchaVo();
+        captchaVo.setKey(key);
         captchaVo.setImage(captcha.toBase64());
         return captchaVo;
     }
@@ -55,11 +55,11 @@ public class CaptchaServiceImpl implements CaptchaService {
     @Override
     public boolean validate(String key, String code) {
         // 如果关闭了验证码，则直接校验通过
-        if(!isCaptchaEnabled()) {
+        if (!isCaptchaEnabled()) {
             return true;
         }
 
-        if(StrUtil.isBlank(key) || StrUtil.isBlank(code)) {
+        if (StrUtil.isBlank(key) || StrUtil.isBlank(code)) {
             return false;
         }
 

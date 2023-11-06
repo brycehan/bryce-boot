@@ -44,7 +44,7 @@ public class SysParamServiceImpl extends BaseServiceImpl<SysParamMapper, SysPara
     public void save(SysParamDto sysParamDto) {
         // 判断参数键是否存在
         boolean exists = this.baseMapper.exists(sysParamDto.getParamKey());
-        if(exists) {
+        if (exists) {
             throw new RuntimeException("参数键已存在");
         }
 
@@ -61,10 +61,10 @@ public class SysParamServiceImpl extends BaseServiceImpl<SysParamMapper, SysPara
     public void update(SysParamDto sysParamDto) {
         SysParam entity = this.baseMapper.selectById(sysParamDto.getId());
         // 如果参数键修改过
-        if(!StrUtil.equalsIgnoreCase(entity.getParamKey(), sysParamDto.getParamKey())) {
+        if (!StrUtil.equalsIgnoreCase(entity.getParamKey(), sysParamDto.getParamKey())) {
             // 判断新参数键是否存在
             boolean exists = this.baseMapper.exists(sysParamDto.getParamKey());
-            if(exists) {
+            if (exists) {
                 throw new RuntimeException("参数键已存在");
             }
 
@@ -119,18 +119,18 @@ public class SysParamServiceImpl extends BaseServiceImpl<SysParamMapper, SysPara
      * @param sysParamPageDto 系统参数分页dto
      * @return 查询条件Wrapper
      */
-    private Wrapper<SysParam> getWrapper(SysParamPageDto sysParamPageDto){
+    private Wrapper<SysParam> getWrapper(SysParamPageDto sysParamPageDto) {
         LambdaQueryWrapper<SysParam> wrapper = new LambdaQueryWrapper<>();
         wrapper.like(StringUtils.isNotEmpty(sysParamPageDto.getParamName()), SysParam::getParamName, sysParamPageDto.getParamName());
         wrapper.like(StringUtils.isNotEmpty(sysParamPageDto.getParamKey()), SysParam::getParamKey, sysParamPageDto.getParamKey());
         wrapper.eq(StringUtils.isNotEmpty(sysParamPageDto.getBuiltIn()), SysParam::getBuiltIn, sysParamPageDto.getBuiltIn());
         wrapper.eq(Objects.nonNull(sysParamPageDto.getTenantId()), SysParam::getTenantId, sysParamPageDto.getTenantId());
 
-        if(sysParamPageDto.getCreatedTimeStart() != null && sysParamPageDto.getCreatedTimeEnd() != null) {
+        if (sysParamPageDto.getCreatedTimeStart() != null && sysParamPageDto.getCreatedTimeEnd() != null) {
             wrapper.between(SysParam::getCreatedTime, sysParamPageDto.getCreatedTimeStart(), sysParamPageDto.getCreatedTimeEnd());
-        } else if(sysParamPageDto.getCreatedTimeStart() != null) {
+        } else if (sysParamPageDto.getCreatedTimeStart() != null) {
             wrapper.ge(SysParam::getCreatedTime, sysParamPageDto.getCreatedTimeStart());
-        }else if(sysParamPageDto.getCreatedTimeEnd() != null) {
+        } else if (sysParamPageDto.getCreatedTimeEnd() != null) {
             wrapper.ge(SysParam::getCreatedTime, sysParamPageDto.getCreatedTimeEnd());
         }
 
@@ -181,5 +181,5 @@ public class SysParamServiceImpl extends BaseServiceImpl<SysParamMapper, SysPara
         String value = getString(paramKey);
         return JsonUtils.readValue(value, valueType);
     }
-    
+
 }

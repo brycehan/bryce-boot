@@ -1,8 +1,8 @@
 package com.brycehan.boot.system.controller;
 
+import com.brycehan.boot.common.base.dto.IdsDto;
 import com.brycehan.boot.common.base.entity.PageResult;
 import com.brycehan.boot.common.base.http.ResponseResult;
-import com.brycehan.boot.common.base.dto.IdsDto;
 import com.brycehan.boot.common.validator.SaveGroup;
 import com.brycehan.boot.common.validator.UpdateGroup;
 import com.brycehan.boot.framework.operatelog.annotation.OperateLog;
@@ -208,7 +208,7 @@ public class SysRoleController {
     /**
      * 角色分配给多个用户
      *
-     * @param roleId 角色ID
+     * @param roleId  角色ID
      * @param userIds 用户IDs
      * @return 响应结果
      */
@@ -224,7 +224,7 @@ public class SysRoleController {
     /**
      * 删除系统角色用户
      *
-     * @param roleId 角色ID
+     * @param roleId  角色ID
      * @param userIds 用户IDs
      * @return 响应结果
      */

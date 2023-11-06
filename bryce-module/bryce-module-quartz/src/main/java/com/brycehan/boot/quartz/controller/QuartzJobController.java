@@ -28,8 +28,8 @@ import org.springframework.web.bind.annotation.*;
 /**
  * quartz 定时任务调度API
  *
- * @author Bryce Han
  * @since 2023/10/17
+ * @author Bryce Han
  */
 @Tag(name = "quartz 定时任务调度", description = "quartzJob")
 @RequestMapping("/quartz/job")

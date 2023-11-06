@@ -1,9 +1,10 @@
 package com.brycehan.boot.system.entity;
 
-import com.baomidou.mybatisplus.annotation.*;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.brycehan.boot.common.base.entity.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import com.brycehan.boot.common.base.entity.BaseEntity;
+
 import java.io.Serial;
 
 /**
@@ -13,7 +14,7 @@ import java.io.Serial;
  * @author Bryce Han
  */
 @Data
-@EqualsAndHashCode(callSuper=false)
+@EqualsAndHashCode(callSuper = false)
 @TableName("brc_sys_user_role")
 public class SysUserRole extends BaseEntity {
 

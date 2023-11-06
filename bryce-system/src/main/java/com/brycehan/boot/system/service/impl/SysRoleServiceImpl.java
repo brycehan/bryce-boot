@@ -76,7 +76,7 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
         // 过滤无效参数
         List<Long> ids = idsDto.getIds().stream()
                 .filter(Objects::nonNull).toList();
-        if(CollectionUtils.isEmpty(ids)) {
+        if (CollectionUtils.isEmpty(ids)) {
             return;
         }
 
@@ -107,7 +107,7 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
      * @param sysRolePageDto 系统角色分页dto
      * @return 查询条件Wrapper
      */
-    private Wrapper<SysRole> getWrapper(SysRolePageDto sysRolePageDto){
+    private Wrapper<SysRole> getWrapper(SysRolePageDto sysRolePageDto) {
         LambdaQueryWrapper<SysRole> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(Objects.nonNull(sysRolePageDto.getStatus()), SysRole::getStatus, sysRolePageDto.getStatus());
         wrapper.eq(Objects.nonNull(sysRolePageDto.getOrgId()), SysRole::getOrgId, sysRolePageDto.getOrgId());
@@ -115,11 +115,11 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
         wrapper.like(StringUtils.isNotEmpty(sysRolePageDto.getName()), SysRole::getName, sysRolePageDto.getName());
         wrapper.like(StringUtils.isNotEmpty(sysRolePageDto.getCode()), SysRole::getCode, sysRolePageDto.getCode());
 
-        if(sysRolePageDto.getCreatedTimeStart() != null && sysRolePageDto.getCreatedTimeEnd() != null) {
+        if (sysRolePageDto.getCreatedTimeStart() != null && sysRolePageDto.getCreatedTimeEnd() != null) {
             wrapper.between(SysRole::getCreatedTime, sysRolePageDto.getCreatedTimeStart(), sysRolePageDto.getCreatedTimeEnd());
-        } else if(sysRolePageDto.getCreatedTimeStart() != null) {
+        } else if (sysRolePageDto.getCreatedTimeStart() != null) {
             wrapper.ge(SysRole::getCreatedTime, sysRolePageDto.getCreatedTimeStart());
-        }else if(sysRolePageDto.getCreatedTimeEnd() != null) {
+        } else if (sysRolePageDto.getCreatedTimeEnd() != null) {
             wrapper.ge(SysRole::getCreatedTime, sysRolePageDto.getCreatedTimeEnd());
         }
 
@@ -161,7 +161,7 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
     @Override
     public void dataScope(SysRoleDataScopeDto dataScopeDto) {
         SysRole sysRole = this.baseMapper.selectById(dataScopeDto.getId());
-        if(sysRole == null) {
+        if (sysRole == null) {
             return;
         }
         // 更新角色
@@ -169,7 +169,7 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
         this.baseMapper.updateById(sysRole);
 
         // 更新角色数据范围关系
-        if(dataScopeDto.getDataScope().equals(DataScopeType.CUSTOM.value())) {
+        if (dataScopeDto.getDataScope().equals(DataScopeType.CUSTOM.value())) {
             this.sysRoleDataScopeService.saveOrUpdate(dataScopeDto.getId(), dataScopeDto.getOrgIds());
         } else {
             this.sysRoleDataScopeService.deleteByRoleIds(Collections.singletonList(dataScopeDto.getId()));

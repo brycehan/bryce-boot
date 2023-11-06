@@ -54,7 +54,7 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuMapper, SysMenu> 
      * @param sysMenuPageDto 系统菜单分页dto
      * @return 查询条件Wrapper
      */
-    private Wrapper<SysMenu> getWrapper(SysMenuPageDto sysMenuPageDto){
+    private Wrapper<SysMenu> getWrapper(SysMenuPageDto sysMenuPageDto) {
         LambdaQueryWrapper<SysMenu> wrapper = new LambdaQueryWrapper<>();
         wrapper.like(StringUtils.isNotBlank(sysMenuPageDto.getName()), SysMenu::getName, sysMenuPageDto.getName());
         wrapper.eq(StringUtils.isNotBlank(sysMenuPageDto.getType()), SysMenu::getType, sysMenuPageDto.getType());
@@ -84,13 +84,13 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuMapper, SysMenu> 
     public Set<String> findAuthority(LoginUser loginUser) {
         // 超级管理员，拥有最高权限
         Set<String> authoritySet;
-        if(loginUser.getSuperAdmin()) {
+        if (loginUser.getSuperAdmin()) {
             LambdaQueryWrapper<SysMenu> wrapper = new LambdaQueryWrapper<>();
             wrapper.select(SysMenu::getAuthority);
 
             List<String> authortityList = this.listObjs(wrapper, Object::toString);
             authoritySet = new HashSet<>(authortityList);
-        }else {
+        } else {
             authoritySet = this.baseMapper.findAuthorityByUserId(loginUser.getId());
         }
         return authoritySet;
@@ -113,15 +113,15 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuMapper, SysMenu> 
     public List<SysMenuVo> getMenuTreeList(LoginUser loginUser, String type) {
         List<SysMenu> menuList;
 
-        if(loginUser.getSuperAdmin()){
+        if (loginUser.getSuperAdmin()) {
             // 超级管理员菜单处理
             LambdaQueryWrapper<SysMenu> queryWrapper = new LambdaQueryWrapper<>();
             queryWrapper.eq(SysMenu::getStatus, DataConstants.ENABLE);
-            queryWrapper.eq(StringUtils.isNotEmpty(type) ,SysMenu::getType, type);
+            queryWrapper.eq(StringUtils.isNotEmpty(type), SysMenu::getType, type);
             queryWrapper.orderByAsc(Arrays.asList(SysMenu::getParentId, SysMenu::getSort));
 
             menuList = this.baseMapper.selectList(queryWrapper);
-        }else {
+        } else {
             // 普通用户菜单处理
             menuList = this.baseMapper.selectMenuTreeList(loginUser.getId(), type);
         }

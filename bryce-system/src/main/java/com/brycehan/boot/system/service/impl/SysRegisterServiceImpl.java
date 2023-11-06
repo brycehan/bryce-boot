@@ -41,7 +41,7 @@ public class SysRegisterServiceImpl implements SysRegisterService {
     public void register(RegisterDto registerDto) {
         // 1、验证码开关
         boolean validated = this.validate(registerDto.getKey(), registerDto.getCode());
-        if(!validated) {
+        if (!validated) {
             throw new RuntimeException("验证码错误");
         }
 
@@ -61,11 +61,11 @@ public class SysRegisterServiceImpl implements SysRegisterService {
     @Override
     public boolean validate(String key, String code) {
         // 如果关闭了验证码，则直接校验通过
-        if(!isCaptchaEnabled()) {
+        if (!isCaptchaEnabled()) {
             return true;
         }
 
-        if(StrUtil.isBlank(key) || StrUtil.isBlank(code)) {
+        if (StrUtil.isBlank(key) || StrUtil.isBlank(code)) {
             return false;
         }
 

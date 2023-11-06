@@ -7,10 +7,8 @@ import com.brycehan.boot.system.convert.SysRoleConvert;
 import com.brycehan.boot.system.dto.SysRoleDataScopeDto;
 import com.brycehan.boot.system.dto.SysRoleDto;
 import com.brycehan.boot.system.dto.SysRolePageDto;
-import com.brycehan.boot.system.dto.SysRoleUserPageDto;
 import com.brycehan.boot.system.entity.SysRole;
 import com.brycehan.boot.system.vo.SysRoleVo;
-import com.brycehan.boot.system.vo.SysUserVo;
 
 import java.util.List;
 import java.util.Set;
@@ -61,6 +59,7 @@ public interface SysRoleService extends BaseService<SysRole> {
 
     /**
      * 角色列表查询
+     *
      * @param sysRolePageDto 查询参数
      * @return 角色列表
      */

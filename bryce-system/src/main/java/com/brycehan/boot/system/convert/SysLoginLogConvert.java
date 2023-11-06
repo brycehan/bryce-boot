@@ -5,6 +5,7 @@ import com.brycehan.boot.system.entity.SysLoginLog;
 import com.brycehan.boot.system.vo.SysLoginLogVo;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
+
 import java.util.List;
 
 /**

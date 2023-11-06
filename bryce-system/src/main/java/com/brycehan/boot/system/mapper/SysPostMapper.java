@@ -1,17 +1,17 @@
 package com.brycehan.boot.system.mapper;
 
 import com.brycehan.boot.common.base.mapper.BryceBaseMapper;
-import org.apache.ibatis.annotations.Mapper;
 import com.brycehan.boot.system.entity.SysPost;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
 /**
-* 系统岗位Mapper接口
-*
-* @author Bryce Han
-* @since 2023/09/28
-*/
+ * 系统岗位Mapper接口
+ *
+ * @since 2023/09/28
+ * @author Bryce Han
+ */
 @Mapper
 public interface SysPostMapper extends BryceBaseMapper<SysPost> {
 

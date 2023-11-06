@@ -15,8 +15,8 @@ import java.util.Set;
 /**
  * 系统用户entity
  *
- * @since 2022/5/8
  * @author Bryce Han
+ * @since 2022/5/8
  */
 @Data
 @EqualsAndHashCode(callSuper = true)

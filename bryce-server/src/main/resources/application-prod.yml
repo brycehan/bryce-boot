@@ -51,11 +51,11 @@ spring: # spring 配置
         queue-capacity: 20
         keep-alive: 60s
 
-# mybatis plus 配置
-mybatis-plus:
-  # 原生配置
-  configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+# 自定义配置
+bryce:
+  jwt:
+    # 测试24小时有效期
+    token-validity-in-seconds: 86400
 
 # 日志配置
 logging:

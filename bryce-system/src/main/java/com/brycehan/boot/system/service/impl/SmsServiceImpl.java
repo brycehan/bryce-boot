@@ -21,8 +21,8 @@ import java.util.concurrent.TimeUnit;
 /**
  * 短信服务实现
  *
- * @since 2023/10/8
  * @author Bryce Han
+ * @since 2023/10/8
  */
 @Slf4j
 @Service
@@ -40,7 +40,7 @@ public class SmsServiceImpl implements SmsService {
     public boolean send(String phone, String templateId, LinkedHashMap<String, String> params) {
         SmsBlend smsBlend = SmsFactory.getSmsBlend("sms1");
 
-        if(smsBlend == null) {
+        if (smsBlend == null) {
             throw new RuntimeException("短信配置错误");
         }
 

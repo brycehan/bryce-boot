@@ -22,8 +22,8 @@ public class SysRoleDataScopeDto implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-    * ID
-    */
+     * ID
+     */
     @Schema(description = "ID")
     @NotNull(message = "角色ID不能为空")
     private Long id;

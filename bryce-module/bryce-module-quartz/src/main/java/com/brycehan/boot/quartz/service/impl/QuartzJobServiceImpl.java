@@ -33,8 +33,8 @@ import java.util.Objects;
 /**
  * quartz 定时任务调度服务实现
  *
- * @author Bryce Han
  * @since 2023/10/17
+ * @author Bryce Han
  */
 @Service
 @RequiredArgsConstructor

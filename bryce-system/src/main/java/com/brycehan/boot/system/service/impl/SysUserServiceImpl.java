@@ -64,13 +64,13 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
     public void save(SysUserDto sysUserDto) {
         // 判断用户名是否存在
         SysUser user = this.baseMapper.getByUsername(sysUserDto.getUsername());
-        if(user != null) {
+        if (user != null) {
             throw new RuntimeException("账号已经存在");
         }
 
         // 判断手机号是否存在
         user = this.baseMapper.getByPhone(sysUserDto.getPhone());
-        if(user != null) {
+        if (user != null) {
             throw new RuntimeException("手机号已经存在");
         }
 
@@ -97,7 +97,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
     public void update(SysUserDto sysUserDto) {
         // 判断手机号是否存在
         SysUser user = this.baseMapper.getByPhone(sysUserDto.getPhone());
-        if(user != null && !user.getId().equals(sysUserDto.getId())) {
+        if (user != null && !user.getId().equals(sysUserDto.getId())) {
             throw new RuntimeException("手机号已经存在");
         }
 
@@ -121,7 +121,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
                 .filter(Objects::nonNull)
                 .toList();
 
-        if(CollUtil.isNotEmpty(ids)) {
+        if (CollUtil.isNotEmpty(ids)) {
             // 删除用户
             this.baseMapper.deleteBatchIds(ids);
 
@@ -151,7 +151,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
      * @param sysUserPageDto 系统用户分页dto
      * @return 查询条件Wrapper
      */
-    private Wrapper<SysUser> getWrapper(SysUserPageDto sysUserPageDto){
+    private Wrapper<SysUser> getWrapper(SysUserPageDto sysUserPageDto) {
         LambdaQueryWrapper<SysUser> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(StringUtils.isNotEmpty(sysUserPageDto.getGender()), SysUser::getGender, sysUserPageDto.getGender());
         wrapper.eq(Objects.nonNull(sysUserPageDto.getType()), SysUser::getType, sysUserPageDto.getType());
@@ -161,11 +161,11 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         wrapper.like(StringUtils.isNotEmpty(sysUserPageDto.getUsername()), SysUser::getUsername, sysUserPageDto.getUsername());
         wrapper.like(StringUtils.isNotEmpty(sysUserPageDto.getPhone()), SysUser::getPhone, sysUserPageDto.getPhone());
 
-        if(sysUserPageDto.getCreatedTimeStart() != null && sysUserPageDto.getCreatedTimeEnd() != null) {
+        if (sysUserPageDto.getCreatedTimeStart() != null && sysUserPageDto.getCreatedTimeEnd() != null) {
             wrapper.between(SysUser::getCreatedTime, sysUserPageDto.getCreatedTimeStart(), sysUserPageDto.getCreatedTimeEnd());
-        } else if(sysUserPageDto.getCreatedTimeStart() != null) {
+        } else if (sysUserPageDto.getCreatedTimeStart() != null) {
             wrapper.ge(SysUser::getCreatedTime, sysUserPageDto.getCreatedTimeStart());
-        }else if(sysUserPageDto.getCreatedTimeEnd() != null) {
+        } else if (sysUserPageDto.getCreatedTimeEnd() != null) {
             wrapper.ge(SysUser::getCreatedTime, sysUserPageDto.getCreatedTimeEnd());
         }
 
@@ -229,7 +229,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         Long userId = sysUser.getId() == null ? UserConstants.NULL_USER_ID : sysUser.getId();
 
         // 修改时，同账号同ID为账号唯一
-        return Objects.isNull(user) ||  userId.equals(user.getId());
+        return Objects.isNull(user) || userId.equals(user.getId());
     }
 
     @Override
@@ -265,15 +265,15 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         Long userId = LoginUserContext.currentUserId();
         SysUser user = this.baseMapper.selectById(userId);
         // 1、设置用户角色
-        if(CollectionUtils.isEmpty(sysUser.getRoles())){
+        if (CollectionUtils.isEmpty(sysUser.getRoles())) {
             Set<String> sysRoles = this.sysRoleService.selectRolePermissionByUserId(sysUser.getId());
             List<String> codes = sysRoles.stream().map("ROLE_"::concat).toList();
-            if(!CollectionUtils.isEmpty(codes)){
+            if (!CollectionUtils.isEmpty(codes)) {
                 sysUser.setRoles(new HashSet<>(codes));
             }
         }
         // 1、检查用户权限
-        if(!user.getSuperAdmin() && sysUser.getSuperAdmin()){
+        if (!user.getSuperAdmin() && sysUser.getSuperAdmin()) {
             throw new RuntimeException("不允许操作超级管理员用户");
         }
     }

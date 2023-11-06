@@ -1,8 +1,8 @@
 package com.brycehan.boot.system.service;
 
-import com.brycehan.boot.framework.mybatis.service.BaseService;
 import com.brycehan.boot.common.base.entity.PageResult;
 import com.brycehan.boot.common.base.id.IdGenerator;
+import com.brycehan.boot.framework.mybatis.service.BaseService;
 import com.brycehan.boot.system.convert.SysNoticeConvert;
 import com.brycehan.boot.system.dto.SysNoticeDto;
 import com.brycehan.boot.system.dto.SysNoticePageDto;
@@ -12,8 +12,8 @@ import com.brycehan.boot.system.vo.SysNoticeVo;
 /**
  * 系统通知公告服务
  *
- * @author Bryce Han
  * @since 2023/10/13
+ * @author Bryce Han
  */
 public interface SysNoticeService extends BaseService<SysNotice> {
 

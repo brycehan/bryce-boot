@@ -12,8 +12,8 @@ import java.io.Serializable;
 /**
  * quartz 定时任务调度Dto
  *
- * @author Bryce Han
  * @since 2023/10/17
+ * @author Bryce Han
  */
 @Data
 @Schema(description = "quartz 定时任务调度Dto")

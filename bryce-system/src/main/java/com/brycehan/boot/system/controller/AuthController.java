@@ -113,14 +113,14 @@ public class AuthController {
     public ResponseResult<SysUser> currentUser() {
         LoginUser loginUser = LoginUserContext.currentUser();
         SysUser sysUser = this.sysUserService.getById(loginUser);
-            sysUser.setPassword(null);
-            // 角色权限
-            Set<String> roleAuthoritySet = this.authService.getRoleAuthority(loginUser);
-            // 菜单权限
-            Set<String> menuAuthoritySet = this.authService.getMenuAuthority(loginUser);
-            sysUser.setRoles(roleAuthoritySet);
-            sysUser.setAuthoritySet(menuAuthoritySet);
-            return ResponseResult.ok(sysUser);
+        sysUser.setPassword(null);
+        // 角色权限
+        Set<String> roleAuthoritySet = this.authService.getRoleAuthority(loginUser);
+        // 菜单权限
+        Set<String> menuAuthoritySet = this.authService.getMenuAuthority(loginUser);
+        sysUser.setRoles(roleAuthoritySet);
+        sysUser.setAuthoritySet(menuAuthoritySet);
+        return ResponseResult.ok(sysUser);
     }
 
     /**
@@ -129,7 +129,7 @@ public class AuthController {
      * @return 路由列表
      */
     @Operation(summary = "获取菜单列表")
-    @GetMapping(path =  "/nav")
+    @GetMapping(path = "/nav")
     public ResponseResult<List<SysMenuVo>> nav() {
         List<SysMenuVo> list = this.sysMenuService.getMenuTreeList(LoginUserContext.currentUser(), "M");
 

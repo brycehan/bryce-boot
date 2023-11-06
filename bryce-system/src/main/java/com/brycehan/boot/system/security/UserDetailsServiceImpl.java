@@ -14,8 +14,8 @@ import org.springframework.stereotype.Service;
 /**
  * 用户详情服务
  *
- * @since 2022/5/6
  * @author Bryce Han
+ * @since 2022/5/6
  */
 @Slf4j
 @Service
