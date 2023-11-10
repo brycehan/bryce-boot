@@ -19,7 +19,7 @@ create table brc_sys_org
     status          tinyint default 1 null comment '状态（0：停用，1：正常）',
     tenant_id       bigint            null comment '租户ID',
     version         int               null comment '版本号',
-    deleted         tinyint           null comment '删除标识',
+    deleted         tinyint           null comment '删除标识（0：存在，1：已删除）',
     created_user_id bigint            null comment '创建者ID',
     created_time    datetime          null comment '创建时间',
     updated_user_id bigint            null comment '修改者ID',
@@ -64,7 +64,7 @@ create table brc_sys_user
     last_login_time    datetime                 null comment '最后登录时间',
     tenant_id          bigint                   null comment '租户ID',
     version            int                      null comment '版本号',
-    deleted            tinyint(1)   default 0   null comment '删除标志（0：存在，1：删除）',
+    deleted            tinyint(1)   default 0   null comment '删除标识（0：存在，1：已删除）',
     created_user_id    bigint                   null comment '创建者ID',
     created_time       datetime                 null comment '创建时间',
     updated_user_id    bigint                   null comment '修改者ID',
@@ -178,7 +178,7 @@ create table brc_sys_menu
     remark          varchar(500)         null comment '备注',
     status          tinyint(1) default 1 null comment '状态（0：停用，1：正常）',
     version         int                  null comment '版本号',
-    deleted         tinyint(1) default 0 null comment '状态（0：正式数据，1：删除）',
+    deleted         tinyint(1) default 0 null comment '删除标识（0：正式数据，1：删除）',
     created_user_id bigint               null comment '创建者ID',
     created_time    datetime             null comment '创建时间',
     updated_user_id bigint               null comment '修改者ID',
@@ -189,9 +189,9 @@ create table brc_sys_menu
 -- 一级菜单
 INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1, '权限管理', 'M', 0, null, null, 'icon-safetycertificate', 0, 1, '系统管理目录', 1, null, 0, 1, now(), null, null);
 INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (2, '系统设置', 'M', 0, null, null, 'icon-setting', 0, 2, '系统管理目录', 1, null, 0, 1, now(), null, null);
-INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (3, '系统监控', 'M', 0, '', '', 'icon-Report', 0, 3, '系统监控目录', 1, null, 0, 1, now(), null, null);
-INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (4, '系统工具', 'M', 0, '', '', 'icon-Report', 0, 4, '系统工具目录', 1, null, 0, 1, now(), null, null);
-INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (5, '日志管理', 'M', 0, '', '', 'icon-filedone', 0, 5, '系统日志目录', 1, null, 0, 1, now(), null, null);
+INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (3, '系统监控', 'M', 0, null, null, 'icon-Report', 0, 3, '系统监控目录', 1, null, 0, 1, now(), null, null);
+INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (4, '系统工具', 'M', 0, null, null, 'icon-wrench', 0, 4, '系统工具目录', 1, null, 0, 1, now(), null, null);
+INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (5, '日志管理', 'M', 0, null, null, 'icon-filedone', 0, 5, '系统日志目录', 1, null, 0, 1, now(), null, null);
 -- 二级菜单
 INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (101, '用户管理', 'M', 1, 'system/user/index', 'system:user:page', 'icon-user', 0, 1, '用户管理菜单', 1, 1, 0, 1, now(), null, null);
 INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (102, '机构管理', 'M', 1, 'system/org/index', 'system:org:page', 'icon-cluster', 0, 2, '机构管理菜单', 1, null, 0, 1, now(), null, null);
@@ -205,7 +205,7 @@ INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_
 INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (117, '租户管理', 'M', 2, 'system/tenant/index', 'system:tenant:page', 'icon-deploymentunit', 0, 6, '系统租户菜单', 1, null, 0, 1, now(), null, null);
 INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (121, '在线用户', 'M', 3, 'monitor/onlineUser/index', 'monitor:onlineUser:page', 'icon-solution', 0, 1, '在线用户菜单', 1, null, 0, 1, now(), null, null);
 INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (122, '服务监控', 'M', 3, 'monitor/server/index', 'monitor:server:info', 'icon-sever', 0, 2, '服务监控菜单', 1, null, 0, 1, now(), null, null);
-INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (123, '缓存监控', 'M', 3, 'monitor/cache/index', 'monitor:cache:info', 'icon-fund-fill', 0, 3, '缓存监控菜单', 1, null, 0, 1, now(), null, null);
+INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (123, '缓存监控', 'M', 3, 'monitor/cache/index', 'monitor:cache:info', 'icon-fund', 0, 3, '缓存监控菜单', 1, null, 0, 1, now(), null, null);
 INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (132, '接口文档', 'M', 4, '{{apiUrl}}/doc.html', 'system:swagger:page', 'icon-file-text', 1, 2, '接口文档菜单', 1, null, 0, 1, now(), null, null);
 INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (141, '登录日志', 'M', 5, 'system/loginLog/index', 'system:loginLog:page', 'icon-solution', 0, 1, '登录日志菜单', 1, null, 0, 1, now(), null, null);
 INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (142, '操作日志', 'M', 5, 'system/operateLog/index', 'system:operateLog:page', 'icon-file-text', 0, 2, '操作日志菜单', 1, null, 0, 1, now(), null, null);

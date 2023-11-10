@@ -69,6 +69,7 @@ bryce:
         - /register/enabled
         - /error
         - /auth/test
+        - /wechat/**
       post:
         - /auth/loginByAccount
         - /auth/loginByPhone

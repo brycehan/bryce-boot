@@ -130,5 +130,6 @@
     </root>
 
     <logger name="ch.qos.logback" level="WARN" />
+    <logger name="org.quartz" level="ERROR" />
 
 </configuration>

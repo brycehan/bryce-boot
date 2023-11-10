@@ -113,6 +113,12 @@
                 <artifactId>bryce-module-quartz</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <!-- wechat 模块 -->
+            <dependency>
+                <groupId>com.brycehan.boot</groupId>
+                <artifactId>bryce-module-wechat</artifactId>
+                <version>${project.version}</version>
+            </dependency>
             <!-- 服务组件 -->
             <dependency>
                 <groupId>com.brycehan.boot</groupId>

@@ -1,8 +1,6 @@
 package com.brycehan.boot.common.util;
 
-import cn.hutool.core.thread.ThreadUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.ThreadUtils;
 
 import java.util.Objects;
 import java.util.concurrent.*;

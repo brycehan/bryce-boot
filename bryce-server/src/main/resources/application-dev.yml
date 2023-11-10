@@ -62,4 +62,5 @@ bryce:
 logging:
   level:
     root: info
-    com.brycehan: debug
+    com.brycehan: info
+    org.quartz: warn

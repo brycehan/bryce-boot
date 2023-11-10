@@ -19,23 +19,22 @@
 
     <!-- 依赖 -->
     <dependencies>
-        <!-- Bryce公共工具组件 -->
+        <!-- Bryce System 组件 -->
         <dependency>
             <groupId>com.brycehan.boot</groupId>
-            <artifactId>bryce-common</artifactId>
+            <artifactId>bryce-system</artifactId>
         </dependency>
+        <!-- 微信公众号 -->
         <dependency>
             <groupId>com.github.binarywang</groupId>
             <artifactId>weixin-java-mp</artifactId>
         </dependency>
+        <!-- 微信小程序 -->
         <dependency>
             <groupId>com.github.binarywang</groupId>
             <artifactId>weixin-java-miniapp</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.github.binarywang</groupId>
-            <artifactId>weixin-java-pay</artifactId>
-        </dependency>
+
     </dependencies>
 
 </project>

@@ -70,6 +70,8 @@ public class CommonConstants {
      */
     public static final boolean LOGIN_FAIL = false;
 
+    public static final String WECHAT_PARAM = "wechat.param.";
+
     /**
      * 资源映射路径前缀
      */

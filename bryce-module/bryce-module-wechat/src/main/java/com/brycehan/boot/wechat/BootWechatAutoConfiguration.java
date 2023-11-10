@@ -10,6 +10,6 @@ import org.springframework.context.annotation.Configuration;
 public class BootWechatAutoConfiguration {
 
     public BootWechatAutoConfiguration() {
-        log.info("Boot Wechat 自动配置");
+        log.info("Bryce Wechat 自动配置");
     }
 }

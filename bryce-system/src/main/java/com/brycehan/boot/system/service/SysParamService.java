@@ -53,6 +53,10 @@ public interface SysParamService extends BaseService<SysParam> {
      */
     void export(SysParamPageDto sysParamPageDto);
 
+    boolean exists(String paramKey);
+
+    SysParamVo getByParamKey(String paramKey);
+
     /**
      * 根据paramKey，查询参数值
      *

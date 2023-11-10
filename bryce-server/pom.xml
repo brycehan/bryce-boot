@@ -27,15 +27,19 @@
         </dependency>
         <dependency>
             <groupId>com.brycehan.boot</groupId>
-            <artifactId>bryce-module-monitor</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.brycehan.boot</groupId>
             <artifactId>bryce-module-generator</artifactId>
         </dependency>
         <dependency>
             <groupId>com.brycehan.boot</groupId>
+            <artifactId>bryce-module-monitor</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.brycehan.boot</groupId>
             <artifactId>bryce-module-quartz</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.brycehan.boot</groupId>
+            <artifactId>bryce-module-wechat</artifactId>
         </dependency>
         <dependency>
             <groupId>p6spy</groupId>

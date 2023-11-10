@@ -51,7 +51,7 @@ create table brc_quartz_job
     updated_user_id bigint                        null comment '修改者ID',
     updated_time    datetime                      null comment '修改时间',
     primary key (id)
-) engine InnoDB default charset utf8mb4 collate utf8mb4_0900_ai_ci comment 'quartz 定时任务调度表';
+) engine InnoDB comment 'quartz 定时任务调度表';
 
 -- 初始化- quartz 定时任务调度表数据
 INSERT INTO brc_quartz_job (id, job_name, job_group, bean_name, method, params, cron_expression, concurrent, sort, status, remark, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1, '测试任务', 'SYSTEM', 'testTaskServiceImpl', 'run', 'test', '0 * * * * ? *', 'N', 0, 0, '', null, 1, 0, 1, now(), null, null);
@@ -72,7 +72,7 @@ create table brc_quartz_job_log
     duration       int               not null comment '执行时长（毫秒）',
     error_info     varchar(3000)     null comment '异常信息',
     created_time   datetime          null comment '创建时间'
-) engine InnoDB default charset utf8mb4 collate utf8mb4_0900_ai_ci comment 'quartz 定时任务调度日志表';
+) engine InnoDB comment 'quartz 定时任务调度日志表';
 
 -- 3、quartz 框架自带的表结构
 

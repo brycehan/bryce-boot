@@ -27,4 +27,5 @@ public class StringFormatUtils {
         }
         return format;
     }
+
 }
