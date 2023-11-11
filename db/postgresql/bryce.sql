@@ -1,4 +1,4 @@
-create schema if not exists bryce_boot;
+-- create schema if not exists bryce_boot;
 -- 1、系统机构表
 drop table if exists brc_sys_org;
 create table brc_sys_org
@@ -698,31 +698,37 @@ INSERT INTO brc_sys_param (id, param_name, param_key, param_value, built_in, rem
 drop table if exists brc_sys_tenant;
 create table brc_sys_tenant
 (
-    id             bigint       not null primary key,
-    name           varchar(100) not null,
-    site_domain    varchar(200),
-    site_url       varchar(100) not null,
-    site_logo      varchar(200),
-    site_config    text,
-    admin_id       bigint       not null,
-    create_user_id bigint,
-    create_time    timestamp,
-    update_user_id bigint,
-    update_time    timestamp
+    id              bigint       primary key,
+    name            varchar(100) not null,
+    site_domain     varchar(200),
+    site_url        varchar(100) not null,
+    site_logo       varchar(200),
+    config          text,
+    expires_time    timestamp,
+    status          boolean default true,
+    version         integer,
+    deleted         boolean,
+    created_user_id bigint,
+    created_time    timestamp,
+    updated_user_id bigint,
+    updated_time    timestamp
 );
 
 comment on table brc_sys_tenant is '系统租户表';
 comment on column brc_sys_tenant.id is 'ID';
 comment on column brc_sys_tenant.name is '租户名称';
-comment on column brc_sys_tenant.site_domain is '租户域名';
-comment on column brc_sys_tenant.site_url is '租户网址';
-comment on column brc_sys_tenant.site_logo is '租户网址logo';
-comment on column brc_sys_tenant.site_config is '租户网址配置';
-comment on column brc_sys_tenant.admin_id is '管理员ID';
-comment on column brc_sys_tenant.create_user_id is '创建者ID';
-comment on column brc_sys_tenant.create_time is '创建时间';
-comment on column brc_sys_tenant.update_user_id is '修改者ID';
-comment on column brc_sys_tenant.update_time is '修改时间';
+comment on column brc_sys_tenant.site_domain is '站点域名';
+comment on column brc_sys_tenant.site_url is '访问网址';
+comment on column brc_sys_tenant.site_logo is 'logo';
+comment on column brc_sys_tenant.config is '系统配置';
+comment on column brc_sys_tenant.expires_time is '过期时间';
+comment on column brc_sys_tenant.status is '状态（0：停用，1：正常）';
+comment on column brc_sys_tenant.version is '版本号';
+comment on column brc_sys_tenant.deleted is '删除标识（0：存在，1：已删除）';
+comment on column brc_sys_tenant.created_user_id is '创建者ID';
+comment on column brc_sys_tenant.created_time is '创建时间';
+comment on column brc_sys_tenant.updated_user_id is '修改者ID';
+comment on column brc_sys_tenant.updated_time is '修改时间';
 
 -- 16、系统附件表
 drop table if exists brc_sys_attachment;

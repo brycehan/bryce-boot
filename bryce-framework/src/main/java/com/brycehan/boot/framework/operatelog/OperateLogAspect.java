@@ -117,12 +117,12 @@ public class OperateLogAspect {
         if(StrUtil.isEmpty(operateLogDto.getModuleName())){
             Tag tag = getClassTagAnnotation(joinPoint);
             if(tag != null) {
-                String description = tag.description();
-                if(description.endsWith("API")) {
-                    description = description.substring(0, description.lastIndexOf("API"));
+                String name = tag.name();
+                if(name.endsWith("API")) {
+                    name = name.substring(0, name.lastIndexOf("API"));
                 }
 
-                operateLogDto.setModuleName(description);
+                operateLogDto.setModuleName(name);
             }
         }
         // 如果没有指定name值，则从Operation中读取
