@@ -1,7 +1,7 @@
--- 公众号管理菜单
-INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (6, '微信公众号', 'M', 0, null, null, 'icon-wechat-fill', false, 6, '微信公众号目录', true, 1, false, 1, now(), null, null);
+-- 微信管理菜单
+INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (6, '微信管理', 'M', 0, null, null, 'icon-wechat-fill', false, 6, '微信公众号目录', true, 1, false, 1, now(), null, null);
 -- 二级菜单
-INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (151, '公众号配置', 'M', 6, 'wechat/app/index', 'wechat:app:page', 'icon-pic-center', false, 1, '公众号配置菜单', true, 1, false, 1, now(), null, null);
+INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (151, '应用配置', 'M', 6, 'wechat/app/index', 'wechat:app:page', 'icon-pic-center', false, 1, '公众号配置菜单', true, 1, false, 1, now(), null, null);
 INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (152, '菜单管理', 'M', 6, 'wechat/menu/index', 'wechat:menu:page', 'icon-unorderedlist', false, 1, '公众号菜单管理菜单', true, 1, false, 1, now(), null, null);
 -- 三级菜单
 INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1511, '微信应用新增', 'B', 151, null, 'wechat:app:save', '', false, 1, null, true, 1, false, 1, now(), null, null);

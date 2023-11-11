@@ -1,5 +1,7 @@
 package com.brycehan.boot.wechat.controller;
 
+import cn.binarywang.wx.miniapp.api.WxMaService;
+import cn.binarywang.wx.miniapp.config.WxMaConfig;
 import com.brycehan.boot.common.base.dto.IdsDto;
 import com.brycehan.boot.common.base.entity.PageResult;
 import com.brycehan.boot.common.base.http.ResponseResult;
@@ -7,6 +9,7 @@ import com.brycehan.boot.common.validator.SaveGroup;
 import com.brycehan.boot.common.validator.UpdateGroup;
 import com.brycehan.boot.framework.operatelog.annotation.OperateLog;
 import com.brycehan.boot.framework.operatelog.annotation.OperateType;
+import com.brycehan.boot.wechat.config.WechatAppType;
 import com.brycehan.boot.wechat.config.WechatConfig;
 import com.brycehan.boot.wechat.convert.WechatAppConvert;
 import com.brycehan.boot.wechat.dto.WechatAppDto;
@@ -42,6 +45,8 @@ public class WechatAppController {
 
     private final WxMpService wxMpService;
 
+    private final WxMaService wxMaService;
+
     /**
      * 保存微信应用
      *
@@ -53,11 +58,10 @@ public class WechatAppController {
     @PreAuthorize("hasAuthority('wechat:app:save')")
     @PostMapping
     public ResponseResult<Void> save(@Validated(value = SaveGroup.class) @RequestBody WechatAppDto wechatAppDto) {
+
         this.wechatAppService.save(wechatAppDto);
 
-        WxMpConfigStorage wxMpConfigStorage = WechatConfig.create(WechatAppConvert.INSTANCE.convert(wechatAppDto));
-        // 更新微信配置
-        this.wxMpService.addConfigStorage(wechatAppDto.getAppId(), wxMpConfigStorage);
+        configStorage(wechatAppDto);
         return ResponseResult.ok();
     }
 
@@ -75,11 +79,22 @@ public class WechatAppController {
         // 更新
         this.wechatAppService.update(wechatAppDto);
 
-        WxMpConfigStorage wxMpConfigStorage = WechatConfig.create(WechatAppConvert.INSTANCE.convert(wechatAppDto));
-        // 更新微信配置
-        this.wxMpService.addConfigStorage(wechatAppDto.getAppId(), wxMpConfigStorage);
-
+        configStorage(wechatAppDto);
         return ResponseResult.ok();
+    }
+
+    private void configStorage(WechatAppDto wechatAppDto) {
+        // 公众号存储
+        if(WechatAppType.mp.name().equals(wechatAppDto.getType())) {
+            WxMpConfigStorage wxMpConfigStorage = WechatConfig.createMp(WechatAppConvert.INSTANCE.convert(wechatAppDto));
+            // 更新微信配置
+            this.wxMpService.addConfigStorage(wechatAppDto.getAppId(), wxMpConfigStorage);
+        } else {
+            // 小程序存储
+            WxMaConfig wxMaConfigStorage = WechatConfig.createMa(WechatAppConvert.INSTANCE.convert(wechatAppDto));
+            // 更新微信配置
+            this.wxMaService.addConfig(wechatAppDto.getAppId(), wxMaConfigStorage);
+        }
     }
 
     /**
