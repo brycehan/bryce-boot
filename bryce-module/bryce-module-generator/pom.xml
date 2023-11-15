@@ -20,7 +20,7 @@
             <artifactId>bryce-system</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.brycehan</groupId>
+            <groupId>com.brycehan.boot</groupId>
             <artifactId>bryce-generator-boot-starter</artifactId>
         </dependency>
     </dependencies>

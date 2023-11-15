@@ -2,4 +2,4 @@
  | |__      _ _   | || |   __      ___
  | '_ \    | '_|   \_, |  / _|    / -_)
  |_.__/   _|_|_   _|__/   \__|_   \___|
-${AnsiColor.GREEN} :: ${bryce.application.name} ::               (v${bryce.application.version})${AnsiColor.DEFAULT}
+${AnsiColor.GREEN} :: ${spring.application.name} ::               v@project.version@${AnsiColor.DEFAULT}
