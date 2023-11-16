@@ -1,8 +1,8 @@
 {
   "project": {
-    "packageName": "com.brycehan.boot",
+    "packageName": "",
     "version": "1.0.0",
-    "backendPath": "/Users/brycehan/generator/bryce-boot",
+    "backendPath": "/Users/brycehan/generator/bryce-cloud",
     "frontendPath": "/Users/brycehan/generator/bryce-admin"
   },
   "developer": {

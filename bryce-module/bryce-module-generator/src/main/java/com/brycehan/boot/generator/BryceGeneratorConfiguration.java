@@ -5,17 +5,17 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * Bryce Generator 自动配置
+ * Bryce Generator 配置
  *
  * @since 2023/10/14
  * @author Bryce Han
  */
 @Slf4j
 @Configuration
-@ComponentScan(basePackageClasses = BryceGeneratorAutoConfiguration.class)
-public class BryceGeneratorAutoConfiguration {
+@ComponentScan(basePackageClasses = BryceGeneratorConfiguration.class)
+public class BryceGeneratorConfiguration {
 
-    public BryceGeneratorAutoConfiguration() {
-        log.info("Bryce Generator 自动配置完成");
+    public BryceGeneratorConfiguration() {
+        log.info("Bryce Generator 配置完成");
     }
 }

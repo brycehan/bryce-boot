@@ -13,6 +13,7 @@ bryce:
   # 代码生成
   generator:
     table-prefix: brc_
+    package-name: com.brycehan.boot
 
   # id 生成器
   id:

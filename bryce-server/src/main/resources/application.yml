@@ -20,7 +20,7 @@ spring:
 # 服务器配置
 server:
   # 服务器 HTTP 端口
-  port: 8091
+  port: 8090
   servlet:
     # 应用的访问路径
     context-path: /
@@ -51,7 +51,6 @@ mybatis-plus:
   # mapper.xml 映射文件位置
   mapper-locations:
     - classpath*:com/brycehan/boot/*/mapper/xml/*Mapper.xml
-    - classpath*:com/brycehan/generator/*/mapper/xml/*Mapper.xml
   # 原生配置
   configuration:
     map-underscore-to-camel-case: true

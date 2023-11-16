@@ -99,7 +99,7 @@
       <#if field.formDict??>
       <dict-table-column label="${fieldComment!}" prop="${field.attrName}" <#if field.gridSort>sortable="custom" </#if>dict-type="${field.formDict}" />
       <#else>
-      <el-table-column label="${fieldComment!}" prop="${field.attrName}" <#if field.gridSort>sortable="custom" </#if>header-align="center" align="center" />
+      <el-table-column label="${fieldComment!}" prop="${field.attrName}" <#if field.gridSort>sortable="custom" </#if>header-align="center" align="center"<#if field.attrName=='createdTime'> width="160"</#if> />
       </#if>
     </#list>
       <el-table-column label="操作" fixed="right" header-align="center" align="center" width="150">

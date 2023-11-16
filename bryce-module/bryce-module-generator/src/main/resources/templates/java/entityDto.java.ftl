@@ -30,8 +30,8 @@ public class ${entityName}Dto implements Serializable {
 
 <#if baseClass??>
     /**
-    * ID
-    */
+     * ID
+     */
     @Schema(description = "ID")
     @Null(groups = SaveGroup.class)
     @NotNull(groups = UpdateGroup.class)
