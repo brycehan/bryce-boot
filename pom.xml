@@ -63,11 +63,12 @@
 
 	<!-- 模块 -->
 	<modules>
-		<module>bryce-common</module>
-		<module>bryce-framework</module>
-		<module>bryce-system</module>
-		<module>bryce-module</module>
-		<module>bryce-server</module>
+		<module>bryce-boot-common</module>
+		<module>bryce-boot-framework</module>
+		<module>bryce-boot-api</module>
+		<module>bryce-boot-system</module>
+		<module>bryce-boot-module</module>
+		<module>bryce-boot-server</module>
 	</modules>
 
 	<!-- 依赖管理 -->
@@ -76,25 +77,31 @@
 			<!-- 公共模块 -->
 			<dependency>
 				<groupId>com.brycehan.boot</groupId>
-				<artifactId>bryce-common</artifactId>
+				<artifactId>bryce-boot-common</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<!-- 框架模块 -->
 			<dependency>
 				<groupId>com.brycehan.boot</groupId>
-				<artifactId>bryce-framework</artifactId>
+				<artifactId>bryce-boot-framework</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<!-- 框架模块 -->
+			<dependency>
+				<groupId>com.brycehan.boot</groupId>
+				<artifactId>bryce-boot-api</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<!-- 系统模块 -->
 			<dependency>
 				<groupId>com.brycehan.boot</groupId>
-				<artifactId>bryce-system</artifactId>
+				<artifactId>bryce-boot-system</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<!-- 模块组件 -->
 			<dependency>
 				<groupId>com.brycehan.boot</groupId>
-				<artifactId>bryce-module</artifactId>
+				<artifactId>bryce-boot-module</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<!-- 代码生成器模块 -->
@@ -115,6 +122,12 @@
 				<artifactId>bryce-module-quartz</artifactId>
 				<version>${project.version}</version>
 			</dependency>
+			<!-- 短信模块 -->
+			<dependency>
+				<groupId>com.brycehan.boot</groupId>
+				<artifactId>bryce-module-sms</artifactId>
+				<version>${project.version}</version>
+			</dependency>
 			<!-- wechat 模块 -->
 			<dependency>
 				<groupId>com.brycehan.boot</groupId>
@@ -124,7 +137,7 @@
 			<!-- 服务组件 -->
 			<dependency>
 				<groupId>com.brycehan.boot</groupId>
-				<artifactId>bryce-server</artifactId>
+				<artifactId>bryce-boot-server</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
@@ -342,37 +355,6 @@
 				</includes>
 			</resource>
 		</resources>
-		<!-- 插件管理 -->
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-source-plugin</artifactId>
-					<executions>
-						<execution>
-							<id>attach-sources</id>
-							<phase>verify</phase>
-							<goals>
-								<goal>jar-no-fork</goal>
-							</goals>
-						</execution>
-					</executions>
-				</plugin>
-			</plugins>
-		</pluginManagement>
-		<!-- 插件 -->
-		<plugins>
-			<!-- 编译插件 -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-			</plugin>
-			<!-- 源码插件 -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-source-plugin</artifactId>
-			</plugin>
-		</plugins>
 	</build>
 
 	<repositories>
