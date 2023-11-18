@@ -1,14 +1,15 @@
 package com.brycehan.boot.api.system;
 
-import cn.hutool.core.io.file.FileNameUtil;
+import com.brycehan.boot.api.system.vo.StorageVo;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.InputStream;
-import java.time.LocalTime;
+import java.io.IOException;
 
 /**
- * 存储服务 API
+ * 存储服务 Api
  *
  * @since 2022/1/1
  * @author Bryce Han
@@ -18,51 +19,11 @@ public interface StorageApi {
     /**
      * 文件上传
      *
-     * @param data 文件字节数组
-     * @param path 文件路径，包含文件名
+     * @param file MultipartFile
      * @return http资源地址
      */
-    default String upload(byte[] data, String path) {
-        return this.upload(new ByteArrayInputStream(data), path);
-    }
-
-    /**
-     * 文件上传
-     *
-     * @param data 文件字节流
-     * @param path 文件路径，包含文件名
-     * @return http资源地址
-     */
-    String upload(InputStream data, String path);
-
-    /**
-     * 生成路径，不包含文件名
-     * @return 生成的路径
-     */
-    String getPath();
-
-    /**
-     * 根据文件名，生成路径
-     *
-     * @param fileName 文件名
-     * @return 生成文件路径
-     */
-    default String getPath(String fileName) {
-        return getPath().concat(File.separator).concat(getNewFileName(fileName));
-    }
-
-    default String getNewFileName(String fileName) {
-        // 主文件名，不包含扩展名
-        String prefix = FileNameUtil.getPrefix(fileName);
-        // 文件扩展名
-        String suffix = FileNameUtil.getSuffix(fileName);
-        // 把当前时间，转换成毫秒
-        long time = LocalTime.now().toNanoOfDay();
-        return prefix
-                .concat("_")
-                .concat(String.valueOf(time))
-                .concat(".")
-                .concat(suffix);
-    }
+    @PostMapping(path = "/api/storage/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    StorageVo upload(@RequestParam MultipartFile file) throws IOException;
 
 }

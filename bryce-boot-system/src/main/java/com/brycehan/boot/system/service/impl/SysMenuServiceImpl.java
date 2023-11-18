@@ -2,7 +2,6 @@ package com.brycehan.boot.system.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.brycehan.boot.common.base.entity.PageResult;
 import com.brycehan.boot.common.constant.DataConstants;
@@ -16,13 +15,10 @@ import com.brycehan.boot.system.dto.SysMenuPageDto;
 import com.brycehan.boot.system.entity.SysMenu;
 import com.brycehan.boot.system.mapper.SysMenuMapper;
 import com.brycehan.boot.system.service.SysMenuService;
-import com.brycehan.boot.system.service.SysRoleMenuService;
-import com.brycehan.boot.system.service.SysUserRoleService;
 import com.brycehan.boot.system.vo.SysMenuVo;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
 import java.util.*;
 
@@ -35,10 +31,6 @@ import java.util.*;
 @Service
 @RequiredArgsConstructor
 public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuMapper, SysMenu> implements SysMenuService {
-
-    private final SysUserRoleService sysUserRoleService;
-
-    private final SysRoleMenuService sysRoleMenuService;
 
     @Override
     public PageResult<SysMenuVo> page(SysMenuPageDto sysMenuPageDto) {
@@ -94,19 +86,6 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuMapper, SysMenu> 
             authoritySet = this.baseMapper.findAuthorityByUserId(loginUser.getId());
         }
         return authoritySet;
-    }
-
-    /**
-     * 根据菜单ID列表查询系统其它菜单列表
-     *
-     * @param menuIds 菜单ID列表
-     * @return 菜单列表
-     */
-    private List<SysMenu> getSysMenusByMenuIds(List<Long> menuIds) {
-        QueryWrapper<SysMenu> queryWrapper = new QueryWrapper<>();
-        queryWrapper.in(!CollectionUtils.isEmpty(menuIds), "id", menuIds)
-                .eq("non_locked", DataConstants.ENABLE);
-        return this.baseMapper.selectList(queryWrapper);
     }
 
     @Override

@@ -26,7 +26,7 @@ public class LoginConfig {
             }
 
             @Override
-            public Boolean verifyCode(String phone, String templateId, String code) {
+            public Boolean validate(String phone, String templateId, String code) {
                 return false;
             }
 

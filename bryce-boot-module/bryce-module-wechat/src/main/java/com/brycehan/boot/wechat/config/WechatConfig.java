@@ -24,6 +24,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
+ * 微信配置
+ *
  * @since 2023/7/17
  * @author Bryce Han
  */

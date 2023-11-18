@@ -25,7 +25,7 @@ import java.util.Map;
  */
 @Slf4j
 @Tag(name = "短信", description = "sms")
-@RequestMapping("/sms")
+@RequestMapping("/system/sms")
 @RestController
 @RequiredArgsConstructor
 public class SysSmsController {
@@ -88,7 +88,8 @@ public class SysSmsController {
         LinkedHashMap<String, String> params = new LinkedHashMap<>();
         params.put("code", code);
 
-        this.smsApi.send(phone, templateId, params);
+        boolean result = this.smsApi.send(phone, templateId, params);
+        data.put("result", result);
 
         return ResponseResult.ok(data);
     }

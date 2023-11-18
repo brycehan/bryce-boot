@@ -23,6 +23,7 @@ public class PhoneCodeValidateServiceImpl implements PhoneCodeValidateService {
 
     @Override
     public boolean validate(String phone, String code) {
-        return this.smsApi.verifyCode(phone, loginTemplateId, code);
+        return this.smsApi.validate(phone, loginTemplateId, code);
     }
+
 }

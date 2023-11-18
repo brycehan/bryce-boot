@@ -30,7 +30,7 @@ public interface SmsApi {
      * @param code 验证码
      * @return 是否校验成功
      */
-    Boolean verifyCode(String phone, String templateId, String code);
+    Boolean validate(String phone, String templateId, String code);
 
     /**
      * 是否开启短信功能

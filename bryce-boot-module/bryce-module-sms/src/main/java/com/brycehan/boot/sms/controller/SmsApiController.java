@@ -13,13 +13,13 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.LinkedHashMap;
 
 /**
- * 短信控制器
+ * 短信 Api 实现
  *
  * @since 2022/5/10
  * @author Bryce Han
  */
 @Slf4j
-@Tag(name = "短信", description = "sms")
+@Tag(name = "短信 Api 实现", description = "sms")
 @RequestMapping("/sms")
 @RestController
 @RequiredArgsConstructor
@@ -35,23 +35,28 @@ public class SmsApiController implements SmsApi {
     }
 
     @Override
-    public Boolean verifyCode(String phone, String templateId, String code) {
-        // 如果关闭了短信功能，则直接校验通过
+    public Boolean validate(String phone, String templateId, String code) {
+        // 如果关闭了短信功能，则直接校验不通过
         if (!this.smsService.isSmsEnabled()) {
-            return true;
+            return false;
         }
 
         // 获取缓存验证码
-        String codeKey = CacheConstants.SMS_CODE_KEY.concat("login").concat(":").concat(phone);
-        String codeValue = this.stringRedisTemplate.opsForValue()
+        var codeKey = CacheConstants.SMS_CODE_KEY.concat(templateId).concat(":").concat(phone);
+        var codeValue = this.stringRedisTemplate.opsForValue()
                 .getAndDelete(codeKey);
 
-        // 校验
-        return code.equalsIgnoreCase(codeValue);
+        if(codeValue != null) {
+            // 校验
+            return code.equalsIgnoreCase(codeValue);
+        }
+
+        return false;
     }
 
     @Override
     public boolean isSmsEnabled() {
         return this.smsService.isSmsEnabled();
     }
+
 }

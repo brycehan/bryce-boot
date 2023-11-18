@@ -57,13 +57,15 @@ public class SecurityConfig {
 
     private final UserDetailsChecker userDetailsChecker;
 
-    private final ApplicationEventPublisher applicationEventPublisher;
-
     private final PhoneCodeUserDetailsService phoneCodeUserDetailsService;
 
     private final PhoneCodeValidateService phoneCodeValidateService;
 
     private final AuthProperties authProperties;
+
+    private final PasswordEncoder passwordEncoder;
+
+    private final ApplicationEventPublisher applicationEventPublisher;
 
     @Bean
     public AuthenticationManager authenticationManager() {
@@ -80,7 +82,7 @@ public class SecurityConfig {
     @Bean
     DaoAuthenticationProvider daoAuthenticationProvider(){
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
+        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder);
         daoAuthenticationProvider.setUserDetailsService(userDetailsService);
         daoAuthenticationProvider.setPreAuthenticationChecks(userDetailsChecker);
         return daoAuthenticationProvider;
@@ -108,10 +110,8 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                // 禁用csrf，jwt不需要csrf开启
-                .csrf(AbstractHttpConfigurer::disable)
-                // 禁用X-Frame-Options
-                .headers(configurer -> configurer.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
+                // 添加 jwt 过滤器
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 // 基于token，不需要session
                 .sessionManagement(configurer -> configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 // 过滤请求
@@ -122,23 +122,15 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.OPTIONS).permitAll()
                         // 除上面外的所有请求全部需要鉴权认证
                         .anyRequest().authenticated())
-                // 添加 jwt 过滤器
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling(configurer -> configurer
                         .authenticationEntryPoint(authenticationEntryPoint)
-                        .accessDeniedHandler(accessDeniedHandler));
+                        .accessDeniedHandler(accessDeniedHandler))
+                // 禁用csrf，jwt不需要csrf开启
+                .csrf(AbstractHttpConfigurer::disable)
+                // 禁用X-Frame-Options
+                .headers(configurer -> configurer.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable));
 
         return http.build();
-    }
-
-    /**
-     * 使用BCrypt强哈希函数密码加密实现
-     *
-     * @return 密码加密器
-     */
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
     }
 
 }
