@@ -24,7 +24,6 @@ public class LoginVo {
     /**
      * 登录类型
      */
-    // TODO 枚举类型校验 account/mobile
     @Schema(description = "登录类型")
     private String type;
 

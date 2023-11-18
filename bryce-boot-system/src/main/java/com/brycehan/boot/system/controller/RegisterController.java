@@ -3,6 +3,8 @@ package com.brycehan.boot.system.controller;
 import com.brycehan.boot.common.base.dto.RegisterDto;
 import com.brycehan.boot.common.base.http.ResponseResult;
 import com.brycehan.boot.common.base.http.UserResponseStatus;
+import com.brycehan.boot.framework.operatelog.annotation.OperateLog;
+import com.brycehan.boot.framework.operatelog.annotation.OperateType;
 import com.brycehan.boot.system.service.SysParamService;
 import com.brycehan.boot.system.service.SysRegisterService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -35,6 +37,7 @@ public class RegisterController {
      * @return 响应结果
      */
     @Operation(summary = "注册")
+    @OperateLog(type = OperateType.INSERT)
     @PostMapping
     public ResponseResult<Void> register(@Parameter(description = "注册参数", required = true) @Validated @RequestBody RegisterDto registerDto) {
         // 1、查询注册开关

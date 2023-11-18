@@ -14,8 +14,6 @@ import com.brycehan.boot.common.constant.DataConstants;
 import com.brycehan.boot.common.constant.UserConstants;
 import com.brycehan.boot.common.exception.BusinessException;
 import com.brycehan.boot.common.util.ExcelUtils;
-import com.brycehan.boot.common.util.IpUtils;
-import com.brycehan.boot.common.util.ServletUtils;
 import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
 import com.brycehan.boot.framework.security.context.LoginUserContext;
 import com.brycehan.boot.system.convert.SysUserConvert;
@@ -208,12 +206,8 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         this.sysUserRoleService.save(sysUserRole);
 
         int result = this.baseMapper.insert(sysUser);
-        String userAgent = ServletUtils.getRequest().getHeader("User-Agent");
-        String ip = IpUtils.getIp(ServletUtils.getRequest());
         // 3、异步记录注册成功日志
-        if (result == 1) {
-            // todo 添加操作日志
-        } else {
+        if (result != 1) {
             throw BusinessException.responseStatus(UserResponseStatus.USER_REGISTER_ERROR);
         }
     }
