@@ -4,6 +4,7 @@ import com.brycehan.boot.system.dto.SysRoleDto;
 import com.brycehan.boot.system.entity.SysRole;
 import com.brycehan.boot.system.vo.SysRoleVo;
 import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.List;
  * @since 2023/09/13
  * @author Bryce Han
  */
-@Mapper
+@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface SysRoleConvert {
 
     SysRoleConvert INSTANCE = Mappers.getMapper(SysRoleConvert.class);

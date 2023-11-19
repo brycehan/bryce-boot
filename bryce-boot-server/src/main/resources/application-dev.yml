@@ -13,15 +13,15 @@ spring: # spring 配置
       datasource:
         master:
           # mysql 8
-#          driver-class-name: com.mysql.cj.jdbc.Driver
-#          url: jdbc:mysql://localhost:3306/bryce_boot?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&nullDatabaseMeansCurrent=true&useServerPrepStmts=true&cachePrepStmts=true
-#          username: root
-#          password: root
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://localhost:3306/bryce_boot?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&nullDatabaseMeansCurrent=true&useServerPrepStmts=true&cachePrepStmts=true
+          username: root
+          password: root
           # postgresql
-          driver-class-name: org.postgresql.Driver
-          url: jdbc:postgresql://localhost:5432/postgres
-          username: bryce_boot
-          password: 123456
+#          driver-class-name: org.postgresql.Driver
+#          url: jdbc:postgresql://localhost:5432/postgres
+#          username: bryce_boot
+#          password: 123456
           # 达梦
 #          driver-class-name: dm.jdbc.driver.DmDriver
 #          url: jdbc:dm://localhost:5436/bryce_boot?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&nullDatabaseMeansCurrent=true

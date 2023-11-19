@@ -4,6 +4,7 @@ import com.brycehan.boot.system.dto.SysDictTypeDto;
 import com.brycehan.boot.system.entity.SysDictType;
 import com.brycehan.boot.system.vo.SysDictTypeVo;
 import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.List;
  * @since 2023/09/05
  * @author Bryce Han
  */
-@Mapper
+@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface SysDictTypeConvert {
 
     SysDictTypeConvert INSTANCE = Mappers.getMapper(SysDictTypeConvert.class);

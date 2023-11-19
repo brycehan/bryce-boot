@@ -4,6 +4,7 @@ import com.brycehan.boot.system.dto.SysNoticeDto;
 import com.brycehan.boot.system.entity.SysNotice;
 import com.brycehan.boot.system.vo.SysNoticeVo;
 import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.List;
  * @since 2023/10/13
  * @author Bryce Han
  */
-@Mapper
+@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface SysNoticeConvert {
 
     SysNoticeConvert INSTANCE = Mappers.getMapper(SysNoticeConvert.class);

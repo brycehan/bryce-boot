@@ -1,10 +1,14 @@
 package com.brycehan.boot;
 
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@MapperScan(basePackages = "com.brycehan.boot.*.mapper")
+/**
+ * Bryce 服务应用
+ *
+ * @since 2023/11/19
+ * @author Bryce Han
+ */
 @SpringBootApplication
 public class BryceServerApplication {
 

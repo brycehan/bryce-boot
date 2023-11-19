@@ -4,6 +4,7 @@ import com.brycehan.boot.system.dto.SysPostDto;
 import com.brycehan.boot.system.entity.SysPost;
 import com.brycehan.boot.system.vo.SysPostVo;
 import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
@@ -14,15 +15,15 @@ import java.util.List;
  * @since 2023/09/28
  * @author Bryce Han
  */
-@Mapper
-public interface SysPostConvert {
+@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
+public abstract class SysPostConvert {
 
-    SysPostConvert INSTANCE = Mappers.getMapper(SysPostConvert.class);
+    public static final SysPostConvert INSTANCE = Mappers.getMapper(SysPostConvert.class);
 
-    SysPost convert(SysPostDto sysPostDto);
+    public abstract SysPost convert(SysPostDto sysPostDto);
 
-    SysPostVo convert(SysPost sysPost);
+    public abstract SysPostVo convert(SysPost sysPost);
 
-    List<SysPostVo> convert(List<SysPost> sysPostList);
+    public abstract List<SysPostVo> convert(List<SysPost> sysPostList);
 
 }

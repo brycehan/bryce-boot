@@ -4,6 +4,7 @@ import com.brycehan.boot.system.dto.SysOrgDto;
 import com.brycehan.boot.system.entity.SysOrg;
 import com.brycehan.boot.system.vo.SysOrgVo;
 import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.List;
  * @since 2023/08/31
  * @author Bryce Han
  */
-@Mapper
+@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface SysOrgConvert {
 
     SysOrgConvert INSTANCE = Mappers.getMapper(SysOrgConvert.class);

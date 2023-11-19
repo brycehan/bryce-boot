@@ -4,6 +4,7 @@ import com.brycehan.boot.system.dto.SysTenantDto;
 import com.brycehan.boot.system.entity.SysTenant;
 import com.brycehan.boot.system.vo.SysTenantVo;
 import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.List;
  * @since 2023/11/06
  * @author Bryce Han
  */
-@Mapper
+@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface SysTenantConvert {
 
     SysTenantConvert INSTANCE = Mappers.getMapper(SysTenantConvert.class);

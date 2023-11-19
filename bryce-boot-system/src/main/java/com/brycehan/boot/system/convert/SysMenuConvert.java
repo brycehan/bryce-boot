@@ -6,6 +6,7 @@ import com.brycehan.boot.system.entity.SysMenu;
 import com.brycehan.boot.system.vo.SysMenuVo;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
@@ -16,7 +17,7 @@ import java.util.List;
  * @author Bryce Han
  * @since 2023/4/7
  */
-@Mapper
+@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface SysMenuConvert {
 
     SysMenuConvert INSTANCE = Mappers.getMapper(SysMenuConvert.class);

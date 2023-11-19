@@ -4,6 +4,7 @@ import com.brycehan.boot.wechat.dto.WechatAppDto;
 import com.brycehan.boot.wechat.entity.WechatApp;
 import com.brycehan.boot.wechat.vo.WechatAppVo;
 import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 import java.util.List;
 
@@ -13,7 +14,7 @@ import java.util.List;
  * @author Bryce Han
  * @since 2023/11/06
  */
-@Mapper
+@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface WechatAppConvert {
 
     WechatAppConvert INSTANCE = Mappers.getMapper(WechatAppConvert.class);

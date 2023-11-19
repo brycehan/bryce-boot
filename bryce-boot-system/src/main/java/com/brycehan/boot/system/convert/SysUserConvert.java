@@ -5,6 +5,7 @@ import com.brycehan.boot.system.dto.SysUserDto;
 import com.brycehan.boot.system.entity.SysUser;
 import com.brycehan.boot.system.vo.SysUserVo;
 import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.List;
  * @since 2023/08/24
  * @author Bryce Han
  */
-@Mapper
+@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface SysUserConvert {
 
     SysUserConvert INSTANCE = Mappers.getMapper(SysUserConvert.class);

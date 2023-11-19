@@ -4,6 +4,7 @@ import com.brycehan.boot.system.dto.SysLoginLogDto;
 import com.brycehan.boot.system.entity.SysLoginLog;
 import com.brycehan.boot.system.vo.SysLoginLogVo;
 import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.List;
  * @since 2023/09/25
  * @author Bryce Han
  */
-@Mapper
+@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface SysLoginLogConvert {
 
     SysLoginLogConvert INSTANCE = Mappers.getMapper(SysLoginLogConvert.class);

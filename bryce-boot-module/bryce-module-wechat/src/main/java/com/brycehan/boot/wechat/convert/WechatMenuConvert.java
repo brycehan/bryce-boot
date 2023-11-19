@@ -4,6 +4,7 @@ import com.brycehan.boot.wechat.dto.WechatMenuItemDto;
 import me.chanjar.weixin.common.bean.menu.WxMenuButton;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.List;
  * @author Bryce Han
  * @since 2023/11/06
  */
-@Mapper
+@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface WechatMenuConvert {
 
     WechatMenuConvert INSTANCE = Mappers.getMapper(WechatMenuConvert.class);
