@@ -102,6 +102,7 @@ public class WechatAppServiceImpl extends BaseServiceImpl<WechatAppMapper, Wecha
     @Override
     public List<WechatAppVo> list(WechatAppDto wechatAppDto) {
         LambdaQueryWrapper<WechatApp> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(StrUtil.isNotEmpty(wechatAppDto.getType()), WechatApp::getType, wechatAppDto.getType());
         queryWrapper.eq(StrUtil.isNotEmpty(wechatAppDto.getAppId()), WechatApp::getAppId, wechatAppDto.getAppId());
         queryWrapper.eq(wechatAppDto.getTenantId() != null, WechatApp::getTenantId, wechatAppDto.getTenantId());
 
