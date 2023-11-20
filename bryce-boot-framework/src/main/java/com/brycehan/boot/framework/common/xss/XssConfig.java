@@ -1,4 +1,4 @@
-package com.brycehan.boot.framework.xss;
+package com.brycehan.boot.framework.common.xss;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

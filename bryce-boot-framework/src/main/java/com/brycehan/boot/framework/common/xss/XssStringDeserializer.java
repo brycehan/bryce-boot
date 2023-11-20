@@ -1,4 +1,4 @@
-package com.brycehan.boot.framework.xss;
+package com.brycehan.boot.framework.common.xss;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;

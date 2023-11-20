@@ -1,4 +1,4 @@
-package com.brycehan.boot.framework.config;
+package com.brycehan.boot.framework.common.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

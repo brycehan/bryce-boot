@@ -1,4 +1,4 @@
-package com.brycehan.boot.framework.handler;
+package com.brycehan.boot.framework.common;
 
 import com.brycehan.boot.common.base.http.HttpResponseStatus;
 import com.brycehan.boot.common.base.http.ResponseResult;

@@ -1,4 +1,4 @@
-package com.brycehan.boot.framework.xss;
+package com.brycehan.boot.framework.common.xss;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

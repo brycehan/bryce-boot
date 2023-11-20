@@ -1,4 +1,4 @@
-package com.brycehan.boot.framework.xss;
+package com.brycehan.boot.framework.common.xss;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

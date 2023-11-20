@@ -1,4 +1,4 @@
-package com.brycehan.boot.framework.filter;
+package com.brycehan.boot.framework.security;
 
 import cn.hutool.core.util.StrUtil;
 import com.brycehan.boot.framework.security.JwtTokenProvider;

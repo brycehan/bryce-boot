@@ -1,4 +1,4 @@
-package com.brycehan.boot.framework.xss;
+package com.brycehan.boot.framework.common.xss;
 
 import cn.hutool.core.util.StrUtil;
 import org.jsoup.Jsoup;

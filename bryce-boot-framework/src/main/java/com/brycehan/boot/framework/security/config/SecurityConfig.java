@@ -1,7 +1,6 @@
 package com.brycehan.boot.framework.security.config;
 
-import com.brycehan.boot.framework.config.properties.AuthProperties;
-import com.brycehan.boot.framework.filter.JwtAuthenticationFilter;
+import com.brycehan.boot.framework.security.JwtAuthenticationFilter;
 import com.brycehan.boot.framework.security.JwtAccessDeniedHandler;
 import com.brycehan.boot.framework.security.JwtAuthenticationEntryPoint;
 import com.brycehan.boot.framework.security.phone.PhoneCodeAuthenticationProvider;
@@ -26,7 +25,6 @@ import org.springframework.security.config.annotation.web.configurers.HeadersCon
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsChecker;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;

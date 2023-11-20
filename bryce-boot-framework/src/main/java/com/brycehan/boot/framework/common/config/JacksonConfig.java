@@ -1,4 +1,4 @@
-package com.brycehan.boot.framework.config;
+package com.brycehan.boot.framework.common.config;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.SerializationFeature;

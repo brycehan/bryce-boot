@@ -1,4 +1,4 @@
-package com.brycehan.boot.framework.websocket;
+package com.brycehan.boot.framework.common;
 
 import jakarta.websocket.OnClose;
 import jakarta.websocket.OnMessage;
