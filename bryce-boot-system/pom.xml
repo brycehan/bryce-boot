@@ -5,10 +5,10 @@
     <parent>
         <groupId>com.brycehan.boot</groupId>
         <artifactId>bryce-boot</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>${revision}</version>
     </parent>
     <artifactId>bryce-boot-system</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>${revision}</version>
     <name>bryce-boot-system</name>
     <description>bryce-boot-system</description>
 

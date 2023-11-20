@@ -5,31 +5,24 @@
     <parent>
         <groupId>com.brycehan.boot</groupId>
         <artifactId>bryce-boot</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>${revision}</version>
     </parent>
     <artifactId>bryce-boot-framework</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>${revision}</version>
     <name>bryce-boot-framework</name>
     <description>bryce-boot-framework</description>
 
     <!-- 依赖 -->
     <dependencies>
-        <!-- 公共工具组件 -->
         <dependency>
             <groupId>com.brycehan.boot</groupId>
             <artifactId>bryce-boot-common</artifactId>
-        </dependency>
-        <!-- 验证码 -->
-        <dependency>
-            <groupId>com.github.whvcse</groupId>
-            <artifactId>easy-captcha</artifactId>
         </dependency>
         <!-- Web安全 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
-
         <!-- WebSocket -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -39,16 +32,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-json</artifactId>
         </dependency>
-
         <!-- Mybatis Plus 框架 -->
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>com.github.yulichang</groupId>-->
-<!--            <artifactId>mybatis-plus-join-boot-starter</artifactId>-->
-<!--        </dependency>-->
         <!-- 动态数据源 -->
         <dependency>
             <groupId>com.baomidou</groupId>
@@ -59,11 +47,6 @@
             <groupId>p6spy</groupId>
             <artifactId>p6spy</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.dromara.sms4j</groupId>
-            <artifactId>sms4j-spring-boot-starter</artifactId>
-        </dependency>
-
         <!-- Data Redis -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -72,6 +55,11 @@
         <dependency>
             <groupId>org.redisson</groupId>
             <artifactId>redisson-spring-boot-starter</artifactId>
+        </dependency>
+        <!-- 验证码 -->
+        <dependency>
+            <groupId>com.github.whvcse</groupId>
+            <artifactId>easy-captcha</artifactId>
         </dependency>
         <dependency>
             <groupId>com.alibaba</groupId>

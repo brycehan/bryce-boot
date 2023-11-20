@@ -3,12 +3,10 @@ package com.brycehan.boot.sms.controller;
 import com.brycehan.boot.api.sms.SmsApi;
 import com.brycehan.boot.common.constant.CacheConstants;
 import com.brycehan.boot.sms.service.SmsService;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Service;
 
 import java.util.LinkedHashMap;
 
@@ -19,11 +17,9 @@ import java.util.LinkedHashMap;
  * @author Bryce Han
  */
 @Slf4j
-@Tag(name = "短信 Api 实现", description = "sms")
-@RequestMapping("/sms")
-@RestController
+@Service
 @RequiredArgsConstructor
-public class SmsApiController implements SmsApi {
+public class SmsApiService implements SmsApi {
 
     private final SmsService smsService;
 
@@ -55,7 +51,7 @@ public class SmsApiController implements SmsApi {
     }
 
     @Override
-    public boolean isSmsEnabled() {
+    public Boolean isSmsEnabled() {
         return this.smsService.isSmsEnabled();
     }
 

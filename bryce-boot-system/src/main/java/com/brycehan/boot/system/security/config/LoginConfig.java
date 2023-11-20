@@ -31,7 +31,7 @@ public class LoginConfig {
             }
 
             @Override
-            public boolean isSmsEnabled() {
+            public Boolean isSmsEnabled() {
                 return false;
             }
         };

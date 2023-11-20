@@ -4,7 +4,7 @@ import com.brycehan.boot.api.system.StorageApi;
 import com.brycehan.boot.api.system.vo.StorageVo;
 import com.brycehan.boot.framework.storage.service.StorageService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -15,9 +15,9 @@ import java.io.IOException;
  * @author Bryce Han
  * @since 2023/11/17
  */
-@RestController
+@Service
 @RequiredArgsConstructor
-public class StorageApiController implements StorageApi {
+public class StorageApiService implements StorageApi {
 
     private final StorageService storageService;
 

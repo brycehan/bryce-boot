@@ -37,6 +37,6 @@ public interface SmsApi {
      *
      * @return 开启标识（true：开启，false：关闭）
      */
-    boolean isSmsEnabled();
+    Boolean isSmsEnabled();
 
 }

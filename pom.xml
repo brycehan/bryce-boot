@@ -10,27 +10,19 @@
 	</parent>
 	<groupId>com.brycehan.boot</groupId>
 	<artifactId>bryce-boot</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>${revision}</version>
 	<name>bryce-boot</name>
 	<description>bryce-boot</description>
 	<packaging>pom</packaging>
 
 	<!-- 版本属性 -->
 	<properties>
-		<!-- Java版本 -->
+		<revision>0.0.1-SNAPSHOT</revision>
+		<!-- Java 版本 -->
 		<java.version>17</java.version>
 		<skipTests>true</skipTests>
-		<!-- ID 生成 -->
-		<yitter-idgenerator.version>1.0.6</yitter-idgenerator.version>
-		<!-- jwt 令牌 -->
-		<auth0-jwt.version>4.4.0</auth0-jwt.version>
-		<!-- Swagger接口文档 -->
-		<springdoc.version>2.2.0</springdoc.version>
+		<!-- Swagger 接口文档 -->
 		<knife4j.version>4.3.0</knife4j.version>
-		<!-- 验证码组件 -->
-		<captcha.version>1.6.2</captcha.version>
-		<!-- easy trans 数据翻译插件 -->
-		<easy-trans.version>2.2.9</easy-trans.version>
 		<!-- Mybatis Plus -->
 		<mybatis-plus.version>3.5.4</mybatis-plus.version>
 		<mybatis-plus-join.version>1.4.7</mybatis-plus-join.version>
@@ -39,6 +31,16 @@
 		<dameng.version>8.1.2.79</dameng.version>
 		<!-- redis -->
 		<redisson.version>3.24.3</redisson.version>
+		<!-- 验证码组件 -->
+		<captcha.version>1.6.2</captcha.version>
+		<!-- ID 生成 -->
+		<yitter-idgenerator.version>1.0.6</yitter-idgenerator.version>
+		<!-- jwt 令牌 -->
+		<auth0-jwt.version>4.4.0</auth0-jwt.version>
+		<!-- easy trans 数据翻译插件 -->
+		<easy-trans.version>2.2.9</easy-trans.version>
+		<!-- 实体转换器 -->
+		<mapstruct.version>1.5.5.Final</mapstruct.version>
 		<!-- 短信组件 -->
 		<sms4j.version>3.0.3</sms4j.version>
 		<aliyun-dysmsapi.version>2.0.23</aliyun-dysmsapi.version>
@@ -49,16 +51,15 @@
 		<qcloud-cos.version>5.6.97</qcloud-cos.version>
 		<qiniu.version>7.12.1</qiniu.version>
 		<huaweicloud-obs.version>3.23.9.1</huaweicloud-obs.version>
-		<!-- 实体转换器 -->
-		<mapstruct.version>1.5.5.Final</mapstruct.version>
 		<!-- 工具 -->
-		<binarywang-weixin.version>4.3.0</binarywang-weixin.version>
-		<transmittable-thread-local.version>2.14.3</transmittable-thread-local.version>
-		<easyexcel.version>3.3.2</easyexcel.version>
 		<hutool.version>5.8.21</hutool.version>
 		<guava.version>32.0.0-jre</guava.version>
+		<easyexcel.version>3.3.2</easyexcel.version>
+		<transmittable-thread-local.version>2.14.3</transmittable-thread-local.version>
+		<okio.version>3.6.0</okio.version>
 		<oshi.version>6.4.6</oshi.version>
 		<commons-text.version>1.11.0</commons-text.version>
+		<binarywang-weixin.version>4.3.0</binarywang-weixin.version>
 	</properties>
 
 	<!-- 模块 -->
@@ -86,7 +87,7 @@
 				<artifactId>bryce-boot-framework</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-			<!-- 框架模块 -->
+			<!-- api 模块 -->
 			<dependency>
 				<groupId>com.brycehan.boot</groupId>
 				<artifactId>bryce-boot-api</artifactId>
@@ -145,30 +146,13 @@
 				<artifactId>bryce-generator-boot-starter</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-			<!-- Swagger UI -->
-			<dependency>
-				<groupId>org.springdoc</groupId>
-				<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-				<version>${springdoc.version}</version>
-			</dependency>
-			<!-- Swagger公共库 -->
-			<dependency>
-				<groupId>org.springdoc</groupId>
-				<artifactId>springdoc-openapi-starter-common</artifactId>
-				<version>${springdoc.version}</version>
-			</dependency>
-			<!-- Knife4j接口文档 -->
+			<!-- Knife4j 接口文档 -->
 			<dependency>
 				<groupId>com.github.xiaoymin</groupId>
 				<artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
 				<version>${knife4j.version}</version>
 			</dependency>
-			<dependency>
-				<groupId>com.github.whvcse</groupId>
-				<artifactId>easy-captcha</artifactId>
-				<version>${captcha.version}</version>
-			</dependency>
-			<!-- Mybatis Plus框架 -->
+			<!-- Mybatis Plus 框架 -->
 			<dependency>
 				<groupId>com.baomidou</groupId>
 				<artifactId>mybatis-plus-boot-starter</artifactId>
@@ -191,72 +175,31 @@
 				<version>${p6spy.version}</version>
 			</dependency>
 			<dependency>
+				<groupId>com.dameng</groupId>
+				<artifactId>DmJdbcDriver18</artifactId>
+				<version>${dameng.version}</version>
+			</dependency>
+			<dependency>
 				<groupId>org.redisson</groupId>
 				<artifactId>redisson-spring-boot-starter</artifactId>
 				<version>${redisson.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.dameng</groupId>
-				<artifactId>DmJdbcDriver18</artifactId>
-				<version>${dameng.version}</version>
+				<groupId>com.github.whvcse</groupId>
+				<artifactId>easy-captcha</artifactId>
+				<version>${captcha.version}</version>
 			</dependency>
-			<!-- jwt令牌 -->
-			<dependency>
-				<groupId>com.auth0</groupId>
-				<artifactId>java-jwt</artifactId>
-				<version>${auth0-jwt.version}</version>
-			</dependency>
-			<!-- ID生成器 -->
+			<!-- ID 生成器 -->
 			<dependency>
 				<groupId>com.github.yitter</groupId>
 				<artifactId>yitter-idgenerator</artifactId>
 				<version>${yitter-idgenerator.version}</version>
 			</dependency>
-			<!-- 糊涂工具 -->
+			<!-- jwt 令牌 -->
 			<dependency>
-				<groupId>cn.hutool</groupId>
-				<artifactId>hutool-all</artifactId>
-				<version>${hutool.version}</version>
-			</dependency>
-			<!-- Guava库 -->
-			<dependency>
-				<groupId>com.google.guava</groupId>
-				<artifactId>guava</artifactId>
-				<version>${guava.version}</version>
-			</dependency>
-			<!-- 监控工具 -->
-			<dependency>
-				<groupId>com.github.oshi</groupId>
-				<artifactId>oshi-core</artifactId>
-				<version>${oshi.version}</version>
-			</dependency>
-			<!-- 字符串算法库 -->
-			<dependency>
-				<groupId>org.apache.commons</groupId>
-				<artifactId>commons-text</artifactId>
-				<version>${commons-text.version}</version>
-			</dependency>
-			<!-- 实体转换器 -->
-			<dependency>
-				<groupId>org.mapstruct</groupId>
-				<artifactId>mapstruct</artifactId>
-				<version>${mapstruct.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.mapstruct</groupId>
-				<artifactId>mapstruct-processor</artifactId>
-				<version>${mapstruct.version}</version>
-			</dependency>
-			<!-- Excel工具 -->
-			<dependency>
-				<groupId>com.alibaba</groupId>
-				<artifactId>easyexcel</artifactId>
-				<version>${easyexcel.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.alibaba</groupId>
-				<artifactId>transmittable-thread-local</artifactId>
-				<version>${transmittable-thread-local.version}</version>
+				<groupId>com.auth0</groupId>
+				<artifactId>java-jwt</artifactId>
+				<version>${auth0-jwt.version}</version>
 			</dependency>
 			<!-- easy-trans 数据翻译插件 -->
 			<dependency>
@@ -269,7 +212,34 @@
 				<artifactId>easy-trans-mybatis-plus-extend</artifactId>
 				<version>${easy-trans.version}</version>
 			</dependency>
-			<!-- Minio对象存储服务 -->
+			<!-- 实体转换器 -->
+			<dependency>
+				<groupId>org.mapstruct</groupId>
+				<artifactId>mapstruct</artifactId>
+				<version>${mapstruct.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.mapstruct</groupId>
+				<artifactId>mapstruct-processor</artifactId>
+				<version>${mapstruct.version}</version>
+			</dependency>
+			<!-- sms 短信 -->
+			<dependency>
+				<groupId>org.dromara.sms4j</groupId>
+				<artifactId>sms4j-spring-boot-starter</artifactId>
+				<version>${sms4j.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.aliyun</groupId>
+				<artifactId>dysmsapi20170525</artifactId>
+				<version>${aliyun-dysmsapi.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.tencentcloudapi</groupId>
+				<artifactId>tencentcloud-sdk-java</artifactId>
+				<version>${tencentcloud-sdk.version}</version>
+			</dependency>
+			<!-- Minio 对象存储服务 -->
 			<dependency>
 				<groupId>io.minio</groupId>
 				<artifactId>minio</artifactId>
@@ -299,21 +269,45 @@
 				<artifactId>esdk-obs-java-bundle</artifactId>
 				<version>${huaweicloud-obs.version}</version>
 			</dependency>
+			<!-- 糊涂工具 -->
 			<dependency>
-				<groupId>com.aliyun</groupId>
-				<artifactId>dysmsapi20170525</artifactId>
-				<version>${aliyun-dysmsapi.version}</version>
+				<groupId>cn.hutool</groupId>
+				<artifactId>hutool-all</artifactId>
+				<version>${hutool.version}</version>
+			</dependency>
+			<!-- Guava 库 -->
+			<dependency>
+				<groupId>com.google.guava</groupId>
+				<artifactId>guava</artifactId>
+				<version>${guava.version}</version>
+			</dependency>
+			<!-- Excel 工具 -->
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>easyexcel</artifactId>
+				<version>${easyexcel.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.tencentcloudapi</groupId>
-				<artifactId>tencentcloud-sdk-java</artifactId>
-				<version>${tencentcloud-sdk.version}</version>
+				<groupId>com.alibaba</groupId>
+				<artifactId>transmittable-thread-local</artifactId>
+				<version>${transmittable-thread-local.version}</version>
 			</dependency>
-			<!-- sms短信 -->
 			<dependency>
-				<groupId>org.dromara.sms4j</groupId>
-				<artifactId>sms4j-spring-boot-starter</artifactId>
-				<version>${sms4j.version}</version>
+				<groupId>com.squareup.okio</groupId>
+				<artifactId>okio</artifactId>
+				<version>${okio.version}</version>
+			</dependency>
+			<!-- 监控工具 -->
+			<dependency>
+				<groupId>com.github.oshi</groupId>
+				<artifactId>oshi-core</artifactId>
+				<version>${oshi.version}</version>
+			</dependency>
+			<!-- 字符串算法库 -->
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-text</artifactId>
+				<version>${commons-text.version}</version>
 			</dependency>
 			<!-- 微信公众号 -->
 			<dependency>
@@ -327,6 +321,7 @@
 				<artifactId>weixin-java-miniapp</artifactId>
 				<version>${binarywang-weixin.version}</version>
 			</dependency>
+			<!-- 微信支付 -->
 			<dependency>
 				<groupId>com.github.binarywang</groupId>
 				<artifactId>weixin-java-pay</artifactId>
@@ -349,6 +344,7 @@
 			<!-- 编译时包含 resources 文件夹下资源 -->
 			<resource>
 				<directory>src/main/resources</directory>
+				<!-- 开启过滤，用指定的参数替换 directory 下的文件中的参数 -->
 				<filtering>true</filtering>
 				<includes>
 					<include>**/*</include>

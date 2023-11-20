@@ -1,8 +1,8 @@
 package com.brycehan.boot.sms.service.impl;
 
+import com.brycehan.boot.api.system.SysParamApi;
 import com.brycehan.boot.common.constant.CacheConstants;
 import com.brycehan.boot.sms.service.SmsService;
-import com.brycehan.boot.system.service.SysParamService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.dromara.sms4j.api.SmsBlend;
@@ -26,7 +26,7 @@ import java.util.concurrent.TimeUnit;
 @RequiredArgsConstructor
 public class SmsServiceImpl implements SmsService {
 
-    private final SysParamService sysParamService;
+    private final SysParamApi sysParamApi;
 
     private final StringRedisTemplate stringRedisTemplate;
 
@@ -55,7 +55,7 @@ public class SmsServiceImpl implements SmsService {
 
     @Override
     public boolean isSmsEnabled() {
-        return this.sysParamService.getBoolean("system.sms.enabled");
+        return this.sysParamApi.getBoolean("system.sms.enabled");
     }
 
 }

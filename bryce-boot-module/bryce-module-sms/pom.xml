@@ -5,21 +5,37 @@
     <parent>
         <groupId>com.brycehan.boot</groupId>
         <artifactId>bryce-boot-module</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>${revision}</version>
     </parent>
     <artifactId>bryce-module-sms</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>${revision}</version>
     <name>bryce-module-sms</name>
     <description>bryce-module-sms</description>
 
     <!-- 依赖 -->
     <dependencies>
-        <!-- Bryce System 组件 -->
         <dependency>
             <groupId>com.brycehan.boot</groupId>
-            <artifactId>bryce-boot-system</artifactId>
+            <artifactId>bryce-boot-framework</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>com.brycehan.boot</groupId>
+            <artifactId>bryce-boot-api</artifactId>
+        </dependency>
+        <!-- sms 短信 -->
+        <dependency>
+            <groupId>org.dromara.sms4j</groupId>
+            <artifactId>sms4j-spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>dysmsapi20170525</artifactId>
+        </dependency>
+        <!-- 腾讯云 SDK -->
+        <dependency>
+            <groupId>com.tencentcloudapi</groupId>
+            <artifactId>tencentcloud-sdk-java</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

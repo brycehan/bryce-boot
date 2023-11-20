@@ -5,17 +5,12 @@
     <parent>
         <groupId>com.brycehan.boot</groupId>
         <artifactId>bryce-boot</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>${revision}</version>
     </parent>
     <artifactId>bryce-boot-server</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>${revision}</version>
     <name>bryce-boot-server</name>
     <description>bryce-boot-server</description>
-
-    <!-- 版本属性 -->
-    <properties>
-        <skipTests>true</skipTests>
-    </properties>
 
     <!-- 依赖 -->
     <dependencies>
@@ -50,7 +45,7 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <!-- Security安全测试 -->
+        <!-- Security 安全测试 -->
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-test</artifactId>
@@ -62,7 +57,6 @@
     <build>
         <!-- 插件 -->
         <plugins>
-            <!-- spring boot 插件 -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>

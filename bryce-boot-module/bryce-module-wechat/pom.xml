@@ -5,10 +5,10 @@
     <parent>
         <groupId>com.brycehan.boot</groupId>
         <artifactId>bryce-boot-module</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>${revision}</version>
     </parent>
     <artifactId>bryce-module-wechat</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>${revision}</version>
     <name>bryce-module-wechat</name>
     <description>bryce-module-wechat</description>
 
@@ -19,10 +19,13 @@
 
     <!-- 依赖 -->
     <dependencies>
-        <!-- Bryce System 组件 -->
         <dependency>
             <groupId>com.brycehan.boot</groupId>
-            <artifactId>bryce-boot-system</artifactId>
+            <artifactId>bryce-boot-framework</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.brycehan.boot</groupId>
+            <artifactId>bryce-boot-api</artifactId>
         </dependency>
         <!-- 微信公众号 -->
         <dependency>
