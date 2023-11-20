@@ -1,6 +1,6 @@
 package com.brycehan.boot.quartz.mapper;
 
-import com.brycehan.boot.common.base.mapper.BryceBaseMapper;
+import com.brycehan.boot.framework.mybatis.mapper.BryceBaseMapper;
 import com.brycehan.boot.quartz.entity.QuartzJobLog;
 import org.apache.ibatis.annotations.Mapper;
 

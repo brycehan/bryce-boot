@@ -31,6 +31,12 @@ import static java.time.format.DateTimeFormatter.*;
 @Configuration
 public class JacksonConfig {
 
+    private final DateTimeFormatter dateTimeFormatter = new DateTimeFormatterBuilder()
+            .append(ISO_LOCAL_DATE)
+            .appendLiteral(' ')
+            .append(ISO_TIME)
+            .toFormatter();
+
     /**
      * 映射配置
      *
@@ -39,13 +45,6 @@ public class JacksonConfig {
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
     public Jackson2ObjectMapperBuilderCustomizer customizer(){
-
-        DateTimeFormatter dateTimeFormatter = new DateTimeFormatterBuilder()
-                .append(ISO_LOCAL_DATE)
-                .appendLiteral(' ')
-                .append(ISO_TIME)
-                .toFormatter();
-
         return builder -> {
             builder.serializerByType(LocalDate.class, new LocalDateSerializer(ISO_DATE));
             builder.serializerByType(LocalTime.class, new LocalTimeSerializer(ISO_TIME));

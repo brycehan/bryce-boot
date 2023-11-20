@@ -1,6 +1,6 @@
 package com.brycehan.boot.wechat.mapper;
 
-import com.brycehan.boot.common.base.mapper.BryceBaseMapper;
+import com.brycehan.boot.framework.mybatis.mapper.BryceBaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import com.brycehan.boot.wechat.entity.WechatApp;
 

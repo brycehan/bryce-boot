@@ -1,7 +1,7 @@
 package com.brycehan.boot.system.mapper;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.brycehan.boot.common.base.mapper.BryceBaseMapper;
+import com.brycehan.boot.framework.mybatis.mapper.BryceBaseMapper;
 import com.brycehan.boot.system.entity.SysUser;
 import org.apache.ibatis.annotations.Mapper;
 

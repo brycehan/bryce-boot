@@ -1,8 +1,9 @@
 package com.brycehan.boot.framework.xss;
 
-import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.http.HTMLFilter;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.safety.Safelist;
 
 /**
  * Xss 过滤工具
@@ -11,12 +12,11 @@ import cn.hutool.http.HTMLFilter;
  * @author Bryce Han
  */
 public class XssUtils {
-    private static final ThreadLocal<HTMLFilter> HTML_FILTER = ThreadLocal.withInitial(() -> {
-        HTMLFilter htmlFilter = new HTMLFilter();
-        // 避免 " 被转换成 &quot; 字符
-        ReflectUtil.setFieldValue(htmlFilter, "encodeQuotes", false);
-        return htmlFilter;
-    });
+
+    /**
+     * 不格式化
+     */
+    public static final Document.OutputSettings outputSettings = new Document.OutputSettings().prettyPrint(false);
 
     /**
      * Xss 过滤
@@ -30,6 +30,7 @@ public class XssUtils {
             return content;
         }
 
-        return HTML_FILTER.get().filter(content);
+        return Jsoup.clean(content, "", Safelist.relaxed(), outputSettings);
     }
+
 }

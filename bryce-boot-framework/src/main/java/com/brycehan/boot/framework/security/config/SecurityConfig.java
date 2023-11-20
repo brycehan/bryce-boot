@@ -1,4 +1,4 @@
-package com.brycehan.boot.framework.config;
+package com.brycehan.boot.framework.security.config;
 
 import com.brycehan.boot.framework.config.properties.AuthProperties;
 import com.brycehan.boot.framework.filter.JwtAuthenticationFilter;

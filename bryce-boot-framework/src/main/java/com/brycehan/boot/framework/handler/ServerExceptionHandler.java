@@ -52,7 +52,6 @@ public class ServerExceptionHandler {
         String message = e.getAllErrors().stream()
                 .map(DefaultMessageSourceResolvable::getDefaultMessage)
                 .collect(Collectors.joining(","));
-        log.error("参数绑定异常", e);
 
         return ResponseResult.error(HttpResponseStatus.HTTP_BAD_REQUEST.code(), message);
     }
@@ -100,8 +99,7 @@ public class ServerExceptionHandler {
      * @return 响应结果
      */
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-    public ResponseResult<Void> HttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e) {
-        log.error("请求方法不支持异常", e);
+    public ResponseResult<Void> HttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException e) {
         return ResponseResult.error(HttpResponseStatus.HTTP_METHOD_NOT_ALLOWED, e.getMethod());
     }
 
@@ -114,16 +112,9 @@ public class ServerExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseResult<Void> methodArgumentNotValidException(MethodArgumentNotValidException e) {
         List<String> errors = e.getBindingResult().getAllErrors().stream()
-                .map(item -> {
-                    if (item instanceof FieldError) {
-                        return "字段".concat(((FieldError) item).getField())
-                                .concat(Objects.requireNonNull(item.getDefaultMessage()));
-                    } else {
-                        return e.getMessage();
-                    }
-                })
+                .filter(item -> item instanceof FieldError)
+                .map(item ->  "字段" + ((FieldError ) item).getField() + item.getDefaultMessage())
                 .collect(Collectors.toList());
-        log.error("参数校验异常", e);
         return ResponseResult.error(HttpResponseStatus.HTTP_BAD_REQUEST.code(), String.join(", ", errors));
     }
 

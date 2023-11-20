@@ -158,7 +158,7 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<M, 
         }
 
         // 数据过滤
-        if(dataScopeSet.size() > 0) {
+        if(!dataScopeSet.isEmpty()) {
             if(StrUtil.isBlank(orgIdAlias)) {
                 orgIdAlias = "org_id";
             }

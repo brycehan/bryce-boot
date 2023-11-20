@@ -16,7 +16,7 @@ public class CacheConstants {
     /**
      * 图片验证码键
      */
-    public static final String CAPTCHA_CODE_KEY = "system:captcha_code:";
+    public static final String CAPTCHA_CODE_KEY = "system:captcha:";
 
     /**
      * 短信验证码键

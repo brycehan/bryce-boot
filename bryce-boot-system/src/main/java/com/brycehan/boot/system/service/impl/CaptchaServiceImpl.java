@@ -1,7 +1,7 @@
 package com.brycehan.boot.system.service.impl;
 
 import cn.hutool.core.util.StrUtil;
-import com.brycehan.boot.common.constant.CacheConstants;
+import com.brycehan.boot.common.base.RedisKeys;
 import com.brycehan.boot.framework.config.properties.CaptchaProperties;
 import com.brycehan.boot.system.service.CaptchaService;
 import com.brycehan.boot.system.service.SysParamService;
@@ -40,7 +40,7 @@ public class CaptchaServiceImpl implements CaptchaService {
         captcha.setLen(captchaProperties.getLength());
         captcha.setCharType(Captcha.TYPE_DEFAULT);
 
-        String captchaKey = CacheConstants.CAPTCHA_CODE_KEY.concat(key);
+        String captchaKey = RedisKeys.getCaptchaKey(key);
         String captchaValue = captcha.text();
         // 存储到Redis
         this.stringRedisTemplate.opsForValue()
@@ -64,7 +64,7 @@ public class CaptchaServiceImpl implements CaptchaService {
         }
 
         // 获取缓存验证码
-        String captchaKey = CacheConstants.CAPTCHA_CODE_KEY.concat(key);
+        String captchaKey = RedisKeys.getCaptchaKey(key);
         String captchaValue = this.stringRedisTemplate.opsForValue()
                 .getAndDelete(captchaKey);
 

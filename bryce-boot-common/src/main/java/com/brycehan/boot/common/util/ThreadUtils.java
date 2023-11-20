@@ -12,7 +12,7 @@ import java.util.concurrent.*;
  * @author Bryce Han
  */
 @Slf4j
-public class Threads {
+public class ThreadUtils {
 
     /**
      * 停止线程池。

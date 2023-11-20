@@ -9,6 +9,8 @@ import org.mapstruct.factory.Mappers;
 import java.util.List;
 
 /**
+ * 分页排序项转换器
+ *
  * @since 2023/4/13
  * @author Bryce Han
  */

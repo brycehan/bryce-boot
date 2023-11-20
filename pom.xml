@@ -56,9 +56,10 @@
 		<guava.version>32.0.0-jre</guava.version>
 		<easyexcel.version>3.3.2</easyexcel.version>
 		<transmittable-thread-local.version>2.14.3</transmittable-thread-local.version>
+		<commons-text.version>1.11.0</commons-text.version>
+		<jsoup.version>1.16.1</jsoup.version>
 		<okio.version>3.6.0</okio.version>
 		<oshi.version>6.4.6</oshi.version>
-		<commons-text.version>1.11.0</commons-text.version>
 		<binarywang-weixin.version>4.3.0</binarywang-weixin.version>
 	</properties>
 
@@ -292,6 +293,17 @@
 				<artifactId>transmittable-thread-local</artifactId>
 				<version>${transmittable-thread-local.version}</version>
 			</dependency>
+			<!-- 字符串算法库 -->
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-text</artifactId>
+				<version>${commons-text.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.jsoup</groupId>
+				<artifactId>jsoup</artifactId>
+				<version>${jsoup.version}</version>
+			</dependency>
 			<dependency>
 				<groupId>com.squareup.okio</groupId>
 				<artifactId>okio</artifactId>
@@ -302,12 +314,6 @@
 				<groupId>com.github.oshi</groupId>
 				<artifactId>oshi-core</artifactId>
 				<version>${oshi.version}</version>
-			</dependency>
-			<!-- 字符串算法库 -->
-			<dependency>
-				<groupId>org.apache.commons</groupId>
-				<artifactId>commons-text</artifactId>
-				<version>${commons-text.version}</version>
 			</dependency>
 			<!-- 微信公众号 -->
 			<dependency>
