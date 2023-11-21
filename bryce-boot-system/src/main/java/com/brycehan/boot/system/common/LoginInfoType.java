@@ -1,4 +1,4 @@
-package com.brycehan.boot.system.enums;
+package com.brycehan.boot.system.common;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

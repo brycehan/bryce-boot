@@ -4,7 +4,6 @@ import com.brycehan.boot.common.base.dto.AccountLoginDto;
 import com.brycehan.boot.common.base.dto.PhoneLoginDto;
 import com.brycehan.boot.common.base.http.ResponseResult;
 import com.brycehan.boot.common.base.vo.LoginVo;
-import com.brycehan.boot.common.constant.JwtConstants;
 import com.brycehan.boot.framework.security.TokenUtils;
 import com.brycehan.boot.framework.security.context.LoginUser;
 import com.brycehan.boot.framework.security.context.LoginUserContext;
@@ -18,9 +17,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -54,18 +50,9 @@ public class AuthController {
      */
     @Operation(summary = "账号登录")
     @PostMapping(path = "/loginByAccount")
-    public ResponseEntity<ResponseResult<LoginVo>> loginByAccount(@Validated @RequestBody AccountLoginDto accountLoginDto) {
-
-        String jwt = authService.login(accountLoginDto);
-
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add(JwtConstants.AUTHORIZATION_HEADER, JwtConstants.TOKEN_PREFIX.concat(jwt));
-
-        LoginVo loginVo = LoginVo.builder()
-                .token(JwtConstants.TOKEN_PREFIX.concat(jwt))
-                .build();
-
-        return new ResponseEntity<>(ResponseResult.ok(loginVo), httpHeaders, HttpStatus.OK);
+    public ResponseResult<LoginVo> loginByAccount(@Validated @RequestBody AccountLoginDto accountLoginDto) {
+        LoginVo loginVo = authService.loginByAccount(accountLoginDto);
+        return ResponseResult.ok(loginVo);
     }
 
     /**
@@ -76,18 +63,9 @@ public class AuthController {
      */
     @Operation(summary = "手机验证码登录")
     @PostMapping(path = "/loginByPhone")
-    public ResponseEntity<ResponseResult<LoginVo>> loginByPhone(@Validated @RequestBody PhoneLoginDto phoneLoginDto) {
-
-        String jwt = authService.login(phoneLoginDto);
-
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add(JwtConstants.AUTHORIZATION_HEADER, JwtConstants.TOKEN_PREFIX.concat(jwt));
-
-        LoginVo loginVo = LoginVo.builder()
-                .token(JwtConstants.TOKEN_PREFIX.concat(jwt))
-                .build();
-
-        return new ResponseEntity<>(ResponseResult.ok(loginVo), httpHeaders, HttpStatus.OK);
+    public ResponseResult<LoginVo> loginByPhone(@Validated @RequestBody PhoneLoginDto phoneLoginDto) {
+        LoginVo loginVo = authService.loginByPhone(phoneLoginDto);
+        return ResponseResult.ok(loginVo);
     }
 
     /**
