@@ -58,6 +58,8 @@ bryce:
       all:
         - /generator-ui/**
       get:
+        - /
+        - /error
         - /webjars/**
         - /swagger-ui/**
         - /swagger-resources/**
@@ -68,9 +70,7 @@ bryce:
         - /captcha/**
         - /sms/**
         - /register/enabled
-        - /error
-        - /auth/test
-        - /wechat/**
+        - /wechat/validate/**
       post:
         - /auth/loginByAccount
         - /auth/loginByPhone

@@ -26,8 +26,8 @@ public class WechatController {
      * @param request 请求
      * @return echostr 字符串
      */
-    @GetMapping(path = "/{appId}")
-    public String appId(@PathVariable String appId, HttpServletRequest request) {
+    @GetMapping(path = "/validate/{appId}")
+    public String validate(@PathVariable String appId, HttpServletRequest request) {
         wechatService.validRequest(appId);
         return request.getParameter("echostr");
     }
