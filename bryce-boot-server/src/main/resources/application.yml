@@ -79,6 +79,8 @@ easy-trans:
   is-enable-tile: true
   #字典缓存放到redis 微服务模式请开启
   dict-use-redis: true
+  # MP为 3.5.3.2版本以上的3.x 版本请设置为true，否则可能会出现找不到对应方法的问题
+  mp-new: true
 
 
 

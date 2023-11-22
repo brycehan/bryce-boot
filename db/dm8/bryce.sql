@@ -100,7 +100,7 @@ comment on column brc_sys_user.type is '用户类型（0：系统用户）';
 comment on column brc_sys_user.phone is '手机号码';
 comment on column brc_sys_user.email is '邮箱';
 comment on column brc_sys_user.sort is '显示顺序';
-comment on column brc_sys_user.org_id is '部门ID';
+comment on column brc_sys_user.org_id is '机构ID';
 comment on column brc_sys_user.super_admin is '超级管理员';
 comment on column brc_sys_user.tenant_admin is '租户管理员';
 comment on column brc_sys_user.status is '状态（0：停用，1：正常）';

@@ -72,7 +72,7 @@ public class SysUser extends BaseEntity {
     private Integer sort;
 
     /**
-     * 部门ID
+     * 机构ID
      */
     private Long orgId;
 

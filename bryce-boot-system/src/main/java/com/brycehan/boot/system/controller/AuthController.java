@@ -7,11 +7,11 @@ import com.brycehan.boot.common.base.vo.LoginVo;
 import com.brycehan.boot.framework.security.TokenUtils;
 import com.brycehan.boot.framework.security.context.LoginUser;
 import com.brycehan.boot.framework.security.context.LoginUserContext;
-import com.brycehan.boot.system.entity.SysUser;
+import com.brycehan.boot.system.convert.SysUserConvert;
 import com.brycehan.boot.system.service.AuthService;
 import com.brycehan.boot.system.service.SysMenuService;
-import com.brycehan.boot.system.service.SysUserService;
 import com.brycehan.boot.system.vo.SysMenuVo;
+import com.brycehan.boot.system.vo.SysUserVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
@@ -38,8 +38,6 @@ public class AuthController {
 
     private final AuthService authService;
 
-    private final SysUserService sysUserService;
-
     private final SysMenuService sysMenuService;
 
     /**
@@ -48,7 +46,7 @@ public class AuthController {
      * @param accountLoginDto 登录dto
      * @return 响应结果
      */
-    @Operation(summary = "账号登录")
+    @Operation(summary = "账号密码登录")
     @PostMapping(path = "/loginByAccount")
     public ResponseResult<LoginVo> loginByAccount(@Validated @RequestBody AccountLoginDto accountLoginDto) {
         LoginVo loginVo = authService.loginByAccount(accountLoginDto);
@@ -88,17 +86,9 @@ public class AuthController {
      */
     @Operation(summary = "查询系统登录用户详情")
     @GetMapping(path = "/currentUser")
-    public ResponseResult<SysUser> currentUser() {
-        LoginUser loginUser = LoginUserContext.currentUser();
-        SysUser sysUser = this.sysUserService.getById(loginUser);
-        sysUser.setPassword(null);
-        // 角色权限
-        Set<String> roleAuthoritySet = this.authService.getRoleAuthority(loginUser);
-        // 菜单权限
-        Set<String> menuAuthoritySet = this.authService.getMenuAuthority(loginUser);
-        sysUser.setRoles(roleAuthoritySet);
-        sysUser.setAuthoritySet(menuAuthoritySet);
-        return ResponseResult.ok(sysUser);
+    public ResponseResult<SysUserVo> currentUser() {
+        SysUserVo sysUserVo = SysUserConvert.INSTANCE.convert(LoginUserContext.currentUser());
+        return ResponseResult.ok(sysUserVo);
     }
 
     /**

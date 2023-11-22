@@ -21,7 +21,6 @@ import java.util.stream.Collectors;
 @Data
 public class LoginUser implements UserDetails {
 
-
     /**
      * 用户ID
      */
@@ -112,6 +111,7 @@ public class LoginUser implements UserDetails {
 
     /**
      * 数据权限范围集合
+     * <p>null：表示全部数据权限</p>
      */
     private Set<Long> dataScopeSet;
 

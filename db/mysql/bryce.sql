@@ -54,7 +54,7 @@ create table brc_sys_user
     phone              varchar(20)              null comment '手机号码',
     email              varchar(50)              null comment '邮箱',
     sort               int          default 0   null comment '显示顺序',
-    org_id             bigint                   null comment '部门ID',
+    org_id             bigint                   null comment '机构ID',
     super_admin        tinyint                  null comment '超级管理员',
     tenant_admin       tinyint                  null comment '租户管理员',
     status             tinyint(1)   default 1   null comment '状态（0：停用，1：正常）',

@@ -4,7 +4,6 @@ import com.brycehan.boot.common.base.dto.ProfileDto;
 import com.brycehan.boot.common.base.http.HttpResponseStatus;
 import com.brycehan.boot.common.base.http.ResponseResult;
 import com.brycehan.boot.common.base.http.UserResponseStatus;
-import com.brycehan.boot.common.exception.BusinessException;
 import com.brycehan.boot.framework.operatelog.annotation.OperateLog;
 import com.brycehan.boot.framework.operatelog.annotation.OperateType;
 import com.brycehan.boot.framework.security.JwtTokenProvider;
@@ -43,8 +42,6 @@ public class ProfileController {
     private final SysUserService sysUserService;
 
     private final JwtTokenProvider jwtTokenProvider;
-
-    private final PasswordEncoder passwordEncoder;
 
     /**
      * 个人信息
@@ -131,34 +128,15 @@ public class ProfileController {
     /**
      * 修改密码
      *
+     * @param sysUserPasswordDto 系统用户修改密码 Dto
      * @return 响应结果
      */
     @Operation(summary = "修改密码")
     @OperateLog(type = OperateType.UPDATE)
     @PutMapping(path = "/password")
-    public ResponseResult<String> updatePassword(@Validated @RequestBody SysUserPasswordDto sysUserPasswordDto) {
-        // 1、校验密码
-        LoginUser loginUser = LoginUserContext.currentUser();
-        assert loginUser != null;
-        if (!this.passwordEncoder.matches(sysUserPasswordDto.getPassword(), loginUser.getPassword())) {
-            throw BusinessException.responseStatus(UserResponseStatus.USER_PASSWORD_NOT_MATCH);
-        }
-        if (this.passwordEncoder.matches(sysUserPasswordDto.getNewPassword(), loginUser.getPassword())) {
-            throw BusinessException.responseStatus(UserResponseStatus.USER_PASSWORD_SAME_AS_OLD_ERROR);
-        }
-
-        SysUser sysUser = new SysUser();
-        sysUser.setId(loginUser.getId());
-        sysUser.setPassword(this.passwordEncoder.encode(sysUserPasswordDto.getNewPassword()));
-        // 2、更新密码
-        if (this.sysUserService.updateById(sysUser)) {
-            // 3、更新缓存用户信息
-            loginUser.setPassword(sysUser.getPassword());
-            this.jwtTokenProvider.setLoginUser(loginUser);
-            return ResponseResult.ok();
-        }
-
-        return ResponseResult.error(UserResponseStatus.USER_PASSWORD_CHANGE_ERROR);
+    public ResponseResult<String> password(@Validated @RequestBody SysUserPasswordDto sysUserPasswordDto) {
+        this.sysUserService.updatePassword(sysUserPasswordDto);
+        return ResponseResult.ok();
     }
 
 }

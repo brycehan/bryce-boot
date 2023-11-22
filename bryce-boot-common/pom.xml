@@ -69,6 +69,10 @@
             <groupId>com.fhs-opensource</groupId>
             <artifactId>easy-trans-mybatis-plus-extend</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.fhs-opensource</groupId>
+            <artifactId>easy-trans-untrans-driver</artifactId>
+        </dependency>
         <!-- Minio 对象存储服务 -->
         <dependency>
             <groupId>io.minio</groupId>

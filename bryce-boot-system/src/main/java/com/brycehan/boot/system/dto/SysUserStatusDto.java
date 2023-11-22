@@ -29,6 +29,6 @@ public class SysUserStatusDto implements Serializable {
      * 状态（0：停用，1：正常）
      */
     @Schema(description = "状态（0：停用，1：正常）")
-    private Integer status;
+    private Boolean status;
 
 }

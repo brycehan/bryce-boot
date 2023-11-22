@@ -2,6 +2,7 @@ package com.brycehan.boot.system.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -15,11 +16,11 @@ import com.brycehan.boot.common.constant.UserConstants;
 import com.brycehan.boot.common.exception.BusinessException;
 import com.brycehan.boot.common.util.ExcelUtils;
 import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
+import com.brycehan.boot.framework.security.JwtTokenProvider;
+import com.brycehan.boot.framework.security.context.LoginUser;
 import com.brycehan.boot.framework.security.context.LoginUserContext;
 import com.brycehan.boot.system.convert.SysUserConvert;
-import com.brycehan.boot.system.dto.SysRoleUserPageDto;
-import com.brycehan.boot.system.dto.SysUserDto;
-import com.brycehan.boot.system.dto.SysUserPageDto;
+import com.brycehan.boot.system.dto.*;
 import com.brycehan.boot.system.entity.SysPost;
 import com.brycehan.boot.system.entity.SysRole;
 import com.brycehan.boot.system.entity.SysUser;
@@ -27,12 +28,14 @@ import com.brycehan.boot.system.entity.SysUserRole;
 import com.brycehan.boot.system.mapper.SysUserMapper;
 import com.brycehan.boot.system.service.*;
 import com.brycehan.boot.system.vo.SysUserVo;
+import com.fhs.trans.service.impl.TransService;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -56,6 +59,10 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
     private final SysPostService sysPostService;
 
     private final PasswordEncoder passwordEncoder;
+
+    private final JwtTokenProvider jwtTokenProvider;
+
+    private final TransService transService;
 
     @Transactional(rollbackFor = Exception.class)
     @Override
@@ -174,7 +181,50 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
     public void export(SysUserPageDto sysUserPageDto) {
         List<SysUser> sysUserList = this.baseMapper.selectList(getWrapper(sysUserPageDto));
         List<SysUserVo> sysUserVoList = SysUserConvert.INSTANCE.convert(sysUserList);
-        ExcelUtils.export(SysUserVo.class, "系统用户", "系统用户", sysUserVoList);
+        this.transService.transBatch(sysUserVoList);
+        ExcelUtils.export(SysUserVo.class, "系统用户_".concat(DateUtil.today()), "系统用户", sysUserVoList);
+    }
+
+    @Transactional
+    @Override
+    public void importByExcel(MultipartFile file, String password) {
+        ExcelUtils.read(file, SysUserExcelDto.class, list -> saveUser(list, password));
+    }
+
+    private void saveUser(List<SysUserExcelDto> list, String password) {
+
+        ExcelUtils.unTransList(list);
+        List<SysUser> sysUsers = SysUserConvert.INSTANCE.convertList(list);
+        sysUsers.forEach(sysUser -> {
+            sysUser.setId(IdGenerator.nextId());
+            sysUser.setPassword(this.passwordEncoder.encode(password));
+        });
+
+        saveBatch(sysUsers);
+    }
+    @Override
+    public void updatePassword(SysUserPasswordDto passwordDto) {
+        LoginUser loginUser = LoginUserContext.currentUser();
+        // 校验密码
+        assert loginUser != null;
+        if (!this.passwordEncoder.matches(passwordDto.getPassword(), loginUser.getPassword())) {
+            throw BusinessException.responseStatus(UserResponseStatus.USER_PASSWORD_NOT_MATCH);
+        }
+        if (this.passwordEncoder.matches(passwordDto.getNewPassword(), loginUser.getPassword())) {
+            throw BusinessException.responseStatus(UserResponseStatus.USER_PASSWORD_SAME_AS_OLD_ERROR);
+        }
+
+        // 更新密码
+        SysUser sysUser = new SysUser();
+        sysUser.setId(loginUser.getId());
+        sysUser.setPassword(this.passwordEncoder.encode(passwordDto.getNewPassword()));
+        if (this.updateById(sysUser)) {
+            // 更新缓存用户信息
+            loginUser.setPassword(sysUser.getPassword());
+            this.jwtTokenProvider.setLoginUser(loginUser);
+        } else {
+            throw BusinessException.responseStatus(UserResponseStatus.USER_PASSWORD_CHANGE_ERROR);
+        }
     }
 
     @Override

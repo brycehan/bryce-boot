@@ -213,6 +213,11 @@
 				<artifactId>easy-trans-mybatis-plus-extend</artifactId>
 				<version>${easy-trans.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>com.fhs-opensource</groupId>
+				<artifactId>easy-trans-untrans-driver</artifactId>
+				<version>${easy-trans.version}</version>
+			</dependency>
 			<!-- 实体转换器 -->
 			<dependency>
 				<groupId>org.mapstruct</groupId>

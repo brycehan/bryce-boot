@@ -97,9 +97,9 @@ public class SysUserDto implements Serializable {
     private Integer sort;
 
     /**
-     * 部门ID
+     * 机构ID
      */
-    @Schema(description = "部门ID")
+    @Schema(description = "机构ID")
     private Long orgId;
 
     /**

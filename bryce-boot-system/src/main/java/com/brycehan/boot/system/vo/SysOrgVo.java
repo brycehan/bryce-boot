@@ -36,10 +36,10 @@ public class SysOrgVo extends TreeNode<SysOrgVo> {
     private String code;
 
     /**
-     * 祖级机构列表
+     * 上级机构名称
      */
-    @Schema(description = "祖级机构列表")
-    private String ancestor;
+    @Schema(description = "上级机构名称")
+    private String parentName;
 
     /**
      * 负责人

@@ -2,6 +2,7 @@ package com.brycehan.boot.system.convert;
 
 import com.brycehan.boot.framework.security.context.LoginUser;
 import com.brycehan.boot.system.dto.SysUserDto;
+import com.brycehan.boot.system.dto.SysUserExcelDto;
 import com.brycehan.boot.system.entity.SysUser;
 import com.brycehan.boot.system.vo.SysUserVo;
 import org.mapstruct.Mapper;
@@ -25,8 +26,12 @@ public interface SysUserConvert {
 
     SysUserVo convert(SysUser sysUser);
 
+    SysUserVo convert(LoginUser loginUser);
+
     List<SysUserVo> convert(List<SysUser> sysUserList);
 
     LoginUser convertLoginUser(SysUser sysUser);
+
+    List<SysUser> convertList(List<SysUserExcelDto> list);
 
 }

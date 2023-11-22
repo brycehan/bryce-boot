@@ -7,8 +7,10 @@ import com.brycehan.boot.system.convert.SysUserConvert;
 import com.brycehan.boot.system.dto.SysRoleUserPageDto;
 import com.brycehan.boot.system.dto.SysUserDto;
 import com.brycehan.boot.system.dto.SysUserPageDto;
+import com.brycehan.boot.system.dto.SysUserPasswordDto;
 import com.brycehan.boot.system.entity.SysUser;
 import com.brycehan.boot.system.vo.SysUserVo;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 系统用户服务
@@ -55,6 +57,21 @@ public interface SysUserService extends BaseService<SysUser> {
      * @param sysUserPageDto 系统用户查询条件
      */
     void export(SysUserPageDto sysUserPageDto);
+
+    /**
+     * 批量导入用户
+     *
+     * @param file Excel 文件
+     * @param password 初始密码
+     */
+    void importByExcel(MultipartFile file, String password);
+
+    /**
+     * 更新密码
+     *
+     * @param passwordDto 系统用户密码 Dto
+     */
+    void updatePassword(SysUserPasswordDto passwordDto);
 
     /**
      * 角色分配用户，用户列表

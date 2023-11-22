@@ -93,7 +93,17 @@ public class SysOrgController {
     @GetMapping(path = "/{id}")
     public ResponseResult<SysOrgVo> get(@Parameter(description = "系统机构ID", required = true) @PathVariable Long id) {
         SysOrg sysOrg = this.sysOrgService.getById(id);
-        return ResponseResult.ok(SysOrgConvert.INSTANCE.convert(sysOrg));
+        SysOrgVo sysOrgVo = SysOrgConvert.INSTANCE.convert(sysOrg);
+
+        // 获取上级机构名称
+        if(sysOrg.getParentId() != 0) {
+            SysOrg parent = this.sysOrgService.getById(sysOrg.getParentId());
+            sysOrgVo.setParentName(parent.getName());
+        } else {
+            sysOrgVo.setParentName("主目类");
+        }
+
+        return ResponseResult.ok();
     }
 
     /**

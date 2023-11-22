@@ -51,9 +51,9 @@ public class SysUserPageDto extends BasePageDto {
     private String phone;
 
     /**
-     * 部门ID
+     * 机构ID
      */
-    @Schema(description = "部门ID")
+    @Schema(description = "机构ID")
     private Long orgId;
 
     /**
