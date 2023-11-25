@@ -23,8 +23,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id
-        , name, code, data_scope, sort,
+        id, name, code, data_scope, sort,
         status, remark, org_id, tenant_id, version,
         deleted, created_user_id, created_time, updated_user_id, updated_time
     </sql>
@@ -40,7 +39,7 @@
     </select>
 
     <!-- 根据用户ID查询角色权限 -->
-    <select id="selectRolePermissionByUserId" resultType="java.lang.String">
+    <select id="getRoleCodeByUserId" resultType="java.lang.String">
         select code
         from brc_sys_role sr
                  left join brc_sys_user_role sur on sr.id = sur.role_id
@@ -48,25 +47,4 @@
           and sur.user_id = #{userId}
     </select>
 
-    <!-- 根据用户ID查询角色权限 -->
-    <select id="selectRolesByUsername" resultType="com.brycehan.boot.system.entity.SysRole">
-        select distinct bsr.id, bsr.code, bsr.name
-        from brc_sys_role bsr
-                 left join brc_sys_user_role bsur on bsr.id = bsur.role_id
-                 left join brc_sys_user bsu on bsur.user_id = bsu.id
-        where bsr.deleted = '0'
-          and bsr.status = true
-          and bsu.username = #{username}
-    </select>
-
-    <!-- 根据用户ID查询用户的角色 -->
-    <select id="selectRolesByUserId" resultType="com.brycehan.boot.system.entity.SysRole">
-        select distinct bsr.id, bsr.code, bsr.name
-        from brc_sys_role bsr
-                 left join brc_sys_user_role bsur on bsr.id = bsur.role_id
-                 left join brc_sys_user bsu on bsur.user_id = bsu.id
-        where bsr.deleted = '0'
-          and bsr.status = true
-          and bsu.id = #{userId}
-    </select>
 </mapper>

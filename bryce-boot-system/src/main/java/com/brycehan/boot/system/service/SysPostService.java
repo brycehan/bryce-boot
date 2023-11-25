@@ -63,12 +63,4 @@ public interface SysPostService extends BaseService<SysPost> {
      */
     List<SysPostVo> list(SysPostPageDto sysPostPageDto);
 
-    /**
-     * 根据用户账号查询所属岗位组
-     *
-     * @param username 用户账号
-     * @return 所属岗位组
-     */
-    List<SysPost> selectPostsByUsername(String username);
-
 }

@@ -3,21 +3,17 @@ package com.brycehan.boot.system.controller;
 import cn.hutool.core.collection.CollectionUtil;
 import com.brycehan.boot.common.base.dto.IdsDto;
 import com.brycehan.boot.common.base.entity.PageResult;
-import com.brycehan.boot.common.base.http.HttpResponseStatus;
 import com.brycehan.boot.common.base.http.ResponseResult;
-import com.brycehan.boot.common.exception.BusinessException;
 import com.brycehan.boot.common.validator.SaveGroup;
 import com.brycehan.boot.common.validator.UpdateGroup;
 import com.brycehan.boot.framework.operatelog.annotation.OperateLog;
 import com.brycehan.boot.framework.operatelog.annotation.OperateType;
 import com.brycehan.boot.framework.security.context.LoginUserContext;
 import com.brycehan.boot.system.convert.SysUserConvert;
+import com.brycehan.boot.system.dto.SysResetPasswordDto;
 import com.brycehan.boot.system.dto.SysUserDto;
 import com.brycehan.boot.system.dto.SysUserPageDto;
-import com.brycehan.boot.system.dto.SysUserStatusDto;
-import com.brycehan.boot.system.entity.SysRole;
 import com.brycehan.boot.system.entity.SysUser;
-import com.brycehan.boot.system.service.SysRoleService;
 import com.brycehan.boot.system.service.SysUserPostService;
 import com.brycehan.boot.system.service.SysUserRoleService;
 import com.brycehan.boot.system.service.SysUserService;
@@ -26,8 +22,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.BeanUtils;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -52,8 +46,6 @@ public class SysUserController {
     private final SysUserRoleService sysUserRoleService;
 
     private final SysUserPostService sysUserPostService;
-
-    private final SysRoleService sysRoleService;
 
     /**
      * 保存系统用户
@@ -98,8 +90,9 @@ public class SysUserController {
     public ResponseResult<Void> delete(@Validated @RequestBody IdsDto idsDto) {
         // 用户不能删除自己的账号
         if (CollectionUtil.contains(idsDto.getIds(), LoginUserContext.currentUserId())) {
-            throw BusinessException.responseStatus(HttpResponseStatus.HTTP_FORBIDDEN);
+            throw new RuntimeException("不能删除当前登录用户");
         }
+
         this.sysUserService.delete(idsDto);
         return ResponseResult.ok();
     }
@@ -174,61 +167,33 @@ public class SysUserController {
     }
 
     /**
-     * @param sysUser
-     * @return
+     * 重置密码
+     *
+     * @param sysResetPasswordDto 需要重置的用户
+     * @return 响应结果
      */
     @Operation(summary = "重置密码")
     @OperateLog(type = OperateType.UPDATE)
-    @Secured(value = "system:user:resetPassword")
+    @PreAuthorize("hasAuthority('system:user:resetPassword')")
     @PostMapping(path = "/resetPassword")
-    public ResponseResult<Void> resetPassword(@RequestBody SysUser sysUser) {
-        sysUserService.checkUserAllowed(sysUser);
-        // todo checkUserDataScope();
-//        sysUser.setPassword(passwordEncoder.encode(sysUser.getPassword()));
-        this.sysUserService.updateById(sysUser);
+    public ResponseResult<Void> resetPassword(@Validated @RequestBody SysResetPasswordDto sysResetPasswordDto) {
+        this.sysUserService.resetPassword(sysResetPasswordDto);
         return ResponseResult.ok();
     }
 
     /**
-     * 修改用户状态
-     *
-     * @param sysUserStatusDto 系统用户状态dto
-     * @return 响应结果
-     */
-    @Operation(summary = "修改用户状态")
-    @OperateLog(type = OperateType.UPDATE)
-    @Secured(value = "system:user:edit")
-    @PutMapping(path = "/status")
-    public ResponseResult<Void> status(@RequestBody SysUserStatusDto sysUserStatusDto) {
-        SysUser sysUser = new SysUser();
-        BeanUtils.copyProperties(sysUserStatusDto, sysUser);
-        sysUserService.checkUserAllowed(sysUser);
-        // todo checkUserDataScope();
-        this.sysUserService.updateById(sysUser);
-        return ResponseResult.ok();
-    }
-
-    /**
-     * 根据用户ID获取授权角色
+     * 授权用户指定的角色列表
      *
      * @param userId 用户ID
-     * @return 用户的授权角色
+     * @param roleIds 角色列表
+     * @return 响应结果
      */
-    @Secured(value = "system:user:query")
-    @GetMapping(path = "/authRole/{userId}")
-    public ResponseResult<Void> authRole(@PathVariable(value = "userId") Long userId) {
-        SysUser sysUser = this.sysUserService.getById(userId);
-        List<SysRole> strings = this.sysRoleService.selectRolesByUserId(userId);
-//        Set<SysRole> stringss = Sets.newHashSet(strings);
-        // todo
-        return ResponseResult.ok();
-    }
-
-    @Secured(value = "system:user:edit")
+    @Operation(summary = "授权用户角色")
     @OperateLog(type = OperateType.GRANT)
+    @PreAuthorize("hasAuthority('system:user:grant')")
     @PutMapping(path = "/authRole")
-    public ResponseResult<Void> insertAuthRole(Long userId, Long[] roleIds) {
-        this.sysUserService.insertAuthRole(userId, roleIds);
+    public ResponseResult<Void> insertAuthRole(Long userId, List<Long> roleIds) {
+        this.sysUserRoleService.saveOrUpdate(userId, roleIds);
         return ResponseResult.ok();
     }
 

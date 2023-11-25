@@ -4,10 +4,7 @@ import com.brycehan.boot.common.base.entity.PageResult;
 import com.brycehan.boot.common.base.id.IdGenerator;
 import com.brycehan.boot.framework.mybatis.service.BaseService;
 import com.brycehan.boot.system.convert.SysUserConvert;
-import com.brycehan.boot.system.dto.SysRoleUserPageDto;
-import com.brycehan.boot.system.dto.SysUserDto;
-import com.brycehan.boot.system.dto.SysUserPageDto;
-import com.brycehan.boot.system.dto.SysUserPasswordDto;
+import com.brycehan.boot.system.dto.*;
 import com.brycehan.boot.system.entity.SysUser;
 import com.brycehan.boot.system.vo.SysUserVo;
 import org.springframework.web.multipart.MultipartFile;
@@ -67,6 +64,14 @@ public interface SysUserService extends BaseService<SysUser> {
     void importByExcel(MultipartFile file, String password);
 
     /**
+     * 根据手机号码查询用户
+     *
+     * @param phone 手机号码
+     * @return 系统用户
+     */
+    SysUserVo getByPhone(String phone);
+
+    /**
      * 更新密码
      *
      * @param passwordDto 系统用户密码 Dto
@@ -120,30 +125,10 @@ public interface SysUserService extends BaseService<SysUser> {
     void checkUserAllowed(SysUser sysUser);
 
     /**
-     * 根据用户账号查询用户所属角色组
+     * 重置密码
      *
-     * @param username 用户账号
-     * @return 所属角色组（多个时逗号分隔）
+     * @param sysResetPasswordDto 要重置的用户
      */
-    String selectUserRoleGroup(String username);
-
-    /**
-     * 根据用户账号查询用户所属岗位组
-     *
-     * @param username 用户账号
-     * @return 所属岗位组（多个时逗号分隔）
-     */
-    String selectUserPostGroup(String username);
-
-    /**
-     * 修改用户头像
-     *
-     * @param userId 用户ID
-     * @param avatar 头像地址
-     * @return 修改结果
-     */
-    boolean updateUserAvatar(Long userId, String avatar);
-
-    void insertAuthRole(Long userId, Long[] roleIds);
+    void resetPassword(SysResetPasswordDto sysResetPasswordDto);
 
 }

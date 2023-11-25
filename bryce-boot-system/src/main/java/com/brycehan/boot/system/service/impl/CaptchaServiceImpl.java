@@ -33,8 +33,9 @@ public class CaptchaServiceImpl implements CaptchaService {
 
     @Override
     public CaptchaVo generate() {
-
+        // 生成验证码 key
         String key = UUID.randomUUID().toString();
+
         // 生成验证码
         SpecCaptcha captcha = new SpecCaptcha(captchaProperties.getWidth(), captchaProperties.getHeight());
         captcha.setLen(captchaProperties.getLength());
@@ -42,13 +43,16 @@ public class CaptchaServiceImpl implements CaptchaService {
 
         String captchaKey = RedisKeys.getCaptchaKey(key);
         String captchaValue = captcha.text();
-        // 存储到Redis
+
+        // 存储到 Redis
         this.stringRedisTemplate.opsForValue()
                 .set(captchaKey, captchaValue, captchaProperties.getExpiration(), TimeUnit.MINUTES);
 
+        // 封装返回数据
         CaptchaVo captchaVo = new CaptchaVo();
         captchaVo.setKey(key);
         captchaVo.setImage(captcha.toBase64());
+
         return captchaVo;
     }
 

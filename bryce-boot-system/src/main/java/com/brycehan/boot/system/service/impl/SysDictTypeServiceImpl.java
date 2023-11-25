@@ -1,5 +1,6 @@
 package com.brycehan.boot.system.service.impl;
 
+import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -45,7 +46,6 @@ public class SysDictTypeServiceImpl extends BaseServiceImpl<SysDictTypeMapper, S
 
     @Override
     public PageResult<SysDictTypeVo> page(SysDictTypePageDto sysDictTypePageDto) {
-
         IPage<SysDictType> page = this.baseMapper.selectPage(getPage(sysDictTypePageDto), getWrapper(sysDictTypePageDto));
 
         return new PageResult<>(page.getTotal(), SysDictTypeConvert.INSTANCE.convert(page.getRecords()));
@@ -79,7 +79,7 @@ public class SysDictTypeServiceImpl extends BaseServiceImpl<SysDictTypeMapper, S
     public void export(SysDictTypePageDto sysDictTypePageDto) {
         List<SysDictType> sysDictTypeList = this.baseMapper.selectList(getWrapper(sysDictTypePageDto));
         List<SysDictTypeVo> sysDictTypeVoList = SysDictTypeConvert.INSTANCE.convert(sysDictTypeList);
-        ExcelUtils.export(SysDictTypeVo.class, "系统字典类型", "系统字典类型", sysDictTypeVoList);
+        ExcelUtils.export(SysDictTypeVo.class, "系统字典类型_" + DateUtil.today(), "系统字典类型", sysDictTypeVoList);
     }
 
     @Override
@@ -117,7 +117,7 @@ public class SysDictTypeServiceImpl extends BaseServiceImpl<SysDictTypeMapper, S
      * 刷新字典缓存
      */
     public void refreshTransCache() {
-
+        // 异步不阻塞主线程，不会增加启动用时
         CompletableFuture.runAsync(() -> {
             // 获取所有的字典项数据
             List<SysDictData> dataList = this.sysDictDataMapper.selectList(new LambdaQueryWrapper<>());

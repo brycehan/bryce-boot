@@ -2,6 +2,8 @@ package com.brycehan.boot.system.controller;
 
 import com.brycehan.boot.api.sms.SmsApi;
 import com.brycehan.boot.common.base.http.ResponseResult;
+import com.brycehan.boot.system.service.SysUserService;
+import com.brycehan.boot.system.vo.SysUserVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -13,9 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.Map;
 
 /**
  * 短信控制器
@@ -32,6 +32,8 @@ public class SysSmsController {
 
     private final SmsApi smsApi;
 
+    private final SysUserService sysUserService;
+
     @Value("${sms.login-template-id}")
     private String loginTemplateId;
 
@@ -46,7 +48,6 @@ public class SysSmsController {
     @Operation(summary = "生成登录验证码")
     @GetMapping(path = "/login/code")
     public ResponseResult<?> sendLoginCode(String phone) {
-
         return sendCode(phone, loginTemplateId);
     }
 
@@ -76,22 +77,24 @@ public class SysSmsController {
     @NotNull
     private ResponseResult<?> sendCode(String phone, String templateId) {
         boolean smsEnabled = this.smsApi.isSmsEnabled();
-
-        Map<String, Object> data = new HashMap<>();
-        data.put("smsEnabled", smsEnabled);
         if (!smsEnabled) {
-            return ResponseResult.ok(data);
+            return ResponseResult.error("短信功能未开启");
         }
 
+        SysUserVo sysUserVo = this.sysUserService.getByPhone(phone);
+        if(sysUserVo == null) {
+            throw new RuntimeException("手机号码未注册");
+        }
+
+        // 生成6位验证码
         String code = RandomStringUtils.randomNumeric(6);
 
         LinkedHashMap<String, String> params = new LinkedHashMap<>();
         params.put("code", code);
 
+        // 发送短信
         boolean result = this.smsApi.send(phone, templateId, params);
-        data.put("result", result);
-
-        return ResponseResult.ok(data);
+        return ResponseResult.ok(result);
     }
 
 }

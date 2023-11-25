@@ -30,6 +30,11 @@ public class SysMenuVo extends TreeNode<SysMenuVo> {
     private String name;
 
     /**
+     * 父菜单名称
+     */
+    private String parentName;
+
+    /**
      * 类型（M：菜单，B：按钮，I：接口）
      */
     @Schema(description = "类型（M：菜单，B：按钮，I：接口）")

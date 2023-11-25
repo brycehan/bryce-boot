@@ -4,14 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * 登录信息
+ * 登录操作类型
  *
  * @since 2023/9/25
  * @author Bryce Han
  */
 @Getter
 @AllArgsConstructor
-public enum LoginInfoType {
+public enum LoginOperateType {
     /**
      * 登录成功
      */

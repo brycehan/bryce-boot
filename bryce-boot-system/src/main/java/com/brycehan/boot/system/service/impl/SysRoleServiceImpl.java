@@ -29,7 +29,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 /**
  * 系统角色表服务实现类
@@ -47,6 +46,7 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
 
     private final SysRoleDataScopeService sysRoleDataScopeService;
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void save(SysRoleDto sysRoleDto) {
         SysRole sysRole = SysRoleConvert.INSTANCE.convert(sysRoleDto);
@@ -60,6 +60,7 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
         this.sysRoleMenuService.saveOrUpdate(sysRole.getId(), sysRoleDto.getMenuIds());
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void update(SysRoleDto sysRoleDto) {
         SysRole sysRole = SysRoleConvert.INSTANCE.convert(sysRoleDto);
@@ -143,21 +144,7 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
         return SysRoleConvert.INSTANCE.convert(sysRoleList);
     }
 
-    @Override
-    public Set<String> selectRolePermissionByUserId(Long userId) {
-        return this.baseMapper.selectRolePermissionByUserId(userId);
-    }
-
-    @Override
-    public List<SysRole> selectRolesByUsername(String username) {
-        return this.baseMapper.selectRolesByUsername(username);
-    }
-
-    @Override
-    public List<SysRole> selectRolesByUserId(Long userId) {
-        return null;
-    }
-
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void dataScope(SysRoleDataScopeDto dataScopeDto) {
         SysRole sysRole = this.baseMapper.selectById(dataScopeDto.getId());
@@ -174,7 +161,6 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
         } else {
             this.sysRoleDataScopeService.deleteByRoleIds(Collections.singletonList(dataScopeDto.getId()));
         }
-
     }
 
 }

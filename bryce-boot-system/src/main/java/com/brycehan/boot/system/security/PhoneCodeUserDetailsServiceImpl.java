@@ -1,6 +1,7 @@
 package com.brycehan.boot.system.security;
 
 import com.brycehan.boot.framework.security.phone.PhoneCodeUserDetailsService;
+import com.brycehan.boot.system.convert.SysUserConvert;
 import com.brycehan.boot.system.entity.SysUser;
 import com.brycehan.boot.system.mapper.SysUserMapper;
 import com.brycehan.boot.system.service.SysUserDetailsService;
@@ -25,13 +26,13 @@ public class PhoneCodeUserDetailsServiceImpl implements PhoneCodeUserDetailsServ
 
     @Override
     public UserDetails loadUserByPhone(String phone) throws UsernameNotFoundException {
-        // 1、查询用户
+        // 查询用户
         SysUser sysUser = this.sysUserMapper.getByPhone(phone);
         if (sysUser == null) {
             throw new UsernameNotFoundException("手机号或验证码错误");
         }
 
-        // 2、创建用户详情
-        return this.sysUserDetailsService.getUserDetails(sysUser);
+        // 创建用户详情
+        return this.sysUserDetailsService.getUserDetails(SysUserConvert.INSTANCE.convertLoginUser(sysUser));
     }
 }

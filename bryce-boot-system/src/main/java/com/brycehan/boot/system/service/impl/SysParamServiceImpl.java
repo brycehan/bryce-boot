@@ -158,19 +158,19 @@ public class SysParamServiceImpl extends BaseServiceImpl<SysParamMapper, SysPara
 
     @Override
     public String getString(String paramKey) {
-        // 1、从缓存中查询
+        // 从缓存中查询
         String paramValue = (String) this.stringRedisTemplate.opsForHash().get(CacheConstants.SYSTEM_PARAM_KEY, paramKey);
         if (StringUtils.isNotEmpty(paramValue)) {
             return paramValue;
         }
 
-        // 2、缓存没有时，从数据库中查询
+        // 如果缓存没有时，则从数据库中查询
         SysParam sysParam = this.baseMapper.selectOne(paramKey);
         if (Objects.isNull(sysParam)) {
             throw new RuntimeException("参数值不存在，paramKey：".concat(paramKey));
         }
 
-        // 3、添加到缓存中
+        // 添加到缓存中
         this.stringRedisTemplate.opsForHash().put(CacheConstants.SYSTEM_PARAM_KEY, sysParam.getParamKey(), sysParam.getParamValue());
 
         return sysParam.getParamValue();

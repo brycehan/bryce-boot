@@ -3,6 +3,7 @@ package com.brycehan.boot.system.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -21,8 +22,6 @@ import com.brycehan.boot.framework.security.context.LoginUser;
 import com.brycehan.boot.framework.security.context.LoginUserContext;
 import com.brycehan.boot.system.convert.SysUserConvert;
 import com.brycehan.boot.system.dto.*;
-import com.brycehan.boot.system.entity.SysPost;
-import com.brycehan.boot.system.entity.SysRole;
 import com.brycehan.boot.system.entity.SysUser;
 import com.brycehan.boot.system.entity.SysUserRole;
 import com.brycehan.boot.system.mapper.SysUserMapper;
@@ -34,11 +33,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * 系统用户服务实现
@@ -53,10 +53,6 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
     private final SysUserRoleService sysUserRoleService;
 
     private final SysUserPostService sysUserPostService;
-
-    private final SysRoleService sysRoleService;
-
-    private final SysPostService sysPostService;
 
     private final PasswordEncoder passwordEncoder;
 
@@ -108,6 +104,13 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
 
         SysUser sysUser = SysUserConvert.INSTANCE.convert(sysUserDto);
 
+        // 如果密码不为空，则进行加密处理
+        if (StrUtil.isBlank(sysUser.getPassword())) {
+            sysUser.setPassword(null);
+        } else {
+            sysUser.setPassword(this.passwordEncoder.encode(sysUser.getPassword()));
+        }
+
         // 更新用户
         this.baseMapper.updateById(sysUser);
 
@@ -140,14 +143,35 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
 
     @Override
     public PageResult<SysUserVo> page(SysUserPageDto sysUserPageDto) {
+        // 查询参数
+        Map<String, Object> params = getParams(sysUserPageDto);
 
-        IPage<SysUser> page = this.baseMapper.selectPage(getPage(sysUserPageDto), getWrapper(sysUserPageDto));
+        // 分页查询
+        IPage<SysUser> page = getPage(sysUserPageDto);
+        params.put(DataConstants.PAGE, page);
 
-        // 去掉密码
-        for (SysUser record : page.getRecords()) {
-            record.setPassword(null);
-        }
-        return new PageResult<>(page.getTotal(), SysUserConvert.INSTANCE.convert(page.getRecords()));
+        // 数据列表
+        List<SysUser> list = this.baseMapper.list(params);
+
+        return new PageResult<>(page.getTotal(), SysUserConvert.INSTANCE.convert(list));
+    }
+
+    private Map<String, Object> getParams(SysUserPageDto sysUserPageDto) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("username", sysUserPageDto.getUsername());
+        params.put("phone", sysUserPageDto.getPhone());
+        params.put("gender", sysUserPageDto.getGender());
+        params.put("type", sysUserPageDto.getType());
+        params.put("orgId", sysUserPageDto.getOrgId());
+        params.put("status", sysUserPageDto.getStatus());
+        params.put("tenantId", sysUserPageDto.getTenantId());
+        params.put("createdTimeStart", sysUserPageDto.getCreatedTimeStart());
+        params.put("createdTimeEnd", sysUserPageDto.getCreatedTimeEnd());
+
+        // 数据权限
+        params.put(DataConstants.DATA_SCOPE, getDataScope("bsu", null));
+
+        return params;
     }
 
     /**
@@ -202,6 +226,13 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
 
         saveBatch(sysUsers);
     }
+
+    @Override
+    public SysUserVo getByPhone(String phone) {
+        SysUser sysUser = this.baseMapper.getByPhone(phone);
+        return SysUserConvert.INSTANCE.convert(sysUser);
+    }
+
     @Override
     public void updatePassword(SysUserPasswordDto passwordDto) {
         LoginUser loginUser = LoginUserContext.currentUser();
@@ -247,16 +278,16 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void registerUser(SysUser sysUser) {
-        // 1、保存用户
         sysUser.setId(IdGenerator.nextId());
-        // 2、添加默认角色
+
+        // 添加默认角色
         SysUserRole sysUserRole = new SysUserRole();
         sysUserRole.setUserId(sysUser.getId());
         sysUserRole.setRoleId(DataConstants.DEFAULT_ROLE_ID);
         this.sysUserRoleService.save(sysUserRole);
 
+        // 保存用户
         int result = this.baseMapper.insert(sysUser);
-        // 3、异步记录注册成功日志
         if (result != 1) {
             throw BusinessException.responseStatus(UserResponseStatus.USER_REGISTER_ERROR);
         }
@@ -308,52 +339,18 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
     public void checkUserAllowed(SysUser sysUser) {
         Long userId = LoginUserContext.currentUserId();
         SysUser user = this.baseMapper.selectById(userId);
-        // 1、设置用户角色
-        if (CollectionUtils.isEmpty(sysUser.getRoles())) {
-            Set<String> sysRoles = this.sysRoleService.selectRolePermissionByUserId(sysUser.getId());
-            List<String> codes = sysRoles.stream().map("ROLE_"::concat).toList();
-            if (!CollectionUtils.isEmpty(codes)) {
-                sysUser.setRoles(new HashSet<>(codes));
-            }
-        }
-        // 1、检查用户权限
+        // 检查用户权限
         if (!user.getSuperAdmin() && sysUser.getSuperAdmin()) {
             throw new RuntimeException("不允许操作超级管理员用户");
         }
     }
 
     @Override
-    public String selectUserRoleGroup(String username) {
-        List<SysRole> sysRoles = this.sysRoleService.selectRolesByUsername(username);
-        if (CollectionUtils.isEmpty(sysRoles)) {
-            return StringUtils.EMPTY;
-        }
-        return sysRoles.stream()
-                .map(SysRole::getName)
-                .collect(Collectors.joining("，"));
+    public void resetPassword(SysResetPasswordDto sysResetPasswordDto) {
+        SysUser sysUser = this.getById(sysResetPasswordDto.getId());
+        checkUserAllowed(sysUser);
+        sysUser.setPassword(passwordEncoder.encode(sysResetPasswordDto.getPassword()));
+        this.updateById(sysUser);
     }
 
-    @Override
-    public String selectUserPostGroup(String username) {
-        List<SysPost> sysPosts = this.sysPostService.selectPostsByUsername(username);
-        if (CollectionUtils.isEmpty(sysPosts)) {
-            return StringUtils.EMPTY;
-        }
-        return sysPosts.stream()
-                .map(SysPost::getName)
-                .collect(Collectors.joining("，"));
-    }
-
-    @Override
-    public boolean updateUserAvatar(Long userId, String avatar) {
-        SysUser sysUser = new SysUser();
-        sysUser.setId(userId);
-        sysUser.setAvatar(avatar);
-        return this.updateById(sysUser);
-    }
-
-    @Override
-    public void insertAuthRole(Long userId, Long[] roleIds) {
-
-    }
 }

@@ -1,6 +1,6 @@
 package com.brycehan.boot.system.service;
 
-import com.brycehan.boot.system.entity.SysUser;
+import com.brycehan.boot.framework.security.context.LoginUser;
 import org.springframework.security.core.userdetails.UserDetails;
 
 /**
@@ -14,9 +14,9 @@ public interface SysUserDetailsService {
     /**
      * 根据系统用户获取用户详情
      *
-     * @param sysUser 系统用户
+     * @param loginUser 登录用户
      * @return UserDetails实例
      */
-    UserDetails getUserDetails(SysUser sysUser);
+    UserDetails getUserDetails(LoginUser loginUser);
 
 }

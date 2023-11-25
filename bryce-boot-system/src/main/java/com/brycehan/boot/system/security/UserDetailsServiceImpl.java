@@ -1,6 +1,7 @@
 package com.brycehan.boot.system.security;
 
 import com.brycehan.boot.common.util.MessageUtils;
+import com.brycehan.boot.system.convert.SysUserConvert;
 import com.brycehan.boot.system.entity.SysUser;
 import com.brycehan.boot.system.mapper.SysUserMapper;
 import com.brycehan.boot.system.service.SysUserDetailsService;
@@ -35,7 +36,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        // 1、查询用户
+        // 查询用户
         SysUser sysUser = sysUserMapper.getByUsername(username);
 
         if (sysUser == null) {
@@ -43,8 +44,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             throw new UsernameNotFoundException(MessageUtils.getMessage("user.username.or.password.error"));
         }
 
-        // 2、创建用户详情
-        return this.sysUserDetailsService.getUserDetails(sysUser);
+        // 创建用户详情
+        return this.sysUserDetailsService.getUserDetails(SysUserConvert.INSTANCE.convertLoginUser(sysUser));
     }
 
 }

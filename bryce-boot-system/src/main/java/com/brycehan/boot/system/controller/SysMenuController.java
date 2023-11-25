@@ -79,6 +79,12 @@ public class SysMenuController {
     @PreAuthorize("hasAuthority('system:menu:delete')")
     @DeleteMapping
     public ResponseResult<Void> delete(@Validated @RequestBody IdsDto idsDto) {
+        // 判断是否有子菜单或按钮
+        Long count = this.sysMenuService.getSubMenuCount(idsDto.getIds());
+        if (count > 0) {
+            return ResponseResult.error("请先删除子菜单");
+        }
+
         this.sysMenuService.delete(idsDto);
         return ResponseResult.ok();
     }
@@ -94,7 +100,15 @@ public class SysMenuController {
     @GetMapping(path = "/{id}")
     public ResponseResult<SysMenuVo> get(@Parameter(description = "系统菜单ID", required = true) @PathVariable Long id) {
         SysMenu sysMenu = this.sysMenuService.getById(id);
-        return ResponseResult.ok(SysMenuConvert.INSTANCE.convert(sysMenu));
+        SysMenuVo sysMenuVo = SysMenuConvert.INSTANCE.convert(sysMenu);
+
+        // 获取上级菜单名称
+        if (sysMenu.getParentId() != 0) {
+            SysMenu parent = this.sysMenuService.getById(sysMenu.getParentId());
+            sysMenuVo.setParentName(parent.getName());
+        }
+
+        return ResponseResult.ok(sysMenuVo);
     }
 
     /**

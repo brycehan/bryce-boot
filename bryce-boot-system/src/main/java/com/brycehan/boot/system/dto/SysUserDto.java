@@ -73,7 +73,7 @@ public class SysUserDto implements Serializable {
      * 用户类型（0：系统用户）
      */
     @Schema(description = "用户类型（0：系统用户）")
-    private Boolean type;
+    private Integer type;
 
     /**
      * 手机号码

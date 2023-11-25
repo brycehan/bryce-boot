@@ -30,7 +30,7 @@ public class SysRoleDataScopeServiceImpl extends BaseServiceImpl<SysRoleDataScop
         // 数据库角色对应机构IDs
         List<Long> dbOrgIds = getOrgIdsByRoleId(roleId);
 
-        // 需要新增的机构ID
+        // 需要新增的机构IDs
         Collection<Long> insertOrgIds = CollUtil.subtract(orgIds, dbOrgIds);
         if (CollUtil.isNotEmpty(insertOrgIds)) {
             List<SysRoleDataScope> list = insertOrgIds.stream().map(orgId -> {
@@ -44,7 +44,7 @@ public class SysRoleDataScopeServiceImpl extends BaseServiceImpl<SysRoleDataScop
             this.saveBatch(list);
         }
 
-        // 需要删除的机构ID
+        // 需要删除的机构IDs
         Collection<Long> deleteOrgIds = CollUtil.subtract(dbOrgIds, orgIds);
         if (CollUtil.isNotEmpty(deleteOrgIds)) {
             LambdaQueryWrapper<SysRoleDataScope> queryWrapper = new LambdaQueryWrapper<>();

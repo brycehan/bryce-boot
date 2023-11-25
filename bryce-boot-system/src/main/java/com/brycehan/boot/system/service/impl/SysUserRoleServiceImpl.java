@@ -30,7 +30,7 @@ public class SysUserRoleServiceImpl extends BaseServiceImpl<SysUserRoleMapper, S
         // 数据库用户角色IDs
         List<Long> dbRoleIds = getRoleIdsByUserId(userId);
 
-        // 需要新增的角色ID
+        // 需要新增的角色IDs
         Collection<Long> insertRoleIds = CollUtil.subtract(roleIds, dbRoleIds);
         if (CollUtil.isNotEmpty(insertRoleIds)) {
             List<SysUserRole> list = insertRoleIds.stream().map(roleId -> {
@@ -41,10 +41,11 @@ public class SysUserRoleServiceImpl extends BaseServiceImpl<SysUserRoleMapper, S
                 return userRole;
             }).toList();
 
+            // 批量新增
             this.saveBatch(list);
         }
 
-        // 需要删除的角色ID
+        // 需要删除的角色IDs
         Collection<Long> deleteRoleIds = CollUtil.subtract(dbRoleIds, roleIds);
         if (CollUtil.isNotEmpty(deleteRoleIds)) {
             LambdaQueryWrapper<SysUserRole> queryWrapper = new LambdaQueryWrapper<>();

@@ -30,17 +30,17 @@ public interface SysUserPostService extends BaseService<SysUserPost> {
     List<Long> getPostIdsByUserId(Long userId);
 
     /**
-     * 根据岗位IDs，删除用户岗位关系
-     *
-     * @param postIds 岗位IDs
-     */
-    void deleteByPostIds(List<Long> postIds);
-
-    /**
      * 根据用户IDs，删除用户岗位关系
      *
      * @param userIds 用户IDs
      */
     void deleteByUserIds(List<Long> userIds);
+
+    /**
+     * 根据岗位IDs，删除用户岗位关系
+     *
+     * @param postIds 岗位IDs
+     */
+    void deleteByPostIds(List<Long> postIds);
 
 }

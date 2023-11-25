@@ -27,4 +27,6 @@ public interface SysUserMapper extends BryceBaseMapper<SysUser> {
 
     List<SysUser> roleUserList(Map<String, Object> params);
 
+    List<SysUser> list(Map<String, Object> params);
+
 }

@@ -40,7 +40,6 @@ public class SysLoginLogServiceImpl extends BaseServiceImpl<SysLoginLogMapper, S
 
     @Override
     public PageResult<SysLoginLogVo> page(SysLoginLogPageDto sysLoginLogPageDto) {
-
         IPage<SysLoginLog> page = this.baseMapper.selectPage(getPage(sysLoginLogPageDto), getWrapper(sysLoginLogPageDto));
 
         return new PageResult<>(page.getTotal(), SysLoginLogConvert.INSTANCE.convert(page.getRecords()));
@@ -110,4 +109,5 @@ public class SysLoginLogServiceImpl extends BaseServiceImpl<SysLoginLogMapper, S
         // 保存数据
         this.baseMapper.insert(loginLog);
     }
+
 }

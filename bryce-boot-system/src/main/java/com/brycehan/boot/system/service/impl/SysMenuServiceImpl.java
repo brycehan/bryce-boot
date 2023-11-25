@@ -1,8 +1,10 @@
 package com.brycehan.boot.system.service.impl;
 
+import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.brycehan.boot.common.base.dto.IdsDto;
 import com.brycehan.boot.common.base.entity.PageResult;
 import com.brycehan.boot.common.constant.DataConstants;
 import com.brycehan.boot.common.util.ExcelUtils;
@@ -15,8 +17,10 @@ import com.brycehan.boot.system.dto.SysMenuPageDto;
 import com.brycehan.boot.system.entity.SysMenu;
 import com.brycehan.boot.system.mapper.SysMenuMapper;
 import com.brycehan.boot.system.service.SysMenuService;
+import com.brycehan.boot.system.service.SysRoleMenuService;
 import com.brycehan.boot.system.vo.SysMenuVo;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +35,43 @@ import java.util.*;
 @Service
 @RequiredArgsConstructor
 public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuMapper, SysMenu> implements SysMenuService {
+
+    private final SysRoleMenuService sysRoleMenuService;
+
+    /**
+     * 更新系统菜单
+     *
+     * @param sysMenuDto 系统菜单Dto
+     */
+    @Override
+    public void update(SysMenuDto sysMenuDto) {
+        SysMenu sysMenu = SysMenuConvert.INSTANCE.convert(sysMenuDto);
+        // 上级菜单不能为自己
+        if (sysMenu.getId().equals(sysMenu.getParentId())) {
+            throw new RuntimeException("上级菜单不能为自己");
+        }
+
+        // 更新菜单
+        this.baseMapper.updateById(sysMenu);
+    }
+
+    @Override
+    public void delete(IdsDto idsDto) {
+
+        // 过滤无效参数
+        List<Long> ids = idsDto.getIds().stream()
+                .filter(Objects::nonNull)
+                .toList();
+        if (CollectionUtils.isEmpty(ids)) {
+            return;
+        }
+
+        // 删除菜单
+        this.baseMapper.deleteBatchIds(ids);
+
+        // 删除角色菜单关系
+        this.sysRoleMenuService.deleteByMenuIds(ids);
+    }
 
     @Override
     public PageResult<SysMenuVo> page(SysMenuPageDto sysMenuPageDto) {
@@ -58,7 +99,7 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuMapper, SysMenu> 
     public void export(SysMenuPageDto sysMenuPageDto) {
         List<SysMenu> sysMenuList = this.baseMapper.selectList(getWrapper(sysMenuPageDto));
         List<SysMenuVo> sysMenuVoList = SysMenuConvert.INSTANCE.convert(sysMenuList);
-        ExcelUtils.export(SysMenuVo.class, "系统菜单", "系统菜单", sysMenuVoList);
+        ExcelUtils.export(SysMenuVo.class, "系统菜单_" + DateUtil.today(), "系统菜单", sysMenuVoList);
     }
 
     @Override
@@ -70,22 +111,6 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuMapper, SysMenu> 
         List<SysMenu> list = this.baseMapper.selectList(queryWrapper);
 
         return TreeUtils.build(SysMenuConvert.INSTANCE.convert(list), 0L);
-    }
-
-    @Override
-    public Set<String> findAuthority(LoginUser loginUser) {
-        // 超级管理员，拥有最高权限
-        Set<String> authoritySet;
-        if (loginUser.getSuperAdmin()) {
-            LambdaQueryWrapper<SysMenu> wrapper = new LambdaQueryWrapper<>();
-            wrapper.select(SysMenu::getAuthority);
-
-            List<String> authortityList = this.listObjs(wrapper, Object::toString);
-            authoritySet = new HashSet<>(authortityList);
-        } else {
-            authoritySet = this.baseMapper.findAuthorityByUserId(loginUser.getId());
-        }
-        return authoritySet;
     }
 
     @Override
@@ -106,6 +131,35 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuMapper, SysMenu> 
         }
 
         return TreeUtils.build(SysMenuConvert.INSTANCE.convert(menuList));
+    }
+
+    @Override
+    public Long getSubMenuCount(List<Long> parentIds) {
+        List<Long> realParentIds = parentIds.stream()
+                .filter(Objects::nonNull)
+                .toList();
+
+        if (CollectionUtils.isEmpty(realParentIds)) {
+            return 0L;
+        }
+
+        return count(new LambdaQueryWrapper<SysMenu>().in(SysMenu::getParentId, realParentIds));
+    }
+
+    @Override
+    public Set<String> findAuthority(LoginUser loginUser) {
+        // 超级管理员，拥有最高权限
+        Set<String> authoritySet;
+        if (loginUser.getSuperAdmin()) {
+            LambdaQueryWrapper<SysMenu> wrapper = new LambdaQueryWrapper<>();
+            wrapper.select(SysMenu::getAuthority);
+
+            List<String> authortityList = this.listObjs(wrapper, Object::toString);
+            authoritySet = new HashSet<>(authortityList);
+        } else {
+            authoritySet = this.baseMapper.findAuthorityByUserId(loginUser.getId());
+        }
+        return authoritySet;
     }
 
 }

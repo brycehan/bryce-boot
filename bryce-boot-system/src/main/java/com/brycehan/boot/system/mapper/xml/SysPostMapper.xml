@@ -21,21 +21,9 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id
-        , name, code, sort, status,
+        id, name, code, sort, status,
         remark, tenant_id, version, deleted, created_user_id, 
         created_time, updated_user_id, updated_time
     </sql>
-
-    <select id="selectPostsByUsername" resultType="com.brycehan.boot.system.entity.SysPost">
-        select bsp.id, bsp.name, bsp.code
-        from brc_sys_post bsp
-                 left join brc_sys_user_post bsup on bsp.id = bsup.post_id
-                 left join brc_sys_user bsu on bsup.user_id = bsu.id
-        where bsp.status = true
-          and bsu.deleted = false
-          and bsu.status = true
-          and bsu.username = #{username}
-    </select>
 
 </mapper>

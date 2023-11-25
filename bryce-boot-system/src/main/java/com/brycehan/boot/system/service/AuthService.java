@@ -3,10 +3,7 @@ package com.brycehan.boot.system.service;
 import com.brycehan.boot.common.base.dto.AccountLoginDto;
 import com.brycehan.boot.common.base.dto.PhoneLoginDto;
 import com.brycehan.boot.common.base.vo.LoginVo;
-import com.brycehan.boot.framework.security.context.LoginUser;
 import org.springframework.security.core.userdetails.UserDetails;
-
-import java.util.Set;
 
 /**
  * 认证服务
@@ -32,22 +29,6 @@ public interface AuthService {
      * @return 登录 Vo
      */
     LoginVo loginByPhone(PhoneLoginDto phoneLoginDto);
-
-    /**
-     * 获取用户的角色权限
-     *
-     * @param loginUser 登录用户
-     * @return 角色权限集合
-     */
-    Set<String> getRoleAuthority(LoginUser loginUser);
-
-    /**
-     * 获取用户的菜单权限
-     *
-     * @param loginUser 登录用户
-     * @return 菜单权限集合
-     */
-    Set<String> getMenuAuthority(LoginUser loginUser);
 
     /**
      * 更新用户登录信息

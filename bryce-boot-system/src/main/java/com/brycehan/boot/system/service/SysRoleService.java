@@ -11,7 +11,6 @@ import com.brycehan.boot.system.entity.SysRole;
 import com.brycehan.boot.system.vo.SysRoleVo;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * 系统角色服务
@@ -64,30 +63,6 @@ public interface SysRoleService extends BaseService<SysRole> {
      * @return 角色列表
      */
     List<SysRoleVo> list(SysRolePageDto sysRolePageDto);
-
-    /**
-     * 根据用户ID查询角色权限
-     *
-     * @param userId 用户ID
-     * @return 角色权限集合
-     */
-    Set<String> selectRolePermissionByUserId(Long userId);
-
-    /**
-     * 根据用户账号查询角色
-     *
-     * @param username 用户账号
-     * @return 角色列表
-     */
-    List<SysRole> selectRolesByUsername(String username);
-
-    /**
-     * 根据用户ID查询角色列表
-     *
-     * @param userId 用户ID
-     * @return 角色列表
-     */
-    List<SysRole> selectRolesByUserId(Long userId);
 
     /**
      * 分配数据权限

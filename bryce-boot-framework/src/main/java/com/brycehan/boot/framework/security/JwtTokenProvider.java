@@ -9,6 +9,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.brycehan.boot.common.base.vo.LoginVo;
 import com.brycehan.boot.common.constant.CacheConstants;
 import com.brycehan.boot.common.constant.JwtConstants;
 import com.brycehan.boot.common.util.IpUtils;
@@ -61,23 +62,24 @@ public class JwtTokenProvider {
      * @param loginUser 登录用户
      * @return 令牌
      */
-    public String generateToken(LoginUser loginUser) {
+    public LoginVo generateToken(LoginUser loginUser) {
 
-        // 1、生成tokenKey
+        // 生成tokenKey
         String tokenKey = UUID.randomUUID().toString();
         loginUser.setTokenKey(tokenKey);
 
-        // 2、设置用户代理
+        // 设置用户代理
         this.setUserAgent(loginUser);
 
-        // 3、缓存loginUser
-        this.cacheLoginUser(loginUser);
-
-        // 4、创建jwt令牌
+        // 创建jwt令牌
         Map<String, Object> claims = new HashMap<>();
         claims.put(JwtConstants.LOGIN_USER_KEY, tokenKey);
 
-        return generateToken(claims);
+        String jwt = generateToken(claims);
+
+        return LoginVo.builder()
+                .token(JwtConstants.TOKEN_PREFIX.concat(jwt))
+                .build();
     }
 
     /**
@@ -119,10 +121,11 @@ public class JwtTokenProvider {
         loginUser.setOs(os);
     }
 
-    private void cacheLoginUser(LoginUser loginUser) {
+    public void cacheLoginUser(LoginUser loginUser) {
         LocalDateTime now = LocalDateTime.now();
         loginUser.setLoginTime(now);
         loginUser.setExpireTime(now.plusSeconds(this.tokenValidityInSeconds));
+
         // 根据tokenKey将loginUser缓存
         String loginUserKey = CacheConstants.LOGIN_USER_KEY.concat(loginUser.getTokenKey());
         this.redisTemplate.opsForValue()
@@ -149,10 +152,11 @@ public class JwtTokenProvider {
      * @param loginUser 登录用户
      */
     private void refreshToken(LoginUser loginUser) {
-        String jwt = this.generateToken(loginUser);
+        LoginVo loginVo = this.generateToken(loginUser);
         HttpServletResponse response = ServletUtils.getResponse();
         if(response != null) {
-            response.setHeader(JwtConstants.AUTHORIZATION_HEADER, JwtConstants.TOKEN_PREFIX.concat(jwt));
+            // 将 jwt token 添加到响应头
+            response.setHeader(JwtConstants.AUTHORIZATION_HEADER, loginVo.getToken());
         }
     }
 

@@ -33,8 +33,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id
-        , username, password, full_name, avatar,
+        id, username, password, full_name, avatar,
         gender, type, phone, email, sort,
         org_id, super_admin, tenant_admin, status, remark,
         account_non_locked, last_login_ip, last_login_time, tenant_id, version,
@@ -56,6 +55,49 @@
         <if test="phone != null and phone.trim() != ''">
             and bsu.phone = like concat('%', #{phone}, '%')
         </if>
+    </select>
+
+    <select id="list" resultType="com.brycehan.boot.system.entity.SysUser">
+        select bsu.*
+        from brc_sys_user bsu
+        where bsu.super_admin = 0
+        and bsu.deleted = false
+        <if test="username != null and username.trim() != ''">
+            and bsu.username like concat('%', #{username}, '%')
+        </if>
+        <if test="phone != null and phone.trim() != ''">
+            and bsu.phone like concat('%', #{phone}, '%')
+        </if>
+        <if test="gender != null and gender.trim() != ''">
+            and bsu.gender = #{gender}
+        </if>
+        <if test="type != null">
+            and bsu.type = #{type}
+        </if>
+        <if test="orgId != null">
+            and bsu.org_id = #{orgId}
+        </if>
+        <if test="status != null">
+            and bsu.status = #{status}
+        </if>
+        <if test="tenantId != null">
+            and bsu.tenant_id = #{tenantId}
+        </if>
+        <if test="tenantId != null">
+            and bsu.tenant_id = #{tenantId}
+        </if>
+        <choose>
+            <when test="createdTimeStart != null and createdTimeEnd != null">
+                and bsu.created_time <![CDATA[ >= ]]> #{createdTimeStart}
+                and bsu.created_time <![CDATA[ <= ]]> #{createdTimeEnd}
+            </when>
+            <when test="createdTimeStart = null and createdTimeEnd != null">
+                and bsu.created_time <![CDATA[ <= ]]> #{createdTimeEnd}
+            </when>
+            <when test="createdTimeStart != null and createdTimeEnd = null">
+                and bsu.created_time <![CDATA[ >= ]]> #{createdTimeStart}
+            </when>
+        </choose>
     </select>
 
 </mapper>

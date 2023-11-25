@@ -30,7 +30,7 @@ public class SysUserPostServiceImpl extends BaseServiceImpl<SysUserPostMapper, S
         // 数据库用户岗位IDs
         List<Long> dbPostIds = getPostIdsByUserId(userId);
 
-        // 需要新增的岗位ID
+        // 需要新增的岗位IDs
         Collection<Long> insertPostIds = CollUtil.subtract(postIds, dbPostIds);
         if (CollUtil.isNotEmpty(insertPostIds)) {
             List<SysUserPost> list = insertPostIds.stream().map(postId -> {
@@ -41,10 +41,11 @@ public class SysUserPostServiceImpl extends BaseServiceImpl<SysUserPostMapper, S
                 return userPost;
             }).toList();
 
+            // 批量新增
             this.saveBatch(list);
         }
 
-        // 需要删除的岗位ID
+        // 需要删除的岗位IDs
         Collection<Long> deletePostIds = CollUtil.subtract(dbPostIds, postIds);
         if (CollUtil.isNotEmpty(deletePostIds)) {
             LambdaQueryWrapper<SysUserPost> queryWrapper = new LambdaQueryWrapper<>();
@@ -54,7 +55,6 @@ public class SysUserPostServiceImpl extends BaseServiceImpl<SysUserPostMapper, S
             this.remove(queryWrapper);
         }
     }
-
 
     /**
      * 根据用户ID查询拥有的岗位IDs
@@ -74,13 +74,13 @@ public class SysUserPostServiceImpl extends BaseServiceImpl<SysUserPostMapper, S
     }
 
     @Override
-    public void deleteByPostIds(List<Long> postIds) {
-        this.baseMapper.delete(new LambdaQueryWrapper<SysUserPost>().in(SysUserPost::getPostId, postIds));
+    public void deleteByUserIds(List<Long> userIds) {
+        this.baseMapper.delete(new LambdaQueryWrapper<SysUserPost>().in(SysUserPost::getUserId, userIds));
     }
 
     @Override
-    public void deleteByUserIds(List<Long> userIds) {
-        this.baseMapper.delete(new LambdaQueryWrapper<SysUserPost>().in(SysUserPost::getUserId, userIds));
+    public void deleteByPostIds(List<Long> postIds) {
+        this.baseMapper.delete(new LambdaQueryWrapper<SysUserPost>().in(SysUserPost::getPostId, postIds));
     }
 
 }

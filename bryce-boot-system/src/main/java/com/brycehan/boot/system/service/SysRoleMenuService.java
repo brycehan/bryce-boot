@@ -36,4 +36,11 @@ public interface SysRoleMenuService extends BaseService<SysRoleMenu> {
      */
     void deleteByRoleIds(List<Long> roleIds);
 
+    /**
+     * 根据菜单IDs，删除角色菜单关系
+     *
+     * @param menuIds 菜单IDs
+     */
+    void deleteByMenuIds(List<Long> menuIds);
+
 }

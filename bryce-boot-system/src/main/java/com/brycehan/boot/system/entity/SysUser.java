@@ -54,7 +54,7 @@ public class SysUser extends BaseEntity {
     /**
      * 用户类型（0：系统用户）
      */
-    private Boolean type;
+    private Integer type;
 
     /**
      * 手机号码

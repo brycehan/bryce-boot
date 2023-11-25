@@ -30,7 +30,7 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRo
         // 数据库用户角色IDs
         List<Long> dbMenuIds = getMenuIdsByRoleId(roleId);
 
-        // 需要新增的菜单ID
+        // 需要新增的菜单IDs
         Collection<Long> insertMenuIds = CollUtil.subtract(menuIds, dbMenuIds);
         if (CollUtil.isNotEmpty(insertMenuIds)) {
             List<SysRoleMenu> list = insertMenuIds.stream().map(menuId -> {
@@ -41,10 +41,11 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRo
                 return roleMenu;
             }).toList();
 
+            // 批量新增
             this.saveBatch(list);
         }
 
-        // 需要删除的菜单ID
+        // 需要删除的菜单IDs
         Collection<Long> deleteMenuIds = CollUtil.subtract(dbMenuIds, menuIds);
         if (CollUtil.isNotEmpty(deleteMenuIds)) {
             LambdaQueryWrapper<SysRoleMenu> queryWrapper = new LambdaQueryWrapper<>();
@@ -69,6 +70,11 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRo
     @Override
     public void deleteByRoleIds(List<Long> roleIds) {
         this.baseMapper.delete(new LambdaQueryWrapper<SysRoleMenu>().in(SysRoleMenu::getRoleId, roleIds));
+    }
+
+    @Override
+    public void deleteByMenuIds(List<Long> menuIds) {
+        this.baseMapper.delete(new LambdaQueryWrapper<SysRoleMenu>().in(SysRoleMenu::getMenuId, menuIds));
     }
 
 }

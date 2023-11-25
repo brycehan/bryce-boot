@@ -66,14 +66,6 @@ public interface SysMenuService extends BaseService<SysMenu> {
     List<SysMenuVo> list(SysMenuDto sysMenuDto);
 
     /**
-     * 查询用户权限集合
-     *
-     * @param loginUser 登录用户
-     * @return 权限集合
-     */
-    Set<String> findAuthority(LoginUser loginUser);
-
-    /**
      * 查询用户菜单列表
      *
      * @param loginUser 登录用户
@@ -81,5 +73,21 @@ public interface SysMenuService extends BaseService<SysMenu> {
      * @return 用户菜单列表
      */
     List<SysMenuVo> getMenuTreeList(LoginUser loginUser, String type);
+
+    /**
+     * 获取子菜单个数
+     *
+     * @param parentIds 父菜单IDs
+     * @return 子菜单个数
+     */
+    Long getSubMenuCount(List<Long> parentIds);
+
+    /**
+     * 查询用户权限集合
+     *
+     * @param loginUser 登录用户
+     * @return 权限集合
+     */
+    Set<String> findAuthority(LoginUser loginUser);
 
 }

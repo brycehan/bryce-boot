@@ -25,17 +25,16 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id
-        , name, code, parent_id, ancestor,
+        id, name, code, parent_id, ancestor,
         leader, contact_number, email, sort, status,
         tenant_id, version, deleted, created_user_id, created_time,
         updated_user_id, updated_time
     </sql>
 
     <select id="list" resultType="com.brycehan.boot.system.entity.SysOrg">
-        select so.*
-        from brc_sys_org so
-        where so.deleted = false
-        order by so.sort asc
+        select bso.*
+        from brc_sys_org bso
+        where bso.deleted = false
+        order by bso.sort asc
     </select>
 </mapper>

@@ -7,6 +7,7 @@ import com.brycehan.boot.common.base.vo.LoginVo;
 import com.brycehan.boot.framework.security.TokenUtils;
 import com.brycehan.boot.framework.security.context.LoginUser;
 import com.brycehan.boot.framework.security.context.LoginUserContext;
+import com.brycehan.boot.system.common.MenuType;
 import com.brycehan.boot.system.convert.SysUserConvert;
 import com.brycehan.boot.system.service.AuthService;
 import com.brycehan.boot.system.service.SysMenuService;
@@ -99,7 +100,7 @@ public class AuthController {
     @Operation(summary = "获取菜单列表")
     @GetMapping(path = "/nav")
     public ResponseResult<List<SysMenuVo>> nav() {
-        List<SysMenuVo> list = this.sysMenuService.getMenuTreeList(LoginUserContext.currentUser(), "M");
+        List<SysMenuVo> list = this.sysMenuService.getMenuTreeList(LoginUserContext.currentUser(), MenuType.MENU.getValue());
 
         return ResponseResult.ok(list);
     }

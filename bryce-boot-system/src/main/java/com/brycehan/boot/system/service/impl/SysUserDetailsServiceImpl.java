@@ -4,11 +4,8 @@ import com.brycehan.boot.common.base.http.UserResponseStatus;
 import com.brycehan.boot.common.enums.DataScopeType;
 import com.brycehan.boot.common.exception.BusinessException;
 import com.brycehan.boot.framework.security.context.LoginUser;
-import com.brycehan.boot.system.convert.SysUserConvert;
-import com.brycehan.boot.system.entity.SysUser;
 import com.brycehan.boot.system.mapper.SysRoleDataScopeMapper;
 import com.brycehan.boot.system.mapper.SysRoleMapper;
-import com.brycehan.boot.system.service.PasswordRetryService;
 import com.brycehan.boot.system.service.SysMenuService;
 import com.brycehan.boot.system.service.SysOrgService;
 import com.brycehan.boot.system.service.SysUserDetailsService;
@@ -33,8 +30,6 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class SysUserDetailsServiceImpl implements SysUserDetailsService {
 
-    private final PasswordRetryService passwordRetryService;
-
     private final SysMenuService sysMenuService;
 
     private final SysOrgService sysOrgService;
@@ -44,14 +39,10 @@ public class SysUserDetailsServiceImpl implements SysUserDetailsService {
     private final SysRoleDataScopeMapper sysRoleDataScopeMapper;
 
     @Override
-    public UserDetails getUserDetails(SysUser sysUser) {
-        // 转换成LoginUser对象
-        LoginUser loginUser = SysUserConvert.INSTANCE.convertLoginUser(sysUser);
-
+    public UserDetails getUserDetails(LoginUser loginUser) {
         // 账号不可用
-        if (!sysUser.getStatus()) {
-            loginUser.setEnabled(false);
-        } else if (!sysUser.getAccountNonLocked()) {
+        loginUser.setEnabled(loginUser.getStatus());
+        if (!loginUser.isAccountNonLocked()) {
             log.info("登录用户：{}已被锁定.", loginUser.getUsername());
             throw BusinessException.responseStatus(UserResponseStatus.USER_ACCOUNT_LOCKED);
         }
@@ -60,8 +51,13 @@ public class SysUserDetailsServiceImpl implements SysUserDetailsService {
         Set<Long> dataScopeSet = this.getDataScope(loginUser);
         loginUser.setDataScopeSet(dataScopeSet);
 
-        // 用户权限集合
+        // 登录用户权限集合
         Set<String> authoritySet = this.sysMenuService.findAuthority(loginUser);
+
+        // 用户角色编码列表
+        Set<String> roleCodeSet = this.sysRoleMapper.getRoleCodeByUserId(loginUser.getId());
+        roleCodeSet.forEach(roleCode -> authoritySet.add("ROLE_" + roleCode));
+
         loginUser.setAuthoritySet(authoritySet);
 
         return loginUser;

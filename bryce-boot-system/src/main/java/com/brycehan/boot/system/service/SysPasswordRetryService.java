@@ -6,7 +6,7 @@ package com.brycehan.boot.system.service;
  * @since 2022/9/29
  * @author Bryce Han
  */
-public interface PasswordRetryService {
+public interface SysPasswordRetryService {
 
     /**
      * 用户的密码错误次数
