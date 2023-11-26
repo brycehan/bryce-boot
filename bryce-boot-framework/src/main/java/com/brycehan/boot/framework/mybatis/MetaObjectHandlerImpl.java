@@ -21,7 +21,7 @@ public class MetaObjectHandlerImpl implements MetaObjectHandler {
         if(loginUser != null) {
             // 创建者ID
             strictInsertFill(metaObject, "createdUserId", Long.class, loginUser.getId());
-            // 创建人所属机构
+            // 创建者所属机构
             strictInsertFill(metaObject, "orgId", Long.class, loginUser.getOrgId());
         }
         // 创建时间
@@ -34,7 +34,7 @@ public class MetaObjectHandlerImpl implements MetaObjectHandler {
 
     @Override
     public void updateFill(MetaObject metaObject) {
-        // 更新人ID
+        // 更新者ID
         strictUpdateFill(metaObject, "updatedUserId", Long.class, LoginUserContext.currentUserId());
         // 更新时间
         strictUpdateFill(metaObject, "updatedTime", LocalDateTime.class, LocalDateTime.now());

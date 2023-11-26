@@ -2,7 +2,7 @@ package com.brycehan.boot.system.service.impl;
 
 import com.brycehan.boot.common.base.http.UserResponseStatus;
 import com.brycehan.boot.common.enums.DataScopeType;
-import com.brycehan.boot.common.exception.BusinessException;
+import com.brycehan.boot.common.base.ServerException;
 import com.brycehan.boot.framework.security.context.LoginUser;
 import com.brycehan.boot.system.mapper.SysRoleDataScopeMapper;
 import com.brycehan.boot.system.mapper.SysRoleMapper;
@@ -44,7 +44,7 @@ public class SysUserDetailsServiceImpl implements SysUserDetailsService {
         loginUser.setEnabled(loginUser.getStatus());
         if (!loginUser.isAccountNonLocked()) {
             log.info("登录用户：{}已被锁定.", loginUser.getUsername());
-            throw BusinessException.responseStatus(UserResponseStatus.USER_ACCOUNT_LOCKED);
+            throw new ServerException(UserResponseStatus.USER_ACCOUNT_LOCKED);
         }
 
         // 数据权限范围

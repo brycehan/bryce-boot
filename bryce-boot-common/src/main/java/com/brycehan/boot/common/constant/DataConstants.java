@@ -1,7 +1,5 @@
 package com.brycehan.boot.common.constant;
 
-import java.time.format.DateTimeFormatter;
-
 /**
  * 数据状态常量
  *
@@ -9,12 +7,6 @@ import java.time.format.DateTimeFormatter;
  * @author Bryce Han
  */
 public class DataConstants {
-
-    /** 启用 */
-    public static final boolean ENABLE = true;
-
-    /** 禁用 */
-    public static final boolean DISABLE = false;
 
     /** 默认 */
     public static final int DEFAULT = 1;

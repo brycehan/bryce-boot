@@ -38,13 +38,13 @@ public class ExcelUtils {
     /**
      * 导出数据到文件
      *
-     * @param entity 实体类
+     * @param head 实体类表头
      * @param filename 导出的文件名称
      * @param sheetName sheet 名称
      * @param data 数据列表
      * @param <T> 实体类型
      */
-    public static <T> void export(Class<T> entity, String filename, String sheetName, List<T> data){
+    public static <T> void export(Class<T> head, String filename, String sheetName, List<T> data){
         try {
             HttpServletResponse response = ServletUtils.getResponse();
             response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
@@ -54,7 +54,7 @@ public class ExcelUtils {
             response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename*=utf-8''" + filenameEncoded + ".xlsx");
             response.addHeader(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, HttpHeaders.CONTENT_DISPOSITION);
             // 这里需要设置不关闭流
-            EasyExcel.write(response.getOutputStream(), entity)
+            EasyExcel.write(response.getOutputStream(), head)
                     .autoCloseStream(Boolean.FALSE)
                     .sheet(StringUtils.isBlank(sheetName) ? "Sheet1": sheetName)
                     .doWrite(data);

@@ -97,6 +97,7 @@ public class OperateLogAspect {
             log.error("@OperateLog使用错误，请在控制器层添加");
             return;
         }
+
         // 执行时长
         long duration = LocalDateTimeUtil.between(startTime, LocalDateTime.now()).toMillis();
         operateLogDto.setDuration((int)duration);
@@ -111,20 +112,19 @@ public class OperateLogAspect {
 
         // 操作类型
         operateLogDto.setOperatedType(operateLog.type().name());
+        // 设置模块名
         operateLogDto.setModuleName(operateLog.moduleName());
+        // 设置name值
         operateLogDto.setName(operateLog.name());
-        // 如果没有指定module值，则从Tag中读取
+
+        // 如果没有指定模块名，则从Tag中读取
         if(StrUtil.isEmpty(operateLogDto.getModuleName())){
             Tag tag = getClassTagAnnotation(joinPoint);
             if(tag != null) {
-                String name = tag.name();
-                if(name.endsWith("API")) {
-                    name = name.substring(0, name.lastIndexOf("API"));
-                }
-
-                operateLogDto.setModuleName(name);
+                operateLogDto.setModuleName(tag.name());
             }
         }
+
         // 如果没有指定name值，则从Operation中读取
         if(StrUtil.isEmpty(operateLogDto.getName())) {
             Operation operation = getMethodOperationAnnotation(joinPoint);
@@ -132,6 +132,7 @@ public class OperateLogAspect {
                 operateLogDto.setName(operation.summary());
             }
         }
+
         // 请求相关
         HttpServletRequest request = ServletUtils.getRequest();
         operateLogDto.setIp(IpUtils.getIp(request));
@@ -144,6 +145,7 @@ public class OperateLogAspect {
         operateLogDto.setStatus(status);
         operateLogDto.setOperatedTime(LocalDateTime.now());
 
+        // 保存操作日志
         this.operateLogService.save(operateLogDto);
     }
 

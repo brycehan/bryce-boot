@@ -2,19 +2,19 @@ package com.brycehan.boot.system.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.brycehan.boot.common.base.ServerException;
 import com.brycehan.boot.common.base.dto.IdsDto;
 import com.brycehan.boot.common.base.entity.PageResult;
 import com.brycehan.boot.common.base.http.UserResponseStatus;
 import com.brycehan.boot.common.base.id.IdGenerator;
 import com.brycehan.boot.common.constant.DataConstants;
 import com.brycehan.boot.common.constant.UserConstants;
-import com.brycehan.boot.common.exception.BusinessException;
+import com.brycehan.boot.common.util.DateTimeUtils;
 import com.brycehan.boot.common.util.ExcelUtils;
 import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
 import com.brycehan.boot.framework.security.JwtTokenProvider;
@@ -25,7 +25,9 @@ import com.brycehan.boot.system.dto.*;
 import com.brycehan.boot.system.entity.SysUser;
 import com.brycehan.boot.system.entity.SysUserRole;
 import com.brycehan.boot.system.mapper.SysUserMapper;
-import com.brycehan.boot.system.service.*;
+import com.brycehan.boot.system.service.SysUserPostService;
+import com.brycehan.boot.system.service.SysUserRoleService;
+import com.brycehan.boot.system.service.SysUserService;
 import com.brycehan.boot.system.vo.SysUserVo;
 import com.fhs.trans.service.impl.TransService;
 import lombok.RequiredArgsConstructor;
@@ -206,7 +208,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         List<SysUser> sysUserList = this.baseMapper.selectList(getWrapper(sysUserPageDto));
         List<SysUserVo> sysUserVoList = SysUserConvert.INSTANCE.convert(sysUserList);
         this.transService.transBatch(sysUserVoList);
-        ExcelUtils.export(SysUserVo.class, "系统用户_".concat(DateUtil.today()), "系统用户", sysUserVoList);
+        ExcelUtils.export(SysUserVo.class, "系统用户_".concat(DateTimeUtils.today()), "系统用户", sysUserVoList);
     }
 
     @Transactional
@@ -239,10 +241,10 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         // 校验密码
         assert loginUser != null;
         if (!this.passwordEncoder.matches(passwordDto.getPassword(), loginUser.getPassword())) {
-            throw BusinessException.responseStatus(UserResponseStatus.USER_PASSWORD_NOT_MATCH);
+            throw new ServerException(UserResponseStatus.USER_PASSWORD_NOT_MATCH);
         }
         if (this.passwordEncoder.matches(passwordDto.getNewPassword(), loginUser.getPassword())) {
-            throw BusinessException.responseStatus(UserResponseStatus.USER_PASSWORD_SAME_AS_OLD_ERROR);
+            throw new ServerException(UserResponseStatus.USER_PASSWORD_SAME_AS_OLD_ERROR);
         }
 
         // 更新密码
@@ -254,7 +256,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
             loginUser.setPassword(sysUser.getPassword());
             this.jwtTokenProvider.setLoginUser(loginUser);
         } else {
-            throw BusinessException.responseStatus(UserResponseStatus.USER_PASSWORD_CHANGE_ERROR);
+            throw new ServerException(UserResponseStatus.USER_PASSWORD_CHANGE_ERROR);
         }
     }
 
@@ -289,7 +291,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         // 保存用户
         int result = this.baseMapper.insert(sysUser);
         if (result != 1) {
-            throw BusinessException.responseStatus(UserResponseStatus.USER_REGISTER_ERROR);
+            throw new ServerException(UserResponseStatus.USER_REGISTER_ERROR);
         }
     }
 

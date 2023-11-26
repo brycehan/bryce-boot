@@ -1,7 +1,8 @@
 package com.brycehan.boot.framework.security;
 
+import com.brycehan.boot.common.base.http.UserResponseStatus;
 import com.brycehan.boot.common.constant.CacheConstants;
-import com.brycehan.boot.common.exception.user.UserPasswordRetryLimitExceedException;
+import com.brycehan.boot.common.base.ServerException;
 import com.brycehan.boot.common.util.JsonUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,7 +41,7 @@ public class LoginUserDetailsCheck implements UserDetailsChecker {
             retryCount = 0;
         }
         if (retryCount >= maxRetryCount) {
-            throw new UserPasswordRetryLimitExceedException(retryCount, this.lockDurationMinutes);
+            throw new ServerException(UserResponseStatus.USER_PASSWORD_RETRY_LIMIT_EXCEEDED, retryCount.toString(), this.lockDurationMinutes.toString());
         }
     }
 

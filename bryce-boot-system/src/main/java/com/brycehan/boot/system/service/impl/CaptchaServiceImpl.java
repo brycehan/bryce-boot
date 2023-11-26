@@ -3,6 +3,7 @@ package com.brycehan.boot.system.service.impl;
 import cn.hutool.core.util.StrUtil;
 import com.brycehan.boot.common.base.RedisKeys;
 import com.brycehan.boot.framework.common.config.properties.CaptchaProperties;
+import com.brycehan.boot.framework.security.TokenUtils;
 import com.brycehan.boot.system.service.CaptchaService;
 import com.brycehan.boot.system.service.SysParamService;
 import com.brycehan.boot.system.vo.CaptchaVo;
@@ -12,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -34,7 +34,7 @@ public class CaptchaServiceImpl implements CaptchaService {
     @Override
     public CaptchaVo generate() {
         // 生成验证码 key
-        String key = UUID.randomUUID().toString();
+        String key = TokenUtils.uuid();
 
         // 生成验证码
         SpecCaptcha captcha = new SpecCaptcha(captchaProperties.getWidth(), captchaProperties.getHeight());

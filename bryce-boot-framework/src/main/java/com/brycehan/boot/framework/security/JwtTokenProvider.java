@@ -22,13 +22,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -65,7 +65,7 @@ public class JwtTokenProvider {
     public LoginVo generateToken(LoginUser loginUser) {
 
         // 生成tokenKey
-        String tokenKey = UUID.randomUUID().toString();
+        String tokenKey = TokenUtils.uuid();
         loginUser.setTokenKey(tokenKey);
 
         // 设置用户代理
@@ -156,7 +156,7 @@ public class JwtTokenProvider {
         HttpServletResponse response = ServletUtils.getResponse();
         if(response != null) {
             // 将 jwt token 添加到响应头
-            response.setHeader(JwtConstants.AUTHORIZATION_HEADER, loginVo.getToken());
+            response.setHeader(HttpHeaders.AUTHORIZATION, loginVo.getToken());
         }
     }
 

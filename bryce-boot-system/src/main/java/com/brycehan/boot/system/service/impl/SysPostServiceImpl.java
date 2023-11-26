@@ -5,10 +5,10 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.brycehan.boot.common.base.dto.IdsDto;
 import com.brycehan.boot.common.base.entity.PageResult;
+import com.brycehan.boot.common.enums.DataStatusType;
 import com.brycehan.boot.common.util.DateTimeUtils;
 import com.brycehan.boot.common.util.ExcelUtils;
 import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
-import com.brycehan.boot.system.common.StatusType;
 import com.brycehan.boot.system.convert.SysPostConvert;
 import com.brycehan.boot.system.dto.SysPostPageDto;
 import com.brycehan.boot.system.entity.SysPost;
@@ -85,7 +85,7 @@ public class SysPostServiceImpl extends BaseServiceImpl<SysPostMapper, SysPost> 
     @Override
     public List<SysPostVo> list(SysPostPageDto sysPostPageDto) {
         // 正常岗位列表
-        sysPostPageDto.setStatus(StatusType.ENABLE.isValue());
+        sysPostPageDto.setStatus(DataStatusType.ENABLE.isValue());
         List<SysPost> sysPostList = this.baseMapper.selectList(getWrapper(sysPostPageDto));
 
         return SysPostConvert.INSTANCE.convert(sysPostList);

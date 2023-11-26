@@ -12,11 +12,6 @@
     <name>bryce-module-wechat</name>
     <description>bryce-module-wechat</description>
 
-    <!-- 版本属性 -->
-    <properties>
-        <java.version>17</java.version>
-    </properties>
-
     <!-- 依赖 -->
     <dependencies>
         <dependency>

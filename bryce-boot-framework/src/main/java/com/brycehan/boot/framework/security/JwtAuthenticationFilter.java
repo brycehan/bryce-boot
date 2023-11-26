@@ -1,8 +1,6 @@
 package com.brycehan.boot.framework.security;
 
 import cn.hutool.core.util.StrUtil;
-import com.brycehan.boot.framework.security.JwtTokenProvider;
-import com.brycehan.boot.framework.security.TokenUtils;
 import com.brycehan.boot.framework.security.context.LoginUser;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -56,6 +54,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         // 设置认证信息
         Authentication authentication = new UsernamePasswordAuthenticationToken(loginUser, null, loginUser.getAuthorities());
 
+        // 新建 SecurityContext
         SecurityContext context = SecurityContextHolder.createEmptyContext();
         context.setAuthentication(authentication);
         SecurityContextHolder.setContext(context);

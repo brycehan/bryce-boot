@@ -1,11 +1,11 @@
 package com.brycehan.boot.system.service.impl;
 
-import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.brycehan.boot.common.base.entity.PageResult;
+import com.brycehan.boot.common.util.DateTimeUtils;
 import com.brycehan.boot.common.util.ExcelUtils;
 import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
 import com.brycehan.boot.system.convert.SysDictTypeConvert;
@@ -79,7 +79,7 @@ public class SysDictTypeServiceImpl extends BaseServiceImpl<SysDictTypeMapper, S
     public void export(SysDictTypePageDto sysDictTypePageDto) {
         List<SysDictType> sysDictTypeList = this.baseMapper.selectList(getWrapper(sysDictTypePageDto));
         List<SysDictTypeVo> sysDictTypeVoList = SysDictTypeConvert.INSTANCE.convert(sysDictTypeList);
-        ExcelUtils.export(SysDictTypeVo.class, "系统字典类型_" + DateUtil.today(), "系统字典类型", sysDictTypeVoList);
+        ExcelUtils.export(SysDictTypeVo.class, "系统字典类型_" + DateTimeUtils.today(), "系统字典类型", sysDictTypeVoList);
     }
 
     @Override

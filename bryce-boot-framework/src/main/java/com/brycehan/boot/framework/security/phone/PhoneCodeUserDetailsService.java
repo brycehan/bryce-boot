@@ -16,6 +16,7 @@ public interface PhoneCodeUserDetailsService {
      *
      * @param phone 手机号
      * @return 用户信息
+     * @throws UsernameNotFoundException 用户不存在异常
      */
     UserDetails loadUserByPhone(String phone) throws UsernameNotFoundException;
 

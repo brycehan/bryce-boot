@@ -1,13 +1,10 @@
-package com.brycehan.boot.common.exception;
+package com.brycehan.boot.common.base;
 
 import com.brycehan.boot.common.base.http.HttpResponseStatus;
 import com.brycehan.boot.common.base.http.ResponseStatus;
 import com.brycehan.boot.common.util.MessageUtils;
 import com.brycehan.boot.common.util.StringFormatUtils;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
@@ -20,11 +17,9 @@ import java.io.Serial;
  * @author Bryce Han
  */
 @Slf4j
-@Getter
-@ToString
-@NoArgsConstructor
-@AllArgsConstructor
-public class BusinessException extends RuntimeException {
+@Data
+@EqualsAndHashCode(callSuper = true)
+public class ServerException extends RuntimeException {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -49,34 +44,34 @@ public class BusinessException extends RuntimeException {
      */
     private Object[] messageArgs;
 
-    protected BusinessException(String message) {
+    public ServerException(String message) {
         super(message);
         code = HttpResponseStatus.HTTP_INTERNAL_ERROR.code();
         this.message = message;
     }
 
-    protected BusinessException(Integer code, String message) {
+    public ServerException(Integer code, String message) {
         super(message);
         this.code = code;
         this.message = message;
     }
 
-    protected BusinessException(ResponseStatus responseStatus) {
+    public ServerException(String message, Throwable throwable) {
+        super(message, throwable);
+        this.code = HttpResponseStatus.HTTP_INTERNAL_ERROR.code();
+        this.message = message;
+    }
+
+    public ServerException(ResponseStatus responseStatus) {
         super(responseStatus.message());
         this.code = responseStatus.code();
+        this.message = responseStatus.message();
     }
 
-    protected BusinessException(ResponseStatus responseStatus, String... params) {
+    public ServerException(ResponseStatus responseStatus, String... params) {
         super(StringFormatUtils.format(responseStatus.message(), params));
         this.code = responseStatus.code();
-    }
-
-    public static BusinessException responseStatus(ResponseStatus responseStatus) {
-        return new BusinessException(responseStatus);
-    }
-
-    public static BusinessException responseStatus(ResponseStatus responseStatus, String... params) {
-        return new BusinessException(responseStatus, params);
+        this.message = StringFormatUtils.format(responseStatus.message(), params);
     }
 
     @Override

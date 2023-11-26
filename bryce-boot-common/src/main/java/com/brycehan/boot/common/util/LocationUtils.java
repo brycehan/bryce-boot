@@ -43,7 +43,7 @@ public class LocationUtils {
             String responseData = HttpUtil.get(IP_URL, paramMap);
             log.info("IP：{}, 获取地理位置响应数据：{}", ip, responseData);
 
-            if (StrUtil.isEmpty(responseData)) {
+            if (StrUtil.isBlank(responseData)) {
                 log.error("IP：{}, 获取地理位置异常", ip);
                 return UNKNOWN;
             }

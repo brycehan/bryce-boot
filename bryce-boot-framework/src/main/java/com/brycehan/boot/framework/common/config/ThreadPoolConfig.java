@@ -27,6 +27,7 @@ public class ThreadPoolConfig {
      */
     @Bean
     public ThreadPoolExecutor threadPoolExecutor(ThreadPoolProperties poolProperties) {
+
         return new ThreadPoolExecutor(poolProperties.getCorePoolSize(),
                 poolProperties.getMaximumPoolSize(),
                 poolProperties.getKeepAliveTime(),

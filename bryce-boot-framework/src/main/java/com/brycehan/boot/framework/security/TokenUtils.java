@@ -1,9 +1,11 @@
 package com.brycehan.boot.framework.security;
 
+import cn.hutool.core.lang.UUID;
 import cn.hutool.core.util.StrUtil;
 import com.brycehan.boot.common.constant.JwtConstants;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 
 /**
  * 令牌工具类
@@ -15,13 +17,22 @@ import lombok.extern.slf4j.Slf4j;
 public class TokenUtils {
 
     /**
+     * 生成安全的uuid
+     *
+     * @return uuid
+     */
+    public static String uuid() {
+        return UUID.randomUUID(true).toString();
+    }
+
+    /**
      * 获取请求携带的令牌
      *
      * @param request 请求request
      * @return optional令牌
      */
     public static String getAccessToken(HttpServletRequest request) {
-        String bearerToken = request.getHeader(JwtConstants.AUTHORIZATION_HEADER);
+        String bearerToken = request.getHeader(HttpHeaders.AUTHORIZATION);
 
         if (StrUtil.isNotBlank(bearerToken) && bearerToken.startsWith(JwtConstants.TOKEN_PREFIX)) {
             return bearerToken.split(" ")[1].trim();

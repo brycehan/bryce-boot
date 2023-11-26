@@ -9,11 +9,6 @@ package com.brycehan.boot.common.constant;
 public class JwtConstants {
 
     /**
-     * 认证请求头
-     */
-    public static final String AUTHORIZATION_HEADER = "Authorization";
-
-    /**
      * jwt前缀
      */
     public static final String TOKEN_PREFIX = "Bearer ";
@@ -22,11 +17,6 @@ public class JwtConstants {
      * 登录用户令牌key
      */
     public static final String LOGIN_USER_KEY = "login_user";
-
-    /**
-     * 创建时间
-     */
-    public static final String JWT_CREATED = "createdTime";
 
     /**
      * 刷新最小分钟数

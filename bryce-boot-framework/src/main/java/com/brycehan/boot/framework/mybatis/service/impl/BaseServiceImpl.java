@@ -1,6 +1,7 @@
 package com.brycehan.boot.framework.mybatis.service.impl;
 
 import cn.hutool.core.text.NamingCase;
+import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
@@ -88,26 +89,10 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<M, 
         }
         clazzName = clazzName.replace(".dto.", ".entity.");
         try {
-            return hasField(Class.forName(clazzName), fieldName);
+            return ReflectUtil.hasField(Class.forName(clazzName), fieldName);
         } catch (ClassNotFoundException e) {
             return false;
         }
-    }
-
-    /**
-     * 判断一个类中是否含有某个属性字段
-     *
-     * @param clazz 类对象
-     * @param fieldName 属性名称
-     * @return 布尔值
-     */
-    public boolean hasField(Class<?> clazz, String fieldName) {
-        try {
-            clazz.getDeclaredField(fieldName);
-        } catch (NoSuchFieldException e) {
-            return false;
-        }
-        return true;
     }
 
     /**

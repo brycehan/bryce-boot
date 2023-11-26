@@ -21,6 +21,7 @@ public class OperateLogService {
     @Async
     public void save(OperateLogDto operateLogDto){
         String operateLogKey = RedisKeys.getOperateLogKey();
+
         // 保存到Redis队列
         this.redisTemplate.opsForList()
                 .leftPush(operateLogKey, operateLogDto);

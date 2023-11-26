@@ -16,19 +16,9 @@ public class CommonConstants {
     public static final String DELI_STR_PATTERN = "\\{\\}";
 
     /**
-     * 上传文件路径
-     */
-    public static final String UPLOAD_FILE_PATH = "/attachment/file/";
-
-    /**
      * UTF-8 字符集
      */
     public static final String UTF8 = StandardCharsets.UTF_8.name();
-
-    /**
-     * GBK 字符集
-     */
-    public static final String GBK = "GBK";
 
     /**
      * www主域
@@ -44,26 +34,6 @@ public class CommonConstants {
      * https请求
      */
     public static final String HTTPS = "https://";
-
-    /**
-     * 登录成功
-     */
-    public static final boolean LOGIN_SUCCESS = true;
-
-    /**
-     * 注销
-     */
-    public static final Integer LOGOUT_SUCCESS = 1;
-
-    /**
-     * 注册成功
-     */
-    public static final Integer REGISTER_SUCCESS = 1;
-
-    /**
-     * 注册
-     */
-    public static final String REGISTER = "Register";
 
     /**
      * 登录失败
@@ -91,11 +61,6 @@ public class CommonConstants {
      * LDAPS 远程方法调用
      */
     public static final String LOOKUP_LDAPS = "ldaps:";
-
-    /**
-     * 系统模块
-     */
-    public static final String SYSTEM_MODULE = "system";
 
     /**
      * 定时任务白名单配置（仅允许访问的包名，如其他需要可以自行添加）

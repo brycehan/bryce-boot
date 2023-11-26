@@ -11,12 +11,16 @@ import lombok.RequiredArgsConstructor;
  */
 @Getter
 @RequiredArgsConstructor
-public enum DataStatus {
-    DISABLE("0", "禁用"),
+public enum DataStatusType {
+    /**
+     * 正常
+     */
+    ENABLE(true),
+    /**
+     * 停用
+     */
+    DISABLE(false);
 
-    ENABLE("1", "启用");
-
-    private final String code;
-    private final String text;
+    private final boolean value;
 
 }

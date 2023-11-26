@@ -114,19 +114,19 @@ public class SecurityConfig {
                 .sessionManagement(configurer -> configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 // 过滤请求
                 .authorizeHttpRequests(registry -> registry
+                        .requestMatchers(this.authProperties.getIgnoreUrls().getAll()).permitAll()
                         .requestMatchers(HttpMethod.GET, this.authProperties.getIgnoreUrls().getGet()).permitAll()
                         .requestMatchers(HttpMethod.POST, this.authProperties.getIgnoreUrls().getPost()).permitAll()
-                        .requestMatchers(this.authProperties.getIgnoreUrls().getAll()).permitAll()
                         .requestMatchers(HttpMethod.OPTIONS).permitAll()
                         // 除上面外的所有请求全部需要鉴权认证
                         .anyRequest().authenticated())
                 .exceptionHandling(configurer -> configurer
                         .authenticationEntryPoint(authenticationEntryPoint)
                         .accessDeniedHandler(accessDeniedHandler))
-                // 禁用csrf，jwt不需要csrf开启
-                .csrf(AbstractHttpConfigurer::disable)
                 // 禁用X-Frame-Options
-                .headers(configurer -> configurer.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable));
+                .headers(configurer -> configurer.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
+                // 禁用csrf，jwt不需要csrf开启
+                .csrf(AbstractHttpConfigurer::disable);
 
         return http.build();
     }
