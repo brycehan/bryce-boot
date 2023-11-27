@@ -41,6 +41,7 @@ public class SysRoleDataScopeServiceImpl extends BaseServiceImpl<SysRoleDataScop
                 return dataScope;
             }).toList();
 
+            // 批量新增
             this.saveBatch(list);
         }
 

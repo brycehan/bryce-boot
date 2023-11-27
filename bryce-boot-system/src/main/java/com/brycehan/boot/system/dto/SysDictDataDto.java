@@ -15,8 +15,8 @@ import java.io.Serializable;
  * @since 2023/09/08
  * @author Bryce Han
  */
-@Schema(description = "系统字典数据Dto")
 @Data
+@Schema(description = "系统字典数据Dto")
 public class SysDictDataDto implements Serializable {
 
     @Serial

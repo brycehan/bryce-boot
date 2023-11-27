@@ -17,8 +17,8 @@ import java.time.LocalDateTime;
  * @author Bryce Han
  */
 @Data
-@Schema(description = "系统菜单Vo")
 @EqualsAndHashCode(callSuper = true)
+@Schema(description = "系统菜单Vo")
 public class SysMenuVo extends TreeNode<SysMenuVo> {
 
     @Serial

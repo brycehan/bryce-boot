@@ -202,7 +202,6 @@ public class SysRoleController {
     @PostMapping(path = "/user/page")
     public ResponseResult<PageResult<SysUserVo>> userPage(@Validated @RequestBody SysRoleUserPageDto pageDto) {
         PageResult<SysUserVo> page = this.sysUserService.roleUserPage(pageDto);
-
         return ResponseResult.ok(page);
     }
 
@@ -218,7 +217,7 @@ public class SysRoleController {
     @PreAuthorize("hasAuthority('system:role:save')")
     @PostMapping(path = "/user/{roleId}")
     public ResponseResult<Void> saveUsers(@PathVariable Long roleId, @RequestBody List<Long> userIds) {
-        this.sysUserRoleService.saveUser(roleId, userIds);
+        this.sysUserRoleService.saveUsers(roleId, userIds);
         return ResponseResult.ok();
     }
 

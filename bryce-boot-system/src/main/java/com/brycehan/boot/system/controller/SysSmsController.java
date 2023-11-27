@@ -94,6 +94,7 @@ public class SysSmsController {
 
         // 发送短信
         boolean result = this.smsApi.send(phone, templateId, params);
+
         return ResponseResult.ok(result);
     }
 

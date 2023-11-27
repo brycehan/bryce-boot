@@ -1,4 +1,4 @@
-package com.brycehan.boot.system.security.listener;
+package com.brycehan.boot.system.security;
 
 import com.brycehan.boot.common.constant.CommonConstants;
 import com.brycehan.boot.common.constant.DataConstants;
@@ -20,7 +20,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @RequiredArgsConstructor
-public class UserLoginListener {
+public class AuthenticationListener {
 
     private final SysLoginLogService sysLoginLogService;
 
@@ -47,10 +47,11 @@ public class UserLoginListener {
      * @param authenticationFailureEvent 认证失败事件
      */
     @EventListener
-    public void onFailed(AbstractAuthenticationFailureEvent authenticationFailureEvent) {
+    public void onFailure(AbstractAuthenticationFailureEvent authenticationFailureEvent) {
         // 用户名
         String username = (String) authenticationFailureEvent.getAuthentication().getPrincipal();
         // 记录登录日志
         this.sysLoginLogService.save(username, CommonConstants.LOGIN_FAIL, LoginOperateType.LOGIN_SUCCESS.getValue());
     }
+
 }

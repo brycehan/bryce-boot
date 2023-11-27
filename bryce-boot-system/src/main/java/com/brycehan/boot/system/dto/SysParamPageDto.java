@@ -16,8 +16,8 @@ import java.time.LocalDateTime;
  * @author Bryce Han
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 @Schema(description = "系统参数PageDto")
-@EqualsAndHashCode(callSuper = false)
 public class SysParamPageDto extends BasePageDto {
 
     @Serial

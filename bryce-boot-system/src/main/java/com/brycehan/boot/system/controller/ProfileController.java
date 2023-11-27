@@ -51,6 +51,7 @@ public class ProfileController {
 
         Map<String, Object> result = new HashMap<>();
         result.put("user", sysUser);
+
         return ResponseResult.ok(result);
     }
 

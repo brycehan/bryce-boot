@@ -86,6 +86,7 @@ public class SysMenuController {
         }
 
         this.sysMenuService.delete(idsDto);
+
         return ResponseResult.ok();
     }
 

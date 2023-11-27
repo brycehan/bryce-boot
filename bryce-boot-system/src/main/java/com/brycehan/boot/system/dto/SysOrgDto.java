@@ -18,9 +18,9 @@ import java.io.Serial;
  * @since 2023/08/31
  * @author Bryce Han
  */
-@Schema(description = "系统机构Dto")
 @Data
 @EqualsAndHashCode(callSuper = true)
+@Schema(description = "系统机构Dto")
 public class SysOrgDto extends TreeNode<SysOrgDto> {
 
     @Serial

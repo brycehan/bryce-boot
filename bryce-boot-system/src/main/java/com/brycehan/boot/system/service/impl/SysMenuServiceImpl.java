@@ -57,7 +57,6 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuMapper, SysMenu> 
 
     @Override
     public void delete(IdsDto idsDto) {
-
         // 过滤无效参数
         List<Long> ids = idsDto.getIds().stream()
                 .filter(Objects::nonNull)
@@ -75,9 +74,7 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuMapper, SysMenu> 
 
     @Override
     public PageResult<SysMenuVo> page(SysMenuPageDto sysMenuPageDto) {
-
         IPage<SysMenu> page = this.baseMapper.selectPage(getPage(sysMenuPageDto), getWrapper(sysMenuPageDto));
-
         return new PageResult<>(page.getTotal(), SysMenuConvert.INSTANCE.convert(page.getRecords()));
     }
 
@@ -92,6 +89,7 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuMapper, SysMenu> 
         wrapper.like(StringUtils.isNotBlank(sysMenuPageDto.getName()), SysMenu::getName, sysMenuPageDto.getName());
         wrapper.eq(StringUtils.isNotBlank(sysMenuPageDto.getType()), SysMenu::getType, sysMenuPageDto.getType());
         wrapper.eq(Objects.nonNull(sysMenuPageDto.getStatus()), SysMenu::getStatus, sysMenuPageDto.getStatus());
+
         return wrapper;
     }
 
@@ -159,6 +157,7 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuMapper, SysMenu> 
         } else {
             authoritySet = this.baseMapper.findAuthorityByUserId(loginUser.getId());
         }
+
         return authoritySet;
     }
 

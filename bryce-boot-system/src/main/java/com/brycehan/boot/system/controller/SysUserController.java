@@ -94,6 +94,7 @@ public class SysUserController {
         }
 
         this.sysUserService.delete(idsDto);
+
         return ResponseResult.ok();
     }
 
@@ -108,12 +109,12 @@ public class SysUserController {
     @GetMapping(path = "/{id}")
     public ResponseResult<SysUserVo> get(@Parameter(description = "系统用户ID", required = true) @PathVariable Long id) {
         SysUser sysUser = this.sysUserService.getById(id);
-
         SysUserVo sysUserVo = SysUserConvert.INSTANCE.convert(sysUser);
 
         // 用户角色Ids
         List<Long> roleIds = this.sysUserRoleService.getRoleIdsByUserId(id);
         sysUserVo.setRoleIds(roleIds);
+
         // 用户岗位Ids
         List<Long> postIds = this.sysUserPostService.getPostIdsByUserId(id);
         sysUserVo.setPostIds(postIds);
@@ -163,6 +164,7 @@ public class SysUserController {
         }
 
         this.sysUserService.importByExcel(file, "123456");
+
         return ResponseResult.ok();
     }
 

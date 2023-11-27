@@ -15,8 +15,8 @@ import java.io.Serial;
  * @author Bryce Han
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 @Schema(description = "系统菜单PageDto")
-@EqualsAndHashCode(callSuper = false)
 public class SysMenuPageDto extends BasePageDto {
 
     @Serial

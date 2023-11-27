@@ -14,9 +14,9 @@ import java.io.Serial;
  * @since 2023/08/31
  * @author Bryce Han
  */
-@Schema(description = "系统机构PageDto")
 @Data
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(callSuper = true)
+@Schema(description = "系统机构PageDto")
 public class SysOrgPageDto extends BasePageDto {
 
     @Serial

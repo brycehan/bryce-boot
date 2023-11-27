@@ -13,7 +13,7 @@ import java.io.Serial;
  * @since 2023/11/06
  */
 @Data
-@EqualsAndHashCode(callSuper=false)
+@EqualsAndHashCode(callSuper = true)
 @TableName("brc_wechat_app")
 public class WechatApp extends BaseEntity {
 

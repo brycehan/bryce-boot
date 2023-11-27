@@ -14,8 +14,8 @@ import java.io.Serial;
  * @author Bryce Han
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 @Schema(description = "系统通知公告PageDto")
-@EqualsAndHashCode(callSuper = false)
 public class SysNoticePageDto extends BasePageDto {
 
     @Serial

@@ -27,7 +27,7 @@ public interface SysUserRoleService extends BaseService<SysUserRole> {
      * @param roleId  角色ID
      * @param userIds 用户IDs
      */
-    void saveUser(Long roleId, List<Long> userIds);
+    void saveUsers(Long roleId, List<Long> userIds);
 
     /**
      * 查询用户的角色IDs

@@ -5,7 +5,6 @@ import com.brycehan.boot.common.base.dto.PhoneLoginDto;
 import com.brycehan.boot.common.base.http.ResponseResult;
 import com.brycehan.boot.common.base.vo.LoginVo;
 import com.brycehan.boot.framework.security.TokenUtils;
-import com.brycehan.boot.framework.security.context.LoginUser;
 import com.brycehan.boot.framework.security.context.LoginUserContext;
 import com.brycehan.boot.system.common.MenuType;
 import com.brycehan.boot.system.convert.SysUserConvert;
@@ -75,8 +74,7 @@ public class AuthController {
     @Operation(summary = "获取用户权限标识", description = "用户权限标识集合")
     @GetMapping(path = "/authority")
     public ResponseResult<Set<String>> authority() {
-        LoginUser loginUser = LoginUserContext.currentUser();
-        Set<String> authoritySet = this.sysMenuService.findAuthority(loginUser);
+        Set<String> authoritySet = this.sysMenuService.findAuthority(LoginUserContext.currentUser());
         return ResponseResult.ok(authoritySet);
     }
 
@@ -101,7 +99,6 @@ public class AuthController {
     @GetMapping(path = "/nav")
     public ResponseResult<List<SysMenuVo>> nav() {
         List<SysMenuVo> list = this.sysMenuService.getMenuTreeList(LoginUserContext.currentUser(), MenuType.MENU.getValue());
-
         return ResponseResult.ok(list);
     }
 

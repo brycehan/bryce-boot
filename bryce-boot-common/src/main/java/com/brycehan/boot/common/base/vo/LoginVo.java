@@ -10,9 +10,9 @@ import lombok.Data;
  * @since 2022/5/10
  * @author Bryce Han
  */
-@Schema(description = "Jwt令牌Vo")
-@Builder
 @Data
+@Builder
+@Schema(description = "Jwt令牌Vo")
 public class LoginVo {
 
     /**

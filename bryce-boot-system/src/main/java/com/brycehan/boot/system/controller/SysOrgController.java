@@ -133,4 +133,5 @@ public class SysOrgController {
         List<SysOrgVo> list = this.sysOrgService.list(sysOrgDto);
         return ResponseResult.ok(list);
     }
+
 }

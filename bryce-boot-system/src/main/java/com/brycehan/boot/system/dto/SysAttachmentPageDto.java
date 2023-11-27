@@ -15,8 +15,8 @@ import java.io.Serial;
  * @author Bryce Han
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 @Schema(description = "系统附件PageDto")
-@EqualsAndHashCode(callSuper = false)
 public class SysAttachmentPageDto extends BasePageDto {
 
     @Serial

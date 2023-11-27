@@ -211,14 +211,13 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         ExcelUtils.export(SysUserVo.class, "系统用户_".concat(DateTimeUtils.today()), "系统用户", sysUserVoList);
     }
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void importByExcel(MultipartFile file, String password) {
-        ExcelUtils.read(file, SysUserExcelDto.class, list -> saveUser(list, password));
+        ExcelUtils.read(file, SysUserExcelDto.class, list -> saveUsers(list, password));
     }
 
-    private void saveUser(List<SysUserExcelDto> list, String password) {
-
+    private void saveUsers(List<SysUserExcelDto> list, String password) {
         ExcelUtils.unTransList(list);
         List<SysUser> sysUsers = SysUserConvert.INSTANCE.convertList(list);
         sysUsers.forEach(sysUser -> {
@@ -226,6 +225,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
             sysUser.setPassword(this.passwordEncoder.encode(password));
         });
 
+        // 批量新增
         saveBatch(sysUsers);
     }
 

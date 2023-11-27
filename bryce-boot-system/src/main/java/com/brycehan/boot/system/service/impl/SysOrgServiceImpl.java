@@ -86,7 +86,6 @@ public class SysOrgServiceImpl extends BaseServiceImpl<SysOrgMapper, SysOrg> imp
     @Override
     public PageResult<SysOrgVo> page(SysOrgPageDto sysOrgPageDto) {
         IPage<SysOrg> page = this.baseMapper.selectPage(getPage(sysOrgPageDto), getWrapper(sysOrgPageDto));
-
         return new PageResult<>(page.getTotal(), SysOrgConvert.INSTANCE.convert(page.getRecords()));
     }
 
@@ -101,6 +100,7 @@ public class SysOrgServiceImpl extends BaseServiceImpl<SysOrgMapper, SysOrg> imp
         wrapper.eq(Objects.nonNull(sysOrgPageDto.getStatus()), SysOrg::getStatus, sysOrgPageDto.getStatus());
         wrapper.eq(Objects.nonNull(sysOrgPageDto.getTenantId()), SysOrg::getTenantId, sysOrgPageDto.getTenantId());
         wrapper.like(StringUtils.isNotEmpty(sysOrgPageDto.getName()), SysOrg::getName, sysOrgPageDto.getName());
+
         return wrapper;
     }
 
@@ -122,10 +122,10 @@ public class SysOrgServiceImpl extends BaseServiceImpl<SysOrgMapper, SysOrg> imp
         LambdaQueryWrapper<SysOrg> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.select(SysOrg::getId, SysOrg::getParentId);
 
-        // 所有机构的id、pid列表
+        // 所有机构的id、parentId列表
         List<SysOrg> orgList = this.baseMapper.selectList(queryWrapper);
 
-        // 递归查询所有子机构ID列表
+        // 递归查询所有子机构IDs
         List<Long> subIds = new ArrayList<>();
         this.getTree(id, orgList, subIds);
 

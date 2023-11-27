@@ -33,9 +33,7 @@ public class SysTenantServiceImpl extends BaseServiceImpl<SysTenantMapper, SysTe
 
     @Override
     public PageResult<SysTenantVo> page(SysTenantPageDto sysTenantPageDto) {
-
         IPage<SysTenant> page = this.baseMapper.selectPage(getPage(sysTenantPageDto), getWrapper(sysTenantPageDto));
-
         return new PageResult<>(page.getTotal(), SysTenantConvert.INSTANCE.convert(page.getRecords()));
     }
 
@@ -58,6 +56,7 @@ public class SysTenantServiceImpl extends BaseServiceImpl<SysTenantMapper, SysTe
         }
 
         wrapper.like(StringUtils.isNotEmpty(sysTenantPageDto.getName()), SysTenant::getName, sysTenantPageDto.getName());
+
         return wrapper;
     }
 

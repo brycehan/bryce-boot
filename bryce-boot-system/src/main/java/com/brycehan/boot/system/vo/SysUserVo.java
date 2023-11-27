@@ -23,9 +23,9 @@ import java.util.List;
  * @since 2023/09/11
  * @author Bryce Han
  */
-@Schema(description = "系统用户Vo")
-@ExcelIgnoreUnannotated
 @Data
+@ExcelIgnoreUnannotated
+@Schema(description = "系统用户Vo")
 public class SysUserVo implements Serializable, TransPojo {
 
     @Serial

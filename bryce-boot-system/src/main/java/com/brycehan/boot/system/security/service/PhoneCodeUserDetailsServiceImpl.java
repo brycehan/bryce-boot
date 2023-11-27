@@ -1,4 +1,4 @@
-package com.brycehan.boot.system.security;
+package com.brycehan.boot.system.security.service;
 
 import com.brycehan.boot.framework.security.phone.PhoneCodeUserDetailsService;
 import com.brycehan.boot.system.convert.SysUserConvert;

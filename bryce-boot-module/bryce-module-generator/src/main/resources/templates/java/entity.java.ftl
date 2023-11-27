@@ -23,7 +23,7 @@ import java.io.Serial;
  */
 @Data
 <#if baseClass??>
-@EqualsAndHashCode(callSuper=false)
+@EqualsAndHashCode(callSuper = true)
 </#if>
 @TableName("${tableName}")
 public class ${entityName} <#if baseClass??>extends ${baseClass.code}<#else>implements Serializable</#if> {

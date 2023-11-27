@@ -15,8 +15,8 @@ import java.time.LocalDateTime;
  * @since 2023/09/08
  * @author Bryce Han
  */
-@Schema(description = "系统字典数据Vo")
 @Data
+@Schema(description = "系统字典数据Vo")
 public class SysDictDataVo implements Serializable {
 
     @Serial

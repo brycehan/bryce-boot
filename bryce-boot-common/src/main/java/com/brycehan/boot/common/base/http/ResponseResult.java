@@ -17,9 +17,9 @@ import java.time.LocalDateTime;
  * @since 2021/12/31
  * @author Bryce Han
  */
-@Schema(description = "响应结果")
 @Slf4j
 @Data
+@Schema(description = "响应结果")
 public class ResponseResult<T> implements Serializable {
 
     @Serial

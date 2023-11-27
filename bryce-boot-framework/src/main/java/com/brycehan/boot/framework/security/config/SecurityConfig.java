@@ -83,6 +83,7 @@ public class SecurityConfig {
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder);
         daoAuthenticationProvider.setUserDetailsService(userDetailsService);
         daoAuthenticationProvider.setPreAuthenticationChecks(userDetailsChecker);
+
         return daoAuthenticationProvider;
     }
 

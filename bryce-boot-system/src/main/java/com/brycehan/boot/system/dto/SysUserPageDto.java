@@ -15,9 +15,9 @@ import java.time.LocalDateTime;
  * @since 2023/09/11
  * @author Bryce Han
  */
-@Schema(description = "系统用户PageDto")
 @Data
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(callSuper = true)
+@Schema(description = "系统用户PageDto")
 public class SysUserPageDto extends BasePageDto {
 
     @Serial

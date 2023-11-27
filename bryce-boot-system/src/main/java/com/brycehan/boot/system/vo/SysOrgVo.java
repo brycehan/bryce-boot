@@ -16,9 +16,9 @@ import java.time.LocalDateTime;
  * @since 2023/08/31
  * @author Bryce Han
  */
-@Schema(description = "系统机构Vo")
 @Data
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(callSuper = true)
+@Schema(description = "系统机构Vo")
 public class SysOrgVo extends TreeNode<SysOrgVo> {
 
     @Serial

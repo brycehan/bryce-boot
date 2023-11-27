@@ -32,9 +32,7 @@ public class SysAttachmentServiceImpl extends BaseServiceImpl<SysAttachmentMappe
 
     @Override
     public PageResult<SysAttachmentVo> page(SysAttachmentPageDto sysAttachmentPageDto) {
-
         IPage<SysAttachment> page = this.baseMapper.selectPage(getPage(sysAttachmentPageDto), getWrapper(sysAttachmentPageDto));
-
         return new PageResult<>(page.getTotal(), SysAttachmentConvert.INSTANCE.convert(page.getRecords()));
     }
 
@@ -50,6 +48,7 @@ public class SysAttachmentServiceImpl extends BaseServiceImpl<SysAttachmentMappe
         wrapper.eq(Objects.nonNull(sysAttachmentPageDto.getTenantId()), SysAttachment::getTenantId, sysAttachmentPageDto.getTenantId());
         wrapper.like(StringUtils.isNotEmpty(sysAttachmentPageDto.getName()), SysAttachment::getName, sysAttachmentPageDto.getName());
         wrapper.like(StringUtils.isNotEmpty(sysAttachmentPageDto.getPlatform()), SysAttachment::getPlatform, sysAttachmentPageDto.getPlatform());
+
         return wrapper;
     }
 

@@ -15,9 +15,9 @@ import java.time.LocalDateTime;
  * @since 2023/09/05
  * @author Bryce Han
  */
-@Schema(description = "系统字典类型PageDto")
 @Data
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(callSuper = true)
+@Schema(description = "系统字典类型PageDto")
 public class SysDictTypePageDto extends BasePageDto {
 
     @Serial

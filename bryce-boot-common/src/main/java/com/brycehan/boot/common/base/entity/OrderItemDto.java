@@ -15,9 +15,9 @@ import java.io.Serializable;
  * @since 2021/8/31
  * @author Bryce Han
  */
-@Schema(description = "排序项Dto")
 @Data
 @Builder
+@Schema(description = "排序项Dto")
 public class OrderItemDto implements Serializable {
 
     @Serial

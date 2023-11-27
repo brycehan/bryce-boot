@@ -30,9 +30,7 @@ public class SysDictDataServiceImpl extends BaseServiceImpl<SysDictDataMapper, S
 
     @Override
     public PageResult<SysDictDataVo> page(SysDictDataPageDto sysDictDataPageDto) {
-
         IPage<SysDictData> page = this.baseMapper.selectPage(getPage(sysDictDataPageDto), getWrapper(sysDictDataPageDto));
-
         return new PageResult<>(page.getTotal(), SysDictDataConvert.INSTANCE.convert(page.getRecords()));
     }
 
@@ -47,6 +45,7 @@ public class SysDictDataServiceImpl extends BaseServiceImpl<SysDictDataMapper, S
         wrapper.eq(Objects.nonNull(sysDictDataPageDto.getDictTypeId()), SysDictData::getDictTypeId, sysDictDataPageDto.getDictTypeId());
         wrapper.eq(Objects.nonNull(sysDictDataPageDto.getStatus()), SysDictData::getStatus, sysDictDataPageDto.getStatus());
         wrapper.eq(Objects.nonNull(sysDictDataPageDto.getTenantId()), SysDictData::getTenantId, sysDictDataPageDto.getTenantId());
+
         return wrapper;
     }
 

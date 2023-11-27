@@ -13,8 +13,8 @@ import java.io.Serial;
  * @author Bryce Han
  */
 @Data
-@Schema(description = "系统角色用户PageDto")
 @EqualsAndHashCode(callSuper = true)
+@Schema(description = "系统角色用户PageDto")
 public class SysRoleUserPageDto extends SysUserPageDto {
 
     @Serial

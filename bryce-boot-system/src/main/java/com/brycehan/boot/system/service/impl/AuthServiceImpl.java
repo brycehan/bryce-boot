@@ -49,7 +49,6 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public LoginVo loginByAccount(@NotNull AccountLoginDto accountLoginDto) {
-
         // 校验验证码
         boolean validated = this.captchaService.validate(accountLoginDto.getKey(), accountLoginDto.getCode());
         if (!validated) {

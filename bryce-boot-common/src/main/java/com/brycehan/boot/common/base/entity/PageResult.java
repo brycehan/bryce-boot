@@ -15,9 +15,9 @@ import java.util.List;
  * @since 2023/4/10
  * @author Bryce Han
  */
-@Schema(description = "分页结果数据")
 @Data
 @AllArgsConstructor
+@Schema(description = "分页结果数据")
 public class PageResult<T> implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;

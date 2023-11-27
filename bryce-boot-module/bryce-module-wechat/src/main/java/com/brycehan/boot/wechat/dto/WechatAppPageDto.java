@@ -1,12 +1,10 @@
 package com.brycehan.boot.wechat.dto;
 
 import com.brycehan.boot.common.base.entity.BasePageDto;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import jakarta.validation.constraints.Null;
-import jakarta.validation.constraints.Size;
 
 import java.io.Serial;
 
@@ -17,8 +15,8 @@ import java.io.Serial;
  * @since 2023/11/06
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 @Schema(description = "微信应用PageDto")
-@EqualsAndHashCode(callSuper = false)
 public class WechatAppPageDto extends BasePageDto {
 
     @Serial

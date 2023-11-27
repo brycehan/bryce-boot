@@ -58,7 +58,7 @@ public class SysUserRoleServiceImpl extends BaseServiceImpl<SysUserRoleMapper, S
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void saveUser(Long roleId, List<Long> userIds) {
+    public void saveUsers(Long roleId, List<Long> userIds) {
         // 过滤无效参数
         List<Long> ids = userIds.stream()
                 .filter(Objects::nonNull)
@@ -66,6 +66,7 @@ public class SysUserRoleServiceImpl extends BaseServiceImpl<SysUserRoleMapper, S
         if (CollectionUtils.isEmpty(ids)) {
             return;
         }
+
         // 过滤已经添加的数据
         LambdaQueryWrapper<SysUserRole> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(SysUserRole::getRoleId, roleId);
@@ -83,6 +84,7 @@ public class SysUserRoleServiceImpl extends BaseServiceImpl<SysUserRoleMapper, S
                 }).toList();
 
         if (CollectionUtils.isNotEmpty(userRoleList)) {
+            // 批量新增
             saveBatch(userRoleList);
         }
     }

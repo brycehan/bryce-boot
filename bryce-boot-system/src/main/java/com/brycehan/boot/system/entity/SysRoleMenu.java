@@ -15,7 +15,7 @@ import java.io.Serial;
  * @author Bryce Han
  */
 @Data
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(callSuper = true)
 @TableName("brc_sys_role_menu")
 public class SysRoleMenu extends BaseEntity {
 

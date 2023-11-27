@@ -60,6 +60,7 @@ public class SysParamServiceImpl extends BaseServiceImpl<SysParamMapper, SysPara
     @Override
     public void update(SysParamDto sysParamDto) {
         SysParam entity = this.baseMapper.selectById(sysParamDto.getId());
+
         // 如果参数键修改过
         if (!StrUtil.equalsIgnoreCase(entity.getParamKey(), sysParamDto.getParamKey())) {
             // 判断新参数键是否存在
@@ -84,7 +85,6 @@ public class SysParamServiceImpl extends BaseServiceImpl<SysParamMapper, SysPara
 
     @Override
     public void delete(IdsDto idsDto) {
-
         // 过滤无效参数
         List<Long> ids = idsDto.getIds().stream()
                 .filter(Objects::nonNull)
@@ -107,9 +107,7 @@ public class SysParamServiceImpl extends BaseServiceImpl<SysParamMapper, SysPara
 
     @Override
     public PageResult<SysParamVo> page(SysParamPageDto sysParamPageDto) {
-
         IPage<SysParam> page = this.baseMapper.selectPage(getPage(sysParamPageDto), getWrapper(sysParamPageDto));
-
         return new PageResult<>(page.getTotal(), SysParamConvert.INSTANCE.convert(page.getRecords()));
     }
 

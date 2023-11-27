@@ -64,6 +64,7 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
     @Override
     public void update(SysRoleDto sysRoleDto) {
         SysRole sysRole = SysRoleConvert.INSTANCE.convert(sysRoleDto);
+
         // 更新角色
         this.baseMapper.updateById(sysRole);
 
@@ -96,9 +97,7 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
 
     @Override
     public PageResult<SysRoleVo> page(SysRolePageDto sysRolePageDto) {
-
         IPage<SysRole> page = this.baseMapper.selectPage(getPage(sysRolePageDto), getWrapper(sysRolePageDto));
-
         return new PageResult<>(page.getTotal(), SysRoleConvert.INSTANCE.convert(page.getRecords()));
     }
 
@@ -140,7 +139,6 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
     @Override
     public List<SysRoleVo> list(SysRolePageDto sysRolePageDto) {
         List<SysRole> sysRoleList = this.baseMapper.selectList(getWrapper(sysRolePageDto));
-
         return SysRoleConvert.INSTANCE.convert(sysRoleList);
     }
 

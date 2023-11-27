@@ -15,7 +15,7 @@ import java.time.LocalDate;
  * @author Bryce Han
  */
 @Data
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(callSuper = true)
 @TableName("brc_sys_tenant")
 public class SysTenant extends BaseEntity {
 

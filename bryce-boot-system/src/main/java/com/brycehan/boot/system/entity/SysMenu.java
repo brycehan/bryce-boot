@@ -17,7 +17,7 @@ import java.util.List;
  * @author Bryce Han
  */
 @Data
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(callSuper = true)
 @TableName("brc_sys_menu")
 public class SysMenu extends BaseEntity {
 

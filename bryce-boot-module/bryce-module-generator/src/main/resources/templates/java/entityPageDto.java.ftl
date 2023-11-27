@@ -20,8 +20,8 @@ import java.io.Serial;
  * @since ${date}
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 @Schema(description = "${tableComment}PageDto")
-@EqualsAndHashCode(callSuper = false)
 public class ${entityName}PageDto extends BasePageDto {
 
     @Serial

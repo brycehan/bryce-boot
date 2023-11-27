@@ -31,9 +31,7 @@ public class SysNoticeServiceImpl extends BaseServiceImpl<SysNoticeMapper, SysNo
 
     @Override
     public PageResult<SysNoticeVo> page(SysNoticePageDto sysNoticePageDto) {
-
         IPage<SysNotice> page = this.baseMapper.selectPage(getPage(sysNoticePageDto), getWrapper(sysNoticePageDto));
-
         return new PageResult<>(page.getTotal(), SysNoticeConvert.INSTANCE.convert(page.getRecords()));
     }
 
@@ -48,6 +46,7 @@ public class SysNoticeServiceImpl extends BaseServiceImpl<SysNoticeMapper, SysNo
         wrapper.eq(Objects.nonNull(sysNoticePageDto.getType()), SysNotice::getType, sysNoticePageDto.getType());
         wrapper.eq(Objects.nonNull(sysNoticePageDto.getStatus()), SysNotice::getStatus, sysNoticePageDto.getStatus());
         wrapper.eq(Objects.nonNull(sysNoticePageDto.getTenantId()), SysNotice::getTenantId, sysNoticePageDto.getTenantId());
+
         return wrapper;
     }
 

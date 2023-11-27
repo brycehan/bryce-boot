@@ -14,7 +14,7 @@ import java.io.Serial;
  * @author Bryce Han
  */
 @Data
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(callSuper = true)
 @TableName("brc_sys_user_post")
 public class SysUserPost extends BaseEntity {
 

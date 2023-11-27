@@ -3,6 +3,8 @@ package com.brycehan.boot.common.base.entity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -12,8 +14,10 @@ import java.util.List;
  * @author Bryce Han
  */
 @Data
-@EqualsAndHashCode(callSuper = false)
-public abstract class BasePageVo<T> extends BaseEntity {
+public abstract class BasePageVo<T> implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     /**
      * 总条数

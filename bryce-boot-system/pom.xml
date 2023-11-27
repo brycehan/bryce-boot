@@ -22,11 +22,6 @@
             <groupId>com.brycehan.boot</groupId>
             <artifactId>bryce-boot-api</artifactId>
         </dependency>
-        <!-- aop框架 -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-aop</artifactId>
-        </dependency>
 
     </dependencies>
 
