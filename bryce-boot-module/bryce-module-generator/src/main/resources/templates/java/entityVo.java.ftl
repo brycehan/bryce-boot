@@ -1,5 +1,6 @@
 package ${packageName}.${moduleName}.vo;
 
+import cn.hutool.core.date.DatePattern;
 import io.swagger.v3.oas.annotations.media.Schema;
 <#if fieldList?filter(f -> f.formItem || f.queryItem || f.gridItem)?filter(f -> f.attrType == 'LocalDateTime')?size gt 0>
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -33,7 +34,7 @@ public class ${entityName}Vo implements Serializable {
 	</#if>
     @Schema(description = "${field.fieldComment}")
   <#if field.attrType == 'LocalDateTime'>
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @JsonFormat(pattern = DatePattern.NORM_DATETIME_PATTERN, timezone = "GMT+8")
   </#if>
     private ${field.attrType} ${field.attrName};
 

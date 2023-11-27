@@ -190,7 +190,7 @@ public class QuartzUtils {
      * @return jobKey
      */
     private static JobKey getJobKey(QuartzJob quartzJob) {
-        return JobKey.jobKey(JOB_NAME.concat(quartzJob.getId().toString()), quartzJob.getJobGroup());
+        return JobKey.jobKey(JOB_NAME + quartzJob.getId(), quartzJob.getJobGroup());
     }
 
     /**
@@ -199,7 +199,7 @@ public class QuartzUtils {
      * @return 触发器 key
      */
     private static TriggerKey getTriggerKey(QuartzJob quartzJob) {
-        return TriggerKey.triggerKey(JOB_NAME.concat(quartzJob.getId().toString()), quartzJob.getJobGroup());
+        return TriggerKey.triggerKey(JOB_NAME + quartzJob.getId(), quartzJob.getJobGroup());
     }
 
     /**

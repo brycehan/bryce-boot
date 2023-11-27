@@ -16,7 +16,7 @@ import java.io.Serial;
  */
 @Data
 @Schema(description = "quartz 定时任务调度PageDto")
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(callSuper = true)
 public class QuartzJobPageDto extends BasePageDto {
 
     @Serial

@@ -25,6 +25,7 @@ import java.time.LocalDateTime;
 public abstract class AbstractQuartzJob implements Job {
 
     private static final ThreadLocal<LocalDateTime> threadLocal = new ThreadLocal<>();
+
     @Override
     public void execute(JobExecutionContext context) {
         QuartzJob quartzJob = new QuartzJob();
@@ -80,7 +81,6 @@ public abstract class AbstractQuartzJob implements Job {
         }
 
         // 保存日志
-        SpringUtil.getBean(QuartzJobLogService.class)
-                .save(quartzJobLog);
+        SpringUtil.getBean(QuartzJobLogService.class).save(quartzJobLog);
     }
 }

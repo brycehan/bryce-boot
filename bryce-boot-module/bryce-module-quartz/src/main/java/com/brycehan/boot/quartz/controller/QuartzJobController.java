@@ -56,7 +56,6 @@ public class QuartzJobController {
 
         // 检查 Bean 的合法性
         checkBean(quartzJobDto.getBeanName());
-
         this.quartzJobService.save(quartzJobDto);
 
         return ResponseResult.ok();
@@ -79,8 +78,8 @@ public class QuartzJobController {
 
         // 检查 Bean 的合法性
         checkBean(quartzJobDto.getBeanName());
-
         this.quartzJobService.update(quartzJobDto);
+
         return ResponseResult.ok();
     }
 
@@ -150,7 +149,6 @@ public class QuartzJobController {
     @PreAuthorize("hasAuthority('quartz:job:run')")
     @PutMapping(path = "/run")
     public ResponseResult<Void> run(@Validated(value = UpdateGroup.class) @RequestBody QuartzJobDto quartzJobDto) {
-
         this.quartzJobService.run(quartzJobDto);
         return ResponseResult.ok();
     }
@@ -166,11 +164,9 @@ public class QuartzJobController {
     @PreAuthorize("hasAuthority('quartz:job:update')")
     @PutMapping(path = "/status")
     public ResponseResult<Void> status(@Validated(value = UpdateGroup.class) @RequestBody QuartzJobDto quartzJobDto) {
-
         this.quartzJobService.changeStatus(quartzJobDto);
         return ResponseResult.ok();
     }
-
 
     private void checkBean(String beanName) {
         // 为避免执行 jdbcTemplate 等类，只允许添加有 @Service 注解的 Bean
@@ -180,4 +176,5 @@ public class QuartzJobController {
             throw new RuntimeException("只允许添加有 @Service 注解的 Bean");
         }
     }
+
 }
