@@ -1,0 +1,54 @@
+stages:
+  - build
+  - package
+  - deploy
+
+variables:
+  HARBOR_URL: core.harbor.brycehan.com
+  IMAGE_NAME: $HARBOR_URL/bryce/bryce-boot:latest
+
+build:
+  stage: build
+  image: $HARBOR_URL/bryce-docker/maven:latest
+  when: always
+  only:
+    - main
+  script:
+    - mvn package -Dmaven.test.skip=true
+  artifacts:
+    name: "${CI_JOB_NAME}-${CI_COMMIT_REF_NAME}"
+    expire_in: 1hrs
+    paths:
+      - bryce-boot-server/target/*.jar
+  tags:
+    - bryce-runner
+
+package:
+  stage: package
+  image: $HARBOR_URL/bryce-docker/buildah:latest
+  when: on_success
+  only:
+    - main
+  before_script:
+    - echo $HARBOR_PASSWORD | buildah login -u $HARBOR_USERNAME --password-stdin $HARBOR_URL --tls-verify=false
+  script:
+    - buildah build -f deploy/Dockerfile -t $IMAGE_NAME .
+    - buildah push --tls-verify=false $IMAGE_NAME
+  tags:
+    - bryce-runner
+
+deploy:
+  stage: deploy
+  image: $HARBOR_URL/bryce-docker/kubectl:latest
+  when: on_success
+  only:
+    - main
+  variables:
+    NAMESPACE: bryce-boot
+    WORKLOAD: bryce-boot
+    HOST: api.boot.brycehan.com
+    PORT: 8090
+  script:
+    - /deploy.sh -n=$NAMESPACE -w=$WORKLOAD -i=$IMAGE_NAME -h=$HOST -p=$PORT
+  tags:
+    - bryce-runner
