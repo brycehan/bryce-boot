@@ -4,8 +4,12 @@ stages:
   - deploy
 
 variables:
+  NAMESPACE: bryce-boot
+  WORKLOAD: bryce-boot
   HARBOR_URL: core.harbor.brycehan.com
   IMAGE_NAME: $HARBOR_URL/bryce/bryce-boot:latest
+  HOST: api.boot.brycehan.com
+  PORT: 8090
 
 build:
   stage: build
@@ -29,11 +33,8 @@ package:
   when: on_success
   only:
     - main
-  before_script:
-    - echo $HARBOR_PASSWORD | buildah login -u $HARBOR_USERNAME --password-stdin $HARBOR_URL --tls-verify=false
   script:
-    - buildah build -f deploy/Dockerfile -t $IMAGE_NAME .
-    - buildah push --tls-verify=false $IMAGE_NAME
+    - /buildah.sh -t=$IMAGE_NAME
   tags:
     - bryce-runner
 
@@ -43,11 +44,6 @@ deploy:
   when: on_success
   only:
     - main
-  variables:
-    NAMESPACE: bryce-boot
-    WORKLOAD: bryce-boot
-    HOST: api.boot.brycehan.com
-    PORT: 8090
   script:
     - /deploy.sh -n=$NAMESPACE -w=$WORKLOAD -i=$IMAGE_NAME -h=$HOST -p=$PORT
   tags:
