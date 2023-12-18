@@ -44,7 +44,7 @@
             <fileNamePattern>${logging.file.path}/debug-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <cleanHistoryOnStart>false</cleanHistoryOnStart>
             <maxFileSize>100MB</maxFileSize>
-            <totalSizeCap>20GB</totalSizeCap>
+            <totalSizeCap>10GB</totalSizeCap>
             <maxHistory>60</maxHistory>
         </rollingPolicy>
     </appender>
@@ -68,7 +68,7 @@
             <fileNamePattern>${logging.file.path}/info-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <cleanHistoryOnStart>false</cleanHistoryOnStart>
             <maxFileSize>100MB</maxFileSize>
-            <totalSizeCap>20GB</totalSizeCap>
+            <totalSizeCap>10GB</totalSizeCap>
             <maxHistory>60</maxHistory>
         </rollingPolicy>
     </appender>
@@ -92,7 +92,7 @@
             <fileNamePattern>${logging.file.path}/warn-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <cleanHistoryOnStart>false</cleanHistoryOnStart>
             <maxFileSize>100MB</maxFileSize>
-            <totalSizeCap>20GB</totalSizeCap>
+            <totalSizeCap>10GB</totalSizeCap>
             <maxHistory>60</maxHistory>
         </rollingPolicy>
     </appender>
@@ -116,18 +116,28 @@
             <fileNamePattern>${logging.file.path}/error-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <cleanHistoryOnStart>false</cleanHistoryOnStart>
             <maxFileSize>100MB</maxFileSize>
-            <totalSizeCap>20GB</totalSizeCap>
+            <totalSizeCap>10GB</totalSizeCap>
             <maxHistory>60</maxHistory>
         </rollingPolicy>
     </appender>
 
-    <root level="INFO">
-        <appender-ref ref="CONSOLE" />
-        <appender-ref ref="DEBUG_FILE" />
-        <appender-ref ref="INFO_FILE" />
-        <appender-ref ref="WARN_FILE" />
-        <appender-ref ref="ERROR_FILE" />
-    </root>
+    <!-- 开发 | 测试环境 -->
+    <springProfile name="dev | test">
+        <root level="INFO">
+            <appender-ref ref="CONSOLE" />
+        </root>
+    </springProfile>
+
+    <!-- 生产环境 -->
+    <springProfile name="prod">
+        <root level="INFO">
+            <appender-ref ref="CONSOLE" />
+            <appender-ref ref="DEBUG_FILE" />
+            <appender-ref ref="INFO_FILE" />
+            <appender-ref ref="WARN_FILE" />
+            <appender-ref ref="ERROR_FILE" />
+        </root>
+    </springProfile>
 
     <logger name="ch.qos.logback" level="WARN" />
     <logger name="org.quartz" level="ERROR" />
