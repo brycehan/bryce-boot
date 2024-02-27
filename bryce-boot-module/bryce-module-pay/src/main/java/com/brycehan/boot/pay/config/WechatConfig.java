@@ -1,4 +1,4 @@
-package com.brycehan.boot.wechat.config;
+package com.brycehan.boot.pay.config;
 
 import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.api.impl.WxMaServiceImpl;
@@ -6,8 +6,8 @@ import cn.binarywang.wx.miniapp.config.WxMaConfig;
 import cn.binarywang.wx.miniapp.config.impl.WxMaRedisBetterConfigImpl;
 import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.brycehan.boot.wechat.entity.WechatApp;
-import com.brycehan.boot.wechat.service.WechatAppService;
+import com.brycehan.boot.pay.service.WechatAppService;
+import com.brycehan.boot.pay.entity.WechatApp;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import me.chanjar.weixin.common.redis.RedisTemplateWxRedisOps;

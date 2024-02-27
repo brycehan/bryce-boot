@@ -1,4 +1,4 @@
-package com.brycehan.boot.wechat.controller;
+package com.brycehan.boot.pay.controller;
 
 import com.brycehan.boot.api.system.SysParamApi;
 import com.brycehan.boot.api.system.dto.SysParamApiDto;
@@ -9,8 +9,8 @@ import com.brycehan.boot.common.util.JsonUtils;
 import com.brycehan.boot.common.validator.UpdateGroup;
 import com.brycehan.boot.framework.operatelog.annotation.OperateLog;
 import com.brycehan.boot.framework.operatelog.annotation.OperateType;
-import com.brycehan.boot.wechat.convert.WechatMenuConvert;
-import com.brycehan.boot.wechat.dto.WechatMenuItemDto;
+import com.brycehan.boot.pay.convert.WechatMenuConvert;
+import com.brycehan.boot.pay.dto.WechatMenuItemDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;

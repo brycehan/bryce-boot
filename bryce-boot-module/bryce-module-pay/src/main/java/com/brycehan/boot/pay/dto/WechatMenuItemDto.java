@@ -1,4 +1,4 @@
-package com.brycehan.boot.wechat.dto;
+package com.brycehan.boot.pay.dto;
 
 import com.brycehan.boot.common.validator.SaveGroup;
 import com.brycehan.boot.common.validator.UpdateGroup;

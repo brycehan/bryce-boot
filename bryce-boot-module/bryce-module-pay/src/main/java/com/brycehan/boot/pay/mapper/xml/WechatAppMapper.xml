@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.brycehan.boot.wechat.mapper.WechatAppMapper">
+<mapper namespace="com.brycehan.boot.pay.mapper.WechatAppMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.brycehan.boot.wechat.entity.WechatApp">
+    <resultMap id="BaseResultMap" type="com.brycehan.boot.pay.entity.WechatApp">
         <id column="id" property="id" />
         <result column="name" property="name" />
         <result column="app_id" property="appId" />

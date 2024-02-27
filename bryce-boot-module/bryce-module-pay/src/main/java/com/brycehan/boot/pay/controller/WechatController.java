@@ -1,6 +1,6 @@
-package com.brycehan.boot.wechat.controller;
+package com.brycehan.boot.pay.controller;
 
-import com.brycehan.boot.wechat.service.WechatService;
+import com.brycehan.boot.pay.service.WechatService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;

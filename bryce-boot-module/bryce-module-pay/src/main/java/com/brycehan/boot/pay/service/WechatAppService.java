@@ -1,13 +1,13 @@
-package com.brycehan.boot.wechat.service;
+package com.brycehan.boot.pay.service;
 
 import com.brycehan.boot.framework.mybatis.service.BaseService;
 import com.brycehan.boot.common.base.entity.PageResult;
 import com.brycehan.boot.common.base.id.IdGenerator;
-import com.brycehan.boot.wechat.convert.WechatAppConvert;
-import com.brycehan.boot.wechat.dto.WechatAppDto;
-import com.brycehan.boot.wechat.dto.WechatAppPageDto;
-import com.brycehan.boot.wechat.entity.WechatApp;
-import com.brycehan.boot.wechat.vo.WechatAppVo;
+import com.brycehan.boot.pay.convert.WechatAppConvert;
+import com.brycehan.boot.pay.dto.WechatAppDto;
+import com.brycehan.boot.pay.dto.WechatAppPageDto;
+import com.brycehan.boot.pay.entity.WechatApp;
+import com.brycehan.boot.pay.vo.WechatAppVo;
 
 import java.util.List;
 

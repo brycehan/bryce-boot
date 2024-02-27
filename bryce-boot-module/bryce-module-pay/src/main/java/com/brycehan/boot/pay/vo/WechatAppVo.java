@@ -1,4 +1,4 @@
-package com.brycehan.boot.wechat.vo;
+package com.brycehan.boot.pay.vo;
 
 import cn.hutool.core.date.DatePattern;
 import io.swagger.v3.oas.annotations.media.Schema;

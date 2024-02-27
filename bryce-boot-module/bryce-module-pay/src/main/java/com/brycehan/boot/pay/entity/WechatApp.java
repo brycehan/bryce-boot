@@ -1,4 +1,4 @@
-package com.brycehan.boot.wechat.entity;
+package com.brycehan.boot.pay.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;

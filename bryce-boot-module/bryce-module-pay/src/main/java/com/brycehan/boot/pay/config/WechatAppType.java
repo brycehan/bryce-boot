@@ -1,4 +1,4 @@
-package com.brycehan.boot.wechat.config;
+package com.brycehan.boot.pay.config;
 
 /**
  * 微信应用类型

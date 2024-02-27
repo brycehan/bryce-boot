@@ -1,6 +1,6 @@
-package com.brycehan.boot.wechat.convert;
+package com.brycehan.boot.pay.convert;
 
-import com.brycehan.boot.wechat.dto.WechatMenuItemDto;
+import com.brycehan.boot.pay.dto.WechatMenuItemDto;
 import me.chanjar.weixin.common.bean.menu.WxMenuButton;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

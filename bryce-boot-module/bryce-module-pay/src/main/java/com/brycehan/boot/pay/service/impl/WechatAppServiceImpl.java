@@ -1,4 +1,4 @@
-package com.brycehan.boot.wechat.service.impl;
+package com.brycehan.boot.pay.service.impl;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
@@ -9,13 +9,13 @@ import com.brycehan.boot.common.base.id.IdGenerator;
 import com.brycehan.boot.common.util.DateTimeUtils;
 import com.brycehan.boot.common.util.ExcelUtils;
 import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
-import com.brycehan.boot.wechat.convert.WechatAppConvert;
-import com.brycehan.boot.wechat.dto.WechatAppDto;
-import com.brycehan.boot.wechat.dto.WechatAppPageDto;
-import com.brycehan.boot.wechat.entity.WechatApp;
-import com.brycehan.boot.wechat.mapper.WechatAppMapper;
-import com.brycehan.boot.wechat.service.WechatAppService;
-import com.brycehan.boot.wechat.vo.WechatAppVo;
+import com.brycehan.boot.pay.convert.WechatAppConvert;
+import com.brycehan.boot.pay.dto.WechatAppDto;
+import com.brycehan.boot.pay.service.WechatAppService;
+import com.brycehan.boot.pay.dto.WechatAppPageDto;
+import com.brycehan.boot.pay.entity.WechatApp;
+import com.brycehan.boot.pay.mapper.WechatAppMapper;
+import com.brycehan.boot.pay.vo.WechatAppVo;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;

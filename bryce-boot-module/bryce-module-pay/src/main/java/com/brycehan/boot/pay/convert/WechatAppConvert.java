@@ -1,8 +1,8 @@
-package com.brycehan.boot.wechat.convert;
+package com.brycehan.boot.pay.convert;
 
-import com.brycehan.boot.wechat.dto.WechatAppDto;
-import com.brycehan.boot.wechat.entity.WechatApp;
-import com.brycehan.boot.wechat.vo.WechatAppVo;
+import com.brycehan.boot.pay.dto.WechatAppDto;
+import com.brycehan.boot.pay.entity.WechatApp;
+import com.brycehan.boot.pay.vo.WechatAppVo;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;

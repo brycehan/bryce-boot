@@ -1,4 +1,4 @@
-package com.brycehan.boot.wechat.controller;
+package com.brycehan.boot.pay.controller;
 
 import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.config.WxMaConfig;
@@ -9,14 +9,14 @@ import com.brycehan.boot.common.validator.SaveGroup;
 import com.brycehan.boot.common.validator.UpdateGroup;
 import com.brycehan.boot.framework.operatelog.annotation.OperateLog;
 import com.brycehan.boot.framework.operatelog.annotation.OperateType;
-import com.brycehan.boot.wechat.config.WechatAppType;
-import com.brycehan.boot.wechat.config.WechatConfig;
-import com.brycehan.boot.wechat.convert.WechatAppConvert;
-import com.brycehan.boot.wechat.dto.WechatAppDto;
-import com.brycehan.boot.wechat.dto.WechatAppPageDto;
-import com.brycehan.boot.wechat.entity.WechatApp;
-import com.brycehan.boot.wechat.service.WechatAppService;
-import com.brycehan.boot.wechat.vo.WechatAppVo;
+import com.brycehan.boot.pay.config.WechatAppType;
+import com.brycehan.boot.pay.config.WechatConfig;
+import com.brycehan.boot.pay.convert.WechatAppConvert;
+import com.brycehan.boot.pay.dto.WechatAppDto;
+import com.brycehan.boot.pay.service.WechatAppService;
+import com.brycehan.boot.pay.dto.WechatAppPageDto;
+import com.brycehan.boot.pay.entity.WechatApp;
+import com.brycehan.boot.pay.vo.WechatAppVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
