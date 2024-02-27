@@ -19,7 +19,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class SwaggerConfig {
 
-    private static final String apiTitle = "Bryce Boot项目脚手架";
+    private static final String apiTitle = "Bryce Boot接口文档";
     private static final String apiDescription = "Bryce Boot";
     private static final String apiVersion = "0.0.1";
     private static final String termsOfService = "https://github.com/brycehan";

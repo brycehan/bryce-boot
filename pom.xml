@@ -133,7 +133,7 @@
 			<!-- wechat 模块 -->
 			<dependency>
 				<groupId>com.brycehan.boot</groupId>
-				<artifactId>bryce-module-wechat</artifactId>
+				<artifactId>bryce-module-pay</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<!-- 服务组件 -->

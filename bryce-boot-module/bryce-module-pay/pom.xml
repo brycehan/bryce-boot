@@ -7,10 +7,10 @@
         <artifactId>bryce-boot-module</artifactId>
         <version>${revision}</version>
     </parent>
-    <artifactId>bryce-module-wechat</artifactId>
+    <artifactId>bryce-module-pay</artifactId>
     <version>${revision}</version>
-    <name>bryce-module-wechat</name>
-    <description>bryce-module-wechat</description>
+    <name>bryce-module-pay</name>
+    <description>bryce-module-pay</description>
 
     <!-- 依赖 -->
     <dependencies>

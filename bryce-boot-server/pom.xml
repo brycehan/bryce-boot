@@ -37,7 +37,7 @@
         </dependency>
         <dependency>
             <groupId>com.brycehan.boot</groupId>
-            <artifactId>bryce-module-wechat</artifactId>
+            <artifactId>bryce-module-pay</artifactId>
         </dependency>
         <!-- 测试框架 -->
         <dependency>
