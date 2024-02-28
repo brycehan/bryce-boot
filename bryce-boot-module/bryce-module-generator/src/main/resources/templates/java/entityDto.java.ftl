@@ -22,7 +22,7 @@ import java.io.Serial;
  * @since ${date}
  */
 @Data
-@Schema(description = "${tableComment}Dto")
+@Schema(description = "${tableComment} Dto")
 public class ${entityName}Dto implements Serializable {
 
     @Serial

@@ -14,13 +14,13 @@ import java.io.Serializable;
 import java.io.Serial;
 
 /**
- * ${tableComment}Vo
+ * ${tableComment} Vo
  *
  * @author ${author}
  * @since ${date}
  */
 @Data
-@Schema(description = "${tableComment}Vo")
+@Schema(description = "${tableComment} Vo")
 public class ${entityName}Vo implements Serializable {
 
     @Serial

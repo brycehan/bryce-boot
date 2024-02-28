@@ -14,14 +14,14 @@ import ${item!};
 import java.io.Serial;
 
 /**
- * ${tableComment}PageDto
+ * ${tableComment} PageDto
  *
  * @author ${author}
  * @since ${date}
  */
 @Data
+@Schema(description = "${tableComment} PageDto")
 @EqualsAndHashCode(callSuper = true)
-@Schema(description = "${tableComment}PageDto")
 public class ${entityName}PageDto extends BasePageDto {
 
     @Serial

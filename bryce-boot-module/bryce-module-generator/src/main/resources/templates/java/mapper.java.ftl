@@ -1,6 +1,6 @@
 package ${packageName}.${moduleName}.mapper;
 
-import ${packageName}.common.base.mapper.BryceBaseMapper;
+import ${packageName}.framework.mybatis.BryceBaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import ${packageName}.${moduleName}.entity.${entityName};
 

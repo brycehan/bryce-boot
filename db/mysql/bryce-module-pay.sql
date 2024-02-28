@@ -100,7 +100,7 @@ INSERT INTO brc_pay_product (id, title, price, tenant_id, version, deleted, crea
 INSERT INTO brc_pay_product (id, title, price, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (4, 'UI课程', 1, null, 1, 0, null, '2024-02-27 08:04:58', null, null);
 
 -- 5、退款单表
-create table brc_pay_refund_info
+create table brc_pay_refund
 (
     id              bigint                             primary key comment '退款单ID',
     order_no        varchar(50)                        null comment '商户订单编号',

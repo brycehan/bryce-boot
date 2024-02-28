@@ -2,11 +2,13 @@
 <configuration>
     <contextName>logback-spring</contextName>
 
-    <!-- 默认配置 -->
-    <include resource="org/springframework/boot/logging/logback/defaults.xml" />
-
     <!-- 指定日志输出路径 -->
     <property name="logging.file.path" value="logs" />
+
+    <!-- 彩色日志依赖的渲染类 -->
+    <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter" />
+    <conversionRule conversionWord="wex" converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter" />
+    <conversionRule conversionWord="wEx" converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter" />
 
     <!-- https://logback.qos.ch/manual/layouts.html -->
     <property name="CONSOLE_LOG_PATTERN" value="%clr(%d{yyyy-MM-dd HH:mm:ss.SSSXXX}){faint} %clr(%5p) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n%wEx"/>
@@ -121,25 +123,14 @@
         </rollingPolicy>
     </appender>
 
-    <!-- 开发 | 测试环境 -->
-    <springProfile name="dev | test">
-        <root level="INFO">
-            <appender-ref ref="CONSOLE" />
-        </root>
-    </springProfile>
+    <root level="INFO">
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="DEBUG_FILE" />
+        <appender-ref ref="INFO_FILE" />
+        <appender-ref ref="WARN_FILE" />
+        <appender-ref ref="ERROR_FILE" />
+    </root>
 
-    <!-- 生产环境 -->
-    <springProfile name="prod">
-        <root level="INFO">
-            <appender-ref ref="CONSOLE" />
-            <appender-ref ref="DEBUG_FILE" />
-            <appender-ref ref="INFO_FILE" />
-            <appender-ref ref="WARN_FILE" />
-            <appender-ref ref="ERROR_FILE" />
-        </root>
-    </springProfile>
-
-    <logger name="ch.qos.logback" level="WARN" />
     <logger name="org.quartz" level="ERROR" />
 
 </configuration>

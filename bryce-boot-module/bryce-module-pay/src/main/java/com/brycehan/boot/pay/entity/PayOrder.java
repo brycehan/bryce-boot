@@ -7,58 +7,58 @@ import com.brycehan.boot.common.base.entity.BaseEntity;
 import java.io.Serial;
 
 /**
- * 微信应用entity
+ * 订单entity
  *
  * @author Bryce Han
- * @since 2023/11/06
+ * @since 2024/02/27
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("brc_pay_app")
-public class WechatApp extends BaseEntity {
+@TableName("brc_pay_order")
+public class PayOrder extends BaseEntity {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
     /**
-     * 名称
+     * 订单标题
      */
-    private String name;
+    private String title;
 
     /**
-     * 应用ID
+     * 商户订单编号
      */
-    private String appId;
+    private String orderNo;
 
     /**
-     * 应用密钥
+     * 用户id
      */
-    private String appSecret;
+    private Long userId;
 
     /**
-     * 类型（mp：微信公众号，ma：微信小程序）
+     * 支付产品id
      */
-    private String type;
+    private Long productId;
 
     /**
-     * 令牌
+     * 订单金额(分)
      */
-    private String token;
+    private Integer totalFee;
 
     /**
-     * 重定向地址
+     * 订单二维码连接
      */
-    private String redirectUrl;
+    private String codeUrl;
+
+    /**
+     * 订单状态
+     */
+    private String orderStatus;
 
     /**
      * 租户ID
      */
     private Long tenantId;
-
-    /**
-     * 状态（0：停用，1：正常）
-     */
-    private Boolean status;
 
     /**
      * 备注
