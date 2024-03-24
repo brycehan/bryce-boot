@@ -53,20 +53,4 @@ public class AlipayClientConfig {
      * 证件类型IDENTITY_CARD
      * 证件账号261949192610069909
      */
-    public static void main(String[] args) {
-        String sha1 = "T6m9iK73b0kn9g5v426MKfHQH7X8rKwb";
-
-        System.out.println(sha1.length());
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < 32; i++) {
-            if(i >= 10) {
-                builder.append("1");
-            }else {
-                builder.append(sha1.charAt(i));
-            }
-        }
-        System.out.println(builder.length());
-        System.out.println(builder);
-
-    }
 }
