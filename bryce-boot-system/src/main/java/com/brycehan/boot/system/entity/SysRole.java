@@ -56,9 +56,4 @@ public class SysRole extends BaseEntity {
      */
     private Long orgId;
 
-    /**
-     * 租户ID
-     */
-    private Long tenantId;
-
 }

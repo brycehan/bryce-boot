@@ -55,9 +55,4 @@ public class PayPayment extends BaseEntity {
      */
     private String content;
 
-    /**
-     * 租户ID
-     */
-    private Long tenantId;
-
 }

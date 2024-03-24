@@ -83,12 +83,6 @@ public class PayRefundVo implements Serializable {
     private String contentNotify;
 
     /**
-     * 租户ID
-     */
-    @Schema(description = "租户ID")
-    private Long tenantId;
-
-    /**
      * 创建时间
      */
     @Schema(description = "创建时间")

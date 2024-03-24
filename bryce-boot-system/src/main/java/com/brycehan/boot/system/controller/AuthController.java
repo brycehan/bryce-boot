@@ -24,13 +24,13 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * 认证API
+ * 登录认证API
  *
  * @since 2022/5/10
  * @author Bryce Han
  */
 @Slf4j
-@Tag(name = "认证", description = "auth")
+@Tag(name = "登录认证", description = "auth")
 @RestController
 @RequestMapping(path = "/auth")
 @RequiredArgsConstructor

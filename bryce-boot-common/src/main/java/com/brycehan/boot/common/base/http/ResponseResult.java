@@ -5,8 +5,7 @@ import com.brycehan.boot.common.util.StringFormatUtils;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
-
+import lombok.experimental.Accessors;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -17,8 +16,8 @@ import java.time.LocalDateTime;
  * @since 2021/12/31
  * @author Bryce Han
  */
-@Slf4j
 @Data
+@Accessors(chain = true)
 @Schema(description = "响应结果")
 public class ResponseResult<T> implements Serializable {
 

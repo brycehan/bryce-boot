@@ -74,10 +74,4 @@ public class SysDictDataDto implements Serializable {
     @Size(max = 500, groups = {SaveGroup.class, UpdateGroup.class})
     private String remark;
 
-    /**
-     * 租户ID
-     */
-    @Schema(description = "租户ID")
-    private Long tenantId;
-
 }

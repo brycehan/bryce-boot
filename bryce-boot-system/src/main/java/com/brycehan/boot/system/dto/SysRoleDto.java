@@ -75,12 +75,6 @@ public class SysRoleDto implements Serializable {
     private Long orgId;
 
     /**
-     * 租户ID
-     */
-    @Schema(description = "租户ID")
-    private Long tenantId;
-
-    /**
      * 机构IDs
      */
     @Schema(description = "机构IDs")

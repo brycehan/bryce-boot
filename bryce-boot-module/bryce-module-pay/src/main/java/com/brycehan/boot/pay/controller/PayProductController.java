@@ -58,7 +58,7 @@ public class PayProductController {
      */
     @Operation(summary = "更新商品")
     @OperateLog(type = OperateType.UPDATE)
-    @PreAuthorize("hasAuthority('pay:product:update')")
+//    @PreAuthorize("hasAuthority('pay:product:update')")
     @PutMapping
     public ResponseResult<Void> update(@Validated(value = UpdateGroup.class) @RequestBody PayProductDto payProductDto) {
         this.payProductService.update(payProductDto);

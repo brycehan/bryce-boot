@@ -76,10 +76,4 @@ public class SysAttachmentDto implements Serializable {
     @Size(max = 50, groups = {SaveGroup.class, UpdateGroup.class})
     private String platform;
 
-    /**
-     * 租户ID
-     */
-    @Schema(description = "租户ID")
-    private Long tenantId;
-
 }

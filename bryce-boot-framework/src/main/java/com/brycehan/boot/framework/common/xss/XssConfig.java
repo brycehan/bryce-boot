@@ -15,7 +15,7 @@ import org.springframework.util.PathMatcher;
  */
 @Configuration
 @EnableConfigurationProperties(XssProperties.class)
-@ConditionalOnProperty(prefix = "bryce.xss.enabled", value = "true")
+@ConditionalOnProperty(name = "bryce.xss.enabled", havingValue = "true")
 public class XssConfig {
 
     @Bean

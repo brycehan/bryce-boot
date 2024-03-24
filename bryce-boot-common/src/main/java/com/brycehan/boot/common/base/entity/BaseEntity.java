@@ -55,7 +55,7 @@ public abstract class BaseEntity implements TransPojo, Serializable {
     /**
      * 修改者ID
      */
-    @TableField(fill = FieldFill.UPDATE)
+    @TableField(fill = FieldFill.UPDATE, updateStrategy = FieldStrategy.NOT_NULL)
     private Long updatedUserId;
 
     /**

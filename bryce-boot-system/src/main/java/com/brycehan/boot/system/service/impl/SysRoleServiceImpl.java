@@ -111,7 +111,6 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
         LambdaQueryWrapper<SysRole> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(Objects.nonNull(sysRolePageDto.getStatus()), SysRole::getStatus, sysRolePageDto.getStatus());
         wrapper.eq(Objects.nonNull(sysRolePageDto.getOrgId()), SysRole::getOrgId, sysRolePageDto.getOrgId());
-        wrapper.eq(Objects.nonNull(sysRolePageDto.getTenantId()), SysRole::getTenantId, sysRolePageDto.getTenantId());
         wrapper.like(StringUtils.isNotEmpty(sysRolePageDto.getName()), SysRole::getName, sysRolePageDto.getName());
         wrapper.like(StringUtils.isNotEmpty(sysRolePageDto.getCode()), SysRole::getCode, sysRolePageDto.getCode());
 

@@ -45,7 +45,6 @@ public class SysNoticeServiceImpl extends BaseServiceImpl<SysNoticeMapper, SysNo
         LambdaQueryWrapper<SysNotice> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(Objects.nonNull(sysNoticePageDto.getType()), SysNotice::getType, sysNoticePageDto.getType());
         wrapper.eq(Objects.nonNull(sysNoticePageDto.getStatus()), SysNotice::getStatus, sysNoticePageDto.getStatus());
-        wrapper.eq(Objects.nonNull(sysNoticePageDto.getTenantId()), SysNotice::getTenantId, sysNoticePageDto.getTenantId());
 
         return wrapper;
     }

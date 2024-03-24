@@ -44,12 +44,6 @@ public class SysLoginLogPageDto extends BasePageDto {
     private Boolean status;
 
     /**
-     * 租户ID
-     */
-    @Schema(description = "租户ID")
-    private Long tenantId;
-
-    /**
      * 访问时间开始
      */
     @Schema(description = "访问时间开始")

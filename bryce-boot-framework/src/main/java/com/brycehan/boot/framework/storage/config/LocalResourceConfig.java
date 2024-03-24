@@ -21,7 +21,7 @@ import java.io.File;
 @Configuration
 @RequiredArgsConstructor
 @EnableConfigurationProperties(LocalStorageProperties.class)
-@ConditionalOnProperty(prefix = "bryce.storage", value = "enabled")
+@ConditionalOnProperty(name = "bryce.storage.enabled", havingValue = "true")
 public class LocalResourceConfig implements WebMvcConfigurer {
 
     private final StorageProperties storageProperties;

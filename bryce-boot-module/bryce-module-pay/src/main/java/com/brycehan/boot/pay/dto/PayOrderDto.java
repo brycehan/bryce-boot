@@ -78,12 +78,6 @@ public class PayOrderDto implements Serializable {
     private String orderStatus;
 
     /**
-     * 租户ID
-     */
-    @Schema(description = "租户ID")
-    private Long tenantId;
-
-    /**
      * 备注
      */
     @Schema(description = "备注")

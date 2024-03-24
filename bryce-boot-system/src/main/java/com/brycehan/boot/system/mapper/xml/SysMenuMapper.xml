@@ -25,8 +25,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id
-        , name, type, parent_id, url,
+        id, name, type, parent_id, url,
         authority, icon, open_style, sort, remark,
         status, version, deleted, created_user_id, created_time,
         updated_user_id, updated_time
@@ -36,8 +35,8 @@
     <select id="findAuthorityByUserId" resultType="java.lang.String">
         select bsm.authority
         from brc_sys_menu bsm
-                 left join brc_sys_role_menu bsrm on bsm.id = bsrm.menu_id
-                 left join brc_sys_user_role bsur on bsrm.role_id = bsur.role_id
+        left join brc_sys_role_menu bsrm on bsm.id = bsrm.menu_id
+        left join brc_sys_user_role bsur on bsrm.role_id = bsur.role_id
         where bsm.status = '1'
           and bsm.deleted = false
           and bsm.authority is not null

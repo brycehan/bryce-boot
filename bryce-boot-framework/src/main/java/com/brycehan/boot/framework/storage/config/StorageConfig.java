@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @EnableConfigurationProperties(StorageProperties.class)
-@ConditionalOnProperty(prefix = "bryce.storage", value = "enabled")
+@ConditionalOnProperty(name = "bryce.storage.enabled", havingValue = "true")
 public class StorageConfig {
 
     /**

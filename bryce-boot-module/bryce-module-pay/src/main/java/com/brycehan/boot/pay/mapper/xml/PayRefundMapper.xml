@@ -14,7 +14,6 @@
         <result column="refund_status" property="refundStatus" />
         <result column="content_return" property="contentReturn" />
         <result column="content_notify" property="contentNotify" />
-        <result column="tenant_id" property="tenantId" />
         <result column="version" property="version" />
         <result column="deleted" property="deleted" />
         <result column="created_user_id" property="createdUserId" />
@@ -27,7 +26,7 @@
     <sql id="Base_Column_List">
         id, order_no, refund_no, refund_id, total_fee, 
         refund, reason, refund_status, content_return, content_notify, 
-        tenant_id, version, deleted, created_user_id, created_time, 
+        version, deleted, created_user_id, created_time,
         updated_user_id, updated_time
     </sql>
 

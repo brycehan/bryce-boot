@@ -14,7 +14,6 @@
         <result column="email" property="email"/>
         <result column="sort" property="sort"/>
         <result column="status" property="status"/>
-        <result column="tenant_id" property="tenantId"/>
         <result column="version" property="version"/>
         <result column="deleted" property="deleted"/>
         <result column="created_user_id" property="createdUserId"/>
@@ -27,7 +26,7 @@
     <sql id="Base_Column_List">
         id, name, code, parent_id, ancestor,
         leader, contact_number, email, sort, status,
-        tenant_id, version, deleted, created_user_id, created_time,
+        version, deleted, created_user_id, created_time,
         updated_user_id, updated_time
     </sql>
 

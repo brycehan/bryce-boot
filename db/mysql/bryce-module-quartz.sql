@@ -1,14 +1,3 @@
-
--- 初始化-系统字典类型表数据
-INSERT INTO brc_sys_dict_type (id, dict_name, dict_type, sort, status, remark, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (10, '任务分组', 'quartz_job_group', 0, 1, '任务分组列表', null, 1, 0, 1, now(), null, null);
-INSERT INTO brc_sys_dict_type (id, dict_name, dict_type, sort, status, remark, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (11, '任务状态', 'quartz_job_status', 0, 1, '任务状态列表', null, 1, 0, 1, now(), null, null);
-
--- 初始化-系统字典数据表数据
-INSERT INTO brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, sort, status, remark, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (101, '默认', 'DEFAULT', 10, 'success', 1, 1, null, null, 1, 0, 1, now(), null, null);
-INSERT INTO brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, sort, status, remark, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (102, '系统', 'SYSTEM', 10, '', 2, 1, null, null, 1, 0, 1, now(), null, null);
-INSERT INTO brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, sort, status, remark, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (111, '正常', true, 11, 'primary', 1, 1, null, null, 1, 0, 1, now(), null, null);
-INSERT INTO brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, sort, status, remark, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (112, '暂停', false, 11, 'danger', 2, 1, null, null, 1, 0, 1, now(), null, null);
-
 -- 初始化-菜单数据
 -- 二级菜单
 INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (111, '定时任务', 'M', 2, 'quartz/job/index', 'quartz:job:page', 'icon-reloadtime', 0, 1, '定时任务菜单', 1, null, 0, 1, now(), null, null);
@@ -43,7 +32,6 @@ create table brc_quartz_job
     sort            int         default 0         null comment '显示顺序',
     status          tinyint     default 1         null comment '状态（0：暂停，1：正常）',
     remark          varchar(500)                  null comment '备注',
-    tenant_id       bigint                        null comment '租户ID',
     version         int                           null comment '版本号',
     deleted         tinyint     default 0         null comment '删除标识（0：存在，1：已删除）',
     created_user_id bigint                        null comment '创建者ID',
@@ -54,7 +42,7 @@ create table brc_quartz_job
 ) engine InnoDB comment 'quartz 定时任务调度表';
 
 -- 初始化- quartz 定时任务调度表数据
-INSERT INTO brc_quartz_job (id, job_name, job_group, bean_name, method, params, cron_expression, concurrent, sort, status, remark, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1, '测试任务', 'SYSTEM', 'testTaskServiceImpl', 'run', 'test', '0 * * * * ? *', 'N', 0, 0, '', null, 1, 0, 1, now(), null, null);
+INSERT INTO brc_quartz_job (id, job_name, job_group, bean_name, method, params, cron_expression, concurrent, sort, status, remark, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1, '测试任务', 'SYSTEM', 'testTaskServiceImpl', 'run', 'test', '0 * * * * ? *', 'N', 0, 0, '', 1, 0, 1, now(), null, null);
 
 
 -- 2、quartz 定时任务调度日志表

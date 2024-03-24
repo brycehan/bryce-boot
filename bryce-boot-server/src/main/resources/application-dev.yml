@@ -14,7 +14,7 @@ spring: # spring 配置
         master:
           # mysql 8
           driver-class-name: com.mysql.cj.jdbc.Driver
-          url: jdbc:mysql://localhost:3306/bryce_boot?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&nullDatabaseMeansCurrent=true&useServerPrepStmts=true&cachePrepStmts=true
+          url: jdbc:mysql://localhost:3306/bryce_boot?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=UTF-8&nullDatabaseMeansCurrent=true&useServerPrepStmts=true&cachePrepStmts=true
           username: root
           password: root
           # postgresql
@@ -62,5 +62,5 @@ bryce:
 logging:
   level:
     root: info
-    com.brycehan: info
+    com.brycehan.boot.pay: debug
     org.quartz: warn

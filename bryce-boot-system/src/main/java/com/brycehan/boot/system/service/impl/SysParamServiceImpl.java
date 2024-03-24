@@ -122,7 +122,6 @@ public class SysParamServiceImpl extends BaseServiceImpl<SysParamMapper, SysPara
         wrapper.like(StringUtils.isNotEmpty(sysParamPageDto.getParamName()), SysParam::getParamName, sysParamPageDto.getParamName());
         wrapper.like(StringUtils.isNotEmpty(sysParamPageDto.getParamKey()), SysParam::getParamKey, sysParamPageDto.getParamKey());
         wrapper.eq(StringUtils.isNotEmpty(sysParamPageDto.getBuiltIn()), SysParam::getBuiltIn, sysParamPageDto.getBuiltIn());
-        wrapper.eq(Objects.nonNull(sysParamPageDto.getTenantId()), SysParam::getTenantId, sysParamPageDto.getTenantId());
 
         if (sysParamPageDto.getCreatedTimeStart() != null && sysParamPageDto.getCreatedTimeEnd() != null) {
             wrapper.between(SysParam::getCreatedTime, sysParamPageDto.getCreatedTimeStart(), sysParamPageDto.getCreatedTimeEnd());

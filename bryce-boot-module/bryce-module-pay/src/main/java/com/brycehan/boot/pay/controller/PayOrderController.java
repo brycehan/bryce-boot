@@ -3,14 +3,12 @@ package com.brycehan.boot.pay.controller;
 import com.brycehan.boot.common.base.entity.PageResult;
 import com.brycehan.boot.common.base.http.ResponseResult;
 import com.brycehan.boot.common.base.dto.IdsDto;
-import com.brycehan.boot.common.validator.SaveGroup;
-import com.brycehan.boot.common.validator.UpdateGroup;
 import com.brycehan.boot.framework.operatelog.annotation.OperateLog;
 import com.brycehan.boot.framework.operatelog.annotation.OperateType;
 import com.brycehan.boot.pay.convert.PayOrderConvert;
-import com.brycehan.boot.pay.dto.PayOrderDto;
 import com.brycehan.boot.pay.dto.PayOrderPageDto;
 import com.brycehan.boot.pay.entity.PayOrder;
+import com.brycehan.boot.pay.enums.OrderStatus;
 import com.brycehan.boot.pay.service.PayOrderService;
 import com.brycehan.boot.pay.vo.PayOrderVo;
 import io.swagger.v3.oas.annotations.Operation;
@@ -34,36 +32,6 @@ import org.springframework.web.bind.annotation.*;
 public class PayOrderController {
 
     private final PayOrderService payOrderService;
-
-    /**
-     * 保存订单
-     *
-     * @param payOrderDto 订单Dto
-     * @return 响应结果
-     */
-    @Operation(summary = "保存订单")
-    @OperateLog(type = OperateType.INSERT)
-    @PreAuthorize("hasAuthority('pay:order:save')")
-    @PostMapping
-    public ResponseResult<Void> save(@Validated(value = SaveGroup.class) @RequestBody PayOrderDto payOrderDto) {
-        this.payOrderService.save(payOrderDto);
-        return ResponseResult.ok();
-    }
-
-    /**
-     * 更新订单
-     *
-     * @param payOrderDto 订单Dto
-     * @return 响应结果
-     */
-    @Operation(summary = "更新订单")
-    @OperateLog(type = OperateType.UPDATE)
-    @PreAuthorize("hasAuthority('pay:order:update')")
-    @PutMapping
-    public ResponseResult<Void> update(@Validated(value = UpdateGroup.class) @RequestBody PayOrderDto payOrderDto) {
-        this.payOrderService.update(payOrderDto);
-        return ResponseResult.ok();
-    }
 
     /**
      * 删除订单
@@ -118,6 +86,41 @@ public class PayOrderController {
     @PostMapping(path = "/export")
     public void export(@Validated @RequestBody PayOrderPageDto payOrderPageDto) {
         this.payOrderService.export(payOrderPageDto);
+    }
+
+    /**
+     * 用户订单分页查询
+     *
+     * @param payOrderPageDto 查询条件
+     * @return 订单分页列表
+     */
+    @Operation(summary = "用户订单分页查询")
+    @PreAuthorize("hasAuthority('pay:order:userPage')")
+    @PostMapping(path = "/page/user")
+    public ResponseResult<PageResult<PayOrderVo>> userPage(@Validated @RequestBody PayOrderPageDto payOrderPageDto) {
+        PageResult<PayOrderVo> page = this.payOrderService.userPage(payOrderPageDto);
+        return ResponseResult.ok(page);
+    }
+
+    /**
+     * 查询本地订单状态
+     *
+     * @param orderNo 订单号
+     * @return 订单状态
+     */
+    @Operation(summary = "查询本地订单状态")
+    @PostMapping(path = "/queryOrderStatus/{orderNo}")
+    public ResponseResult<Object> queryOrderStatus(@PathVariable String orderNo) {
+        String orderStatus = this.payOrderService.getOrderStatus(orderNo);
+
+        if(OrderStatus.SUCCESS.getType().equals(orderStatus)){
+            return ResponseResult.ok().setMessage("支付成功");
+        }
+
+        // 支付成功外的其它状态
+        return ResponseResult.ok()
+                .setCode(601)
+                .setMessage(orderStatus);
     }
 
 }

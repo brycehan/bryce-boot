@@ -24,10 +24,4 @@ public class PayRefundPageDto extends BasePageDto {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 租户ID
-     */
-    @Schema(description = "租户ID")
-    private Long tenantId;
-
 }

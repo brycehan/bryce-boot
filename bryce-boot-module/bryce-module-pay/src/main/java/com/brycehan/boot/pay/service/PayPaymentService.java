@@ -8,6 +8,9 @@ import com.brycehan.boot.pay.dto.PayPaymentDto;
 import com.brycehan.boot.pay.dto.PayPaymentPageDto;
 import com.brycehan.boot.pay.entity.PayPayment;
 import com.brycehan.boot.pay.vo.PayPaymentVo;
+import com.wechat.pay.java.service.payments.model.Transaction;
+
+import java.util.Map;
 
 /**
  * 支付记录服务
@@ -53,4 +56,16 @@ public interface PayPaymentService extends BaseService<PayPayment> {
      */
     void export(PayPaymentPageDto payPaymentPageDto);
 
+    /**
+     * 记录支付日志——微信
+     *
+     * @param transaction 支付参数
+     */
+    void createPayment(Transaction transaction);
+
+    /**
+     * 记录支付日志——支付宝
+     * @param params 支付参数
+     */
+    void createPayment(Map<String, String> params);
 }

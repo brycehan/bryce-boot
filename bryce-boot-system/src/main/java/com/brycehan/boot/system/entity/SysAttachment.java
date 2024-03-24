@@ -56,9 +56,4 @@ public class SysAttachment extends BaseEntity {
      */
     private String platform;
 
-    /**
-     * 租户ID
-     */
-    private Long tenantId;
-
 }

@@ -110,11 +110,6 @@ public class SysOperateLog implements Serializable {
     private Long orgId;
 
     /**
-     * 租户ID
-     */
-    private Long tenantId;
-
-    /**
      * 创建时间
      */
     @TableField(fill = FieldFill.INSERT)

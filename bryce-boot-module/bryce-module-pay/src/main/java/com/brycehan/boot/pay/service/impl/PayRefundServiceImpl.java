@@ -1,23 +1,34 @@
 package com.brycehan.boot.pay.service.impl;
 
-import com.brycehan.boot.common.util.DateTimeUtils;
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.brycehan.boot.common.base.entity.PageResult;
-import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
+import com.brycehan.boot.common.base.id.IdGenerator;
+import com.brycehan.boot.common.util.DateTimeUtils;
 import com.brycehan.boot.common.util.ExcelUtils;
+import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
+import com.brycehan.boot.pay.OrderNoUtils;
 import com.brycehan.boot.pay.convert.PayRefundConvert;
 import com.brycehan.boot.pay.dto.PayRefundPageDto;
+import com.brycehan.boot.pay.entity.PayOrder;
 import com.brycehan.boot.pay.entity.PayRefund;
-import com.brycehan.boot.pay.vo.PayRefundVo;
-import com.brycehan.boot.pay.service.PayRefundService;
+import com.brycehan.boot.pay.enums.AlipayTradeState;
+import com.brycehan.boot.pay.enums.OrderStatus;
 import com.brycehan.boot.pay.mapper.PayRefundMapper;
-import java.util.Objects;
-import org.springframework.stereotype.Service;
+import com.brycehan.boot.pay.service.PayOrderService;
+import com.brycehan.boot.pay.service.PayRefundService;
+import com.brycehan.boot.pay.vo.PayRefundVo;
+import com.wechat.pay.java.service.refund.model.Refund;
+import com.wechat.pay.java.service.refund.model.RefundNotification;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 
 /**
@@ -29,6 +40,8 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class PayRefundServiceImpl extends BaseServiceImpl<PayRefundMapper, PayRefund> implements PayRefundService {
+
+    private final PayOrderService payOrderService;
 
     @Override
     public PageResult<PayRefundVo> page(PayRefundPageDto payRefundPageDto) {
@@ -44,7 +57,6 @@ public class PayRefundServiceImpl extends BaseServiceImpl<PayRefundMapper, PayRe
      */
     private Wrapper<PayRefund> getWrapper(PayRefundPageDto payRefundPageDto){
         LambdaQueryWrapper<PayRefund> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(Objects.nonNull(payRefundPageDto.getTenantId()), PayRefund::getTenantId, payRefundPageDto.getTenantId());
         return wrapper;
     }
 
@@ -53,6 +65,87 @@ public class PayRefundServiceImpl extends BaseServiceImpl<PayRefundMapper, PayRe
         List<PayRefund> payRefundList = this.baseMapper.selectList(getWrapper(payRefundPageDto));
         List<PayRefundVo> payRefundVoList = PayRefundConvert.INSTANCE.convert(payRefundList);
         ExcelUtils.export(PayRefundVo.class, "退款单_".concat(DateTimeUtils.today()), "退款单", payRefundVoList);
+    }
+
+    @Override
+    public PayRefund createRefundByOrderNo(String orderNo, String reason) {
+        // 根据订单号获取订单信息
+        PayOrder payOrder = this.payOrderService.getOrderByOrderNo(orderNo);
+
+        // 暂时只支付全额退款
+        // 已经退了款，或不能退款
+        if(!OrderStatus.SUCCESS.getType().equals(payOrder.getOrderStatus())) {
+            return null;
+        }
+
+        // 根据订单号生成退款单
+        PayRefund payRefund = new PayRefund();
+        payRefund.setId(IdGenerator.nextId());
+        payRefund.setOrderNo(orderNo); // 订单号
+        payRefund.setRefundNo(OrderNoUtils.getRefundNo()); // 退款单号
+        payRefund.setTotalFee(payOrder.getTotalFee()); // 原订单金额（分）
+        payRefund.setRefund(payOrder.getTotalFee()); // 退款金额（分）
+        payRefund.setReason(reason); // 退款原因
+
+        // 保存退款单
+        this.baseMapper.insert(payRefund);
+
+        return payRefund;
+    }
+
+    @Override
+    public void updateRefund(Refund refund) {
+        // 根据商户退款单号修改退款单
+        LambdaQueryWrapper<PayRefund> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(PayRefund::getRefundNo, refund.getOutRefundNo());
+
+        // 设置要修改的字段
+        PayRefund payRefund = new PayRefund();
+        payRefund.setRefundId(refund.getRefundId());
+        payRefund.setRefundStatus(refund.getStatus().name()); // 退款状态
+        // 查询退款和申请退款中的返回参数
+        payRefund.setContentReturn(JSONUtil.toJsonStr(refund));
+
+        // 更新退款单
+        this.baseMapper.update(payRefund, queryWrapper);
+    }
+
+    @Override
+    public void updateRefund(RefundNotification refundNotification) {
+        // 根据商户退款单号修改退款单
+        LambdaQueryWrapper<PayRefund> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(PayRefund::getRefundNo, refundNotification.getOutRefundNo());
+
+        // 设置要修改的字段
+        PayRefund payRefund = new PayRefund();
+        payRefund.setRefundId(refundNotification.getRefundId());
+        payRefund.setRefundStatus(refundNotification.getRefundStatus().name()); // 退款状态
+        // 退款通知回调中的参数
+        payRefund.setContentNotify(JSONUtil.toJsonStr(refundNotification));
+
+        // 更新退款单
+        this.baseMapper.update(payRefund, queryWrapper);
+    }
+
+    @Override
+    public void updateRefund(String refundNo, String body, AlipayTradeState alipayTradeState) {
+
+        // 根据退款单号修改退款单
+        LambdaQueryWrapper<PayRefund> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(PayRefund::getRefundNo, refundNo);
+
+        HashMap bodyMap = JSONUtil.toBean(body, HashMap.class);
+        JSONObject alipayTradeRefundResponse = (JSONObject) bodyMap.get("alipay_trade_refund_response");
+        String tradeNo = (String) alipayTradeRefundResponse.get("trade_no"); // 支付宝交易号
+
+        // 设置要修改的字段
+        PayRefund payRefund = new PayRefund();
+        payRefund.setRefundId(tradeNo);
+        payRefund.setRefundStatus(alipayTradeState.getValue());
+        payRefund.setContentReturn(body);
+
+        // 更新退款单
+        this.baseMapper.update(payRefund, queryWrapper);
     }
 
 }

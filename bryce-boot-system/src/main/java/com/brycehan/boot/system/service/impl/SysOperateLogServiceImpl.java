@@ -62,7 +62,6 @@ public class SysOperateLogServiceImpl extends BaseServiceImpl<SysOperateLogMappe
         LambdaQueryWrapper<SysOperateLog> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(Objects.nonNull(sysOperateLogPageDto.getStatus()), SysOperateLog::getStatus, sysOperateLogPageDto.getStatus());
         wrapper.eq(Objects.nonNull(sysOperateLogPageDto.getOrgId()), SysOperateLog::getOrgId, sysOperateLogPageDto.getOrgId());
-        wrapper.eq(Objects.nonNull(sysOperateLogPageDto.getTenantId()), SysOperateLog::getTenantId, sysOperateLogPageDto.getTenantId());
 
         if (sysOperateLogPageDto.getCreatedTimeStart() != null && sysOperateLogPageDto.getCreatedTimeEnd() != null) {
             wrapper.between(SysOperateLog::getCreatedTime, sysOperateLogPageDto.getCreatedTimeStart(), sysOperateLogPageDto.getCreatedTimeEnd());

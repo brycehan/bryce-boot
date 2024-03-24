@@ -26,7 +26,6 @@ create table bryce_boot.brc_wechat_app
     type            varchar(10) default 'mp'    not null,
     token           varchar(100),
     redirect_url    varchar(500),
-    tenant_id       bigint,
     status          boolean     default true    not null,
     remark          varchar(500),
     version         integer                     not null,
@@ -45,7 +44,6 @@ comment on column bryce_boot.brc_wechat_app.app_secret is '应用密钥';
 comment on column bryce_boot.brc_wechat_app.type is '类型（mp：微信公众号，ma：微信小程序）';
 comment on column bryce_boot.brc_wechat_app.token is '令牌';
 comment on column bryce_boot.brc_wechat_app.redirect_url is '重定向地址';
-comment on column bryce_boot.brc_wechat_app.tenant_id is '租户ID';
 comment on column bryce_boot.brc_wechat_app.status is '状态（false：停用，true：正常）';
 comment on column bryce_boot.brc_wechat_app.remark is '备注';
 comment on column bryce_boot.brc_wechat_app.version is '版本号';

@@ -107,7 +107,6 @@ public class OperateLogAspect {
             operateLogDto.setUserId(currentUser.getId());
             operateLogDto.setUsername(currentUser.getUsername());
             operateLogDto.setOrgId(currentUser.getOrgId());
-            operateLogDto.setTenantId(currentUser.getTenantId());
         }
 
         // 操作类型

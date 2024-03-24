@@ -43,10 +43,4 @@ public class SysAttachmentPageDto extends BasePageDto {
     @Size(max = 50)
     private String platform;
 
-    /**
-     * 租户ID
-     */
-    @Schema(description = "租户ID")
-    private Long tenantId;
-
 }

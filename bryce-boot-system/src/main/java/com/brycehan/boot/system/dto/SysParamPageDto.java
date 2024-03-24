@@ -44,12 +44,6 @@ public class SysParamPageDto extends BasePageDto {
     private String builtIn;
 
     /**
-     * 租户ID
-     */
-    @Schema(description = "租户ID")
-    private Long tenantId;
-
-    /**
      * 创建时间开始
      */
     @Schema(description = "创建时间开始")

@@ -116,7 +116,6 @@ public class QuartzJobServiceImpl extends BaseServiceImpl<QuartzJobMapper, Quart
         wrapper.like(StringUtils.isNotEmpty(quartzJobPageDto.getJobName()), QuartzJob::getJobName, quartzJobPageDto.getJobName());
         wrapper.eq(StringUtils.isNotEmpty(quartzJobPageDto.getJobGroup()), QuartzJob::getJobGroup, quartzJobPageDto.getJobGroup());
         wrapper.eq(Objects.nonNull(quartzJobPageDto.getStatus()), QuartzJob::getStatus, quartzJobPageDto.getStatus());
-        wrapper.eq(Objects.nonNull(quartzJobPageDto.getTenantId()), QuartzJob::getTenantId, quartzJobPageDto.getTenantId());
 
         return wrapper;
     }

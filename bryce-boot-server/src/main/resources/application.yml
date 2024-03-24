@@ -3,7 +3,7 @@ spring:
   application:
     name: bryce-boot  # 应用名称
   profiles:
-    include: bryce,sms
+    include: bryce,sms,pay
     active: dev   # 环境 dev|test|prod
   # Jackson 配置
   jackson:
@@ -32,17 +32,12 @@ server:
     threads:
       max: 1000
       min-spare: 30
-  # undertow 容器
-#  undertow:
-#    threads:
-#      # 工作线程数
-#      worker: 1000
 
 # 接口文档
 knife4j:
   enable: true
   basic:
-    enable: true
+    enable: false # 开启登录
     username: swagger
     password: 123456
 
@@ -55,8 +50,8 @@ mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true
     cache-enabled: false
-    call-setters-on-nulls: true
-    jdbc-type-for-null: 'null'
+#    call-setters-on-nulls: true
+#    jdbc-type-for-null: 'null'
   # 全局配置
   global-config:
     banner: false

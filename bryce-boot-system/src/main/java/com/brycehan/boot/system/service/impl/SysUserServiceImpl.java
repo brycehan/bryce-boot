@@ -83,7 +83,6 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         sysUser.setPassword(passwordEncoder.encode(sysUserDto.getPassword()));
         sysUser.setId(IdGenerator.nextId());
         sysUser.setSuperAdmin(false);
-        sysUser.setTenantAdmin(false);
 
         // 保存用户
         this.baseMapper.insert(sysUser);
@@ -166,7 +165,6 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         params.put("type", sysUserPageDto.getType());
         params.put("orgId", sysUserPageDto.getOrgId());
         params.put("status", sysUserPageDto.getStatus());
-        params.put("tenantId", sysUserPageDto.getTenantId());
         params.put("createdTimeStart", sysUserPageDto.getCreatedTimeStart());
         params.put("createdTimeEnd", sysUserPageDto.getCreatedTimeEnd());
 
@@ -188,7 +186,6 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         wrapper.eq(Objects.nonNull(sysUserPageDto.getType()), SysUser::getType, sysUserPageDto.getType());
         wrapper.eq(Objects.nonNull(sysUserPageDto.getOrgId()), SysUser::getOrgId, sysUserPageDto.getOrgId());
         wrapper.eq(Objects.nonNull(sysUserPageDto.getStatus()), SysUser::getStatus, sysUserPageDto.getStatus());
-        wrapper.eq(Objects.nonNull(sysUserPageDto.getTenantId()), SysUser::getTenantId, sysUserPageDto.getTenantId());
         wrapper.like(StringUtils.isNotEmpty(sysUserPageDto.getUsername()), SysUser::getUsername, sysUserPageDto.getUsername());
         wrapper.like(StringUtils.isNotEmpty(sysUserPageDto.getPhone()), SysUser::getPhone, sysUserPageDto.getPhone());
 

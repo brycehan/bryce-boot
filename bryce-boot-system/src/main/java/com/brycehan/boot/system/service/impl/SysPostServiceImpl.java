@@ -68,7 +68,6 @@ public class SysPostServiceImpl extends BaseServiceImpl<SysPostMapper, SysPost> 
     private Wrapper<SysPost> getWrapper(SysPostPageDto sysPostPageDto) {
         LambdaQueryWrapper<SysPost> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(Objects.nonNull(sysPostPageDto.getStatus()), SysPost::getStatus, sysPostPageDto.getStatus());
-        wrapper.eq(Objects.nonNull(sysPostPageDto.getTenantId()), SysPost::getTenantId, sysPostPageDto.getTenantId());
         wrapper.like(StringUtils.isNotEmpty(sysPostPageDto.getName()), SysPost::getName, sysPostPageDto.getName());
         wrapper.like(StringUtils.isNotEmpty(sysPostPageDto.getCode()), SysPost::getCode, sysPostPageDto.getCode());
 

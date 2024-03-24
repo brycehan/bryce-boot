@@ -30,9 +30,4 @@ public class PayProduct extends BaseEntity {
      */
     private Integer price;
 
-    /**
-     * 租户ID
-     */
-    private Long tenantId;
-
 }

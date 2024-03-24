@@ -44,7 +44,6 @@ public class PayProductServiceImpl extends BaseServiceImpl<PayProductMapper, Pay
      */
     private Wrapper<PayProduct> getWrapper(PayProductPageDto payProductPageDto){
         LambdaQueryWrapper<PayProduct> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(Objects.nonNull(payProductPageDto.getTenantId()), PayProduct::getTenantId, payProductPageDto.getTenantId());
         return wrapper;
     }
 

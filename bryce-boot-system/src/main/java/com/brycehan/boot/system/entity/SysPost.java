@@ -46,9 +46,4 @@ public class SysPost extends BaseEntity {
      */
     private String remark;
 
-    /**
-     * 租户ID
-     */
-    private Long tenantId;
-
 }

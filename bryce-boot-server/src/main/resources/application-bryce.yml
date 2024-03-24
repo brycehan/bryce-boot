@@ -57,6 +57,10 @@ bryce:
     ignore-urls:
       all:
         - /generator-ui/**
+        - /pay/alipay/trade/notify
+        - /pay/wechatPay/native/notify
+        - /pay/wechatPay/refund/notify
+        - /pay/product
       get:
         - /
         - /error

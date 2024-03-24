@@ -45,7 +45,6 @@ public class SysAttachmentServiceImpl extends BaseServiceImpl<SysAttachmentMappe
     private Wrapper<SysAttachment> getWrapper(SysAttachmentPageDto sysAttachmentPageDto) {
         LambdaQueryWrapper<SysAttachment> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(StringUtils.isNotEmpty(sysAttachmentPageDto.getType()), SysAttachment::getType, sysAttachmentPageDto.getType());
-        wrapper.eq(Objects.nonNull(sysAttachmentPageDto.getTenantId()), SysAttachment::getTenantId, sysAttachmentPageDto.getTenantId());
         wrapper.like(StringUtils.isNotEmpty(sysAttachmentPageDto.getName()), SysAttachment::getName, sysAttachmentPageDto.getName());
         wrapper.like(StringUtils.isNotEmpty(sysAttachmentPageDto.getPlatform()), SysAttachment::getPlatform, sysAttachmentPageDto.getPlatform());
 

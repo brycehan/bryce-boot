@@ -33,10 +33,4 @@ public class SysDictDataPageDto extends BasePageDto {
     @Schema(description = "状态（0：停用，1：正常）")
     private Boolean status;
 
-    /**
-     * 租户ID
-     */
-    @Schema(description = "租户ID")
-    private Long tenantId;
-
 }

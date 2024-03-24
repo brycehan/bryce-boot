@@ -66,9 +66,4 @@ public class SysOrg extends BaseEntity {
      */
     private Boolean status;
 
-    /**
-     * 租户ID
-     */
-    private Long tenantId;
-
 }

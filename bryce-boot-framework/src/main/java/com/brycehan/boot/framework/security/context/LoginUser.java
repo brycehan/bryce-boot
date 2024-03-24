@@ -52,8 +52,6 @@ public class LoginUser implements UserDetails {
 
     private Boolean superAdmin;
 
-    private Long tenantId;
-
     /**
      * 用户令牌存储Key
      */

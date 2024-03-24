@@ -12,7 +12,6 @@
         <result column="status" property="status"/>
         <result column="remark" property="remark"/>
         <result column="org_id" property="orgId"/>
-        <result column="tenant_id" property="tenantId"/>
         <result column="version" property="version"/>
         <result column="deleted" property="deleted"/>
         <result column="created_user_id" property="createdUserId"/>
@@ -24,14 +23,14 @@
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, name, code, data_scope, sort,
-        status, remark, org_id, tenant_id, version,
+        status, remark, org_id, version,
         deleted, created_user_id, created_time, updated_user_id, updated_time
     </sql>
 
     <select id="getDataScopeByUserId" resultType="integer">
         select min(bsr.data_scope)
         from brc_sys_role bsr
-                 left join brc_sys_user_role bsur on bsr.id = bsur.role_id
+        left join brc_sys_user_role bsur on bsr.id = bsur.role_id
         where bsr.deleted = false
           and bsr.status = true
           and bsur.deleted = false
@@ -42,7 +41,7 @@
     <select id="getRoleCodeByUserId" resultType="java.lang.String">
         select code
         from brc_sys_role sr
-                 left join brc_sys_user_role sur on sr.id = sur.role_id
+        left join brc_sys_user_role sur on sr.id = sur.role_id
         where sr.deleted = false
           and sur.user_id = #{userId}
     </select>

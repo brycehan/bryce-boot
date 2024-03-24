@@ -31,6 +31,11 @@ public class PayOrder extends BaseEntity {
     private String orderNo;
 
     /**
+     * 支付类型
+     */
+    private String paymentType;
+
+    /**
      * 用户id
      */
     private Long userId;
@@ -54,11 +59,6 @@ public class PayOrder extends BaseEntity {
      * 订单状态
      */
     private String orderStatus;
-
-    /**
-     * 租户ID
-     */
-    private Long tenantId;
 
     /**
      * 备注

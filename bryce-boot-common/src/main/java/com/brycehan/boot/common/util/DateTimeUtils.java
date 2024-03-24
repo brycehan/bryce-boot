@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * 日期时间工具类
@@ -16,6 +17,8 @@ import java.util.Date;
 public class DateTimeUtils {
 
     public static final String yyyy_MM_dd = "yyyy_MM_dd";
+
+    public final DateTimeFormatter DATETIME_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withLocale(Locale.SIMPLIFIED_CHINESE).withZone(ZoneOffset.of("Asia/Shanghai"));
 
     /**
      * 日期类型转换

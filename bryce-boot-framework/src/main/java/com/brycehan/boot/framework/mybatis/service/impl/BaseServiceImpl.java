@@ -62,12 +62,14 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<M, 
 
         // 无参数时，若有sort字段，默认按sort排序升序
         if (CollectionUtils.isEmpty(orderItems) && hasEntityField(pageDto.getClass(), DataConstants.DEFAULT_SORT_COLUMN)) {
-            orderItems.add(new OrderItem(DataConstants.DEFAULT_SORT_COLUMN, DataConstants.DEFAULT_SORT_IS_ASC));
+            OrderItem orderItem = new OrderItem().setColumn(DataConstants.DEFAULT_SORT_COLUMN).setAsc(DataConstants.DEFAULT_SORT_IS_ASC);
+            orderItems.add(orderItem);
         }
 
         // 默认按id降序排序
         if (CollectionUtils.isEmpty(orderItems)) {
-            orderItems.add(new OrderItem("id", false));
+            OrderItem orderItem = new OrderItem().setColumn("id").setAsc(false);
+            orderItems.add(orderItem);
         }
 
         page.addOrder(orderItems);

@@ -37,10 +37,4 @@ public class OnlineUserPageDto extends BasePageDto {
     @Size(max = 20)
     private String phone;
 
-    /**
-     * 租户ID
-     */
-    @Schema(description = "租户ID")
-    private Long tenantId;
-
 }

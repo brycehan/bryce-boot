@@ -65,9 +65,4 @@ public class PayRefund extends BaseEntity {
      */
     private String contentNotify;
 
-    /**
-     * 租户ID
-     */
-    private Long tenantId;
-
 }

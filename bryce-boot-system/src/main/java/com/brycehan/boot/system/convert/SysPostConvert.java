@@ -16,7 +16,7 @@ import java.util.List;
  * @author Bryce Han
  */
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public abstract class SysPostConvert {
+public interface SysPostConvert {
 
     public static final SysPostConvert INSTANCE = Mappers.getMapper(SysPostConvert.class);
 

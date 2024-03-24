@@ -53,7 +53,6 @@ public class SysLoginLogServiceImpl extends BaseServiceImpl<SysLoginLogMapper, S
     private Wrapper<SysLoginLog> getWrapper(SysLoginLogPageDto sysLoginLogPageDto) {
         LambdaQueryWrapper<SysLoginLog> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(Objects.nonNull(sysLoginLogPageDto.getStatus()), SysLoginLog::getStatus, sysLoginLogPageDto.getStatus());
-        wrapper.eq(Objects.nonNull(sysLoginLogPageDto.getTenantId()), SysLoginLog::getTenantId, sysLoginLogPageDto.getTenantId());
         wrapper.like(StringUtils.isNotEmpty(sysLoginLogPageDto.getUsername()), SysLoginLog::getUsername, sysLoginLogPageDto.getUsername());
         wrapper.like(StringUtils.isNotEmpty(sysLoginLogPageDto.getIp()), SysLoginLog::getIp, sysLoginLogPageDto.getIp());
 

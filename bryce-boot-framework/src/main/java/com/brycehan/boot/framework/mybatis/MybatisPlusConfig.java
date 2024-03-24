@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerIntercept
 import com.brycehan.boot.framework.mybatis.interceptor.DataScopeInnerInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * MybatisPlus配置
@@ -16,6 +17,7 @@ import org.springframework.context.annotation.Configuration;
  * @author Bryce Han
  */
 @Configuration
+@EnableTransactionManagement
 public class MybatisPlusConfig {
 
     /**

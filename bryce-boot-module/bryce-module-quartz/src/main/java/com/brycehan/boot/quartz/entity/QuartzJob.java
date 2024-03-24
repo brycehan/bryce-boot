@@ -71,9 +71,4 @@ public class QuartzJob extends BaseEntity {
      */
     private String remark;
 
-    /**
-     * 租户ID
-     */
-    private Long tenantId;
-
 }

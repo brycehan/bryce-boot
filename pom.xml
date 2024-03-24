@@ -24,7 +24,7 @@
 		<!-- Swagger 接口文档 -->
 		<knife4j.version>4.3.0</knife4j.version>
 		<!-- Mybatis Plus -->
-		<mybatis-plus.version>3.5.4</mybatis-plus.version>
+		<mybatis-plus.version>3.5.5</mybatis-plus.version>
 		<mybatis-plus-join.version>1.4.7</mybatis-plus-join.version>
 		<dynamic-datasource.version>3.6.1</dynamic-datasource.version>
 		<p6spy.version>3.9.1</p6spy.version>
@@ -61,6 +61,8 @@
 		<okio.version>3.6.0</okio.version>
 		<oshi.version>6.4.6</oshi.version>
 		<binarywang-weixin.version>4.3.0</binarywang-weixin.version>
+		<wechatpay.version>0.2.12</wechatpay.version>
+		<alipay.version>4.39.1.ALL</alipay.version>
 	</properties>
 
 	<!-- 模块 -->
@@ -332,11 +334,15 @@
 				<artifactId>weixin-java-miniapp</artifactId>
 				<version>${binarywang-weixin.version}</version>
 			</dependency>
-			<!-- 微信支付 -->
 			<dependency>
-				<groupId>com.github.binarywang</groupId>
-				<artifactId>weixin-java-pay</artifactId>
-				<version>${binarywang-weixin.version}</version>
+				<groupId>com.github.wechatpay-apiv3</groupId>
+				<artifactId>wechatpay-java</artifactId>
+				<version>${wechatpay.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.alipay.sdk</groupId>
+				<artifactId>alipay-sdk-java</artifactId>
+				<version>${alipay.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

@@ -44,7 +44,6 @@ public class SysDictDataServiceImpl extends BaseServiceImpl<SysDictDataMapper, S
         LambdaQueryWrapper<SysDictData> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(Objects.nonNull(sysDictDataPageDto.getDictTypeId()), SysDictData::getDictTypeId, sysDictDataPageDto.getDictTypeId());
         wrapper.eq(Objects.nonNull(sysDictDataPageDto.getStatus()), SysDictData::getStatus, sysDictDataPageDto.getStatus());
-        wrapper.eq(Objects.nonNull(sysDictDataPageDto.getTenantId()), SysDictData::getTenantId, sysDictDataPageDto.getTenantId());
 
         return wrapper;
     }

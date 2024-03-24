@@ -1,12 +1,12 @@
 -- 初始化-系统字典类型表数据
-INSERT INTO brc_sys_dict_type (id, dict_name, dict_type, sort, status, remark, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (10, '任务分组', 'quartz_job_group', 0, true, '任务分组列表', null, 1, false, 1, now(), null, null);
-INSERT INTO brc_sys_dict_type (id, dict_name, dict_type, sort, status, remark, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (11, '任务状态', 'quartz_job_status', 0, true, '任务状态列表', null, 1, false, 1, now(), null, null);
+INSERT INTO brc_sys_dict_type (id, dict_name, dict_type, sort, status, remark, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (10, '任务分组', 'quartz_job_group', 0, true, '任务分组列表', 1, false, 1, now(), null, null);
+INSERT INTO brc_sys_dict_type (id, dict_name, dict_type, sort, status, remark, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (11, '任务状态', 'quartz_job_status', 0, true, '任务状态列表', 1, false, 1, now(), null, null);
 
 -- 初始化-系统字典数据表数据
-INSERT INTO brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, sort, status, remark, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (101, '默认', 'DEFAULT', 10, 'success', 1, true, null, null, 1, false, 1, now(), null, null);
-INSERT INTO brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, sort, status, remark, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (102, '系统', 'SYSTEM', 10, '', 2, true, null, null, 1, false, 1, now(), null, null);
-INSERT INTO brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, sort, status, remark, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (111, '正常', true, 11, 'primary', 1, true, null, null, 1, false, 1, now(), null, null);
-INSERT INTO brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, sort, status, remark, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (112, '暂停', false, 11, 'danger', 2, true, null, null, 1, false, 1, now(), null, null);
+INSERT INTO brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, sort, status, remark, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (101, '默认', 'DEFAULT', 10, 'success', 1, true, null, 1, false, 1, now(), null, null);
+INSERT INTO brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, sort, status, remark, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (102, '系统', 'SYSTEM', 10, '', 2, true, null, 1, false, 1, now(), null, null);
+INSERT INTO brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, sort, status, remark, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (111, '正常', true, 11, 'primary', 1, true, null, 1, false, 1, now(), null, null);
+INSERT INTO brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, sort, status, remark, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (112, '暂停', false, 11, 'danger', 2, true, null, 1, false, 1, now(), null, null);
 
 -- 初始化-菜单数据
 -- 二级菜单
@@ -42,7 +42,6 @@ create table brc_quartz_job
     sort            integer     default 0,
     status          boolean     default true,
     remark          varchar(500),
-    tenant_id       bigint,
     version         integer,
     deleted         boolean     default false,
     created_user_id bigint,
@@ -63,7 +62,6 @@ comment on column brc_quartz_job.concurrent is '是否并发执行（N：否，Y
 comment on column brc_quartz_job.sort is '显示顺序';
 comment on column brc_quartz_job.status is '状态（0：暂停，1：正常）';
 comment on column brc_quartz_job.remark is '备注';
-comment on column brc_quartz_job.tenant_id is '租户ID';
 comment on column brc_quartz_job.version is '版本号';
 comment on column brc_quartz_job.deleted is '删除标识（0：存在，1：已删除）';
 comment on column brc_quartz_job.created_user_id is '创建者ID';
@@ -72,7 +70,7 @@ comment on column brc_quartz_job.updated_user_id is '修改者ID';
 comment on column brc_quartz_job.updated_time is '修改时间';
 
 -- 初始化- quartz 定时任务调度表数据
-INSERT INTO brc_quartz_job (id, job_name, job_group, bean_name, method, params, cron_expression, concurrent, sort, status, remark, tenant_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1, '测试任务', 'SYSTEM', 'testTaskServiceImpl', 'run', 'test', '0 * * * * ? *', 'N', 0, false, '', null, 1, false, 1, now(), null, null);
+INSERT INTO brc_quartz_job (id, job_name, job_group, bean_name, method, params, cron_expression, concurrent, sort, status, remark, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1, '测试任务', 'SYSTEM', 'testTaskServiceImpl', 'run', 'test', '0 * * * * ? *', 'N', 0, false, '', 1, false, 1, now(), null, null);
 
 -- 2、quartz 定时任务调度日志表
 drop table if exists brc_quartz_job_log;

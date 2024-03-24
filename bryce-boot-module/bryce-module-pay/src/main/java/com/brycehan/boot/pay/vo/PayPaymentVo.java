@@ -71,12 +71,6 @@ public class PayPaymentVo implements Serializable {
     private String content;
 
     /**
-     * 租户ID
-     */
-    @Schema(description = "租户ID")
-    private Long tenantId;
-
-    /**
      * 创建时间
      */
     @Schema(description = "创建时间")

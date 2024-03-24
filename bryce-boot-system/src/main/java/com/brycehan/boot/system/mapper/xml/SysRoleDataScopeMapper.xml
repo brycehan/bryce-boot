@@ -17,15 +17,14 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id
-        , role_id, org_id, version, deleted,
+        id, role_id, org_id, version, deleted,
         created_user_id, created_time, updated_user_id, updated_time
     </sql>
 
     <select id="getDataScopeOrgIds" resultType="long">
         select bsrds.org_id
         from brc_sys_user_role bsur
-                 left join brc_sys_role_data_scope bsrds on bsur.role_id = bsrds.role_id
+        left join brc_sys_role_data_scope bsrds on bsur.role_id = bsrds.role_id
         where bsur.deleted = false
           and bsrds.deleted = false
           and bsur.user_id = #{userId}

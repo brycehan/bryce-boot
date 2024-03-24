@@ -7,7 +7,10 @@ import com.brycehan.boot.pay.convert.PayRefundConvert;
 import com.brycehan.boot.pay.dto.PayRefundDto;
 import com.brycehan.boot.pay.dto.PayRefundPageDto;
 import com.brycehan.boot.pay.entity.PayRefund;
+import com.brycehan.boot.pay.enums.AlipayTradeState;
 import com.brycehan.boot.pay.vo.PayRefundVo;
+import com.wechat.pay.java.service.refund.model.Refund;
+import com.wechat.pay.java.service.refund.model.RefundNotification;
 
 /**
  * 退款单服务
@@ -52,5 +55,37 @@ public interface PayRefundService extends BaseService<PayRefund> {
      * @param payRefundPageDto 退款单查询条件
      */
     void export(PayRefundPageDto payRefundPageDto);
+
+    /**
+     * 根据订单号创建退款订单
+     *
+     * @param orderNo 订单号
+     * @param reason 退款原因
+     * @return 退款单
+     */
+    PayRefund createRefundByOrderNo(String orderNo, String reason);
+
+    /**
+     * 记录退款记录
+     *
+     * @param refund 微信退款返回参数
+     */
+    void updateRefund(Refund refund);
+
+    /**
+     * 记录退款记录
+     *
+     * @param refundNotification 微信退款通知返回参数
+     */
+    void updateRefund(RefundNotification refundNotification);
+
+    /**
+     * 支付宝更新退款单
+     *
+     * @param refundNo 退款单号
+     * @param body 响应体
+     * @param alipayTradeState 交易状态
+     */
+    void updateRefund(String refundNo, String body, AlipayTradeState alipayTradeState);
 
 }

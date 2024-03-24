@@ -21,17 +21,15 @@
         <result column="user_id" property="userId"/>
         <result column="username" property="username"/>
         <result column="org_id" property="orgId"/>
-        <result column="tenant_id" property="tenantId"/>
         <result column="created_time" property="createdTime"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id
-        , name, module_name, request_uri, request_method,
+        id, name, module_name, request_uri, request_method,
         request_param, result_message, operated_type, operated_time, duration, 
         status, user_agent, ip, location, user_id, 
-        username, org_id, tenant_id, created_time
+        username, org_id, created_time
     </sql>
 
 </mapper>

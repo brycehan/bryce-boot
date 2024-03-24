@@ -66,12 +66,6 @@ public class SysNoticeVo implements Serializable, TransPojo {
     private String remark;
 
     /**
-     * 租户ID
-     */
-    @Schema(description = "租户ID")
-    private Long tenantId;
-
-    /**
      * 创建者ID
      */
     @Trans(type = TransType.SIMPLE, target = SysUser.class, fields = "username", ref = "createdUsername")

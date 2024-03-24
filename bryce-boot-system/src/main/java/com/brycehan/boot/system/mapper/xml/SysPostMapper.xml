@@ -10,7 +10,6 @@
         <result column="sort" property="sort"/>
         <result column="status" property="status"/>
         <result column="remark" property="remark"/>
-        <result column="tenant_id" property="tenantId"/>
         <result column="version" property="version"/>
         <result column="deleted" property="deleted"/>
         <result column="created_user_id" property="createdUserId"/>
@@ -22,7 +21,7 @@
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, name, code, sort, status,
-        remark, tenant_id, version, deleted, created_user_id, 
+        remark, version, deleted, created_user_id,
         created_time, updated_user_id, updated_time
     </sql>
 

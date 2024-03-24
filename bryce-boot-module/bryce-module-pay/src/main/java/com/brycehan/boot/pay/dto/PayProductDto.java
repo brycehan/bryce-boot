@@ -44,10 +44,4 @@ public class PayProductDto implements Serializable {
     @Schema(description = "价格（分）")
     private Integer price;
 
-    /**
-     * 租户ID
-     */
-    @Schema(description = "租户ID")
-    private Long tenantId;
-
 }

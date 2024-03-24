@@ -16,13 +16,11 @@
         <result column="sort" property="sort"/>
         <result column="org_id" property="orgId"/>
         <result column="super_admin" property="superAdmin"/>
-        <result column="tenant_admin" property="tenantAdmin"/>
         <result column="status" property="status"/>
         <result column="remark" property="remark"/>
         <result column="account_non_locked" property="accountNonLocked"/>
         <result column="last_login_ip" property="lastLoginIp"/>
         <result column="last_login_time" property="lastLoginTime"/>
-        <result column="tenant_id" property="tenantId"/>
         <result column="version" property="version"/>
         <result column="deleted" property="deleted"/>
         <result column="created_user_id" property="createdUserId"/>
@@ -35,8 +33,8 @@
     <sql id="Base_Column_List">
         id, username, password, full_name, avatar,
         gender, type, phone, email, sort,
-        org_id, super_admin, tenant_admin, status, remark,
-        account_non_locked, last_login_ip, last_login_time, tenant_id, version,
+        org_id, super_admin, status, remark,
+        account_non_locked, last_login_ip, last_login_time, version,
         deleted, created_user_id, created_time, updated_user_id, updated_time
     </sql>
 
@@ -79,12 +77,6 @@
         </if>
         <if test="status != null">
             and bsu.status = #{status}
-        </if>
-        <if test="tenantId != null">
-            and bsu.tenant_id = #{tenantId}
-        </if>
-        <if test="tenantId != null">
-            and bsu.tenant_id = #{tenantId}
         </if>
         <choose>
             <when test="createdTimeStart != null and createdTimeEnd != null">

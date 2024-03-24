@@ -29,12 +29,6 @@ public class SysOrgPageDto extends BasePageDto {
     private Boolean status;
 
     /**
-     * 租户ID
-     */
-    @Schema(description = "租户ID")
-    private Long tenantId;
-
-    /**
      * 机构名称
      */
     @Schema(description = "机构名称")

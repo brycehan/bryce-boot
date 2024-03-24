@@ -92,10 +92,4 @@ public class PayRefundDto implements Serializable {
     @Size(max = 65535, groups = {SaveGroup.class, UpdateGroup.class})
     private String contentNotify;
 
-    /**
-     * 租户ID
-     */
-    @Schema(description = "租户ID")
-    private Long tenantId;
-
 }

@@ -59,7 +59,6 @@ public class SysDictTypeServiceImpl extends BaseServiceImpl<SysDictTypeMapper, S
     private Wrapper<SysDictType> getWrapper(SysDictTypePageDto sysDictTypePageDto) {
         LambdaQueryWrapper<SysDictType> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(Objects.nonNull(sysDictTypePageDto.getStatus()), SysDictType::getStatus, sysDictTypePageDto.getStatus());
-        wrapper.eq(Objects.nonNull(sysDictTypePageDto.getTenantId()), SysDictType::getTenantId, sysDictTypePageDto.getTenantId());
         wrapper.like(StringUtils.isNotEmpty(sysDictTypePageDto.getDictName()), SysDictType::getDictName, sysDictTypePageDto.getDictName());
         wrapper.like(StringUtils.isNotEmpty(sysDictTypePageDto.getDictType()), SysDictType::getDictType, sysDictTypePageDto.getDictType());
 

@@ -128,12 +128,6 @@ public class SysUserVo implements Serializable, TransPojo {
     private String remark;
 
     /**
-     * 租户ID
-     */
-    @Schema(description = "租户ID")
-    private Long tenantId;
-
-    /**
      * 创建时间
      */
     @ColumnWidth(20)

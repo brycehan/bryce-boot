@@ -84,10 +84,4 @@ public class SysLoginLogDto implements Serializable {
     @Schema(description = "访问时间")
     private LocalDateTime accessTime;
 
-    /**
-     * 租户ID
-     */
-    @Schema(description = "租户ID")
-    private Long tenantId;
-
 }

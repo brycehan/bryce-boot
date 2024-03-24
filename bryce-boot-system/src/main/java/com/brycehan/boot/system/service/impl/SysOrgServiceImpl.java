@@ -98,7 +98,6 @@ public class SysOrgServiceImpl extends BaseServiceImpl<SysOrgMapper, SysOrg> imp
     private Wrapper<SysOrg> getWrapper(SysOrgPageDto sysOrgPageDto) {
         LambdaQueryWrapper<SysOrg> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(Objects.nonNull(sysOrgPageDto.getStatus()), SysOrg::getStatus, sysOrgPageDto.getStatus());
-        wrapper.eq(Objects.nonNull(sysOrgPageDto.getTenantId()), SysOrg::getTenantId, sysOrgPageDto.getTenantId());
         wrapper.like(StringUtils.isNotEmpty(sysOrgPageDto.getName()), SysOrg::getName, sysOrgPageDto.getName());
 
         return wrapper;
