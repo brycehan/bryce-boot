@@ -38,19 +38,4 @@ public class AlipayClientConfig {
         return new DefaultAlipayClient(alipayConfig);
     }
 
-    /*
-     * 商家信息
-     * 商户账号qassqe9609@sandbox.com
-     * 登录密码111111
-     * 商户PID2088721031562115
-     * 账户余额1000000.00
-     * 买家信息
-     * 买家账号nacfqw2772@sandbox.com
-     * 登录密码111111
-     * 支付密码111111
-     * 用户UID2088722031599893
-     * 用户名称nacfqw2772
-     * 证件类型IDENTITY_CARD
-     * 证件账号261949192610069909
-     */
 }
