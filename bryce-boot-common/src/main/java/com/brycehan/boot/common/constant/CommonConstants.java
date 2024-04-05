@@ -40,7 +40,7 @@ public class CommonConstants {
      */
     public static final boolean LOGIN_FAIL = false;
 
-    public static final String WECHAT_PARAM = "wechat.param.";
+    public static final String WECHAT_MP_MENU = "wechat.mp.menu";
 
     /**
      * 资源映射路径前缀

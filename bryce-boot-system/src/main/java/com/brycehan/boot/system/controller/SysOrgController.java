@@ -29,7 +29,7 @@ import java.util.List;
  * @since 2023/08/31
  * @author Bryce Han
  */
-@Tag(name = "系统机构", description = "sysOrg")
+@Tag(name = "系统机构")
 @RequestMapping("/system/org")
 @RestController
 @RequiredArgsConstructor

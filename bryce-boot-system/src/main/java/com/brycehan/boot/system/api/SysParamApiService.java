@@ -1,9 +1,12 @@
 package com.brycehan.boot.system.api;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.brycehan.boot.api.system.SysParamApi;
 import com.brycehan.boot.api.system.dto.SysParamApiDto;
 import com.brycehan.boot.api.system.vo.SysParamApiVo;
+import com.brycehan.boot.system.convert.SysParamConvert;
 import com.brycehan.boot.system.dto.SysParamDto;
+import com.brycehan.boot.system.entity.SysParam;
 import com.brycehan.boot.system.service.SysParamService;
 import com.brycehan.boot.system.vo.SysParamVo;
 import lombok.RequiredArgsConstructor;
@@ -35,6 +38,14 @@ public class SysParamApiService implements SysParamApi {
     public void update(SysParamApiDto sysParamApiDto) {
         SysParamDto sysParam = new SysParamDto();
         BeanUtils.copyProperties(sysParamApiDto, sysParam);
+        // 通过paramKey更新时
+        if (sysParam.getId() == null) {
+            LambdaQueryWrapper<SysParam> queryWrapper = new LambdaQueryWrapper<>();
+            queryWrapper.eq(SysParam::getParamKey, sysParam.getParamKey());
+
+            this.sysParamService.update(SysParamConvert.INSTANCE.convert(sysParam), queryWrapper);
+            return;
+        }
         this.sysParamService.update(sysParam);
     }
 

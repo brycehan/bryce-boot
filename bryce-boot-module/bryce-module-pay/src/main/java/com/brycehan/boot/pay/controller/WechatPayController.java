@@ -32,7 +32,7 @@ import java.util.Map;
  * @since 2024/02/27
  */
 @Slf4j
-@Tag(name = "网站微信支付APIv3", description = "wechatPay")
+@Tag(name = "网站微信支付APIv3")
 @RequestMapping("/pay/wechatPay")
 @RestController
 @RequiredArgsConstructor

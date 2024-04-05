@@ -28,9 +28,9 @@ bryce:
   # 线程池
   thread-pool:
     # 核心线程数
-    core-pool-size: 20
+    core-pool-size: 100
     # 最大线程数
-    maximum-pool-size: 200
+    maximum-pool-size: 500
     # 存活时间（单位：秒）
     keep-alive-time: 60
     # 任务队列的任务数
@@ -61,9 +61,10 @@ bryce:
         - /pay/wechatPay/native/notify
         - /pay/wechatPay/refund/notify
         - /pay/product
+        - /mp
+        - /error
       get:
         - /
-        - /error
         - /webjars/**
         - /swagger-ui/**
         - /swagger-resources/**
@@ -74,7 +75,6 @@ bryce:
         - /captcha/**
         - /sms/**
         - /register/enabled
-        - /wechat/validate/**
       post:
         - /auth/loginByAccount
         - /auth/loginByPhone
@@ -85,6 +85,7 @@ bryce:
     enabled: true
     exclude-urls:
       - /system/notice
+      - /mp
 
   # 用户配置
   user:

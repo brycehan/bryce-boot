@@ -35,7 +35,7 @@ import java.util.List;
  * @since 2023/09/13
  * @author Bryce Han
  */
-@Tag(name = "系统角色", description = "sysRole")
+@Tag(name = "系统角色")
 @RequestMapping("/system/role")
 @RestController
 @RequiredArgsConstructor

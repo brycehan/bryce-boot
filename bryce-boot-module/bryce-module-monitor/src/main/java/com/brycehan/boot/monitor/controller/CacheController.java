@@ -22,7 +22,7 @@ import java.util.*;
  * @since 2023/7/12
  * @author Bryce Han
  */
-@Tag(name = "缓存监控", description = "cache")
+@Tag(name = "缓存监控")
 @RestController
 @RequestMapping(path = "/monitor/cache")
 @RequiredArgsConstructor

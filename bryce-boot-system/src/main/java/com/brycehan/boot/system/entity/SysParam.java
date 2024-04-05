@@ -37,9 +37,9 @@ public class SysParam extends BaseEntity {
     private String paramValue;
 
     /**
-     * 是否系统内置（Y：是，N：否）
+     * 参数类型（built_in：内置，system：系统）
      */
-    private String builtIn;
+    private String paramType;
 
     /**
      * 备注

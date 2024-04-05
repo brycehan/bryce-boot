@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.*;
  * @since 2023/10/01
  * @author Bryce Han
  */
-@Tag(name = "系统附件", description = "sysAttachment")
+@Tag(name = "系统附件")
 @RequestMapping("/system/attachment")
 @RestController
 @RequiredArgsConstructor

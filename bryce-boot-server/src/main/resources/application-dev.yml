@@ -43,13 +43,13 @@ spring: # spring 配置
     scheduling: # 定时任务
       thread-name-prefix: bryce-scheduling-
       pool:
-        size: 8
+        size: 50
     execution:  # 异步任务
       thread-name-prefix: bryce-task-
       pool:
-        core-size: 20
+        core-size: 50
         max-size: 100
-        queue-capacity: 20
+        queue-capacity: 100
         keep-alive: 60s
 
 # 自定义配置
@@ -62,5 +62,7 @@ bryce:
 logging:
   level:
     root: info
-    com.brycehan.boot.pay: debug
+    com.brycehan.boot.pay: info
+    com.brycehan.boot.mp: debug
     org.quartz: warn
+    me.chanjar: debug

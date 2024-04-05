@@ -17,7 +17,7 @@ import java.io.Serial;
  * @since 2024/02/28
  */
 @Data
-@Schema(description = "退款单 Dto")
+@Schema(description = "退款单Dto")
 public class PayRefundDto implements Serializable {
 
     @Serial

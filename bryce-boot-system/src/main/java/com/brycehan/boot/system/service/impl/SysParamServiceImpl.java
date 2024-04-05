@@ -12,6 +12,7 @@ import com.brycehan.boot.common.util.DateTimeUtils;
 import com.brycehan.boot.common.util.ExcelUtils;
 import com.brycehan.boot.common.util.JsonUtils;
 import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
+import com.brycehan.boot.system.ParamType;
 import com.brycehan.boot.system.convert.SysParamConvert;
 import com.brycehan.boot.system.dto.SysParamDto;
 import com.brycehan.boot.system.dto.SysParamPageDto;
@@ -50,6 +51,7 @@ public class SysParamServiceImpl extends BaseServiceImpl<SysParamMapper, SysPara
 
         SysParam sysParam = SysParamConvert.INSTANCE.convert(sysParamDto);
         sysParam.setId(IdGenerator.nextId());
+
         this.baseMapper.insert(sysParam);
 
         // 保存到缓存
@@ -121,7 +123,7 @@ public class SysParamServiceImpl extends BaseServiceImpl<SysParamMapper, SysPara
         LambdaQueryWrapper<SysParam> wrapper = new LambdaQueryWrapper<>();
         wrapper.like(StringUtils.isNotEmpty(sysParamPageDto.getParamName()), SysParam::getParamName, sysParamPageDto.getParamName());
         wrapper.like(StringUtils.isNotEmpty(sysParamPageDto.getParamKey()), SysParam::getParamKey, sysParamPageDto.getParamKey());
-        wrapper.eq(StringUtils.isNotEmpty(sysParamPageDto.getBuiltIn()), SysParam::getBuiltIn, sysParamPageDto.getBuiltIn());
+        wrapper.eq(SysParam::getParamType, ParamType.system.name());
 
         if (sysParamPageDto.getCreatedTimeStart() != null && sysParamPageDto.getCreatedTimeEnd() != null) {
             wrapper.between(SysParam::getCreatedTime, sysParamPageDto.getCreatedTimeStart(), sysParamPageDto.getCreatedTimeEnd());

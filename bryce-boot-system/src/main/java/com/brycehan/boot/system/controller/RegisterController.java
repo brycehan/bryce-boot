@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
  * @since 2022/9/20
  * @author Bryce Han
  */
-@Tag(name = "注册", description = "register")
+@Tag(name = "注册")
 @RequestMapping(path = "/register")
 @RestController
 @RequiredArgsConstructor

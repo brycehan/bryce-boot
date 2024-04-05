@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2023/7/12
  * @author Bryce Han
  */
-@Tag(name = "服务器监控", description = "server")
+@Tag(name = "服务器监控")
 @RestController
 @RequestMapping(path = "/monitor/server")
 public class ServerController {

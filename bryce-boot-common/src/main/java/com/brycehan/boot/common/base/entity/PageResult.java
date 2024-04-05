@@ -22,7 +22,7 @@ public class PageResult<T> implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @Schema(description = "总记录数")
+    @Schema(description = "总条数")
     private long total;
 
     @Schema(description = "列表数据")

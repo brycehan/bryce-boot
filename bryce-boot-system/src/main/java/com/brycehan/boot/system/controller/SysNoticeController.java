@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.*;
  * @since 2023/10/13
  * @author Bryce Han
  */
-@Tag(name = "系统通知公告", description = "sysNotice")
+@Tag(name = "系统通知公告")
 @RequestMapping("/system/notice")
 @RestController
 @RequiredArgsConstructor

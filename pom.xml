@@ -132,10 +132,22 @@
 				<artifactId>bryce-module-sms</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-			<!-- wechat 模块 -->
+			<!-- 支付模块 -->
 			<dependency>
 				<groupId>com.brycehan.boot</groupId>
 				<artifactId>bryce-module-pay</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<!-- 微信小程序模块 -->
+			<dependency>
+				<groupId>com.brycehan.boot</groupId>
+				<artifactId>bryce-module-ma</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<!-- 微信公众号模块 -->
+			<dependency>
+				<groupId>com.brycehan.boot</groupId>
+				<artifactId>bryce-module-mp</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<!-- 服务组件 -->
@@ -334,11 +346,13 @@
 				<artifactId>weixin-java-miniapp</artifactId>
 				<version>${binarywang-weixin.version}</version>
 			</dependency>
+			<!-- 微信支付 -->
 			<dependency>
 				<groupId>com.github.wechatpay-apiv3</groupId>
 				<artifactId>wechatpay-java</artifactId>
 				<version>${wechatpay.version}</version>
 			</dependency>
+			<!-- 支付宝支付 -->
 			<dependency>
 				<groupId>com.alipay.sdk</groupId>
 				<artifactId>alipay-sdk-java</artifactId>

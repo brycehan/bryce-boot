@@ -24,7 +24,7 @@ import java.util.LinkedHashMap;
  * @author Bryce Han
  */
 @Slf4j
-@Tag(name = "短信", description = "sms")
+@Tag(name = "短信")
 @RequestMapping("/system/sms")
 @RestController
 @RequiredArgsConstructor

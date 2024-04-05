@@ -29,7 +29,7 @@ import java.util.Map;
  * @since 2024/02/27
  */
 @Slf4j
-@Tag(name = "支付宝API", description = "alipay")
+@Tag(name = "支付宝API")
 @RequestMapping("/pay/alipay")
 @RestController
 @RequiredArgsConstructor

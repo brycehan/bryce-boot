@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.*;
  * @since 2023/09/28
  * @author Bryce Han
  */
-@Tag(name = "系统参数", description = "sysParam")
+@Tag(name = "系统参数")
 @RequestMapping("/system/param")
 @RestController
 @RequiredArgsConstructor

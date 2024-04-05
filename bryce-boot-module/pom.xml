@@ -15,11 +15,12 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>bryce-module-generator</module>
         <module>bryce-module-monitor</module>
+        <module>bryce-module-ma</module>
+        <module>bryce-module-mp</module>
+        <module>bryce-module-pay</module>
         <module>bryce-module-quartz</module>
         <module>bryce-module-sms</module>
-        <module>bryce-module-pay</module>
     </modules>
 
 </project>

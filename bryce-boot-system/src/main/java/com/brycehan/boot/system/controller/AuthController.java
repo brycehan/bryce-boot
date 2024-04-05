@@ -30,7 +30,7 @@ import java.util.Set;
  * @author Bryce Han
  */
 @Slf4j
-@Tag(name = "登录认证", description = "auth")
+@Tag(name = "登录认证")
 @RestController
 @RequestMapping(path = "/auth")
 @RequiredArgsConstructor

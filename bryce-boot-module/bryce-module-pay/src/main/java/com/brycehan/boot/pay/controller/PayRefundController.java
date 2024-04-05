@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.*;
  * @author Bryce Han
  * @since 2024/02/28
  */
-@Tag(name = "退款单", description = "payRefund")
+@Tag(name = "退款单")
 @RequestMapping("/pay/refund")
 @RestController
 @RequiredArgsConstructor

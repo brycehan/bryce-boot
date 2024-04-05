@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
  * @since 2023/10/19
  * @author Bryce Han
  */
-@Tag(name = "quartz 定时任务调度日志", description = "quartzJobLog")
+@Tag(name = "quartz 定时任务调度日志")
 @RequestMapping("/quartz/jobLog")
 @RestController
 @RequiredArgsConstructor

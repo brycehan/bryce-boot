@@ -55,7 +55,7 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<M, 
 
             if (CollectionUtils.isNotEmpty(itemDtoList)) {
                 // 驼峰转下划线命名
-                itemDtoList.forEach(orderItem -> orderItem.setColumn(NamingCase.toUnderlineCase(orderItem.getColumn().toLowerCase())));
+                itemDtoList.forEach(orderItem -> orderItem.setColumn(NamingCase.toUnderlineCase(orderItem.getColumn())));
                 orderItems.addAll(OrderItemConvert.INSTANCE.convert(itemDtoList));
             }
         }

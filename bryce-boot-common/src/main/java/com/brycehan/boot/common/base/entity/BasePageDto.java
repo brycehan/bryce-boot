@@ -24,10 +24,10 @@ public abstract class BasePageDto implements Serializable {
     private static final long serialVersionUID = 1L;
     
     /**
-     * 当前页码（从1开始计算）
+     * 当前页数（从1开始计算）
      */
-    @Schema(description = "当前页码（从1开始计算）")
-    @Range(min = 1, message = "页码最小值为1")
+    @Schema(description = "当前页数（从1开始计算）")
+    @Range(min = 1, message = "页数最小值为1")
     @NotNull(message = "页码不能为空")
     private Integer current;
 

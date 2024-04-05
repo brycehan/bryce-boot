@@ -4,6 +4,7 @@ import com.brycehan.boot.pay.dto.PayProductDto;
 import com.brycehan.boot.pay.entity.PayProduct;
 import com.brycehan.boot.pay.vo.PayProductVo;
 import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 import java.util.List;
 
@@ -13,7 +14,7 @@ import java.util.List;
  * @author Bryce Han
  * @since 2024/02/28
  */
-@Mapper
+@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface PayProductConvert {
 
     PayProductConvert INSTANCE = Mappers.getMapper(PayProductConvert.class);

@@ -42,14 +42,23 @@ spring: # spring 配置
     scheduling: # 定时任务
       thread-name-prefix: bryce-scheduling-
       pool:
-        size: 8
+        size: 100
     execution:  # 异步任务
       thread-name-prefix: bryce-task-
       pool:
-        core-size: 20
-        max-size: 100
-        queue-capacity: 20
+        core-size: 100
+        max-size: 200
+        queue-capacity: 200
         keep-alive: 60s
+
+# 服务器配置
+server:
+  # tomcat 容器
+  tomcat:
+    connection-timeout: 5000
+    threads:
+      max: 1000
+      min-spare: 200
 
 # 自定义配置
 bryce:

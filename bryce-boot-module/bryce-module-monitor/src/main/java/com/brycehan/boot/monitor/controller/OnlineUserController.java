@@ -30,7 +30,7 @@ import java.util.Set;
  * @since 2023/10/12
  * @author Bryce Han
  */
-@Tag(name = "在线用户", description = "onlineUser")
+@Tag(name = "在线用户")
 @RestController
 @RequestMapping(path = "/monitor/onlineUser")
 @RequiredArgsConstructor

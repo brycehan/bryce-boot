@@ -28,7 +28,7 @@ import java.util.Map;
  * @since 2022/10/31
  * @author Bryce Han
  */
-@Tag(name = "用户个人中心", description = "profile")
+@Tag(name = "用户个人中心")
 @RequestMapping(path = "/profile")
 @RestController
 @RequiredArgsConstructor

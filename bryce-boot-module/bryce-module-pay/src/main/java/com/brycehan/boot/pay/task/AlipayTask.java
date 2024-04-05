@@ -32,7 +32,7 @@ public class AlipayTask {
     private final PayOrderService payOrderService;
 
     /**
-     * 从第0秒开始每分钟执行1次，查询创建超过5分钟并且未支付订单<br>
+     * 从第0秒开始每分钟执行1次，查询创建超过1分钟并且未支付订单<br>
      * 已支付的，处理为本地已支付<br>
      * 未支付的，暂不处理
      */
@@ -41,7 +41,7 @@ public class AlipayTask {
 
         log.info("orderConfirm 被执行......");
 
-        List<PayOrder> payOrderList = this.payOrderService.getNoPayOrderByDuration(5, PayType.ALI_PAY);
+        List<PayOrder> payOrderList = this.payOrderService.getNoPayOrderByDuration(1, PayType.ALI_PAY);
 
         for (PayOrder payOrder : payOrderList) {
             String orderNo = payOrder.getOrderNo();

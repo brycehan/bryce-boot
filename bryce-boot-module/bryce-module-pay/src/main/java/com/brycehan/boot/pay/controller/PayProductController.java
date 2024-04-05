@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.*;
  * @author Bryce Han
  * @since 2024/02/28
  */
-@Tag(name = "商品", description = "payProduct")
+@Tag(name = "商品")
 @RequestMapping("/pay/product")
 @RestController
 @RequiredArgsConstructor

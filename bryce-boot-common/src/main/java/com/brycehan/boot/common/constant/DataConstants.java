@@ -38,6 +38,11 @@ public class DataConstants {
     /** 分页页码 */
     public static final String PAGE = "page";
 
+    /**
+     * 分页条数
+     */
+    public static final int pageSize = 20;
+
     /** 根ID */
     public static final Long TREE_ROOT_ID = 0L;
 

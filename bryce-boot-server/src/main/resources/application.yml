@@ -3,7 +3,7 @@ spring:
   application:
     name: bryce-boot  # 应用名称
   profiles:
-    include: bryce,sms,pay
+    include: bryce,sms,mp,pay
     active: dev   # 环境 dev|test|prod
   # Jackson 配置
   jackson:
@@ -24,14 +24,6 @@ server:
   servlet:
     # 应用的访问路径
     context-path: /
-    session:
-      cookie:
-        http-only: true
-  # tomcat 容器
-  tomcat:
-    threads:
-      max: 1000
-      min-spare: 30
 
 # 接口文档
 knife4j:
@@ -50,8 +42,8 @@ mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true
     cache-enabled: false
-#    call-setters-on-nulls: true
-#    jdbc-type-for-null: 'null'
+    call-setters-on-nulls: true
+    jdbc-type-for-null: 'null'
   # 全局配置
   global-config:
     banner: false

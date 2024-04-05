@@ -15,7 +15,7 @@ import java.io.Serializable;
  * @author Bryce Han
  */
 @Data
-@Schema(description = "系统用户重置密码 Dto")
+@Schema(description = "系统用户重置密码Dto")
 public class SysResetPasswordDto implements Serializable {
 
     @Serial
