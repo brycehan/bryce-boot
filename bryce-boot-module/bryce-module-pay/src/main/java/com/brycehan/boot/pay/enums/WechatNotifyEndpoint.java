@@ -17,11 +17,11 @@ public enum WechatNotifyEndpoint {
     /**
      * 微信Native支付通知
      */
-    WECHAT_NATIVE_PAY_NOTIFY("/pay/wechatPay/native/notify"),
+    WECHAT_NATIVE_PAY_NOTIFY("/pay/wechatPay/pay/notify"),
     /**
      * 微信JSAPI支付通知
      */
-    WECHAT_JSAPI_PAY_NOTIFY("/pay/wechatJsapiPay/notify"),
+    WECHAT_JSAPI_PAY_NOTIFY("/pay/wechatPay/pay/notify"),
 
     /**
      * 退款结果通知

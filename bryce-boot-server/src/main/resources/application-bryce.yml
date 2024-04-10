@@ -58,7 +58,7 @@ bryce:
       all:
         - /generator-ui/**
         - /pay/alipay/trade/notify
-        - /pay/wechatPay/native/notify
+        - /pay/wechatPay/pay/notify
         - /pay/wechatPay/refund/notify
         - /pay/product
         - /mp
