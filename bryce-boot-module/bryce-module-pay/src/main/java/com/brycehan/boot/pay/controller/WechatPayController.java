@@ -23,8 +23,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
-
 /**
  * 网站微信支付APIv3
  *
@@ -32,7 +30,7 @@ import java.util.Map;
  * @since 2024/02/27
  */
 @Slf4j
-@Tag(name = "网站微信支付APIv3")
+@Tag(name = "微信支付APIv3-通用")
 @RequestMapping("/pay/wechatPay")
 @RestController
 @RequiredArgsConstructor
@@ -44,25 +42,6 @@ public class WechatPayController {
     private final RSAAutoCertificateConfig config;
 
     /**
-     * Native支付预下单
-     *
-     * @param productId 商品ID
-     * @return 响应结果
-     */
-    @Operation(summary = "调用统一下单API，生成支付二维码")
-    @OperateLog(type = OperateType.INSERT)
-    @PostMapping(path = "/native/{productId}")
-    public ResponseResult<Map<String, Object>> nativePay(@PathVariable Long productId) {
-
-        log.info("发起支付请求v3");
-
-        // 返回支付二维码连接和订单号
-        Map<String, Object> map = this.wechatPayService.nativePay(productId);
-
-        return ResponseResult.ok(map);
-    }
-
-    /**
      * 支付通知
      * 微信支付通过支付通知接口，将用户支付成功消息通知给商户
      *
@@ -70,8 +49,8 @@ public class WechatPayController {
      */
     @Operation(summary = "支付通知")
     @OperateLog(type = OperateType.UPDATE)
-    @PostMapping(path = "/native/notify")
-    public ResponseEntity<?> nativeNotify(HttpServletRequest request) {
+    @PostMapping(path = "/notify")
+    public ResponseEntity<?> notify(HttpServletRequest request) {
 
         log.info("支付通知处理开始");
 
@@ -97,39 +76,6 @@ public class WechatPayController {
 
         // 处理成功，返回 200 OK 状态码
         return ResponseEntity.status(HttpStatus.OK).build();
-    }
-
-    /**
-     * 用户取消订单
-     *
-     * @return 响应结果
-     */
-    @Operation(summary = "用户取消订单")
-    @OperateLog(type = OperateType.UPDATE)
-    @PostMapping(path = "/cancel/{orderNo}")
-    public ResponseResult<?> nativeCancel(@PathVariable String orderNo) {
-
-        log.info("取消订单");
-        this.wechatPayService.cancelOrder(orderNo);
-
-        return ResponseResult.ok().setMessage("订单已取消");
-    }
-
-    /**
-     * 根据订单号查询订单
-     *
-     * @param orderNo 订单号
-     * @return 响应结果
-     */
-    @Operation(summary = "根据订单号查询订单")
-    @OperateLog(type = OperateType.UPDATE)
-    @PostMapping(path = "/query/{orderNo}")
-    public ResponseResult<?> queryOrder(@PathVariable String orderNo) {
-
-        log.info("查询订单，订单号：{}", orderNo);
-        Transaction transaction = this.wechatPayService.queryOrder(orderNo);
-
-        return ResponseResult.ok(transaction);
     }
 
     /**

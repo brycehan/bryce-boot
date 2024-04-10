@@ -14,7 +14,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public enum PayType {
 
-    WECHAT_PAY("微信"),
+    WECHAT_PAY("微信Native支付"),
+    WECHAT_JSAPI_PAY("微信小程序支付"),
     ALI_PAY("支付宝");
 
     /**

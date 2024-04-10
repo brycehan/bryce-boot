@@ -4,6 +4,8 @@ import cn.hutool.core.date.DatePattern;
 import io.swagger.v3.oas.annotations.media.Schema;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import java.io.Serializable;
@@ -65,6 +67,18 @@ public class MaUserVo implements Serializable {
     private String city;
 
     /**
+     * 区/县编码
+     */
+    @Schema(description = "区/县编码")
+    private String county;
+
+    /**
+     * 用户省市区/县名称
+     */
+    @Schema(description = "用户省市区/县名称")
+    private String fullLocation;
+
+    /**
      * 用户语言
      */
     @Schema(description = "用户语言")
@@ -77,18 +91,6 @@ public class MaUserVo implements Serializable {
     private String phone;
 
     /**
-     * openid
-     */
-    @Schema(description = "openid")
-    private String openId;
-
-    /**
-     * union_id
-     */
-    @Schema(description = "union_id")
-    private String unionId;
-
-    /**
      * 账号
      */
     @Schema(description = "账号")
@@ -98,14 +100,8 @@ public class MaUserVo implements Serializable {
      * 生日
      */
     @Schema(description = "生日")
-    @JsonFormat(pattern = DatePattern.NORM_DATETIME_PATTERN, timezone = "GMT+8")
-    private LocalDateTime birthday;
-
-    /**
-     * 省市区
-     */
-    @Schema(description = "省市区")
-    private String fullLocation;
+    @JsonFormat(pattern = DatePattern.NORM_DATE_PATTERN, timezone = "GMT+8")
+    private LocalDate birthday;
 
     /**
      * 职业
@@ -118,42 +114,6 @@ public class MaUserVo implements Serializable {
      */
     @Schema(description = "标签ID列表")
     private Object tagIds;
-
-    /**
-     * 用户组
-     */
-    @Schema(description = "用户组")
-    private String groupId;
-
-    /**
-     * 二维码扫码场景
-     */
-    @Schema(description = "二维码扫码场景")
-    private String qrSceneStr;
-
-    /**
-     * 地理位置纬度
-     */
-    @Schema(description = "地理位置纬度")
-    private Double geoLatitude;
-
-    /**
-     * 地理位置经度
-     */
-    @Schema(description = "地理位置经度")
-    private Double geoLongitude;
-
-    /**
-     * 地理位置精度
-     */
-    @Schema(description = "地理位置精度")
-    private Double geoPrecision;
-
-    /**
-     * 会话密钥
-     */
-    @Schema(description = "会话密钥")
-    private String sessionKey;
 
     /**
      * 备注

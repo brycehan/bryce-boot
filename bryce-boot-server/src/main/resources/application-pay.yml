@@ -11,14 +11,16 @@ bryce:
       private-key-path: classpath:apiclient_key.pem
       # APIv3密钥
       api-v3-key: UDuLFDcmy51111111111111111111111
+      # APIv2密钥
+      partner-key: T6m9iK73b01111111111111111111111
       # APPID
       appid: wx74862e0d11111111
+      # 小程序APPID
+      ma-appid: wx74862e0d11111111
       # 微信服务器地址
       domain: https://api.mch.weixin.qq.com
       # 接收结果通知地址
       notify-domain: https://d5a9-112-36-235-21.ngrok-free.app
-      # APIv2密钥
-      partner-key: T6m9iK73b01111111111111111111111
 
     # 支付宝支付
     alipay:

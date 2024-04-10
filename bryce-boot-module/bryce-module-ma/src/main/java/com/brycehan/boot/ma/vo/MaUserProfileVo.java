@@ -61,9 +61,27 @@ public class MaUserProfileVo implements Serializable {
     private LocalDate birthday;
 
     /**
-     * 省市区
+     * 所在省份
      */
-    @Schema(description = "省市区")
+    @Schema(description = "所在省份")
+    private String province;
+
+    /**
+     * 所在城市
+     */
+    @Schema(description = "所在城市")
+    private String city;
+
+    /**
+     * 区/县编码
+     */
+    @Schema(description = "区/县编码")
+    private String county;
+
+    /**
+     * 用户省市区/县名称
+     */
+    @Schema(description = "用户省市区/县名称")
     private String fullLocation;
 
     /**

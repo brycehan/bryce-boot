@@ -22,25 +22,11 @@ import me.chanjar.weixin.common.error.WxErrorException;
 public interface MaUserService extends BaseService<MaUser>, MaUserApi {
 
     /**
-     * 添加微信小程序用户
-     *
-     * @param maUserDto 微信小程序用户Dto
-     */
-    default void save(MaUserDto maUserDto) {
-        MaUser maUser = MaUserConvert.INSTANCE.convert(maUserDto);
-        maUser.setId(IdGenerator.nextId());
-        this.getBaseMapper().insert(maUser);
-    }
-
-    /**
      * 更新微信小程序用户
      *
      * @param maUserDto 微信小程序用户Dto
      */
-    default void update(MaUserDto maUserDto) {
-        MaUser maUser = MaUserConvert.INSTANCE.convert(maUserDto);
-        this.getBaseMapper().updateById(maUser);
-    }
+    MaUserVo update(MaUserDto maUserDto);
 
     /**
      * 微信小程序用户分页查询

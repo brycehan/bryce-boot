@@ -60,18 +60,23 @@ public class MaUserDto implements Serializable {
     private String country;
 
     /**
-     * 所在省份
+     * 省份编码
      */
-    @Schema(description = "所在省份")
+    @Schema(description = "省份编码")
     @Size(max = 64, groups = UpdateGroup.class)
     private String province;
 
     /**
-     * 所在城市
+     * 城市编码
      */
-    @Schema(description = "所在城市")
+    @Schema(description = "城市编码")
     @Size(max = 64, groups = UpdateGroup.class)
     private String city;
+
+    /**
+     * 区/县编码
+     */
+    private String county;
 
     /**
      * 生日

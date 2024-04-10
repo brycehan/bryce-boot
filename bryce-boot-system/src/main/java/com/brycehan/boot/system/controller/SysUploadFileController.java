@@ -1,12 +1,10 @@
 package com.brycehan.boot.system.controller;
 
-import cn.hutool.core.io.file.FileNameUtil;
-import cn.hutool.crypto.SecureUtil;
+import com.brycehan.boot.api.system.SysUploadFileApi;
+import com.brycehan.boot.api.system.vo.SysUploadFileVo;
 import com.brycehan.boot.common.base.http.ResponseResult;
 import com.brycehan.boot.framework.operatelog.annotation.OperateLog;
 import com.brycehan.boot.framework.operatelog.annotation.OperateType;
-import com.brycehan.boot.framework.storage.service.StorageService;
-import com.brycehan.boot.system.vo.SysUploadFileVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -34,7 +31,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 @RequiredArgsConstructor
 public class SysUploadFileController {
 
-    private final StorageService storageService;
+    private final SysUploadFileApi sysUploadFileApi;
 
     /**
      * 保存上传文件
@@ -55,7 +52,7 @@ public class SysUploadFileController {
         List<SysUploadFileVo> uploadFileVoList = new CopyOnWriteArrayList<>();
 
         file.parallelStream().forEach(fileItem -> {
-                SysUploadFileVo sysUploadFileVo = uploadItem(fileItem, moduleName);
+                SysUploadFileVo sysUploadFileVo = this.sysUploadFileApi.upload(fileItem, moduleName);
                 if (sysUploadFileVo != null) {
                     uploadFileVoList.add(sysUploadFileVo);
                 }
@@ -64,38 +61,5 @@ public class SysUploadFileController {
         return ResponseResult.ok(uploadFileVoList);
     }
 
-    /**
-     * 上传单个文件
-     *
-     * @param file 上传文件
-     * @return 响应结果
-     */
-    private SysUploadFileVo uploadItem(MultipartFile file, String moduleName) {
-        if (file.isEmpty()) {
-            return null;
-        }
-
-        // 上传路径
-        String path = this.storageService.getPath(file.getOriginalFilename(), moduleName);
-
-        SysUploadFileVo sysUploadFileVo = new SysUploadFileVo();
-        try {
-
-            sysUploadFileVo.setName(file.getOriginalFilename());
-            sysUploadFileVo.setSize(file.getSize());
-            sysUploadFileVo.setSuffix(FileNameUtil.getSuffix(file.getOriginalFilename()));
-            sysUploadFileVo.setHash(SecureUtil.sha256(file.getInputStream()));
-            // 上传文件
-            String url = this.storageService.upload(file.getInputStream(), path);
-            sysUploadFileVo.setUrl(url);
-
-            sysUploadFileVo.setPlatform(this.storageService.storageProperties.getConfig().getType().name());
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        return sysUploadFileVo;
-    }
 }
 

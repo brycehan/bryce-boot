@@ -61,7 +61,7 @@ public class MaUserServiceImpl extends BaseServiceImpl<MaUserMapper, MaUser> imp
      *
      * @param maUserDto 微信小程序用户Dto
      */
-    public void update(MaUserDto maUserDto) {
+    public MaUserVo update(MaUserDto maUserDto) {
 
         MaUser maUser = MaUserConvert.INSTANCE.convert(maUserDto);
         String openId = LoginUserContext.currentOpenId();
@@ -69,6 +69,7 @@ public class MaUserServiceImpl extends BaseServiceImpl<MaUserMapper, MaUser> imp
         MaUser user = getByOpenId(openId);
         maUser.setId(user.getId());
         this.baseMapper.updateById(maUser);
+        return MaUserConvert.INSTANCE.convert(maUser);
     }
 
     @Override

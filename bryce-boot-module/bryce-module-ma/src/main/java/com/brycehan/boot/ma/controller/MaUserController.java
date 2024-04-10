@@ -1,5 +1,7 @@
 package com.brycehan.boot.ma.controller;
 
+import com.brycehan.boot.api.system.SysUploadFileApi;
+import com.brycehan.boot.api.system.vo.SysUploadFileVo;
 import com.brycehan.boot.common.base.entity.PageResult;
 import com.brycehan.boot.common.base.http.ResponseResult;
 import com.brycehan.boot.common.validator.UpdateGroup;
@@ -25,6 +27,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 微信小程序用户API
@@ -40,6 +43,8 @@ import org.springframework.web.bind.annotation.*;
 public class MaUserController {
 
     private final MaUserService maUserService;
+    private final SysUploadFileApi sysUploadFileApi;
+
 
     /**
      * 更新微信小程序用户
@@ -50,9 +55,9 @@ public class MaUserController {
     @Operation(summary = "更新微信小程序用户")
     @OperateLog(type = OperateType.UPDATE)
     @PutMapping
-    public ResponseResult<Void> update(@Validated(value = UpdateGroup.class) @RequestBody MaUserDto maUserDto) {
-        this.maUserService.update(maUserDto);
-        return ResponseResult.ok();
+    public ResponseResult<MaUserVo> update(@Validated(value = UpdateGroup.class) @RequestBody MaUserDto maUserDto) {
+        MaUserVo maUserVo = this.maUserService.update(maUserDto);
+        return ResponseResult.ok(maUserVo);
     }
 
     /**
@@ -125,4 +130,39 @@ public class MaUserController {
 
         return ResponseResult.ok(profileVo);
     }
+
+    /**
+     * 更新头像
+     *
+     * @param file 上传文件
+     * @return 响应结果
+     */
+    @Operation(summary = "更新头像")
+    @OperateLog(type = OperateType.INSERT)
+    @PostMapping(path = "/avatar")
+    public ResponseResult<?> uploadAvatar(@RequestParam MultipartFile file) {
+
+        if (file.isEmpty()) {
+            return ResponseResult.error("上传文件不能为空");
+        }
+
+        String moduleName = "ma/avatar";
+        try {
+            SysUploadFileVo uploadFileVo = this.sysUploadFileApi.upload(file, moduleName);
+            if (uploadFileVo != null) {
+                String avatar = uploadFileVo.getUrl();
+                String openId = LoginUserContext.currentOpenId();
+                MaUser maUser = this.maUserService.getByOpenId(openId);
+                maUser.setAvatar(avatar);
+                this.maUserService.updateById(maUser);
+                return ResponseResult.ok(uploadFileVo);
+            }
+        } catch (Exception e) {
+            log.error("上传文件失败，{}", e.getMessage());
+            throw new RuntimeException("上传头像失败");
+        }
+
+        return ResponseResult.error("出现错误");
+    }
+
 }

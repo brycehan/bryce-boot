@@ -1,8 +1,8 @@
 package com.brycehan.boot.pay.controller;
 
+import com.brycehan.boot.common.base.dto.IdsDto;
 import com.brycehan.boot.common.base.entity.PageResult;
 import com.brycehan.boot.common.base.http.ResponseResult;
-import com.brycehan.boot.common.base.dto.IdsDto;
 import com.brycehan.boot.framework.operatelog.annotation.OperateLog;
 import com.brycehan.boot.framework.operatelog.annotation.OperateType;
 import com.brycehan.boot.pay.convert.PayOrderConvert;
@@ -15,6 +15,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
  * @author Bryce Han
  * @since 2024/02/27
  */
+@Slf4j
 @Tag(name = "订单")
 @RequestMapping("/pay/order")
 @RestController
@@ -121,6 +123,23 @@ public class PayOrderController {
         return ResponseResult.ok()
                 .setCode(601)
                 .setMessage(orderStatus);
+    }
+
+    /**
+     * 根据订单号查询订单
+     *
+     * @param orderNo 订单号
+     * @return 响应结果
+     */
+    @Operation(summary = "根据订单号查询订单")
+    @OperateLog(type = OperateType.UPDATE)
+    @PostMapping(path = "/query/{orderNo}")
+    public ResponseResult<PayOrder> queryOrder(@PathVariable String orderNo) {
+
+        log.info("查询订单，订单号：{}", orderNo);
+        PayOrder payOrder = this.payOrderService.getOrderByOrderNo(orderNo);
+
+        return ResponseResult.ok(payOrder);
     }
 
 }

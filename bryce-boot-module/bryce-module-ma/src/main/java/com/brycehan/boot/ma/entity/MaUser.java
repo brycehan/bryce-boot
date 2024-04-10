@@ -58,6 +58,11 @@ public class MaUser implements Serializable {
     private String city;
 
     /**
+     * 区/县编码
+     */
+    private String county;
+
+    /**
      * 用户语言
      */
     private String language;

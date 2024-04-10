@@ -4,6 +4,7 @@ import com.brycehan.boot.api.system.StorageApi;
 import com.brycehan.boot.api.system.vo.StorageVo;
 import com.brycehan.boot.framework.storage.service.StorageService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,6 +16,7 @@ import java.io.IOException;
  * @author Bryce Han
  * @since 2023/11/17
  */
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class StorageApiService implements StorageApi {
@@ -29,7 +31,7 @@ public class StorageApiService implements StorageApi {
         }
 
         // 上传路径
-        String path = this.storageService.getPath(moduleName, file.getOriginalFilename());
+        String path = this.storageService.getPath(file.getOriginalFilename(), moduleName);
         // 上传文件
         String url = this.storageService.upload(file.getInputStream(), path);
 

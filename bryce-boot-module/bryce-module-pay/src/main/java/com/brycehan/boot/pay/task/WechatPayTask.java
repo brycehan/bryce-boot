@@ -4,6 +4,7 @@ import com.brycehan.boot.pay.entity.PayOrder;
 import com.brycehan.boot.pay.enums.PayType;
 import com.brycehan.boot.pay.service.PayOrderService;
 import com.brycehan.boot.pay.service.PayRefundService;
+import com.brycehan.boot.pay.service.WechatNativePayService;
 import com.brycehan.boot.pay.service.WechatPayService;
 import com.wechat.pay.java.core.RSAAutoCertificateConfig;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +27,7 @@ import java.util.List;
 @ConditionalOnBean(value = RSAAutoCertificateConfig.class)
 public class WechatPayTask {
 
-    private final WechatPayService wechatPayService;
+    private final WechatNativePayService wechatNativePayService;
 
     private final PayOrderService payOrderService;
 
@@ -48,7 +49,7 @@ public class WechatPayTask {
             log.warn("检查超时订单 ---> {}", orderNo);
 
             // 核实订单状态：调用微信支付查单接口
-            this.wechatPayService.checkOrderStatus(orderNo, false);
+            this.wechatNativePayService.checkOrderStatus(orderNo, false);
         }
     }
 
@@ -68,7 +69,7 @@ public class WechatPayTask {
             log.warn("检查超时订单 ---> {}", orderNo);
 
             // 核实订单状态：调用微信支付查单接口
-            this.wechatPayService.checkOrderStatus(orderNo, true);
+            this.wechatNativePayService.checkOrderStatus(orderNo, true);
         }
     }
 }

@@ -1,8 +1,12 @@
 package com.brycehan.boot.common.util;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 
+import java.nio.charset.StandardCharsets;
+import java.security.*;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.Collections;
 import java.util.List;
 
@@ -12,6 +16,7 @@ import java.util.List;
  * @author Bryce Han
  * @since 2024/3/25
  */
+@Slf4j
 public class SecureUtils {
 
     /**
@@ -42,6 +47,27 @@ public class SecureUtils {
         }
 
         return DigestUtils.sha1Hex(stringBuilder.toString());
+    }
+
+    /**
+     * 获取微信支付签名
+     * <a href="https://pay.weixin.qq.com/docs/merchant/apis/mini-program-payment/mini-transfer-payment.html">官方文档</a>
+     *
+     * @param signatureStr 签名字符串
+     * @param privateKey   私钥
+     * @return 签名
+     */
+    public static String getWechatPaySign(String signatureStr, PrivateKey privateKey) {
+        try {
+            Signature sha256withRSA = Signature.getInstance("SHA256withRSA");
+
+            sha256withRSA.initSign(privateKey);
+            sha256withRSA.update(signatureStr.getBytes(StandardCharsets.UTF_8));
+            return Base64.getEncoder().encodeToString(sha256withRSA.sign());
+        } catch (NoSuchAlgorithmException | InvalidKeyException | SignatureException e) {
+            log.error("获取微信支付签名失败", e);
+        }
+        return "";
     }
 
 }

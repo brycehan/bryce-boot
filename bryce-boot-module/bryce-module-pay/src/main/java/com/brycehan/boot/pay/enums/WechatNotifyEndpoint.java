@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 /**
+ * 微信通知端点
+ *
  * @author Bryce Han
  * @since 2024/3/9
  */
@@ -13,9 +15,13 @@ import lombok.RequiredArgsConstructor;
 public enum WechatNotifyEndpoint {
 
     /**
-     * 支付通知
+     * 微信Native支付通知
      */
-    NATIVE_NOTIFY("/pay/wechatPay/native/notify"),
+    WECHAT_NATIVE_PAY_NOTIFY("/pay/wechatPay/native/notify"),
+    /**
+     * 微信JSAPI支付通知
+     */
+    WECHAT_JSAPI_PAY_NOTIFY("/pay/wechatJsapiPay/notify"),
 
     /**
      * 退款结果通知

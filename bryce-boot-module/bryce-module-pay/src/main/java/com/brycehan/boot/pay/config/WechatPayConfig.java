@@ -2,6 +2,7 @@ package com.brycehan.boot.pay.config;
 
 import com.wechat.pay.java.core.RSAAutoCertificateConfig;
 import com.wechat.pay.java.core.util.PemUtil;
+import com.wechat.pay.java.service.payments.jsapi.JsapiService;
 import com.wechat.pay.java.service.payments.nativepay.NativePayService;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -54,12 +55,25 @@ public class WechatPayConfig {
     }
 
     /**
+     * 微信Jsapi支付服务
+     *
+     * @return 微信Jsapi支付服务
+     */
+    @Bean
+    @ConditionalOnBean(value = RSAAutoCertificateConfig.class)
+    public JsapiService jsapiPayService(RSAAutoCertificateConfig config){
+        return new JsapiService.Builder()
+                .config(config)
+                .build();
+    }
+
+    /**
      * 从classpath下获取私钥
      *
      * @param privateKeyPath classpath下文件路径
      * @return 私钥
      */
-    public PrivateKey getPrivateKey(String privateKeyPath){
+    public static PrivateKey getPrivateKey(String privateKeyPath){
         PrivateKey privateKey;
         try {
             File file = ResourceUtils.getFile(privateKeyPath);

@@ -50,6 +50,11 @@ public class PayProperties {
         private String appid;
 
         /**
+         * 小程序APPID
+         */
+        private String maAppid;
+
+        /**
          * 微信服务器地址
          */
         private String domain;
