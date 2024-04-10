@@ -1,0 +1,14 @@
+bryce:
+  # 微信小程序配置
+  ma:
+    enabled: true
+    # APPID
+    app-id: wx17cc32f01d655006
+    # APP SECRET
+    secret: 5fa0f3a0636dac19dbbe013b075bac57
+    # 令牌
+    token: Dg03nBzjFXx5gwyedimoytRMSa111111
+    # EncodingAESKey
+    aes-key: UDuLFDcmy51111111111111111111111
+    # 消息格式
+    msg-data-format: JSON

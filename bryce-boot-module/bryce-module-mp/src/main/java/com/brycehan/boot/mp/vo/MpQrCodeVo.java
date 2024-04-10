@@ -16,7 +16,7 @@ import java.io.Serial;
  * @since 2024/03/28
  */
 @Data
-@Schema(description = "微信公众号带参二维码 Vo")
+@Schema(description = "微信公众号带参二维码Vo")
 public class MpQrCodeVo implements Serializable {
 
     @Serial

@@ -60,7 +60,7 @@
 		<jsoup.version>1.16.1</jsoup.version>
 		<okio.version>3.6.0</okio.version>
 		<oshi.version>6.4.6</oshi.version>
-		<binarywang-weixin.version>4.3.0</binarywang-weixin.version>
+		<binarywang-weixin.version>4.6.0</binarywang-weixin.version>
 		<wechatpay.version>0.2.12</wechatpay.version>
 		<alipay.version>4.39.1.ALL</alipay.version>
 	</properties>
@@ -138,16 +138,16 @@
 				<artifactId>bryce-module-pay</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-			<!-- 微信小程序模块 -->
-			<dependency>
-				<groupId>com.brycehan.boot</groupId>
-				<artifactId>bryce-module-ma</artifactId>
-				<version>${project.version}</version>
-			</dependency>
 			<!-- 微信公众号模块 -->
 			<dependency>
 				<groupId>com.brycehan.boot</groupId>
 				<artifactId>bryce-module-mp</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<!-- 微信小程序模块 -->
+			<dependency>
+				<groupId>com.brycehan.boot</groupId>
+				<artifactId>bryce-module-ma</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<!-- 服务组件 -->
@@ -344,6 +344,12 @@
 			<dependency>
 				<groupId>com.github.binarywang</groupId>
 				<artifactId>weixin-java-miniapp</artifactId>
+				<version>${binarywang-weixin.version}</version>
+			</dependency>
+			<!-- 微信common库 -->
+			<dependency>
+				<groupId>com.github.binarywang</groupId>
+				<artifactId>weixin-java-common</artifactId>
 				<version>${binarywang-weixin.version}</version>
 			</dependency>
 			<!-- 微信支付 -->

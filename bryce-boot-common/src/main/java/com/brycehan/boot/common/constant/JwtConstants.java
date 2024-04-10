@@ -19,8 +19,18 @@ public class JwtConstants {
     public static final String LOGIN_USER_KEY = "login_user";
 
     /**
+     * 登录用户openid
+     */
+    public static final String LOGIN_OPEN_ID = "openid";
+
+    /**
      * 刷新最小分钟数
      */
     public static final long REFRESH_LIMIT_MIN_MINUTE = 20L;
+
+    /**
+     * APP默认过期分钟数
+     */
+    public static final long APP_EXPIRE_MINUTE = 30 * 24 * 60L;
 
 }

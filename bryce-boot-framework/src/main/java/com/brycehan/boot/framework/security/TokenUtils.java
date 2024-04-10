@@ -3,9 +3,12 @@ package com.brycehan.boot.framework.security;
 import cn.hutool.core.lang.UUID;
 import cn.hutool.core.util.StrUtil;
 import com.brycehan.boot.common.constant.JwtConstants;
+import com.brycehan.boot.framework.common.SourceClientType;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
+
+import java.util.Arrays;
 
 /**
  * 令牌工具类
@@ -15,6 +18,8 @@ import org.springframework.http.HttpHeaders;
  */
 @Slf4j
 public class TokenUtils {
+
+    private static final String SOURCE_CLIENT_HEADER = "source-client";
 
     /**
      * 生成安全的uuid
@@ -42,4 +47,21 @@ public class TokenUtils {
 
         return StrUtil.EMPTY;
     }
+
+    /**
+     * 获取请求来源客户端
+     *
+     * @param request 请求request
+     * @return 来源客户端
+     */
+    public static String getSourceClient(HttpServletRequest request) {
+        String loginClient = request.getHeader(SOURCE_CLIENT_HEADER);
+
+        if (StrUtil.isNotBlank(loginClient) && Arrays.stream(SourceClientType.values()).anyMatch(t -> t.value().equals(loginClient))) {
+            return loginClient;
+        }
+
+        throw new RuntimeException("非法来源客户端请求");
+    }
+
 }

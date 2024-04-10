@@ -8,6 +8,8 @@ import com.brycehan.boot.common.base.ServerException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
+import me.chanjar.weixin.common.error.WxError;
+import me.chanjar.weixin.common.error.WxErrorException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.security.access.AccessDeniedException;
@@ -166,6 +168,13 @@ public class ServerExceptionHandler {
     public ResponseResult<Void> handleException(ServerException e) {
         log.info("服务器异常", e);
         return ResponseResult.error(e.getCode(), e.getMessage());
+    }
+
+    @ExceptionHandler(WxErrorException.class)
+    public ResponseResult<Void> handleException(WxErrorException e) {
+        WxError error = e.getError();
+        log.info("调用微信API异常，错误码：{}，错误消息：{}", error.getErrorCode(), error.getErrorMsg());
+        return ResponseResult.error(error.getErrorMsg());
     }
 
     /**

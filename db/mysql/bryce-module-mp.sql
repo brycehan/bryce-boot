@@ -29,19 +29,19 @@ INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_
 create table brc_mp_user
 (
     open_id         varchar(50)                        primary key comment 'openid',
-    phone           varchar(20)                        null comment '手机号',
     nickname        varchar(50)                        null comment '昵称',
     head_img_url    varchar(255)                       null comment '头像',
     sex             int                                null comment '性别（0未知，1男，2女）',
     province        varchar(20)                        null comment '省份',
     city            varchar(20)                        null comment '城市',
+    language        varchar(10)                        null comment '语言',
+    phone           varchar(20)                        null comment '手机号',
+    union_id        varchar(50)                        null comment 'unionid',
     tag_ids         json                               null comment '标签ID列表',
     subscribe       tinyint  default 1                 null comment '是否关注',
     subscribe_time  datetime                           null comment '关注时间',
     subscribe_scene varchar(50)                        null comment '关注场景',
     qr_scene_str    varchar(64)                        null comment '扫码场景值',
-    union_id        varchar(50)                        null comment 'unionid',
-    language        varchar(10)                        null comment '语言',
     remark          varchar(255)                       null comment '备注',
     created_time    datetime                           null comment '创建时间',
     updated_time    datetime                           null comment '修改时间'

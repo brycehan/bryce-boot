@@ -56,7 +56,7 @@ public class OperateLogAspect {
     /**
      * 排除敏感属性字段
      */
-    private static final String[] EXCLUDE_PROPERTIES = {"password", "oldPassword", "newPassword", "confirmPassword"};
+    private static final String[] EXCLUDE_PROPERTIES = {"password", "oldPassword", "newPassword", "confirmPassword", "fileDto"};
 
     private final OperateLogService operateLogService;
 

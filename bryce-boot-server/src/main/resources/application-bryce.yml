@@ -79,6 +79,7 @@ bryce:
         - /auth/loginByAccount
         - /auth/loginByPhone
         - /register
+        - /ma/user/login
 
   # xss 过滤
   xss:

@@ -20,10 +20,11 @@ public interface StorageApi {
      * 文件上传
      *
      * @param file MultipartFile
+     * @param moduleName 模块名
      * @return http资源地址
      */
     @PostMapping(path = "/api/storage/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE)
-    StorageVo upload(@RequestParam MultipartFile file) throws IOException;
+    StorageVo upload(@RequestParam MultipartFile file, @RequestParam(defaultValue = "system") String moduleName) throws IOException;
 
 }

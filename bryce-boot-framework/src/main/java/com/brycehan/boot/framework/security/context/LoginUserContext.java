@@ -55,4 +55,14 @@ public class LoginUserContext {
         return loginUser.getOrgId();
     }
 
+
+    public static String currentOpenId() {
+        LoginUser loginUser = currentUser();
+        if(loginUser == null){
+            return null;
+        }
+
+        return loginUser.getOpenId();
+    }
+
 }

@@ -16,7 +16,7 @@ import java.io.Serial;
  * @since 2024/03/28
  */
 @Data
-@Schema(description = "微信公众号消息 Vo")
+@Schema(description = "微信公众号消息Vo")
 public class MpMessageVo implements Serializable {
 
     @Serial

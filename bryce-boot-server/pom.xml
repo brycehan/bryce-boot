@@ -39,6 +39,10 @@
             <groupId>com.brycehan.boot</groupId>
             <artifactId>bryce-module-mp</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.brycehan.boot</groupId>
+            <artifactId>bryce-module-ma</artifactId>
+        </dependency>
         <!-- 代码生成器 -->
         <dependency>
             <groupId>com.brycehan.boot</groupId>

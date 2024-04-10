@@ -22,14 +22,14 @@ public class StorageApiService implements StorageApi {
     private final StorageService storageService;
 
     @Override
-    public StorageVo upload(MultipartFile file) throws IOException {
+    public StorageVo upload(MultipartFile file, String moduleName) throws IOException {
         // 是否为空
         if(file.isEmpty()) {
             return null;
         }
 
         // 上传路径
-        String path = this.storageService.getPath(file.getOriginalFilename());
+        String path = this.storageService.getPath(moduleName, file.getOriginalFilename());
         // 上传文件
         String url = this.storageService.upload(file.getInputStream(), path);
 

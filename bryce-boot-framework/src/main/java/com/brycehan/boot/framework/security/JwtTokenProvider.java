@@ -15,6 +15,7 @@ import com.brycehan.boot.common.constant.JwtConstants;
 import com.brycehan.boot.common.util.IpUtils;
 import com.brycehan.boot.common.util.LocationUtils;
 import com.brycehan.boot.common.util.ServletUtils;
+import com.brycehan.boot.framework.common.SourceClientType;
 import com.brycehan.boot.framework.security.context.LoginUser;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +26,9 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -71,7 +74,7 @@ public class JwtTokenProvider {
         // 设置用户代理
         this.setUserAgent(loginUser);
 
-        // 创建jwt令牌
+        // 创建jwt
         Map<String, Object> claims = new HashMap<>();
         claims.put(JwtConstants.LOGIN_USER_KEY, tokenKey);
 
@@ -88,10 +91,27 @@ public class JwtTokenProvider {
      * @param claims 数据声明
      * @return 令牌
      */
-    private String generateToken(Map<String, Object> claims) {
+    public String generateToken(Map<String, Object> claims) {
         // 指定加密方式
         Algorithm algorithm = Algorithm.HMAC256(this.jwtSecret);
         return JWT.create()
+                .withPayload(claims)
+                // 签发 JWT
+                .sign(algorithm);
+    }
+
+    /**
+     * 从数据声明生成令牌
+     *
+     * @param claims 数据声明
+     * @return 令牌
+     */
+    public String generateToken(Map<String, Object> claims, long expireTimeMinutes) {
+        // 指定加密方式
+        Algorithm algorithm = Algorithm.HMAC256(this.jwtSecret);
+        Instant expireTime = Instant.now().plus(expireTimeMinutes, ChronoUnit.MINUTES);
+        return JWT.create()
+                .withExpiresAt(expireTime)
                 .withPayload(claims)
                 // 签发 JWT
                 .sign(algorithm);
@@ -138,11 +158,13 @@ public class JwtTokenProvider {
      * @param loginUser 登录用户
      */
     public void autoRefreshToken(LoginUser loginUser) {
-        LocalDateTime expireTime = loginUser.getExpireTime();
-        LocalDateTime now = LocalDateTime.now();
+        if (loginUser.getSourceClient().equals(SourceClientType.PC.value())) {
+            LocalDateTime expireTime = loginUser.getExpireTime();
+            LocalDateTime now = LocalDateTime.now();
 
-        if (expireTime.isAfter(now) && expireTime.isBefore(now.plusMinutes(JwtConstants.REFRESH_LIMIT_MIN_MINUTE))) {
-            refreshToken(loginUser);
+            if (expireTime.isAfter(now) && expireTime.isBefore(now.plusMinutes(JwtConstants.REFRESH_LIMIT_MIN_MINUTE))) {
+                refreshToken(loginUser);
+            }
         }
     }
 
@@ -209,7 +231,7 @@ public class JwtTokenProvider {
      * @param token 令牌
      * @return 数据声明
      */
-    private Map<String, Claim> parseToken(String token) {
+    public Map<String, Claim> parseToken(String token) {
         DecodedJWT jwt = JWT.decode(token);
         return jwt.getClaims();
     }
@@ -220,7 +242,6 @@ public class JwtTokenProvider {
      * @param authToken 令牌
      * @return 校验令牌是否有效（true：有效，false：无效）
      */
-    @Deprecated
     public boolean validateToken(String authToken) {
         Algorithm algorithm = Algorithm.HMAC256(this.jwtSecret);
         JWTVerifier verifier = JWT.require(algorithm).build();

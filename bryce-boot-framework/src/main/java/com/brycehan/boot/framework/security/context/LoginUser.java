@@ -88,6 +88,16 @@ public class LoginUser implements UserDetails {
     private String os;
 
     /**
+     * 来源客户端（pc、app、miniApp）
+     */
+    private String sourceClient;
+
+    /**
+     * 小程序openId
+     */
+    private String openId;
+
+    /**
      * 帐户是否未过期
      */
     private boolean accountNonExpired = true;

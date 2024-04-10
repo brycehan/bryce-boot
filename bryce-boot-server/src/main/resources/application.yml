@@ -3,7 +3,7 @@ spring:
   application:
     name: bryce-boot  # 应用名称
   profiles:
-    include: bryce,sms,mp,pay
+    include: bryce,sms,mp,ma,pay
     active: dev   # 环境 dev|test|prod
   # Jackson 配置
   jackson:

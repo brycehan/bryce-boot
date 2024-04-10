@@ -10,12 +10,16 @@ import com.brycehan.boot.system.vo.SysUploadFileVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 
 /**
@@ -41,13 +45,38 @@ public class SysUploadFileController {
     @Operation(summary = "上传文件")
     @OperateLog(type = OperateType.INSERT)
     @PostMapping
-    public ResponseResult<SysUploadFileVo> upload(MultipartFile file) {
+    public ResponseResult<List<SysUploadFileVo>> upload(@RequestParam List<MultipartFile> file,
+                                                        @RequestParam(defaultValue = "system") String moduleName) {
+
+        if (CollectionUtils.isEmpty(file)) {
+            return ResponseResult.error("上传文件不能为空");
+        }
+
+        List<SysUploadFileVo> uploadFileVoList = new CopyOnWriteArrayList<>();
+
+        file.parallelStream().forEach(fileItem -> {
+                SysUploadFileVo sysUploadFileVo = uploadItem(fileItem, moduleName);
+                if (sysUploadFileVo != null) {
+                    uploadFileVoList.add(sysUploadFileVo);
+                }
+        });
+
+        return ResponseResult.ok(uploadFileVoList);
+    }
+
+    /**
+     * 上传单个文件
+     *
+     * @param file 上传文件
+     * @return 响应结果
+     */
+    private SysUploadFileVo uploadItem(MultipartFile file, String moduleName) {
         if (file.isEmpty()) {
-            return ResponseResult.ok();
+            return null;
         }
 
         // 上传路径
-        String path = this.storageService.getPath(file.getOriginalFilename());
+        String path = this.storageService.getPath(file.getOriginalFilename(), moduleName);
 
         SysUploadFileVo sysUploadFileVo = new SysUploadFileVo();
         try {
@@ -66,8 +95,7 @@ public class SysUploadFileController {
             throw new RuntimeException(e);
         }
 
-        return ResponseResult.ok(sysUploadFileVo);
+        return sysUploadFileVo;
     }
-
 }
 

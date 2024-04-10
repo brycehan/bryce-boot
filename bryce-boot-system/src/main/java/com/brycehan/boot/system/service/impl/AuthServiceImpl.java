@@ -7,6 +7,7 @@ import com.brycehan.boot.common.base.vo.LoginVo;
 import com.brycehan.boot.common.constant.DataConstants;
 import com.brycehan.boot.common.util.IpUtils;
 import com.brycehan.boot.common.util.ServletUtils;
+import com.brycehan.boot.framework.common.SourceClientType;
 import com.brycehan.boot.framework.security.JwtTokenProvider;
 import com.brycehan.boot.framework.security.context.LoginUser;
 import com.brycehan.boot.framework.security.phone.PhoneCodeAuthenticationToken;
@@ -98,7 +99,9 @@ public class AuthServiceImpl implements AuthService {
      */
     private LoginVo getLoginVo(Authentication authentication) {
         LoginUser loginUser = (LoginUser) authentication.getPrincipal();
-        // 生成 jwt 令牌
+        // 来源客户端为 pc
+        loginUser.setSourceClient(SourceClientType.PC.value());
+        // 生成 jwt
         LoginVo loginVo = this.jwtTokenProvider.generateToken(loginUser);
 
         // 缓存 loginUser

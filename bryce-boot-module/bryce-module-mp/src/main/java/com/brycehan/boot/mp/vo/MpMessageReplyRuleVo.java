@@ -17,7 +17,7 @@ import java.time.LocalTime;
  * @since 2024/03/26
  */
 @Data
-@Schema(description = "微信公众号消息回复规则 Vo")
+@Schema(description = "微信公众号消息回复规则Vo")
 public class MpMessageReplyRuleVo implements Serializable {
 
     @Serial
