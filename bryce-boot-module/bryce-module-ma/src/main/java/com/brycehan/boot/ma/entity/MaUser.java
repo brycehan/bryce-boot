@@ -93,11 +93,6 @@ public class MaUser implements Serializable {
     private LocalDate birthday;
 
     /**
-     * 省市区
-     */
-    private String fullLocation;
-
-    /**
      * 职业
      */
     private String profession;

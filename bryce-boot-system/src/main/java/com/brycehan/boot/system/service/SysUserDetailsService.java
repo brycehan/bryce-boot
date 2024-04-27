@@ -1,6 +1,6 @@
 package com.brycehan.boot.system.service;
 
-import com.brycehan.boot.framework.security.context.LoginUser;
+import com.brycehan.boot.common.base.context.LoginUser;
 import org.springframework.security.core.userdetails.UserDetails;
 
 /**

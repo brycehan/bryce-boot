@@ -1,15 +1,13 @@
 package com.brycehan.boot.framework.security;
 
-import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.extra.spring.SpringUtil;
 import com.auth0.jwt.interfaces.Claim;
-import com.baomidou.mybatisplus.core.toolkit.BeanUtils;
 import com.brycehan.boot.api.ma.MaUserApi;
 import com.brycehan.boot.api.ma.vo.MaUserApiVo;
+import com.brycehan.boot.api.system.SysUserApi;
+import com.brycehan.boot.common.base.context.LoginUser;
 import com.brycehan.boot.common.constant.JwtConstants;
 import com.brycehan.boot.framework.common.SourceClientType;
-import com.brycehan.boot.framework.security.context.LoginUser;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -40,6 +38,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtTokenProvider jwtTokenProvider;
     private final MaUserApi maUserApi;
+    private final SysUserApi sysUserApi;
 
     @Override
     protected void doFilterInternal(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull FilterChain filterChain) throws ServletException, IOException {
@@ -51,20 +50,28 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
+        // 来源客户端
         String sourceClient = TokenUtils.getSourceClient(request);
-        LoginUser loginUser = null;
+        SourceClientType sourceClientType = SourceClientType.getByValue(sourceClient);
+
+        LoginUser loginUser;
+
         if(SourceClientType.MINI_APP.value().equals(sourceClient)) {
             // 获取小程序登录用户
             loginUser = this.processMiniApp(accessToken);
-        } else if(SourceClientType.PC.value().equals(sourceClient)) {
-            // 获取PC登录用户
-            loginUser = this.jwtTokenProvider.getLoginUser(accessToken);
+        } else if (SourceClientType.APP.value().equals(sourceClient)){
+            loginUser = this.processApp(accessToken);
+        } else {
+            // 获取其它登录用户
+            loginUser = this.jwtTokenProvider.loadLoginUser(accessToken, sourceClientType);
         }
 
         if(loginUser == null) {
             filterChain.doFilter(request, response);
             return;
         }
+
+        loginUser.setSourceClient(sourceClient);
 
         // 用户存在，自动刷新令牌
         this.jwtTokenProvider.autoRefreshToken(loginUser);
@@ -103,5 +110,26 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         // 设置认证信息
         return SecurityUtils.createLoginUser(maUserApiVo);
+    }
+
+    /**
+     * 处理App程序登录
+     *
+     * @param accessToken 访问令牌
+     * @return 登录用户
+     */
+    private LoginUser processApp(String accessToken) {
+        // 校验 token
+        boolean validated = this.jwtTokenProvider.validateToken(accessToken);
+        if(!validated) {
+            throw new RuntimeException("token无效");
+        }
+
+        // 获取登录用户
+        // 解析对应的权限以及用户信息
+        Map<String, Claim> claimMap = this.jwtTokenProvider.parseToken(accessToken);
+        Long id = claimMap.get(JwtConstants.LOGIN_USER_APP_KEY).asLong();
+
+        return this.sysUserApi.loadUserById(id);
     }
 }

@@ -3,7 +3,9 @@ package com.brycehan.boot.system.service.impl;
 import com.brycehan.boot.common.base.http.UserResponseStatus;
 import com.brycehan.boot.common.enums.DataScopeType;
 import com.brycehan.boot.common.base.ServerException;
-import com.brycehan.boot.framework.security.context.LoginUser;
+import com.brycehan.boot.common.util.ServletUtils;
+import com.brycehan.boot.framework.security.TokenUtils;
+import com.brycehan.boot.common.base.context.LoginUser;
 import com.brycehan.boot.system.mapper.SysRoleDataScopeMapper;
 import com.brycehan.boot.system.mapper.SysRoleMapper;
 import com.brycehan.boot.system.service.SysMenuService;
@@ -46,6 +48,10 @@ public class SysUserDetailsServiceImpl implements SysUserDetailsService {
             log.info("登录用户：{}已被锁定.", loginUser.getUsername());
             throw new ServerException(UserResponseStatus.USER_ACCOUNT_LOCKED);
         }
+
+        // 来源客户端
+        String sourceClient = TokenUtils.getSourceClient(ServletUtils.getRequest());
+        loginUser.setSourceClient(sourceClient);
 
         // 数据权限范围
         Set<Long> dataScopeSet = this.getDataScope(loginUser);

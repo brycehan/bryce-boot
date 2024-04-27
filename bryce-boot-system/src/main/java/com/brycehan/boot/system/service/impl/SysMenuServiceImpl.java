@@ -10,7 +10,7 @@ import com.brycehan.boot.common.util.DateTimeUtils;
 import com.brycehan.boot.common.util.ExcelUtils;
 import com.brycehan.boot.common.util.TreeUtils;
 import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
-import com.brycehan.boot.framework.security.context.LoginUser;
+import com.brycehan.boot.common.base.context.LoginUser;
 import com.brycehan.boot.system.convert.SysMenuConvert;
 import com.brycehan.boot.system.dto.SysMenuDto;
 import com.brycehan.boot.system.dto.SysMenuPageDto;

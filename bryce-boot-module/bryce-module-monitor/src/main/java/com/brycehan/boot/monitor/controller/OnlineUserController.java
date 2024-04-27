@@ -7,7 +7,7 @@ import com.brycehan.boot.common.constant.CacheConstants;
 import com.brycehan.boot.framework.operatelog.annotation.OperateLog;
 import com.brycehan.boot.framework.operatelog.annotation.OperateType;
 import com.brycehan.boot.framework.security.JwtTokenProvider;
-import com.brycehan.boot.framework.security.context.LoginUser;
+import com.brycehan.boot.common.base.context.LoginUser;
 import com.brycehan.boot.monitor.dto.OnlineUserPageDto;
 import com.brycehan.boot.monitor.vo.OnlineUserVo;
 import io.swagger.v3.oas.annotations.Operation;

@@ -78,6 +78,8 @@ bryce:
       post:
         - /auth/loginByAccount
         - /auth/loginByPhone
+        - /auth/app/account/login
+        - /auth/app/sms/login
         - /register
         - /ma/user/login
 

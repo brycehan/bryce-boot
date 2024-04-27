@@ -1,5 +1,6 @@
 package com.brycehan.boot.ma.controller;
 
+import com.brycehan.boot.api.system.SysAreaCodeApi;
 import com.brycehan.boot.api.system.SysUploadFileApi;
 import com.brycehan.boot.api.system.vo.SysUploadFileVo;
 import com.brycehan.boot.common.base.entity.PageResult;
@@ -7,7 +8,7 @@ import com.brycehan.boot.common.base.http.ResponseResult;
 import com.brycehan.boot.common.validator.UpdateGroup;
 import com.brycehan.boot.framework.operatelog.annotation.OperateLog;
 import com.brycehan.boot.framework.operatelog.annotation.OperateType;
-import com.brycehan.boot.framework.security.context.LoginUserContext;
+import com.brycehan.boot.common.base.context.LoginUserContext;
 import com.brycehan.boot.ma.convert.MaUserConvert;
 import com.brycehan.boot.ma.dto.MaLoginDto;
 import com.brycehan.boot.ma.dto.MaUserDto;
@@ -44,7 +45,7 @@ public class MaUserController {
 
     private final MaUserService maUserService;
     private final SysUploadFileApi sysUploadFileApi;
-
+    private final SysAreaCodeApi sysAreaCodeApi;
 
     /**
      * 更新微信小程序用户
@@ -127,6 +128,9 @@ public class MaUserController {
 
         MaUserProfileVo profileVo = new MaUserProfileVo();
         BeanUtils.copyProperties(maUser, profileVo);
+        // 获取地区完整地址
+        String fullLocation = this.sysAreaCodeApi.getFullLocation(maUser.getCounty());
+        profileVo.setFullLocation(fullLocation);
 
         return ResponseResult.ok(profileVo);
     }

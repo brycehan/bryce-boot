@@ -16,7 +16,7 @@ import com.brycehan.boot.common.util.IpUtils;
 import com.brycehan.boot.common.util.LocationUtils;
 import com.brycehan.boot.common.util.ServletUtils;
 import com.brycehan.boot.framework.common.SourceClientType;
-import com.brycehan.boot.framework.security.context.LoginUser;
+import com.brycehan.boot.common.base.context.LoginUser;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -76,7 +76,7 @@ public class JwtTokenProvider {
 
         // 创建jwt
         Map<String, Object> claims = new HashMap<>();
-        claims.put(JwtConstants.LOGIN_USER_KEY, tokenKey);
+        claims.put(JwtConstants.LOGIN_USER_PC_KEY, tokenKey);
 
         String jwt = generateToken(claims);
 
@@ -142,14 +142,33 @@ public class JwtTokenProvider {
     }
 
     public void cacheLoginUser(LoginUser loginUser) {
+
+        // 来源客户端
+        String sourceClient = TokenUtils.getSourceClient(ServletUtils.getRequest());
+        SourceClientType sourceClientType = SourceClientType.getByValue(sourceClient);
+
         LocalDateTime now = LocalDateTime.now();
         loginUser.setLoginTime(now);
-        loginUser.setExpireTime(now.plusSeconds(this.tokenValidityInSeconds));
+        // 设置过期时间
+        LocalDateTime expireTime = null;
+        switch (Objects.requireNonNull(sourceClientType)) {
+            case PC, H5 -> expireTime = now.plusSeconds(this.tokenValidityInSeconds);
+            case APP -> expireTime = now.plusMinutes(JwtConstants.APP_EXPIRE_MINUTE);
+        }
+        loginUser.setExpireTime(expireTime);
+
+        String loginUserKey = "";
+        switch (sourceClientType) {
+            case PC -> loginUserKey = JwtConstants.LOGIN_USER_PC_KEY;
+            case H5 -> loginUserKey = JwtConstants.LOGIN_USER_H5_KEY;
+            case APP -> loginUserKey = JwtConstants.LOGIN_USER_APP_KEY;
+        }
+
+        String cacheUserKey = loginUserKey.concat(":").concat(loginUser.getTokenKey());
 
         // 根据tokenKey将loginUser缓存
-        String loginUserKey = CacheConstants.LOGIN_USER_KEY.concat(loginUser.getTokenKey());
         this.redisTemplate.opsForValue()
-                .set(loginUserKey, loginUser, tokenValidityInSeconds, TimeUnit.SECONDS);
+                .set(cacheUserKey, loginUser, tokenValidityInSeconds, TimeUnit.SECONDS);
     }
 
     /**
@@ -158,7 +177,8 @@ public class JwtTokenProvider {
      * @param loginUser 登录用户
      */
     public void autoRefreshToken(LoginUser loginUser) {
-        if (loginUser.getSourceClient().equals(SourceClientType.PC.value())) {
+        if (loginUser.getSourceClient().equals(SourceClientType.PC.value())
+                || loginUser.getSourceClient().equals(SourceClientType.H5.value())) {
             LocalDateTime expireTime = loginUser.getExpireTime();
             LocalDateTime now = LocalDateTime.now();
 
@@ -188,13 +208,22 @@ public class JwtTokenProvider {
      * @param accessToken 访问令牌
      * @return 登录用户
      */
-    public LoginUser getLoginUser(String accessToken) {
+    public LoginUser loadLoginUser(String accessToken, SourceClientType sourceClientType) {
         try {
             // 解析对应的权限以及用户信息
             Map<String, Claim> claimMap = parseToken(accessToken);
-            String key = claimMap.get(JwtConstants.LOGIN_USER_KEY).asString();
-            String loginUserKey = CacheConstants.LOGIN_USER_KEY.concat(key);
-            return this.redisTemplate.opsForValue().get(loginUserKey);
+
+            String loginUserKey = "";
+            switch (sourceClientType.name()) {
+                case "PC" -> loginUserKey = JwtConstants.LOGIN_USER_PC_KEY;
+                case "H5" -> loginUserKey = JwtConstants.LOGIN_USER_H5_KEY;
+                case "APP" -> loginUserKey = JwtConstants.LOGIN_USER_APP_KEY;
+            }
+
+            String key = claimMap.get(loginUserKey).asString();
+
+            String cacheUserKey = loginUserKey.concat(":").concat(key);
+            return this.redisTemplate.opsForValue().get(cacheUserKey);
         } catch (Exception e) {
             log.warn("getLoginUser, 异常：{}", e.getMessage());
         }

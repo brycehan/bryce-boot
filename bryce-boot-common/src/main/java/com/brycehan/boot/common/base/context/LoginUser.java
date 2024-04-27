@@ -1,4 +1,4 @@
-package com.brycehan.boot.framework.security.context;
+package com.brycehan.boot.common.base.context;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;

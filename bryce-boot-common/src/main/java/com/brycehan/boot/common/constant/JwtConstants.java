@@ -14,9 +14,28 @@ public class JwtConstants {
     public static final String TOKEN_PREFIX = "Bearer ";
 
     /**
-     * 登录用户令牌key
+     * PC登录用户令牌key
      */
-    public static final String LOGIN_USER_KEY = "login_user";
+    public static final String LOGIN_USER_PC_KEY = "login_user:pc";
+
+    /**
+     * H5登录用户令牌key
+     */
+    public static final String LOGIN_USER_H5_KEY = "login_user:h5";
+
+    /**
+     * 微信小程序登录用户令牌key
+     */
+    public static final String LOGIN_USER_MA_KEY = "login_user:miniApp";
+    /**
+     * App登录用户令牌key
+     */
+    public static final String LOGIN_USER_APP_KEY = "login_user:app";
+
+    /**
+     * 登录用户ID
+     */
+    public static final String LOGIN_USER_ID = "id";
 
     /**
      * 登录用户openid

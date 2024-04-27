@@ -510,3 +510,17 @@ create table brc_sys_notice
 -- 初始化-系统通知公告表数据
 INSERT INTO brc_sys_notice (id, title, content, type, status, remark, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1, '温馨提醒：2022-10-01 Bryce Boot 新版本发布啦', '<p>新版本内容</p>', 2, 1, null, 1, 0, 1, now(), null, null);
 INSERT INTO brc_sys_notice (id, title, content, type, status, remark, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (2, '维护通知：2022-10-01 Bryce Boot 系统凌晨维护', '<p>维护内容</p>', 1, 1, null, 1, 0, 1, now(), null, null);
+
+-- 17、地区编码表
+create table brc_sys_area_code
+(
+    id            int          primary key comment 'ID',
+    parent_id     int          not null comment '父ID',
+    deep          int          not null comment '层级',
+    name          varchar(255) not null comment '名称',
+    code          varchar(255) not null comment '编码',
+    pinyin_prefix varchar(255) not null comment '拼音前缀',
+    pinyin        varchar(255) not null comment '拼音',
+    ext_id        varchar(50)  not null comment '扩展ID',
+    ext_name      varchar(255) not null comment '扩展名称'
+) comment '地区编码表';

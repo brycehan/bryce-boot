@@ -1,6 +1,6 @@
 package com.brycehan.boot.system.convert;
 
-import com.brycehan.boot.framework.security.context.LoginUser;
+import com.brycehan.boot.common.base.context.LoginUser;
 import com.brycehan.boot.system.dto.SysUserDto;
 import com.brycehan.boot.system.dto.SysUserExcelDto;
 import com.brycehan.boot.system.entity.SysUser;

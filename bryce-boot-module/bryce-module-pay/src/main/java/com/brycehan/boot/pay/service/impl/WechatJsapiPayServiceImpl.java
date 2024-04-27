@@ -1,7 +1,7 @@
 package com.brycehan.boot.pay.service.impl;
 
 import com.brycehan.boot.common.util.SecureUtils;
-import com.brycehan.boot.framework.security.context.LoginUserContext;
+import com.brycehan.boot.common.base.context.LoginUserContext;
 import com.brycehan.boot.pay.config.PayProperties;
 import com.brycehan.boot.pay.config.WechatPayConfig;
 import com.brycehan.boot.pay.entity.PayOrder;

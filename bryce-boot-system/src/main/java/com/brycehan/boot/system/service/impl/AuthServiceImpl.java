@@ -1,15 +1,18 @@
 package com.brycehan.boot.system.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.brycehan.boot.common.base.context.LoginUser;
 import com.brycehan.boot.common.base.dto.AccountLoginDto;
 import com.brycehan.boot.common.base.dto.PhoneLoginDto;
 import com.brycehan.boot.common.base.vo.LoginVo;
+import com.brycehan.boot.common.base.vo.UserLoginVo;
 import com.brycehan.boot.common.constant.DataConstants;
+import com.brycehan.boot.common.constant.JwtConstants;
 import com.brycehan.boot.common.util.IpUtils;
 import com.brycehan.boot.common.util.ServletUtils;
 import com.brycehan.boot.framework.common.SourceClientType;
 import com.brycehan.boot.framework.security.JwtTokenProvider;
-import com.brycehan.boot.framework.security.context.LoginUser;
+import com.brycehan.boot.framework.security.TokenUtils;
 import com.brycehan.boot.framework.security.phone.PhoneCodeAuthenticationToken;
 import com.brycehan.boot.system.common.LoginOperateType;
 import com.brycehan.boot.system.entity.SysUser;
@@ -17,6 +20,7 @@ import com.brycehan.boot.system.service.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -25,6 +29,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -73,7 +79,7 @@ public class AuthServiceImpl implements AuthService {
         // 清除密码错误重试缓存
         this.sysPasswordRetryService.deleteCount(accountLoginDto.getUsername());
 
-        return getLoginVo(authentication);
+        return loadLoginVo(authentication);
     }
 
     @Override
@@ -88,7 +94,7 @@ public class AuthServiceImpl implements AuthService {
             throw new RuntimeException("手机号或验证码错误");
         }
 
-        return getLoginVo(authentication);
+        return loadLoginVo(authentication);
     }
 
     /**
@@ -97,10 +103,9 @@ public class AuthServiceImpl implements AuthService {
      * @param authentication 认证信息
      * @return 登录 Vo
      */
-    private LoginVo getLoginVo(Authentication authentication) {
+    private LoginVo loadLoginVo(Authentication authentication) {
         LoginUser loginUser = (LoginUser) authentication.getPrincipal();
-        // 来源客户端为 pc
-        loginUser.setSourceClient(SourceClientType.PC.value());
+
         // 生成 jwt
         LoginVo loginVo = this.jwtTokenProvider.generateToken(loginUser);
 
@@ -124,7 +129,12 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public void logout(String accessToken) {
-        LoginUser loginUser = this.jwtTokenProvider.getLoginUser(accessToken);
+
+        // 来源客户端
+        String sourceClient = TokenUtils.getSourceClient(ServletUtils.getRequest());
+        SourceClientType sourceClientType = SourceClientType.getByValue(sourceClient);
+
+        LoginUser loginUser = this.jwtTokenProvider.loadLoginUser(accessToken, sourceClientType);
 
         if (Objects.nonNull(loginUser)) {
             // 删除登录用户缓存记录
@@ -133,6 +143,38 @@ public class AuthServiceImpl implements AuthService {
             // 记录用户退出日志
             this.sysLoginLogService.save(loginUser.getUsername(), DataConstants.SUCCESS, LoginOperateType.LOGOUT_SUCCESS.getValue());
         }
+    }
+
+    @Override
+    public UserLoginVo appLoginByAccount(AccountLoginDto accountLoginDto) {
+        Authentication authentication;
+        try {
+            // 设置需要认证的用户信息
+            authentication = this.authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(accountLoginDto.getUsername(), accountLoginDto.getPassword()));
+        } catch (AuthenticationException e) {
+            log.info("认证失败，{}", e.getMessage());
+            // 添加密码错误重试缓存
+            this.sysPasswordRetryService.retryCount(accountLoginDto.getUsername());
+            throw new RuntimeException("用户名或密码错误");
+        }
+
+        // 清除密码错误重试缓存
+        this.sysPasswordRetryService.deleteCount(accountLoginDto.getUsername());
+
+        LoginUser loginUser = (LoginUser) authentication.getPrincipal();
+
+        // 生成 jwt
+        Map<String, Object> claims = new HashMap<>();
+        claims.put(JwtConstants.LOGIN_USER_APP_KEY, loginUser.getId());
+        String token = this.jwtTokenProvider.generateToken(claims, JwtConstants.APP_EXPIRE_MINUTE);
+
+        // 封装登录结果
+        UserLoginVo userLoginVo = new UserLoginVo();
+        BeanUtils.copyProperties(loginUser, userLoginVo);
+        userLoginVo.setToken(JwtConstants.TOKEN_PREFIX.concat(token));
+
+        return userLoginVo;
     }
 
 }

@@ -5,7 +5,7 @@ import com.brycehan.boot.common.base.dto.PhoneLoginDto;
 import com.brycehan.boot.common.base.http.ResponseResult;
 import com.brycehan.boot.common.base.vo.LoginVo;
 import com.brycehan.boot.framework.security.TokenUtils;
-import com.brycehan.boot.framework.security.context.LoginUserContext;
+import com.brycehan.boot.common.base.context.LoginUserContext;
 import com.brycehan.boot.system.common.MenuType;
 import com.brycehan.boot.system.convert.SysUserConvert;
 import com.brycehan.boot.system.service.AuthService;

@@ -16,8 +16,8 @@ import com.brycehan.boot.common.constant.DataConstants;
 import com.brycehan.boot.common.util.JsonUtils;
 import com.brycehan.boot.framework.mybatis.interceptor.DataScope;
 import com.brycehan.boot.framework.mybatis.service.BaseService;
-import com.brycehan.boot.framework.security.context.LoginUser;
-import com.brycehan.boot.framework.security.context.LoginUserContext;
+import com.brycehan.boot.common.base.context.LoginUser;
+import com.brycehan.boot.common.base.context.LoginUserContext;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 

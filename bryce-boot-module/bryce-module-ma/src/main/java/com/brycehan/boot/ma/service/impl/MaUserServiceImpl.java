@@ -13,7 +13,7 @@ import com.brycehan.boot.common.util.DateTimeUtils;
 import com.brycehan.boot.common.util.ExcelUtils;
 import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
 import com.brycehan.boot.framework.security.JwtTokenProvider;
-import com.brycehan.boot.framework.security.context.LoginUserContext;
+import com.brycehan.boot.common.base.context.LoginUserContext;
 import com.brycehan.boot.ma.MaConstants;
 import com.brycehan.boot.ma.convert.MaUserConvert;
 import com.brycehan.boot.ma.dto.MaLoginDto;

@@ -19,7 +19,6 @@ create table brc_ma_user
     union_id                varchar(64)  null comment 'unionid',
     account                 varchar(50)  null comment '账号',
     birthday                datetime     null comment '生日',
-    full_location           varchar(100) null comment '省市区',
     profession              varchar(50)  null comment '职业',
     tag_ids                 json         null comment '标签ID列表',
     group_id                varchar(64)  null comment '用户组',

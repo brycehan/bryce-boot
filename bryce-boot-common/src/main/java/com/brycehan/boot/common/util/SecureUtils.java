@@ -67,6 +67,7 @@ public class SecureUtils {
         } catch (NoSuchAlgorithmException | InvalidKeyException | SignatureException e) {
             log.error("获取微信支付签名失败", e);
         }
+
         return "";
     }
 

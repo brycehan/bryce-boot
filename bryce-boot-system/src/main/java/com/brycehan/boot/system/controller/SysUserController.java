@@ -8,7 +8,7 @@ import com.brycehan.boot.common.validator.SaveGroup;
 import com.brycehan.boot.common.validator.UpdateGroup;
 import com.brycehan.boot.framework.operatelog.annotation.OperateLog;
 import com.brycehan.boot.framework.operatelog.annotation.OperateType;
-import com.brycehan.boot.framework.security.context.LoginUserContext;
+import com.brycehan.boot.common.base.context.LoginUserContext;
 import com.brycehan.boot.system.convert.SysUserConvert;
 import com.brycehan.boot.system.dto.SysResetPasswordDto;
 import com.brycehan.boot.system.dto.SysUserDto;

@@ -1,6 +1,8 @@
 package com.brycehan.boot.system.security.service;
 
+import com.brycehan.boot.api.system.SysUserApi;
 import com.brycehan.boot.common.util.MessageUtils;
+import com.brycehan.boot.common.base.context.LoginUser;
 import com.brycehan.boot.system.convert.SysUserConvert;
 import com.brycehan.boot.system.entity.SysUser;
 import com.brycehan.boot.system.mapper.SysUserMapper;
@@ -21,7 +23,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class UserDetailsServiceImpl implements UserDetailsService {
+public class UserDetailsServiceImpl implements UserDetailsService, SysUserApi {
 
     private final SysUserMapper sysUserMapper;
 
@@ -48,4 +50,23 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         return this.sysUserDetailsService.getUserDetails(SysUserConvert.INSTANCE.convertLoginUser(sysUser));
     }
 
+    /**
+     * 获取登录用户
+     *
+     * @param id 用户ID
+     * @return 登录用户
+     */
+    @Override
+    public LoginUser loadUserById(Long id) {
+        // 查询用户
+        SysUser sysUser = sysUserMapper.selectById(id);
+
+        if (sysUser == null) {
+            log.debug("loadUserById, 登录用户：{}不存在.", id);
+            throw new UsernameNotFoundException(MessageUtils.getMessage("user.username.or.password.error"));
+        }
+
+        // 创建用户详情
+        return SysUserConvert.INSTANCE.convertLoginUser(sysUser);
+    }
 }

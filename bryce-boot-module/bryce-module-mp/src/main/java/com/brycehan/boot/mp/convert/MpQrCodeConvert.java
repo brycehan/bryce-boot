@@ -4,6 +4,7 @@ import com.brycehan.boot.mp.dto.MpQrCodeDto;
 import com.brycehan.boot.mp.entity.MpQrCode;
 import com.brycehan.boot.mp.vo.MpQrCodeVo;
 import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 import java.util.List;
 
@@ -13,7 +14,7 @@ import java.util.List;
  * @author Bryce Han
  * @since 2024/03/28
  */
-@Mapper
+@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface MpQrCodeConvert {
 
     MpQrCodeConvert INSTANCE = Mappers.getMapper(MpQrCodeConvert.class);

@@ -1,7 +1,7 @@
 package com.brycehan.boot.framework.mybatis;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
-import com.brycehan.boot.framework.security.context.LoginUserContext;
+import com.brycehan.boot.common.base.context.LoginUserContext;
 import org.apache.ibatis.reflection.MetaObject;
 
 import java.time.LocalDateTime;
