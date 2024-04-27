@@ -109,7 +109,7 @@ public class SysAreaCodeServiceImpl extends BaseServiceImpl<SysAreaCodeMapper, S
             List<SysAreaCode> areaCodes = this.baseMapper.selectList(queryWrapper);
 
             if (!CollectionUtils.isEmpty(areaCodes)) {
-                return areaCodes.stream().map(SysAreaCode::getName)
+                return areaCodes.stream().map(SysAreaCode::getExtName)
                         .collect(Collectors.joining(" "));
             }
         } else {

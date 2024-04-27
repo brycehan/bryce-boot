@@ -104,8 +104,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         // 获取登录用户
         // 解析对应的权限以及用户信息
         Map<String, Claim> claimMap = this.jwtTokenProvider.parseToken(accessToken);
+        this.jwtTokenProvider.autoRefreshToken(claimMap);
+
         String openid = claimMap.get(JwtConstants.LOGIN_OPEN_ID).asString();
-        
         MaUserApiVo maUserApiVo = this.maUserApi.loadMaUserByOpenid(openid);
 
         // 设置认证信息
@@ -128,6 +129,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         // 获取登录用户
         // 解析对应的权限以及用户信息
         Map<String, Claim> claimMap = this.jwtTokenProvider.parseToken(accessToken);
+        this.jwtTokenProvider.autoRefreshToken(claimMap);
+
         Long id = claimMap.get(JwtConstants.LOGIN_USER_APP_KEY).asLong();
 
         return this.sysUserApi.loadUserById(id);

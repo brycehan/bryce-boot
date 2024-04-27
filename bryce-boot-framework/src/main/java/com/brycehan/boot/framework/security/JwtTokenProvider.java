@@ -177,6 +177,7 @@ public class JwtTokenProvider {
      * @param loginUser 登录用户
      */
     public void autoRefreshToken(LoginUser loginUser) {
+        // PC和H5的token续期
         if (loginUser.getSourceClient().equals(SourceClientType.PC.value())
                 || loginUser.getSourceClient().equals(SourceClientType.H5.value())) {
             LocalDateTime expireTime = loginUser.getExpireTime();
@@ -185,6 +186,25 @@ public class JwtTokenProvider {
             if (expireTime.isAfter(now) && expireTime.isBefore(now.plusMinutes(JwtConstants.REFRESH_LIMIT_MIN_MINUTE))) {
                 refreshToken(loginUser);
             }
+
+        }
+    }
+
+    /**
+     * 小程序和App的令牌自动续期，一天一续期，自动刷新延长登录有效期
+     *
+     * @param claimMap 登录用户
+     */
+    public void autoRefreshToken(Map<String, Claim> claimMap) {
+        Instant exp = claimMap.get("exp").asInstant();
+        String openid = claimMap.get("openid").asString();
+
+        if (Instant.now().compareTo(exp.minus(29, ChronoUnit.DAYS)) > 0) {
+            // 生成 jwt
+            Map<String, Object> claims = new HashMap<>();
+            claims.put(JwtConstants.LOGIN_OPEN_ID, openid);
+            String token = this.generateToken(claims, JwtConstants.APP_EXPIRE_MINUTE);
+            ServletUtils.getResponse().setHeader(HttpHeaders.AUTHORIZATION, JwtConstants.TOKEN_PREFIX.concat(token));
         }
     }
 
