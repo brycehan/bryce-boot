@@ -9,6 +9,7 @@ import lombok.EqualsAndHashCode;
 import org.springframework.util.CollectionUtils;
 
 import java.io.Serial;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -65,6 +66,16 @@ public class SysUser extends BaseEntity {
      * 邮箱
      */
     private String email;
+
+    /**
+     * 生日
+     */
+    private LocalDate birthday;
+
+    /**
+     * 职业
+     */
+    private String profession;
 
     /**
      * 显示顺序

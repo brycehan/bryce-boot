@@ -3,7 +3,6 @@ package com.brycehan.boot.system.service;
 import com.brycehan.boot.common.base.dto.AccountLoginDto;
 import com.brycehan.boot.common.base.dto.PhoneLoginDto;
 import com.brycehan.boot.common.base.vo.LoginVo;
-import com.brycehan.boot.common.base.vo.UserLoginVo;
 import org.springframework.security.core.userdetails.UserDetails;
 
 /**
@@ -51,6 +50,6 @@ public interface AuthService {
      * @param accountLoginDto 账号登录dto
      * @return 登录 Vo
      */
-    UserLoginVo appLoginByAccount(AccountLoginDto accountLoginDto);
+    LoginVo appLoginByAccount(AccountLoginDto accountLoginDto);
 
 }

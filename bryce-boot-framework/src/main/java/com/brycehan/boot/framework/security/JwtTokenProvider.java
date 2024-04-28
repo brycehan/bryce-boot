@@ -63,9 +63,9 @@ public class JwtTokenProvider {
      * 生成token
      *
      * @param loginUser 登录用户
-     * @return 令牌
+     * @return jwt 令牌
      */
-    public LoginVo generateToken(LoginUser loginUser) {
+    public String generateToken(LoginUser loginUser) {
 
         // 生成tokenKey
         String tokenKey = TokenUtils.uuid();
@@ -76,13 +76,14 @@ public class JwtTokenProvider {
 
         // 创建jwt
         Map<String, Object> claims = new HashMap<>();
-        claims.put(JwtConstants.LOGIN_USER_PC_KEY, tokenKey);
+        switch (loginUser.getSourceClient()) {
+            case "pc" -> claims.put(JwtConstants.LOGIN_USER_PC_KEY, tokenKey);
+            case "h5" -> claims.put(JwtConstants.LOGIN_USER_H5_KEY, tokenKey);
+            case "miniApp" -> claims.put(JwtConstants.LOGIN_USER_MA_KEY, tokenKey);
+            case "app" -> claims.put(JwtConstants.LOGIN_USER_APP_KEY, tokenKey);
+        }
 
-        String jwt = generateToken(claims);
-
-        return LoginVo.builder()
-                .token(JwtConstants.TOKEN_PREFIX.concat(jwt))
-                .build();
+        return generateToken(claims);
     }
 
     /**
@@ -214,11 +215,11 @@ public class JwtTokenProvider {
      * @param loginUser 登录用户
      */
     private void refreshToken(LoginUser loginUser) {
-        LoginVo loginVo = this.generateToken(loginUser);
+        String token = this.generateToken(loginUser);
         HttpServletResponse response = ServletUtils.getResponse();
         if(response != null) {
             // 将 jwt token 添加到响应头
-            response.setHeader(HttpHeaders.AUTHORIZATION, loginVo.getToken());
+            response.setHeader(HttpHeaders.AUTHORIZATION, token);
         }
     }
 

@@ -1,30 +1,58 @@
 package com.brycehan.boot.common.base.vo;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Builder;
 import lombok.Data;
 
+import java.io.Serial;
+import java.io.Serializable;
+
 /**
- * jwt视图对象
+ * 登录Vo
  *
  * @since 2022/5/10
  * @author Bryce Han
  */
 @Data
-@Builder
-@Schema(description = "Jwt令牌Vo")
-public class LoginVo {
+@Schema(description = "登录Vo")
+public class LoginVo implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     /**
-     * jwt令牌
+     * ID
      */
-    @Schema(description = "jwt令牌")
+    @Schema(description = "ID")
+    private Long id;
+
+    /**
+     * 昵称
+     */
+    @Schema(description = "昵称")
+    private String nickname;
+
+    /**
+     * 头像
+     */
+    @Schema(description = "头像")
+    private String avatar;
+
+    /**
+     * 账户名
+     */
+    @Schema(description = "账户名")
+    private String username;
+
+    /**
+     * 手机号码
+     */
+    @Schema(description = "手机号码")
+    private String phone;
+
+    /**
+     * 令牌
+     */
+    @Schema(description = "令牌")
     private String token;
-
-    /**
-     * 登录类型
-     */
-    @Schema(description = "登录类型")
-    private String type;
 
 }

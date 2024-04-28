@@ -128,6 +128,8 @@ public class MaUserController {
 
         MaUserProfileVo profileVo = new MaUserProfileVo();
         BeanUtils.copyProperties(maUser, profileVo);
+        profileVo.setUsername(maUser.getAccount());
+
         // 获取地区完整地址
         String fullLocation = this.sysAreaCodeApi.getFullLocation(maUser.getCounty());
         profileVo.setFullLocation(fullLocation);

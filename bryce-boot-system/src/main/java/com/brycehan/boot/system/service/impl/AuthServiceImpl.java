@@ -5,7 +5,6 @@ import com.brycehan.boot.common.base.context.LoginUser;
 import com.brycehan.boot.common.base.dto.AccountLoginDto;
 import com.brycehan.boot.common.base.dto.PhoneLoginDto;
 import com.brycehan.boot.common.base.vo.LoginVo;
-import com.brycehan.boot.common.base.vo.UserLoginVo;
 import com.brycehan.boot.common.constant.DataConstants;
 import com.brycehan.boot.common.constant.JwtConstants;
 import com.brycehan.boot.common.util.IpUtils;
@@ -107,12 +106,18 @@ public class AuthServiceImpl implements AuthService {
         LoginUser loginUser = (LoginUser) authentication.getPrincipal();
 
         // 生成 jwt
-        LoginVo loginVo = this.jwtTokenProvider.generateToken(loginUser);
+        String token = this.jwtTokenProvider.generateToken(loginUser);
 
         // 缓存 loginUser
         this.jwtTokenProvider.cacheLoginUser(loginUser);
 
-        return loginVo;
+        LoginVo userLoginVo = new LoginVo();
+        BeanUtils.copyProperties(loginUser, userLoginVo);
+        userLoginVo.setNickname(loginUser.getFullName());
+        userLoginVo.setToken(JwtConstants.TOKEN_PREFIX.concat(token));
+
+        return userLoginVo;
+
     }
 
     @Override
@@ -146,7 +151,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public UserLoginVo appLoginByAccount(AccountLoginDto accountLoginDto) {
+    public LoginVo appLoginByAccount(AccountLoginDto accountLoginDto) {
         Authentication authentication;
         try {
             // 设置需要认证的用户信息
@@ -170,8 +175,9 @@ public class AuthServiceImpl implements AuthService {
         String token = this.jwtTokenProvider.generateToken(claims, JwtConstants.APP_EXPIRE_MINUTE);
 
         // 封装登录结果
-        UserLoginVo userLoginVo = new UserLoginVo();
+        LoginVo userLoginVo = new LoginVo();
         BeanUtils.copyProperties(loginUser, userLoginVo);
+        userLoginVo.setNickname(loginUser.getFullName());
         userLoginVo.setToken(JwtConstants.TOKEN_PREFIX.concat(token));
 
         return userLoginVo;

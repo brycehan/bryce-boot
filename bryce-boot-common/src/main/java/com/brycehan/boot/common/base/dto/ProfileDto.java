@@ -6,6 +6,8 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
+import java.time.LocalDate;
+
 /**
  * 个人信息Dto
  *
@@ -22,7 +24,7 @@ public class ProfileDto {
     @NotNull
     @Size(min = 2, max = 50)
     @Schema(description = "用户昵称")
-    private String fullName;
+    private String nickname;
 
     /**
      * 手机号码
@@ -47,4 +49,15 @@ public class ProfileDto {
     @Pattern(regexp = "^[MF]$", message = "性别值只能是M或F")
     private String gender;
 
+    /**
+     * 生日
+     */
+    @Schema(description = "生日")
+    private LocalDate birthday;
+
+    /**
+     * 职业
+     */
+    @Schema(description = "职业")
+    private String profession;
 }

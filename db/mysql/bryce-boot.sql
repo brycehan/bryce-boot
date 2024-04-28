@@ -70,6 +70,8 @@ create table brc_sys_user
     type               smallint   default 0     null comment '用户类型（0：系统用户）',
     phone              varchar(20)              null comment '手机号码',
     email              varchar(50)              null comment '邮箱',
+    birthday           datetime                 null comment '生日',
+    profession         varchar(50)              null comment '职业',
     sort               int          default 0   null comment '显示顺序',
     org_id             bigint                   null comment '机构ID',
     super_admin        tinyint                  null comment '超级管理员',

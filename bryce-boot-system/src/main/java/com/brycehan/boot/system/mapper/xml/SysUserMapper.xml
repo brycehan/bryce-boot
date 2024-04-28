@@ -13,6 +13,8 @@
         <result column="type" property="type"/>
         <result column="phone" property="phone"/>
         <result column="email" property="email"/>
+        <result column="birthday" property="birthday"/>
+        <result column="profession" property="profession"/>
         <result column="sort" property="sort"/>
         <result column="org_id" property="orgId"/>
         <result column="super_admin" property="superAdmin"/>
@@ -32,8 +34,8 @@
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, username, password, full_name, avatar,
-        gender, type, phone, email, sort,
-        org_id, super_admin, status, remark,
+        gender, type, phone, email,birthday, profession,
+        sort, org_id, super_admin, status, remark,
         account_non_locked, last_login_ip, last_login_time, version,
         deleted, created_user_id, created_time, updated_user_id, updated_time
     </sql>

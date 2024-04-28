@@ -1,8 +1,11 @@
 package com.brycehan.boot.system.controller;
 
+import com.brycehan.boot.api.system.SysUploadFileApi;
+import com.brycehan.boot.api.system.vo.SysUploadFileVo;
 import com.brycehan.boot.common.base.dto.ProfileDto;
 import com.brycehan.boot.common.base.http.ResponseResult;
 import com.brycehan.boot.common.base.http.UserResponseStatus;
+import com.brycehan.boot.common.base.vo.ProfileVo;
 import com.brycehan.boot.framework.operatelog.annotation.OperateLog;
 import com.brycehan.boot.framework.operatelog.annotation.OperateType;
 import com.brycehan.boot.framework.security.JwtTokenProvider;
@@ -14,12 +17,11 @@ import com.brycehan.boot.system.service.SysUserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
-import java.util.Map;
+import org.springframework.web.multipart.MultipartFile;
 
 
 /**
@@ -28,15 +30,18 @@ import java.util.Map;
  * @since 2022/10/31
  * @author Bryce Han
  */
+@Slf4j
 @Tag(name = "用户个人中心")
-@RequestMapping(path = "/profile")
+@RequestMapping(path = "/auth/profile")
 @RestController
 @RequiredArgsConstructor
-public class ProfileController {
+public class AuthProfileController {
 
     private final SysUserService sysUserService;
 
     private final JwtTokenProvider jwtTokenProvider;
+
+    private final SysUploadFileApi sysUploadFileApi;
 
     /**
      * 个人信息
@@ -45,14 +50,15 @@ public class ProfileController {
      */
     @Operation(summary = "个人信息")
     @GetMapping
-    public ResponseResult<Map<String, Object>> profile() {
+    public ResponseResult<ProfileVo> profile() {
         Long userId = LoginUserContext.currentUserId();
         SysUser sysUser = this.sysUserService.getById(userId);
 
-        Map<String, Object> result = new HashMap<>();
-        result.put("user", sysUser);
+        ProfileVo profileVo = new ProfileVo();
+        BeanUtils.copyProperties(sysUser, profileVo);
+        profileVo.setNickname(sysUser.getFullName());
 
-        return ResponseResult.ok(result);
+        return ResponseResult.ok(profileVo);
     }
 
     /**
@@ -64,7 +70,7 @@ public class ProfileController {
     @Operation(summary = "修改用户个人信息")
     @OperateLog(type = OperateType.UPDATE)
     @PutMapping
-    public ResponseResult<Void> update(@RequestBody ProfileDto profile) {
+    public ResponseResult<ProfileVo> update(@RequestBody ProfileDto profile) {
         // 校验
         LoginUser loginUser = LoginUserContext.currentUser();
         assert loginUser != null;
@@ -72,6 +78,8 @@ public class ProfileController {
         SysUser sysUser = this.sysUserService.getById(loginUser.getId());
         SysUser user = new SysUser();
         BeanUtils.copyProperties(profile, user);
+        user.setFullName(profile.getNickname());
+
         user.setId(loginUser.getId());
 
         // 校验手机号码
@@ -87,10 +95,49 @@ public class ProfileController {
             // 更新缓存用户信息
             BeanUtils.copyProperties(profile, sysUser);
             this.jwtTokenProvider.setLoginUser(loginUser);
-            return ResponseResult.ok();
+            ProfileVo profileVo = new ProfileVo();
+            BeanUtils.copyProperties(user, profileVo);
+            profileVo.setNickname(user.getFullName());
+
+            return ResponseResult.ok(profileVo);
         }
 
         return ResponseResult.error(UserResponseStatus.USER_PROFILE_ALTER_ERROR);
+    }
+
+    /**
+     * 更新头像
+     *
+     * @param file 上传文件
+     * @return 响应结果
+     */
+    @Operation(summary = "更新头像")
+    @OperateLog(type = OperateType.INSERT)
+    @PostMapping(path = "/avatar")
+    public ResponseResult<?> uploadAvatar(@RequestParam MultipartFile file) {
+
+        if (file.isEmpty()) {
+            return ResponseResult.error("上传文件不能为空");
+        }
+
+        String moduleName = "system/avatar";
+        try {
+            SysUploadFileVo uploadFileVo = this.sysUploadFileApi.upload(file, moduleName);
+            if (uploadFileVo != null) {
+                String avatar = uploadFileVo.getUrl();
+                Long id = LoginUserContext.currentUserId();
+                SysUser sysUser = this.sysUserService.getById(id);
+                sysUser.setAvatar(avatar);
+                this.sysUserService.updateById(sysUser);
+
+                return ResponseResult.ok(uploadFileVo);
+            }
+        } catch (Exception e) {
+            log.error("上传文件失败，{}", e.getMessage());
+            throw new RuntimeException("上传头像失败");
+        }
+
+        return ResponseResult.error("出现错误");
     }
 
     /**

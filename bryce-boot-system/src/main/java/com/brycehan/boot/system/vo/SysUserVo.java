@@ -14,6 +14,7 @@ import lombok.Data;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -87,6 +88,18 @@ public class SysUserVo implements Serializable, TransPojo {
     @ExcelProperty(value = "邮箱")
     @Schema(description = "邮箱")
     private String email;
+
+    /**
+     * 生日
+     */
+    @Schema(description = "生日")
+    private LocalDate birthday;
+
+    /**
+     * 职业
+     */
+    @Schema(description = "职业")
+    private String profession;
 
     /**
      * 显示顺序

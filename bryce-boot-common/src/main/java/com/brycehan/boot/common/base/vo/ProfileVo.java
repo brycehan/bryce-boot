@@ -1,4 +1,4 @@
-package com.brycehan.boot.ma.vo;
+package com.brycehan.boot.common.base.vo;
 
 import cn.hutool.core.date.DatePattern;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -10,14 +10,14 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 /**
- * 微信小程序用户 Vo
+ * 用户个人信息Vo
  *
  * @author Bryce Han
  * @since 2024/04/07
  */
 @Data
-@Schema(description = "微信小程序用户个人信息Vo")
-public class MaUserProfileVo implements Serializable {
+@Schema(description = "用户个人信息Vo")
+public class ProfileVo implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -88,4 +88,5 @@ public class MaUserProfileVo implements Serializable {
      */
     @Schema(description = "职业")
     private String profession;
+
 }

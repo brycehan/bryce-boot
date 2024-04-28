@@ -1,11 +1,10 @@
 package com.brycehan.boot.system.controller;
 
+import com.brycehan.boot.common.base.context.LoginUserContext;
 import com.brycehan.boot.common.base.dto.AccountLoginDto;
 import com.brycehan.boot.common.base.dto.PhoneLoginDto;
 import com.brycehan.boot.common.base.http.ResponseResult;
 import com.brycehan.boot.common.base.vo.LoginVo;
-import com.brycehan.boot.common.base.vo.UserLoginVo;
-import com.brycehan.boot.common.base.context.LoginUserContext;
 import com.brycehan.boot.system.convert.SysUserConvert;
 import com.brycehan.boot.system.service.AuthService;
 import com.brycehan.boot.system.vo.SysUserVo;
@@ -39,8 +38,8 @@ public class AuthAppController {
      */
     @Operation(summary = "app账号密码登录")
     @PostMapping(path = "/account/login")
-    public ResponseResult<UserLoginVo> accountLogin(@Validated @RequestBody AccountLoginDto accountLoginDto) {
-        UserLoginVo userLoginVo = authService.appLoginByAccount(accountLoginDto);
+    public ResponseResult<LoginVo> accountLogin(@Validated @RequestBody AccountLoginDto accountLoginDto) {
+        LoginVo userLoginVo = authService.appLoginByAccount(accountLoginDto);
         return ResponseResult.ok(userLoginVo);
     }
 
