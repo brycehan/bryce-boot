@@ -20,8 +20,22 @@ public class RedisKeys {
         return CacheConstants.CAPTCHA_CODE_KEY.concat(key);
     }
 
+    /**
+     * 获取操作日志 key
+     *
+     * @return 操作日志 key
+     */
     public static String getOperateLogKey() {
         return "sys:log";
+    }
+
+    /**
+     * 获取第三方登录 key
+     *
+     * @return 第三方登录 key
+     */
+    public static String getThirdLoginKey() {
+        return "third:login";
     }
 
 }

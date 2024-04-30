@@ -3,10 +3,12 @@ bryce:
   mp:
     enabled: true
     # APPID
-    app-id: wx264fcac63168e5bb
+    appid: wx264fcac63168e5bb
     # APP SECRET
     secret: c7b629c2979fe1245ed8c5e4017fb246
     # 令牌
     token: Dg03nBzjFXx5gwyedimoytRMSaPyrO9d
     # EncodingAESKey
     aes-key: UDuLFDcmy51111111111111111111111
+    # 第三方登录回调地址
+    redirect-url: https://6245-111-17-77-162.ngrok-free.app/third/login/wechat/mp/auth

@@ -32,7 +32,7 @@ public class MpConfig {
         WxMpService wxMpService = new WxMpServiceImpl();
 
         WxMpDefaultConfigImpl wxMpConfigStorage = new WxMpDefaultConfigImpl();
-        wxMpConfigStorage.setAppId(mpProperties.getAppId());
+        wxMpConfigStorage.setAppId(mpProperties.getAppid());
         wxMpConfigStorage.setSecret(mpProperties.getSecret());
         wxMpConfigStorage.setToken(mpProperties.getToken());
         wxMpConfigStorage.setAesKey(mpProperties.getAesKey());

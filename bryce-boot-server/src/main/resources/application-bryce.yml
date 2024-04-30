@@ -74,7 +74,9 @@ bryce:
         - /attachment/**
         - /captcha/**
         - /sms/**
+        - /system/sms/**
         - /register/enabled
+        - /third/login/wechat/mp/**
       post:
         - /auth/loginByAccount
         - /auth/loginByPhone

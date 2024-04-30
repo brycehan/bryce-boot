@@ -53,6 +53,7 @@
 		<huaweicloud-obs.version>3.23.9.1</huaweicloud-obs.version>
 		<!-- 工具 -->
 		<hutool.version>5.8.21</hutool.version>
+		<zxing.version>3.5.3</zxing.version>
 		<guava.version>32.0.0-jre</guava.version>
 		<easyexcel.version>3.3.2</easyexcel.version>
 		<transmittable-thread-local.version>2.14.3</transmittable-thread-local.version>
@@ -108,16 +109,29 @@
 				<artifactId>bryce-boot-module</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-			<!-- 代码生成器模块 -->
+			<!-- 微信小程序模块 -->
 			<dependency>
 				<groupId>com.brycehan.boot</groupId>
-				<artifactId>bryce-module-generator</artifactId>
+				<artifactId>bryce-module-ma</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<!-- 监控模块 -->
 			<dependency>
 				<groupId>com.brycehan.boot</groupId>
 				<artifactId>bryce-module-monitor</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<!-- 微信公众号模块 -->
+			<dependency>
+				<groupId>com.brycehan.boot</groupId>
+				<artifactId>bryce-module-mp</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<!-- 支付模块 -->
+			<dependency>
+				<groupId>com.brycehan.boot</groupId>
+				<artifactId>bryce-module-pay</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<!-- quartz 模块 -->
@@ -132,22 +146,10 @@
 				<artifactId>bryce-module-sms</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-			<!-- 支付模块 -->
+			<!-- 第三方登录 -->
 			<dependency>
 				<groupId>com.brycehan.boot</groupId>
-				<artifactId>bryce-module-pay</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<!-- 微信公众号模块 -->
-			<dependency>
-				<groupId>com.brycehan.boot</groupId>
-				<artifactId>bryce-module-mp</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<!-- 微信小程序模块 -->
-			<dependency>
-				<groupId>com.brycehan.boot</groupId>
-				<artifactId>bryce-module-ma</artifactId>
+				<artifactId>bryce-module-third-login</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<!-- 服务组件 -->
@@ -327,6 +329,11 @@
 				<groupId>com.squareup.okio</groupId>
 				<artifactId>okio</artifactId>
 				<version>${okio.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.google.zxing</groupId>
+				<artifactId>core</artifactId>
+				<version>${zxing.version}</version>
 			</dependency>
 			<!-- 监控工具 -->
 			<dependency>

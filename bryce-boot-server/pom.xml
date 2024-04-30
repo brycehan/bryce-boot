@@ -43,6 +43,10 @@
             <groupId>com.brycehan.boot</groupId>
             <artifactId>bryce-module-ma</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.brycehan.boot</groupId>
+            <artifactId>bryce-module-third-login</artifactId>
+        </dependency>
         <!-- 代码生成器 -->
         <dependency>
             <groupId>com.brycehan.boot</groupId>

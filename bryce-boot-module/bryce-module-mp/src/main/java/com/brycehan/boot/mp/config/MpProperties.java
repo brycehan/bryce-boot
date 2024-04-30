@@ -20,7 +20,7 @@ public class MpProperties {
     /**
      * 微信公众号的appid
      */
-    private String appId;
+    private String appid;
 
     /**
      * 微信公众号的app secret
@@ -37,4 +37,8 @@ public class MpProperties {
      */
     private String aesKey;
 
+    /**
+     * 微信第三方登录的回调地址
+     */
+    private String redirectUrl;
 }

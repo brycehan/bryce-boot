@@ -87,4 +87,12 @@ public interface MpUserService extends BaseService<MpUser> {
      */
     void syncMpUsers(List<String> openidList);
 
+    /**
+     * 通过openid获取用户信息
+     *
+     * @param openid openid
+     * @return 用户信息
+     */
+    MpUser getByOpenid(String openid);
+
 }

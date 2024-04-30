@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.brycehan.boot</groupId>
+        <artifactId>bryce-boot-module</artifactId>
+        <version>${revision}</version>
+    </parent>
+    <artifactId>bryce-module-third-login</artifactId>
+    <version>${revision}</version>
+    <name>bryce-module-wechat-third-login</name>
+    <description>bryce-module-third-login</description>
+
+    <!-- 依赖 -->
+    <dependencies>
+        <dependency>
+            <groupId>com.brycehan.boot</groupId>
+            <artifactId>bryce-boot-framework</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.brycehan.boot</groupId>
+            <artifactId>bryce-boot-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.brycehan.boot</groupId>
+            <artifactId>bryce-module-mp</artifactId>
+        </dependency>
+        <!-- 微信公众号 -->
+        <dependency>
+            <groupId>com.github.binarywang</groupId>
+            <artifactId>weixin-java-mp</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>

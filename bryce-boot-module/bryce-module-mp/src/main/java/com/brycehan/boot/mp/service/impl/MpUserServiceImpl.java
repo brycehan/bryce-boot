@@ -1,17 +1,18 @@
 package com.brycehan.boot.mp.service.impl;
 
-import com.brycehan.boot.common.util.DateTimeUtils;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.brycehan.boot.common.base.entity.PageResult;
-import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
+import com.brycehan.boot.common.util.DateTimeUtils;
 import com.brycehan.boot.common.util.ExcelUtils;
+import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
 import com.brycehan.boot.mp.convert.MpUserConvert;
 import com.brycehan.boot.mp.dto.MpUserPageDto;
 import com.brycehan.boot.mp.entity.MpUser;
-import com.brycehan.boot.mp.vo.MpUserVo;
-import com.brycehan.boot.mp.service.MpUserService;
 import com.brycehan.boot.mp.mapper.MpUserMapper;
+import com.brycehan.boot.mp.service.MpUserService;
+import com.brycehan.boot.mp.vo.MpUserVo;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.error.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpService;
@@ -22,7 +23,6 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-import lombok.RequiredArgsConstructor;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
@@ -176,5 +176,12 @@ public class MpUserServiceImpl extends BaseServiceImpl<MpUserMapper, MpUser> imp
                 }
             });
         }
+    }
+
+    @Override
+    public MpUser getByOpenid(String openid) {
+        LambdaQueryWrapper<MpUser> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(MpUser::getOpenId, openid);
+        return this.baseMapper.selectOne(queryWrapper);
     }
 }

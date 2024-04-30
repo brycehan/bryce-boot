@@ -22,6 +22,7 @@
         <module>bryce-module-pay</module>
         <module>bryce-module-quartz</module>
         <module>bryce-module-sms</module>
+        <module>bryce-module-third-login</module>
     </modules>
 
 </project>

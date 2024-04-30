@@ -98,6 +98,10 @@
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.google.zxing</groupId>
+            <artifactId>core</artifactId>
+        </dependency>
         <!-- Guava 库 -->
         <dependency>
             <groupId>com.google.guava</groupId>
@@ -117,6 +121,7 @@
             <groupId>com.squareup.okio</groupId>
             <artifactId>okio</artifactId>
         </dependency>
+
         <!-- Lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
