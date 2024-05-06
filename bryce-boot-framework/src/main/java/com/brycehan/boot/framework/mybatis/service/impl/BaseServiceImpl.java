@@ -9,6 +9,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.brycehan.boot.common.base.context.LoginUser;
+import com.brycehan.boot.common.base.context.LoginUserContext;
 import com.brycehan.boot.common.base.convert.OrderItemConvert;
 import com.brycehan.boot.common.base.entity.BasePageDto;
 import com.brycehan.boot.common.base.entity.OrderItemDto;
@@ -16,8 +18,6 @@ import com.brycehan.boot.common.constant.DataConstants;
 import com.brycehan.boot.common.util.JsonUtils;
 import com.brycehan.boot.framework.mybatis.interceptor.DataScope;
 import com.brycehan.boot.framework.mybatis.service.BaseService;
-import com.brycehan.boot.common.base.context.LoginUser;
-import com.brycehan.boot.common.base.context.LoginUserContext;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 
@@ -62,13 +62,19 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<M, 
 
         // 无参数时，若有sort字段，默认按sort排序升序
         if (CollectionUtils.isEmpty(orderItems) && hasEntityField(pageDto.getClass(), DataConstants.DEFAULT_SORT_COLUMN)) {
-            OrderItem orderItem = new OrderItem().setColumn(DataConstants.DEFAULT_SORT_COLUMN).setAsc(DataConstants.DEFAULT_SORT_IS_ASC);
+            OrderItem orderItem = new OrderItem();
+            orderItem.setColumn(DataConstants.DEFAULT_SORT_COLUMN);
+            orderItem.setAsc(DataConstants.DEFAULT_SORT_IS_ASC);
+
             orderItems.add(orderItem);
         }
 
         // 默认按id降序排序
         if (CollectionUtils.isEmpty(orderItems)) {
-            OrderItem orderItem = new OrderItem().setColumn("id").setAsc(false);
+            OrderItem orderItem = new OrderItem();
+            orderItem.setColumn("id");
+            orderItem.setAsc(false);
+
             orderItems.add(orderItem);
         }
 
