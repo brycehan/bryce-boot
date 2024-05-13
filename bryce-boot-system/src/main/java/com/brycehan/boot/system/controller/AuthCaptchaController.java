@@ -19,10 +19,10 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Slf4j
 @Tag(name = "验证码")
-@RequestMapping("/captcha")
+@RequestMapping("/auth/captcha")
 @RestController
 @RequiredArgsConstructor
-public class CaptchaController {
+public class AuthCaptchaController {
 
     private final CaptchaService captchaService;
 

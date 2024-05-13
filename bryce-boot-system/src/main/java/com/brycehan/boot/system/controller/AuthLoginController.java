@@ -1,16 +1,13 @@
 package com.brycehan.boot.system.controller;
 
+import com.brycehan.boot.common.base.context.LoginUserContext;
 import com.brycehan.boot.common.base.dto.AccountLoginDto;
 import com.brycehan.boot.common.base.dto.PhoneLoginDto;
 import com.brycehan.boot.common.base.http.ResponseResult;
 import com.brycehan.boot.common.base.vo.LoginVo;
 import com.brycehan.boot.framework.security.TokenUtils;
-import com.brycehan.boot.common.base.context.LoginUserContext;
-import com.brycehan.boot.system.common.MenuType;
 import com.brycehan.boot.system.convert.SysUserConvert;
 import com.brycehan.boot.system.service.AuthService;
-import com.brycehan.boot.system.service.SysMenuService;
-import com.brycehan.boot.system.vo.SysMenuVo;
 import com.brycehan.boot.system.vo.SysUserVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -19,9 +16,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Set;
 
 /**
  * 登录认证API
@@ -34,11 +28,9 @@ import java.util.Set;
 @RestController
 @RequestMapping(path = "/auth")
 @RequiredArgsConstructor
-public class AuthController {
+public class AuthLoginController {
 
     private final AuthService authService;
-
-    private final SysMenuService sysMenuService;
 
     /**
      * 账号登录
@@ -67,18 +59,6 @@ public class AuthController {
     }
 
     /**
-     * 获取用户权限标识
-     *
-     * @return 响应结果
-     */
-    @Operation(summary = "获取用户权限标识", description = "用户权限标识集合")
-    @GetMapping(path = "/authority")
-    public ResponseResult<Set<String>> authority() {
-        Set<String> authoritySet = this.sysMenuService.findAuthority(LoginUserContext.currentUser());
-        return ResponseResult.ok(authoritySet);
-    }
-
-    /**
      * 查询系统登录用户详情
      *
      * @return 响应结果
@@ -91,25 +71,13 @@ public class AuthController {
     }
 
     /**
-     * 获取路由信息
-     *
-     * @return 路由列表
-     */
-    @Operation(summary = "获取菜单列表")
-    @GetMapping(path = "/nav")
-    public ResponseResult<List<SysMenuVo>> nav() {
-        List<SysMenuVo> list = this.sysMenuService.getMenuTreeList(LoginUserContext.currentUser(), MenuType.MENU.getValue());
-        return ResponseResult.ok(list);
-    }
-
-    /**
      * 退出登录
      *
      * @return 响应结果
      */
     @Operation(summary = "退出登录")
-    @GetMapping(path = "/logout")
-    public ResponseResult<Void> logout(HttpServletRequest request) {
+    @GetMapping(path = "/quit")
+    public ResponseResult<Void> quit(HttpServletRequest request) {
         this.authService.logout(TokenUtils.getAccessToken(request));
         return ResponseResult.ok();
     }

@@ -72,8 +72,7 @@ bryce:
         - /doc.html
         - /favicon.ico
         - /attachment/**
-        - /captcha/**
-        - /sms/**
+        - /auth/captcha/**
         - /system/sms/**
         - /register/enabled
         - /third/login/wechat/mp/**
@@ -82,7 +81,7 @@ bryce:
         - /auth/loginByPhone
         - /auth/app/account/login
         - /auth/app/sms/login
-        - /register
+        - /auth/register
         - /ma/user/login
 
   # xss 过滤

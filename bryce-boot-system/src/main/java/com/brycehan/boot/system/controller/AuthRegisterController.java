@@ -21,10 +21,10 @@ import org.springframework.web.bind.annotation.*;
  * @author Bryce Han
  */
 @Tag(name = "注册")
-@RequestMapping(path = "/register")
+@RequestMapping(path = "/auth/register")
 @RestController
 @RequiredArgsConstructor
-public class RegisterController {
+public class AuthRegisterController {
 
     private final SysRegisterService sysRegisterService;
 
