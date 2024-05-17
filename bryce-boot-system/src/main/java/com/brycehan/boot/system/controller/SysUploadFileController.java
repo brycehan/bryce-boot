@@ -26,7 +26,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * @author Bryce Han
  */
 @Tag(name = "上传文件")
-@RequestMapping("/system/uploadFile")
+@RequestMapping("/storage/uploadFile")
 @RestController
 @RequiredArgsConstructor
 public class SysUploadFileController {
@@ -41,8 +41,8 @@ public class SysUploadFileController {
      */
     @Operation(summary = "上传文件")
     @OperateLog(type = OperateType.INSERT)
-    @PostMapping
-    public ResponseResult<List<SysUploadFileVo>> upload(@RequestParam List<MultipartFile> file,
+    @PostMapping(path = "/list")
+    public ResponseResult<List<SysUploadFileVo>> uploadList(@RequestParam List<MultipartFile> file,
                                                         @RequestParam(defaultValue = "system") String moduleName) {
 
         if (CollectionUtils.isEmpty(file)) {
@@ -59,6 +59,21 @@ public class SysUploadFileController {
         });
 
         return ResponseResult.ok(uploadFileVoList);
+    }
+
+    /**
+     * 保存上传文件
+     *
+     * @param file 上传文件
+     * @return 响应结果
+     */
+    @Operation(summary = "上传文件")
+    @OperateLog(type = OperateType.INSERT)
+    @PostMapping
+    public ResponseResult<SysUploadFileVo> upload(@RequestParam MultipartFile file,
+                                                        @RequestParam(defaultValue = "system") String moduleName) {
+        SysUploadFileVo sysUploadFileVo = this.sysUploadFileApi.upload(file, moduleName);
+        return ResponseResult.ok(sysUploadFileVo);
     }
 
 }
