@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.1.5</version>
+		<version>3.2.5</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.brycehan.boot</groupId>
@@ -15,34 +15,36 @@
 	<description>bryce-boot</description>
 	<packaging>pom</packaging>
 
-	<!-- 版本属性 -->
+	<!-- 属性 -->
 	<properties>
 		<revision>0.0.1-SNAPSHOT</revision>
 		<!-- Java 版本 -->
 		<java.version>17</java.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<skipTests>true</skipTests>
-		<!-- Swagger 接口文档 -->
-		<knife4j.version>4.3.0</knife4j.version>
 		<!-- Mybatis Plus -->
-		<mybatis-plus.version>3.5.5</mybatis-plus.version>
+		<mybatis-plus.version>3.5.6</mybatis-plus.version>
 		<mybatis-plus-join.version>1.4.7</mybatis-plus-join.version>
-		<dynamic-datasource.version>3.6.1</dynamic-datasource.version>
+		<dynamic-datasource.version>4.1.3</dynamic-datasource.version>
 		<p6spy.version>3.9.1</p6spy.version>
 		<dameng.version>8.1.2.79</dameng.version>
-		<!-- redis -->
-		<redisson.version>3.24.3</redisson.version>
+		<!-- Swagger 接口文档 -->
+		<knife4j.version>4.5.0</knife4j.version>
 		<!-- 验证码组件 -->
 		<captcha.version>1.6.2</captcha.version>
+		<!-- Redis -->
+		<redisson.version>3.24.3</redisson.version>
 		<!-- ID 生成 -->
 		<yitter-idgenerator.version>1.0.6</yitter-idgenerator.version>
 		<!-- jwt 令牌 -->
 		<auth0-jwt.version>4.4.0</auth0-jwt.version>
 		<!-- easy trans 数据翻译插件 -->
-		<easy-trans.version>2.2.9</easy-trans.version>
+		<easy-trans.version>3.0.3</easy-trans.version>
 		<!-- 实体转换器 -->
 		<mapstruct.version>1.5.5.Final</mapstruct.version>
 		<!-- 短信组件 -->
-		<sms4j.version>3.0.3</sms4j.version>
+		<sms4j.version>3.2.1</sms4j.version>
 		<aliyun-dysmsapi.version>2.0.23</aliyun-dysmsapi.version>
 		<tencentcloud-sdk.version>3.1.574</tencentcloud-sdk.version>
 		<!-- 对象存储 -->
@@ -54,7 +56,7 @@
 		<!-- 工具 -->
 		<hutool.version>5.8.21</hutool.version>
 		<zxing.version>3.5.3</zxing.version>
-		<guava.version>32.0.0-jre</guava.version>
+		<guava.version>33.2.0-jre</guava.version>
 		<easyexcel.version>3.3.2</easyexcel.version>
 		<transmittable-thread-local.version>2.14.3</transmittable-thread-local.version>
 		<commons-text.version>1.11.0</commons-text.version>
@@ -172,7 +174,7 @@
 			<!-- Mybatis Plus 框架 -->
 			<dependency>
 				<groupId>com.baomidou</groupId>
-				<artifactId>mybatis-plus-boot-starter</artifactId>
+				<artifactId>mybatis-plus-spring-boot3-starter</artifactId>
 				<version>${mybatis-plus.version}</version>
 			</dependency>
 			<dependency>
@@ -183,7 +185,7 @@
 			<!-- 动态数据源 -->
 			<dependency>
 				<groupId>com.baomidou</groupId>
-				<artifactId>dynamic-datasource-spring-boot-starter</artifactId>
+				<artifactId>dynamic-datasource-spring-boot3-starter</artifactId>
 				<version>${dynamic-datasource.version}</version>
 			</dependency>
 			<dependency>

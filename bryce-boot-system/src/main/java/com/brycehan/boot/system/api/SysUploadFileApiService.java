@@ -4,10 +4,8 @@ import cn.hutool.core.io.file.FileNameUtil;
 import cn.hutool.crypto.SecureUtil;
 import com.brycehan.boot.api.system.SysUploadFileApi;
 import com.brycehan.boot.api.system.vo.SysUploadFileVo;
-import com.brycehan.boot.common.base.id.IdGenerator;
 import com.brycehan.boot.framework.storage.service.StorageService;
 import com.brycehan.boot.system.dto.SysAttachmentDto;
-import com.brycehan.boot.system.service.SysAttachmentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -26,7 +24,6 @@ import org.springframework.web.multipart.MultipartFile;
 public class SysUploadFileApiService implements SysUploadFileApi {
 
     private final StorageService storageService;
-    private final SysAttachmentService sysAttachmentService;
 
     @Override
     public SysUploadFileVo upload(MultipartFile file, String moduleName) {
@@ -44,7 +41,6 @@ public class SysUploadFileApiService implements SysUploadFileApi {
             String url = this.storageService.upload(file.getInputStream(), path);
 
             SysAttachmentDto attachmentDto = new SysAttachmentDto();
-            attachmentDto.setId(IdGenerator.nextId());
             attachmentDto.setUrl(url);
             attachmentDto.setName(file.getOriginalFilename());
             attachmentDto.setSize(file.getSize());
@@ -52,7 +48,6 @@ public class SysUploadFileApiService implements SysUploadFileApi {
             attachmentDto.setHash(SecureUtil.sha256(file.getInputStream()));
             attachmentDto.setPlatform(this.storageService.storageProperties.getConfig().getType().name());
             attachmentDto.setType(moduleName);
-            this.sysAttachmentService.save(attachmentDto);
 
             BeanUtils.copyProperties(attachmentDto, sysUploadFileVo);
 
