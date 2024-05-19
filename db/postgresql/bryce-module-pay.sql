@@ -7,7 +7,7 @@
  */
 
 -- 1、订单表
-create table bryce_boot.brc_pay_order
+create table brc_pay_order
 (
     id              bigint                not null primary key,
     title           varchar(256),
@@ -47,7 +47,7 @@ comment on column brc_pay_order.updated_user_id is '修改者ID';
 comment on column brc_pay_order.updated_time    is '修改时间';
 
 -- 2、支付记录表
-create table bryce_boot.brc_pay_payment
+create table brc_pay_payment
 (
     id              bigint                not null primary key,
     order_no        varchar(50),
@@ -83,7 +83,7 @@ comment on column brc_pay_payment.updated_user_id is '修改者ID';
 comment on column brc_pay_payment.updated_time    is '修改时间';
 
 -- 3、商品表
-create table bryce_boot.brc_pay_product
+create table brc_pay_product
 (
     id              bigint                not null primary key,
     title           varchar(20),
@@ -115,7 +115,7 @@ INSERT INTO brc_pay_product (id, title, price, version, deleted, created_user_id
 INSERT INTO brc_pay_product (id, title, price, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (4, 'UI课程', 1, 1, false, null, '2024-02-27 08:04:58', null, null);
 
 -- 4、退款单表
-create table bryce_boot.brc_pay_refund
+create table brc_pay_refund
 (
     id              bigint                not null primary key,
     order_no        varchar(50),

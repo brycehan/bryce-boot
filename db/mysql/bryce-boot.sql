@@ -1,3 +1,7 @@
+-- 创建数据库
+create database if not exists bryce_boot default character set utf8mb4 collate utf8mb4_0900_ai_ci;
+use bryce_boot;
+
 /*
     -- 删除表
     drop table if exists brc_sys_org;
@@ -17,10 +21,6 @@
     drop table if exists brc_sys_attachment;
     drop table if exists brc_sys_notice;
  */
-
--- 创建数据库
-create database if not exists bryce_boot default character set utf8mb4 collate utf8mb4_0900_ai_ci;
-use bryce_boot;
 
 -- 1、系统机构表
 create table brc_sys_org
@@ -496,7 +496,7 @@ create index idx_created_time on brc_sys_attachment (created_time) comment '创�
 create table brc_sys_notice
 (
     id              bigint            primary key comment 'ID',
-    title           varchar(50)       not null comment '标题',
+    title           varchar(100)       not null comment '标题',
     content         longtext          null comment '内容',
     type            smallint          not null comment '公告类型（0：通知，1：公告）',
     status          tinyint default 1 null comment '状态（0：关闭，1：正常）',

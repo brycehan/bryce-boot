@@ -1,5 +1,5 @@
 --
-create database if not exists bryce_boot ;
+create database if not exists bryce_boot;
 /*
     -- 删除表
     drop table if exists brc_sys_org;
@@ -724,7 +724,7 @@ create index idx_brc_sys_attachment_created_time on brc_sys_attachment (created_
 create table brc_sys_notice
 (
     id              bigint      not null primary key,
-    title           varchar(50) not null,
+    title           varchar(100) not null,
     content         text,
     type            smallint    not null,
     status          boolean default true,
@@ -754,3 +754,29 @@ comment on column brc_sys_notice.updated_time is '修改时间';
 -- 初始化-系统通知公告表数据
 INSERT INTO brc_sys_notice (id, title, content, type, status, remark, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1, '温馨提醒：2022-10-01 Bryce Boot 新版本发布啦', '<p>新版本内容</p>', 2, true, null, 1, false, 1, now(), null, null);
 INSERT INTO brc_sys_notice (id, title, content, type, status, remark, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (2, '维护通知：2022-10-01 Bryce Boot 系统凌晨维护', '<p>维护内容</p>', 1, true, null, 1, false, 1, now(), null, null);
+
+-- 17、地区编码表
+create table brc_sys_area_code
+(
+    id            int          primary key,
+    parent_id     int          not null,
+    deep          int          not null,
+    name          varchar(255) not null,
+    code          varchar(255) not null,
+    pinyin_prefix varchar(255) not null,
+    pinyin        varchar(255) not null,
+    ext_id        varchar(50)  not null,
+    ext_name      varchar(255) not null
+);
+
+comment on table brc_sys_area_code is '地区编码表';
+
+comment on column brc_sys_area_code.id            is 'ID';
+comment on column brc_sys_area_code.parent_id     is '父ID';
+comment on column brc_sys_area_code.deep          is '层级';
+comment on column brc_sys_area_code.name          is '名称';
+comment on column brc_sys_area_code.code          is '编码';
+comment on column brc_sys_area_code.pinyin_prefix is '拼音前缀';
+comment on column brc_sys_area_code.pinyin        is '拼音';
+comment on column brc_sys_area_code.ext_id        is '扩展ID';
+comment on column brc_sys_area_code.ext_name      is '扩展名称';
