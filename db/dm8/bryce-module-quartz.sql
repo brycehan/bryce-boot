@@ -1,13 +1,3 @@
--- 初始化-系统字典类型表数据
-INSERT INTO brc_sys_dict_type (id, dict_name, dict_type, sort, status, remark, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (10, '任务分组', 'quartz_job_group', 0, true, '任务分组列表', 1, false, 1, now(), null, null);
-INSERT INTO brc_sys_dict_type (id, dict_name, dict_type, sort, status, remark, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (11, '任务状态', 'quartz_job_status', 0, true, '任务状态列表', 1, false, 1, now(), null, null);
-
--- 初始化-系统字典数据表数据
-INSERT INTO brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, sort, status, remark, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (101, '默认', 'DEFAULT', 10, 'success', 1, true, null, 1, false, 1, now(), null, null);
-INSERT INTO brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, sort, status, remark, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (102, '系统', 'SYSTEM', 10, '', 2, true, null, 1, false, 1, now(), null, null);
-INSERT INTO brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, sort, status, remark, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (111, '正常', true, 11, 'primary', 1, true, null, 1, false, 1, now(), null, null);
-INSERT INTO brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, sort, status, remark, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (112, '暂停', false, 11, 'danger', 2, true, null, 1, false, 1, now(), null, null);
-
 -- 初始化-菜单数据
 -- 二级菜单
 INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (111, '定时任务', 'M', 2, 'quartz/job/index', 'quartz:job:page', 'icon-reloadtime', false, 1, '定时任务菜单', true, null, false, 1, now(), null, null);

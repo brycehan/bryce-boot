@@ -1,8 +1,26 @@
 --
 create database if not exists bryce_boot ;
+/*
+    -- 删除表
+    drop table if exists brc_sys_org;
+    drop table if exists brc_sys_user;
+    drop table if exists brc_sys_role;
+    drop table if exists brc_sys_user_role;
+    drop table if exists brc_sys_post;
+    drop table if exists brc_sys_user_post;
+    drop table if exists brc_sys_menu;
+    drop table if exists brc_sys_role_menu;
+    drop table if exists brc_sys_role_data_scope;
+    drop table if exists brc_sys_login_log;
+    drop table if exists brc_sys_operate_log;
+    drop table if exists brc_sys_dict_type;
+    drop table if exists brc_sys_dict_data;
+    drop table if exists brc_sys_param;
+    drop table if exists brc_sys_attachment;
+    drop table if exists brc_sys_notice;
+ */
 
 -- 1、系统机构表
-drop table if exists brc_sys_org;
 create table brc_sys_org
 (
     id              bigint       not null primary key,
@@ -58,7 +76,6 @@ INSERT INTO brc_sys_org (id, name, code, parent_id, ancestor, leader, contact_nu
 INSERT INTO brc_sys_org (id, name, code, parent_id, ancestor, leader, contact_number, email, remark, sort, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (109, '财务部门', null, 102, '0,100,102', '韩先生', '15800008010', 'brycehan@163.com', null, 2, true, null, false, 1, now(), null, null);
 
 -- 2、系统用户表
-drop table if exists brc_sys_user;
 create table brc_sys_user
 (
     id                 bigint      not null primary key,
@@ -70,6 +87,8 @@ create table brc_sys_user
     type               smallint default 0,
     phone              varchar(20),
     email              varchar(50),
+    birthday           timestamp,
+    profession         varchar(50),
     sort               integer  default 0,
     org_id             bigint,
     super_admin        boolean,
@@ -97,6 +116,8 @@ comment on column brc_sys_user.gender is '性别（M：男, F：女，N：未知
 comment on column brc_sys_user.type is '用户类型（0：系统用户）';
 comment on column brc_sys_user.phone is '手机号码';
 comment on column brc_sys_user.email is '邮箱';
+comment on column brc_sys_user.birthday is '生日';
+comment on column brc_sys_user.profession is '职业';
 comment on column brc_sys_user.sort is '显示顺序';
 comment on column brc_sys_user.org_id is '机构ID';
 comment on column brc_sys_user.super_admin is '超级管理员';
@@ -113,10 +134,9 @@ comment on column brc_sys_user.updated_user_id is '修改者ID';
 comment on column brc_sys_user.updated_time is '修改时间';
 
 -- 初始化-系统用户表数据
-INSERT INTO brc_sys_user (id, username, password, full_name, avatar, gender, type, phone, email, sort, org_id, super_admin, status, remark, account_non_locked, last_login_ip, last_login_time, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1, 'admin', '$2a$10$TPs3BLw2Ag9iZ5bxo./GsuR2BRqUz5J2KQh6h2aSvwQ6Vi.3LzQB6', '管理员', null, 'M', 0, '15853155402', 'brycehan@163.com', 0, 103, true, true, '超级管理员', true, '127.0.0.1', now(), false, 1, now(), null, null);
+INSERT INTO brc_sys_user (id, username, password, full_name, avatar, gender, type, phone, email, sort, org_id, super_admin, status, remark, account_non_locked, last_login_ip, last_login_time, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1, 'admin', '$2a$10$TPs3BLw2Ag9iZ5bxo./GsuR2BRqUz5J2KQh6h2aSvwQ6Vi.3LzQB6', '管理员', null, 'M', 0, '15853155402', 'brycehan@163.com', 0, 103, true, true, '超级管理员', true, '127.0.0.1', now(), null, false, 1, now(), null, null);
 
 -- 3、系统角色表
-drop table if exists brc_sys_role;
 create table brc_sys_role
 (
     id              bigint      not null primary key,
@@ -156,7 +176,6 @@ INSERT INTO brc_sys_role (id, name, code, data_scope, sort, status, remark, org_
 INSERT INTO brc_sys_role (id, name, code, data_scope, sort, status, remark, org_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (2, '默认角色', 'default', 2, 0, true, '默认角色', null, null, false, 1, now(), null, null);
 
 -- 4、系统用户角色关系表
-drop table if exists brc_sys_user_role;
 create table brc_sys_user_role
 (
     id              bigint not null primary key,
@@ -185,7 +204,6 @@ create index idx_brc_sys_user_role_user_id on brc_sys_user_role (user_id);
 create index idx_brc_sys_user_role_role_id on brc_sys_user_role (role_id);
 
 -- 5、系统岗位表
-drop table if exists brc_sys_post;
 create table brc_sys_post
 (
     id              bigint      not null primary key,
@@ -223,7 +241,6 @@ INSERT INTO brc_sys_post (id, name, code, sort, status, remark, version, deleted
 INSERT INTO brc_sys_post (id, name, code, sort, status, remark, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (4, '普通员工', 'user', 4, true, null, null, false, 1, now(), null, null);
 
 -- 6、系统用户岗位关系表
-drop table if exists brc_sys_user_post;
 create table brc_sys_user_post
 (
     id              bigint not null primary key,
@@ -252,7 +269,6 @@ create index idx_brc_sys_user_post_user_id on brc_sys_user_post (user_id);
 create index idx_brc_sys_user_post_post_id on brc_sys_user_post (post_id);
 
 -- 7、系统菜单表
-drop table if exists brc_sys_menu;
 create table brc_sys_menu
 (
     id              bigint      not null primary key,
@@ -302,12 +318,12 @@ INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_
 INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (5, '日志管理', 'M', 0, null, null, 'icon-filedone', false, 5, '系统日志目录', true, null, false, 1, now(), null, null);
 -- 二级菜单
 INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (101, '用户管理', 'M', 1, 'system/user/index', 'system:user:page', 'icon-user', false, 1, '用户管理菜单', true, 1, false, 1, now(), null, null);
-INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (102, '机构管理', 'M', 1, 'system/org/index', 'system:org:page', 'icon-cluster', false, 2, '机构管理菜单', true, null, false, 1, now(), null, null);
-INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (103, '岗位管理', 'M', 1, 'system/post/index', 'system:post:page', 'icon-solution', false, 3, '岗位管理菜单', true, null, false, 1, now(), null, null);
-INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (104, '角色管理', 'M', 1, 'system/role/index', 'system:role:page', 'icon-team', false, 4, '角色管理菜单', true, null, false, 1, now(), null, null);
-INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (105, '菜单管理', 'M', 1, 'system/menu/index', 'system:menu:page', 'icon-menu', false, 5, '菜单管理菜单', true, null, false, 1, now(), null, null);
-INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (112, '数据字典', 'M', 2, 'system/dict/index', 'system:dictType:page', 'icon-insertrowabove', false, 2, '数据字典菜单', true, null, false, 1, now(), null, null);
-INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (113, '参数设置', 'M', 2, 'system/param/index', 'system:param:page', 'icon-control', false, 3, '参数设置菜单', true, null, false, 1, now(), null, null);
+INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (102, '机构管理', 'M', 1, 'system/org/index', 'system:org:page', 'icon-cluster', false, 2, '机构管理菜单', true, 1, false, 1, now(), null, null);
+INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (103, '岗位管理', 'M', 1, 'system/post/index', 'system:post:page', 'icon-solution', false, 3, '岗位管理菜单', true, 1, false, 1, now(), null, null);
+INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (104, '角色管理', 'M', 1, 'system/role/index', 'system:role:page', 'icon-team', false, 4, '角色管理菜单', true, 1, false, 1, now(), null, null);
+INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (105, '菜单管理', 'M', 1, 'system/menu/index', 'system:menu:page', 'icon-menu', false, 5, '菜单管理菜单', true, 1, false, 1, now(), null, null);
+INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (112, '数据字典', 'M', 2, 'system/dict/index', 'system:dictType:page', 'icon-insertrowabove', false, 2, '数据字典菜单', true, 1, false, 1, now(), null, null);
+INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (113, '参数设置', 'M', 2, 'system/param/index', 'system:param:page', 'icon-control', false, 3, '参数设置菜单', true, 1, false, 1, now(), null, null);
 INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (114, '附件管理', 'M', 2, 'system/attachment/index', 'system:attachment:page', 'icon-folder', false, 4, '参数设置菜单', true, null, false, 1, now(), null, null);
 INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (116, '通知公告', 'M', 2, 'system/notice/index', 'system:notice:page', 'icon-message', false, 5, '通知公告菜单', true, null, false, 1, now(), null, null);
 INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (121, '在线用户', 'M', 3, 'monitor/onlineUser/index', 'monitor:onlineUser:page', 'icon-solution', false, 1, '在线用户菜单', true, null, false, 1, now(), null, null);
@@ -388,7 +404,6 @@ INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_
 INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1423, '操作日志导出', 'B', 142, null, 'system:operateLog:export', '', false, 5, null, true, null, false, 1, now(), null, null);
 
 -- 8、系统角色菜单关系表
-drop table if exists brc_sys_role_menu;
 create table brc_sys_role_menu
 (
     id              bigint not null primary key,
@@ -417,7 +432,6 @@ create index idx_brc_sys_role_menu_role_id on brc_sys_role_menu (role_id);
 create index idx_brc_sys_role_menu_menu_id on brc_sys_role_menu (menu_id);
 
 -- 9、系统角色数据范围表
-drop table if exists brc_sys_role_data_scope;
 create table brc_sys_role_data_scope
 (
     id              bigint not null primary key,
@@ -443,7 +457,6 @@ comment on column brc_sys_role_data_scope.updated_user_id is '修改者ID';
 comment on column brc_sys_role_data_scope.updated_time is '修改时间';
 
 -- 10、系统登录日志表
-drop table if exists brc_sys_login_log;
 create table brc_sys_login_log
 (
     id           bigint not null primary key,
@@ -473,7 +486,6 @@ comment on column brc_sys_login_log.access_time is '访问时间';
 comment on column brc_sys_login_log.created_time is '创建时间';
 
 -- 11、系统操作日志表
-drop table if exists brc_sys_operate_log;
 create table brc_sys_operate_log
 (
     id             bigint not null primary key,
@@ -517,7 +529,6 @@ comment on column brc_sys_operate_log.org_id is '机构ID';
 comment on column brc_sys_operate_log.created_time is '创建时间';
 
 -- 12、系统字典类型表
-drop table if exists brc_sys_dict_type;
 create table brc_sys_dict_type
 (
     id              bigint not null primary key,
@@ -559,11 +570,8 @@ INSERT INTO brc_sys_dict_type (id, dict_name, dict_type, sort, status, remark, v
 INSERT INTO brc_sys_dict_type (id, dict_name, dict_type, sort, status, remark, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (7, '通知类型', 'sys_notice_type', 0, true, '通知类型列表', 1, false, 1, now(), null, null);
 INSERT INTO brc_sys_dict_type (id, dict_name, dict_type, sort, status, remark, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (8, '通知状态', 'sys_notice_status', 0, true, '通知状态列表', 1, false, 1, now(), null, null);
 INSERT INTO brc_sys_dict_type (id, dict_name, dict_type, sort, status, remark, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (9, '系统是否', 'sys_yes_no', 0, true, '系统是否列表', 1, false, 1, now(), null, null);
-INSERT INTO brc_sys_dict_type (id, dict_name, dict_type, sort, status, remark, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (10, '任务分组', 'quartz_job_group', 0, true, '任务分组列表', 1, false, 1, now(), null, null);
-INSERT INTO brc_sys_dict_type (id, dict_name, dict_type, sort, status, remark, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (11, '任务状态', 'quartz_job_status', 0, true, '任务状态列表', 1, false, 1, now(), null, null);
 
 -- 13、系统字典数据表
-drop table if exists brc_sys_dict_data;
 create table brc_sys_dict_data
 (
     id              bigint not null primary key,
@@ -609,10 +617,10 @@ INSERT INTO brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_c
 INSERT INTO brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, sort, status, remark, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (33, '本机构数据', '3', 3, '', 3, true, null, 1, false, 1, now(), null, null);
 INSERT INTO brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, sort, status, remark, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (34, '本人数据', '4', 3, '', 4, true, null, 1, false, 1, now(), null, null);
 INSERT INTO brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, sort, status, remark, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (35, '自定义数据', '5', 3, '', 5, true, null, 1, false, 1, now(), null, null);
-INSERT INTO brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, sort, status, remark, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (41, '成功', 'true', 4, 'primary', 1, true, '', 1, false, 1, now(), null, null);
-INSERT INTO brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, sort, status, remark, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (42, '失败', 'false', 4, 'danger', 2, true, '', 1, false, 1, now(), null, null);
-INSERT INTO brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, sort, status, remark, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (51, '登录成功', '0', 5, 'primary', 1, true, '', 1, false, 1, now(), null, null);
-INSERT INTO brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, sort, status, remark, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (52, '退出成功', '1', 5, 'success', 2, true, '', 1, false, 1, now(), null, null);
+INSERT INTO brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, sort, status, remark, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (41, '成功', 'true', 4, 'primary', 1, true, null, 1, false, 1, now(), null, null);
+INSERT INTO brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, sort, status, remark, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (42, '失败', 'false', 4, 'danger', 2, true, null, 1, false, 1, now(), null, null);
+INSERT INTO brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, sort, status, remark, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (51, '登录成功', '0', 5, 'primary', 1, true, null, 1, false, 1, now(), null, null);
+INSERT INTO brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, sort, status, remark, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (52, '退出成功', '1', 5, 'success', 2, true, null, 1, false, 1, now(), null, null);
 INSERT INTO brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, sort, status, remark, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (53, '验证码错误', '2', 5, 'warning', 3, true, '', 1, false, 1, now(), null, null);
 INSERT INTO brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, sort, status, remark, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (54, '账号密码错误', '3', 5, 'danger', 4, true, '', 1, false, 1, now(), null, null);
 INSERT INTO brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, sort, status, remark, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (61, '其他', 'OTHER', 6, 'info', 99, true, '', 1, false, 1, now(), null, null);
@@ -638,7 +646,6 @@ INSERT INTO brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_c
 INSERT INTO brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, sort, status, remark, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (112, '暂停', false, 11, 'danger', 2, true, null, 1, false, 1, now(), null, null);
 
 -- 14、系统参数表
-drop table if exists brc_sys_param;
 create table brc_sys_param
 (
     id              bigint not null primary key,
@@ -677,7 +684,6 @@ INSERT INTO brc_sys_param (id, param_name, param_key, param_value, param_type, r
 INSERT INTO brc_sys_param (id, param_name, param_key, param_value, param_type, remark, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (4, '微信公众号菜单', 'wechat.mp.menu', '', 'builtIn', '微信公众号菜单内容', 1, false, 1, now(), null, null);
 
 -- 15、系统附件表
-drop table if exists brc_sys_attachment;
 create table brc_sys_attachment
 (
     id              bigint not null primary key,
@@ -715,7 +721,6 @@ comment on column brc_sys_attachment.updated_time is '修改时间';
 create index idx_brc_sys_attachment_created_time on brc_sys_attachment (created_time);
 
 -- 16、系统通知公告表
-drop table if exists brc_sys_notice;
 create table brc_sys_notice
 (
     id              bigint      not null primary key,
