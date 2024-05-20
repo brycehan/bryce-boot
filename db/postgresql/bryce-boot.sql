@@ -1,6 +1,10 @@
---
-create database if not exists bryce_boot;
 /*
+    -- 创建用户和 schema
+    create user bryce_boot with password 'bryce_boot';
+    -- 创建 schema 并授权给用户 bryce_boot
+    create schema if not exists bryce_boot authorization bryce_boot;
+    -- 添加 schema 注释
+    comment on schema bryce_boot is 'bryce boot库';
     -- 删除表
     drop table if exists brc_sys_org;
     drop table if exists brc_sys_user;
@@ -18,6 +22,7 @@ create database if not exists bryce_boot;
     drop table if exists brc_sys_param;
     drop table if exists brc_sys_attachment;
     drop table if exists brc_sys_notice;
+    drop table if exists brc_sys_area_code;
  */
 
 -- 1、系统机构表

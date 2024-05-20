@@ -17,6 +17,7 @@ create schema if not exists bryce_boot;
     drop table if exists brc_sys_param;
     drop table if exists brc_sys_attachment;
     drop table if exists brc_sys_notice;
+    drop table if exists brc_sys_area_code;
  */
 
 -- 1、系统机构表
