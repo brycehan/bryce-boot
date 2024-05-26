@@ -45,7 +45,7 @@ public class JwtConstants {
     /**
      * 刷新最小分钟数
      */
-    public static final long REFRESH_LIMIT_MIN_MINUTE = 20L;
+    public static final long REFRESH_LIMIT_MIN_MINUTE = 30L;
 
     /**
      * APP默认过期分钟数

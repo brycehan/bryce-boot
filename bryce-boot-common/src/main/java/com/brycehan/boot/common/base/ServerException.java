@@ -2,10 +2,10 @@ package com.brycehan.boot.common.base;
 
 import com.brycehan.boot.common.base.http.HttpResponseStatus;
 import com.brycehan.boot.common.base.http.ResponseStatus;
-import com.brycehan.boot.common.util.MessageUtils;
 import com.brycehan.boot.common.util.StringFormatUtils;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.Serial;
@@ -35,14 +35,9 @@ public class ServerException extends RuntimeException {
     private String message;
 
     /**
-     * 异常消息键
-     */
-    private String messageKey;
-
-    /**
      * 异常消息键对应的参数
      */
-    private Object[] messageArgs;
+    private String[] messageArgs;
 
     public ServerException(String message) {
         super(message);
@@ -76,11 +71,12 @@ public class ServerException extends RuntimeException {
 
     @Override
     public String getMessage() {
-        if (StringUtils.isNotEmpty(this.messageKey)) {
-            return MessageUtils.getMessage(this.messageKey, this.messageArgs);
+        if (ArrayUtils.isNotEmpty(messageArgs)) {
+            return StringFormatUtils.format(message, messageArgs);
         } else if (StringUtils.isNotEmpty(message)) {
             return message;
         }
+
         return super.getMessage();
     }
 

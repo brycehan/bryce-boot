@@ -1,7 +1,6 @@
 package com.brycehan.boot.system.security.service;
 
 import com.brycehan.boot.api.system.SysUserApi;
-import com.brycehan.boot.common.util.MessageUtils;
 import com.brycehan.boot.common.base.context.LoginUser;
 import com.brycehan.boot.system.convert.SysUserConvert;
 import com.brycehan.boot.system.entity.SysUser;
@@ -43,7 +42,7 @@ public class UserDetailsServiceImpl implements UserDetailsService, SysUserApi {
 
         if (sysUser == null) {
             log.debug("loadUserByUsername, 登录用户：{}不存在.", username);
-            throw new UsernameNotFoundException(MessageUtils.getMessage("user.username.or.password.error"));
+            throw new UsernameNotFoundException("账号或密码错误");
         }
 
         // 创建用户详情
@@ -63,7 +62,7 @@ public class UserDetailsServiceImpl implements UserDetailsService, SysUserApi {
 
         if (sysUser == null) {
             log.debug("loadUserById, 登录用户：{}不存在.", id);
-            throw new UsernameNotFoundException(MessageUtils.getMessage("user.username.or.password.error"));
+            throw new UsernameNotFoundException("账号或密码错误");
         }
 
         // 创建用户详情

@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface SysUserApi {
 
     /**
-     * 获取参数对象
+     * 获取登录对象
      *
      * @param id 用户ID
-     * @return 参数对象
+     * @return 登录对象
      */
     LoginUser loadUserById(@RequestParam Long id);
 

@@ -43,6 +43,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull FilterChain filterChain) throws ServletException, IOException {
 
+        log.info("请求URI，{}", request.getRequestURI());
         String accessToken = TokenUtils.getAccessToken(request);
         // accessToken 为空，表示未登录
         if(StrUtil.isBlank(accessToken)) {

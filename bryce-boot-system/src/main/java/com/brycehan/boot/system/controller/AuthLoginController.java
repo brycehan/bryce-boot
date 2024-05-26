@@ -76,8 +76,8 @@ public class AuthLoginController {
      * @return 响应结果
      */
     @Operation(summary = "退出登录")
-    @GetMapping(path = "/quit")
-    public ResponseResult<Void> quit(HttpServletRequest request) {
+    @GetMapping(path = "/logout")
+    public ResponseResult<Void> logout(HttpServletRequest request) {
         this.authService.logout(TokenUtils.getAccessToken(request));
         return ResponseResult.ok();
     }

@@ -16,11 +16,11 @@ import lombok.experimental.Accessors;
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 public enum UploadResponseStatus implements ResponseStatus {
 
-    UPLOAD_EXCEED_MAX_SIZE(700, "upload.exceed.max.size"),
+    UPLOAD_EXCEED_MAX_SIZE(700, "上传的文件大小超出限制，允许的最大大小是：{}"),
 
-    UPLOAD_FILENAME_EXCEED_LENGTH(701, "upload.filename.exceed.length"),
+    UPLOAD_FILENAME_EXCEED_LENGTH(701, "上传的文件名最长{}个字符"),
 
-    UPLOAD_INVALID_EXTENSION(702, "upload.invalid.extension");
+    UPLOAD_INVALID_EXTENSION(702, "文件[{}]后缀[{}]不正确，请上传{}格式");
 
     /**
      * 状态编码

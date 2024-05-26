@@ -173,7 +173,7 @@ public class JwtTokenProvider {
     }
 
     /**
-     * 令牌自动续期，相差不足20分钟，自动刷新延长登录有效期
+     * 令牌自动续期，相差不足30分钟，自动刷新延长登录有效期
      *
      * @param loginUser 登录用户
      */

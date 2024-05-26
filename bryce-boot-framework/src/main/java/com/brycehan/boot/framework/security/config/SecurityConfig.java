@@ -109,6 +109,8 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                // 禁用退出自动配置接口
+                .logout(AbstractHttpConfigurer::disable)
                 // 添加 jwt 过滤器
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 // 基于token，不需要session
