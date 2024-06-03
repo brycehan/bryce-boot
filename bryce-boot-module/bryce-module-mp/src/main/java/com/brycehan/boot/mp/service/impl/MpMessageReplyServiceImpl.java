@@ -1,8 +1,8 @@
 package com.brycehan.boot.mp.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
-import com.brycehan.boot.mp.entity.MpMessage;
-import com.brycehan.boot.mp.entity.MpMessageReplyRule;
+import com.brycehan.boot.mp.entity.po.MpMessage;
+import com.brycehan.boot.mp.entity.po.MpMessageReplyRule;
 import com.brycehan.boot.mp.service.MpMessageReplyRuleService;
 import com.brycehan.boot.mp.service.MpMessageReplyService;
 import com.brycehan.boot.mp.service.MpMessageService;

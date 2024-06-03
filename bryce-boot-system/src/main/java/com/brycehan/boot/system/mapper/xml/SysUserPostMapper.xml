@@ -3,7 +3,7 @@
 <mapper namespace="com.brycehan.boot.system.mapper.SysUserPostMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.brycehan.boot.system.entity.SysUserPost">
+    <resultMap id="BaseResultMap" type="com.brycehan.boot.system.entity.po.SysUserPost">
         <id column="id" property="id"/>
         <result column="user_id" property="userId"/>
         <result column="post_id" property="postId"/>

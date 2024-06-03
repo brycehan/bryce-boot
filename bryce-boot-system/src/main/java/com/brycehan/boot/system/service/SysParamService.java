@@ -3,11 +3,11 @@ package com.brycehan.boot.system.service;
 import com.brycehan.boot.common.base.entity.PageResult;
 import com.brycehan.boot.common.base.id.IdGenerator;
 import com.brycehan.boot.framework.mybatis.service.BaseService;
-import com.brycehan.boot.system.convert.SysParamConvert;
-import com.brycehan.boot.system.dto.SysParamDto;
-import com.brycehan.boot.system.dto.SysParamPageDto;
-import com.brycehan.boot.system.entity.SysParam;
-import com.brycehan.boot.system.vo.SysParamVo;
+import com.brycehan.boot.system.entity.convert.SysParamConvert;
+import com.brycehan.boot.system.entity.dto.SysParamDto;
+import com.brycehan.boot.system.entity.dto.SysParamPageDto;
+import com.brycehan.boot.system.entity.po.SysParam;
+import com.brycehan.boot.system.entity.vo.SysParamVo;
 
 /**
  * 系统参数服务

@@ -1,7 +1,7 @@
 package com.brycehan.boot.monitor.controller;
 
 import com.brycehan.boot.common.base.http.ResponseResult;
-import com.brycehan.boot.monitor.vo.Server;
+import com.brycehan.boot.monitor.entity.vo.Server;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.security.access.prepost.PreAuthorize;

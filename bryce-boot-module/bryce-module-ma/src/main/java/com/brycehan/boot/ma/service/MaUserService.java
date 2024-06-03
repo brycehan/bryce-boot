@@ -3,12 +3,12 @@ package com.brycehan.boot.ma.service;
 import com.brycehan.boot.api.ma.MaUserApi;
 import com.brycehan.boot.common.base.entity.PageResult;
 import com.brycehan.boot.framework.mybatis.service.BaseService;
-import com.brycehan.boot.ma.dto.MaLoginDto;
-import com.brycehan.boot.ma.dto.MaUserDto;
-import com.brycehan.boot.ma.dto.MaUserPageDto;
-import com.brycehan.boot.ma.entity.MaUser;
-import com.brycehan.boot.ma.vo.MaUserLoginVo;
-import com.brycehan.boot.ma.vo.MaUserVo;
+import com.brycehan.boot.ma.entity.dto.MaLoginDto;
+import com.brycehan.boot.ma.entity.dto.MaUserDto;
+import com.brycehan.boot.ma.entity.dto.MaUserPageDto;
+import com.brycehan.boot.ma.entity.po.MaUser;
+import com.brycehan.boot.ma.entity.vo.MaUserLoginVo;
+import com.brycehan.boot.ma.entity.vo.MaUserVo;
 import me.chanjar.weixin.common.error.WxErrorException;
 
 /**

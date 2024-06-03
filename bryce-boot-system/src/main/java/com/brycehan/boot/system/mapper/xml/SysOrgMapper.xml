@@ -3,7 +3,7 @@
 <mapper namespace="com.brycehan.boot.system.mapper.SysOrgMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.brycehan.boot.system.entity.SysOrg">
+    <resultMap id="BaseResultMap" type="com.brycehan.boot.system.entity.po.SysOrg">
         <id column="id" property="id"/>
         <result column="name" property="name"/>
         <result column="code" property="code"/>
@@ -30,7 +30,7 @@
         updated_user_id, updated_time
     </sql>
 
-    <select id="list" resultType="com.brycehan.boot.system.entity.SysOrg">
+    <select id="list" resultType="com.brycehan.boot.system.entity.po.SysOrg">
         select bso.*
         from brc_sys_org bso
         where bso.deleted = false

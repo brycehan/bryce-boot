@@ -3,7 +3,7 @@
 <mapper namespace="com.brycehan.boot.mp.mapper.MpMessageMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.brycehan.boot.mp.entity.MpMessage">
+    <resultMap id="BaseResultMap" type="com.brycehan.boot.mp.entity.po.MpMessage">
         <id column="id" property="id" />
         <result column="open_id" property="openId" />
         <result column="in_out" property="inOut" />

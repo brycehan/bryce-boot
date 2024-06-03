@@ -3,11 +3,11 @@ package com.brycehan.boot.mp.service;
 import com.brycehan.boot.common.base.entity.PageResult;
 import com.brycehan.boot.common.base.id.IdGenerator;
 import com.brycehan.boot.framework.mybatis.service.BaseService;
-import com.brycehan.boot.mp.convert.MpMessageReplyRuleConvert;
-import com.brycehan.boot.mp.dto.MpMessageReplyRuleDto;
-import com.brycehan.boot.mp.dto.MpMessageReplyRulePageDto;
-import com.brycehan.boot.mp.entity.MpMessageReplyRule;
-import com.brycehan.boot.mp.vo.MpMessageReplyRuleVo;
+import com.brycehan.boot.mp.entity.convert.MpMessageReplyRuleConvert;
+import com.brycehan.boot.mp.entity.dto.MpMessageReplyRuleDto;
+import com.brycehan.boot.mp.entity.dto.MpMessageReplyRulePageDto;
+import com.brycehan.boot.mp.entity.po.MpMessageReplyRule;
+import com.brycehan.boot.mp.entity.vo.MpMessageReplyRuleVo;
 
 import java.util.List;
 

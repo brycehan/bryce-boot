@@ -3,7 +3,7 @@
 <mapper namespace="com.brycehan.boot.system.mapper.SysMenuMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.brycehan.boot.system.entity.SysMenu">
+    <resultMap id="BaseResultMap" type="com.brycehan.boot.system.entity.po.SysMenu">
         <id column="id" property="id"/>
         <result column="name" property="name"/>
         <result column="type" property="type"/>
@@ -42,7 +42,7 @@
           and bsm.authority is not null
           and bsur.user_id = #{userId}
     </select>
-    <select id="selectMenuTreeList" resultType="com.brycehan.boot.system.entity.SysMenu">
+    <select id="selectMenuTreeList" resultType="com.brycehan.boot.system.entity.po.SysMenu">
         select distinct bsm.id,
         bsm.name,
         bsm.type,

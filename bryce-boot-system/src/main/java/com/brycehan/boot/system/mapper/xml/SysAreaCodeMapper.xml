@@ -3,7 +3,7 @@
 <mapper namespace="com.brycehan.boot.system.mapper.SysAreaCodeMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.brycehan.boot.system.entity.SysAreaCode">
+    <resultMap id="BaseResultMap" type="com.brycehan.boot.system.entity.po.SysAreaCode">
         <id column="id" property="id" />
         <result column="parent_id" property="parentId" />
         <result column="deep" property="deep" />

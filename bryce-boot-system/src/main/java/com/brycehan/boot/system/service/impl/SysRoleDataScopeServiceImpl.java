@@ -4,7 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.brycehan.boot.common.base.id.IdGenerator;
 import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
-import com.brycehan.boot.system.entity.SysRoleDataScope;
+import com.brycehan.boot.system.entity.po.SysRoleDataScope;
 import com.brycehan.boot.system.mapper.SysRoleDataScopeMapper;
 import com.brycehan.boot.system.service.SysRoleDataScopeService;
 import lombok.RequiredArgsConstructor;

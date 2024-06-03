@@ -1,7 +1,7 @@
 package com.brycehan.boot.system.mapper;
 
 import com.brycehan.boot.framework.mybatis.BryceBaseMapper;
-import com.brycehan.boot.system.entity.SysMenu;
+import com.brycehan.boot.system.entity.po.SysMenu;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

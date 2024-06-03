@@ -1,10 +1,10 @@
 package com.brycehan.boot.pay.service.impl;
 
 import com.brycehan.boot.common.util.JsonUtils;
-import com.brycehan.boot.pay.config.PayProperties;
-import com.brycehan.boot.pay.entity.PayRefund;
-import com.brycehan.boot.pay.enums.OrderStatus;
-import com.brycehan.boot.pay.enums.WechatNotifyEndpoint;
+import com.brycehan.boot.pay.common.config.PayProperties;
+import com.brycehan.boot.pay.entity.po.PayRefund;
+import com.brycehan.boot.pay.common.OrderStatus;
+import com.brycehan.boot.pay.common.WechatNotifyEndpoint;
 import com.brycehan.boot.pay.service.PayOrderService;
 import com.brycehan.boot.pay.service.PayPaymentService;
 import com.brycehan.boot.pay.service.PayRefundService;

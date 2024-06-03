@@ -3,11 +3,11 @@ package com.brycehan.boot.mp.service;
 import com.brycehan.boot.common.base.entity.PageResult;
 import com.brycehan.boot.common.base.id.IdGenerator;
 import com.brycehan.boot.framework.mybatis.service.BaseService;
-import com.brycehan.boot.mp.convert.MpTemplateMessageLogConvert;
-import com.brycehan.boot.mp.dto.MpTemplateMessageLogDto;
-import com.brycehan.boot.mp.dto.MpTemplateMessageLogPageDto;
-import com.brycehan.boot.mp.entity.MpTemplateMessageLog;
-import com.brycehan.boot.mp.vo.MpTemplateMessageLogVo;
+import com.brycehan.boot.mp.entity.convert.MpTemplateMessageLogConvert;
+import com.brycehan.boot.mp.entity.dto.MpTemplateMessageLogDto;
+import com.brycehan.boot.mp.entity.dto.MpTemplateMessageLogPageDto;
+import com.brycehan.boot.mp.entity.po.MpTemplateMessageLog;
+import com.brycehan.boot.mp.entity.vo.MpTemplateMessageLogVo;
 
 /**
  * 微信公众号模版消息发送记录服务

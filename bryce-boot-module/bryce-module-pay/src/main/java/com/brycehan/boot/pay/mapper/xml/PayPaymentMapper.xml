@@ -3,7 +3,7 @@
 <mapper namespace="com.brycehan.boot.pay.mapper.PayPaymentMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.brycehan.boot.pay.entity.PayPayment">
+    <resultMap id="BaseResultMap" type="com.brycehan.boot.pay.entity.po.PayPayment">
         <id column="id" property="id" />
         <result column="order_no" property="orderNo" />
         <result column="transaction_id" property="transactionId" />

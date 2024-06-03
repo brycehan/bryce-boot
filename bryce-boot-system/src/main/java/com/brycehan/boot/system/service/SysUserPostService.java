@@ -1,7 +1,7 @@
 package com.brycehan.boot.system.service;
 
 import com.brycehan.boot.framework.mybatis.service.BaseService;
-import com.brycehan.boot.system.entity.SysUserPost;
+import com.brycehan.boot.system.entity.po.SysUserPost;
 
 import java.util.List;
 

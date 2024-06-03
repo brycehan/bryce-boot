@@ -3,7 +3,7 @@
 <mapper namespace="com.brycehan.boot.system.mapper.SysParamMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.brycehan.boot.system.entity.SysParam">
+    <resultMap id="BaseResultMap" type="com.brycehan.boot.system.entity.po.SysParam">
         <id column="id" property="id"/>
         <result column="param_name" property="paramName"/>
         <result column="param_key" property="paramKey"/>

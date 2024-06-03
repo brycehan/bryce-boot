@@ -3,11 +3,11 @@ package com.brycehan.boot.system.service;
 import com.brycehan.boot.common.base.entity.PageResult;
 import com.brycehan.boot.common.base.id.IdGenerator;
 import com.brycehan.boot.framework.mybatis.service.BaseService;
-import com.brycehan.boot.system.convert.SysOperateLogConvert;
-import com.brycehan.boot.system.dto.SysOperateLogDto;
-import com.brycehan.boot.system.dto.SysOperateLogPageDto;
-import com.brycehan.boot.system.entity.SysOperateLog;
-import com.brycehan.boot.system.vo.SysOperateLogVo;
+import com.brycehan.boot.system.entity.convert.SysOperateLogConvert;
+import com.brycehan.boot.system.entity.dto.SysOperateLogDto;
+import com.brycehan.boot.system.entity.dto.SysOperateLogPageDto;
+import com.brycehan.boot.system.entity.po.SysOperateLog;
+import com.brycehan.boot.system.entity.vo.SysOperateLogVo;
 
 /**
  * 系统操作日志服务

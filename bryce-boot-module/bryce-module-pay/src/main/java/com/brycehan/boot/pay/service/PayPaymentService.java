@@ -3,11 +3,11 @@ package com.brycehan.boot.pay.service;
 import com.brycehan.boot.framework.mybatis.service.BaseService;
 import com.brycehan.boot.common.base.entity.PageResult;
 import com.brycehan.boot.common.base.id.IdGenerator;
-import com.brycehan.boot.pay.convert.PayPaymentConvert;
-import com.brycehan.boot.pay.dto.PayPaymentDto;
-import com.brycehan.boot.pay.dto.PayPaymentPageDto;
-import com.brycehan.boot.pay.entity.PayPayment;
-import com.brycehan.boot.pay.vo.PayPaymentVo;
+import com.brycehan.boot.pay.entity.convert.PayPaymentConvert;
+import com.brycehan.boot.pay.entity.dto.PayPaymentDto;
+import com.brycehan.boot.pay.entity.dto.PayPaymentPageDto;
+import com.brycehan.boot.pay.entity.po.PayPayment;
+import com.brycehan.boot.pay.entity.vo.PayPaymentVo;
 import com.wechat.pay.java.service.payments.model.Transaction;
 
 import java.util.Map;

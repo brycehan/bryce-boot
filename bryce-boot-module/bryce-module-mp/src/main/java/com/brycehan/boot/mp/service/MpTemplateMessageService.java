@@ -1,6 +1,6 @@
 package com.brycehan.boot.mp.service;
 
-import com.brycehan.boot.mp.dto.MpTemplateMessageBatchDto;
+import com.brycehan.boot.mp.entity.dto.MpTemplateMessageBatchDto;
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage;
 
 /**

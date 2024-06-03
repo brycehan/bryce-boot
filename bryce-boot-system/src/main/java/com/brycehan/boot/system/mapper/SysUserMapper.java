@@ -2,7 +2,7 @@ package com.brycehan.boot.system.mapper;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.brycehan.boot.framework.mybatis.BryceBaseMapper;
-import com.brycehan.boot.system.entity.SysUser;
+import com.brycehan.boot.system.entity.po.SysUser;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

@@ -3,11 +3,11 @@ package com.brycehan.boot.quartz.service;
 import com.brycehan.boot.common.base.entity.PageResult;
 import com.brycehan.boot.common.base.id.IdGenerator;
 import com.brycehan.boot.framework.mybatis.service.BaseService;
-import com.brycehan.boot.quartz.convert.QuartzJobLogConvert;
-import com.brycehan.boot.quartz.dto.QuartzJobLogDto;
-import com.brycehan.boot.quartz.dto.QuartzJobLogPageDto;
-import com.brycehan.boot.quartz.entity.QuartzJobLog;
-import com.brycehan.boot.quartz.vo.QuartzJobLogVo;
+import com.brycehan.boot.quartz.entity.convert.QuartzJobLogConvert;
+import com.brycehan.boot.quartz.entity.dto.QuartzJobLogDto;
+import com.brycehan.boot.quartz.entity.dto.QuartzJobLogPageDto;
+import com.brycehan.boot.quartz.entity.po.QuartzJobLog;
+import com.brycehan.boot.quartz.entity.vo.QuartzJobLogVo;
 
 /**
  * quartz 定时任务调度日志服务

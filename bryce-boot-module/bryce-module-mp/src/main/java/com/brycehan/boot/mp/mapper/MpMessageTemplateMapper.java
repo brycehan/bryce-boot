@@ -1,7 +1,7 @@
 package com.brycehan.boot.mp.mapper;
 
 import com.brycehan.boot.framework.mybatis.BryceBaseMapper;
-import com.brycehan.boot.mp.entity.MpMessageTemplate;
+import com.brycehan.boot.mp.entity.po.MpMessageTemplate;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

@@ -3,7 +3,7 @@
 <mapper namespace="com.brycehan.boot.system.mapper.SysAttachmentMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.brycehan.boot.system.entity.SysAttachment">
+    <resultMap id="BaseResultMap" type="com.brycehan.boot.system.entity.po.SysAttachment">
         <id column="id" property="id"/>
         <result column="name" property="name"/>
         <result column="url" property="url"/>

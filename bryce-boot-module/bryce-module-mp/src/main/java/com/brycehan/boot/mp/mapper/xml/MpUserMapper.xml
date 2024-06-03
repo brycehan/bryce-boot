@@ -3,7 +3,7 @@
 <mapper namespace="com.brycehan.boot.mp.mapper.MpUserMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.brycehan.boot.mp.entity.MpUser">
+    <resultMap id="BaseResultMap" type="com.brycehan.boot.mp.entity.po.MpUser">
         <id column="open_id" property="openId" />
         <result column="phone" property="phone" />
         <result column="nickname" property="nickname" />

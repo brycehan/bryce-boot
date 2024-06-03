@@ -3,7 +3,7 @@ package com.brycehan.boot.system.controller;
 import com.brycehan.boot.common.base.http.ResponseResult;
 import com.brycehan.boot.common.enums.CaptchaType;
 import com.brycehan.boot.system.service.AuthCaptchaService;
-import com.brycehan.boot.system.vo.CaptchaVo;
+import com.brycehan.boot.system.entity.vo.CaptchaVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;

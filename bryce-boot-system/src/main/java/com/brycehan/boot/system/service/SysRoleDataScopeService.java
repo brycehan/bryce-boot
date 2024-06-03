@@ -1,7 +1,7 @@
 package com.brycehan.boot.system.service;
 
 import com.brycehan.boot.framework.mybatis.service.BaseService;
-import com.brycehan.boot.system.entity.SysRoleDataScope;
+import com.brycehan.boot.system.entity.po.SysRoleDataScope;
 
 import java.util.List;
 

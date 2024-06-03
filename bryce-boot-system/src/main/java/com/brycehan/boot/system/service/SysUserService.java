@@ -3,11 +3,12 @@ package com.brycehan.boot.system.service;
 import com.brycehan.boot.common.base.entity.PageResult;
 import com.brycehan.boot.common.base.id.IdGenerator;
 import com.brycehan.boot.framework.mybatis.service.BaseService;
-import com.brycehan.boot.system.convert.SysUserConvert;
+import com.brycehan.boot.system.entity.convert.SysUserConvert;
 import com.brycehan.boot.system.dto.*;
-import com.brycehan.boot.system.entity.SysUser;
-import com.brycehan.boot.system.vo.SysUserInfoVo;
-import com.brycehan.boot.system.vo.SysUserVo;
+import com.brycehan.boot.system.entity.po.SysUser;
+import com.brycehan.boot.system.entity.dto.*;
+import com.brycehan.boot.system.entity.vo.SysUserInfoVo;
+import com.brycehan.boot.system.entity.vo.SysUserVo;
 import org.springframework.web.multipart.MultipartFile;
 
 /**

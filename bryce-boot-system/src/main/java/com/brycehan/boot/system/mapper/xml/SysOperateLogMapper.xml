@@ -3,7 +3,7 @@
 <mapper namespace="com.brycehan.boot.system.mapper.SysOperateLogMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.brycehan.boot.system.entity.SysOperateLog">
+    <resultMap id="BaseResultMap" type="com.brycehan.boot.system.entity.po.SysOperateLog">
         <id column="id" property="id"/>
         <result column="name" property="name"/>
         <result column="module_name" property="moduleName"/>

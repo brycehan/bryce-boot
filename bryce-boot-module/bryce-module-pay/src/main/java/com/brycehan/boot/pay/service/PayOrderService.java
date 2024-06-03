@@ -2,11 +2,11 @@ package com.brycehan.boot.pay.service;
 
 import com.brycehan.boot.common.base.entity.PageResult;
 import com.brycehan.boot.framework.mybatis.service.BaseService;
-import com.brycehan.boot.pay.dto.PayOrderPageDto;
-import com.brycehan.boot.pay.entity.PayOrder;
-import com.brycehan.boot.pay.enums.OrderStatus;
-import com.brycehan.boot.pay.enums.PayType;
-import com.brycehan.boot.pay.vo.PayOrderVo;
+import com.brycehan.boot.pay.entity.dto.PayOrderPageDto;
+import com.brycehan.boot.pay.entity.po.PayOrder;
+import com.brycehan.boot.pay.common.OrderStatus;
+import com.brycehan.boot.pay.common.PayType;
+import com.brycehan.boot.pay.entity.vo.PayOrderVo;
 
 import java.util.List;
 

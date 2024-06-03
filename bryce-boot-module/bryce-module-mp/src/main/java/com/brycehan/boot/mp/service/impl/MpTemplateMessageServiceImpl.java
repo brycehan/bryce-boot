@@ -2,13 +2,13 @@ package com.brycehan.boot.mp.service.impl;
 
 import com.brycehan.boot.common.base.entity.PageResult;
 import com.brycehan.boot.common.util.JsonUtils;
-import com.brycehan.boot.mp.dto.MpTemplateMessageBatchDto;
-import com.brycehan.boot.mp.dto.MpUserPageDto;
-import com.brycehan.boot.mp.entity.MpTemplateMessageLog;
+import com.brycehan.boot.mp.entity.dto.MpTemplateMessageBatchDto;
+import com.brycehan.boot.mp.entity.dto.MpUserPageDto;
+import com.brycehan.boot.mp.entity.po.MpTemplateMessageLog;
 import com.brycehan.boot.mp.service.MpTemplateMessageLogService;
 import com.brycehan.boot.mp.service.MpTemplateMessageService;
 import com.brycehan.boot.mp.service.MpUserService;
-import com.brycehan.boot.mp.vo.MpUserVo;
+import com.brycehan.boot.mp.entity.vo.MpUserVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.error.WxErrorException;

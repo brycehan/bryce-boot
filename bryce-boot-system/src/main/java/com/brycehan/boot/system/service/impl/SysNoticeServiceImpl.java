@@ -7,12 +7,12 @@ import com.brycehan.boot.common.base.entity.PageResult;
 import com.brycehan.boot.common.util.DateTimeUtils;
 import com.brycehan.boot.common.util.ExcelUtils;
 import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
-import com.brycehan.boot.system.convert.SysNoticeConvert;
-import com.brycehan.boot.system.dto.SysNoticePageDto;
-import com.brycehan.boot.system.entity.SysNotice;
+import com.brycehan.boot.system.entity.convert.SysNoticeConvert;
+import com.brycehan.boot.system.entity.dto.SysNoticePageDto;
+import com.brycehan.boot.system.entity.po.SysNotice;
 import com.brycehan.boot.system.mapper.SysNoticeMapper;
 import com.brycehan.boot.system.service.SysNoticeService;
-import com.brycehan.boot.system.vo.SysNoticeVo;
+import com.brycehan.boot.system.entity.vo.SysNoticeVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

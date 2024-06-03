@@ -2,11 +2,11 @@ package com.brycehan.boot.system.service;
 
 import com.brycehan.boot.common.base.entity.PageResult;
 import com.brycehan.boot.framework.mybatis.service.BaseService;
-import com.brycehan.boot.system.convert.SysAreaCodeConvert;
-import com.brycehan.boot.system.dto.SysAreaCodeDto;
-import com.brycehan.boot.system.dto.SysAreaCodePageDto;
-import com.brycehan.boot.system.entity.SysAreaCode;
-import com.brycehan.boot.system.vo.SysAreaCodeVo;
+import com.brycehan.boot.system.entity.convert.SysAreaCodeConvert;
+import com.brycehan.boot.system.entity.dto.SysAreaCodeDto;
+import com.brycehan.boot.system.entity.dto.SysAreaCodePageDto;
+import com.brycehan.boot.system.entity.po.SysAreaCode;
+import com.brycehan.boot.system.entity.vo.SysAreaCodeVo;
 
 import java.util.List;
 

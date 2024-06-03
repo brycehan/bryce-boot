@@ -2,11 +2,11 @@ package com.brycehan.boot.mp.service;
 
 import com.brycehan.boot.common.base.entity.PageResult;
 import com.brycehan.boot.framework.mybatis.service.BaseService;
-import com.brycehan.boot.mp.convert.MpUserConvert;
-import com.brycehan.boot.mp.dto.MpUserDto;
-import com.brycehan.boot.mp.dto.MpUserPageDto;
-import com.brycehan.boot.mp.entity.MpUser;
-import com.brycehan.boot.mp.vo.MpUserVo;
+import com.brycehan.boot.mp.entity.convert.MpUserConvert;
+import com.brycehan.boot.mp.entity.dto.MpUserDto;
+import com.brycehan.boot.mp.entity.dto.MpUserPageDto;
+import com.brycehan.boot.mp.entity.po.MpUser;
+import com.brycehan.boot.mp.entity.vo.MpUserVo;
 
 import java.util.List;
 

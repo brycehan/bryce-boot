@@ -3,11 +3,11 @@ package com.brycehan.boot.pay.service;
 import com.brycehan.boot.framework.mybatis.service.BaseService;
 import com.brycehan.boot.common.base.entity.PageResult;
 import com.brycehan.boot.common.base.id.IdGenerator;
-import com.brycehan.boot.pay.convert.PayProductConvert;
-import com.brycehan.boot.pay.dto.PayProductDto;
-import com.brycehan.boot.pay.dto.PayProductPageDto;
-import com.brycehan.boot.pay.entity.PayProduct;
-import com.brycehan.boot.pay.vo.PayProductVo;
+import com.brycehan.boot.pay.entity.convert.PayProductConvert;
+import com.brycehan.boot.pay.entity.dto.PayProductDto;
+import com.brycehan.boot.pay.entity.dto.PayProductPageDto;
+import com.brycehan.boot.pay.entity.po.PayProduct;
+import com.brycehan.boot.pay.entity.vo.PayProductVo;
 
 /**
  * 商品服务

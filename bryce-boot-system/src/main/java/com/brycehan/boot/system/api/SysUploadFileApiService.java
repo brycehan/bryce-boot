@@ -5,7 +5,7 @@ import cn.hutool.crypto.SecureUtil;
 import com.brycehan.boot.api.system.SysUploadFileApi;
 import com.brycehan.boot.api.system.vo.SysUploadFileVo;
 import com.brycehan.boot.framework.storage.service.StorageService;
-import com.brycehan.boot.system.dto.SysAttachmentDto;
+import com.brycehan.boot.system.entity.dto.SysAttachmentDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;

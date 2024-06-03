@@ -1,7 +1,7 @@
 package com.brycehan.boot.system.service;
 
 import com.brycehan.boot.common.enums.CaptchaType;
-import com.brycehan.boot.system.vo.CaptchaVo;
+import com.brycehan.boot.system.entity.vo.CaptchaVo;
 
 /**
  * 验证码服务

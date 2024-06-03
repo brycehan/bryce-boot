@@ -1,7 +1,7 @@
 package com.brycehan.boot.system.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.brycehan.boot.system.entity.SysOrg;
+import com.brycehan.boot.system.entity.po.SysOrg;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

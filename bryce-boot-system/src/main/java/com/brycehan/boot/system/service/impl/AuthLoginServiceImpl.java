@@ -13,7 +13,7 @@ import com.brycehan.boot.common.util.ServletUtils;
 import com.brycehan.boot.framework.security.JwtTokenProvider;
 import com.brycehan.boot.framework.security.phone.PhoneCodeAuthenticationToken;
 import com.brycehan.boot.system.common.LoginOperateType;
-import com.brycehan.boot.system.entity.SysUser;
+import com.brycehan.boot.system.entity.po.SysUser;
 import com.brycehan.boot.system.service.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;

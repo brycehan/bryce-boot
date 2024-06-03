@@ -3,7 +3,7 @@
 <mapper namespace="com.brycehan.boot.system.mapper.SysRoleDataScopeMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.brycehan.boot.system.entity.SysRoleDataScope">
+    <resultMap id="BaseResultMap" type="com.brycehan.boot.system.entity.po.SysRoleDataScope">
         <id column="id" property="id"/>
         <result column="role_id" property="roleId"/>
         <result column="org_id" property="orgId"/>

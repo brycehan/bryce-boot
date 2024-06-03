@@ -3,7 +3,7 @@
 <mapper namespace="com.brycehan.boot.quartz.mapper.QuartzJobMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.brycehan.boot.quartz.entity.QuartzJob">
+    <resultMap id="BaseResultMap" type="com.brycehan.boot.quartz.entity.po.QuartzJob">
         <id column="id" property="id" />
         <result column="job_name" property="jobName" />
         <result column="job_group" property="jobGroup" />

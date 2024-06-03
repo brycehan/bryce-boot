@@ -3,12 +3,12 @@ package com.brycehan.boot.system.service;
 import com.brycehan.boot.common.base.entity.PageResult;
 import com.brycehan.boot.common.base.id.IdGenerator;
 import com.brycehan.boot.framework.mybatis.service.BaseService;
-import com.brycehan.boot.system.convert.SysRoleConvert;
-import com.brycehan.boot.system.dto.SysRoleDataScopeDto;
-import com.brycehan.boot.system.dto.SysRoleDto;
-import com.brycehan.boot.system.dto.SysRolePageDto;
-import com.brycehan.boot.system.entity.SysRole;
-import com.brycehan.boot.system.vo.SysRoleVo;
+import com.brycehan.boot.system.entity.convert.SysRoleConvert;
+import com.brycehan.boot.system.entity.dto.SysRoleDataScopeDto;
+import com.brycehan.boot.system.entity.dto.SysRoleDto;
+import com.brycehan.boot.system.entity.dto.SysRolePageDto;
+import com.brycehan.boot.system.entity.po.SysRole;
+import com.brycehan.boot.system.entity.vo.SysRoleVo;
 
 import java.util.List;
 

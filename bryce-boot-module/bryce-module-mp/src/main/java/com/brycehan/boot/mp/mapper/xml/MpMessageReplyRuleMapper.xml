@@ -3,7 +3,7 @@
 <mapper namespace="com.brycehan.boot.mp.mapper.MpMessageReplyRuleMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.brycehan.boot.mp.entity.MpMessageReplyRule">
+    <resultMap id="BaseResultMap" type="com.brycehan.boot.mp.entity.po.MpMessageReplyRule">
         <id column="id" property="id" />
         <result column="name" property="name" />
         <result column="match_value" property="matchValue" />

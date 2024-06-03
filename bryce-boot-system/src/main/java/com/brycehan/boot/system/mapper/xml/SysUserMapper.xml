@@ -3,7 +3,7 @@
 <mapper namespace="com.brycehan.boot.system.mapper.SysUserMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.brycehan.boot.system.entity.SysUser">
+    <resultMap id="BaseResultMap" type="com.brycehan.boot.system.entity.po.SysUser">
         <id column="id" property="id"/>
         <result column="username" property="username"/>
         <result column="password" property="password"/>
@@ -40,7 +40,7 @@
         deleted, created_user_id, created_time, updated_user_id, updated_time
     </sql>
 
-    <select id="roleUserList" resultType="com.brycehan.boot.system.entity.SysUser">
+    <select id="roleUserList" resultType="com.brycehan.boot.system.entity.po.SysUser">
         select bsu.*
         from brc_sys_user bsu
         left join brc_sys_user_role bsur on bsu.id = bsur.user_id
@@ -57,7 +57,7 @@
         </if>
     </select>
 
-    <select id="list" resultType="com.brycehan.boot.system.entity.SysUser">
+    <select id="list" resultType="com.brycehan.boot.system.entity.po.SysUser">
         select bsu.*
         from brc_sys_user bsu
         where bsu.super_admin = 0

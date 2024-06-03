@@ -3,11 +3,11 @@ package com.brycehan.boot.system.service;
 import com.brycehan.boot.common.base.entity.PageResult;
 import com.brycehan.boot.common.base.id.IdGenerator;
 import com.brycehan.boot.framework.mybatis.service.BaseService;
-import com.brycehan.boot.system.convert.SysPostConvert;
-import com.brycehan.boot.system.dto.SysPostDto;
-import com.brycehan.boot.system.dto.SysPostPageDto;
-import com.brycehan.boot.system.entity.SysPost;
-import com.brycehan.boot.system.vo.SysPostVo;
+import com.brycehan.boot.system.entity.convert.SysPostConvert;
+import com.brycehan.boot.system.entity.dto.SysPostDto;
+import com.brycehan.boot.system.entity.dto.SysPostPageDto;
+import com.brycehan.boot.system.entity.po.SysPost;
+import com.brycehan.boot.system.entity.vo.SysPostVo;
 
 import java.util.List;
 

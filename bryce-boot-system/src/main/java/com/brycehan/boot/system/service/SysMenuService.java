@@ -4,11 +4,11 @@ import com.brycehan.boot.common.base.context.LoginUser;
 import com.brycehan.boot.common.base.entity.PageResult;
 import com.brycehan.boot.common.base.id.IdGenerator;
 import com.brycehan.boot.framework.mybatis.service.BaseService;
-import com.brycehan.boot.system.convert.SysMenuConvert;
-import com.brycehan.boot.system.dto.SysMenuDto;
-import com.brycehan.boot.system.dto.SysMenuPageDto;
-import com.brycehan.boot.system.entity.SysMenu;
-import com.brycehan.boot.system.vo.SysMenuVo;
+import com.brycehan.boot.system.entity.convert.SysMenuConvert;
+import com.brycehan.boot.system.entity.dto.SysMenuDto;
+import com.brycehan.boot.system.entity.dto.SysMenuPageDto;
+import com.brycehan.boot.system.entity.po.SysMenu;
+import com.brycehan.boot.system.entity.vo.SysMenuVo;
 
 import java.util.List;
 import java.util.Set;

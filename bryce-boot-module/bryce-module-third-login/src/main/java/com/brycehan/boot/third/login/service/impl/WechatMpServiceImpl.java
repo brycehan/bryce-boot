@@ -1,8 +1,8 @@
 package com.brycehan.boot.third.login.service.impl;
 
 import com.brycehan.boot.common.base.RedisKeys;
-import com.brycehan.boot.mp.config.MpProperties;
-import com.brycehan.boot.mp.entity.MpUser;
+import com.brycehan.boot.mp.common.config.MpProperties;
+import com.brycehan.boot.mp.entity.po.MpUser;
 import com.brycehan.boot.mp.service.MpUserService;
 import com.brycehan.boot.third.login.service.WechatMpService;
 import lombok.RequiredArgsConstructor;

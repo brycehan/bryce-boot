@@ -3,7 +3,7 @@
 <mapper namespace="com.brycehan.boot.mp.mapper.MpQrCodeMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.brycehan.boot.mp.entity.MpQrCode">
+    <resultMap id="BaseResultMap" type="com.brycehan.boot.mp.entity.po.MpQrCode">
         <id column="id" property="id" />
         <result column="is_temporary" property="isTemporary" />
         <result column="scene_str" property="sceneStr" />

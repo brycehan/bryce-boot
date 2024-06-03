@@ -1,7 +1,7 @@
 package com.brycehan.boot.system.mapper;
 
 import com.brycehan.boot.framework.mybatis.BryceBaseMapper;
-import com.brycehan.boot.system.entity.SysAttachment;
+import com.brycehan.boot.system.entity.po.SysAttachment;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

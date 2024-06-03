@@ -3,11 +3,11 @@ package com.brycehan.boot.system.service;
 import com.brycehan.boot.common.base.entity.PageResult;
 import com.brycehan.boot.common.base.id.IdGenerator;
 import com.brycehan.boot.framework.mybatis.service.BaseService;
-import com.brycehan.boot.system.convert.SysAttachmentConvert;
-import com.brycehan.boot.system.dto.SysAttachmentDto;
-import com.brycehan.boot.system.dto.SysAttachmentPageDto;
-import com.brycehan.boot.system.entity.SysAttachment;
-import com.brycehan.boot.system.vo.SysAttachmentVo;
+import com.brycehan.boot.system.entity.convert.SysAttachmentConvert;
+import com.brycehan.boot.system.entity.dto.SysAttachmentDto;
+import com.brycehan.boot.system.entity.dto.SysAttachmentPageDto;
+import com.brycehan.boot.system.entity.po.SysAttachment;
+import com.brycehan.boot.system.entity.vo.SysAttachmentVo;
 
 /**
  * 系统附件服务

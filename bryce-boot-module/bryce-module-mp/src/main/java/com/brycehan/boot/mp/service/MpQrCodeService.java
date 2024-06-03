@@ -2,11 +2,11 @@ package com.brycehan.boot.mp.service;
 
 import com.brycehan.boot.common.base.entity.PageResult;
 import com.brycehan.boot.framework.mybatis.service.BaseService;
-import com.brycehan.boot.mp.convert.MpQrCodeConvert;
-import com.brycehan.boot.mp.dto.MpQrCodeDto;
-import com.brycehan.boot.mp.dto.MpQrCodePageDto;
-import com.brycehan.boot.mp.entity.MpQrCode;
-import com.brycehan.boot.mp.vo.MpQrCodeVo;
+import com.brycehan.boot.mp.entity.convert.MpQrCodeConvert;
+import com.brycehan.boot.mp.entity.dto.MpQrCodeDto;
+import com.brycehan.boot.mp.entity.dto.MpQrCodePageDto;
+import com.brycehan.boot.mp.entity.po.MpQrCode;
+import com.brycehan.boot.mp.entity.vo.MpQrCodeVo;
 import me.chanjar.weixin.mp.bean.result.WxMpQrCodeTicket;
 
 /**

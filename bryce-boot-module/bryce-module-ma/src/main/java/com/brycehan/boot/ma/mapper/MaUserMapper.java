@@ -1,7 +1,7 @@
 package com.brycehan.boot.ma.mapper;
 
 import com.brycehan.boot.framework.mybatis.BryceBaseMapper;
-import com.brycehan.boot.ma.entity.MaUser;
+import com.brycehan.boot.ma.entity.po.MaUser;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

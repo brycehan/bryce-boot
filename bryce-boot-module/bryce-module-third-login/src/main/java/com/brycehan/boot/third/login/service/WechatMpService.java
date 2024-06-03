@@ -1,6 +1,6 @@
 package com.brycehan.boot.third.login.service;
 
-import com.brycehan.boot.mp.entity.MpUser;
+import com.brycehan.boot.mp.entity.po.MpUser;
 import me.chanjar.weixin.common.bean.WxOAuth2UserInfo;
 import me.chanjar.weixin.common.bean.oauth2.WxOAuth2AccessToken;
 import me.chanjar.weixin.common.error.WxErrorException;

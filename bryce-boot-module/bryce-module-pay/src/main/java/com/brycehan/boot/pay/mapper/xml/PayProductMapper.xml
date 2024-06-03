@@ -3,7 +3,7 @@
 <mapper namespace="com.brycehan.boot.pay.mapper.PayProductMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.brycehan.boot.pay.entity.PayProduct">
+    <resultMap id="BaseResultMap" type="com.brycehan.boot.pay.entity.po.PayProduct">
         <id column="id" property="id" />
         <result column="title" property="title" />
         <result column="price" property="price" />

@@ -3,7 +3,7 @@ package com.brycehan.boot.system.controller;
 import com.brycehan.boot.api.sms.SmsApi;
 import com.brycehan.boot.common.base.http.ResponseResult;
 import com.brycehan.boot.system.service.SysUserService;
-import com.brycehan.boot.system.vo.SysUserVo;
+import com.brycehan.boot.system.entity.vo.SysUserVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;

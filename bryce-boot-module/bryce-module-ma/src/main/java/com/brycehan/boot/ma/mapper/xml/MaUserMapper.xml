@@ -3,7 +3,7 @@
 <mapper namespace="com.brycehan.boot.ma.mapper.MaUserMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.brycehan.boot.ma.entity.MaUser">
+    <resultMap id="BaseResultMap" type="com.brycehan.boot.ma.entity.po.MaUser">
         <id column="id" property="id" />
         <result column="nickname" property="nickname" />
         <result column="avatar" property="avatar" />
