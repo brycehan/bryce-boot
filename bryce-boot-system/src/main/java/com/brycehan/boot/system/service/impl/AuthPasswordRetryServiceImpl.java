@@ -1,7 +1,7 @@
 package com.brycehan.boot.system.service.impl;
 
 import com.brycehan.boot.common.constant.CacheConstants;
-import com.brycehan.boot.system.service.SysPasswordRetryService;
+import com.brycehan.boot.system.service.AuthPasswordRetryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
  */
 @Service
 @RequiredArgsConstructor
-public class SysPasswordRetryServiceImpl implements SysPasswordRetryService {
+public class AuthPasswordRetryServiceImpl implements AuthPasswordRetryService {
 
     private final RedisTemplate<String, Integer> redisTemplate;
 

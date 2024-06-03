@@ -2,7 +2,8 @@ package com.brycehan.boot.api.system;
 
 import com.brycehan.boot.api.system.dto.SysParamApiDto;
 import com.brycehan.boot.api.system.vo.SysParamApiVo;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * 系统参数 Api

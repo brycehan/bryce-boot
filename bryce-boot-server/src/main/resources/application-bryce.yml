@@ -36,15 +36,6 @@ bryce:
     # 任务队列的任务数
     work-queue-size: 1000
 
-  # jwt 令牌
-  jwt:
-    # 令牌密钥
-    secret: UZCiSM60eRJMOFA9mbiy
-    # 权限键
-    authorities-key: auth
-    #令牌有效期（默认2小时）
-    token-validity-in-seconds: 7200
-
   # 验证码配置
   captcha:
     width: 235
@@ -54,6 +45,17 @@ bryce:
 
   # 权限过滤
   auth:
+    # jwt 令牌
+    jwt:
+      # 令牌密钥
+      secret: UZCiSM60eRJMOFA9mbiy
+      # 权限键
+      authorities-key: auth
+      #令牌有效期（默认2小时）
+      token-validity-in-seconds: 7200
+      #App令牌有效期（默认31天）
+      app-token-validity-in-days: 31
+    # 忽略的URL
     ignore-urls:
       all:
         - /generator-ui/**

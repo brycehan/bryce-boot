@@ -1,17 +1,13 @@
 package com.brycehan.boot.ma.dto;
 
-import com.brycehan.boot.common.validator.SaveGroup;
 import com.brycehan.boot.common.validator.UpdateGroup;
-import jakarta.validation.constraints.Size;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Null;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.io.Serializable;
 import java.io.Serial;
+import java.io.Serializable;
+import java.time.LocalDate;
 
 /**
  * 微信小程序用户Dto

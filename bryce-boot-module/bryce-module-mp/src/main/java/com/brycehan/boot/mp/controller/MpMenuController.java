@@ -3,7 +3,7 @@ package com.brycehan.boot.mp.controller;
 import com.brycehan.boot.api.system.SysParamApi;
 import com.brycehan.boot.api.system.dto.SysParamApiDto;
 import com.brycehan.boot.common.base.http.ResponseResult;
-import com.brycehan.boot.common.constant.CommonConstants;
+import com.brycehan.boot.common.constant.DataConstants;
 import com.brycehan.boot.common.util.JsonUtils;
 import com.brycehan.boot.framework.operatelog.annotation.OperateLog;
 import com.brycehan.boot.framework.operatelog.annotation.OperateType;
@@ -70,7 +70,7 @@ public class MpMenuController {
             } else {
                 this.wxMpService.getMenuService().menuCreate(wxMenu);
                 // 缓存菜单
-                String paramKey = CommonConstants.WECHAT_MP_MENU;
+                String paramKey = DataConstants.WECHAT_MP_MENU;
                 SysParamApiDto sysParamApiDto = new SysParamApiDto();
                 sysParamApiDto.setParamKey(paramKey);
                 sysParamApiDto.setParamValue(JsonUtils.writeValueAsString(wxMenu));
@@ -96,7 +96,7 @@ public class MpMenuController {
     @GetMapping(path = "/publishByCache")
     public ResponseResult<WxMenu> publishByCache() {
 
-        String paramKey = CommonConstants.WECHAT_MP_MENU;
+        String paramKey = DataConstants.WECHAT_MP_MENU;
         String paramValue = this.sysParamApi.getString(paramKey);
         WxMenu wxMenu = JsonUtils.readValue(paramValue, WxMenu.class);
 

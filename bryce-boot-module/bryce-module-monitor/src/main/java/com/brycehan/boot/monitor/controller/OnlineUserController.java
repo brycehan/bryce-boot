@@ -1,13 +1,13 @@
 package com.brycehan.boot.monitor.controller;
 
 import cn.hutool.core.collection.ListUtil;
+import com.brycehan.boot.common.base.context.LoginUser;
 import com.brycehan.boot.common.base.entity.PageResult;
 import com.brycehan.boot.common.base.http.ResponseResult;
 import com.brycehan.boot.common.constant.CacheConstants;
 import com.brycehan.boot.framework.operatelog.annotation.OperateLog;
 import com.brycehan.boot.framework.operatelog.annotation.OperateType;
 import com.brycehan.boot.framework.security.JwtTokenProvider;
-import com.brycehan.boot.common.base.context.LoginUser;
 import com.brycehan.boot.monitor.dto.OnlineUserPageDto;
 import com.brycehan.boot.monitor.vo.OnlineUserVo;
 import io.swagger.v3.oas.annotations.Operation;
@@ -76,18 +76,18 @@ public class OnlineUserController {
     /**
      * 强制退出
      *
-     * @param tokenKey 会话存储Key
+     * @param userKey 会话存储Key
      * @return 响应结果
      */
     @Operation(summary = "强制退出")
     @OperateLog(type = OperateType.FORCE_QUIT)
     @PreAuthorize("hasAuthority('monitor:onlineUser:delete')")
-    @DeleteMapping(path = "/{tokenKey}")
-    public ResponseResult<Void> delete(@PathVariable String tokenKey) {
+    @DeleteMapping(path = "/{userKey}")
+    public ResponseResult<Void> delete(@PathVariable String userKey) {
 
-        if(StringUtils.isNotBlank(tokenKey)) {
+        if(StringUtils.isNotBlank(userKey)) {
             // 删除用户信息
-            this.jwtTokenProvider.deleteLoginUser(tokenKey);
+            this.jwtTokenProvider.deleteLoginUser(userKey);
         }
 
         return ResponseResult.ok();

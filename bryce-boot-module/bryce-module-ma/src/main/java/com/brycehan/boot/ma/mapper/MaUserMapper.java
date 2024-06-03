@@ -1,8 +1,8 @@
 package com.brycehan.boot.ma.mapper;
 
 import com.brycehan.boot.framework.mybatis.BryceBaseMapper;
-import org.apache.ibatis.annotations.Mapper;
 import com.brycehan.boot.ma.entity.MaUser;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
 * 微信小程序用户Mapper接口

@@ -53,9 +53,9 @@ public class LoginUser implements UserDetails {
     private Boolean superAdmin;
 
     /**
-     * 用户令牌存储Key
+     * 用户登录存储Key
      */
-    private String tokenKey;
+    private String userKey;
 
     /**
      * 登录时间

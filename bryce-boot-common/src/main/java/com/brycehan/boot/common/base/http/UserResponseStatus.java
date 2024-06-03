@@ -18,7 +18,7 @@ public enum UserResponseStatus implements ResponseStatus {
 
     USER_REGISTER_NOT_ENABLED(600, "当前系统没有开启注册功能"),
 
-    USER_REGISTER_EXISTS(601, "保存用户{}失败，注册账号已存在"),
+    USER_REGISTER_EXISTS(601, "注册{}失败，账号已存在"),
 
     USER_REGISTER_ERROR(602, "注册失败，请联系系统管理人员"),
 
@@ -62,13 +62,15 @@ public enum UserResponseStatus implements ResponseStatus {
 
     USER_FORCE_LOGOUT(622, "管理员强制退出，请重新登录"),
 
-    USER_PROFILE_PHONE_INVALID(623, "修改用户{}失败，手机号码已存在"),
+    USER_PROFILE_PHONE_EXISTS(623, "修改用户{}失败，手机号码已存在"),
 
-    USER_PROFILE_EMAIL_INVALID(624, "修改用户{}失败，邮箱已存在"),
+    USER_PROFILE_EMAIL_EXISTS(624, "修改用户{}失败，邮箱已存在"),
 
-    USER_PROFILE_ALTER_ERROR(625, "修改个人信息异常，请联系管理员"),
+    USER_PROFILE_ALTER_INFO_ERROR(625, "修改个人信息异常，请联系管理员"),
 
-    USER_BALANCE_INSUFFICIENT(626, "账户余额不足，还差{}元");
+    USER_PROFILE_ALTER_AVATAR_ERROR(626, "修改头像异常，请联系管理员"),
+
+    USER_BALANCE_INSUFFICIENT(627, "账户余额不足，还差{}元");
 
     /**
      * 状态编码

@@ -8,7 +8,7 @@ import com.brycehan.boot.common.base.dto.RegisterDto;
  * @since 2022/9/20
  * @author Bryce Han
  */
-public interface SysRegisterService {
+public interface AuthRegisterService {
 
     /**
      * 注册
@@ -31,6 +31,14 @@ public interface SysRegisterService {
      *
      * @return 开启标识（true：开启，false：关闭）
      */
-    boolean isCaptchaEnabled();
+    boolean captchaEnabled();
+
+    /**
+     * 校验用户名是否可注册
+     *
+     * @param username 用户名
+     * @return 校验结果（true：可注册，false：不可注册）
+     */
+    boolean checkUsernameUnique(String username);
 
 }

@@ -1,9 +1,8 @@
 package com.brycehan.boot.system.security;
 
-import com.brycehan.boot.common.constant.CommonConstants;
 import com.brycehan.boot.common.constant.DataConstants;
 import com.brycehan.boot.system.common.LoginOperateType;
-import com.brycehan.boot.system.service.AuthService;
+import com.brycehan.boot.system.service.AuthLoginService;
 import com.brycehan.boot.system.service.SysLoginLogService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
@@ -24,7 +23,7 @@ public class AuthenticationListener {
 
     private final SysLoginLogService sysLoginLogService;
 
-    private final AuthService authService;
+    private final AuthLoginService authLoginService;
 
     /**
      * 登录成功事件处理
@@ -38,7 +37,7 @@ public class AuthenticationListener {
         // 记录登录日志
         this.sysLoginLogService.save(user.getUsername(), DataConstants.SUCCESS, LoginOperateType.LOGIN_SUCCESS.getValue());
         // 更新用户登录信息
-        this.authService.updateLoginInfo(user);
+        this.authLoginService.updateLoginInfo(user);
     }
 
     /**
@@ -51,7 +50,7 @@ public class AuthenticationListener {
         // 用户名
         String username = (String) authenticationFailureEvent.getAuthentication().getPrincipal();
         // 记录登录日志
-        this.sysLoginLogService.save(username, CommonConstants.LOGIN_FAIL, LoginOperateType.LOGIN_SUCCESS.getValue());
+        this.sysLoginLogService.save(username, DataConstants.FAIL, LoginOperateType.LOGIN_SUCCESS.getValue());
     }
 
 }

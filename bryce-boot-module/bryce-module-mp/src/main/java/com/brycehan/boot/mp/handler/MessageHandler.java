@@ -1,6 +1,5 @@
 package com.brycehan.boot.mp.handler;
 
-import cn.hutool.json.JSONUtil;
 import com.brycehan.boot.mp.entity.MpMessage;
 import com.brycehan.boot.mp.service.MpMessageReplyService;
 import com.brycehan.boot.mp.service.MpMessageService;
@@ -13,7 +12,6 @@ import me.chanjar.weixin.mp.api.WxMpMessageHandler;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlMessage;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlOutMessage;
-import me.chanjar.weixin.mp.util.WxMpConfigStorageHolder;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;

@@ -2,13 +2,12 @@ package com.brycehan.boot.framework.security;
 
 import cn.hutool.core.lang.UUID;
 import cn.hutool.core.util.StrUtil;
+import com.brycehan.boot.common.base.ServerException;
 import com.brycehan.boot.common.constant.JwtConstants;
 import com.brycehan.boot.framework.common.SourceClientType;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
-
-import java.util.Arrays;
 
 /**
  * 令牌工具类
@@ -19,7 +18,7 @@ import java.util.Arrays;
 @Slf4j
 public class TokenUtils {
 
-    public static final String SOURCE_CLIENT_HEADER = "source-client";
+    public static final String SOURCE_CLIENT_HEADER = "X-Source-Client";
 
     /**
      * 生成安全的uuid
@@ -54,14 +53,19 @@ public class TokenUtils {
      * @param request 请求request
      * @return 来源客户端
      */
-    public static String getSourceClient(HttpServletRequest request) {
-        String loginClient = request.getHeader(SOURCE_CLIENT_HEADER);
+    public static SourceClientType getSourceClient(HttpServletRequest request) {
+        String sourceClient = request.getHeader(SOURCE_CLIENT_HEADER);
 
-        if (StrUtil.isNotBlank(loginClient) && Arrays.stream(SourceClientType.values()).anyMatch(t -> t.value().equals(loginClient))) {
-            return loginClient;
+        if (StrUtil.isBlank(sourceClient)) {
+            throw new ServerException("非法来源客户端请求");
         }
 
-        throw new RuntimeException("非法来源客户端请求");
+        SourceClientType sourceClientType = SourceClientType.getByValue(sourceClient);
+        if (sourceClientType != null) {
+            return sourceClientType;
+        }
+
+        throw new ServerException("非法来源客户端请求");
     }
 
 }

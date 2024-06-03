@@ -6,6 +6,7 @@ import cn.binarywang.wx.miniapp.bean.WxMaPhoneNumberInfo;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.brycehan.boot.api.ma.vo.MaUserApiVo;
+import com.brycehan.boot.common.base.context.LoginUserContext;
 import com.brycehan.boot.common.base.entity.PageResult;
 import com.brycehan.boot.common.base.id.IdGenerator;
 import com.brycehan.boot.common.constant.JwtConstants;
@@ -13,7 +14,6 @@ import com.brycehan.boot.common.util.DateTimeUtils;
 import com.brycehan.boot.common.util.ExcelUtils;
 import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
 import com.brycehan.boot.framework.security.JwtTokenProvider;
-import com.brycehan.boot.common.base.context.LoginUserContext;
 import com.brycehan.boot.ma.MaConstants;
 import com.brycehan.boot.ma.convert.MaUserConvert;
 import com.brycehan.boot.ma.dto.MaLoginDto;
@@ -30,6 +30,7 @@ import me.chanjar.weixin.common.error.WxErrorException;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
@@ -51,6 +52,12 @@ import java.util.concurrent.TimeUnit;
 @Service
 @RequiredArgsConstructor
 public class MaUserServiceImpl extends BaseServiceImpl<MaUserMapper, MaUser> implements MaUserService {
+
+    /**
+     * App令牌过期时间间隔
+     */
+    @Value("${bryce.auth.jwt.app-token-validity-in-days}")
+    private long appTokenValidityInDays;
 
     private final WxMaService wxMaService;
     private final StringRedisTemplate stringRedisTemplate;
@@ -85,8 +92,7 @@ public class MaUserServiceImpl extends BaseServiceImpl<MaUserMapper, MaUser> imp
      * @return 查询条件Wrapper
      */
     private LambdaQueryWrapper<MaUser> getWrapper(MaUserPageDto maUserPageDto){
-        LambdaQueryWrapper<MaUser> wrapper = new LambdaQueryWrapper<>();
-        return wrapper;
+        return new LambdaQueryWrapper<>();
     }
 
     @Override
@@ -147,14 +153,16 @@ public class MaUserServiceImpl extends BaseServiceImpl<MaUserMapper, MaUser> imp
             this.updateById(maUser);
         }
 
-        // 保存session会话信息，有效期3天
+        // 保存session会话信息，腾讯那边有效期3天，这边少一小时
         String sessionKey = MaConstants.MA_SESSION_KEY.concat(sessionInfo.getOpenid());
         stringRedisTemplate.opsForValue().set(sessionKey, sessionInfo.getSessionKey(), 71, TimeUnit.HOURS);
 
         // 生成 jwt
         Map<String, Object> claims = new HashMap<>();
         claims.put(JwtConstants.LOGIN_OPEN_ID, maUser.getOpenId());
-        String token = this.jwtTokenProvider.generateToken(claims, JwtConstants.APP_EXPIRE_MINUTE);
+
+        long expiredTimeSeconds = appTokenValidityInDays * 24 * 60 * 60;
+        String token = this.jwtTokenProvider.generateToken(claims, expiredTimeSeconds);
 
         MaUserLoginVo loginVo = new MaUserLoginVo();
         BeanUtils.copyProperties(maUser, loginVo);

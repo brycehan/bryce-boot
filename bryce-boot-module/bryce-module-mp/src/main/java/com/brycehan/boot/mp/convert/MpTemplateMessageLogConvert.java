@@ -5,6 +5,7 @@ import com.brycehan.boot.mp.entity.MpTemplateMessageLog;
 import com.brycehan.boot.mp.vo.MpTemplateMessageLogVo;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
+
 import java.util.List;
 
 /**

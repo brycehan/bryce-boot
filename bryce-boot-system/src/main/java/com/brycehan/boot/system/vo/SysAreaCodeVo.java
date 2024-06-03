@@ -1,11 +1,10 @@
 package com.brycehan.boot.system.vo;
 
-import cn.hutool.core.date.DatePattern;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-import java.io.Serializable;
 import java.io.Serial;
+import java.io.Serializable;
 
 /**
  * 地区编码 Vo

@@ -46,7 +46,7 @@ public class SysLoginLogVo implements Serializable, TransPojo {
     /**
      * 操作信息
      */
-    @Trans(type = TransType.DICTIONARY, key = "sys_operate_info", ref = "infoLabel")
+    @Trans(type = TransType.DICTIONARY, key = "sys_login_status", ref = "infoLabel")
     @Schema(description = "操作信息")
     private Integer info;
 

@@ -1,11 +1,11 @@
 package com.brycehan.boot.mp.entity;
 
-import com.baomidou.mybatisplus.annotation.*;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.brycehan.boot.common.base.entity.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import com.brycehan.boot.common.base.entity.BaseEntity;
+
 import java.io.Serial;
-import java.sql.Time;
 import java.time.LocalTime;
 
 /**

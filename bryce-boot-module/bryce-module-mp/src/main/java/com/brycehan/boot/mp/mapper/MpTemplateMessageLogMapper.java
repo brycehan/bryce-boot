@@ -1,8 +1,8 @@
 package com.brycehan.boot.mp.mapper;
 
 import com.brycehan.boot.framework.mybatis.BryceBaseMapper;
-import org.apache.ibatis.annotations.Mapper;
 import com.brycehan.boot.mp.entity.MpTemplateMessageLog;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
 * 微信公众号模版消息发送记录Mapper接口

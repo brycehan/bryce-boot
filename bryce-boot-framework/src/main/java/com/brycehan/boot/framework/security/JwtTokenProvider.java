@@ -6,17 +6,16 @@ import cn.hutool.http.useragent.UserAgentUtil;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.brycehan.boot.common.base.vo.LoginVo;
+import com.brycehan.boot.common.base.context.LoginUser;
 import com.brycehan.boot.common.constant.CacheConstants;
 import com.brycehan.boot.common.constant.JwtConstants;
 import com.brycehan.boot.common.util.IpUtils;
+import com.brycehan.boot.common.util.JsonUtils;
 import com.brycehan.boot.common.util.LocationUtils;
 import com.brycehan.boot.common.util.ServletUtils;
 import com.brycehan.boot.framework.common.SourceClientType;
-import com.brycehan.boot.common.base.context.LoginUser;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -48,14 +47,20 @@ public class JwtTokenProvider {
     /**
      * jwt密钥
      */
-    @Value("${bryce.jwt.secret}")
+    @Value("${bryce.auth.jwt.secret}")
     private String jwtSecret = "UZCiSM60eRJMOFA9mbiy";
 
     /**
      * 令牌过期时间间隔
      */
-    @Value("${bryce.jwt.token-validity-in-seconds}")
+    @Value("${bryce.auth.jwt.token-validity-in-seconds}")
     private long tokenValidityInSeconds;
+
+    /**
+     * App令牌过期时间间隔
+     */
+    @Value("${bryce.auth.jwt.app-token-validity-in-days}")
+    private long appTokenValidityInDays;
 
     private final RedisTemplate<String, LoginUser> redisTemplate;
 
@@ -67,23 +72,31 @@ public class JwtTokenProvider {
      */
     public String generateToken(LoginUser loginUser) {
 
-        // 生成tokenKey
-        String tokenKey = TokenUtils.uuid();
-        loginUser.setTokenKey(tokenKey);
-
         // 设置用户代理
         this.setUserAgent(loginUser);
 
-        // 创建jwt
+        // 设置IP地址
+        loginUser.setLoginIp(IpUtils.getIp(ServletUtils.getRequest()));
+        // 设置来源客户端
+        SourceClientType sourceClientType = TokenUtils.getSourceClient(ServletUtils.getRequest());
+
+        // 创建jwt令牌
         Map<String, Object> claims = new HashMap<>();
-        switch (loginUser.getSourceClient()) {
-            case "pc" -> claims.put(JwtConstants.LOGIN_USER_PC_KEY, tokenKey);
-            case "h5" -> claims.put(JwtConstants.LOGIN_USER_H5_KEY, tokenKey);
-            case "miniApp" -> claims.put(JwtConstants.LOGIN_USER_MA_KEY, tokenKey);
-            case "app" -> claims.put(JwtConstants.LOGIN_USER_APP_KEY, tokenKey);
+        long expiredTimeSeconds = 0L;
+
+        switch (Objects.requireNonNull(sourceClientType)) {
+            case PC, H5 -> {
+                loginUser.setUserKey(TokenUtils.uuid());
+                claims.put(JwtConstants.USER_KEY, loginUser.getUserKey());
+                expiredTimeSeconds = tokenValidityInSeconds;
+            }
+            case APP -> {
+                claims.put(JwtConstants.USER_DATA, JsonUtils.writeValueAsString(loginUser));
+                expiredTimeSeconds = appTokenValidityInDays * 24 * 60 * 60;
+            }
         }
 
-        return generateToken(claims);
+        return generateToken(claims, expiredTimeSeconds);
     }
 
     /**
@@ -92,27 +105,13 @@ public class JwtTokenProvider {
      * @param claims 数据声明
      * @return 令牌
      */
-    public String generateToken(Map<String, Object> claims) {
+    public String generateToken(Map<String, Object> claims, long expiredTimeSeconds) {
         // 指定加密方式
         Algorithm algorithm = Algorithm.HMAC256(this.jwtSecret);
+        // 过期时间
+        Instant expiredTime = Instant.now().plus(expiredTimeSeconds, ChronoUnit.SECONDS);
         return JWT.create()
-                .withPayload(claims)
-                // 签发 JWT
-                .sign(algorithm);
-    }
-
-    /**
-     * 从数据声明生成令牌
-     *
-     * @param claims 数据声明
-     * @return 令牌
-     */
-    public String generateToken(Map<String, Object> claims, long expireTimeMinutes) {
-        // 指定加密方式
-        Algorithm algorithm = Algorithm.HMAC256(this.jwtSecret);
-        Instant expireTime = Instant.now().plus(expireTimeMinutes, ChronoUnit.MINUTES);
-        return JWT.create()
-                .withExpiresAt(expireTime)
+                .withExpiresAt(expiredTime)
                 .withPayload(claims)
                 // 签发 JWT
                 .sign(algorithm);
@@ -145,145 +144,134 @@ public class JwtTokenProvider {
     public void cacheLoginUser(LoginUser loginUser) {
 
         // 来源客户端
-        String sourceClient = TokenUtils.getSourceClient(ServletUtils.getRequest());
-        SourceClientType sourceClientType = SourceClientType.getByValue(sourceClient);
+        SourceClientType sourceClientType = TokenUtils.getSourceClient(ServletUtils.getRequest());
 
         LocalDateTime now = LocalDateTime.now();
-        loginUser.setLoginTime(now);
         // 设置过期时间
         LocalDateTime expireTime = null;
         switch (Objects.requireNonNull(sourceClientType)) {
             case PC, H5 -> expireTime = now.plusSeconds(this.tokenValidityInSeconds);
-            case APP -> expireTime = now.plusMinutes(JwtConstants.APP_EXPIRE_MINUTE);
+            case APP -> expireTime = now.plusDays(this.appTokenValidityInDays);
         }
+        loginUser.setLoginTime(now);
         loginUser.setExpireTime(expireTime);
+        loginUser.setSourceClient(sourceClientType.value());
 
-        String loginUserKey = "";
+        String loginUserKey;
         switch (sourceClientType) {
-            case PC -> loginUserKey = JwtConstants.LOGIN_USER_PC_KEY;
-            case H5 -> loginUserKey = JwtConstants.LOGIN_USER_H5_KEY;
-            case APP -> loginUserKey = JwtConstants.LOGIN_USER_APP_KEY;
+            case PC, H5 -> {
+                loginUserKey = JwtConstants.LOGIN_USER_KEY;
+                String cacheUserKey = loginUserKey.concat(":").concat(loginUser.getUserKey());
+
+                // 根据tokenKey将loginUser缓存
+                this.redisTemplate.opsForValue()
+                        .set(cacheUserKey, loginUser, tokenValidityInSeconds, TimeUnit.SECONDS);
+            }
         }
-
-        String cacheUserKey = loginUserKey.concat(":").concat(loginUser.getTokenKey());
-
-        // 根据tokenKey将loginUser缓存
-        this.redisTemplate.opsForValue()
-                .set(cacheUserKey, loginUser, tokenValidityInSeconds, TimeUnit.SECONDS);
     }
 
     /**
-     * 令牌自动续期，相差不足30分钟，自动刷新延长登录有效期
+     * 令牌自动续期
      *
      * @param loginUser 登录用户
      */
     public void autoRefreshToken(LoginUser loginUser) {
-        // PC和H5的token续期
-        if (loginUser.getSourceClient().equals(SourceClientType.PC.value())
-                || loginUser.getSourceClient().equals(SourceClientType.H5.value())) {
-            LocalDateTime expireTime = loginUser.getExpireTime();
-            LocalDateTime now = LocalDateTime.now();
-
-            if (expireTime.isAfter(now) && expireTime.isBefore(now.plusMinutes(JwtConstants.REFRESH_LIMIT_MIN_MINUTE))) {
-                refreshToken(loginUser);
-            }
-
+        if (needRefreshToken(loginUser)) {
+            // 生成 jwt
+            String token = generateToken(loginUser);
+            // 缓存 loginUser
+            cacheLoginUser(loginUser);
+            // 刷新令牌
+            refreshToken(token);
         }
     }
 
     /**
-     * 小程序和App的令牌自动续期，一天一续期，自动刷新延长登录有效期
+     * 判断是否需要刷新令牌
      *
-     * @param claimMap 登录用户
+     * @param loginUser 登录用户
+     * @return 是否需要刷新令牌
      */
-    public void autoRefreshToken(Map<String, Claim> claimMap) {
-        Instant exp = claimMap.get("exp").asInstant();
-        String openid = claimMap.get("openid").asString();
-
-        if (Instant.now().compareTo(exp.minus(29, ChronoUnit.DAYS)) > 0) {
-            // 生成 jwt
-            Map<String, Object> claims = new HashMap<>();
-            claims.put(JwtConstants.LOGIN_OPEN_ID, openid);
-            String token = this.generateToken(claims, JwtConstants.APP_EXPIRE_MINUTE);
-            ServletUtils.getResponse().setHeader(HttpHeaders.AUTHORIZATION, JwtConstants.TOKEN_PREFIX.concat(token));
+    public boolean needRefreshToken(LoginUser loginUser) {
+        LocalDateTime expireTime = loginUser.getExpireTime();
+        LocalDateTime now = LocalDateTime.now();
+        // 存储会话的令牌自动续期
+        if (StringUtils.isNotEmpty(loginUser.getUserKey())) {
+            return expireTime.isAfter(now) && expireTime.isBefore(now.plusMinutes(JwtConstants.REFRESH_CACHE_MIN_MINUTE));
+        } else {
+            // 非存储会话的令牌自动续期
+            return expireTime.isAfter(now) && expireTime.isBefore(now.plusDays(JwtConstants.REFRESH_APP_MIN_DAY));
         }
     }
 
     /**
      * 刷新令牌有效期
      *
-     * @param loginUser 登录用户
+     * @param token 新的令牌
      */
-    private void refreshToken(LoginUser loginUser) {
-        String token = this.generateToken(loginUser);
+    public void refreshToken(String token) {
         HttpServletResponse response = ServletUtils.getResponse();
         if(response != null) {
             // 将 jwt token 添加到响应头
-            response.setHeader(HttpHeaders.AUTHORIZATION, token);
+            response.setHeader(HttpHeaders.AUTHORIZATION, JwtConstants.TOKEN_PREFIX.concat(token));
         }
     }
 
     /**
      * 获取登录用户信息
      *
-     * @param accessToken 访问令牌
+     * @param userKey 用户key
      * @return 登录用户
      */
-    public LoginUser loadLoginUser(String accessToken, SourceClientType sourceClientType) {
+    public LoginUser loadLoginUser(String userKey) {
         try {
-            // 解析对应的权限以及用户信息
-            Map<String, Claim> claimMap = parseToken(accessToken);
-
-            String loginUserKey = "";
-            switch (sourceClientType.name()) {
-                case "PC" -> loginUserKey = JwtConstants.LOGIN_USER_PC_KEY;
-                case "H5" -> loginUserKey = JwtConstants.LOGIN_USER_H5_KEY;
-                case "APP" -> loginUserKey = JwtConstants.LOGIN_USER_APP_KEY;
-            }
-
-            String key = claimMap.get(loginUserKey).asString();
-
-            String cacheUserKey = loginUserKey.concat(":").concat(key);
+            String cacheUserKey = JwtConstants.LOGIN_USER_KEY.concat(":").concat(userKey);
             return this.redisTemplate.opsForValue().get(cacheUserKey);
         } catch (Exception e) {
-            log.warn("getLoginUser, 异常：{}", e.getMessage());
+            log.warn("loadLoginUser, 异常：{}", e.getMessage());
         }
 
         return null;
     }
 
     /**
-     * 设置登录用户
-     *
-     * @param loginUser 登录用户
-     */
-    public void setLoginUser(LoginUser loginUser) {
-        if (Objects.nonNull(loginUser) && StringUtils.isNotEmpty(loginUser.getTokenKey())) {
-            refreshToken(loginUser);
-        }
-    }
-
-    /**
      * 删除登录用户
      *
-     * @param tokenKey 会话存储key
+     * @param userKey 会话存储key
      */
-    public void deleteLoginUser(String tokenKey) {
-        if (StrUtil.isNotBlank(tokenKey)) {
-            String loginUserKey = CacheConstants.LOGIN_USER_KEY.concat(tokenKey);
+    public void deleteLoginUser(String userKey) {
+        if (StrUtil.isNotBlank(userKey)) {
+            String loginUserKey = CacheConstants.LOGIN_USER_KEY.concat(userKey);
             this.redisTemplate.delete(loginUserKey);
         }
     }
 
     /**
-     * 从令牌中获取数据声明
+     * 获取用户key
      *
-     * @param token 令牌
-     * @return 数据声明
+     * @param claimMap 数据声明
+     * @return 用户key
      */
-    public Map<String, Claim> parseToken(String token) {
-        DecodedJWT jwt = JWT.decode(token);
-        return jwt.getClaims();
+    public static String getUserKey(Map<String, Claim> claimMap) {
+        if (claimMap.get(JwtConstants.USER_KEY) == null) {
+            return null;
+        }
+
+        return claimMap.get(JwtConstants.USER_KEY).asString();
+    }
+
+    /**
+     * 获取用户数据
+     *
+     * @param claimMap 数据声明
+     * @return 用户数据
+     */
+    public static String getUserData(Map<String, Claim> claimMap) {
+        if (claimMap.get(JwtConstants.USER_DATA) == null) {
+            return null;
+        }
+
+        return claimMap.get(JwtConstants.USER_DATA).asString();
     }
 
     /**
@@ -292,15 +280,10 @@ public class JwtTokenProvider {
      * @param authToken 令牌
      * @return 校验令牌是否有效（true：有效，false：无效）
      */
-    public boolean validateToken(String authToken) {
+    public DecodedJWT validateToken(String authToken) {
         Algorithm algorithm = Algorithm.HMAC256(this.jwtSecret);
         JWTVerifier verifier = JWT.require(algorithm).build();
-        try {
-            verifier.verify(authToken);
-            return true;
-        } catch (JWTVerificationException e) {
-            return false;
-        }
+        return verifier.verify(authToken);
     }
 
 }

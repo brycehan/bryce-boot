@@ -2,14 +2,17 @@ package com.brycehan.boot.system.service.impl;
 
 import cn.hutool.core.util.StrUtil;
 import com.brycehan.boot.common.base.RedisKeys;
+import com.brycehan.boot.common.constant.ParamConstants;
+import com.brycehan.boot.common.enums.CaptchaType;
 import com.brycehan.boot.framework.common.config.properties.CaptchaProperties;
 import com.brycehan.boot.framework.security.TokenUtils;
-import com.brycehan.boot.system.service.CaptchaService;
+import com.brycehan.boot.system.service.AuthCaptchaService;
 import com.brycehan.boot.system.service.SysParamService;
 import com.brycehan.boot.system.vo.CaptchaVo;
 import com.wf.captcha.SpecCaptcha;
 import com.wf.captcha.base.Captcha;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -21,9 +24,10 @@ import java.util.concurrent.TimeUnit;
  * @author Bryce Han
  * @since 2023/10/4
  */
+@Slf4j
 @Service
 @RequiredArgsConstructor
-public class CaptchaServiceImpl implements CaptchaService {
+public class AuthCaptchaServiceImpl implements AuthCaptchaService {
 
     private final StringRedisTemplate stringRedisTemplate;
 
@@ -44,6 +48,8 @@ public class CaptchaServiceImpl implements CaptchaService {
         String captchaKey = RedisKeys.getCaptchaKey(key);
         String captchaValue = captcha.text();
 
+        log.debug("图片验证码key：{}, 值：{}", key, captchaValue);
+
         // 存储到 Redis
         this.stringRedisTemplate.opsForValue()
                 .set(captchaKey, captchaValue, captchaProperties.getExpiration(), TimeUnit.MINUTES);
@@ -57,9 +63,9 @@ public class CaptchaServiceImpl implements CaptchaService {
     }
 
     @Override
-    public boolean validate(String key, String code) {
+    public boolean validate(String key, String code, CaptchaType captchaType) {
         // 如果关闭了验证码，则直接校验通过
-        if (!isCaptchaEnabled()) {
+        if (!captchaEnabled(captchaType)) {
             return true;
         }
 
@@ -77,7 +83,18 @@ public class CaptchaServiceImpl implements CaptchaService {
     }
 
     @Override
-    public boolean isCaptchaEnabled() {
-        return this.sysParamService.getBoolean("system.account.captchaEnabled");
+    public boolean captchaEnabled(CaptchaType captchaType) {
+        if (captchaType == null) {
+            return false;
+        }
+
+        if (CaptchaType.LOGIN.equals(captchaType)) {
+            return this.sysParamService.getBoolean(ParamConstants.SYSTEM_LOGIN_CAPTCHA_ENABLED);
+        }
+        if (CaptchaType.REGISTER.equals(captchaType)) {
+            return this.sysParamService.getBoolean(ParamConstants.SYSTEM_REGISTER_CAPTCHA_ENABLED);
+        }
+
+        return false;
     }
 }

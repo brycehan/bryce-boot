@@ -14,28 +14,19 @@ public class JwtConstants {
     public static final String TOKEN_PREFIX = "Bearer ";
 
     /**
-     * PC登录用户令牌key
+     * 登录用户key
      */
-    public static final String LOGIN_USER_PC_KEY = "login_user:pc";
+    public static final String USER_KEY = "user_key";
 
     /**
-     * H5登录用户令牌key
+     * 登录用户数据
      */
-    public static final String LOGIN_USER_H5_KEY = "login_user:h5";
+    public static final String USER_DATA = "user_data";
 
     /**
-     * 微信小程序登录用户令牌key
+     * 登录用户缓存Key
      */
-    public static final String LOGIN_USER_MA_KEY = "login_user:miniApp";
-    /**
-     * App登录用户令牌key
-     */
-    public static final String LOGIN_USER_APP_KEY = "login_user:app";
-
-    /**
-     * 登录用户ID
-     */
-    public static final String LOGIN_USER_ID = "id";
+    public static final String LOGIN_USER_KEY = "login_user";
 
     /**
      * 登录用户openid
@@ -43,13 +34,13 @@ public class JwtConstants {
     public static final String LOGIN_OPEN_ID = "openid";
 
     /**
-     * 刷新最小分钟数
+     * 刷新令牌，缓存会话最小分钟数
      */
-    public static final long REFRESH_LIMIT_MIN_MINUTE = 30L;
+    public static final long REFRESH_CACHE_MIN_MINUTE = 60L;
 
     /**
-     * APP默认过期分钟数
+     * 刷新令牌，App会话最小天数
      */
-    public static final long APP_EXPIRE_MINUTE = 30 * 24 * 60L;
+    public static final long REFRESH_APP_MIN_DAY = 1L;
 
 }

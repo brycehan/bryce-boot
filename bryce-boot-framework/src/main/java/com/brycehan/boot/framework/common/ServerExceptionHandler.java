@@ -1,10 +1,10 @@
 package com.brycehan.boot.framework.common;
 
+import com.brycehan.boot.common.base.ServerException;
 import com.brycehan.boot.common.base.http.HttpResponseStatus;
 import com.brycehan.boot.common.base.http.ResponseResult;
 import com.brycehan.boot.common.base.http.UploadResponseStatus;
 import com.brycehan.boot.common.base.http.UserResponseStatus;
-import com.brycehan.boot.common.base.ServerException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +22,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.multipart.MultipartException;
+
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -183,9 +184,10 @@ public class ServerExceptionHandler {
      * @param e 一般异常
      * @return 响应结果
      */
-    @ExceptionHandler(Exception.class)
-    public ResponseResult<Void> handleException(Exception e) {
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseResult<Void> handleException(RuntimeException e) {
         log.info("系统内部异常", e);
         return ResponseResult.error(HttpResponseStatus.HTTP_INTERNAL_ERROR.code(), e.getMessage());
     }
+
 }

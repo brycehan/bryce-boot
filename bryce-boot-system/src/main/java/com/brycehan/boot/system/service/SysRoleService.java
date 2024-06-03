@@ -71,4 +71,12 @@ public interface SysRoleService extends BaseService<SysRole> {
      */
     void dataScope(SysRoleDataScopeDto dataScopeDto);
 
+    /**
+     * 获取角色名称列表
+     *
+     * @param roleIdList 角色ID列表
+     * @return 角色名称列表
+     */
+    List<String> getRoleNameList(List<Long> roleIdList);
+
 }

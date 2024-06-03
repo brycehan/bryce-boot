@@ -26,6 +26,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -158,6 +159,15 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
         } else {
             this.sysRoleDataScopeService.deleteByRoleIds(Collections.singletonList(dataScopeDto.getId()));
         }
+    }
+
+    @Override
+    public List<String> getRoleNameList(List<Long> roleIdList) {
+        if (CollectionUtils.isNotEmpty(roleIdList)) {
+            return this.baseMapper.selectList(new LambdaQueryWrapper<SysRole>().in(SysRole::getId, roleIdList))
+                    .stream().map(SysRole::getName).toList();
+        }
+        return new ArrayList<>();
     }
 
 }

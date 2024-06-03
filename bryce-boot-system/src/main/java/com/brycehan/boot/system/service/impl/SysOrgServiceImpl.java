@@ -134,6 +134,20 @@ public class SysOrgServiceImpl extends BaseServiceImpl<SysOrgMapper, SysOrg> imp
         return subIds;
     }
 
+    @Override
+    public String getOrgNameById(Long orgId) {
+        if (orgId != null) {
+            LambdaQueryWrapper<SysOrg> queryWrapper = new LambdaQueryWrapper<>();
+            queryWrapper.select(SysOrg::getName);
+            queryWrapper.eq(SysOrg::getId, orgId);
+            SysOrg sysOrg = this.baseMapper.selectOne(queryWrapper);
+            if (sysOrg != null) {
+                return sysOrg.getName();
+            }
+        }
+        return "";
+    }
+
     /**
      * 递归查询所有子机构ID列表
      *

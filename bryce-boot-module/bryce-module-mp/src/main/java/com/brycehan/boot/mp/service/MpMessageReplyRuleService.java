@@ -1,8 +1,8 @@
 package com.brycehan.boot.mp.service;
 
-import com.brycehan.boot.framework.mybatis.service.BaseService;
 import com.brycehan.boot.common.base.entity.PageResult;
 import com.brycehan.boot.common.base.id.IdGenerator;
+import com.brycehan.boot.framework.mybatis.service.BaseService;
 import com.brycehan.boot.mp.convert.MpMessageReplyRuleConvert;
 import com.brycehan.boot.mp.dto.MpMessageReplyRuleDto;
 import com.brycehan.boot.mp.dto.MpMessageReplyRulePageDto;

@@ -74,10 +74,9 @@ public class OnlineUserVo implements Serializable, TransPojo {
     private String orgName;
 
     /**
-     * 用户令牌存储Key
+     * 用户登录存储Key
      */
-    @Schema(description = "用户令牌存储Key")
-    private String tokenKey;
+    private String userKey;
 
     /**
      * 登录时间

@@ -5,6 +5,7 @@ import com.brycehan.boot.mp.entity.MpUser;
 import com.brycehan.boot.mp.vo.MpUserVo;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
+
 import java.util.List;
 
 /**

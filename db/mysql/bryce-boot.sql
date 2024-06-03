@@ -66,7 +66,7 @@ create table brc_sys_user
     username           varchar(50)              not null comment '账号',
     password           varchar(255)             null comment '密码',
     full_name          varchar(50)              null comment '姓名',
-    avatar             varchar(100)             null comment '头像地址',
+    avatar             varchar(200)             null comment '头像地址',
     gender             char                     null comment '性别（M：男, F：女，N：未知）',
     type               smallint   default 0     null comment '用户类型（0：系统用户）',
     phone              varchar(20)              null comment '手机号码',
@@ -91,7 +91,7 @@ create table brc_sys_user
 ) engine InnoDB comment '系统用户表';
 
 -- 初始化-系统用户表数据
-INSERT INTO brc_sys_user (id, username, password, full_name, avatar, gender, type, phone, email, sort, org_id, super_admin, status, remark, account_non_locked, last_login_ip, last_login_time, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1, 'admin', '$2a$10$TPs3BLw2Ag9iZ5bxo./GsuR2BRqUz5J2KQh6h2aSvwQ6Vi.3LzQB6', '管理员', null, 'M', 0, '15853155402', 'brycehan@163.com', 0, 103, 1, 1, '超级管理员', 1, '127.0.0.1', now(), null, 0, 1, now(), null, null);
+INSERT INTO brc_sys_user (id, username, password, full_name, avatar, gender, type, phone, email, sort, org_id, super_admin, status, remark, account_non_locked, last_login_ip, last_login_time, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1, 'admin', '$2a$10$TPs3BLw2Ag9iZ5bxo./GsuR2BRqUz5J2KQh6h2aSvwQ6Vi.3LzQB6', '超级管理员', null, 'M', 0, '15853155402', 'brycehan@163.com', 0, 103, 1, 1, '超级管理员', 1, '127.0.0.1', now(), null, 0, 1, now(), null, null);
 
 -- 3、系统角色表
 create table brc_sys_role
@@ -172,6 +172,9 @@ create table brc_sys_user_post
 
 create index idx_user_id on brc_sys_user_post (user_id);
 create index idx_post_id on brc_sys_user_post (post_id);
+
+insert into brc_sys_user_post (id, user_id, post_id, version, deleted, created_user_id, created_time, updated_user_id, updated_time)
+values (1, 1, 2, 0, 0, 1, now(), null, null);
 
 -- 7、系统菜单表
 create table brc_sys_menu
@@ -382,7 +385,7 @@ INSERT INTO brc_sys_dict_type (id, dict_name, dict_type, sort, status, remark, v
 INSERT INTO brc_sys_dict_type (id, dict_name, dict_type, sort, status, remark, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (2, '系统开关', 'sys_status', 0, 1, '系统开关列表', 1, 0, 1, now(), null, null);
 INSERT INTO brc_sys_dict_type (id, dict_name, dict_type, sort, status, remark, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (3, '数据范围', 'sys_data_scope', 0, 1, '根据范围权限', 1, 0, 1, now(), null, null);
 INSERT INTO brc_sys_dict_type (id, dict_name, dict_type, sort, status, remark, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (4, '操作状态', 'sys_operate_status', 0, 1, '操作状态列表', 1, 0, 1, now(), null, null);
-INSERT INTO brc_sys_dict_type (id, dict_name, dict_type, sort, status, remark, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (5, '操作信息', 'sys_operate_info', 0, 1, '登录状态列表', 1, 0, 1, now(), null, null);
+INSERT INTO brc_sys_dict_type (id, dict_name, dict_type, sort, status, remark, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (5, '登录状态', 'sys_login_status', 0, 1, '登录状态列表', 1, 0, 1, now(), null, null);
 INSERT INTO brc_sys_dict_type (id, dict_name, dict_type, sort, status, remark, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (6, '操作类型', 'sys_operate_type', 0, 1, '操作类型列表', 1, 0, 1, now(), null, null);
 INSERT INTO brc_sys_dict_type (id, dict_name, dict_type, sort, status, remark, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (7, '通知类型', 'sys_notice_type', 0, 1, '通知类型列表', 1, 0, 1, now(), null, null);
 INSERT INTO brc_sys_dict_type (id, dict_name, dict_type, sort, status, remark, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (8, '通知状态', 'sys_notice_status', 0, 1, '通知状态列表', 1, 0, 1, now(), null, null);
@@ -466,11 +469,14 @@ create table brc_sys_param
     constraint uk_param_key unique (param_key)
 ) engine InnoDB comment '系统参数表';
 
--- 初始化-系统配置表数据
-INSERT INTO brc_sys_param (id, param_name, param_key, param_value, param_type, remark, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1, '用户登录-验证码开关', 'system.account.captchaEnabled', 'false', 'system', '是否开启验证码功能（true：开启，false：关闭）', 1, 0, 1, now(), null, null);
-INSERT INTO brc_sys_param (id, param_name, param_key, param_value, param_type, remark, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (2, '用户账号-注册开关', 'system.account.registerEnabled', 'false', 'system', '是否开启注册功能（true：开启，false：关闭）', 1, 0, 1, now(), null, null);
-INSERT INTO brc_sys_param (id, param_name, param_key, param_value, param_type, remark, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (3, '短信-短信开关', 'system.sms.enabled', 'true', 'system', '是否开启短信功能（true：开启，false：关闭）', 1, 0, 1, now(), null, null);
-INSERT INTO brc_sys_param (id, param_name, param_key, param_value, param_type, remark, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (4, '微信公众号菜单', 'wechat.mp.menu', '', 'builtIn', '微信公众号菜单内容', 1, 0, 1, now(), null, null);
+-- 初始化-系统参数表数据
+INSERT INTO brc_sys_param (id, param_name, param_key, param_value, param_type, remark, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1, '用户登录-图片验证码开关', 'system.login.captcha.enabled', 'false', 'system', '是否开启登录图片验证码功能（true：开启，false：关闭）', 1, 0, 1, now(), null, null);
+INSERT INTO brc_sys_param (id, param_name, param_key, param_value, param_type, remark, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (2, '用户登录-短信验证码开关', 'system.login.sms.enabled', 'false', 'system', '是否开启登录短信验证码功能（true：开启，false：关闭）', 1, 0, 1, now(), null, null);
+INSERT INTO brc_sys_param (id, param_name, param_key, param_value, param_type, remark, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (3, '用户注册-开关', 'system.register.enabled', 'true', 'system', '是否开启注册功能（true：开启，false：关闭）', 1, 0, 1, now(), null, null);
+INSERT INTO brc_sys_param (id, param_name, param_key, param_value, param_type, remark, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (4, '用户注册-图片验证码开关', 'system.register.captcha.enabled', 'true', 'system', '是否开启注册图片验证码功能（true：开启，false：关闭）', 1, 0, 1, now(), null, null);
+INSERT INTO brc_sys_param (id, param_name, param_key, param_value, param_type, remark, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (5, '用户注册-短信验证码开关', 'system.register.sms.enabled', 'true', 'system', '是否开启注册短信验证码功能（true：开启，false：关闭）', 1, 0, 1, now(), null, null);
+INSERT INTO brc_sys_param (id, param_name, param_key, param_value, param_type, remark, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (6, '短信-开关', 'system.sms.enabled', 'true', 'system', '是否开启短信功能（true：开启，false：关闭）', 1, 0, 1, now(), null, null);
+INSERT INTO brc_sys_param (id, param_name, param_key, param_value, param_type, remark, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (7, '微信公众号菜单', 'wechat.mp.menu', '', 'builtIn', '微信公众号菜单内容', 1, 0, 1, now(), null, null);
 
 -- 15、系统附件表
 create table brc_sys_attachment

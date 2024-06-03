@@ -1,8 +1,10 @@
 package com.brycehan.boot.system.convert;
 
 import com.brycehan.boot.common.base.context.LoginUser;
+import com.brycehan.boot.system.dto.SysUserAvatarDto;
 import com.brycehan.boot.system.dto.SysUserDto;
 import com.brycehan.boot.system.dto.SysUserExcelDto;
+import com.brycehan.boot.system.dto.SysUserInfoDto;
 import com.brycehan.boot.system.entity.SysUser;
 import com.brycehan.boot.system.vo.SysUserVo;
 import org.mapstruct.Mapper;
@@ -23,6 +25,10 @@ public interface SysUserConvert {
     SysUserConvert INSTANCE = Mappers.getMapper(SysUserConvert.class);
 
     SysUser convert(SysUserDto sysUserDto);
+
+    SysUser convert(SysUserInfoDto sysUserInfoDto);
+
+    SysUser convert(SysUserAvatarDto sysUserAvatarDto);
 
     SysUserVo convert(SysUser sysUser);
 

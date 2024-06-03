@@ -2,9 +2,9 @@ package com.brycehan.boot.mp.dto;
 
 import com.brycehan.boot.common.base.entity.BasePageDto;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import jakarta.validation.constraints.Size;
 
 import java.io.Serial;
 

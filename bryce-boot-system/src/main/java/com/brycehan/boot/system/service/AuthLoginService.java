@@ -1,5 +1,6 @@
 package com.brycehan.boot.system.service;
 
+import com.brycehan.boot.common.base.context.LoginUser;
 import com.brycehan.boot.common.base.dto.AccountLoginDto;
 import com.brycehan.boot.common.base.dto.PhoneLoginDto;
 import com.brycehan.boot.common.base.vo.LoginVo;
@@ -12,7 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
  * @author Bryce Han
  */
 
-public interface AuthService {
+public interface AuthLoginService {
 
     /**
      * 账号登录
@@ -42,14 +43,6 @@ public interface AuthService {
      *
      * @param accessToken 访问令牌
      */
-    void logout(String accessToken);
-
-    /**
-     * APP账号登录
-     *
-     * @param accountLoginDto 账号登录dto
-     * @return 登录 Vo
-     */
-    LoginVo appLoginByAccount(AccountLoginDto accountLoginDto);
+    void logout(LoginUser loginUser);
 
 }

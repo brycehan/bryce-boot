@@ -8,6 +8,8 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.brycehan.boot.common.base.ServerException;
+import com.brycehan.boot.common.base.context.LoginUser;
+import com.brycehan.boot.common.base.context.LoginUserContext;
 import com.brycehan.boot.common.base.dto.IdsDto;
 import com.brycehan.boot.common.base.entity.PageResult;
 import com.brycehan.boot.common.base.http.UserResponseStatus;
@@ -17,21 +19,20 @@ import com.brycehan.boot.common.constant.UserConstants;
 import com.brycehan.boot.common.util.DateTimeUtils;
 import com.brycehan.boot.common.util.ExcelUtils;
 import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
-import com.brycehan.boot.framework.security.JwtTokenProvider;
-import com.brycehan.boot.common.base.context.LoginUser;
-import com.brycehan.boot.common.base.context.LoginUserContext;
+import com.brycehan.boot.system.common.RefreshTokenEvent;
 import com.brycehan.boot.system.convert.SysUserConvert;
 import com.brycehan.boot.system.dto.*;
 import com.brycehan.boot.system.entity.SysUser;
 import com.brycehan.boot.system.entity.SysUserRole;
 import com.brycehan.boot.system.mapper.SysUserMapper;
-import com.brycehan.boot.system.service.SysUserPostService;
-import com.brycehan.boot.system.service.SysUserRoleService;
-import com.brycehan.boot.system.service.SysUserService;
+import com.brycehan.boot.system.service.*;
+import com.brycehan.boot.system.vo.SysUserInfoVo;
 import com.brycehan.boot.system.vo.SysUserVo;
 import com.fhs.trans.service.impl.TransService;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,6 +42,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * 系统用户服务实现
@@ -58,9 +62,17 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
 
     private final PasswordEncoder passwordEncoder;
 
-    private final JwtTokenProvider jwtTokenProvider;
-
     private final TransService transService;
+
+    private final ApplicationEventPublisher applicationEventPublisher;
+
+    private final SysOrgService sysOrgService;
+
+    private final SysPostService sysPostService;
+
+    private final SysRoleService sysRoleService;
+
+    private final ThreadPoolExecutor threadPoolExecutor;
 
     @Transactional(rollbackFor = Exception.class)
     @Override
@@ -79,7 +91,6 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
 
         SysUser sysUser = SysUserConvert.INSTANCE.convert(sysUserDto);
 
-        // 密码加密
         sysUser.setPassword(passwordEncoder.encode(sysUserDto.getPassword()));
         sysUser.setId(IdGenerator.nextId());
         sysUser.setSuperAdmin(false);
@@ -233,31 +244,6 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
     }
 
     @Override
-    public void updatePassword(SysUserPasswordDto passwordDto) {
-        LoginUser loginUser = LoginUserContext.currentUser();
-        // 校验密码
-        assert loginUser != null;
-        if (!this.passwordEncoder.matches(passwordDto.getPassword(), loginUser.getPassword())) {
-            throw new ServerException(UserResponseStatus.USER_PASSWORD_NOT_MATCH);
-        }
-        if (this.passwordEncoder.matches(passwordDto.getNewPassword(), loginUser.getPassword())) {
-            throw new ServerException(UserResponseStatus.USER_PASSWORD_SAME_AS_OLD_ERROR);
-        }
-
-        // 更新密码
-        SysUser sysUser = new SysUser();
-        sysUser.setId(loginUser.getId());
-        sysUser.setPassword(this.passwordEncoder.encode(passwordDto.getNewPassword()));
-        if (this.updateById(sysUser)) {
-            // 更新缓存用户信息
-            loginUser.setPassword(sysUser.getPassword());
-            this.jwtTokenProvider.setLoginUser(loginUser);
-        } else {
-            throw new ServerException(UserResponseStatus.USER_PASSWORD_CHANGE_ERROR);
-        }
-    }
-
-    @Override
     public PageResult<SysUserVo> roleUserPage(SysRoleUserPageDto pageDto) {
         // 查询参数
         Map<String, Object> params = BeanUtil.beanToMap(pageDto);
@@ -276,19 +262,31 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void registerUser(SysUser sysUser) {
+    public SysUser registerUser(SysUser sysUser) {
+        // 校验是否已注册
+        SysUser user = this.baseMapper.getByUsername(sysUser.getUsername());
+        if (user != null) {
+            throw new ServerException(UserResponseStatus.USER_REGISTER_EXISTS, sysUser.getUsername());
+        }
+
         sysUser.setId(IdGenerator.nextId());
+        sysUser.setSuperAdmin(false);
+        // 密码加密
+        sysUser.setPassword(passwordEncoder.encode(sysUser.getPassword().trim()));
 
         // 添加默认角色
         SysUserRole sysUserRole = new SysUserRole();
+        sysUserRole.setId(IdGenerator.nextId());
         sysUserRole.setUserId(sysUser.getId());
         sysUserRole.setRoleId(DataConstants.DEFAULT_ROLE_ID);
         this.sysUserRoleService.save(sysUserRole);
 
         // 保存用户
         int result = this.baseMapper.insert(sysUser);
-        if (result != 1) {
-            throw new ServerException(UserResponseStatus.USER_REGISTER_ERROR);
+        if (result == 1) {
+            return sysUser;
+        } else {
+            return null;
         }
     }
 
@@ -304,6 +302,13 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
 
         // 修改时，同账号同ID为账号唯一
         return Objects.isNull(user) || userId.equals(user.getId());
+    }
+
+    @Override
+    public boolean checkUsernameUnique(String username) {
+        LambdaQueryWrapper<SysUser> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(SysUser::getUsername, username);
+        return !this.baseMapper.exists(queryWrapper);
     }
 
     @Override
@@ -350,6 +355,117 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         checkUserAllowed(sysUser);
         sysUser.setPassword(passwordEncoder.encode(sysResetPasswordDto.getPassword()));
         this.updateById(sysUser);
+    }
+
+    @Override
+    public void updateUserInfo(SysUserInfoDto sysUserInfoDto) {
+        SysUser sysUser = SysUserConvert.INSTANCE.convert(sysUserInfoDto);
+        // 设置登录用户ID
+        sysUser.setId(LoginUserContext.currentUserId());
+
+        // 校验手机号码
+        if (StringUtils.isNotEmpty(sysUser.getPhone())) {
+            SysUser user = this.baseMapper.getByPhone(sysUser.getPhone());
+            if (Objects.nonNull(user) && !user.getId().equals(sysUser.getId())) {
+                throw new ServerException(UserResponseStatus.USER_PROFILE_PHONE_EXISTS, sysUser.getPhone());
+            }
+        }
+
+        // 校验邮箱
+        if (StringUtils.isNotEmpty(sysUser.getEmail())) {
+            SysUser user = this.baseMapper.getByEmail(sysUser.getEmail());
+            if (Objects.nonNull(user) && !user.getId().equals(sysUser.getId())) {
+                throw new ServerException(UserResponseStatus.USER_PROFILE_EMAIL_EXISTS, sysUser.getPhone());
+            }
+        }
+
+        // 更新并更新用户登录信息
+        if (this.updateById(sysUser)) {
+            SysUser user = this.baseMapper.selectById(sysUser.getId());
+            this.applicationEventPublisher.publishEvent(new RefreshTokenEvent(user));
+            return;
+        }
+
+        throw new ServerException(UserResponseStatus.USER_PROFILE_ALTER_INFO_ERROR);
+    }
+
+    @Override
+    public void updateAvatar(SysUserAvatarDto sysUserAvatarDto) {
+        SysUser sysUser = SysUserConvert.INSTANCE.convert(sysUserAvatarDto);
+        // 设置登录用户ID
+        sysUser.setId(LoginUserContext.currentUserId());
+
+        // 更新并更新用户登录信息
+        if (this.updateById(sysUser)) {
+            SysUser user = this.baseMapper.selectById(sysUser.getId());
+            this.applicationEventPublisher.publishEvent(new RefreshTokenEvent(user));
+            return;
+        }
+
+        throw new ServerException(UserResponseStatus.USER_PROFILE_ALTER_AVATAR_ERROR);
+    }
+
+    @Override
+    public void updatePassword(SysUserPasswordDto passwordDto) {
+        LoginUser loginUser = LoginUserContext.currentUser();
+        assert loginUser != null;
+        SysUser sysUser = this.baseMapper.selectById(loginUser.getId());
+
+        // 校验密码
+        if (!this.passwordEncoder.matches(passwordDto.getPassword(), sysUser.getPassword())) {
+            throw new ServerException(UserResponseStatus.USER_PASSWORD_NOT_MATCH);
+        }
+        if (this.passwordEncoder.matches(passwordDto.getNewPassword(), sysUser.getPassword())) {
+            throw new ServerException(UserResponseStatus.USER_PASSWORD_SAME_AS_OLD_ERROR);
+        }
+
+        sysUser.setPassword(this.passwordEncoder.encode(passwordDto.getNewPassword()));
+
+        // 更新密码
+        if (!this.updateById(sysUser)) {
+            throw new ServerException(UserResponseStatus.USER_PASSWORD_CHANGE_ERROR);
+        }
+    }
+
+    @Override
+    public SysUserInfoVo getUserInfo(Long userId) {
+        if (Objects.isNull(userId)) {
+            return null;
+        }
+
+        SysUser sysUser = this.baseMapper.selectById(userId);
+        SysUserInfoVo sysUserInfoVo = new SysUserInfoVo();
+        BeanUtils.copyProperties(sysUser, sysUserInfoVo);
+
+        // 机构名称
+        CompletableFuture<String> orgNameFuture = CompletableFuture
+                .supplyAsync(() -> this.sysOrgService.getOrgNameById(sysUser.getOrgId()), threadPoolExecutor);
+
+        // 用户岗位名称列表
+        CompletableFuture<String> postNameListFuture = CompletableFuture.supplyAsync(() -> {
+            List<Long> postIdList = this.sysUserPostService.getPostIdsByUserId(userId);
+            List<String> postNameList = this.sysPostService.getPostNameList(postIdList);
+            return String.join(",", postNameList);
+        }, threadPoolExecutor);
+
+        // 用户角色名称列表
+        List<Long> roleIdList = this.sysUserRoleService.getRoleIdsByUserId(userId);
+        List<String> roleNameList = this.sysRoleService.getRoleNameList(roleIdList);
+        if (sysUser.getSuperAdmin()) {
+            roleNameList.add(DataConstants.SUPER_ADMIN_NAME);
+        }
+        sysUserInfoVo.setRoleNameList(String.join(",", roleNameList));
+
+        CompletableFuture.allOf(orgNameFuture, postNameListFuture);
+
+        try {
+            sysUserInfoVo.setOrgName(orgNameFuture.get());
+            sysUserInfoVo.setPostNameList(postNameListFuture.get());
+        } catch (InterruptedException | ExecutionException e) {
+            throw new ServerException(e.getMessage());
+        }
+
+        return sysUserInfoVo;
     }
 
 }

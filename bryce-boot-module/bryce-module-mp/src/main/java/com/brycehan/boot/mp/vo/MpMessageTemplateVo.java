@@ -3,8 +3,8 @@ package com.brycehan.boot.mp.vo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-import java.io.Serializable;
 import java.io.Serial;
+import java.io.Serializable;
 
 /**
  * 微信公众号消息模板 Vo

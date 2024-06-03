@@ -1,9 +1,11 @@
 package com.brycehan.boot.system.entity;
 
-import com.baomidou.mybatisplus.annotation.*;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
-import java.io.Serializable;
+
 import java.io.Serial;
+import java.io.Serializable;
 
 /**
  * 地区编码entity

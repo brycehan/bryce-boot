@@ -5,13 +5,11 @@ import com.brycehan.boot.common.base.dto.AccountLoginDto;
 import com.brycehan.boot.common.base.dto.PhoneLoginDto;
 import com.brycehan.boot.common.base.http.ResponseResult;
 import com.brycehan.boot.common.base.vo.LoginVo;
-import com.brycehan.boot.framework.security.TokenUtils;
 import com.brycehan.boot.system.convert.SysUserConvert;
-import com.brycehan.boot.system.service.AuthService;
+import com.brycehan.boot.system.service.AuthLoginService;
 import com.brycehan.boot.system.vo.SysUserVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
@@ -30,7 +28,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class AuthLoginController {
 
-    private final AuthService authService;
+    private final AuthLoginService authLoginService;
 
     /**
      * 账号登录
@@ -41,7 +39,7 @@ public class AuthLoginController {
     @Operation(summary = "账号密码登录")
     @PostMapping(path = "/loginByAccount")
     public ResponseResult<LoginVo> loginByAccount(@Validated @RequestBody AccountLoginDto accountLoginDto) {
-        LoginVo loginVo = authService.loginByAccount(accountLoginDto);
+        LoginVo loginVo = authLoginService.loginByAccount(accountLoginDto);
         return ResponseResult.ok(loginVo);
     }
 
@@ -54,7 +52,7 @@ public class AuthLoginController {
     @Operation(summary = "手机验证码登录")
     @PostMapping(path = "/loginByPhone")
     public ResponseResult<LoginVo> loginByPhone(@Validated @RequestBody PhoneLoginDto phoneLoginDto) {
-        LoginVo loginVo = authService.loginByPhone(phoneLoginDto);
+        LoginVo loginVo = authLoginService.loginByPhone(phoneLoginDto);
         return ResponseResult.ok(loginVo);
     }
 
@@ -77,8 +75,8 @@ public class AuthLoginController {
      */
     @Operation(summary = "退出登录")
     @GetMapping(path = "/logout")
-    public ResponseResult<Void> logout(HttpServletRequest request) {
-        this.authService.logout(TokenUtils.getAccessToken(request));
+    public ResponseResult<Void> logout() {
+        this.authLoginService.logout(LoginUserContext.currentUser());
         return ResponseResult.ok();
     }
 

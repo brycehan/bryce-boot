@@ -64,4 +64,12 @@ public interface SysOrgService extends BaseService<SysOrg> {
      */
     List<Long> getSubOrgIds(Long id);
 
+    /**
+     * 根据机构ID，获取机构名称
+     *
+     * @param orgId 机构ID
+     * @return 机构名称
+     */
+    String getOrgNameById(Long orgId);
+
 }

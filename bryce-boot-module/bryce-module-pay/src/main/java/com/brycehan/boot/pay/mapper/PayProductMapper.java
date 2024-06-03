@@ -1,8 +1,8 @@
 package com.brycehan.boot.pay.mapper;
 
 import com.brycehan.boot.framework.mybatis.BryceBaseMapper;
-import org.apache.ibatis.annotations.Mapper;
 import com.brycehan.boot.pay.entity.PayProduct;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
 * 商品Mapper接口

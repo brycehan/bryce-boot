@@ -1,10 +1,8 @@
 package com.brycehan.boot.ma.service;
 
 import com.brycehan.boot.api.ma.MaUserApi;
-import com.brycehan.boot.framework.mybatis.service.BaseService;
 import com.brycehan.boot.common.base.entity.PageResult;
-import com.brycehan.boot.common.base.id.IdGenerator;
-import com.brycehan.boot.ma.convert.MaUserConvert;
+import com.brycehan.boot.framework.mybatis.service.BaseService;
 import com.brycehan.boot.ma.dto.MaLoginDto;
 import com.brycehan.boot.ma.dto.MaUserDto;
 import com.brycehan.boot.ma.dto.MaUserPageDto;

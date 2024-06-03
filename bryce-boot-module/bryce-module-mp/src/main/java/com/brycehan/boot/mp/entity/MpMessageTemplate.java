@@ -1,12 +1,15 @@
 package com.brycehan.boot.mp.entity;
 
-import com.baomidou.mybatisplus.annotation.*;
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import me.chanjar.weixin.mp.bean.template.WxMpTemplate;
 
-import java.time.LocalDateTime;
-import java.io.Serializable;
 import java.io.Serial;
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * 微信公众号消息模板entity

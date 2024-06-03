@@ -1,6 +1,7 @@
 package com.brycehan.boot.system.controller;
 
 import cn.hutool.core.collection.CollectionUtil;
+import com.brycehan.boot.common.base.context.LoginUserContext;
 import com.brycehan.boot.common.base.dto.IdsDto;
 import com.brycehan.boot.common.base.entity.PageResult;
 import com.brycehan.boot.common.base.http.ResponseResult;
@@ -8,7 +9,6 @@ import com.brycehan.boot.common.validator.SaveGroup;
 import com.brycehan.boot.common.validator.UpdateGroup;
 import com.brycehan.boot.framework.operatelog.annotation.OperateLog;
 import com.brycehan.boot.framework.operatelog.annotation.OperateType;
-import com.brycehan.boot.common.base.context.LoginUserContext;
 import com.brycehan.boot.system.convert.SysUserConvert;
 import com.brycehan.boot.system.dto.SysResetPasswordDto;
 import com.brycehan.boot.system.dto.SysUserDto;

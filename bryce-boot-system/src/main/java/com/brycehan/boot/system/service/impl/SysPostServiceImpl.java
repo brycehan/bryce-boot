@@ -90,4 +90,14 @@ public class SysPostServiceImpl extends BaseServiceImpl<SysPostMapper, SysPost> 
         return SysPostConvert.INSTANCE.convert(sysPostList);
     }
 
+    @Override
+    public List<String> getPostNameList(List<Long> postIdList) {
+
+        if (CollectionUtils.isNotEmpty(postIdList)) {
+            return this.baseMapper.selectList(new LambdaQueryWrapper<SysPost>().in(SysPost::getId, postIdList))
+                    .stream().map(SysPost::getName).toList();
+        }
+        return List.of();
+    }
+
 }

@@ -5,7 +5,6 @@ import com.brycehan.boot.pay.enums.PayType;
 import com.brycehan.boot.pay.service.PayOrderService;
 import com.brycehan.boot.pay.service.PayRefundService;
 import com.brycehan.boot.pay.service.WechatNativePayService;
-import com.brycehan.boot.pay.service.WechatPayService;
 import com.wechat.pay.java.core.RSAAutoCertificateConfig;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

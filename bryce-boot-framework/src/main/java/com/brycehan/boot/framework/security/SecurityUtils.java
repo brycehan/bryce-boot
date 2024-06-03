@@ -2,8 +2,8 @@ package com.brycehan.boot.framework.security;
 
 import com.brycehan.boot.api.ma.vo.MaUserApiVo;
 import com.brycehan.boot.api.system.vo.SysUserApiVo;
-import com.brycehan.boot.framework.common.SourceClientType;
 import com.brycehan.boot.common.base.context.LoginUser;
+import com.brycehan.boot.framework.common.SourceClientType;
 import org.springframework.beans.BeanUtils;
 
 import java.util.Collections;

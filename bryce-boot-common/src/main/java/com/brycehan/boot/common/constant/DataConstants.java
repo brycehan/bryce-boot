@@ -33,7 +33,7 @@ public class DataConstants {
     /**
      * 默认角色ID
      */
-    public static final Long DEFAULT_ROLE_ID = -1L;
+    public static final Long DEFAULT_ROLE_ID = 2L;
 
     /** 分页页码 */
     public static final String PAGE = "page";
@@ -59,5 +59,24 @@ public class DataConstants {
      */
     public static final boolean DEFAULT_SORT_IS_ASC = true;
 
+    /**
+     * 超级管理员名称
+     */
+    public static final String SUPER_ADMIN_NAME = "超级管理员";
+
+    /**
+     * 角色前缀
+     */
+    public static final String ROLE_PREFIX = "ROLE_";
+
+    /**
+     * PG驱动
+     */
     public static final String PG_DRIVER = "org.postgresql.Driver";
+
+    /**
+     * 微信公众号菜单
+     */
+    public static final String WECHAT_MP_MENU = "wechat.mp.menu";
+
 }

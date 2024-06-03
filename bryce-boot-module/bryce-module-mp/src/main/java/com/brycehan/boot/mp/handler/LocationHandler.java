@@ -1,6 +1,5 @@
 package com.brycehan.boot.mp.handler;
 
-import cn.hutool.json.JSONUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.api.WxConsts;
