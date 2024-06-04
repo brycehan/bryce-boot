@@ -68,19 +68,9 @@ public class LoginUser implements UserDetails {
     private LocalDateTime expireTime;
 
     /**
-     * 登录IP地址
+     * 来源客户端（pc、app、miniApp）
      */
-    private String loginIp;
-
-    /**
-     * 登录地址
-     */
-    private String loginLocation;
-
-    /**
-     * 浏览器类型
-     */
-    private String browser;
+    private String sourceClient;
 
     /**
      * 操作系统
@@ -88,9 +78,19 @@ public class LoginUser implements UserDetails {
     private String os;
 
     /**
-     * 来源客户端（pc、app、miniApp）
+     * 浏览器类型
      */
-    private String sourceClient;
+    private String browser;
+
+    /**
+     * 登录IP地址
+     */
+    private String loginIp;
+
+    /**
+     * 登录位置
+     */
+    private String loginLocation;
 
     /**
      * 小程序openId

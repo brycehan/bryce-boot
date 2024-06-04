@@ -65,56 +65,81 @@ public class JwtTokenProvider {
     private final RedisTemplate<String, LoginUser> redisTemplate;
 
     /**
+     * 预处理登录用户
+     *
+     * @param loginUser 登录用户
+     */
+    public void prepareLoginUser(LoginUser loginUser) {
+        // 设置用户代理
+        this.setUserAgent(loginUser);
+
+        // 设置来源客户端
+        SourceClientType sourceClientType = TokenUtils.getSourceClient(ServletUtils.getRequest());
+        loginUser.setSourceClient(sourceClientType.value());
+    }
+
+    /**
      * 生成token
      *
      * @param loginUser 登录用户
      * @return jwt 令牌
      */
     public String generateToken(LoginUser loginUser) {
-
-        // 设置用户代理
-        this.setUserAgent(loginUser);
-
-        // 设置IP地址
-        loginUser.setLoginIp(IpUtils.getIp(ServletUtils.getRequest()));
-        // 设置来源客户端
-        SourceClientType sourceClientType = TokenUtils.getSourceClient(ServletUtils.getRequest());
-
         // 创建jwt令牌
         Map<String, Object> claims = new HashMap<>();
-        long expiredTimeSeconds = 0L;
+        long expiredInSeconds;
 
-        switch (Objects.requireNonNull(sourceClientType)) {
+        switch (Objects.requireNonNull(SourceClientType.getByValue(loginUser.getSourceClient()))) {
             case PC, H5 -> {
                 loginUser.setUserKey(TokenUtils.uuid());
                 claims.put(JwtConstants.USER_KEY, loginUser.getUserKey());
-                expiredTimeSeconds = tokenValidityInSeconds;
+                expiredInSeconds = tokenValidityInSeconds;
             }
             case APP -> {
                 claims.put(JwtConstants.USER_DATA, JsonUtils.writeValueAsString(loginUser));
-                expiredTimeSeconds = appTokenValidityInDays * 24 * 60 * 60;
+                expiredInSeconds = appTokenValidityInDays * 24 * 3600;
             }
+            default -> throw new IllegalArgumentException("不支持的来源客户端");
         }
 
-        return generateToken(claims, expiredTimeSeconds);
+        return generateToken(claims, expiredInSeconds);
     }
 
     /**
      * 从数据声明生成令牌
      *
      * @param claims 数据声明
+     * @param expiredInSeconds 过期时间秒数
      * @return 令牌
      */
-    public String generateToken(Map<String, Object> claims, long expiredTimeSeconds) {
+    public String generateToken(Map<String, Object> claims, long expiredInSeconds) {
         // 指定加密方式
         Algorithm algorithm = Algorithm.HMAC256(this.jwtSecret);
         // 过期时间
-        Instant expiredTime = Instant.now().plus(expiredTimeSeconds, ChronoUnit.SECONDS);
+        Instant expiredTime = Instant.now().plus(expiredInSeconds, ChronoUnit.SECONDS);
         return JWT.create()
                 .withExpiresAt(expiredTime)
                 .withPayload(claims)
                 // 签发 JWT
                 .sign(algorithm);
+    }
+
+    /**
+     * 获取生成token时的过期时间秒数
+     *
+     * @param loginUser 登录用户
+     * @return 过期时间秒数
+     */
+    public long getExpiredInSeconds(LoginUser loginUser) {
+        long expiredInSeconds;
+
+        switch (Objects.requireNonNull(SourceClientType.getByValue(loginUser.getSourceClient()))) {
+            case PC, H5 -> expiredInSeconds = tokenValidityInSeconds;
+            case APP -> expiredInSeconds = appTokenValidityInDays * 24 * 3600;
+            default -> throw new IllegalArgumentException("不支持的来源客户端");
+        }
+
+        return expiredInSeconds;
     }
 
     /**
@@ -126,19 +151,19 @@ public class JwtTokenProvider {
         String userAgent = ServletUtils.getRequest().getHeader("User-Agent");
         UserAgent parser = UserAgentUtil.parse(userAgent);
 
+        // 获取客户端操作系统
+        String os = parser.getOs().getName();
         // 获取客户端浏览器
         String browser = parser.getBrowser().getName();
 
-        // 获取客户端操作系统
-        String os = parser.getOs().getName();
         // 获取客户端IP和对应登录位置
         String ip = IpUtils.getIp(ServletUtils.getRequest());
         String loginLocation = LocationUtils.getLocationByIP(ip);
 
+        loginUser.setOs(os);
+        loginUser.setBrowser(browser);
         loginUser.setLoginIp(ip);
         loginUser.setLoginLocation(loginLocation);
-        loginUser.setBrowser(browser);
-        loginUser.setOs(os);
     }
 
     public void cacheLoginUser(LoginUser loginUser) {

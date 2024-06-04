@@ -103,18 +103,22 @@ public class AuthLoginServiceImpl implements AuthLoginService {
     private LoginVo loadLoginVo(Authentication authentication) {
         LoginUser loginUser = (LoginUser) authentication.getPrincipal();
 
+        // 准备 loginUser
+        this.jwtTokenProvider.prepareLoginUser(loginUser);
+
         // 生成 jwt
         String token = this.jwtTokenProvider.generateToken(loginUser);
+        long expiredIn = this.jwtTokenProvider.getExpiredInSeconds(loginUser);
 
         // 缓存 loginUser
         this.jwtTokenProvider.cacheLoginUser(loginUser);
 
-        LoginVo userLoginVo = new LoginVo();
-        BeanUtils.copyProperties(loginUser, userLoginVo);
-        userLoginVo.setToken(JwtConstants.TOKEN_PREFIX.concat(token));
+        LoginVo loginVo = new LoginVo();
+        BeanUtils.copyProperties(loginUser, loginVo);
+        loginVo.setAccessToken(JwtConstants.TOKEN_PREFIX.concat(token));
+        loginVo.setExpiresIn(expiredIn);
 
-        return userLoginVo;
-
+        return loginVo;
     }
 
     @Override

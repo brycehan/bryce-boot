@@ -20,10 +20,10 @@ public class LoginVo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * ID
+     * 账号
      */
-    @Schema(description = "ID")
-    private Long id;
+    @Schema(description = "账号")
+    private String username;
 
     /**
      * 昵称
@@ -38,21 +38,15 @@ public class LoginVo implements Serializable {
     private String avatar;
 
     /**
-     * 账户名
+     * 访问令牌
      */
-    @Schema(description = "账户名")
-    private String username;
+    @Schema(description = "访问令牌")
+    private String accessToken;
 
     /**
-     * 手机号码
+     * 有效期
      */
-    @Schema(description = "手机号码")
-    private String phone;
-
-    /**
-     * 令牌
-     */
-    @Schema(description = "令牌")
-    private String token;
+    @Schema(description = "过期时间间隔，单位秒")
+    private Long expiresIn;
 
 }
