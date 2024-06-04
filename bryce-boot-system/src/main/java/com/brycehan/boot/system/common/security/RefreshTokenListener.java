@@ -40,7 +40,7 @@ public class RefreshTokenListener {
         log.info("用户[{}]刷新令牌事件处理...", loginUser.getUsername());
 
         // 更新用户信息
-        loginUser.setFullName(sysUser.getFullName());
+        loginUser.setNickname(sysUser.getNickname());
         loginUser.setPhone(sysUser.getPhone());
         loginUser.setEmail(sysUser.getEmail());
         loginUser.setGender(sysUser.getGender());

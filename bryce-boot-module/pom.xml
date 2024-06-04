@@ -15,7 +15,6 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>bryce-module-app</module>
         <module>bryce-module-monitor</module>
         <module>bryce-module-ma</module>
         <module>bryce-module-mp</module>
