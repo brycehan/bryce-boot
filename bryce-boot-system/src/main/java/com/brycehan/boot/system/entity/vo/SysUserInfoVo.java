@@ -32,7 +32,7 @@ public class SysUserInfoVo implements Serializable {
      * 姓名
      */
     @Schema(description = "姓名")
-    private String fullName;
+    private String nickname;
 
     /**
      * 手机号码

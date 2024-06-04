@@ -28,7 +28,7 @@ public class SysUserInfoDto implements Serializable {
     @NotNull
     @Size(min = 2, max = 50)
     @Schema(description = "用户昵称")
-    private String fullName;
+    private String nickname;
 
     /**
      * 手机号码

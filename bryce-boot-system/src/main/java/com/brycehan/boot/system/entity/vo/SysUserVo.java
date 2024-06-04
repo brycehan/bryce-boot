@@ -52,7 +52,7 @@ public class SysUserVo implements Serializable, TransPojo {
     @ColumnWidth(14)
     @Schema(description = "姓名")
     @ExcelProperty(value = "姓名")
-    private String fullName;
+    private String nickname;
 
     /**
      * 性别（M：男, F：女）

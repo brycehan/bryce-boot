@@ -36,7 +36,7 @@ public class LoginUser implements UserDetails {
      */
     private String password;
 
-    private String fullName;
+    private String nickname;
 
     private String avatar;
 

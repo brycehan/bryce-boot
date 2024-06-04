@@ -1,7 +1,6 @@
 package com.brycehan.boot.mp.common.config;
 
 import com.brycehan.boot.mp.common.handler.*;
-import com.brycehan.boot.mp.handler.*;
 import lombok.RequiredArgsConstructor;
 import me.chanjar.weixin.mp.api.WxMpMessageRouter;
 import me.chanjar.weixin.mp.api.WxMpService;

@@ -40,7 +40,7 @@ public class SysUser extends BaseEntity {
     /**
      * 姓名
      */
-    private String fullName;
+    private String nickname;
 
     /**
      * 头像地址

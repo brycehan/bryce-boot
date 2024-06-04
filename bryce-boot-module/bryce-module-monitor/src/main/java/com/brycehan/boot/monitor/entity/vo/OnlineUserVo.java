@@ -40,7 +40,7 @@ public class OnlineUserVo implements Serializable, TransPojo {
      * 姓名
      */
     @Schema(description = "姓名")
-    private String fullName;
+    private String nickname;
 
     /**
      * 性别

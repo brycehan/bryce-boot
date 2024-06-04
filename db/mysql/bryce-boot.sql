@@ -65,7 +65,7 @@ create table brc_sys_user
     id                 bigint                   primary key comment 'ID',
     username           varchar(50)              not null comment '账号',
     password           varchar(255)             null comment '密码',
-    full_name          varchar(50)              null comment '姓名',
+    nickname           varchar(50)              null comment '姓名',
     avatar             varchar(200)             null comment '头像地址',
     gender             char                     null comment '性别（M：男, F：女，N：未知）',
     type               smallint   default 0     null comment '用户类型（0：系统用户）',
@@ -91,7 +91,7 @@ create table brc_sys_user
 ) engine InnoDB comment '系统用户表';
 
 -- 初始化-系统用户表数据
-INSERT INTO brc_sys_user (id, username, password, full_name, avatar, gender, type, phone, email, sort, org_id, super_admin, status, remark, account_non_locked, last_login_ip, last_login_time, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1, 'admin', '$2a$10$TPs3BLw2Ag9iZ5bxo./GsuR2BRqUz5J2KQh6h2aSvwQ6Vi.3LzQB6', '超级管理员', null, 'M', 0, '15853155402', 'brycehan@163.com', 0, 103, 1, 1, '超级管理员', 1, '127.0.0.1', now(), null, 0, 1, now(), null, null);
+INSERT INTO brc_sys_user (id, username, password, nickname, avatar, gender, type, phone, email, sort, org_id, super_admin, status, remark, account_non_locked, last_login_ip, last_login_time, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1, 'admin', '$2a$10$TPs3BLw2Ag9iZ5bxo./GsuR2BRqUz5J2KQh6h2aSvwQ6Vi.3LzQB6', '超级管理员', null, 'M', 0, '15853155402', 'brycehan@163.com', 0, 103, 1, 1, '超级管理员', 1, '127.0.0.1', now(), null, 0, 1, now(), null, null);
 
 -- 3、系统角色表
 create table brc_sys_role

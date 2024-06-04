@@ -52,7 +52,7 @@ public class SysUserDto implements Serializable {
      */
     @Schema(description = "姓名")
     @Size(max = 50, groups = {SaveGroup.class, UpdateGroup.class})
-    private String fullName;
+    private String nickname;
 
     /**
      * 头像地址
