@@ -111,7 +111,6 @@ public class AuthLoginServiceImpl implements AuthLoginService {
 
         LoginVo userLoginVo = new LoginVo();
         BeanUtils.copyProperties(loginUser, userLoginVo);
-        userLoginVo.setNickname(loginUser.getFullName());
         userLoginVo.setToken(JwtConstants.TOKEN_PREFIX.concat(token));
 
         return userLoginVo;
