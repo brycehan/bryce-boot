@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 /**
+ * Servlet工具类
+ *
  * @since 2022/9/20
  * @author Bryce Han
  */
@@ -48,28 +50,21 @@ public class ServletUtils {
     }
 
     /**
-     * 将字符串渲染到客户端
+     * 将对象渲染到客户端
      *
      * @param response 响应体
-     * @param t        待渲染的实例
-     * @param <T>      待渲染的数据类型
+     * @param t 待渲染的实例
+     * @param <T> 待渲染的数据类型
      */
     public static <T> void render(HttpServletResponse response, T t) {
-        response.setStatus(HttpStatus.OK.value());
-        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-        response.setCharacterEncoding(StandardCharsets.UTF_8.name());
-        try {
-            response.getWriter().print(JsonUtils.writeValueAsString(t));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        renderString(response, JsonUtils.writeValueAsString(t));
     }
 
     /**
      * 将字符串渲染到客户端
      *
      * @param response 响应体
-     * @param value    待渲染的字符串数据
+     * @param value 待渲染的字符串数据
      */
     public static void renderString(HttpServletResponse response, String value) {
         response.setStatus(HttpStatus.OK.value());
@@ -78,7 +73,7 @@ public class ServletUtils {
         try {
             response.getWriter().print(value);
         } catch (IOException e) {
-            log.info("ServletUtils.renderString, 异常：{}", e.getMessage());
+            log.error("ServletUtils.renderString, 异常：{}", e.getMessage());
             throw new RuntimeException(e);
         }
     }

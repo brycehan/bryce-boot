@@ -59,6 +59,7 @@ bryce:
     ignore-urls:
       all:
         - /generator-ui/**
+        - /auth/register/**
         - /pay/alipay/trade/notify
         - /pay/wechatPay/pay/notify
         - /pay/wechatPay/refund/notify
@@ -76,14 +77,13 @@ bryce:
         - /attachment/**
         - /auth/captcha/**
         - /system/sms/**
-        - /register/enabled
         - /third/login/wechat/mp/**
+        - /auth/logout
       post:
         - /auth/loginByAccount
         - /auth/loginByPhone
         - /auth/app/account/login
         - /auth/app/sms/login
-        - /auth/register
         - /ma/user/login
 
   # xss 过滤

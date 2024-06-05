@@ -5,7 +5,9 @@ import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.brycehan.boot.common.base.context.LoginUser;
+import com.brycehan.boot.common.base.http.ResponseResult;
 import com.brycehan.boot.common.util.JsonUtils;
+import com.brycehan.boot.common.util.ServletUtils;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -57,11 +59,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         try {
             decodedJWT = jwtTokenProvider.validateToken(accessToken);
         } catch (TokenExpiredException e) {
-            throw new RuntimeException("登录状态已过期");
+            ServletUtils.render(response, ResponseResult.error("登录状态已过期"));
+            return;
         } catch (Exception e) {
-            throw new RuntimeException("访问令牌校验失败");
+            ServletUtils.render(response, ResponseResult.error("访问令牌校验失败"));
+            return;
         }
-
 
         Map<String, Claim> claimMap = decodedJWT.getClaims();
         // 设置用户信息到请求头

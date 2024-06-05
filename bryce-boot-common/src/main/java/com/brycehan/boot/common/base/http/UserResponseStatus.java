@@ -30,8 +30,6 @@ public enum UserResponseStatus implements ResponseStatus {
 
     USER_ACCOUNT_DISABLED(606, "用户账号已停用"),
 
-    USER_ACCOUNT_DELETED(607, "用户账号已被删除"),
-
     USER_USERNAME_OR_PASSWORD_ERROR(608, "账号与密码不匹配"),
 
     USER_USERNAME_NOT_VALID(609, "2到20个汉字、字母、数字或下划线组成，且必须以非数字开头"),
