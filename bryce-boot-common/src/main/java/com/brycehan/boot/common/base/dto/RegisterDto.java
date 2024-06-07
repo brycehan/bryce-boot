@@ -25,6 +25,13 @@ public class RegisterDto {
     private String username;
 
     /**
+     * 姓名
+     */
+    @Size(max = 50)
+    @Schema(description = "姓名")
+    private String nickname;
+
+    /**
      * 密码
      */
     @NotEmpty

@@ -1,6 +1,7 @@
 package com.brycehan.boot.common.base;
 
 import com.brycehan.boot.common.constant.CacheConstants;
+import com.brycehan.boot.common.enums.SmsType;
 
 /**
  * Redis Key 管理
@@ -21,12 +22,17 @@ public class RedisKeys {
     }
 
     /**
-     * 获取操作日志 key
+     * 获取短信验证码key
      *
-     * @return 操作日志 key
+     * @param key 验证码uuid
+     * @return 验证码key
      */
+    public static String getSmsCodeKey(String key, SmsType smsType) {
+        return CacheConstants.SMS_CODE_KEY + smsType.value() + ":" + key;
+    }
+
     public static String getOperateLogKey() {
-        return "sys:log";
+        return "system:log";
     }
 
     /**

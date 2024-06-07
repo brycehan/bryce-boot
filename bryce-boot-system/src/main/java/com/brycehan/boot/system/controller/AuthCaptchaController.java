@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Bryce Han
  */
 @Slf4j
-@Tag(name = "验证码")
+@Tag(name = "图片验证码")
 @RequestMapping("/auth/captcha")
 @RestController
 @RequiredArgsConstructor

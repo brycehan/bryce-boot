@@ -20,11 +20,4 @@ public interface SmsService {
      */
     boolean send(String phone, String templateId, LinkedHashMap<String, String> params);
 
-    /**
-     * 是否开启短信功能
-     *
-     * @return 开启标识（true：开启，false：关闭）
-     */
-    boolean isSmsEnabled();
-
 }

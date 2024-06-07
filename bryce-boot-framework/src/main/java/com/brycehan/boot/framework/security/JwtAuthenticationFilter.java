@@ -93,7 +93,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         SecurityContext context = SecurityContextHolder.createEmptyContext();
         context.setAuthentication(authentication);
         SecurityContextHolder.setContext(context);
-        log.debug("将认证信息设置到安全上下文中，'{}', uri: {}", loginUser.getUsername(), request.getRequestURI());
+        log.info("将认证信息设置到安全上下文中，username：{}', uri: {}", loginUser.getUsername(), request.getRequestURI());
 
         filterChain.doFilter(request, response);
     }

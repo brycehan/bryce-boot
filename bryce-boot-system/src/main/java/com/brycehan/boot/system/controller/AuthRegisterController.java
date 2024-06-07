@@ -38,7 +38,7 @@ public class AuthRegisterController {
     @PostMapping
     public ResponseResult<Void> register(@Parameter(description = "注册参数", required = true) @Validated @RequestBody RegisterDto registerDto) {
         // 查询注册开关
-        if (this.authRegisterService.captchaEnabled()) {
+        if (this.authRegisterService.registerEnabled()) {
             // 注册
             this.authRegisterService.register(registerDto);
             return ResponseResult.ok();
@@ -55,7 +55,7 @@ public class AuthRegisterController {
     @Operation(summary = "获取注册开关")
     @GetMapping(path = "/enabled")
     public ResponseResult<Boolean> registerEnabled() {
-        boolean captchaEnabled = this.authRegisterService.captchaEnabled();
+        boolean captchaEnabled = this.authRegisterService.registerEnabled();
         return ResponseResult.ok(captchaEnabled);
     }
 

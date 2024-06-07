@@ -24,11 +24,6 @@ public class CacheConstants {
     public static final String SMS_CODE_KEY = "sms_code:";
 
     /**
-     * 系统配置键
-     */
-    public static final String SYSTEM_PARAM_KEY = "system:param";
-
-    /**
      * 系统字典键
      */
     public static final String SYS_DICT_KEY = "sys_dict:";
@@ -37,5 +32,10 @@ public class CacheConstants {
      * 登录账户密码错误次数键
      */
     public static final String PASSWORD_ERROR_COUNT_KEY = "account:password_error_count:";
+
+    /**
+     * 系统配置键
+     */
+    public static final String SYSTEM_PARAM_KEY = "system:param";
 
 }

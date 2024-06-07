@@ -58,8 +58,8 @@ public class AuthRegisterServiceImpl implements AuthRegisterService {
     }
 
     @Override
-    public boolean captchaEnabled() {
-        return this.sysParamService.getBoolean(ParamConstants.SYSTEM_REGISTER_CAPTCHA_ENABLED);
+    public boolean registerEnabled() {
+        return this.sysParamService.getBoolean(ParamConstants.SYSTEM_REGISTER_ENABLED);
     }
 
     @Override

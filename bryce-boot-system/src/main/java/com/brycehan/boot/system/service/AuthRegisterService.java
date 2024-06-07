@@ -27,11 +27,11 @@ public interface AuthRegisterService {
     boolean validate(String key, String code);
 
     /**
-     * 获取注册图片验证码开关
+     * 获取注册开关
      *
      * @return 开启标识（true：开启，false：关闭）
      */
-    boolean captchaEnabled();
+    boolean registerEnabled();
 
     /**
      * 校验用户名是否可注册

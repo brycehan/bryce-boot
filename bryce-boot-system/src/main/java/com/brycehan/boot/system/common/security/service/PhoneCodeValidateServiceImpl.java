@@ -1,9 +1,9 @@
 package com.brycehan.boot.system.common.security.service;
 
-import com.brycehan.boot.api.sms.SmsApi;
+import com.brycehan.boot.common.enums.SmsType;
 import com.brycehan.boot.framework.security.phone.PhoneCodeValidateService;
+import com.brycehan.boot.system.service.AuthSmsService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 /**
@@ -16,14 +16,11 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class PhoneCodeValidateServiceImpl implements PhoneCodeValidateService {
 
-    private final SmsApi smsApi;
-
-    @Value("${sms.login-template-id}")
-    private String loginTemplateId;
+    private final AuthSmsService authSmsService;
 
     @Override
     public boolean validate(String phone, String code) {
-        return this.smsApi.validate(phone, loginTemplateId, code);
+        return this.authSmsService.validate(phone, code, SmsType.LOGIN);
     }
 
 }
