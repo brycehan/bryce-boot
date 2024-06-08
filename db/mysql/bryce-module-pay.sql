@@ -60,10 +60,10 @@ create table brc_pay_product
 ) comment '商品表';
 
 -- 商品表数据
-INSERT INTO brc_pay_product (id, title, price, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1, 'Java课程', 1, 1, 0, null, '2024-02-27 08:04:58', null, null);
-INSERT INTO brc_pay_product (id, title, price, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (2, '大数据课程', 1, 1, 0, null, '2024-02-27 08:04:58', null, null);
-INSERT INTO brc_pay_product (id, title, price, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (3, '前端课程', 1, 1, 0, null, '2024-02-27 08:04:58', null, null);
-INSERT INTO brc_pay_product (id, title, price, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (4, 'UI课程', 1, 1, 0, null, '2024-02-27 08:04:58', null, null);
+INSERT INTO brc_pay_product (id, title, price, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1, 'Java课程', 1, 1, 0, 1, now(), null, null);
+INSERT INTO brc_pay_product (id, title, price, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (2, '大数据课程', 1, 1, 0, 1, now(), null, null);
+INSERT INTO brc_pay_product (id, title, price, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (3, '前端课程', 1, 1, 0, 1, now(), null, null);
+INSERT INTO brc_pay_product (id, title, price, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (4, 'UI课程', 1, 1, 0, 1, now(), null, null);
 
 -- 4、退款单表
 create table brc_pay_refund
