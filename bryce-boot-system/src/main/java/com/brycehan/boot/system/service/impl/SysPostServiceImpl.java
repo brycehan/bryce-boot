@@ -58,25 +58,6 @@ public class SysPostServiceImpl extends BaseServiceImpl<SysPostMapper, SysPost> 
         this.sysUserPostService.deleteByPostIds(ids);
     }
 
-    @Retryable(retryFor = VersionException.class, backoff = @Backoff(delay = 0))
-    @Transactional(rollbackFor = Exception.class)
-    public void update(SysPostDto sysPostDto) {
-        SysPost sysPost = SysPostConvert.INSTANCE.convert(sysPostDto);
-
-        // 设置版本号
-        SysPost post = this.getBaseMapper().selectById(sysPost.getId());
-        if (post == null) {
-            return;
-        }
-        sysPost.setVersion(post.getVersion());
-
-        // 更新
-        int updated = this.getBaseMapper().updateById(sysPost);
-        if (updated == 0) {
-            throw new VersionException();
-        }
-    }
-
     @Override
     public PageResult<SysPostVo> page(SysPostPageDto sysPostPageDto) {
         IPage<SysPost> page = this.baseMapper.selectPage(getPage(sysPostPageDto), getWrapper(sysPostPageDto));
