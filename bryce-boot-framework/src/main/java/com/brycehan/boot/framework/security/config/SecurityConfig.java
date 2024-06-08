@@ -8,7 +8,6 @@ import com.brycehan.boot.framework.security.phone.PhoneCodeUserDetailsService;
 import com.brycehan.boot.framework.security.phone.PhoneCodeValidateService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
@@ -25,10 +24,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsChecker;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -48,7 +45,7 @@ import java.util.List;
 @EnableMethodSecurity
 @RequiredArgsConstructor
 @EnableConfigurationProperties(AuthProperties.class)
-public class SecurityConfig implements InitializingBean {
+public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
@@ -139,19 +136,4 @@ public class SecurityConfig implements InitializingBean {
         return http.build();
     }
 
-    /**
-     * 使用BCrypt强哈希函数密码加密实现
-     *
-     * @return 密码加密器
-     */
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    @Override
-    public void afterPropertiesSet() {
-        log.info("配置子线程获取Spring Security的认证信息");
-        SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_INHERITABLETHREADLOCAL);
-    }
 }

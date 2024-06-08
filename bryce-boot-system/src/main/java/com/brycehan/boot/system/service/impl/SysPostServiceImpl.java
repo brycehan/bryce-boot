@@ -3,6 +3,7 @@ package com.brycehan.boot.system.service.impl;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.brycehan.boot.common.base.VersionException;
 import com.brycehan.boot.common.base.dto.IdsDto;
 import com.brycehan.boot.common.base.entity.PageResult;
 import com.brycehan.boot.common.enums.DataStatusType;
@@ -10,16 +11,19 @@ import com.brycehan.boot.common.util.DateTimeUtils;
 import com.brycehan.boot.common.util.ExcelUtils;
 import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
 import com.brycehan.boot.system.entity.convert.SysPostConvert;
+import com.brycehan.boot.system.entity.dto.SysPostDto;
 import com.brycehan.boot.system.entity.dto.SysPostPageDto;
 import com.brycehan.boot.system.entity.po.SysPost;
+import com.brycehan.boot.system.entity.vo.SysPostVo;
 import com.brycehan.boot.system.mapper.SysPostMapper;
 import com.brycehan.boot.system.service.SysPostService;
 import com.brycehan.boot.system.service.SysUserPostService;
-import com.brycehan.boot.system.entity.vo.SysPostVo;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
@@ -51,6 +55,25 @@ public class SysPostServiceImpl extends BaseServiceImpl<SysPostMapper, SysPost> 
 
         // 删除岗位用户关系
         this.sysUserPostService.deleteByPostIds(ids);
+    }
+
+    @Retryable(retryFor = VersionException.class)
+    @Transactional(rollbackFor = Exception.class)
+    public void update(SysPostDto sysPostDto) {
+        SysPost sysPost = SysPostConvert.INSTANCE.convert(sysPostDto);
+
+        // 设置版本号
+        SysPost post = this.getBaseMapper().selectById(sysPost.getId());
+        if (post == null) {
+            return;
+        }
+        sysPost.setVersion(post.getVersion());
+
+        // 更新
+        int updated = this.getBaseMapper().updateById(sysPost);
+        if (updated == 0) {
+            throw new VersionException();
+        }
     }
 
     @Override

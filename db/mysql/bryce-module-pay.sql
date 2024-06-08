@@ -2,6 +2,7 @@
   -- 清除表数据
     delete from brc_pay_order;
     delete from brc_pay_payment;
+    delete from brc_pay_product;
     delete from brc_pay_refund;
  */
 -- 1、订单表
