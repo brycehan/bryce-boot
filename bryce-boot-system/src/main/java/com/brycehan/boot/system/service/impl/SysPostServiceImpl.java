@@ -21,6 +21,7 @@ import com.brycehan.boot.system.service.SysUserPostService;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -57,7 +58,7 @@ public class SysPostServiceImpl extends BaseServiceImpl<SysPostMapper, SysPost> 
         this.sysUserPostService.deleteByPostIds(ids);
     }
 
-    @Retryable(retryFor = VersionException.class)
+    @Retryable(retryFor = VersionException.class, backoff = @Backoff(delay = 0))
     @Transactional(rollbackFor = Exception.class)
     public void update(SysPostDto sysPostDto) {
         SysPost sysPost = SysPostConvert.INSTANCE.convert(sysPostDto);
