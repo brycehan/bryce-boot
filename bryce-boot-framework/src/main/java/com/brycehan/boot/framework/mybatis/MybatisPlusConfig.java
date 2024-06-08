@@ -30,12 +30,12 @@ public class MybatisPlusConfig {
         MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
         // 数据权限
         interceptor.addInnerInterceptor(new DataScopeInnerInterceptor());
-        // 分页插件
-        interceptor.addInnerInterceptor(new PaginationInnerInterceptor());
         // 乐观锁
         interceptor.addInnerInterceptor(new OptimisticLockerInnerInterceptor());
         // 防止全表更新与删除
         interceptor.addInnerInterceptor(new BlockAttackInnerInterceptor());
+        // 分页插件
+        interceptor.addInnerInterceptor(new PaginationInnerInterceptor());
 
         return interceptor;
     }
