@@ -47,9 +47,16 @@ public class RegisterDto {
     private String key;
 
     /**
+     * 手机号码
+     */
+    @Size(max = 20)
+    @Schema(description = "手机号码")
+    private String phone;
+
+    /**
      * 验证码
      */
-    @Size(max = 8)
+    @Size(max = 6)
     @Schema(description = "验证码")
     private String code;
 

@@ -76,10 +76,16 @@ public class AuthCaptchaServiceImpl implements AuthCaptchaService {
         // 获取缓存验证码
         String captchaKey = RedisKeys.getCaptchaKey(key);
         String captchaValue = this.stringRedisTemplate.opsForValue()
-                .getAndDelete(captchaKey);
+                .get(captchaKey);
 
         // 校验
-        return code.equalsIgnoreCase(captchaValue);
+        boolean validated = code.equalsIgnoreCase(captchaValue);
+        if (validated) {
+            // 删除验证码
+            this.stringRedisTemplate.delete(captchaKey);
+        }
+
+        return validated;
     }
 
     @Override

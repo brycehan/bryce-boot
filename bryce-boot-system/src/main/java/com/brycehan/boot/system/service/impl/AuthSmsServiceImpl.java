@@ -5,10 +5,8 @@ import com.brycehan.boot.api.sms.SmsApi;
 import com.brycehan.boot.api.system.SysParamApi;
 import com.brycehan.boot.common.base.RedisKeys;
 import com.brycehan.boot.common.base.ServerException;
-import com.brycehan.boot.common.base.vo.SmsCodeVo;
 import com.brycehan.boot.common.constant.ParamConstants;
 import com.brycehan.boot.common.enums.SmsType;
-import com.brycehan.boot.framework.security.TokenUtils;
 import com.brycehan.boot.system.entity.vo.SysUserVo;
 import com.brycehan.boot.system.service.AuthSmsService;
 import com.brycehan.boot.system.service.SysUserService;
@@ -43,7 +41,7 @@ public class AuthSmsServiceImpl implements AuthSmsService {
     private final long expiration = 5;
 
     @Override
-    public SmsCodeVo sendCode(String phone, SmsType smsType) {
+    public void sendCode(String phone, SmsType smsType) {
         if (!this.smsEnabled()) {
             throw new RuntimeException("短信功能未开启");
         }
@@ -53,57 +51,61 @@ public class AuthSmsServiceImpl implements AuthSmsService {
         }
 
         SysUserVo sysUserVo = this.sysUserService.getByPhone(phone);
-        if(sysUserVo == null) {
-            throw new ServerException("手机号码未注册");
+        if (SmsType.LOGIN.equals(smsType)) {
+            if(sysUserVo == null) {
+                throw new ServerException("手机号码未注册");
+            }
         }
 
-        // 生成验证码 key
-        String codeKey = TokenUtils.uuid();
+        String smsCodeKey = RedisKeys.getSmsCodeKey(phone, smsType);
+        String smsCodeValue = this.stringRedisTemplate.opsForValue()
+                .get(smsCodeKey);
 
         // 生成6位验证码
-        String codeValue = RandomStringUtils.randomNumeric(6);
+        if (StrUtil.isEmpty(smsCodeValue)) {
+            smsCodeValue = RandomStringUtils.randomNumeric(6);
+        }
 
         LinkedHashMap<String, String> params = new LinkedHashMap<>();
-        params.put("code", codeValue);
+        params.put("code", smsCodeValue);
 
         // 发送短信
-        Boolean sended = this.smsApi.send(phone, smsType, params);
-        if (!sended) {
+        Boolean send = this.smsApi.send(phone, smsType, params);
+        if (!send) {
             throw new ServerException("短信发送失败");
         }
 
-        log.debug("短信验证码key：{}, 值：{}", codeKey, codeValue);
-
-        String smsCodeKey = RedisKeys.getSmsCodeKey(codeKey, smsType);
+        log.debug("短信验证码手机号码：{}, 值：{}", phone, smsCodeValue);
 
         // 存储到 Redis
         this.stringRedisTemplate.opsForValue()
-                .set(smsCodeKey, codeValue, this.expiration, TimeUnit.MINUTES);
-
-        // 封装返回数据
-        SmsCodeVo smsCodeVo = new SmsCodeVo();
-        smsCodeVo.setKey(codeKey);
-        return smsCodeVo;
+                .set(smsCodeKey, smsCodeValue, this.expiration, TimeUnit.MINUTES);
     }
 
     @Override
-    public boolean validate(String key, String code, SmsType smsType) {
+    public boolean validate(String phone, String code, SmsType smsType) {
         // 如果关闭了验证码，则直接校验通过
         if (!smsEnabled(smsType)) {
             return true;
         }
 
-        if (StrUtil.isBlank(key) || StrUtil.isBlank(code)) {
+        if (StrUtil.isBlank(phone) || StrUtil.isBlank(code)) {
             return false;
         }
 
         // 获取缓存验证码
-        String smsCodeKey = RedisKeys.getSmsCodeKey(key, smsType);
-        String captchaValue = this.stringRedisTemplate.opsForValue()
-                .getAndDelete(smsCodeKey);
+        String smsCodeKey = RedisKeys.getSmsCodeKey(phone, smsType);
+        String smsCodeValue = this.stringRedisTemplate.opsForValue()
+                .get(smsCodeKey);
 
         // 校验
-        return code.equalsIgnoreCase(captchaValue);
+        boolean validated = code.equalsIgnoreCase(smsCodeValue);
+        if (validated) {
+            // 删除验证码
+            this.stringRedisTemplate.delete(smsCodeKey);
+        }
+
+        return validated;
     }
 
     @Override

@@ -24,6 +24,11 @@ public class CacheConstants {
     public static final String SMS_CODE_KEY = "sms_code:";
 
     /**
+     * 短信发送量键
+     */
+    public static final String SMS_COUNT_KEY = "sms_count:";
+
+    /**
      * 系统字典键
      */
     public static final String SYS_DICT_KEY = "sys_dict:";

@@ -26,7 +26,7 @@ public class SmsApiService implements SmsApi {
 
     @Override
     public Boolean send(String phone, SmsType smsType, LinkedHashMap<String, String> params) {
-        String templateIdKey = "sms:" + smsType.value() + "-template-id";
+        String templateIdKey = "sms." + smsType.value() + "-template-id";
         String templateId = this.environment.getProperty(templateIdKey);
         return this.smsService.send(phone, templateId, params);
     }
