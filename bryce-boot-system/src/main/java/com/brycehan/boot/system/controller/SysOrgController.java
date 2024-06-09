@@ -103,7 +103,7 @@ public class SysOrgController {
             sysOrgVo.setParentName("主目类");
         }
 
-        return ResponseResult.ok();
+        return ResponseResult.ok(sysOrgVo);
     }
 
     /**
