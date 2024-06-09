@@ -113,7 +113,7 @@ public class SysOrgServiceImpl extends BaseServiceImpl<SysOrgMapper, SysOrg> imp
         // 机构列表
         List<SysOrg> sysOrgList = this.baseMapper.list(params);
 
-        return TreeUtils.build(SysOrgConvert.INSTANCE.convert(sysOrgList), 0L);
+        return TreeUtils.build(SysOrgConvert.INSTANCE.convert(sysOrgList));
     }
 
     @Override

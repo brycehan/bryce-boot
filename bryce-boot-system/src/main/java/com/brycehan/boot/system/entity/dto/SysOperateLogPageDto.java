@@ -64,15 +64,15 @@ public class SysOperateLogPageDto extends BasePageDto {
     private Long orgId;
 
     /**
-     * 创建时间开始
+     * 操作时间开始
      */
-    @Schema(description = "创建时间开始")
-    private LocalDateTime createdTimeStart;
+    @Schema(description = "操作时间开始")
+    private LocalDateTime operatedTimeStart;
 
     /**
-     * 创建时间结束
+     * 操作时间结束
      */
-    @Schema(description = "创建时间结束")
-    private LocalDateTime createdTimeEnd;
+    @Schema(description = "操作时间结束")
+    private LocalDateTime operatedTimeEnd;
 
 }

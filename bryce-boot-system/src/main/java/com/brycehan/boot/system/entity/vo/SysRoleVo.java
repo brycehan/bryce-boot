@@ -42,6 +42,12 @@ public class SysRoleVo implements Serializable {
     private String code;
 
     /**
+     * 数据范围（1：全部数据，2：本机构及以下机构数据，3：本机构数据，4：本人数据，5：自定义数据）
+     */
+    @Schema(description = "数据范围（1：全部数据，2：本机构及以下机构数据，3：本机构数据，4：本人数据，5：自定义数据）")
+    private Integer dataScope;
+
+    /**
      * 显示顺序
      */
     @Schema(description = "显示顺序")

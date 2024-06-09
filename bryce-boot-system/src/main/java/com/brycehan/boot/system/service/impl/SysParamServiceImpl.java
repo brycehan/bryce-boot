@@ -124,14 +124,7 @@ public class SysParamServiceImpl extends BaseServiceImpl<SysParamMapper, SysPara
         wrapper.like(StringUtils.isNotEmpty(sysParamPageDto.getParamName()), SysParam::getParamName, sysParamPageDto.getParamName());
         wrapper.like(StringUtils.isNotEmpty(sysParamPageDto.getParamKey()), SysParam::getParamKey, sysParamPageDto.getParamKey());
         wrapper.eq(SysParam::getParamType, ParamType.system.name());
-
-        if (sysParamPageDto.getCreatedTimeStart() != null && sysParamPageDto.getCreatedTimeEnd() != null) {
-            wrapper.between(SysParam::getCreatedTime, sysParamPageDto.getCreatedTimeStart(), sysParamPageDto.getCreatedTimeEnd());
-        } else if (sysParamPageDto.getCreatedTimeStart() != null) {
-            wrapper.ge(SysParam::getCreatedTime, sysParamPageDto.getCreatedTimeStart());
-        } else if (sysParamPageDto.getCreatedTimeEnd() != null) {
-            wrapper.ge(SysParam::getCreatedTime, sysParamPageDto.getCreatedTimeEnd());
-        }
+        addTimeRangeCondition(wrapper, SysParam::getCreatedTime, sysParamPageDto.getCreatedTimeStart(), sysParamPageDto.getCreatedTimeEnd());
 
         return wrapper;
     }

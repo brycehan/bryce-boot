@@ -12,11 +12,11 @@ import com.brycehan.boot.system.entity.convert.SysDictTypeConvert;
 import com.brycehan.boot.system.entity.dto.SysDictTypePageDto;
 import com.brycehan.boot.system.entity.po.SysDictData;
 import com.brycehan.boot.system.entity.po.SysDictType;
+import com.brycehan.boot.system.entity.vo.SysDictTypeVo;
+import com.brycehan.boot.system.entity.vo.SysDictVo;
 import com.brycehan.boot.system.mapper.SysDictDataMapper;
 import com.brycehan.boot.system.mapper.SysDictTypeMapper;
 import com.brycehan.boot.system.service.SysDictTypeService;
-import com.brycehan.boot.system.entity.vo.SysDictTypeVo;
-import com.brycehan.boot.system.entity.vo.SysDictVo;
 import com.fhs.trans.service.impl.DictionaryTransService;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -61,14 +61,7 @@ public class SysDictTypeServiceImpl extends BaseServiceImpl<SysDictTypeMapper, S
         wrapper.eq(Objects.nonNull(sysDictTypePageDto.getStatus()), SysDictType::getStatus, sysDictTypePageDto.getStatus());
         wrapper.like(StringUtils.isNotEmpty(sysDictTypePageDto.getDictName()), SysDictType::getDictName, sysDictTypePageDto.getDictName());
         wrapper.like(StringUtils.isNotEmpty(sysDictTypePageDto.getDictType()), SysDictType::getDictType, sysDictTypePageDto.getDictType());
-
-        if (sysDictTypePageDto.getCreatedTimeStart() != null && sysDictTypePageDto.getCreatedTimeEnd() != null) {
-            wrapper.between(SysDictType::getCreatedTime, sysDictTypePageDto.getCreatedTimeStart(), sysDictTypePageDto.getCreatedTimeEnd());
-        } else if (sysDictTypePageDto.getCreatedTimeStart() != null) {
-            wrapper.ge(SysDictType::getCreatedTime, sysDictTypePageDto.getCreatedTimeStart());
-        } else if (sysDictTypePageDto.getCreatedTimeEnd() != null) {
-            wrapper.ge(SysDictType::getCreatedTime, sysDictTypePageDto.getCreatedTimeEnd());
-        }
+        addTimeRangeCondition(wrapper, SysDictType::getCreatedTime, sysDictTypePageDto.getCreatedTimeStart(), sysDictTypePageDto.getCreatedTimeEnd());
 
         return wrapper;
     }

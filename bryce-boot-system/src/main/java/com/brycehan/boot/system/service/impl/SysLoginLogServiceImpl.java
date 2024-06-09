@@ -12,9 +12,9 @@ import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
 import com.brycehan.boot.system.entity.convert.SysLoginLogConvert;
 import com.brycehan.boot.system.entity.dto.SysLoginLogPageDto;
 import com.brycehan.boot.system.entity.po.SysLoginLog;
+import com.brycehan.boot.system.entity.vo.SysLoginLogVo;
 import com.brycehan.boot.system.mapper.SysLoginLogMapper;
 import com.brycehan.boot.system.service.SysLoginLogService;
-import com.brycehan.boot.system.entity.vo.SysLoginLogVo;
 import com.fhs.trans.service.impl.TransService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -55,14 +55,7 @@ public class SysLoginLogServiceImpl extends BaseServiceImpl<SysLoginLogMapper, S
         wrapper.eq(Objects.nonNull(sysLoginLogPageDto.getStatus()), SysLoginLog::getStatus, sysLoginLogPageDto.getStatus());
         wrapper.like(StringUtils.isNotEmpty(sysLoginLogPageDto.getUsername()), SysLoginLog::getUsername, sysLoginLogPageDto.getUsername());
         wrapper.like(StringUtils.isNotEmpty(sysLoginLogPageDto.getIp()), SysLoginLog::getIp, sysLoginLogPageDto.getIp());
-
-        if (sysLoginLogPageDto.getAccessTimeStart() != null && sysLoginLogPageDto.getAccessTimeEnd() != null) {
-            wrapper.between(SysLoginLog::getCreatedTime, sysLoginLogPageDto.getAccessTimeStart(), sysLoginLogPageDto.getAccessTimeEnd());
-        } else if (sysLoginLogPageDto.getAccessTimeStart() != null) {
-            wrapper.ge(SysLoginLog::getCreatedTime, sysLoginLogPageDto.getAccessTimeStart());
-        } else if (sysLoginLogPageDto.getAccessTimeEnd() != null) {
-            wrapper.ge(SysLoginLog::getCreatedTime, sysLoginLogPageDto.getAccessTimeEnd());
-        }
+        addTimeRangeCondition(wrapper, SysLoginLog::getAccessTime, sysLoginLogPageDto.getAccessTimeStart(), sysLoginLogPageDto.getAccessTimeEnd());
 
         return wrapper;
     }

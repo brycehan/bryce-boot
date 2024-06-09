@@ -31,8 +31,7 @@ public class MetaObjectHandlerImpl implements MetaObjectHandler {
     @Override
     public void updateFill(MetaObject metaObject) {
         // 更新者ID
-//        this.setFieldValByName("updatedUserId", LoginUserContext.currentUserId(), metaObject);
-        strictUpdateFill(metaObject, "updated_user_id", Long.class, LoginUserContext.currentUserId());
+        strictUpdateFill(metaObject, "updatedUserId", Long.class, LoginUserContext.currentUserId());
         // 更新时间
         strictUpdateFill(metaObject, "updatedTime", LocalDateTime.class, LocalDateTime.now());
     }

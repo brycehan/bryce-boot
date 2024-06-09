@@ -199,14 +199,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         wrapper.eq(Objects.nonNull(sysUserPageDto.getStatus()), SysUser::getStatus, sysUserPageDto.getStatus());
         wrapper.like(StringUtils.isNotEmpty(sysUserPageDto.getUsername()), SysUser::getUsername, sysUserPageDto.getUsername());
         wrapper.like(StringUtils.isNotEmpty(sysUserPageDto.getPhone()), SysUser::getPhone, sysUserPageDto.getPhone());
-
-        if (sysUserPageDto.getCreatedTimeStart() != null && sysUserPageDto.getCreatedTimeEnd() != null) {
-            wrapper.between(SysUser::getCreatedTime, sysUserPageDto.getCreatedTimeStart(), sysUserPageDto.getCreatedTimeEnd());
-        } else if (sysUserPageDto.getCreatedTimeStart() != null) {
-            wrapper.ge(SysUser::getCreatedTime, sysUserPageDto.getCreatedTimeStart());
-        } else if (sysUserPageDto.getCreatedTimeEnd() != null) {
-            wrapper.ge(SysUser::getCreatedTime, sysUserPageDto.getCreatedTimeEnd());
-        }
+        addTimeRangeCondition(wrapper, SysUser::getCreatedTime, sysUserPageDto.getCreatedTimeStart(), sysUserPageDto.getCreatedTimeEnd());
 
         return wrapper;
     }

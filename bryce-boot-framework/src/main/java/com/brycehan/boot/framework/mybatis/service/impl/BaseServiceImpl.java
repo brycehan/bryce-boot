@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
+import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.brycehan.boot.common.base.context.LoginUser;
@@ -21,6 +22,7 @@ import com.brycehan.boot.framework.mybatis.service.BaseService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -168,6 +170,24 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<M, 
         sqlFilter.append(")");
 
         return new DataScope(sqlFilter.toString());
+    }
+
+    /**
+     * 通用时间范围查询方法，支持泛型。
+     * @param wrapper 查询条件包装器
+     * @param column 获取时间字段的函数引用，例如: Entity::getCreatedTime
+     * @param startTime 起始时间
+     * @param endTime 结束时间
+     * @param <T> 实体类型
+     */
+    public static <T> void addTimeRangeCondition(LambdaQueryWrapper<T> wrapper, SFunction<T, LocalDateTime> column, LocalDateTime startTime, LocalDateTime endTime) {
+        if (startTime != null && endTime != null) {
+            wrapper.between(column, startTime, endTime);
+        } else if (startTime != null) {
+            wrapper.ge(column, startTime);
+        } else if (endTime != null) {
+            wrapper.le(column, endTime);
+        }
     }
 
 }

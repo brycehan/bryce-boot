@@ -14,12 +14,12 @@ import com.brycehan.boot.system.entity.dto.SysRoleDataScopeDto;
 import com.brycehan.boot.system.entity.dto.SysRoleDto;
 import com.brycehan.boot.system.entity.dto.SysRolePageDto;
 import com.brycehan.boot.system.entity.po.SysRole;
+import com.brycehan.boot.system.entity.vo.SysRoleVo;
 import com.brycehan.boot.system.mapper.SysRoleMapper;
 import com.brycehan.boot.system.service.SysRoleDataScopeService;
 import com.brycehan.boot.system.service.SysRoleMenuService;
 import com.brycehan.boot.system.service.SysRoleService;
 import com.brycehan.boot.system.service.SysUserRoleService;
-import com.brycehan.boot.system.entity.vo.SysRoleVo;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -47,8 +47,8 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
 
     private final SysRoleDataScopeService sysRoleDataScopeService;
 
-    @Transactional(rollbackFor = Exception.class)
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void save(SysRoleDto sysRoleDto) {
         SysRole sysRole = SysRoleConvert.INSTANCE.convert(sysRoleDto);
         sysRole.setId(IdGenerator.nextId());
@@ -61,8 +61,8 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
         this.sysRoleMenuService.saveOrUpdate(sysRole.getId(), sysRoleDto.getMenuIds());
     }
 
-    @Transactional(rollbackFor = Exception.class)
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void update(SysRoleDto sysRoleDto) {
         SysRole sysRole = SysRoleConvert.INSTANCE.convert(sysRoleDto);
 
@@ -73,8 +73,8 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
         this.sysRoleMenuService.saveOrUpdate(sysRoleDto.getId(), sysRoleDto.getMenuIds());
     }
 
-    @Transactional(rollbackFor = Exception.class)
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void delete(IdsDto idsDto) {
         // 过滤无效参数
         List<Long> ids = idsDto.getIds().stream()
@@ -114,14 +114,7 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
         wrapper.eq(Objects.nonNull(sysRolePageDto.getOrgId()), SysRole::getOrgId, sysRolePageDto.getOrgId());
         wrapper.like(StringUtils.isNotEmpty(sysRolePageDto.getName()), SysRole::getName, sysRolePageDto.getName());
         wrapper.like(StringUtils.isNotEmpty(sysRolePageDto.getCode()), SysRole::getCode, sysRolePageDto.getCode());
-
-        if (sysRolePageDto.getCreatedTimeStart() != null && sysRolePageDto.getCreatedTimeEnd() != null) {
-            wrapper.between(SysRole::getCreatedTime, sysRolePageDto.getCreatedTimeStart(), sysRolePageDto.getCreatedTimeEnd());
-        } else if (sysRolePageDto.getCreatedTimeStart() != null) {
-            wrapper.ge(SysRole::getCreatedTime, sysRolePageDto.getCreatedTimeStart());
-        } else if (sysRolePageDto.getCreatedTimeEnd() != null) {
-            wrapper.ge(SysRole::getCreatedTime, sysRolePageDto.getCreatedTimeEnd());
-        }
+        addTimeRangeCondition(wrapper, SysRole::getCreatedTime, sysRolePageDto.getCreatedTimeStart(), sysRolePageDto.getCreatedTimeEnd());
 
         // 数据权限
         dataScopeWrapper(wrapper);

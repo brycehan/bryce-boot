@@ -62,19 +62,11 @@ public class SysOperateLogServiceImpl extends BaseServiceImpl<SysOperateLogMappe
         LambdaQueryWrapper<SysOperateLog> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(Objects.nonNull(sysOperateLogPageDto.getStatus()), SysOperateLog::getStatus, sysOperateLogPageDto.getStatus());
         wrapper.eq(Objects.nonNull(sysOperateLogPageDto.getOrgId()), SysOperateLog::getOrgId, sysOperateLogPageDto.getOrgId());
-
-        if (sysOperateLogPageDto.getCreatedTimeStart() != null && sysOperateLogPageDto.getCreatedTimeEnd() != null) {
-            wrapper.between(SysOperateLog::getCreatedTime, sysOperateLogPageDto.getCreatedTimeStart(), sysOperateLogPageDto.getCreatedTimeEnd());
-        } else if (sysOperateLogPageDto.getCreatedTimeStart() != null) {
-            wrapper.ge(SysOperateLog::getCreatedTime, sysOperateLogPageDto.getCreatedTimeStart());
-        } else if (sysOperateLogPageDto.getCreatedTimeEnd() != null) {
-            wrapper.ge(SysOperateLog::getCreatedTime, sysOperateLogPageDto.getCreatedTimeEnd());
-        }
-
         wrapper.like(StringUtils.isNotEmpty(sysOperateLogPageDto.getName()), SysOperateLog::getName, sysOperateLogPageDto.getName());
         wrapper.like(StringUtils.isNotEmpty(sysOperateLogPageDto.getModuleName()), SysOperateLog::getModuleName, sysOperateLogPageDto.getModuleName());
         wrapper.like(StringUtils.isNotEmpty(sysOperateLogPageDto.getRequestUri()), SysOperateLog::getRequestUri, sysOperateLogPageDto.getRequestUri());
         wrapper.like(StringUtils.isNotEmpty(sysOperateLogPageDto.getUsername()), SysOperateLog::getUsername, sysOperateLogPageDto.getUsername());
+        addTimeRangeCondition(wrapper, SysOperateLog::getOperatedTime, sysOperateLogPageDto.getOperatedTimeStart(), sysOperateLogPageDto.getOperatedTimeEnd());
 
         return wrapper;
     }
