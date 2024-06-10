@@ -306,12 +306,11 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
 
     @Override
     public boolean checkPhoneUnique(SysUser sysUser) {
-        QueryWrapper<SysUser> queryWrapper = new QueryWrapper<>();
+        LambdaQueryWrapper<SysUser> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper
-                .select("id", "phone")
-                .eq("phone", sysUser.getPhone())
-                .last("limit 1");
-        SysUser user = this.baseMapper.selectOne(queryWrapper);
+                .select(SysUser::getPhone)
+                .eq(SysUser::getPhone, sysUser.getPhone());
+        SysUser user = this.baseMapper.selectOne(queryWrapper, false);
         Long userId = Objects.isNull(sysUser.getId()) ? UserConstants.NULL_USER_ID : sysUser.getId();
 
         // 修改时，同手机号同ID为手机号唯一
@@ -320,12 +319,11 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
 
     @Override
     public boolean checkEmailUnique(SysUser sysUser) {
-        QueryWrapper<SysUser> queryWrapper = new QueryWrapper<>();
+        LambdaQueryWrapper<SysUser> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper
-                .select("id", "email")
-                .eq("email", sysUser.getEmail())
-                .last("limit 1");
-        SysUser user = this.baseMapper.selectOne(queryWrapper);
+                .select(SysUser::getEmail)
+                .eq(SysUser::getEmail, sysUser.getEmail());
+        SysUser user = this.baseMapper.selectOne(queryWrapper, false);
         Long userId = Objects.isNull(sysUser.getId()) ? UserConstants.NULL_USER_ID : sysUser.getId();
 
         // 修改时，同邮箱同ID为邮箱唯一

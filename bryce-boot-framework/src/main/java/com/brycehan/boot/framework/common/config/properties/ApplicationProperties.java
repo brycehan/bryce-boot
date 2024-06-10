@@ -35,7 +35,4 @@ public class ApplicationProperties {
      */
     private boolean demoEnabled;
 
-    public static String getAvatarPath() {
-        return "/profile".concat("/avatar");
-    }
 }

@@ -1,6 +1,8 @@
 package com.brycehan.boot.framework.security.config;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
@@ -23,7 +25,8 @@ public class AuthProperties {
      */
     private IgnoreUrls ignoreUrls;
 
-    @Data
+    @Getter
+    @Setter
     public static class Jwt {
 
         /**
@@ -48,7 +51,8 @@ public class AuthProperties {
 
     }
 
-    @Data
+    @Getter
+    @Setter
     public static class IgnoreUrls {
 
         /**

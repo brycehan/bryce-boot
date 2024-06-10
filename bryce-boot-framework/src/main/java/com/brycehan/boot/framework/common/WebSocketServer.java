@@ -30,7 +30,7 @@ public class WebSocketServer {
     /**
      * 存放每个客户端对应的WebSocket对象
      */
-    private static CopyOnWriteArraySet<WebSocketServer> webSocketSet = new CopyOnWriteArraySet<>();
+    private static final CopyOnWriteArraySet<WebSocketServer> webSocketSet = new CopyOnWriteArraySet<>();
 
     /**
      * 与客户端的连接会话
@@ -45,8 +45,8 @@ public class WebSocketServer {
     /**
      * 连接建立成功调用的方法
      *
-     * @param session
-     * @param code
+     * @param session 与客户端的连接会话
+     * @param code 接收识别码
      */
     @OnOpen
     public void onOpen(Session session, @PathParam("code") String code) {
@@ -70,8 +70,8 @@ public class WebSocketServer {
     /**
      * 收到客户端消息后的调用的方法
      *
-     * @param message
-     * @param session
+     * @param message 客户端消息
+     * @param session 客户端的会话
      */
     @OnMessage
     public void onMessage(String message, Session session) {
@@ -79,15 +79,14 @@ public class WebSocketServer {
     }
 
     public void onError(Session session, Throwable throwable) {
-        log.error("websocket发生错误");
-        throwable.printStackTrace();
+        log.error("websocket发生错误", throwable);
     }
 
     /**
      * 服务器主动推送消息
      *
-     * @param message
-     * @throws IOException
+     * @param message 消息
+     * @throws IOException 异常
      */
     private void sendMessage(String message) throws IOException {
         this.session.getBasicRemote().sendText(message);
@@ -96,7 +95,7 @@ public class WebSocketServer {
     /**
      * 群发消息
      *
-     * @param message
+     * @param message 服务端消息
      */
     public void sendAll(String message) {
         log.info("推送消息到：{}，推送内容：{}", code, message);
@@ -104,7 +103,7 @@ public class WebSocketServer {
             try {
                 webSocket.sendMessage(message);
             } catch (IOException e) {
-                e.printStackTrace();
+                log.error(e.getMessage());
             }
         });
     }
@@ -123,7 +122,7 @@ public class WebSocketServer {
             try {
                 webSocketServer.get().sendMessage(message);
             } catch (IOException e) {
-                e.printStackTrace();
+                log.error(e.getMessage());
             }
         }
     }

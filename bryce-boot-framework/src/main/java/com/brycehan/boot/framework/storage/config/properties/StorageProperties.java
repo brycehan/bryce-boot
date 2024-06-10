@@ -2,6 +2,8 @@ package com.brycehan.boot.framework.storage.config.properties;
 
 import com.brycehan.boot.framework.storage.config.StorageType;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
@@ -52,7 +54,8 @@ public class StorageProperties {
      */
     private TencentStorageProperties tencent;
 
-    @Data
+    @Getter
+    @Setter
     public static class Config {
         /** 访问域名 */
         private String domain;

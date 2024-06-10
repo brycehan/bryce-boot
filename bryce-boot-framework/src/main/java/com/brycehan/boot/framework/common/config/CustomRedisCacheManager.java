@@ -1,5 +1,6 @@
 package com.brycehan.boot.framework.common.config;
 
+import jakarta.validation.constraints.NotNull;
 import org.springframework.data.redis.cache.RedisCache;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
@@ -26,10 +27,10 @@ public class CustomRedisCacheManager extends RedisCacheManager {
      * @param name {@link String name} for the {@link RedisCache}; must not be {@literal null}.
      * @param cacheConfiguration {@link RedisCacheConfiguration} used to configure the {@link RedisCache};
      * resolves to the {@link #getDefaultCacheConfiguration()} if {@literal null}.
-     * @return
+     * @return redis缓存
      */
     @Override
-    protected RedisCache createRedisCache(String name, RedisCacheConfiguration cacheConfiguration) {
+    protected @NotNull RedisCache createRedisCache(@NotNull String name, RedisCacheConfiguration cacheConfiguration) {
         String[] params = StringUtils.delimitedListToStringArray(name, "#");
         name = params[0];
 
