@@ -29,18 +29,23 @@ public class CacheConstants {
     public static final String SMS_COUNT_KEY = "sms_count:";
 
     /**
-     * 系统字典键
-     */
-    public static final String SYS_DICT_KEY = "sys_dict:";
-
-    /**
      * 登录账户密码错误次数键
      */
     public static final String PASSWORD_ERROR_COUNT_KEY = "account:password_error_count:";
 
     /**
-     * 系统配置键
+     * 获取第三方登录 key
+     */
+    public static final String SYSTEM_THIRDLOGIN_KEY = "system:thirdlogin:";
+
+    /**
+     * 系统参数键
      */
     public static final String SYSTEM_PARAM_KEY = "system:param";
+
+    /**
+     * 系统操作日志键
+     */
+    public static final String SYSTEM_OPERATE_LOG_KEY = "system:log";
 
 }

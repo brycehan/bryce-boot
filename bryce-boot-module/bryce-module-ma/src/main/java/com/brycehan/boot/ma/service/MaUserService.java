@@ -1,6 +1,5 @@
 package com.brycehan.boot.ma.service;
 
-import com.brycehan.boot.api.ma.MaUserApi;
 import com.brycehan.boot.common.base.entity.PageResult;
 import com.brycehan.boot.framework.mybatis.service.BaseService;
 import com.brycehan.boot.ma.entity.dto.MaLoginDto;
@@ -17,7 +16,7 @@ import me.chanjar.weixin.common.error.WxErrorException;
  * @author Bryce Han
  * @since 2024/04/07
  */
-public interface MaUserService extends BaseService<MaUser>, MaUserApi {
+public interface MaUserService extends BaseService<MaUser> {
 
     /**
      * 更新微信小程序用户

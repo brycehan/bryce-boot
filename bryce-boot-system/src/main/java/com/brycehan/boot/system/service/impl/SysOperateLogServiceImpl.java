@@ -4,9 +4,9 @@ import cn.hutool.core.thread.ThreadUtil;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.brycehan.boot.common.base.RedisKeys;
 import com.brycehan.boot.common.base.entity.PageResult;
 import com.brycehan.boot.common.base.id.IdGenerator;
+import com.brycehan.boot.common.constant.CacheConstants;
 import com.brycehan.boot.common.util.DateTimeUtils;
 import com.brycehan.boot.common.util.ExcelUtils;
 import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
@@ -14,9 +14,9 @@ import com.brycehan.boot.framework.operatelog.OperateLogDto;
 import com.brycehan.boot.system.entity.convert.SysOperateLogConvert;
 import com.brycehan.boot.system.entity.dto.SysOperateLogPageDto;
 import com.brycehan.boot.system.entity.po.SysOperateLog;
+import com.brycehan.boot.system.entity.vo.SysOperateLogVo;
 import com.brycehan.boot.system.mapper.SysOperateLogMapper;
 import com.brycehan.boot.system.service.SysOperateLogService;
-import com.brycehan.boot.system.entity.vo.SysOperateLogVo;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
@@ -93,7 +93,7 @@ public class SysOperateLogServiceImpl extends BaseServiceImpl<SysOperateLogMappe
             // 每次插入1000条
             for (int i = 0; i < 1000; i++) {
                 OperateLogDto operateLogDto = this.redisTemplate.opsForList()
-                        .rightPop(RedisKeys.getOperateLogKey());
+                        .rightPop(CacheConstants.SYSTEM_OPERATE_LOG_KEY);
                 if (operateLogDto == null) {
                     break;
                 }

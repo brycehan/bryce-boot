@@ -1,6 +1,6 @@
 package com.brycehan.boot.api.ma;
 
-import com.brycehan.boot.api.ma.vo.MaUserApiVo;
+import com.brycehan.boot.api.ma.vo.MaUserVo;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
@@ -17,6 +17,6 @@ public interface MaUserApi {
      * @param openid 参数key
      * @return 参数对象
      */
-    MaUserApiVo loadMaUserByOpenid(@RequestParam String openid);
+    MaUserVo loadMaUserByOpenid(@RequestParam String openid);
 
 }

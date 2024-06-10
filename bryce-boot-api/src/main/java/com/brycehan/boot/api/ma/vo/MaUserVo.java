@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
  */
 @Data
 @Schema(description = "微信小程序用户Vo")
-public class MaUserApiVo implements Serializable {
+public class MaUserVo implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;

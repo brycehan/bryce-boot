@@ -44,17 +44,13 @@ public class RedisKeys {
         return CacheConstants.SMS_COUNT_KEY + today + ":" + phone;
     }
 
-    public static String getOperateLogKey() {
-        return "system:log";
-    }
-
     /**
      * 获取第三方登录 key
      *
      * @return 第三方登录 key
      */
-    public static String getThirdLoginKey() {
-        return "third:login";
+    public static String getThirdLoginKey(String state) {
+        return CacheConstants.SYSTEM_THIRDLOGIN_KEY + state;
     }
 
 }

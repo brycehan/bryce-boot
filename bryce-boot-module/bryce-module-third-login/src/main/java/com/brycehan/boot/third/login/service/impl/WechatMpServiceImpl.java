@@ -45,7 +45,7 @@ public class WechatMpServiceImpl implements WechatMpService {
         // 生成 state 参数，用于防止 csrf
         String state = RandomStringUtils.randomAlphanumeric(64);
 
-        String cacheKey = RedisKeys.getThirdLoginKey().concat(":").concat(state);
+        String cacheKey = RedisKeys.getThirdLoginKey(state);
         this.stringRedisTemplate.opsForValue().set(cacheKey, "1", 10, TimeUnit.MINUTES);
 
         return wxMpService.buildQrConnectUrl(mpProperties.getRedirectUrl(),
@@ -63,7 +63,7 @@ public class WechatMpServiceImpl implements WechatMpService {
         // 生成 state 参数，用于防止 csrf
         String state = RandomStringUtils.randomAlphanumeric(64);
 
-        String cacheKey = RedisKeys.getThirdLoginKey().concat(":").concat(state);
+        String cacheKey = RedisKeys.getThirdLoginKey(state);
         this.stringRedisTemplate.opsForValue().set(cacheKey, "1", 10, TimeUnit.MINUTES);
 
         return wxMpService.getOAuth2Service().buildAuthorizationUrl(mpProperties.getRedirectUrl(),
@@ -78,7 +78,7 @@ public class WechatMpServiceImpl implements WechatMpService {
      */
     @Override
     public boolean checkState(String state) {
-        String cacheKey = RedisKeys.getThirdLoginKey().concat(":").concat(state);
+        String cacheKey = RedisKeys.getThirdLoginKey(state);
         String hasState = this.stringRedisTemplate.opsForValue().getAndDelete(cacheKey);
 
         return StringUtils.isNoneEmpty(hasState);
@@ -99,8 +99,8 @@ public class WechatMpServiceImpl implements WechatMpService {
      * 刷新访问的token
      *
      * @param refreshToken 刷新的token
-     * @return
-     * @throws WxErrorException
+     * @return 授权信息
+     * @throws WxErrorException 微信错误异常
      */
     @Override
     public WxOAuth2AccessToken refreshAccessToken(String refreshToken) throws WxErrorException {

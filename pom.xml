@@ -59,7 +59,7 @@
 		<hutool.version>5.8.28</hutool.version>
 		<zxing.version>3.5.3</zxing.version>
 		<guava.version>33.2.0-jre</guava.version>
-		<easyexcel.version>3.3.2</easyexcel.version>
+		<easyexcel.version>3.3.4</easyexcel.version>
 		<transmittable-thread-local.version>2.14.3</transmittable-thread-local.version>
 		<commons-text.version>1.11.0</commons-text.version>
 		<jsoup.version>1.16.1</jsoup.version>

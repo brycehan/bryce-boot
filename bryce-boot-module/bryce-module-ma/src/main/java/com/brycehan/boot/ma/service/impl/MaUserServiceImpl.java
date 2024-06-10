@@ -5,7 +5,6 @@ import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 import cn.binarywang.wx.miniapp.bean.WxMaPhoneNumberInfo;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.brycehan.boot.api.ma.vo.MaUserApiVo;
 import com.brycehan.boot.common.base.context.LoginUserContext;
 import com.brycehan.boot.common.base.entity.PageResult;
 import com.brycehan.boot.common.base.id.IdGenerator;
@@ -20,10 +19,10 @@ import com.brycehan.boot.ma.entity.dto.MaLoginDto;
 import com.brycehan.boot.ma.entity.dto.MaUserDto;
 import com.brycehan.boot.ma.entity.dto.MaUserPageDto;
 import com.brycehan.boot.ma.entity.po.MaUser;
-import com.brycehan.boot.ma.mapper.MaUserMapper;
-import com.brycehan.boot.ma.service.MaUserService;
 import com.brycehan.boot.ma.entity.vo.MaUserLoginVo;
 import com.brycehan.boot.ma.entity.vo.MaUserVo;
+import com.brycehan.boot.ma.mapper.MaUserMapper;
+import com.brycehan.boot.ma.service.MaUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.error.WxErrorException;
@@ -169,17 +168,6 @@ public class MaUserServiceImpl extends BaseServiceImpl<MaUserMapper, MaUser> imp
         loginVo.setToken(JwtConstants.TOKEN_PREFIX.concat(token));
 
         return loginVo;
-    }
-
-    @Override
-    public MaUserApiVo loadMaUserByOpenid(String openid) {
-        MaUser maUser = getByOpenId(openid);
-        if (maUser != null) {
-            MaUserApiVo maUserApiVo = new MaUserApiVo();
-            BeanUtils.copyProperties(maUser, maUserApiVo);
-            return maUserApiVo;
-        }
-        return null;
     }
 
 }

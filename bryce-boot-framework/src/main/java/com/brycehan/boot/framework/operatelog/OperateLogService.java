@@ -1,6 +1,6 @@
 package com.brycehan.boot.framework.operatelog;
 
-import com.brycehan.boot.common.base.RedisKeys;
+import com.brycehan.boot.common.constant.CacheConstants;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.annotation.Async;
@@ -20,10 +20,8 @@ public class OperateLogService {
 
     @Async
     public void save(OperateLogDto operateLogDto){
-        String operateLogKey = RedisKeys.getOperateLogKey();
-
         // 保存到Redis队列
         this.redisTemplate.opsForList()
-                .leftPush(operateLogKey, operateLogDto);
+                .leftPush(CacheConstants.SYSTEM_OPERATE_LOG_KEY, operateLogDto);
     }
 }

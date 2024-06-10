@@ -26,17 +26,17 @@ public class SequenceUtils {
     /**
      * 通用接口序列数
      */
-    private static AtomicInteger commonSequence = new AtomicInteger(1);
+    private static final AtomicInteger commonSequence = new AtomicInteger(1);
 
     /**
      * 上传接口序列数
      */
-    private static AtomicInteger uploadSequence = new AtomicInteger(1);
+    private static final AtomicInteger uploadSequence = new AtomicInteger(1);
 
     /**
      * 机器标识
      */
-    private static String machineCode = "A";
+    private static final String machineCode = "A";
 
     /**
      * 通用接口序列号 yyyyMMddHHmmssSSS + 一位机器标识 + length长度循环递增字符串

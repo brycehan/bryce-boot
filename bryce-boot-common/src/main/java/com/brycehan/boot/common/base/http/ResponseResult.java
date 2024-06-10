@@ -50,14 +50,32 @@ public class ResponseResult<T> implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS", timezone = "GMT+8")
     private LocalDateTime time;
 
+    /**
+     * 响应成功
+     *
+     * @return 响应结果
+     */
     public static <T> ResponseResult<T> ok() {
         return ok(null);
     }
 
+    /**
+     * 响应成功
+     *
+     * @param data 响应数据
+     * @return 响应结果
+     */
     public static <T> ResponseResult<T> ok(T data) {
         return ok(data, HttpResponseStatus.HTTP_OK.message());
     }
 
+    /**
+     * 响应成功
+     *
+     * @param data    响应数据
+     * @param message 响应消息
+     * @return 响应结果
+     */
     public static <T> ResponseResult<T> ok(T data, String message) {
         ResponseResult<T> responseResult = new ResponseResult<>();
         responseResult.setData(data);
@@ -66,14 +84,32 @@ public class ResponseResult<T> implements Serializable {
         return responseResult;
     }
 
+    /**
+     * 响应失败
+     *
+     * @return 响应结果
+     */
     public static <T> ResponseResult<T> error() {
         return error(HttpResponseStatus.HTTP_INTERNAL_ERROR);
     }
 
+    /**
+     * 响应失败
+     *
+     * @param message 响应消息
+     * @return 响应结果
+     */
     public static <T> ResponseResult<T> error(String message) {
         return error(HttpResponseStatus.HTTP_INTERNAL_ERROR.code(), message);
     }
 
+    /**
+     * 响应失败
+     *
+     * @param code    响应编码
+     * @param message 响应消息
+     * @return 响应结果
+     */
     public static <T> ResponseResult<T> error(Integer code, String message) {
         ResponseResult<T> responseResult = new ResponseResult<>();
         responseResult.setCode(code);
@@ -82,14 +118,33 @@ public class ResponseResult<T> implements Serializable {
         return responseResult;
     }
 
+    /**
+     * 响应失败
+     *
+     * @param responseStatus 响应状态
+     * @return 响应结果
+     */
     public static <T> ResponseResult<T> error(ResponseStatus responseStatus) {
         return error(responseStatus.code(), responseStatus.message());
     }
 
+   /**
+     * 响应失败
+     *
+     * @param responseStatus 响应状态
+     * @param params         参数
+     * @return 响应结果
+     */
     public static <T> ResponseResult<T> error(ResponseStatus responseStatus, String ...params) {
         return error(responseStatus.code(), StringFormatUtils.format(responseStatus.message(), params));
     }
 
+    /**
+     * 响应失败
+     *
+     * @param serverException 服务异常
+     * @return 响应结果
+     */
     public static <T> ResponseResult<T> error(ServerException serverException) {
         return error(serverException.getCode(), serverException.getMessage());
     }

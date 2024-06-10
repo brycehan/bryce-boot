@@ -17,7 +17,7 @@ public interface SmsApi {
      * 发送短信
      *
      * @param phone 手机号
-     * @param templateId 模板ID
+     * @param smsType 短信类型
      * @param params 参数
      * @return 是否发送成功
      */
