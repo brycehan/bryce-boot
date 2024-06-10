@@ -1,7 +1,6 @@
 package com.brycehan.boot.mp.common.handler;
 
 import lombok.extern.slf4j.Slf4j;
-import me.chanjar.weixin.common.error.WxErrorException;
 import me.chanjar.weixin.common.session.WxSessionManager;
 import me.chanjar.weixin.mp.api.WxMpMessageHandler;
 import me.chanjar.weixin.mp.api.WxMpService;
@@ -23,7 +22,7 @@ public class StoreCheckNotifyHandler implements WxMpMessageHandler {
 
     @Override
     public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage, Map<String, Object> context,
-                                    WxMpService wxMpService, WxSessionManager sessionManager) throws WxErrorException {
+                                    WxMpService wxMpService, WxSessionManager sessionManager) {
 
         log.info("处理门店审核事件");
 

@@ -18,12 +18,12 @@ import java.util.List;
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface SysPostConvert {
 
-    public static final SysPostConvert INSTANCE = Mappers.getMapper(SysPostConvert.class);
+    SysPostConvert INSTANCE = Mappers.getMapper(SysPostConvert.class);
 
-    public abstract SysPost convert(SysPostDto sysPostDto);
+    SysPost convert(SysPostDto sysPostDto);
 
-    public abstract SysPostVo convert(SysPost sysPost);
+    SysPostVo convert(SysPost sysPost);
 
-    public abstract List<SysPostVo> convert(List<SysPost> sysPostList);
+    List<SysPostVo> convert(List<SysPost> sysPostList);
 
 }

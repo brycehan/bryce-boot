@@ -6,6 +6,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serial;
+
 /**
  * 系统角色菜单中间表分页数据传输对象
  *
@@ -17,6 +19,7 @@ import lombok.Setter;
 @Schema(description = "SysRoleMenuPageDto对象")
 public class SysRoleMenuPageDto extends BasePageDto {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     /**

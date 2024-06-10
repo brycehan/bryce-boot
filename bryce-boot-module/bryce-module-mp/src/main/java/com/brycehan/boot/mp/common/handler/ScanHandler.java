@@ -3,7 +3,6 @@ package com.brycehan.boot.mp.common.handler;
 import com.brycehan.boot.mp.service.MpMessageReplyService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.chanjar.weixin.common.error.WxErrorException;
 import me.chanjar.weixin.common.session.WxSessionManager;
 import me.chanjar.weixin.mp.api.WxMpMessageHandler;
 import me.chanjar.weixin.mp.api.WxMpService;
@@ -28,7 +27,7 @@ public class ScanHandler implements WxMpMessageHandler {
 
     @Override
     public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage, Map<String, Object> context,
-                                    WxMpService wxMpService, WxSessionManager sessionManager) throws WxErrorException {
+                                    WxMpService wxMpService, WxSessionManager sessionManager) {
 
         // 扫码事件处理
         log.info("用户扫描带参二维码，openid：{}", wxMessage.getFromUser());

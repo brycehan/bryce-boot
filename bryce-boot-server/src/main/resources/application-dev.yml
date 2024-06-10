@@ -2,7 +2,7 @@ spring: # spring 配置
   datasource: # 数据源配置
     dynamic:
       primary: master # 设置默认的数据源或者数据源组,默认值即为 master
-      p6spy: false
+      p6spy: true
       hikari: # Hikari 连接池全局配置
         connection-timeout: 30000 # 等待连接池分配连接的最大时长（毫秒），超过这个时长还没有可用的连接则发生 SQLException，默认：30秒
         minimum-idle: 2           # 最小空闲连接数
@@ -51,12 +51,6 @@ spring: # spring 配置
         max-size: 100
         queue-capacity: 100
         keep-alive: 60s
-
-# 自定义配置
-bryce:
-  jwt:
-    # 测试24小时有效期
-    token-validity-in-seconds: 86400
 
 # 日志配置
 logging:

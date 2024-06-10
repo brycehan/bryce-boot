@@ -60,12 +60,6 @@ server:
       max: 1000
       min-spare: 200
 
-# 自定义配置
-bryce:
-  jwt:
-    # 测试24小时有效期
-    token-validity-in-seconds: 86400
-
 # 日志配置
 logging:
   level:

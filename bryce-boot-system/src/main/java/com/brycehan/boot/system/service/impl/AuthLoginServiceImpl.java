@@ -67,7 +67,7 @@ public class AuthLoginServiceImpl implements AuthLoginService {
             authentication = this.authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(accountLoginDto.getUsername(), accountLoginDto.getPassword()));
         } catch (AuthenticationException e) {
-            log.info("认证失败，{}", e.getMessage());
+            log.info("loginByAccount，认证失败，{}", e.getMessage());
             // 添加密码错误重试缓存
             this.authPasswordRetryService.retryCount(accountLoginDto.getUsername());
             throw new RuntimeException("用户名或密码错误");
@@ -87,7 +87,7 @@ public class AuthLoginServiceImpl implements AuthLoginService {
             PhoneCodeAuthenticationToken authenticationToken = new PhoneCodeAuthenticationToken(phoneLoginDto.getPhone(), phoneLoginDto.getCode());
             authentication = this.authenticationManager.authenticate(authenticationToken);
         } catch (AuthenticationException e) {
-            log.info("认证失败，{}", e.getMessage());
+            log.info("loginByPhone，认证失败，{}", e.getMessage());
             throw new RuntimeException("手机号或验证码错误");
         }
 

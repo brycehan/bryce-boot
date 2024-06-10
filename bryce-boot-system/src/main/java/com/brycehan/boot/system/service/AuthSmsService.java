@@ -15,7 +15,6 @@ public interface AuthSmsService {
      *
      * @param phone 手机号
      * @param smsType 短信类型
-     * @return 发送结果（true：发送成功，false：发送失败）
      */
     void sendCode(String phone, SmsType smsType);
 

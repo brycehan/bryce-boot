@@ -128,7 +128,7 @@ public class WechatJsapiPayServiceImpl implements WechatJsapiPayService {
     @Override
     public void checkOrderStatus(String orderNo, boolean cancel) {
 
-        log.warn("根据订单号核实订单状态 ---> {}", orderNo);
+        log.warn("checkOrderStatus，根据订单号核实订单状态 ---> {}", orderNo);
 
         // 调用微信支付查单接口
         Transaction transaction = this.queryOrder(orderNo);
@@ -148,7 +148,7 @@ public class WechatJsapiPayServiceImpl implements WechatJsapiPayService {
         }
 
         if(cancel && Transaction.TradeStateEnum.NOTPAY.name().equals(tradeState)) {
-            log.warn("核实订单未支付 ---> {}", orderNo);
+            log.warn("checkOrderStatus，核实订单未支付 ---> {}", orderNo);
 
             // 如果订单未支付，则调用关单接口
             this.closeOrder(orderNo);

@@ -39,13 +39,13 @@ public class AlipayTask {
     @Scheduled(cron = "0 * * * * ?")
     public void orderConfirm() {
 
-        log.info("orderConfirm 被执行......");
+        log.info("orderConfirm，被执行......");
 
         List<PayOrder> payOrderList = this.payOrderService.getNoPayOrderByDuration(1, PayType.ALI_PAY);
 
         for (PayOrder payOrder : payOrderList) {
             String orderNo = payOrder.getOrderNo();
-            log.warn("检查超时订单，订单号：{}", orderNo);
+            log.warn("orderConfirm，检查超时订单，订单号：{}", orderNo);
 
             // 核实订单状态：调用支付宝查单接口
             this.alipayService.checkOrderStatus(orderNo, false);
@@ -65,7 +65,7 @@ public class AlipayTask {
 
         for (PayOrder payOrder : payOrderList) {
             String orderNo = payOrder.getOrderNo();
-            log.warn("检查超时订单，订单号：{}", orderNo);
+            log.warn("orderCancel检查超时订单，订单号：{}", orderNo);
 
             // 核实订单状态：调用支付宝支付查单接口
             this.alipayService.checkOrderStatus(orderNo, true);

@@ -18,7 +18,6 @@
         <result column="union_id" property="unionId" />
         <result column="account" property="account" />
         <result column="birthday" property="birthday" />
-        <result column="full_location" property="fullLocation" />
         <result column="profession" property="profession" />
         <result column="tag_ids" property="tagIds" />
         <result column="group_id" property="groupId" />
@@ -37,7 +36,7 @@
     <sql id="Base_Column_List">
         id, nickname, avatar, gender, country,
         province, city, county, language, phone, open_id,
-        union_id, account, birthday, full_location, profession,
+        union_id, account, birthday, profession,
         tag_ids, group_id, qr_scene_str, geo_latitude, geo_longitude,
         geo_precision, session_key, remark, created_time,
         updated_time

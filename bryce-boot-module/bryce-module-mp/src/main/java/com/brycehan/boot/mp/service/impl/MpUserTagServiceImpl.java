@@ -145,7 +145,7 @@ public class MpUserTagServiceImpl implements MpUserTagService {
         try {
             this.wxMpService.getUserTagService().batchUntagging(tagId, new String[]{ openid });
         } catch (WxErrorException e) {
-            log.error("给公众号粉丝取消标签失败，openid：{}，tagId：{}，错误消息：{}", openid, tagId, e.getMessage());
+            log.error("untagging给公众号粉丝取消标签失败，openid：{}，tagId：{}，错误消息：{}", openid, tagId, e.getMessage());
             throw new RuntimeException("给公众号粉丝取消标签失败");
         }
         this.mpUserService.refreshUserInfo(openid);
@@ -162,7 +162,7 @@ public class MpUserTagServiceImpl implements MpUserTagService {
         try {
             this.wxMpService.getUserTagService().batchUntagging(tagId, openidList);
         } catch (WxErrorException e) {
-            log.error("给公众号粉丝取消标签失败，openid：{}，tagId：{}，错误消息：{}", Arrays.toString(openidList), tagId, e.getMessage());
+            log.error("untaggingBatch给公众号粉丝取消标签失败，openid：{}，tagId：{}，错误消息：{}", Arrays.toString(openidList), tagId, e.getMessage());
             throw new RuntimeException("给公众号粉丝取消标签失败");
         }
         this.mpUserService.refreshUserInfoAsync(openidList);

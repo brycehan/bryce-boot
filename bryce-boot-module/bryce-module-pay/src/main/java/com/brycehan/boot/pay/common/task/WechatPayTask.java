@@ -45,7 +45,7 @@ public class WechatPayTask {
 
         for (PayOrder payOrder : payOrderList) {
             String orderNo = payOrder.getOrderNo();
-            log.warn("检查超时订单 ---> {}", orderNo);
+            log.warn("orderConfirm检查超时，订单号：{}", orderNo);
 
             // 核实订单状态：调用微信支付查单接口
             this.wechatNativePayService.checkOrderStatus(orderNo, false);
@@ -65,7 +65,7 @@ public class WechatPayTask {
 
         for (PayOrder payOrder : payOrderList) {
             String orderNo = payOrder.getOrderNo();
-            log.warn("检查超时订单 ---> {}", orderNo);
+            log.warn("orderCancel，检查超时，订单号：{}", orderNo);
 
             // 核实订单状态：调用微信支付查单接口
             this.wechatNativePayService.checkOrderStatus(orderNo, true);

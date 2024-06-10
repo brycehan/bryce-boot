@@ -71,7 +71,7 @@ public class QuartzUtils {
                 scheduler.pauseJob(jobKey);
             }
         } catch (SchedulerException e) {
-            log.error("创建定时任务失败");
+            log.error("createScheduleJob创建定时任务失败");
             throw new RuntimeException(e);
         }
 
@@ -94,7 +94,7 @@ public class QuartzUtils {
                 scheduler.deleteJob(jobKey);
             }
         } catch (SchedulerException e) {
-            log.error("创建定时任务失败");
+            log.error("updateSchedulerJob创建定时任务失败");
             throw new RuntimeException(e);
         }
 

@@ -5,7 +5,6 @@ import com.brycehan.boot.mp.entity.po.MpMessage;
 import com.brycehan.boot.mp.service.MpMessageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.chanjar.weixin.common.error.WxErrorException;
 import me.chanjar.weixin.common.session.WxSessionManager;
 import me.chanjar.weixin.mp.api.WxMpMessageHandler;
 import me.chanjar.weixin.mp.api.WxMpService;
@@ -30,7 +29,7 @@ public class LogHandler implements WxMpMessageHandler {
 
     @Override
     public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage, Map<String, Object> context,
-                                    WxMpService wxMpService, WxSessionManager sessionManager) throws WxErrorException {
+                                    WxMpService wxMpService, WxSessionManager sessionManager) {
 
         try {
             log.info("接收到请求消息，内容：{}", JsonUtils.writeValueAsString(wxMessage));

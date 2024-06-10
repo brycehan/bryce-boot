@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.locks.ReentrantLock;
@@ -73,7 +74,7 @@ public class AlipayServiceImpl implements AlipayService {
             // 必传参数
             AlipayTradePagePayModel model = new AlipayTradePagePayModel();
             model.setOutTradeNo(payOrder.getOrderNo()); // 商户订单号，商家自定义，保持唯一性
-            BigDecimal totalAmount = new BigDecimal(payOrder.getTotalFee()).divide(new BigDecimal(100));
+            BigDecimal totalAmount = new BigDecimal(payOrder.getTotalFee()).divide(new BigDecimal(100), 2, RoundingMode.HALF_UP);
             model.setTotalAmount(totalAmount.toPlainString()); // 支付金额，单位元
             model.setSubject(payOrder.getTitle()); // 订单标题，不可使用特殊符号
             model.setProductCode("FAST_INSTANT_TRADE_PAY");// 电脑网站支付场景固定传值FAST_INSTANT_TRADE_PAY
@@ -85,14 +86,14 @@ public class AlipayServiceImpl implements AlipayService {
             System.out.println(pageRedirectionData);
 
             if (response.isSuccess()) {
-               log.info("调用成功，返回结果：{}", response.getBody());
+               log.info("pagePay调用成功，返回结果：{}", response.getBody());
                return response.getBody();
             } else {
-                log.error("调用失败，返回码：{}，返回描述：{}", response.getCode(), response.getMsg());
+                log.error("pagePay调用失败，返回码：{}，返回描述：{}", response.getCode(), response.getMsg());
                 throw new RuntimeException("创建支付宝支付交易失败");
             }
         } catch (AlipayApiException e) {
-            log.error("调用失败，返回码：{}，返回描述：{}", e.getErrCode(), e.getErrCode());
+            log.error("pagePay调用异常，返回码：{}，返回描述：{}", e.getErrCode(), e.getErrMsg());
             throw new RuntimeException("创建支付宝支付交易失败");
         }
     }
@@ -149,14 +150,14 @@ public class AlipayServiceImpl implements AlipayService {
             // 调用接口
             AlipayTradeQueryResponse response = alipayClient.execute(request);
             if (response.isSuccess()) {
-                log.info("调用成功，返回结果：{}", response.getBody());
+                log.info("queryOrder调用成功，返回结果：{}", response.getBody());
                 return  response.getBody();
             } else {
-                log.error("调用失败，返回码：{}，返回描述：{}", response.getCode(), response.getMsg());
+                log.error("queryOrder调用失败，返回码：{}，返回描述：{}", response.getCode(), response.getMsg());
                 return null; // 订单不存在
             }
         } catch (AlipayApiException e) {
-            log.error("支付宝调用失败，返回码：{}，返回描述：{}", e.getErrCode(), e.getErrMsg());
+            log.error("queryOrder支付宝调用失败，返回码：{}，返回描述：{}", e.getErrCode(), e.getErrMsg());
             throw new RuntimeException("支付宝查单接口调用失败");
         }
     }
@@ -229,7 +230,7 @@ public class AlipayServiceImpl implements AlipayService {
             // 组装请求参数
             AlipayTradeRefundModel model = new AlipayTradeRefundModel();
             model.setOutTradeNo(orderNo);
-            BigDecimal refund = new BigDecimal(payRefund.getRefund()).divide(new BigDecimal(100));
+            BigDecimal refund = new BigDecimal(payRefund.getRefund()).divide(new BigDecimal(100), 2, RoundingMode.HALF_UP);
             model.setRefundAmount(refund.toPlainString());
             model.setRefundReason(reason);
 
@@ -238,7 +239,7 @@ public class AlipayServiceImpl implements AlipayService {
             // 执行请求，调用支付宝接口
             AlipayTradeRefundResponse response = alipayClient.execute(request);
             if (response.isSuccess()) {
-                log.info("调用成功，返回结果：{}", response.getBody());
+                log.info("refund调用成功，返回结果：{}", response.getBody());
 
                 // 更新订单状态
                 this.payOrderService.updateStatusByOrderNo(orderNo, OrderStatus.REFUND_SUCCESS);
@@ -249,7 +250,7 @@ public class AlipayServiceImpl implements AlipayService {
                         response.getBody(),
                         AlipayTradeState.REFUND_SUCCESS);
             } else {
-                log.info("调用失败，返回码：{}，返回消息：{}", response.getCode(), response.getMsg());
+                log.info("refund调用失败，返回码：{}，返回消息：{}", response.getCode(), response.getMsg());
 
                 // 更新订单状态
                 this.payOrderService.updateStatusByOrderNo(orderNo, OrderStatus.REFUND_ABNORMAL);
@@ -282,14 +283,14 @@ public class AlipayServiceImpl implements AlipayService {
 
             AlipayTradeFastpayRefundQueryResponse response = alipayClient.execute(request);
             if (response.isSuccess()) {
-                log.info("调用成功，返回结果：{}", response.getBody());
+                log.info("queryRefund调用成功，返回结果：{}", response.getBody());
                 return response.getBody();
             } else {
-                log.info("调用失败，返回码：{}，返回消息：{}", response.getCode(), response.getMsg());
+                log.info("queryRefund调用失败，返回码：{}，返回消息：{}", response.getCode(), response.getMsg());
                 return null; // 订单不存在
             }
         } catch (AlipayApiException e) {
-            log.info("调用失败，返回码：{}，返回消息：{}", e.getErrCode(), e.getErrMsg());
+            log.info("queryRefund调用异常，返回码：{}，返回消息：{}", e.getErrCode(), e.getErrMsg());
             throw new RuntimeException("统一收单交易退款查询失败");
         }
     }
@@ -308,7 +309,7 @@ public class AlipayServiceImpl implements AlipayService {
             AlipayDataDataserviceBillDownloadurlQueryResponse response = alipayClient.execute(request);
 
             if (response.isSuccess()) {
-                log.info("调用成功，返回结果：{}", response.getBody());
+                log.info("queryBill调用成功，返回结果：{}", response.getBody());
 
                 // 获取账号下载地址
                 HashMap<String, JSONObject> resultMap = JSONUtil.toBean(response.getBody(), HashMap.class);
@@ -316,7 +317,7 @@ public class AlipayServiceImpl implements AlipayService {
 
                 return (String) billDownloadurlQueryResponse.get("bill_download_url");
             } else {
-                log.info("调用失败，返回码：{}，返回消息：{}", response.getCode(), response.getMsg());
+                log.info("queryBill调用失败，返回码：{}，返回消息：{}", response.getCode(), response.getMsg());
                 throw new RuntimeException("申请账号失败");
             }
 

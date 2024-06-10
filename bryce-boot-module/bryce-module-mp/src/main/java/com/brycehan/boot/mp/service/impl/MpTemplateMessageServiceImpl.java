@@ -18,7 +18,6 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
@@ -65,9 +64,6 @@ public class MpTemplateMessageServiceImpl implements MpTemplateMessageService {
                 .miniProgram(batchDto.getMiniProgram())
                 .data(batchDto.getData());
         Map<String, Object> filterParams = batchDto.getMpUserFilterParams();
-        if (filterParams == null) {
-            filterParams = new HashMap<>();
-        }
         int page = 1;
         MpUserPageDto mpUserPageDto = new MpUserPageDto();
         mpUserPageDto.setSize(500);

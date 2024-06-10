@@ -108,7 +108,7 @@ public class WechatNativePayServiceImpl implements WechatNativePayService {
     @Override
     public void checkOrderStatus(String orderNo, boolean cancel) {
 
-        log.warn("根据订单号核实订单状态 ---> {}", orderNo);
+        log.warn("checkOrderStatus，根据订单号核实订单状态，订单号：{}", orderNo);
 
         // 调用微信支付查单接口
         Transaction transaction = this.queryOrder(orderNo);
@@ -118,7 +118,7 @@ public class WechatNativePayServiceImpl implements WechatNativePayService {
 
         // 判断订单状态
         if(Transaction.TradeStateEnum.SUCCESS.name().equals(tradeState)) {
-            log.warn("核实订单已支付 ---> {}", orderNo);
+            log.warn("checkOrderStatus，核实订单已支付，订单号：{}", orderNo);
 
             // 如果确认订单已支付则更新本地订单状态
             this.payOrderService.updateStatusByOrderNo(orderNo, OrderStatus.SUCCESS);
