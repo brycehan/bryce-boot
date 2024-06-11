@@ -100,7 +100,7 @@ public class MpTemplateMessageLogController {
      * @param mpTemplateMessageLogPageDto 查询条件
      * @return 微信公众号模版消息发送记录分页列表
      */
-    @Operation(summary = "分页查询")
+    @Operation(summary = "微信公众号模版消息发送记录分页查询")
     @PreAuthorize("hasAuthority('mp:templateMessageLog:page')")
     @PostMapping(path = "/page")
     public ResponseResult<PageResult<MpTemplateMessageLogVo>> page(@Validated @RequestBody MpTemplateMessageLogPageDto mpTemplateMessageLogPageDto) {

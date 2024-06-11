@@ -104,7 +104,7 @@ public class MpMessageTemplateController {
      * @param mpMessageTemplatePageDto 查询条件
      * @return 微信公众号消息模板分页列表
      */
-    @Operation(summary = "分页查询")
+    @Operation(summary = "微信公众号消息模板分页查询")
     @PreAuthorize("hasAuthority('mp:messageTemplate:page')")
     @PostMapping(path = "/page")
     public ResponseResult<PageResult<MpMessageTemplateVo>> page(@Validated @RequestBody MpMessageTemplatePageDto mpMessageTemplatePageDto) {

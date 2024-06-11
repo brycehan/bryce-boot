@@ -100,7 +100,7 @@ public class MpMessageReplyRuleController {
      * @param mpMessageReplyRulePageDto 查询条件
      * @return 微信公众号消息回复规则分页列表
      */
-    @Operation(summary = "分页查询")
+    @Operation(summary = "微信公众号消息回复规则分页查询")
     @PreAuthorize("hasAuthority('mp:messageReplyRule:page')")
     @PostMapping(path = "/page")
     public ResponseResult<PageResult<MpMessageReplyRuleVo>> page(@Validated @RequestBody MpMessageReplyRulePageDto mpMessageReplyRulePageDto) {

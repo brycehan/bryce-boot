@@ -101,7 +101,7 @@ public class MpQrCodeController {
      * @param mpQrCodePageDto 查询条件
      * @return 微信公众号带参二维码分页列表
      */
-    @Operation(summary = "分页查询")
+    @Operation(summary = "微信公众号带参二维码分页查询")
     @PreAuthorize("hasAuthority('mp:qrCode:page')")
     @PostMapping(path = "/page")
     public ResponseResult<PageResult<MpQrCodeVo>> page(@Validated @RequestBody MpQrCodePageDto mpQrCodePageDto) {

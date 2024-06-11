@@ -103,7 +103,7 @@ public class MpUserController {
      * @param mpUserPageDto 查询条件
      * @return 微信公众号粉丝分页列表
      */
-    @Operation(summary = "分页查询")
+    @Operation(summary = "微信公众号粉丝分页查询")
     @PreAuthorize("hasAuthority('mp:user:page')")
     @PostMapping(path = "/page")
     public ResponseResult<PageResult<MpUserVo>> page(@Validated @RequestBody MpUserPageDto mpUserPageDto) {
@@ -124,12 +124,12 @@ public class MpUserController {
     }
 
     /**
-     * 列表查询
+     * 微信公众号粉丝列表查询
      *
      * @param openIds 查询条件
      * @return 微信公众号粉丝列表
      */
-    @Operation(summary = "分页查询")
+    @Operation(summary = "微信公众号粉丝列表查询")
     @PreAuthorize("hasAuthority('mp:user:list')")
     @PostMapping(path = "/list")
     public ResponseResult<List<MpUserVo>> list(@RequestBody String[] openIds) {

@@ -76,12 +76,12 @@ public class MaUserController {
     }
 
     /**
-     * 分页查询
+     * 微信小程序用户分页查询
      *
      * @param maUserPageDto 查询条件
      * @return 微信小程序用户分页列表
      */
-    @Operation(summary = "分页查询")
+    @Operation(summary = "微信小程序用户分页查询")
     @PreAuthorize("hasAuthority('ma:user:page')")
     @PostMapping(path = "/page")
     public ResponseResult<PageResult<MaUserVo>> page(@Validated @RequestBody MaUserPageDto maUserPageDto) {

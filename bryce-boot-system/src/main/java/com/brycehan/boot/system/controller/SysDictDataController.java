@@ -100,7 +100,7 @@ public class SysDictDataController {
      * @param sysDictDataPageDto 查询条件
      * @return 系统字典数据分页列表
      */
-    @Operation(summary = "分页查询")
+    @Operation(summary = "系统字典数据分页查询")
     @PreAuthorize("hasAuthority('system:dictData:page')")
     @PostMapping(path = "/page")
     public ResponseResult<PageResult<SysDictDataVo>> page(@Validated @RequestBody SysDictDataPageDto sysDictDataPageDto) {

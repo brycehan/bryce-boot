@@ -95,12 +95,12 @@ public class PayRefundController {
     }
 
     /**
-     * 分页查询
+     * 退款单分页查询
      *
      * @param payRefundPageDto 查询条件
      * @return 退款单分页列表
      */
-    @Operation(summary = "分页查询")
+    @Operation(summary = "退款单分页查询")
     @PreAuthorize("hasAuthority('pay:refund:page')")
     @PostMapping(path = "/page")
     public ResponseResult<PageResult<PayRefundVo>> page(@Validated @RequestBody PayRefundPageDto payRefundPageDto) {

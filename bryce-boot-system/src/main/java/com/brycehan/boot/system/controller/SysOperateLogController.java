@@ -67,7 +67,7 @@ public class SysOperateLogController {
      * @param sysOperateLogPageDto 查询条件
      * @return 系统操作日志分页列表
      */
-    @Operation(summary = "分页查询")
+    @Operation(summary = "系统操作日志分页查询")
     @PreAuthorize("hasAuthority('system:operateLog:page')")
     @PostMapping(path = "/page")
     public ResponseResult<PageResult<SysOperateLogVo>> page(@Validated @RequestBody SysOperateLogPageDto sysOperateLogPageDto) {

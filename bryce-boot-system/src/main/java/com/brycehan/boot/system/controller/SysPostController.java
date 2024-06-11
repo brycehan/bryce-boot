@@ -103,7 +103,7 @@ public class SysPostController {
      * @param sysPostPageDto 查询条件
      * @return 系统岗位分页列表
      */
-    @Operation(summary = "分页查询")
+    @Operation(summary = "系统岗位分页查询")
     @PreAuthorize("hasAuthority('system:post:page')")
     @PostMapping(path = "/page")
     public ResponseResult<PageResult<SysPostVo>> page(@Validated @RequestBody SysPostPageDto sysPostPageDto) {

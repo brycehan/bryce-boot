@@ -46,7 +46,7 @@ public class OnlineUserController {
      * @param onlineUserPageDto 查询条件
      * @return 在线用户分页列表
      */
-    @Operation(summary = "分页查询")
+    @Operation(summary = "在线用户分页查询")
     @PreAuthorize("hasAuthority('monitor:onlineUser:page')")
     @PostMapping(path = "/page")
     public ResponseResult<PageResult<OnlineUserVo>> page(@Validated @RequestBody OnlineUserPageDto onlineUserPageDto) {

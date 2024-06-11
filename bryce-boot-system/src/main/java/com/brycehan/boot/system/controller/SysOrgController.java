@@ -112,7 +112,7 @@ public class SysOrgController {
      * @param sysOrgPageDto 查询条件
      * @return 系统机构分页列表
      */
-    @Operation(summary = "分页查询")
+    @Operation(summary = "系统机构分页查询")
     @PreAuthorize("hasAuthority('system:org:page')")
     @PostMapping(path = "/page")
     public ResponseResult<PageResult<SysOrgVo>> page(@Validated @RequestBody SysOrgPageDto sysOrgPageDto) {

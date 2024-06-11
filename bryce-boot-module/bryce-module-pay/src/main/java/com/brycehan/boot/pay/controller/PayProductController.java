@@ -95,12 +95,12 @@ public class PayProductController {
     }
 
     /**
-     * 分页查询
+     * 商品分页查询
      *
      * @param payProductPageDto 查询条件
      * @return 商品分页列表
      */
-    @Operation(summary = "分页查询")
+    @Operation(summary = "商品分页查询")
     @PreAuthorize("hasAuthority('pay:product:page')")
     @PostMapping(path = "/page")
     public ResponseResult<PageResult<PayProductVo>> page(@Validated @RequestBody PayProductPageDto payProductPageDto) {

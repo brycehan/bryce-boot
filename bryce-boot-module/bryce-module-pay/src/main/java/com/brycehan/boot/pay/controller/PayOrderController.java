@@ -65,12 +65,12 @@ public class PayOrderController {
     }
 
     /**
-     * 分页查询
+     * 订单分页查询
      *
      * @param payOrderPageDto 查询条件
      * @return 订单分页列表
      */
-    @Operation(summary = "分页查询")
+    @Operation(summary = "订单分页查询")
     @PreAuthorize("hasAuthority('pay:order:page')")
     @PostMapping(path = "/page")
     public ResponseResult<PageResult<PayOrderVo>> page(@Validated @RequestBody PayOrderPageDto payOrderPageDto) {

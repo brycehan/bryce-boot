@@ -98,12 +98,12 @@ public class MpMessageController {
     }
 
     /**
-     * 分页查询
+     * 微信公众号消息分页
      *
      * @param mpMessagePageDto 查询条件
      * @return 微信公众号消息分页列表
      */
-    @Operation(summary = "分页查询")
+    @Operation(summary = "微信公众号消息分页")
     @PreAuthorize("hasAuthority('mp:message:page')")
     @PostMapping(path = "/page")
     public ResponseResult<PageResult<MpMessageVo>> page(@Validated @RequestBody MpMessagePageDto mpMessagePageDto) {
@@ -124,12 +124,12 @@ public class MpMessageController {
     }
 
     /**
-     * 回复消息
+     * 微信公众号回复消息
      *
      * @param replyDto 查询条件
      * @return 响应结果
      */
-    @Operation(summary = "分页查询")
+    @Operation(summary = "微信公众号回复消息")
     @PreAuthorize("hasAuthority('mp:message:page')")
     @PostMapping(path = "/reply")
     public ResponseResult<Void> reply(@Validated @RequestBody MpMessageReplyDto replyDto) {

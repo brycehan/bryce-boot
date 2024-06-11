@@ -126,7 +126,7 @@ public class SysRoleController {
      * @param sysRolePageDto 查询条件
      * @return 系统角色分页列表
      */
-    @Operation(summary = "分页查询")
+    @Operation(summary = "系统角色分页查询")
     @PreAuthorize("hasAuthority('system:role:page')")
     @PostMapping(path = "/page")
     public ResponseResult<PageResult<SysRoleVo>> page(@Validated @RequestBody SysRolePageDto sysRolePageDto) {

@@ -118,7 +118,7 @@ public class QuartzJobController {
      * @param quartzJobPageDto 查询条件
      * @return quartz定时任务调度分页列表
      */
-    @Operation(summary = "分页查询")
+    @Operation(summary = "quartz定时任务调度分页查询")
     @PreAuthorize("hasAuthority('quartz:job:page')")
     @PostMapping(path = "/page")
     public ResponseResult<PageResult<QuartzJobVo>> page(@Validated @RequestBody QuartzJobPageDto quartzJobPageDto) {

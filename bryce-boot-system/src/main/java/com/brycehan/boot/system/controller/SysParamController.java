@@ -101,7 +101,7 @@ public class SysParamController {
      * @param sysParamPageDto 查询条件
      * @return 系统参数分页列表
      */
-    @Operation(summary = "分页查询")
+    @Operation(summary = "系统参数分页查询")
     @PreAuthorize("hasAuthority('system:param:page')")
     @PostMapping(path = "/page")
     public ResponseResult<PageResult<SysParamVo>> page(@Validated @RequestBody SysParamPageDto sysParamPageDto) {
