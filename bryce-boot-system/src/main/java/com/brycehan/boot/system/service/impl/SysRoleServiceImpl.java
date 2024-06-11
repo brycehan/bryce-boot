@@ -10,6 +10,7 @@ import com.brycehan.boot.common.enums.DataScopeType;
 import com.brycehan.boot.common.util.ExcelUtils;
 import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
 import com.brycehan.boot.system.entity.convert.SysRoleConvert;
+import com.brycehan.boot.system.entity.dto.SysRoleCodeDto;
 import com.brycehan.boot.system.entity.dto.SysRoleDataScopeDto;
 import com.brycehan.boot.system.entity.dto.SysRoleDto;
 import com.brycehan.boot.system.entity.dto.SysRolePageDto;
@@ -161,6 +162,18 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
                     .stream().map(SysRole::getName).toList();
         }
         return new ArrayList<>();
+    }
+
+    @Override
+    public boolean checkCodeUnique(SysRoleCodeDto sysRoleCodeDto) {
+        LambdaQueryWrapper<SysRole> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper
+                .select(SysRole::getCode, SysRole::getId)
+                .eq(SysRole::getCode, sysRoleCodeDto.getCode());
+        SysRole sysRole = this.baseMapper.selectOne(queryWrapper, false);
+
+        // 修改时，同角色编码同ID为编码唯一
+        return Objects.isNull(sysRole) || Objects.equals(sysRoleCodeDto.getId(), sysRole.getId());
     }
 
 }

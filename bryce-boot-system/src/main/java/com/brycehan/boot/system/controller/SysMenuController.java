@@ -10,11 +10,12 @@ import com.brycehan.boot.framework.operatelog.annotation.OperateLog;
 import com.brycehan.boot.framework.operatelog.annotation.OperateType;
 import com.brycehan.boot.system.common.MenuType;
 import com.brycehan.boot.system.entity.convert.SysMenuConvert;
+import com.brycehan.boot.system.entity.dto.SysMenuAuthorityDto;
 import com.brycehan.boot.system.entity.dto.SysMenuDto;
 import com.brycehan.boot.system.entity.dto.SysMenuPageDto;
 import com.brycehan.boot.system.entity.po.SysMenu;
-import com.brycehan.boot.system.service.SysMenuService;
 import com.brycehan.boot.system.entity.vo.SysMenuVo;
+import com.brycehan.boot.system.service.SysMenuService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -177,6 +178,19 @@ public class SysMenuController {
     public ResponseResult<List<SysMenuVo>> nav() {
         List<SysMenuVo> list = this.sysMenuService.getMenuTreeList(LoginUserContext.currentUser(), MenuType.MENU.getValue());
         return ResponseResult.ok(list);
+    }
+
+    /**
+     * 校验权限标识是否唯一
+     *
+     * @param sysMenuAuthorityDto 权限标识Dto
+     * @return 响应结果，是否唯一
+     */
+    @Operation(summary = "校验权限标识是否唯一（true：唯一，false：不唯一）")
+    @GetMapping(path = "/checkAuthorityUnique")
+    public ResponseResult<Boolean> checkAuthorityUnique(@Validated SysMenuAuthorityDto sysMenuAuthorityDto) {
+        boolean checked = this.sysMenuService.checkAuthorityUnique(sysMenuAuthorityDto);
+        return ResponseResult.ok(checked);
     }
 
 }

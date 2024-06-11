@@ -4,6 +4,7 @@ import com.brycehan.boot.common.base.entity.PageResult;
 import com.brycehan.boot.common.base.id.IdGenerator;
 import com.brycehan.boot.framework.mybatis.service.BaseService;
 import com.brycehan.boot.system.entity.convert.SysDictTypeConvert;
+import com.brycehan.boot.system.entity.dto.SysDictTypeCodeDto;
 import com.brycehan.boot.system.entity.dto.SysDictTypeDto;
 import com.brycehan.boot.system.entity.dto.SysDictTypePageDto;
 import com.brycehan.boot.system.entity.po.SysDictType;
@@ -62,5 +63,13 @@ public interface SysDictTypeService extends BaseService<SysDictType> {
      * @return 字典列表数据
      */
     List<SysDictVo> dictList();
+
+    /**
+     * 校验字典类型编码是否唯一
+     *
+     * @param sysDictTypeCodeDto 字典类型编码Dto
+     * @return true：唯一，false：不唯一
+     */
+    boolean checkDictTypeCodeUnique(SysDictTypeCodeDto sysDictTypeCodeDto);
 
 }

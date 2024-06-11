@@ -5,6 +5,7 @@ import com.brycehan.boot.common.base.entity.PageResult;
 import com.brycehan.boot.common.base.id.IdGenerator;
 import com.brycehan.boot.framework.mybatis.service.BaseService;
 import com.brycehan.boot.system.entity.convert.SysPostConvert;
+import com.brycehan.boot.system.entity.dto.SysPostCodeDto;
 import com.brycehan.boot.system.entity.dto.SysPostDto;
 import com.brycehan.boot.system.entity.dto.SysPostPageDto;
 import com.brycehan.boot.system.entity.po.SysPost;
@@ -81,5 +82,13 @@ public interface SysPostService extends BaseService<SysPost> {
      * @return 岗位名称列表
      */
     List<String> getPostNameList(List<Long> postIdList);
+
+    /**
+     * 检查岗位编码是否唯一
+     *
+     * @param sysPostCodeDto 岗位编码Dto
+     * @return 是否唯一
+     */
+    boolean checkCodeUnique(SysPostCodeDto sysPostCodeDto);
 
 }

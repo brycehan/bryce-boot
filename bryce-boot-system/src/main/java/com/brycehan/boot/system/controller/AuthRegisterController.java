@@ -65,8 +65,8 @@ public class AuthRegisterController {
      * @return 响应结果，是否可以注册
      */
     @Operation(summary = "校验用户账号是否可注册（true：可以注册，false：不可以）")
-    @GetMapping(path = "/check/{username}")
-    public ResponseResult<Boolean> checkUsername(@PathVariable String username) {
+    @GetMapping(path = "/checkUnique/{username}")
+    public ResponseResult<Boolean> checkUsernameUnique(@PathVariable String username) {
         boolean checked = this.authRegisterService.checkUsernameUnique(username);
         return ResponseResult.ok(checked);
     }

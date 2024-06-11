@@ -308,29 +308,27 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
     }
 
     @Override
-    public boolean checkPhoneUnique(SysUser sysUser) {
+    public boolean checkPhoneUnique(SysUserPhoneDto sysUserPhoneDto) {
         LambdaQueryWrapper<SysUser> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper
-                .select(SysUser::getPhone)
-                .eq(SysUser::getPhone, sysUser.getPhone());
-        SysUser user = this.baseMapper.selectOne(queryWrapper, false);
-        Long userId = Objects.isNull(sysUser.getId()) ? UserConstants.NULL_USER_ID : sysUser.getId();
+                .select(SysUser::getPhone, SysUser::getId)
+                .eq(SysUser::getPhone, sysUserPhoneDto.getPhone());
+        SysUser sysUser = this.baseMapper.selectOne(queryWrapper, false);
 
         // 修改时，同手机号同ID为手机号唯一
-        return Objects.isNull(user) || userId.equals(user.getId());
+        return Objects.isNull(sysUser) || Objects.equals(sysUserPhoneDto.getId(), sysUser.getId());
     }
 
     @Override
-    public boolean checkEmailUnique(SysUser sysUser) {
+    public boolean checkEmailUnique(SysUserEmailDto sysUserEmailDto) {
         LambdaQueryWrapper<SysUser> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper
-                .select(SysUser::getEmail)
-                .eq(SysUser::getEmail, sysUser.getEmail());
-        SysUser user = this.baseMapper.selectOne(queryWrapper, false);
-        Long userId = Objects.isNull(sysUser.getId()) ? UserConstants.NULL_USER_ID : sysUser.getId();
+                .select(SysUser::getEmail, SysUser::getId)
+                .eq(SysUser::getEmail, sysUserEmailDto.getEmail());
+        SysUser sysUser = this.baseMapper.selectOne(queryWrapper, false);
 
         // 修改时，同邮箱同ID为邮箱唯一
-        return Objects.isNull(user) || userId.equals(user.getId());
+        return Objects.isNull(sysUser) || Objects.equals(sysUserEmailDto.getId(), sysUser.getId());
     }
 
     @Override

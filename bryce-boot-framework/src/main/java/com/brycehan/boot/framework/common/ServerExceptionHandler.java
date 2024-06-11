@@ -110,11 +110,10 @@ public class ServerExceptionHandler {
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseResult<Void> handleException(MethodArgumentNotValidException e) {
-        List<String> errors = e.getFieldErrors().stream()
-                .map(item ->  "字段" + item.getField() + item.getDefaultMessage())
+        List<String> errors = e.getFieldErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage)
                 .collect(Collectors.toList());
-        log.info("实体字段校验不通过异常", e);
-        return ResponseResult.error(HttpResponseStatus.HTTP_BAD_REQUEST.code(), String.join(", ", errors));
+        log.error("实体字段校验不通过异常，{}", e.getMessage());
+        return ResponseResult.error(HttpResponseStatus.HTTP_BAD_REQUEST.code(), String.join("，", errors));
     }
 
     /**

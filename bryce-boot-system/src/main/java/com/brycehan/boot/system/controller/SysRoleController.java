@@ -10,15 +10,12 @@ import com.brycehan.boot.common.validator.UpdateGroup;
 import com.brycehan.boot.framework.operatelog.annotation.OperateLog;
 import com.brycehan.boot.framework.operatelog.annotation.OperateType;
 import com.brycehan.boot.system.entity.convert.SysRoleConvert;
-import com.brycehan.boot.system.entity.dto.SysRoleDataScopeDto;
-import com.brycehan.boot.system.entity.dto.SysRoleDto;
-import com.brycehan.boot.system.entity.dto.SysRolePageDto;
-import com.brycehan.boot.system.entity.dto.SysRoleUserPageDto;
+import com.brycehan.boot.system.entity.dto.*;
 import com.brycehan.boot.system.entity.po.SysRole;
-import com.brycehan.boot.system.service.*;
 import com.brycehan.boot.system.entity.vo.SysMenuVo;
 import com.brycehan.boot.system.entity.vo.SysRoleVo;
 import com.brycehan.boot.system.entity.vo.SysUserVo;
+import com.brycehan.boot.system.service.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -235,6 +232,19 @@ public class SysRoleController {
     public ResponseResult<Void> deleteUsers(@PathVariable Long roleId, @RequestBody List<Long> userIds) {
         this.sysUserRoleService.deleteByRoleIdAndUserIds(roleId, userIds);
         return ResponseResult.ok();
+    }
+
+    /**
+     * 校验角色编码是否唯一
+     *
+     * @param sysRoleCodeDto 角色编码Dto
+     * @return 响应结果，是否唯一
+     */
+    @Operation(summary = "校验角色编码是否唯一（true：唯一，false：不唯一）")
+    @GetMapping(path = "/checkCodeUnique")
+    public ResponseResult<Boolean> checkCodeUnique(@Validated SysRoleCodeDto sysRoleCodeDto) {
+        boolean checked = this.sysRoleService.checkCodeUnique(sysRoleCodeDto);
+        return ResponseResult.ok(checked);
     }
 
 }

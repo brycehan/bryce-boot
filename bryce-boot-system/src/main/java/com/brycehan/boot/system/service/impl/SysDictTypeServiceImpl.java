@@ -9,6 +9,7 @@ import com.brycehan.boot.common.util.DateTimeUtils;
 import com.brycehan.boot.common.util.ExcelUtils;
 import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
 import com.brycehan.boot.system.entity.convert.SysDictTypeConvert;
+import com.brycehan.boot.system.entity.dto.SysDictTypeCodeDto;
 import com.brycehan.boot.system.entity.dto.SysDictTypePageDto;
 import com.brycehan.boot.system.entity.po.SysDictData;
 import com.brycehan.boot.system.entity.po.SysDictType;
@@ -97,6 +98,18 @@ public class SysDictTypeServiceImpl extends BaseServiceImpl<SysDictTypeMapper, S
             dictVoList.add(sysDictVo);
         }
         return dictVoList;
+    }
+
+    @Override
+    public boolean checkDictTypeCodeUnique(SysDictTypeCodeDto sysDictTypeCodeDto) {
+        LambdaQueryWrapper<SysDictType> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper
+                .select(SysDictType::getDictType, SysDictType::getId)
+                .eq(SysDictType::getDictType, sysDictTypeCodeDto.getDictType());
+        SysDictType sysDictType = this.baseMapper.selectOne(queryWrapper, false);
+
+        // 修改时，同字典类型编码同ID为编码唯一
+        return Objects.isNull(sysDictType) || Objects.equals(sysDictTypeCodeDto.getId(), sysDictType.getId());
     }
 
     @Override

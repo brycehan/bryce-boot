@@ -103,20 +103,20 @@ public interface SysUserService extends BaseService<SysUser> {
     boolean checkUsernameUnique(String username);
 
     /**
-     * 校验用户手机号是否唯一
+     * 校验用户手机号码是否唯一
      *
-     * @param sysUser 用户
+     * @param sysUserPhoneDto 手机号码Dto
      * @return 结果，true唯一
      */
-    boolean checkPhoneUnique(SysUser sysUser);
+    boolean checkPhoneUnique(SysUserPhoneDto sysUserPhoneDto);
 
     /**
      * 校验用户邮箱是否唯一
      *
-     * @param sysUser 用户
+     * @param sysUserEmailDto 用户邮箱Dto
      * @return 结果，true唯一
      */
-    boolean checkEmailUnique(SysUser sysUser);
+    boolean checkEmailUnique(SysUserEmailDto sysUserEmailDto);
 
     /**
      * 校验用户是否允许操作（admin放行，普通用户不能操作admin账号）

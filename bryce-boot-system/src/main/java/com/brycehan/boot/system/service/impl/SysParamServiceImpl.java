@@ -15,11 +15,12 @@ import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
 import com.brycehan.boot.system.common.ParamType;
 import com.brycehan.boot.system.entity.convert.SysParamConvert;
 import com.brycehan.boot.system.entity.dto.SysParamDto;
+import com.brycehan.boot.system.entity.dto.SysParamKeyDto;
 import com.brycehan.boot.system.entity.dto.SysParamPageDto;
 import com.brycehan.boot.system.entity.po.SysParam;
+import com.brycehan.boot.system.entity.vo.SysParamVo;
 import com.brycehan.boot.system.mapper.SysParamMapper;
 import com.brycehan.boot.system.service.SysParamService;
-import com.brycehan.boot.system.entity.vo.SysParamVo;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -184,6 +185,18 @@ public class SysParamServiceImpl extends BaseServiceImpl<SysParamMapper, SysPara
     public <T> T getJSONObject(String paramKey, Class<T> valueType) {
         String value = getString(paramKey);
         return JsonUtils.readValue(value, valueType);
+    }
+
+    @Override
+    public boolean checkParamKeyUnique(SysParamKeyDto sysParamKeyDto) {
+        LambdaQueryWrapper<SysParam> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper
+                .select(SysParam::getParamKey, SysParam::getId)
+                .eq(SysParam::getParamKey, sysParamKeyDto.getParamKey());
+        SysParam sysParam = this.baseMapper.selectOne(queryWrapper, false);
+
+        // 修改时，同参数键名同ID为编码唯一
+        return Objects.isNull(sysParam) || Objects.equals(sysParamKeyDto.getId(), sysParam.getId());
     }
 
 }

@@ -12,13 +12,14 @@ import com.brycehan.boot.common.util.ExcelUtils;
 import com.brycehan.boot.common.util.TreeUtils;
 import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
 import com.brycehan.boot.system.entity.convert.SysMenuConvert;
+import com.brycehan.boot.system.entity.dto.SysMenuAuthorityDto;
 import com.brycehan.boot.system.entity.dto.SysMenuDto;
 import com.brycehan.boot.system.entity.dto.SysMenuPageDto;
 import com.brycehan.boot.system.entity.po.SysMenu;
+import com.brycehan.boot.system.entity.vo.SysMenuVo;
 import com.brycehan.boot.system.mapper.SysMenuMapper;
 import com.brycehan.boot.system.service.SysMenuService;
 import com.brycehan.boot.system.service.SysRoleMenuService;
-import com.brycehan.boot.system.entity.vo.SysMenuVo;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -159,6 +160,18 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuMapper, SysMenu> 
         }
 
         return authoritySet;
+    }
+
+    @Override
+    public boolean checkAuthorityUnique(SysMenuAuthorityDto sysMenuAuthorityDto) {
+        LambdaQueryWrapper<SysMenu> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper
+                .select(SysMenu::getAuthority, SysMenu::getId)
+                .eq(SysMenu::getAuthority, sysMenuAuthorityDto.getAuthority());
+        SysMenu sysMenu = this.baseMapper.selectOne(queryWrapper, false);
+
+        // 修改时，同权限标识同ID为标识唯一
+        return Objects.isNull(sysMenu) || Objects.equals(sysMenuAuthorityDto.getId(), sysMenu.getId());
     }
 
 }

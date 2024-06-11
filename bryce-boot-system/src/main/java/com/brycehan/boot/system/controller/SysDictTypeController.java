@@ -8,12 +8,13 @@ import com.brycehan.boot.common.validator.UpdateGroup;
 import com.brycehan.boot.framework.operatelog.annotation.OperateLog;
 import com.brycehan.boot.framework.operatelog.annotation.OperateType;
 import com.brycehan.boot.system.entity.convert.SysDictTypeConvert;
+import com.brycehan.boot.system.entity.dto.SysDictTypeCodeDto;
 import com.brycehan.boot.system.entity.dto.SysDictTypeDto;
 import com.brycehan.boot.system.entity.dto.SysDictTypePageDto;
 import com.brycehan.boot.system.entity.po.SysDictType;
-import com.brycehan.boot.system.service.SysDictTypeService;
 import com.brycehan.boot.system.entity.vo.SysDictTypeVo;
 import com.brycehan.boot.system.entity.vo.SysDictVo;
+import com.brycehan.boot.system.service.SysDictTypeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -133,6 +134,19 @@ public class SysDictTypeController {
     public ResponseResult<List<SysDictVo>> dictList() {
         List<SysDictVo> dictVoList = this.sysDictTypeService.dictList();
         return ResponseResult.ok(dictVoList);
+    }
+
+    /**
+     * 校验字典类型编码是否唯一
+     *
+     * @param sysDictTypeCodeDto 字典类型编码Dto
+     * @return 响应结果，是否唯一
+     */
+    @Operation(summary = "校验字典类型编码是否唯一（true：唯一，false：不唯一）")
+    @GetMapping(path = "/checkDictTypeCodeUnique")
+    public ResponseResult<Boolean> checkDictTypeCodeUnique(@Validated SysDictTypeCodeDto sysDictTypeCodeDto) {
+        boolean checked = this.sysDictTypeService.checkDictTypeCodeUnique(sysDictTypeCodeDto);
+        return ResponseResult.ok(checked);
     }
 
 }

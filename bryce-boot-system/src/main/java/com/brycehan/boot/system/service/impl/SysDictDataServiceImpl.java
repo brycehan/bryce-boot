@@ -9,9 +9,9 @@ import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
 import com.brycehan.boot.system.entity.convert.SysDictDataConvert;
 import com.brycehan.boot.system.entity.dto.SysDictDataPageDto;
 import com.brycehan.boot.system.entity.po.SysDictData;
+import com.brycehan.boot.system.entity.vo.SysDictDataVo;
 import com.brycehan.boot.system.mapper.SysDictDataMapper;
 import com.brycehan.boot.system.service.SysDictDataService;
-import com.brycehan.boot.system.entity.vo.SysDictDataVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

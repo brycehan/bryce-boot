@@ -5,6 +5,7 @@ import com.brycehan.boot.common.base.id.IdGenerator;
 import com.brycehan.boot.framework.mybatis.service.BaseService;
 import com.brycehan.boot.system.entity.convert.SysParamConvert;
 import com.brycehan.boot.system.entity.dto.SysParamDto;
+import com.brycehan.boot.system.entity.dto.SysParamKeyDto;
 import com.brycehan.boot.system.entity.dto.SysParamPageDto;
 import com.brycehan.boot.system.entity.po.SysParam;
 import com.brycehan.boot.system.entity.vo.SysParamVo;
@@ -88,5 +89,13 @@ public interface SysParamService extends BaseService<SysParam> {
      * @return 参数值
      */
     <T> T getJSONObject(String paramKey, Class<T> valueType);
+
+    /**
+     * 校验参数Key是否唯一
+     *
+     * @param sysParamKeyDto 参数KeyDto
+     * @return true：唯一，false：不唯一
+     */
+    boolean checkParamKeyUnique(SysParamKeyDto sysParamKeyDto);
 
 }
