@@ -10,7 +10,7 @@ import org.mapstruct.factory.Mappers;
 import java.util.List;
 
 /**
- * quartz 定时任务调度转换器
+ * quartz定时任务调度转换器
  *
  * @since 2023/10/17
  * @author Bryce Han

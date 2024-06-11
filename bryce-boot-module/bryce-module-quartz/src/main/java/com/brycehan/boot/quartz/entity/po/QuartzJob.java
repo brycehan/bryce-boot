@@ -8,7 +8,7 @@ import lombok.EqualsAndHashCode;
 import java.io.Serial;
 
 /**
- * quartz 定时任务调度entity
+ * quartz定时任务调度entity
  *
  * @since 2023/10/17
  * @author Bryce Han

@@ -95,7 +95,7 @@ public class MpMessageReplyRuleController {
     }
 
     /**
-     * 分页查询
+     * 微信公众号消息回复规则分页查询
      *
      * @param mpMessageReplyRulePageDto 查询条件
      * @return 微信公众号消息回复规则分页列表

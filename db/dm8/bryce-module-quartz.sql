@@ -17,7 +17,7 @@ INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_
 INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1435, '定时任务日志导出', 'B', 143, null, 'quartz:jobLog:export', '', false, 5, null, true, 1, false, 1, now(), null, null);
 INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1436, '定时任务日志导入', 'B', 143, null, 'quartz:jobLog:import', '', false, 6, null, true, 1, false, 1, now(), null, null);
 
--- 1、quartz 定时任务调度表
+-- 1、quartz定时任务调度表
 drop table if exists brc_quartz_job;
 create table brc_quartz_job
 (
@@ -40,7 +40,7 @@ create table brc_quartz_job
     updated_time    datetime
 );
 
-comment on table brc_quartz_job is 'quartz 定时任务调度表';
+comment on table brc_quartz_job is 'quartz定时任务调度表';
 comment on column brc_quartz_job.id is 'ID';
 comment on column brc_quartz_job.job_name is '任务名称';
 comment on column brc_quartz_job.job_group is '任务组名';
@@ -59,10 +59,10 @@ comment on column brc_quartz_job.created_time is '创建时间';
 comment on column brc_quartz_job.updated_user_id is '修改者ID';
 comment on column brc_quartz_job.updated_time is '修改时间';
 
--- 初始化- quartz 定时任务调度表数据
+-- 初始化- quartz定时任务调度表数据
 INSERT INTO brc_quartz_job (id, job_name, job_group, bean_name, method, params, cron_expression, concurrent, sort, status, remark, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1, '测试任务', 'SYSTEM', 'testTaskServiceImpl', 'run', 'test', '0 * * * * ? *', 'N', 0, false, '', 1, false, 1, now(), null, null);
 
--- 2、quartz 定时任务调度日志表
+-- 2、quartz定时任务调度日志表
 drop table if exists brc_quartz_job_log;
 create table brc_quartz_job_log
 (
@@ -79,7 +79,7 @@ create table brc_quartz_job_log
     created_time   datetime
 );
 
-comment on table brc_quartz_job_log is 'quartz 定时任务调度日志表';
+comment on table brc_quartz_job_log is 'quartz定时任务调度日志表';
 comment on column brc_quartz_job_log.id is 'ID';
 comment on column brc_quartz_job_log.job_id is '任务ID';
 comment on column brc_quartz_job_log.job_name is '任务名称';

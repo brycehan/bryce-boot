@@ -10,7 +10,7 @@ import com.brycehan.boot.quartz.entity.po.QuartzJob;
 import com.brycehan.boot.quartz.entity.vo.QuartzJobVo;
 
 /**
- * quartz 定时任务调度服务
+ * quartz定时任务调度服务
  *
  * @since 2023/10/17
  * @author Bryce Han
@@ -18,9 +18,9 @@ import com.brycehan.boot.quartz.entity.vo.QuartzJobVo;
 public interface QuartzJobService extends BaseService<QuartzJob> {
 
     /**
-     * 添加quartz 定时任务调度
+     * 添加quartz定时任务调度
      *
-     * @param quartzJobDto quartz 定时任务调度Dto
+     * @param quartzJobDto quartz定时任务调度Dto
      */
     default void save(QuartzJobDto quartzJobDto) {
         QuartzJob quartzJob = QuartzJobConvert.INSTANCE.convert(quartzJobDto);
@@ -29,9 +29,9 @@ public interface QuartzJobService extends BaseService<QuartzJob> {
     }
 
     /**
-     * 更新quartz 定时任务调度
+     * 更新quartz定时任务调度
      *
-     * @param quartzJobDto quartz 定时任务调度Dto
+     * @param quartzJobDto quartz定时任务调度Dto
      */
     default void update(QuartzJobDto quartzJobDto) {
         QuartzJob quartzJob = QuartzJobConvert.INSTANCE.convert(quartzJobDto);
@@ -39,7 +39,7 @@ public interface QuartzJobService extends BaseService<QuartzJob> {
     }
 
     /**
-     * quartz 定时任务调度分页查询
+     * quartz定时任务调度分页查询
      *
      * @param quartzJobPageDto 查询条件
      * @return 分页信息
@@ -47,22 +47,22 @@ public interface QuartzJobService extends BaseService<QuartzJob> {
     PageResult<QuartzJobVo> page(QuartzJobPageDto quartzJobPageDto);
 
     /**
-     * quartz 定时任务调度导出数据
+     * quartz定时任务调度导出数据
      *
-     * @param quartzJobPageDto quartz 定时任务调度查询条件
+     * @param quartzJobPageDto quartz定时任务调度查询条件
      */
     void export(QuartzJobPageDto quartzJobPageDto);
 
     /**
-     * quartz 定时任务立即执行
+     * quartz定时任务立即执行
      *
-     * @param quartzJobDto quartz 定时任务
+     * @param quartzJobDto quartz定时任务
      */
     void run(QuartzJobDto quartzJobDto);
 
     /**
-     * 修改 quartz 定时任务状态
-     * @param quartzJobDto quartz 定时任务调度Dto
+     * 修改quartz定时任务状态
+     * @param quartzJobDto quartz定时任务调度Dto
      */
     void changeStatus(QuartzJobDto quartzJobDto);
 

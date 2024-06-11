@@ -98,7 +98,7 @@ public class MpUserController {
     }
 
     /**
-     * 分页查询
+     * 微信公众号粉丝分页查询
      *
      * @param mpUserPageDto 查询条件
      * @return 微信公众号粉丝分页列表

@@ -96,7 +96,7 @@ public class SysParamController {
     }
 
     /**
-     * 分页查询
+     * 系统参数分页查询
      *
      * @param sysParamPageDto 查询条件
      * @return 系统参数分页列表

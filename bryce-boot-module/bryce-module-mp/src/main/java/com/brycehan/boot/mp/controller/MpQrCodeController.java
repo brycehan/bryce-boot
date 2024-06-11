@@ -96,7 +96,7 @@ public class MpQrCodeController {
     }
 
     /**
-     * 分页查询
+     * 微信公众号带参二维码分页查询
      *
      * @param mpQrCodePageDto 查询条件
      * @return 微信公众号带参二维码分页列表

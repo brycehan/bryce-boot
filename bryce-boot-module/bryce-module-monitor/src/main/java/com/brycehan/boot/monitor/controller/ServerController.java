@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ServerController {
 
     /**
-     * 服务器相关信息
+     * 获取服务器相关信息
      *
      * @return 响应结果
      */

@@ -95,7 +95,7 @@ public class MpTemplateMessageLogController {
     }
 
     /**
-     * 分页查询
+     * 微信公众号模版消息发送记录分页查询
      *
      * @param mpTemplateMessageLogPageDto 查询条件
      * @return 微信公众号模版消息发送记录分页列表

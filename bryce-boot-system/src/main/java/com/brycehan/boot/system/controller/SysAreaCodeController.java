@@ -79,7 +79,7 @@ public class SysAreaCodeController {
     }
 
     /**
-     * 分页查询
+     * 地区编码分页查询
      *
      * @param sysAreaCodePageDto 查询条件
      * @return 地区编码分页列表

@@ -9,14 +9,14 @@ import lombok.EqualsAndHashCode;
 import java.io.Serial;
 
 /**
- * quartz 定时任务调度日志PageDto
+ * quartz定时任务调度日志PageDto
  *
  * @since 2023/10/19
  * @author Bryce Han
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@Schema(description = "quartz 定时任务调度日志PageDto")
+@Schema(description = "quartz定时任务调度日志PageDto")
 public class QuartzJobLogPageDto extends BasePageDto {
 
     @Serial

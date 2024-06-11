@@ -19,12 +19,12 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * quartz 定时任务调度日志API
+ * quartz定时任务调度日志API
  *
  * @since 2023/10/19
  * @author Bryce Han
  */
-@Tag(name = "quartz 定时任务调度日志")
+@Tag(name = "quartz定时任务调度日志")
 @RequestMapping("/quartz/jobLog")
 @RestController
 @RequiredArgsConstructor
@@ -33,12 +33,12 @@ public class QuartzJobLogController {
     private final QuartzJobLogService quartzJobLogService;
 
     /**
-     * 删除quartz 定时任务调度日志
+     * 删除quartz定时任务调度日志
      *
      * @param idsDto ID列表Dto
      * @return 响应结果
      */
-    @Operation(summary = "删除quartz 定时任务调度日志")
+    @Operation(summary = "删除quartz定时任务调度日志")
     @OperateLog(type = OperateType.DELETE)
     @PreAuthorize("hasAuthority('quartz:jobLog:delete')")
     @DeleteMapping
@@ -48,24 +48,24 @@ public class QuartzJobLogController {
     }
 
     /**
-     * 查询quartz 定时任务调度日志详情
+     * 查询quartz定时任务调度日志详情
      *
-     * @param id quartz 定时任务调度日志ID
+     * @param id quartz定时任务调度日志ID
      * @return 响应结果
      */
-    @Operation(summary = "查询quartz 定时任务调度日志详情")
+    @Operation(summary = "查询quartz定时任务调度日志详情")
     @PreAuthorize("hasAuthority('quartz:jobLog:info')")
     @GetMapping(path = "/{id}")
-    public ResponseResult<QuartzJobLogVo> get(@Parameter(description = "quartz 定时任务调度日志ID", required = true) @PathVariable Long id) {
+    public ResponseResult<QuartzJobLogVo> get(@Parameter(description = "quartz定时任务调度日志ID", required = true) @PathVariable Long id) {
         QuartzJobLog quartzJobLog = this.quartzJobLogService.getById(id);
         return ResponseResult.ok(QuartzJobLogConvert.INSTANCE.convert(quartzJobLog));
     }
 
     /**
-     * 分页查询
+     * quartz定时任务调度日志分页查询
      *
      * @param quartzJobLogPageDto 查询条件
-     * @return quartz 定时任务调度日志分页列表
+     * @return quartz定时任务调度日志分页列表
      */
     @Operation(summary = "分页查询")
     @PreAuthorize("hasAuthority('quartz:jobLog:page')")
@@ -76,11 +76,11 @@ public class QuartzJobLogController {
     }
 
     /**
-     * quartz 定时任务调度日志导出数据
+     * quartz定时任务调度日志导出数据
      *
      * @param quartzJobLogPageDto 查询条件
      */
-    @Operation(summary = "quartz 定时任务调度日志导出")
+    @Operation(summary = "quartz定时任务调度日志导出")
     @PreAuthorize("hasAuthority('quartz:jobLog:export')")
     @PostMapping(path = "/export")
     public void export(@Validated @RequestBody QuartzJobLogPageDto quartzJobLogPageDto) {

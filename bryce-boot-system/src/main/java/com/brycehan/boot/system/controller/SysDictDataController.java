@@ -95,7 +95,7 @@ public class SysDictDataController {
     }
 
     /**
-     * 分页查询
+     * 系统字典数据分页查询
      *
      * @param sysDictDataPageDto 查询条件
      * @return 系统字典数据分页列表

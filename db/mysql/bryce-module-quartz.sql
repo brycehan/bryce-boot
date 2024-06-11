@@ -17,7 +17,7 @@ INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_
 INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1435, '定时任务日志导出', 'B', 143, null, 'quartz:jobLog:export', '', 0, 5, null, 1, 1, 0, 1, now(), null, null);
 INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1436, '定时任务日志导入', 'B', 143, null, 'quartz:jobLog:import', '', 0, 6, null, 1, 1, 0, 1, now(), null, null);
 
--- 1、quartz 定时任务调度表
+-- 1、quartz定时任务调度表
 drop table if exists brc_quartz_job;
 create table brc_quartz_job
 (
@@ -39,13 +39,13 @@ create table brc_quartz_job
     updated_user_id bigint                        null comment '修改者ID',
     updated_time    datetime                      null comment '修改时间',
     primary key (id)
-) engine InnoDB comment 'quartz 定时任务调度表';
+) engine InnoDB comment 'quartz定时任务调度表';
 
--- 初始化- quartz 定时任务调度表数据
+-- 初始化- quartz定时任务调度表数据
 INSERT INTO brc_quartz_job (id, job_name, job_group, bean_name, method, params, cron_expression, concurrent, sort, status, remark, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1, '测试任务', 'SYSTEM', 'testTaskServiceImpl', 'run', 'test', '0 * * * * ? *', 'N', 0, 0, '', 1, 0, 1, now(), null, null);
 
 
--- 2、quartz 定时任务调度日志表
+-- 2、quartz定时任务调度日志表
 drop table if exists brc_quartz_job_log;
 create table brc_quartz_job_log
 (
@@ -60,7 +60,7 @@ create table brc_quartz_job_log
     duration       int               not null comment '执行时长（毫秒）',
     error_info     varchar(3000)     null comment '异常信息',
     created_time   datetime          null comment '创建时间'
-) engine InnoDB comment 'quartz 定时任务调度日志表';
+) engine InnoDB comment 'quartz定时任务调度日志表';
 
 -- 3、quartz 框架自带的表结构
 

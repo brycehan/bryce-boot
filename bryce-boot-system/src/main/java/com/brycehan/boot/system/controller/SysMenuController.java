@@ -117,7 +117,7 @@ public class SysMenuController {
     }
 
     /**
-     * 分页查询
+     * 系统菜单分页查询
      *
      * @param sysMenuPageDto 查询条件
      * @return 系统菜单分页列表
@@ -143,7 +143,7 @@ public class SysMenuController {
     }
 
     /**
-     * 列表查询
+     * 系统菜单列表查询
      *
      * @param sysMenuDto 查询条件
      * @return 系统菜单列表

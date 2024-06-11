@@ -121,7 +121,7 @@ public class SysUserController {
     }
 
     /**
-     * 分页查询
+     * 系统用户分页查询
      *
      * @param sysUserPageDto 查询条件
      * @return 系统用户分页列表

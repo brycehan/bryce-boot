@@ -98,7 +98,7 @@ public class SysPostController {
     }
 
     /**
-     * 分页查询
+     * 系统岗位分页查询
      *
      * @param sysPostPageDto 查询条件
      * @return 系统岗位分页列表

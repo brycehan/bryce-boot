@@ -26,12 +26,12 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * quartz 定时任务调度API
+ * quartz定时任务调度API
  *
  * @since 2023/10/17
  * @author Bryce Han
  */
-@Tag(name = "quartz 定时任务调度")
+@Tag(name = "quartz定时任务调度")
 @RequestMapping("/quartz/job")
 @RestController
 @RequiredArgsConstructor
@@ -40,12 +40,12 @@ public class QuartzJobController {
     private final QuartzJobService quartzJobService;
 
     /**
-     * 保存quartz 定时任务调度
+     * 保存quartz定时任务调度
      *
-     * @param quartzJobDto quartz 定时任务调度Dto
+     * @param quartzJobDto quartz定时任务调度Dto
      * @return 响应结果
      */
-    @Operation(summary = "保存quartz 定时任务调度")
+    @Operation(summary = "保存quartz定时任务调度")
     @OperateLog(type = OperateType.INSERT)
     @PreAuthorize("hasAuthority('quartz:job:save')")
     @PostMapping
@@ -62,12 +62,12 @@ public class QuartzJobController {
     }
 
     /**
-     * 更新quartz 定时任务调度
+     * 更新quartz定时任务调度
      *
-     * @param quartzJobDto quartz 定时任务调度Dto
+     * @param quartzJobDto quartz定时任务调度Dto
      * @return 响应结果
      */
-    @Operation(summary = "更新quartz 定时任务调度")
+    @Operation(summary = "更新quartz定时任务调度")
     @OperateLog(type = OperateType.UPDATE)
     @PreAuthorize("hasAuthority('quartz:job:update')")
     @PutMapping
@@ -84,12 +84,12 @@ public class QuartzJobController {
     }
 
     /**
-     * 删除quartz 定时任务调度
+     * 删除quartz定时任务调度
      *
      * @param idsDto ID列表Dto
      * @return 响应结果
      */
-    @Operation(summary = "删除quartz 定时任务调度")
+    @Operation(summary = "删除quartz定时任务调度")
     @OperateLog(type = OperateType.DELETE)
     @PreAuthorize("hasAuthority('quartz:job:delete')")
     @DeleteMapping
@@ -99,24 +99,24 @@ public class QuartzJobController {
     }
 
     /**
-     * 查询quartz 定时任务调度详情
+     * 查询quartz定时任务调度详情
      *
-     * @param id quartz 定时任务调度ID
+     * @param id quartz定时任务调度ID
      * @return 响应结果
      */
-    @Operation(summary = "查询quartz 定时任务调度详情")
+    @Operation(summary = "查询quartz定时任务调度详情")
     @PreAuthorize("hasAuthority('quartz:job:info')")
     @GetMapping(path = "/{id}")
-    public ResponseResult<QuartzJobVo> get(@Parameter(description = "quartz 定时任务调度ID", required = true) @PathVariable Long id) {
+    public ResponseResult<QuartzJobVo> get(@Parameter(description = "quartz定时任务调度ID", required = true) @PathVariable Long id) {
         QuartzJob quartzJob = this.quartzJobService.getById(id);
         return ResponseResult.ok(QuartzJobConvert.INSTANCE.convert(quartzJob));
     }
 
     /**
-     * 分页查询
+     * quartz定时任务调度分页查询
      *
      * @param quartzJobPageDto 查询条件
-     * @return quartz 定时任务调度分页列表
+     * @return quartz定时任务调度分页列表
      */
     @Operation(summary = "分页查询")
     @PreAuthorize("hasAuthority('quartz:job:page')")
@@ -127,11 +127,11 @@ public class QuartzJobController {
     }
 
     /**
-     * quartz 定时任务调度导出数据
+     * quartz定时任务调度导出数据
      *
      * @param quartzJobPageDto 查询条件
      */
-    @Operation(summary = "quartz 定时任务调度导出")
+    @Operation(summary = "quartz定时任务调度导出")
     @PreAuthorize("hasAuthority('quartz:job:export')")
     @PostMapping(path = "/export")
     public void export(@Validated @RequestBody QuartzJobPageDto quartzJobPageDto) {
@@ -139,12 +139,12 @@ public class QuartzJobController {
     }
 
     /**
-     * 立即执行
+     * 立即执行quartz定时任务
      *
-     * @param quartzJobDto quartz 定时任务调度Dto
+     * @param quartzJobDto quartz定时任务调度Dto
      * @return 响应结果
      */
-    @Operation(summary = "quartz 定时任务立即执行")
+    @Operation(summary = "quartz定时任务立即执行")
     @OperateLog(type = OperateType.OTHER)
     @PreAuthorize("hasAuthority('quartz:job:run')")
     @PutMapping(path = "/run")
@@ -154,12 +154,12 @@ public class QuartzJobController {
     }
 
     /**
-     * 修改 quartz 定时任务状态
+     * 修改quartz定时任务状态
      *
-     * @param quartzJobDto quartz 定时任务调度Dto
+     * @param quartzJobDto quartz定时任务调度Dto
      * @return 响应结果
      */
-    @Operation(summary = "修改 quartz 定时任务状态")
+    @Operation(summary = "修改quartz定时任务状态")
     @OperateLog(type = OperateType.UPDATE)
     @PreAuthorize("hasAuthority('quartz:job:update')")
     @PutMapping(path = "/status")

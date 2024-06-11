@@ -31,7 +31,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * quartz 定时任务调度服务实现
+ * quartz定时任务调度服务实现
  *
  * @since 2023/10/17
  * @author Bryce Han
@@ -107,7 +107,7 @@ public class QuartzJobServiceImpl extends BaseServiceImpl<QuartzJobMapper, Quart
     /**
      * 封装查询条件
      *
-     * @param quartzJobPageDto quartz 定时任务调度分页dto
+     * @param quartzJobPageDto quartz定时任务调度分页dto
      * @return 查询条件Wrapper
      */
     private Wrapper<QuartzJob> getWrapper(QuartzJobPageDto quartzJobPageDto){
@@ -124,7 +124,7 @@ public class QuartzJobServiceImpl extends BaseServiceImpl<QuartzJobMapper, Quart
     public void export(QuartzJobPageDto quartzJobPageDto) {
         List<QuartzJob> quartzJobList = this.baseMapper.selectList(getWrapper(quartzJobPageDto));
         List<QuartzJobVo> quartzJobVoList = QuartzJobConvert.INSTANCE.convert(quartzJobList);
-        ExcelUtils.export(QuartzJobVo.class, "quartz 定时任务调度_".concat(DateTimeUtils.today()), "quartz 定时任务调度", quartzJobVoList);
+        ExcelUtils.export(QuartzJobVo.class, "quartz定时任务调度_".concat(DateTimeUtils.today()), "quartz定时任务调度", quartzJobVoList);
     }
 
     @Override

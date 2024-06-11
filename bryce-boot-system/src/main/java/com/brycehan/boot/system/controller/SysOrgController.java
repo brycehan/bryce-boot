@@ -107,7 +107,7 @@ public class SysOrgController {
     }
 
     /**
-     * 分页查询
+     * 系统机构分页查询
      *
      * @param sysOrgPageDto 查询条件
      * @return 系统机构分页列表
@@ -121,7 +121,7 @@ public class SysOrgController {
     }
 
     /**
-     * 列表查询
+     * 系统机构列表查询
      *
      * @param sysOrgDto 查询条件
      * @return 系统机构列表

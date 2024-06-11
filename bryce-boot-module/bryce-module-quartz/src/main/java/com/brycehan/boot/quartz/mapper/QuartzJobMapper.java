@@ -5,7 +5,7 @@ import com.brycehan.boot.quartz.entity.po.QuartzJob;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
-* quartz 定时任务调度Mapper接口
+* quartz定时任务调度Mapper接口
 *
 * @author Bryce Han
 * @since 2023/10/17

@@ -41,7 +41,7 @@ public class OnlineUserController {
     private final JwtTokenProvider jwtTokenProvider;
 
     /**
-     * 分页查询
+     * 在线用户分页查询
      *
      * @param onlineUserPageDto 查询条件
      * @return 在线用户分页列表

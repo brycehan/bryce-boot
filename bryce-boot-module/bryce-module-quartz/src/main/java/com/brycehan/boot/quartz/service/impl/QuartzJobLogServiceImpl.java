@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * quartz 定时任务调度日志服务实现
+ * quartz定时任务调度日志服务实现
  *
  * @since 2023/10/19
  * @author Bryce Han
@@ -38,7 +38,7 @@ public class QuartzJobLogServiceImpl extends BaseServiceImpl<QuartzJobLogMapper,
     /**
      * 封装查询条件
      *
-     * @param quartzJobLogPageDto quartz 定时任务调度日志分页dto
+     * @param quartzJobLogPageDto quartz定时任务调度日志分页dto
      * @return 查询条件Wrapper
      */
     private Wrapper<QuartzJobLog> getWrapper(QuartzJobLogPageDto quartzJobLogPageDto){
@@ -52,7 +52,7 @@ public class QuartzJobLogServiceImpl extends BaseServiceImpl<QuartzJobLogMapper,
     public void export(QuartzJobLogPageDto quartzJobLogPageDto) {
         List<QuartzJobLog> quartzJobLogList = this.baseMapper.selectList(getWrapper(quartzJobLogPageDto));
         List<QuartzJobLogVo> quartzJobLogVoList = QuartzJobLogConvert.INSTANCE.convert(quartzJobLogList);
-        ExcelUtils.export(QuartzJobLogVo.class, "quartz 定时任务调度日志_".concat(DateTimeUtils.today()), "quartz 定时任务调度日志", quartzJobLogVoList);
+        ExcelUtils.export(QuartzJobLogVo.class, "quartz定时任务调度日志_".concat(DateTimeUtils.today()), "quartz定时任务调度日志", quartzJobLogVoList);
     }
 
 }

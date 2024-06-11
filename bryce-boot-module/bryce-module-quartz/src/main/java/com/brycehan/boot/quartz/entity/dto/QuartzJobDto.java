@@ -10,13 +10,13 @@ import java.io.Serial;
 import java.io.Serializable;
 
 /**
- * quartz 定时任务调度Dto
+ * quartz定时任务调度Dto
  *
  * @since 2023/10/17
  * @author Bryce Han
  */
 @Data
-@Schema(description = "quartz 定时任务调度Dto")
+@Schema(description = "quartz定时任务调度Dto")
 public class QuartzJobDto implements Serializable {
 
     @Serial

@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Slf4j
 @Tag(name = "短信验证码")
-@RequestMapping("/system/sms")
+@RequestMapping("/auth/sms")
 @RestController
 @RequiredArgsConstructor
 public class AuthSmsController {
@@ -27,7 +27,7 @@ public class AuthSmsController {
     private final AuthSmsService authSmsService;
 
     /**
-     * 生成登录验证码
+     * 生成登录验证码短信
      *
      * @return 响应结果
      */
@@ -39,7 +39,7 @@ public class AuthSmsController {
     }
 
     /**
-     * 生成注册验证码
+     * 生成注册验证码短信
      *
      * @return 响应结果
      */

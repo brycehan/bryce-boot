@@ -121,7 +121,7 @@ public class SysRoleController {
     }
 
     /**
-     * 分页查询
+     * 系统角色分页查询
      *
      * @param sysRolePageDto 查询条件
      * @return 系统角色分页列表
@@ -147,7 +147,7 @@ public class SysRoleController {
     }
 
     /**
-     * 列表查询
+     * 系统角色列表查询
      *
      * @return 系统角色列表
      */

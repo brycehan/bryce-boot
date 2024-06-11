@@ -11,7 +11,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * quartz 定时任务调度日志entity
+ * quartz定时任务调度日志entity
  *
  * @since 2023/10/19
  * @author Bryce Han

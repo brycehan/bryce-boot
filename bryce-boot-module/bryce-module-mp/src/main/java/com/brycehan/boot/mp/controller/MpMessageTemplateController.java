@@ -99,7 +99,7 @@ public class MpMessageTemplateController {
     }
 
     /**
-     * 分页查询
+     * 微信公众号消息模板分页查询
      *
      * @param mpMessageTemplatePageDto 查询条件
      * @return 微信公众号消息模板分页列表

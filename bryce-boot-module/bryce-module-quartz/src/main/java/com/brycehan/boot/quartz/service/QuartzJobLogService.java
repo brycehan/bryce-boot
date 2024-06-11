@@ -10,7 +10,7 @@ import com.brycehan.boot.quartz.entity.po.QuartzJobLog;
 import com.brycehan.boot.quartz.entity.vo.QuartzJobLogVo;
 
 /**
- * quartz 定时任务调度日志服务
+ * quartz定时任务调度日志服务
  *
  * @since 2023/10/19
  * @author Bryce Han
@@ -18,9 +18,9 @@ import com.brycehan.boot.quartz.entity.vo.QuartzJobLogVo;
 public interface QuartzJobLogService extends BaseService<QuartzJobLog> {
 
     /**
-     * 添加quartz 定时任务调度日志
+     * 添加quartz定时任务调度日志
      *
-     * @param quartzJobLogDto quartz 定时任务调度日志Dto
+     * @param quartzJobLogDto quartz定时任务调度日志Dto
      */
     default void save(QuartzJobLogDto quartzJobLogDto) {
         QuartzJobLog quartzJobLog = QuartzJobLogConvert.INSTANCE.convert(quartzJobLogDto);
@@ -29,9 +29,9 @@ public interface QuartzJobLogService extends BaseService<QuartzJobLog> {
     }
 
     /**
-     * 更新quartz 定时任务调度日志
+     * 更新quartz定时任务调度日志
      *
-     * @param quartzJobLogDto quartz 定时任务调度日志Dto
+     * @param quartzJobLogDto quartz定时任务调度日志Dto
      */
     default void update(QuartzJobLogDto quartzJobLogDto) {
         QuartzJobLog quartzJobLog = QuartzJobLogConvert.INSTANCE.convert(quartzJobLogDto);
@@ -39,7 +39,7 @@ public interface QuartzJobLogService extends BaseService<QuartzJobLog> {
     }
 
     /**
-     * quartz 定时任务调度日志分页查询
+     * quartz定时任务调度日志分页查询
      *
      * @param quartzJobLogPageDto 查询条件
      * @return 分页信息
@@ -47,9 +47,9 @@ public interface QuartzJobLogService extends BaseService<QuartzJobLog> {
     PageResult<QuartzJobLogVo> page(QuartzJobLogPageDto quartzJobLogPageDto);
 
     /**
-     * quartz 定时任务调度日志导出数据
+     * quartz定时任务调度日志导出数据
      *
-     * @param quartzJobLogPageDto quartz 定时任务调度日志查询条件
+     * @param quartzJobLogPageDto quartz定时任务调度日志查询条件
      */
     void export(QuartzJobLogPageDto quartzJobLogPageDto);
 

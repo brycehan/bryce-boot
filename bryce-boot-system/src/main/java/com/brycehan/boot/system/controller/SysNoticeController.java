@@ -95,7 +95,7 @@ public class SysNoticeController {
     }
 
     /**
-     * 分页查询
+     * 系统通知公告分页查询
      *
      * @param sysNoticePageDto 查询条件
      * @return 系统通知公告分页列表

@@ -10,13 +10,13 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * quartz 定时任务调度Vo
+ * quartz定时任务调度Vo
  *
  * @since 2023/10/17
  * @author Bryce Han
  */
 @Data
-@Schema(description = "quartz 定时任务调度Vo")
+@Schema(description = "quartz定时任务调度Vo")
 public class QuartzJobVo implements Serializable {
 
     @Serial

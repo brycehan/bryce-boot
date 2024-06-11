@@ -62,7 +62,7 @@ public class SysOperateLogController {
     }
 
     /**
-     * 分页查询
+     * 系统操作日志分页查询
      *
      * @param sysOperateLogPageDto 查询条件
      * @return 系统操作日志分页列表
