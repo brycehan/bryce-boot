@@ -9,9 +9,9 @@ import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
 import com.brycehan.boot.mp.entity.convert.MpTemplateMessageLogConvert;
 import com.brycehan.boot.mp.entity.dto.MpTemplateMessageLogPageDto;
 import com.brycehan.boot.mp.entity.po.MpTemplateMessageLog;
+import com.brycehan.boot.mp.entity.vo.MpTemplateMessageLogVo;
 import com.brycehan.boot.mp.mapper.MpTemplateMessageLogMapper;
 import com.brycehan.boot.mp.service.MpTemplateMessageLogService;
-import com.brycehan.boot.mp.entity.vo.MpTemplateMessageLogVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

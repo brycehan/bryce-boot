@@ -10,9 +10,9 @@ import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
 import com.brycehan.boot.pay.entity.convert.PayProductConvert;
 import com.brycehan.boot.pay.entity.dto.PayProductPageDto;
 import com.brycehan.boot.pay.entity.po.PayProduct;
+import com.brycehan.boot.pay.entity.vo.PayProductVo;
 import com.brycehan.boot.pay.mapper.PayProductMapper;
 import com.brycehan.boot.pay.service.PayProductService;
-import com.brycehan.boot.pay.entity.vo.PayProductVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
