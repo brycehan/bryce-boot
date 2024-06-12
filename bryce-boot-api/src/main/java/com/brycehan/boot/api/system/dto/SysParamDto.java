@@ -17,7 +17,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Schema(description = "系统参数Dto")
-public class SysParamApiDto extends BaseDto {
+public class SysParamDto extends BaseDto {
 
     /**
      * ID

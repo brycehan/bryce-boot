@@ -1,7 +1,7 @@
 package com.brycehan.boot.api.system;
 
-import com.brycehan.boot.api.system.dto.SysParamApiDto;
-import com.brycehan.boot.api.system.vo.SysParamApiVo;
+import com.brycehan.boot.api.system.dto.SysParamDto;
+import com.brycehan.boot.api.system.vo.SysParamVo;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -16,16 +16,16 @@ public interface SysParamApi {
     /**
      * 添加系统参数
      *
-     * @param sysParamApiDto 系统参数Dto
+     * @param sysParamDto 系统参数Dto
      */
-    void save(@RequestBody SysParamApiDto sysParamApiDto);
+    void save(@RequestBody SysParamDto sysParamDto);
 
     /**
      * 更新系统参数
      *
-     * @param sysParamApiDto 系统参数Dto
+     * @param sysParamDto 系统参数Dto
      */
-    void update(@RequestBody SysParamApiDto sysParamApiDto);
+    void update(@RequestBody SysParamDto sysParamDto);
 
     /**
      * 判断 paramKey 是否存在
@@ -42,7 +42,7 @@ public interface SysParamApi {
      * @param paramKey 参数key
      * @return 参数对象
      */
-    SysParamApiVo getByParamKey(@RequestParam String paramKey);
+    SysParamVo getByParamKey(@RequestParam String paramKey);
 
     /**
      * 根据paramKey，查询字符串类型的参数值

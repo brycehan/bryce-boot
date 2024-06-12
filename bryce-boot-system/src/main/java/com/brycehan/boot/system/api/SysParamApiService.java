@@ -1,13 +1,12 @@
 package com.brycehan.boot.system.api;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.brycehan.boot.api.system.SysParamApi;
-import com.brycehan.boot.api.system.dto.SysParamApiDto;
-import com.brycehan.boot.api.system.vo.SysParamApiVo;
-import com.brycehan.boot.system.entity.convert.SysParamConvert;
-import com.brycehan.boot.system.entity.dto.SysParamDto;
+import com.brycehan.boot.api.system.dto.SysParamDto;
+import com.brycehan.boot.api.system.vo.SysParamVo;
+import com.brycehan.boot.common.base.id.IdGenerator;
 import com.brycehan.boot.system.entity.po.SysParam;
-import com.brycehan.boot.system.entity.vo.SysParamVo;
 import com.brycehan.boot.system.service.SysParamService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,25 +27,26 @@ public class SysParamApiService implements SysParamApi {
     private final SysParamService sysParamService;
 
     @Override
-    public void save(SysParamApiDto sysParamApiDto) {
-        SysParamDto sysParam = new SysParamDto();
-        BeanUtils.copyProperties(sysParamApiDto, sysParam);
+    public void save(SysParamDto sysParamDto) {
+        SysParam sysParam = new SysParam();
+        BeanUtils.copyProperties(sysParamDto, sysParam);
+        sysParam.setId(IdGenerator.nextId());
         this.sysParamService.save(sysParam);
     }
 
     @Override
-    public void update(SysParamApiDto sysParamApiDto) {
-        SysParamDto sysParam = new SysParamDto();
-        BeanUtils.copyProperties(sysParamApiDto, sysParam);
+    public void update(SysParamDto sysParamDto) {
+        SysParam sysParam = new SysParam();
+        BeanUtils.copyProperties(sysParamDto, sysParam);
         // 通过paramKey更新时
         if (sysParam.getId() == null) {
-            LambdaQueryWrapper<SysParam> queryWrapper = new LambdaQueryWrapper<>();
-            queryWrapper.eq(SysParam::getParamKey, sysParam.getParamKey());
+            LambdaUpdateWrapper<SysParam> updateWrapper = new LambdaUpdateWrapper<>();
+            updateWrapper.eq(SysParam::getParamKey, sysParam.getParamKey());
 
-            this.sysParamService.update(SysParamConvert.INSTANCE.convert(sysParam), queryWrapper);
+            this.sysParamService.update(sysParam, updateWrapper);
             return;
         }
-        this.sysParamService.update(sysParam);
+        this.sysParamService.updateById(sysParam);
     }
 
     @Override
@@ -55,13 +55,15 @@ public class SysParamApiService implements SysParamApi {
     }
 
     @Override
-    public SysParamApiVo getByParamKey(String paramKey) {
-        SysParamVo sysParamVo = this.sysParamService.getByParamKey(paramKey);
+    public SysParamVo getByParamKey(String paramKey) {
+        LambdaQueryWrapper<SysParam> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(SysParam::getParamKey, paramKey);
+        SysParam sysParam = this.sysParamService.getOne(queryWrapper, false);
 
-        SysParamApiVo sysParamApiVo = new SysParamApiVo();
-        BeanUtils.copyProperties(sysParamVo, sysParamApiVo);
+        SysParamVo sysParamVo = new SysParamVo();
+        BeanUtils.copyProperties(sysParam, sysParamVo);
 
-        return sysParamApiVo;
+        return sysParamVo;
     }
 
     @Override

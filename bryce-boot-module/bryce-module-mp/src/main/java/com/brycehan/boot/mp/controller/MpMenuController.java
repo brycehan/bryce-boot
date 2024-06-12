@@ -1,7 +1,7 @@
 package com.brycehan.boot.mp.controller;
 
 import com.brycehan.boot.api.system.SysParamApi;
-import com.brycehan.boot.api.system.dto.SysParamApiDto;
+import com.brycehan.boot.api.system.dto.SysParamDto;
 import com.brycehan.boot.common.base.http.ResponseResult;
 import com.brycehan.boot.common.constant.DataConstants;
 import com.brycehan.boot.common.util.JsonUtils;
@@ -71,11 +71,11 @@ public class MpMenuController {
                 this.wxMpService.getMenuService().menuCreate(wxMenu);
                 // 缓存菜单
                 String paramKey = DataConstants.WECHAT_MP_MENU;
-                SysParamApiDto sysParamApiDto = new SysParamApiDto();
-                sysParamApiDto.setParamKey(paramKey);
-                sysParamApiDto.setParamValue(JsonUtils.writeValueAsString(wxMenu));
+                SysParamDto sysParamDto = new SysParamDto();
+                sysParamDto.setParamKey(paramKey);
+                sysParamDto.setParamValue(JsonUtils.writeValueAsString(wxMenu));
 
-                this.sysParamApi.update(sysParamApiDto);
+                this.sysParamApi.update(sysParamDto);
             }
         } catch (WxErrorException e) {
             WxError error = e.getError();

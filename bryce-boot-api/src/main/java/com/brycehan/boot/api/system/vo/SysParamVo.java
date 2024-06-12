@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
  */
 @Data
 @Schema(description = "系统参数Vo")
-public class SysParamApiVo implements Serializable {
+public class SysParamVo implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
