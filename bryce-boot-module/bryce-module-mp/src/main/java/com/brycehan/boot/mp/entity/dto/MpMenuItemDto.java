@@ -1,13 +1,13 @@
 package com.brycehan.boot.mp.entity.dto;
 
+import com.brycehan.boot.common.base.entity.BaseDto;
 import com.brycehan.boot.common.validator.SaveGroup;
 import com.brycehan.boot.common.validator.UpdateGroup;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-import java.io.Serial;
-import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -17,11 +17,9 @@ import java.util.List;
  * @since 2023/11/06
  */
 @Data
+@EqualsAndHashCode(callSuper = false)
 @Schema(description = "微信菜单项Dto")
-public class MpMenuItemDto implements Serializable {
-
-    @Serial
-    private static final long serialVersionUID = 1L;
+public class MpMenuItemDto extends BaseDto {
 
     /**
      * 菜单类型

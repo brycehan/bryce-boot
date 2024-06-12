@@ -1,13 +1,12 @@
 package com.brycehan.boot.mp.entity.dto;
 
+import com.brycehan.boot.common.base.entity.BaseDto;
 import com.brycehan.boot.common.validator.SaveGroup;
 import com.brycehan.boot.common.validator.UpdateGroup;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
 import lombok.Data;
-
-import java.io.Serial;
-import java.io.Serializable;
+import lombok.EqualsAndHashCode;
 
 /**
  * 微信公众号带参二维码Dto
@@ -16,11 +15,9 @@ import java.io.Serializable;
  * @since 2024/03/28
  */
 @Data
+@EqualsAndHashCode(callSuper = false)
 @Schema(description = "微信公众号带参二维码Dto")
-public class MpQrCodeDto implements Serializable {
-
-    @Serial
-    private static final long serialVersionUID = 1L;
+public class MpQrCodeDto extends BaseDto {
 
     /**
      * ID

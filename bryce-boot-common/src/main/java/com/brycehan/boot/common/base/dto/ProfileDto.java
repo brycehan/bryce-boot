@@ -1,5 +1,6 @@
 package com.brycehan.boot.common.base.dto;
 
+import com.brycehan.boot.common.base.entity.BaseDto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -16,7 +17,7 @@ import java.time.LocalDate;
  */
 @Data
 @Schema(description = "个人信息Dto")
-public class ProfileDto {
+public class ProfileDto extends BaseDto {
 
     /**
      * 用户昵称

@@ -1,13 +1,12 @@
 package com.brycehan.boot.system.entity.dto;
 
+import com.brycehan.boot.common.base.entity.BaseDto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
-
-import java.io.Serial;
-import java.io.Serializable;
+import lombok.EqualsAndHashCode;
 
 /**
  * 个人信息Dto
@@ -16,11 +15,9 @@ import java.io.Serializable;
  * @author Bryce Han
  */
 @Data
+@EqualsAndHashCode(callSuper = false)
 @Schema(description = "个人信息Dto")
-public class SysUserInfoDto implements Serializable {
-
-    @Serial
-    private static final long serialVersionUID = 1L;
+public class SysUserInfoDto extends BaseDto {
 
     /**
      * 用户昵称

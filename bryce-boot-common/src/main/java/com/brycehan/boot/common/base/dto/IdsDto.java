@@ -1,12 +1,12 @@
 package com.brycehan.boot.common.base.dto;
 
+import com.brycehan.boot.common.base.entity.BaseDto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-import java.io.Serial;
-import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -16,11 +16,9 @@ import java.util.List;
  * @author Bryce Han
  */
 @Data
+@EqualsAndHashCode(callSuper = false)
 @Schema(description = "删除Dto")
-public class IdsDto implements Serializable {
-
-    @Serial
-    private static final long serialVersionUID = 1L;
+public class IdsDto extends BaseDto {
 
     /**
      * IDs

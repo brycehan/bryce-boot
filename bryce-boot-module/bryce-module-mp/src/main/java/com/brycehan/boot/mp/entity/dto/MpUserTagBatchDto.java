@@ -1,13 +1,12 @@
 package com.brycehan.boot.mp.entity.dto;
 
+import com.brycehan.boot.common.base.entity.BaseDto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Length;
-
-import java.io.Serial;
-import java.io.Serializable;
 
 /**
  * 微信公众号粉丝标签批量Dto
@@ -16,11 +15,9 @@ import java.io.Serializable;
  * @since 2024/03/26
  */
 @Data
+@EqualsAndHashCode(callSuper = false)
 @Schema(description = "微信公众号粉丝标签批量Dto")
-public class MpUserTagBatchDto implements Serializable {
-
-    @Serial
-    private static final long serialVersionUID = 1L;
+public class MpUserTagBatchDto extends BaseDto {
 
     /**
      * tagId

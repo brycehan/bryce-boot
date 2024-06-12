@@ -1,13 +1,12 @@
 package com.brycehan.boot.system.entity.dto;
 
+import com.brycehan.boot.common.base.entity.BaseDto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
-
-import java.io.Serial;
-import java.io.Serializable;
+import lombok.EqualsAndHashCode;
 
 /**
  * 系统用户邮箱Dto
@@ -16,11 +15,9 @@ import java.io.Serializable;
  * @author Bryce Han
  */
 @Data
+@EqualsAndHashCode(callSuper = false)
 @Schema(description = "系统用户邮箱Dto")
-public class SysUserEmailDto implements Serializable {
-
-    @Serial
-    private static final long serialVersionUID = 1L;
+public class SysUserEmailDto extends BaseDto {
 
     /**
      * ID

@@ -42,7 +42,7 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<M, 
      */
     protected IPage<T> getPage(BasePageDto pageDto) {
         Page<T> page = new Page<>(pageDto.getCurrent(), pageDto.getSize());
-        log.debug("BaseServiceImpl.getPage 参数：{}", JsonUtils.writeValueAsString(pageDto));
+        log.debug("BaseServiceImpl.getPage 参数：{}", pageDto.toJson());
 
         List<OrderItem> orderItems = new ArrayList<>();
         // 处理排序参数

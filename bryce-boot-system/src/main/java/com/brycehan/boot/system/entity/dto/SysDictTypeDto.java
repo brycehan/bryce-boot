@@ -1,13 +1,12 @@
 package com.brycehan.boot.system.entity.dto;
 
+import com.brycehan.boot.common.base.entity.BaseDto;
 import com.brycehan.boot.common.validator.SaveGroup;
 import com.brycehan.boot.common.validator.UpdateGroup;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
-
-import java.io.Serial;
-import java.io.Serializable;
+import lombok.EqualsAndHashCode;
 
 /**
  * 系统字典类型Dto
@@ -16,11 +15,9 @@ import java.io.Serializable;
  * @author Bryce Han
  */
 @Data
+@EqualsAndHashCode(callSuper = false)
 @Schema(description = "系统字典类型Dto")
-public class SysDictTypeDto implements Serializable {
-
-    @Serial
-    private static final long serialVersionUID = 1L;
+public class SysDictTypeDto extends BaseDto {
 
     /**
      * ID

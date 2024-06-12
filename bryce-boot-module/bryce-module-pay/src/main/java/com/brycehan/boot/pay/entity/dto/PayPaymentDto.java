@@ -1,5 +1,6 @@
 package com.brycehan.boot.pay.entity.dto;
 
+import com.brycehan.boot.common.base.entity.BaseDto;
 import com.brycehan.boot.common.validator.SaveGroup;
 import com.brycehan.boot.common.validator.UpdateGroup;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -7,9 +8,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Null;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
-
-import java.io.Serial;
-import java.io.Serializable;
+import lombok.EqualsAndHashCode;
 
 /**
  * 支付记录Dto
@@ -18,11 +17,9 @@ import java.io.Serializable;
  * @since 2024/02/28
  */
 @Data
+@EqualsAndHashCode(callSuper = false)
 @Schema(description = "支付记录Dto")
-public class PayPaymentDto implements Serializable {
-
-    @Serial
-    private static final long serialVersionUID = 1L;
+public class PayPaymentDto extends BaseDto {
 
     /**
      * ID

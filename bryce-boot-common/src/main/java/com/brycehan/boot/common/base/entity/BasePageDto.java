@@ -46,7 +46,12 @@ public abstract class BasePageDto implements Serializable {
     @Valid
     private List<OrderItemDto> orderItems;
 
-    public String toString(){
+    /**
+     * 转换为JSON字符串
+     *
+     * @return JSON字符串
+     */
+    public String toJson(){
         return JsonUtils.writeValueAsString(this);
     }
 

@@ -1,11 +1,11 @@
 package com.brycehan.boot.system.entity.dto;
 
+import com.brycehan.boot.common.base.entity.BaseDto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-import java.io.Serial;
-import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -15,11 +15,9 @@ import java.util.List;
  * @author Bryce Han
  */
 @Data
+@EqualsAndHashCode(callSuper = false)
 @Schema(description = "系统角色Dto")
-public class SysRoleDataScopeDto implements Serializable {
-
-    @Serial
-    private static final long serialVersionUID = 1L;
+public class SysRoleDataScopeDto extends BaseDto {
 
     /**
      * ID

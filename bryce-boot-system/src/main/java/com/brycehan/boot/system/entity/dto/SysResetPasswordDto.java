@@ -1,12 +1,11 @@
 package com.brycehan.boot.system.entity.dto;
 
+import com.brycehan.boot.common.base.entity.BaseDto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Length;
-
-import java.io.Serial;
-import java.io.Serializable;
 
 /**
  * 系统用户重置密码 Dto
@@ -15,11 +14,9 @@ import java.io.Serializable;
  * @author Bryce Han
  */
 @Data
+@EqualsAndHashCode(callSuper = false)
 @Schema(description = "系统用户重置密码Dto")
-public class SysResetPasswordDto implements Serializable {
-
-    @Serial
-    private static final long serialVersionUID = 1L;
+public class SysResetPasswordDto extends BaseDto {
 
     /**
      * ID

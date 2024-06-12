@@ -1,5 +1,6 @@
 package com.brycehan.boot.system.entity.dto;
 
+import com.brycehan.boot.common.base.entity.BaseDto;
 import com.brycehan.boot.common.validator.SaveGroup;
 import com.brycehan.boot.common.validator.UpdateGroup;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -7,9 +8,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Null;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
-
-import java.io.Serial;
-import java.io.Serializable;
+import lombok.EqualsAndHashCode;
 
 /**
  * 地区编码Dto
@@ -18,11 +17,9 @@ import java.io.Serializable;
  * @since 2024/04/12
  */
 @Data
-@Schema(description = "地区编码 Dto")
-public class SysAreaCodeDto implements Serializable {
-
-    @Serial
-    private static final long serialVersionUID = 1L;
+@EqualsAndHashCode(callSuper = false)
+@Schema(description = "地区编码Dto")
+public class SysAreaCodeDto extends BaseDto {
 
     /**
      * ID

@@ -1,9 +1,8 @@
 package com.brycehan.boot.framework.operatelog;
 
+import com.brycehan.boot.common.base.entity.BaseDto;
 import lombok.Data;
 
-import java.io.Serial;
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
@@ -13,10 +12,7 @@ import java.time.LocalDateTime;
  * @author Bryce Han
  */
 @Data
-public class OperateLogDto implements Serializable {
-
-    @Serial
-    private static final long serialVersionUID = 1L;
+public class OperateLogDto extends BaseDto {
 
     /**
      * ID

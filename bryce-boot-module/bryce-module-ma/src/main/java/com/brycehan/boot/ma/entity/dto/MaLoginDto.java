@@ -1,12 +1,11 @@
 package com.brycehan.boot.ma.entity.dto;
 
+import com.brycehan.boot.common.base.entity.BaseDto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
-
-import java.io.Serial;
-import java.io.Serializable;
+import lombok.EqualsAndHashCode;
 
 /**
  * 微信小程序登录Dto
@@ -15,11 +14,9 @@ import java.io.Serializable;
  * @since 2024/03/28
  */
 @Data
+@EqualsAndHashCode(callSuper = false)
 @Schema(description = "微信小程序登录Dto")
-public class MaLoginDto implements Serializable {
-
-    @Serial
-    private static final long serialVersionUID = 1L;
+public class MaLoginDto extends BaseDto {
 
     /**
      * 小程序登录返回的code

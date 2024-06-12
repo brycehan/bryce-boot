@@ -1,5 +1,6 @@
 package com.brycehan.boot.common.base.dto;
 
+import com.brycehan.boot.common.base.entity.BaseDto;
 import com.brycehan.boot.common.constant.UserConstants;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
@@ -14,7 +15,7 @@ import lombok.Data;
  */
 @Data
 @Schema(description = "注册Dto")
-public class RegisterDto {
+public class RegisterDto extends BaseDto {
 
     /**
      * 账号

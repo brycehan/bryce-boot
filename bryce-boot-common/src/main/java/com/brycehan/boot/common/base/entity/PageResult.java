@@ -22,13 +22,23 @@ public class PageResult<T> implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
+    /**
+     * 总条数
+     */
     @Schema(description = "总条数")
     private long total;
 
+    /**
+     * 列表数据
+     */
     @Schema(description = "列表数据")
     private List<T> list;
 
-    public String toString(){
+    /**
+     * 转换为JSON字符串
+     * @return JSON字符串
+     */
+    public String toJson(){
         return JsonUtils.writeValueAsString(this);
     }
 

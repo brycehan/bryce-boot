@@ -1,5 +1,6 @@
 package com.brycehan.boot.mp.entity.dto;
 
+import com.brycehan.boot.common.base.entity.BaseDto;
 import com.brycehan.boot.common.validator.SaveGroup;
 import com.brycehan.boot.common.validator.UpdateGroup;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -7,11 +8,10 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateData;
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage;
 
-import java.io.Serial;
-import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -22,11 +22,9 @@ import java.util.Map;
  * @since 2024/03/28
  */
 @Data
+@EqualsAndHashCode(callSuper = false)
 @Schema(description = "微信公众号模板消息Dto")
-public class MpTemplateMessageBatchDto implements Serializable {
-
-    @Serial
-    private static final long serialVersionUID = 1L;
+public class MpTemplateMessageBatchDto extends BaseDto {
 
     /**
      * 用户筛选条件参数

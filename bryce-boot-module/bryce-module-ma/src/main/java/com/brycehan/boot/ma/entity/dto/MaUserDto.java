@@ -1,12 +1,12 @@
 package com.brycehan.boot.ma.entity.dto;
 
+import com.brycehan.boot.common.base.entity.BaseDto;
 import com.brycehan.boot.common.validator.UpdateGroup;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-import java.io.Serial;
-import java.io.Serializable;
 import java.time.LocalDate;
 
 /**
@@ -16,11 +16,9 @@ import java.time.LocalDate;
  * @since 2024/04/07
  */
 @Data
+@EqualsAndHashCode(callSuper = false)
 @Schema(description = "微信小程序用户 Dto")
-public class MaUserDto implements Serializable {
-
-    @Serial
-    private static final long serialVersionUID = 1L;
+public class MaUserDto extends BaseDto {
 
     /**
      * ID

@@ -1,10 +1,9 @@
 package com.brycehan.boot.system.entity.dto;
 
+import com.brycehan.boot.common.base.entity.BaseDto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-
-import java.io.Serial;
-import java.io.Serializable;
+import lombok.EqualsAndHashCode;
 
 /**
  * 系统用户状态Dto
@@ -13,11 +12,9 @@ import java.io.Serializable;
  * @author Bryce Han
  */
 @Data
+@EqualsAndHashCode(callSuper = false)
 @Schema(description = "系统用户状态Dto")
-public class SysUserStatusDto implements Serializable {
-
-    @Serial
-    private static final long serialVersionUID = 1L;
+public class SysUserStatusDto extends BaseDto {
 
     /**
      * ID

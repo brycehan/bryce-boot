@@ -65,7 +65,12 @@ public abstract class BaseEntity implements TransPojo, Serializable {
     @TableField(fill = FieldFill.UPDATE)
     private LocalDateTime updatedTime;
 
-    public String toString(){
+    /**
+     * 转换为JSON字符串
+     *
+     * @return JSON字符串
+     */
+    public String toJson(){
         return JsonUtils.writeValueAsString(this);
     }
 
