@@ -17,7 +17,7 @@ import java.time.LocalDate;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@Schema(description = "微信小程序用户 Dto")
+@Schema(description = "微信小程序用户Dto")
 public class MaUserDto extends BaseDto {
 
     /**

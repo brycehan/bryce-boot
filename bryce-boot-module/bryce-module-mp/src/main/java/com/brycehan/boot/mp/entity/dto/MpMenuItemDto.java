@@ -11,7 +11,7 @@ import lombok.EqualsAndHashCode;
 import java.util.List;
 
 /**
- * 微信菜单项 Dto
+ * 微信菜单项Dto
  *
  * @author Bryce Han
  * @since 2023/11/06

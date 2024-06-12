@@ -9,13 +9,13 @@ import lombok.EqualsAndHashCode;
 import java.io.Serial;
 
 /**
- * 微信公众号消息回复规则 PageDto
+ * 微信公众号消息回复规则PageDto
  *
  * @author Bryce Han
  * @since 2024/03/26
  */
 @Data
-@Schema(description = "微信公众号消息回复规则 PageDto")
+@Schema(description = "微信公众号消息回复规则PageDto")
 @EqualsAndHashCode(callSuper = true)
 public class MpMessageReplyRulePageDto extends BasePageDto {
 

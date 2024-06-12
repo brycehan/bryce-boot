@@ -12,7 +12,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * 基础分页 Dto 数据传输对象
+ * 基础分页Dto
  *
  * @since 2021/8/31
  * @author Bryce Han

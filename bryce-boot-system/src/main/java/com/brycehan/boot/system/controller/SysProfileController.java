@@ -76,7 +76,7 @@ public class SysProfileController {
     /**
      * 修改密码
      *
-     * @param sysUserPasswordDto 系统用户修改密码 Dto
+     * @param sysUserPasswordDto 系统用户修改密码Dto
      * @return 响应结果
      */
     @Operation(summary = "修改密码")

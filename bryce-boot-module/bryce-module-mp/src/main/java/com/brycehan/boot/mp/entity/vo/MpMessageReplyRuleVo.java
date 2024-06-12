@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 /**
- * 微信公众号消息回复规则 Vo
+ * 微信公众号消息回复规则Vo
  *
  * @author Bryce Han
  * @since 2024/03/26

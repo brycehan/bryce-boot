@@ -12,7 +12,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * 系统用户 Excel Dto
+ * 系统用户 ExcelDto
  *
  * @since 2023/08/24
  * @author Bryce Han

@@ -143,7 +143,7 @@ public interface SysUserService extends BaseService<SysUser> {
     /**
      * 更新密码
      *
-     * @param passwordDto 系统用户密码 Dto
+     * @param passwordDto 系统用户密码Dto
      */
     void updatePassword(SysUserPasswordDto passwordDto);
 

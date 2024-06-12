@@ -9,14 +9,14 @@ import lombok.EqualsAndHashCode;
 import java.io.Serial;
 
 /**
- * 在线用户 PageDto
+ * 在线用户PageDto
  *
  * @since 2023/09/11
  * @author Bryce Han
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@Schema(description = "在线用户 PageDto")
+@Schema(description = "在线用户PageDto")
 public class OnlineUserPageDto extends BasePageDto {
 
     @Serial

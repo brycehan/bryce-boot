@@ -10,7 +10,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * 商品 Vo
+ * 商品Vo
  *
  * @author Bryce Han
  * @since 2024/02/28

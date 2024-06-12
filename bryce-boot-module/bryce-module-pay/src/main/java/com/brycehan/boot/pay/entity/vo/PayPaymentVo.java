@@ -10,7 +10,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * 支付记录 Vo
+ * 支付记录Vo
  *
  * @author Bryce Han
  * @since 2024/02/28

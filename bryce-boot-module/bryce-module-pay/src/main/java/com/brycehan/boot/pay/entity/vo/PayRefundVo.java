@@ -10,7 +10,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * 退款单 Vo
+ * 退款单Vo
  *
  * @author Bryce Han
  * @since 2024/02/28

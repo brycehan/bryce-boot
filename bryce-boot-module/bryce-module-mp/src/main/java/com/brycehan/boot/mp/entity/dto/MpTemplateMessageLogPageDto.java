@@ -8,13 +8,13 @@ import lombok.EqualsAndHashCode;
 import java.io.Serial;
 
 /**
- * 微信公众号模版消息发送记录 PageDto
+ * 微信公众号模版消息发送记录PageDto
  *
  * @author Bryce Han
  * @since 2024/03/28
  */
 @Data
-@Schema(description = "微信公众号模版消息发送记录 PageDto")
+@Schema(description = "微信公众号模版消息发送记录PageDto")
 @EqualsAndHashCode(callSuper = true)
 public class MpTemplateMessageLogPageDto extends BasePageDto {
 

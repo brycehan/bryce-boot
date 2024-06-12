@@ -95,10 +95,10 @@ public class AuthLoginServiceImpl implements AuthLoginService {
     }
 
     /**
-     * 通过认证信息获取登录 Vo
+     * 通过认证信息获取登录Vo
      *
      * @param authentication 认证信息
-     * @return 登录 Vo
+     * @return 登录Vo
      */
     private LoginVo loadLoginVo(Authentication authentication) {
         LoginUser loginUser = (LoginUser) authentication.getPrincipal();

@@ -8,13 +8,13 @@ import lombok.EqualsAndHashCode;
 import java.io.Serial;
 
 /**
- * 支付记录 PageDto
+ * 支付记录PageDto
  *
  * @author Bryce Han
  * @since 2024/02/28
  */
 @Data
-@Schema(description = "支付记录 PageDto")
+@Schema(description = "支付记录PageDto")
 @EqualsAndHashCode(callSuper = true)
 public class PayPaymentPageDto extends BasePageDto {
 

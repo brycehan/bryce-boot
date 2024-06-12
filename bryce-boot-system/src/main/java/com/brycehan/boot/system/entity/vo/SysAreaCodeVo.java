@@ -7,13 +7,13 @@ import java.io.Serial;
 import java.io.Serializable;
 
 /**
- * 地区编码 Vo
+ * 地区编码Vo
  *
  * @author Bryce Han
  * @since 2024/04/12
  */
 @Data
-@Schema(description = "地区编码 Vo")
+@Schema(description = "地区编码Vo")
 public class SysAreaCodeVo implements Serializable {
 
     @Serial

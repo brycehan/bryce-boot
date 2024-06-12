@@ -8,13 +8,13 @@ import lombok.EqualsAndHashCode;
 import java.io.Serial;
 
 /**
- * 微信小程序用户 PageDto
+ * 微信小程序用户PageDto
  *
  * @author Bryce Han
  * @since 2024/04/07
  */
 @Data
-@Schema(description = "微信小程序用户 PageDto")
+@Schema(description = "微信小程序用户PageDto")
 @EqualsAndHashCode(callSuper = true)
 public class MaUserPageDto extends BasePageDto {
 

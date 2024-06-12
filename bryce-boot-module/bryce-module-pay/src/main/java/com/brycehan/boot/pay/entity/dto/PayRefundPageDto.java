@@ -8,13 +8,13 @@ import lombok.EqualsAndHashCode;
 import java.io.Serial;
 
 /**
- * 退款单 PageDto
+ * 退款单PageDto
  *
  * @author Bryce Han
  * @since 2024/02/28
  */
 @Data
-@Schema(description = "退款单 PageDto")
+@Schema(description = "退款单PageDto")
 @EqualsAndHashCode(callSuper = true)
 public class PayRefundPageDto extends BasePageDto {
 

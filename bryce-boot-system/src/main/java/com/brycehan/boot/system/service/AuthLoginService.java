@@ -19,7 +19,7 @@ public interface AuthLoginService {
      * 账号登录
      *
      * @param accountLoginDto 账号登录dto
-     * @return 登录 Vo
+     * @return 登录Vo
      */
     LoginVo loginByAccount(AccountLoginDto accountLoginDto);
 
@@ -27,7 +27,7 @@ public interface AuthLoginService {
      * 手机号登录
      *
      * @param phoneLoginDto 手机号登录dto
-     * @return 登录 Vo
+     * @return 登录Vo
      */
     LoginVo loginByPhone(PhoneLoginDto phoneLoginDto);
 

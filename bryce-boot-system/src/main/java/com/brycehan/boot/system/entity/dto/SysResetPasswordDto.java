@@ -8,7 +8,7 @@ import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Length;
 
 /**
- * 系统用户重置密码 Dto
+ * 系统用户重置密码Dto
  *
  * @since 2022/5/14
  * @author Bryce Han

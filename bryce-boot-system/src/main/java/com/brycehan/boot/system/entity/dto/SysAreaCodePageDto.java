@@ -9,13 +9,13 @@ import lombok.EqualsAndHashCode;
 import java.io.Serial;
 
 /**
- * 地区编码 PageDto
+ * 地区编码PageDto
  *
  * @author Bryce Han
  * @since 2024/04/12
  */
 @Data
-@Schema(description = "地区编码 PageDto")
+@Schema(description = "地区编码PageDto")
 @EqualsAndHashCode(callSuper = true)
 public class SysAreaCodePageDto extends BasePageDto {
 

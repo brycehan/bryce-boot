@@ -7,7 +7,7 @@ import java.io.Serial;
 import java.io.Serializable;
 
 /**
- * 微信公众号消息模板 Vo
+ * 微信公众号消息模板Vo
  *
  * @author Bryce Han
  * @since 2024/03/28

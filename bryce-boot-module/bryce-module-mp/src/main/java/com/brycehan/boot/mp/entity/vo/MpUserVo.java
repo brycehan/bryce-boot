@@ -10,7 +10,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * 微信公众号粉丝 Vo
+ * 微信公众号粉丝Vo
  *
  * @author Bryce Han
  * @since 2024/03/26
