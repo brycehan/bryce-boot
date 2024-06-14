@@ -180,11 +180,11 @@ public class ServerExceptionHandler {
     /**
      * 通用异常处理
      *
-     * @param e 一般异常
+     * @param e 异常
      * @return 响应结果
      */
-    @ExceptionHandler(RuntimeException.class)
-    public ResponseResult<Void> handleException(RuntimeException e) {
+    @ExceptionHandler(Exception.class)
+    public ResponseResult<Void> handleException(Exception e) {
         log.info("系统内部异常", e);
         return ResponseResult.error(HttpResponseStatus.HTTP_INTERNAL_ERROR.code(), e.getMessage());
     }

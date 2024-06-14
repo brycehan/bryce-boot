@@ -93,6 +93,10 @@ public class SysOrgController {
     @GetMapping(path = "/{id}")
     public ResponseResult<SysOrgVo> get(@Parameter(description = "系统机构ID", required = true) @PathVariable Long id) {
         SysOrg sysOrg = this.sysOrgService.getById(id);
+        if (sysOrg == null) {
+            return ResponseResult.ok();
+        }
+
         SysOrgVo sysOrgVo = SysOrgConvert.INSTANCE.convert(sysOrg);
 
         // 获取上级机构名称
