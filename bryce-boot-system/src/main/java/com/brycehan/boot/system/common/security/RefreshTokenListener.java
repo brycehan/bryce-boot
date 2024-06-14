@@ -50,7 +50,7 @@ public class RefreshTokenListener {
         String token = this.jwtTokenProvider.generateToken(loginUser);
 
         // 缓存 loginUser
-        this.jwtTokenProvider.cacheLoginUser(loginUser);
+        this.jwtTokenProvider.cache(loginUser);
         this.jwtTokenProvider.refreshToken(token);
     }
 

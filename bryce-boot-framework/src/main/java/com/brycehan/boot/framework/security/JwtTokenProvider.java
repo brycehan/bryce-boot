@@ -69,7 +69,7 @@ public class JwtTokenProvider {
      *
      * @param loginUser 登录用户
      */
-    public void prepareLoginUser(LoginUser loginUser) {
+    public void prepare(LoginUser loginUser) {
         // 设置用户代理
         this.setUserAgent(loginUser);
 
@@ -166,10 +166,9 @@ public class JwtTokenProvider {
         loginUser.setLoginLocation(loginLocation);
     }
 
-    public void cacheLoginUser(LoginUser loginUser) {
-
+    public void cache(LoginUser loginUser) {
         // 来源客户端
-        SourceClientType sourceClientType = TokenUtils.getSourceClient(ServletUtils.getRequest());
+        SourceClientType sourceClientType = SourceClientType.getByValue(loginUser.getSourceClient());
 
         LocalDateTime now = LocalDateTime.now();
         // 设置过期时间
@@ -180,7 +179,6 @@ public class JwtTokenProvider {
         }
         loginUser.setLoginTime(now);
         loginUser.setExpireTime(expireTime);
-        loginUser.setSourceClient(sourceClientType.value());
 
         String loginUserKey;
         switch (sourceClientType) {
@@ -205,7 +203,7 @@ public class JwtTokenProvider {
             // 生成 jwt
             String token = generateToken(loginUser);
             // 缓存 loginUser
-            cacheLoginUser(loginUser);
+            cache(loginUser);
             // 刷新令牌
             refreshToken(token);
         }
