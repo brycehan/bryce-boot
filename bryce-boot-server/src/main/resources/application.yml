@@ -9,6 +9,8 @@ spring:
   jackson:
     # 时区
     time-zone: GMT+8
+    # 空值处理
+    default-property-inclusion: always
   servlet:
     # 上传文件
     multipart:
