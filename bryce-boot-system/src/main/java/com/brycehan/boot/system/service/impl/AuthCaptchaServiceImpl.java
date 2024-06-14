@@ -48,7 +48,7 @@ public class AuthCaptchaServiceImpl implements AuthCaptchaService {
         String captchaKey = RedisKeys.getCaptchaKey(key);
         String captchaValue = captcha.text();
 
-        log.debug("图片验证码key：{}, 值：{}", key, captchaValue);
+        log.info("图片验证码key：{}, 值：{}", key, captchaValue);
 
         // 存储到 Redis
         this.stringRedisTemplate.opsForValue()
