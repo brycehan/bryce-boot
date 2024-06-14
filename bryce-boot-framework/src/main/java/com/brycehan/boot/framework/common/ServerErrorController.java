@@ -9,7 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -25,7 +25,7 @@ public class ServerErrorController implements ErrorController {
 
     public static final String ERROR_PATH = "/error";
 
-    @GetMapping(path = ERROR_PATH, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(path = ERROR_PATH, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseResult<String> handleError(HttpServletRequest request, HttpServletResponse response) {
         int status = response.getStatus();
         log.error("请求出错了，状态码：{}", status);
