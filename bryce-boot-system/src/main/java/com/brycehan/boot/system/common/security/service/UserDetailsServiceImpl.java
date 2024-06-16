@@ -1,7 +1,7 @@
 package com.brycehan.boot.system.common.security.service;
 
 import com.brycehan.boot.api.system.SysUserApi;
-import com.brycehan.boot.common.base.context.LoginUser;
+import com.brycehan.boot.common.base.LoginUser;
 import com.brycehan.boot.system.entity.convert.SysUserConvert;
 import com.brycehan.boot.system.entity.po.SysUser;
 import com.brycehan.boot.system.mapper.SysUserMapper;

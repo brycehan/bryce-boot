@@ -1,7 +1,7 @@
 package com.brycehan.boot.framework.security;
 
 import com.brycehan.boot.common.base.ServerException;
-import com.brycehan.boot.common.base.http.UserResponseStatus;
+import com.brycehan.boot.common.response.UserResponseStatus;
 import com.brycehan.boot.common.constant.CacheConstants;
 import com.brycehan.boot.common.util.JsonUtils;
 import lombok.RequiredArgsConstructor;

@@ -1,6 +1,6 @@
 package com.brycehan.boot.mp.controller;
 
-import com.brycehan.boot.common.base.http.ResponseResult;
+import com.brycehan.boot.common.response.ResponseResult;
 import com.brycehan.boot.framework.operatelog.annotation.OperateLog;
 import com.brycehan.boot.framework.operatelog.annotation.OperateType;
 import com.brycehan.boot.mp.entity.dto.MpUserTagBatchDto;

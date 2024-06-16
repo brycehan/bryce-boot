@@ -1,6 +1,6 @@
 package com.brycehan.boot.mp.entity.dto;
 
-import com.brycehan.boot.common.base.entity.BasePageDto;
+import com.brycehan.boot.common.entity.BasePageDto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

@@ -1,6 +1,6 @@
 package com.brycehan.boot.system.service;
 
-import com.brycehan.boot.common.base.dto.RegisterDto;
+import com.brycehan.boot.common.entity.dto.RegisterDto;
 
 /**
  * 注册服务类

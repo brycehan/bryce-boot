@@ -1,7 +1,7 @@
 package com.brycehan.boot.pay.controller;
 
 import cn.hutool.extra.servlet.JakartaServletUtil;
-import com.brycehan.boot.common.base.http.ResponseResult;
+import com.brycehan.boot.common.response.ResponseResult;
 import com.brycehan.boot.framework.operatelog.annotation.OperateLog;
 import com.brycehan.boot.framework.operatelog.annotation.OperateType;
 import com.brycehan.boot.pay.service.WechatPayService;

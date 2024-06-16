@@ -1,7 +1,7 @@
 package com.brycehan.boot.system.common.security;
 
-import com.brycehan.boot.common.base.context.LoginUser;
-import com.brycehan.boot.common.base.context.LoginUserContext;
+import com.brycehan.boot.common.base.LoginUser;
+import com.brycehan.boot.common.base.LoginUserContext;
 import com.brycehan.boot.framework.security.JwtTokenProvider;
 import com.brycehan.boot.system.entity.po.SysUser;
 import lombok.RequiredArgsConstructor;

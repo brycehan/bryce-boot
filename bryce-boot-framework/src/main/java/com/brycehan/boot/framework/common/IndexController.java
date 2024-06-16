@@ -1,6 +1,6 @@
 package com.brycehan.boot.framework.common;
 
-import com.brycehan.boot.common.base.http.ResponseResult;
+import com.brycehan.boot.common.response.ResponseResult;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;

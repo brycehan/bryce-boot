@@ -1,6 +1,6 @@
 package com.brycehan.boot.api.system;
 
-import com.brycehan.boot.common.base.context.LoginUser;
+import com.brycehan.boot.common.base.LoginUser;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**

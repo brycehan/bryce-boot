@@ -1,8 +1,8 @@
 package com.brycehan.boot.system.controller;
 
-import com.brycehan.boot.common.base.dto.RegisterDto;
-import com.brycehan.boot.common.base.http.ResponseResult;
-import com.brycehan.boot.common.base.http.UserResponseStatus;
+import com.brycehan.boot.common.entity.dto.RegisterDto;
+import com.brycehan.boot.common.response.ResponseResult;
+import com.brycehan.boot.common.response.UserResponseStatus;
 import com.brycehan.boot.framework.operatelog.annotation.OperateLog;
 import com.brycehan.boot.framework.operatelog.annotation.OperateType;
 import com.brycehan.boot.system.service.AuthRegisterService;

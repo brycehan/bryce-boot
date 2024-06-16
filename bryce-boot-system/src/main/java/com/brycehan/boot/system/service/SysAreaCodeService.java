@@ -1,6 +1,6 @@
 package com.brycehan.boot.system.service;
 
-import com.brycehan.boot.common.base.entity.PageResult;
+import com.brycehan.boot.common.entity.PageResult;
 import com.brycehan.boot.framework.mybatis.service.BaseService;
 import com.brycehan.boot.system.entity.convert.SysAreaCodeConvert;
 import com.brycehan.boot.system.entity.dto.SysAreaCodeDto;

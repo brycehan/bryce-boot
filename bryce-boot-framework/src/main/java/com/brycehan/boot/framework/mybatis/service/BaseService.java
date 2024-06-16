@@ -1,7 +1,7 @@
 package com.brycehan.boot.framework.mybatis.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.brycehan.boot.common.base.dto.IdsDto;
+import com.brycehan.boot.common.entity.dto.IdsDto;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.transaction.annotation.Transactional;
 

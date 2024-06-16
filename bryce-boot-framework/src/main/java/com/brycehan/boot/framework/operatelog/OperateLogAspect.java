@@ -2,8 +2,8 @@ package com.brycehan.boot.framework.operatelog;
 
 import cn.hutool.core.date.LocalDateTimeUtil;
 import cn.hutool.core.util.StrUtil;
-import com.brycehan.boot.common.base.context.LoginUser;
-import com.brycehan.boot.common.base.context.LoginUserContext;
+import com.brycehan.boot.common.base.LoginUser;
+import com.brycehan.boot.common.base.LoginUserContext;
 import com.brycehan.boot.common.util.IpUtils;
 import com.brycehan.boot.common.util.LocationUtils;
 import com.brycehan.boot.common.util.ServletUtils;

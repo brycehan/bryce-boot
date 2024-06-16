@@ -1,10 +1,10 @@
 package com.brycehan.boot.system.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.brycehan.boot.common.base.context.LoginUser;
-import com.brycehan.boot.common.base.dto.AccountLoginDto;
-import com.brycehan.boot.common.base.dto.PhoneLoginDto;
-import com.brycehan.boot.common.base.vo.LoginVo;
+import com.brycehan.boot.common.base.LoginUser;
+import com.brycehan.boot.common.entity.dto.AccountLoginDto;
+import com.brycehan.boot.common.entity.dto.PhoneLoginDto;
+import com.brycehan.boot.common.entity.vo.LoginVo;
 import com.brycehan.boot.common.constant.DataConstants;
 import com.brycehan.boot.common.constant.JwtConstants;
 import com.brycehan.boot.common.enums.CaptchaType;

@@ -1,7 +1,7 @@
 package com.brycehan.boot.common.base;
 
-import com.brycehan.boot.common.base.http.HttpResponseStatus;
-import com.brycehan.boot.common.base.http.ResponseStatus;
+import com.brycehan.boot.common.response.HttpResponseStatus;
+import com.brycehan.boot.common.response.ResponseStatus;
 import com.brycehan.boot.common.util.StringFormatUtils;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

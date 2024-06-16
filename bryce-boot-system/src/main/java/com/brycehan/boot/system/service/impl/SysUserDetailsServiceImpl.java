@@ -1,8 +1,8 @@
 package com.brycehan.boot.system.service.impl;
 
 import com.brycehan.boot.common.base.ServerException;
-import com.brycehan.boot.common.base.context.LoginUser;
-import com.brycehan.boot.common.base.http.UserResponseStatus;
+import com.brycehan.boot.common.base.LoginUser;
+import com.brycehan.boot.common.response.UserResponseStatus;
 import com.brycehan.boot.common.constant.DataConstants;
 import com.brycehan.boot.common.enums.DataScopeType;
 import com.brycehan.boot.common.util.ServletUtils;

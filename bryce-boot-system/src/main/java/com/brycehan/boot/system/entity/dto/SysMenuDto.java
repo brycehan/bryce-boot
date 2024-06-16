@@ -1,7 +1,7 @@
 package com.brycehan.boot.system.entity.dto;
 
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.brycehan.boot.common.base.entity.BaseDto;
+import com.brycehan.boot.common.entity.BaseDto;
 import com.brycehan.boot.common.validator.SaveGroup;
 import com.brycehan.boot.common.validator.UpdateGroup;
 import io.swagger.v3.oas.annotations.media.Schema;

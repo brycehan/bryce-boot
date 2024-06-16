@@ -1,8 +1,8 @@
 package com.brycehan.boot.system.service;
 
-import com.brycehan.boot.common.base.context.LoginUser;
-import com.brycehan.boot.common.base.entity.PageResult;
-import com.brycehan.boot.common.base.id.IdGenerator;
+import com.brycehan.boot.common.base.LoginUser;
+import com.brycehan.boot.common.entity.PageResult;
+import com.brycehan.boot.common.base.IdGenerator;
 import com.brycehan.boot.framework.mybatis.service.BaseService;
 import com.brycehan.boot.system.entity.convert.SysMenuConvert;
 import com.brycehan.boot.system.entity.dto.SysMenuAuthorityDto;

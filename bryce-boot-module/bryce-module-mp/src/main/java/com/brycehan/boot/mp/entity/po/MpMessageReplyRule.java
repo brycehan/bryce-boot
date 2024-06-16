@@ -1,7 +1,7 @@
 package com.brycehan.boot.mp.entity.po;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.brycehan.boot.common.base.entity.BaseEntity;
+import com.brycehan.boot.common.entity.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

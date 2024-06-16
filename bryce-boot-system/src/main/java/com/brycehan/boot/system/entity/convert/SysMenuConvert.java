@@ -1,6 +1,6 @@
 package com.brycehan.boot.system.entity.convert;
 
-import com.brycehan.boot.common.base.vo.MenuVo;
+import com.brycehan.boot.common.entity.vo.MenuVo;
 import com.brycehan.boot.system.entity.dto.SysMenuDto;
 import com.brycehan.boot.system.entity.po.SysMenu;
 import com.brycehan.boot.system.entity.vo.SysMenuVo;

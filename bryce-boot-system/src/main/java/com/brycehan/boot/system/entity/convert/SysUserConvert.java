@@ -1,6 +1,6 @@
 package com.brycehan.boot.system.entity.convert;
 
-import com.brycehan.boot.common.base.context.LoginUser;
+import com.brycehan.boot.common.base.LoginUser;
 import com.brycehan.boot.system.entity.dto.SysUserAvatarDto;
 import com.brycehan.boot.system.entity.dto.SysUserDto;
 import com.brycehan.boot.system.entity.dto.SysUserExcelDto;

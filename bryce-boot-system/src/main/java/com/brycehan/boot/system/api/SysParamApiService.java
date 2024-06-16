@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.brycehan.boot.api.system.SysParamApi;
 import com.brycehan.boot.api.system.dto.SysParamDto;
 import com.brycehan.boot.api.system.vo.SysParamVo;
-import com.brycehan.boot.common.base.id.IdGenerator;
+import com.brycehan.boot.common.base.IdGenerator;
 import com.brycehan.boot.system.entity.po.SysParam;
 import com.brycehan.boot.system.service.SysParamService;
 import lombok.RequiredArgsConstructor;

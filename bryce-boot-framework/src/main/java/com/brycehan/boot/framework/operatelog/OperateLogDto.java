@@ -1,6 +1,6 @@
 package com.brycehan.boot.framework.operatelog;
 
-import com.brycehan.boot.common.base.entity.BaseDto;
+import com.brycehan.boot.common.entity.BaseDto;
 import lombok.Data;
 
 import java.time.LocalDateTime;

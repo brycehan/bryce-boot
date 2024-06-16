@@ -1,6 +1,6 @@
 package com.brycehan.boot.mp.service.impl;
 
-import com.brycehan.boot.common.base.entity.PageResult;
+import com.brycehan.boot.common.entity.PageResult;
 import com.brycehan.boot.common.util.JsonUtils;
 import com.brycehan.boot.mp.entity.dto.MpTemplateMessageBatchDto;
 import com.brycehan.boot.mp.entity.dto.MpUserPageDto;

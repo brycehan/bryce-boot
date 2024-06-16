@@ -1,6 +1,6 @@
 package com.brycehan.boot.pay.service;
 
-import com.brycehan.boot.common.base.entity.PageResult;
+import com.brycehan.boot.common.entity.PageResult;
 import com.brycehan.boot.framework.mybatis.service.BaseService;
 import com.brycehan.boot.pay.common.OrderStatus;
 import com.brycehan.boot.pay.common.PayType;

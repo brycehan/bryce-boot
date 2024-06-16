@@ -1,8 +1,8 @@
 package com.brycehan.boot.quartz.controller;
 
-import com.brycehan.boot.common.base.dto.IdsDto;
-import com.brycehan.boot.common.base.entity.PageResult;
-import com.brycehan.boot.common.base.http.ResponseResult;
+import com.brycehan.boot.common.entity.dto.IdsDto;
+import com.brycehan.boot.common.entity.PageResult;
+import com.brycehan.boot.common.response.ResponseResult;
 import com.brycehan.boot.framework.operatelog.annotation.OperateLog;
 import com.brycehan.boot.framework.operatelog.annotation.OperateType;
 import com.brycehan.boot.quartz.entity.convert.QuartzJobLogConvert;

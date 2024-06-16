@@ -2,7 +2,7 @@ package com.brycehan.boot.quartz.common.utils;
 
 import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.extra.spring.SpringUtil;
-import com.brycehan.boot.common.base.id.IdGenerator;
+import com.brycehan.boot.common.base.IdGenerator;
 import com.brycehan.boot.common.constant.DataConstants;
 import com.brycehan.boot.quartz.entity.po.QuartzJob;
 import com.brycehan.boot.quartz.entity.po.QuartzJobLog;

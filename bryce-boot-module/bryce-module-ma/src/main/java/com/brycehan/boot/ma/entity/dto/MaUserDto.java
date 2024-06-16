@@ -1,6 +1,6 @@
 package com.brycehan.boot.ma.entity.dto;
 
-import com.brycehan.boot.common.base.entity.BaseDto;
+import com.brycehan.boot.common.entity.BaseDto;
 import com.brycehan.boot.common.validator.UpdateGroup;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Size;

@@ -2,8 +2,8 @@ package com.brycehan.boot.mp.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.brycehan.boot.common.base.entity.PageResult;
-import com.brycehan.boot.common.base.id.IdGenerator;
+import com.brycehan.boot.common.entity.PageResult;
+import com.brycehan.boot.common.base.IdGenerator;
 import com.brycehan.boot.common.util.DateTimeUtils;
 import com.brycehan.boot.common.util.ExcelUtils;
 import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;

@@ -1,9 +1,9 @@
 package com.brycehan.boot.system.service;
 
-import com.brycehan.boot.common.base.context.LoginUser;
-import com.brycehan.boot.common.base.dto.AccountLoginDto;
-import com.brycehan.boot.common.base.dto.PhoneLoginDto;
-import com.brycehan.boot.common.base.vo.LoginVo;
+import com.brycehan.boot.common.base.LoginUser;
+import com.brycehan.boot.common.entity.dto.AccountLoginDto;
+import com.brycehan.boot.common.entity.dto.PhoneLoginDto;
+import com.brycehan.boot.common.entity.vo.LoginVo;
 import org.springframework.security.core.userdetails.UserDetails;
 
 /**
