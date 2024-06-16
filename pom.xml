@@ -113,6 +113,12 @@
 				<artifactId>bryce-boot-module</artifactId>
 				<version>${project.version}</version>
 			</dependency>
+			<!-- 邮件模块 -->
+			<dependency>
+				<groupId>com.brycehan.boot</groupId>
+				<artifactId>bryce-module-email</artifactId>
+				<version>${project.version}</version>
+			</dependency>
 			<!-- 微信小程序模块 -->
 			<dependency>
 				<groupId>com.brycehan.boot</groupId>
@@ -131,14 +137,13 @@
 				<artifactId>bryce-module-mp</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-
 			<!-- 支付模块 -->
 			<dependency>
 				<groupId>com.brycehan.boot</groupId>
 				<artifactId>bryce-module-pay</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-			<!-- quartz 模块 -->
+			<!-- quartz模块 -->
 			<dependency>
 				<groupId>com.brycehan.boot</groupId>
 				<artifactId>bryce-module-quartz</artifactId>
@@ -162,18 +167,19 @@
 				<artifactId>bryce-boot-server</artifactId>
 				<version>${project.version}</version>
 			</dependency>
+			<!-- 代码生成器 -->
 			<dependency>
 				<groupId>com.brycehan.boot</groupId>
 				<artifactId>bryce-generator-boot-starter</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-			<!-- Knife4j 接口文档 -->
+			<!-- Knife4j接口文档 -->
 			<dependency>
 				<groupId>com.github.xiaoymin</groupId>
 				<artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
 				<version>${knife4j.version}</version>
 			</dependency>
-			<!-- Mybatis Plus 框架 -->
+			<!-- Mybatis Plus框架 -->
 			<dependency>
 				<groupId>com.baomidou</groupId>
 				<artifactId>mybatis-plus-spring-boot3-starter</artifactId>
@@ -210,19 +216,19 @@
 				<artifactId>easy-captcha</artifactId>
 				<version>${captcha.version}</version>
 			</dependency>
-			<!-- ID 生成器 -->
+			<!-- ID生成器 -->
 			<dependency>
 				<groupId>com.github.yitter</groupId>
 				<artifactId>yitter-idgenerator</artifactId>
 				<version>${yitter-idgenerator.version}</version>
 			</dependency>
-			<!-- jwt 令牌 -->
+			<!-- jwt令牌 -->
 			<dependency>
 				<groupId>com.auth0</groupId>
 				<artifactId>java-jwt</artifactId>
 				<version>${auth0-jwt.version}</version>
 			</dependency>
-			<!-- easy-trans 数据翻译插件 -->
+			<!-- easy-trans数据翻译插件 -->
 			<dependency>
 				<groupId>com.fhs-opensource</groupId>
 				<artifactId>easy-trans-spring-boot-starter</artifactId>
@@ -249,7 +255,7 @@
 				<artifactId>mapstruct-processor</artifactId>
 				<version>${mapstruct.version}</version>
 			</dependency>
-			<!-- sms 短信 -->
+			<!-- sms短信 -->
 			<dependency>
 				<groupId>org.dromara.sms4j</groupId>
 				<artifactId>sms4j-spring-boot-starter</artifactId>
@@ -265,7 +271,7 @@
 				<artifactId>tencentcloud-sdk-java</artifactId>
 				<version>${tencentcloud-sdk.version}</version>
 			</dependency>
-			<!-- Minio 对象存储服务 -->
+			<!-- Minio对象存储服务 -->
 			<dependency>
 				<groupId>io.minio</groupId>
 				<artifactId>minio</artifactId>
@@ -301,13 +307,13 @@
 				<artifactId>hutool-all</artifactId>
 				<version>${hutool.version}</version>
 			</dependency>
-			<!-- Guava 库 -->
+			<!-- Guava库 -->
 			<dependency>
 				<groupId>com.google.guava</groupId>
 				<artifactId>guava</artifactId>
 				<version>${guava.version}</version>
 			</dependency>
-			<!-- Excel 工具 -->
+			<!-- Excel工具 -->
 			<dependency>
 				<groupId>com.alibaba</groupId>
 				<artifactId>easyexcel</artifactId>

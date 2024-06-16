@@ -119,7 +119,7 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuMapper, SysMenu> 
         if (loginUser.getSuperAdmin()) {
             // 超级管理员菜单处理
             LambdaQueryWrapper<SysMenu> queryWrapper = new LambdaQueryWrapper<>();
-            queryWrapper.eq(SysMenu::getStatus, DataStatusType.ENABLE.isValue());
+            queryWrapper.eq(SysMenu::getStatus, DataStatusType.ENABLE.value());
             queryWrapper.eq(StringUtils.isNotEmpty(type), SysMenu::getType, type);
             queryWrapper.orderByAsc(Arrays.asList(SysMenu::getParentId, SysMenu::getSort));
 

@@ -1,17 +1,21 @@
 package com.brycehan.boot.framework.operatelog;
 
 import com.brycehan.boot.common.entity.BaseDto;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.time.LocalDateTime;
 
 /**
- * 系统操作日志数据传输对象
+ * 系统操作日志Dto
  *
  * @since 2022/11/18
  * @author Bryce Han
  */
 @Data
+@EqualsAndHashCode(callSuper = false)
+@Schema(description = "系统操作日志Dto")
 public class OperateLogDto extends BaseDto {
 
     /**

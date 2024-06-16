@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
  * @since 2024/3/28
  */
 @Getter
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+@RequiredArgsConstructor
 public enum MpMessageType {
     /**
      * 用户发来的消息

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.brycehan.boot</groupId>
+        <artifactId>bryce-boot-module</artifactId>
+        <version>${revision}</version>
+    </parent>
+    <artifactId>bryce-module-email</artifactId>
+    <version>${revision}</version>
+    <name>bryce-module-email</name>
+    <description>bryce-module-email</description>
+
+    <!-- 依赖 -->
+    <dependencies>
+        <dependency>
+            <groupId>com.brycehan.boot</groupId>
+            <artifactId>bryce-boot-framework</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.brycehan.boot</groupId>
+            <artifactId>bryce-boot-api</artifactId>
+        </dependency>
+        <!-- 邮件 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>

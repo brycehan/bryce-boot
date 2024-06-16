@@ -45,10 +45,10 @@ public class AuthCaptchaController {
      *
      * @return 响应结果
      */
-    @Operation(summary = "是否开启登录/注册验证码（captchaType：login、register）")
+    @Operation(summary = "是否开启登录/注册验证码")
     @GetMapping(path = "/{captchaType}/enabled")
-    public ResponseResult<Boolean> enabled(@PathVariable String captchaType) {
-        boolean enabled = this.authCaptchaService.captchaEnabled(CaptchaType.getByValue(captchaType));
+    public ResponseResult<Boolean> enabled(@PathVariable CaptchaType captchaType) {
+        boolean enabled = this.authCaptchaService.captchaEnabled(captchaType);
         return ResponseResult.ok(enabled);
     }
 

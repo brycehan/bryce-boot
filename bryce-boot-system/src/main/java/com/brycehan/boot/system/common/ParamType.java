@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
  * @since 2024/3/25
  */
 @Getter
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+@RequiredArgsConstructor
 public enum ParamType {
 
     system("系统"),

@@ -11,7 +11,7 @@ import lombok.RequiredArgsConstructor;
  * @since 2024/3/20
  */
 @Getter
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+@RequiredArgsConstructor
 public enum AlipayTradeState {
     /**
      * 交易支付成功

@@ -1,6 +1,7 @@
 package com.brycehan.boot.common.enums;
 
-import lombok.Getter;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -9,7 +10,6 @@ import lombok.RequiredArgsConstructor;
  * @author Bryce Han
  * @since 2023/11/23
  */
-@Getter
 @RequiredArgsConstructor
 public enum CaptchaType {
     /**
@@ -23,12 +23,30 @@ public enum CaptchaType {
 
     private final String value;
 
+    /**
+     * 获取值
+     *
+     * @return 值
+     */
+    @JsonValue
+    public String value() {
+        return value;
+    }
+
+    /**
+     * 根据值获取枚举
+     *
+     * @param value 值
+     * @return 枚举
+     */
+    @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
     public static CaptchaType getByValue(String value) {
-        for (CaptchaType captchaType : CaptchaType.values()) {
-            if (captchaType.getValue().equals(value)) {
+        for (CaptchaType captchaType : values()) {
+            if (captchaType.value.equals(value)) {
                 return captchaType;
             }
         }
         return null;
     }
+
 }

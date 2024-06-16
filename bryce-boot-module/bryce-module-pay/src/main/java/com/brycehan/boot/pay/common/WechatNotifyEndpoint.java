@@ -11,7 +11,7 @@ import lombok.RequiredArgsConstructor;
  * @since 2024/3/9
  */
 @Getter
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+@RequiredArgsConstructor
 public enum WechatNotifyEndpoint {
 
     /**

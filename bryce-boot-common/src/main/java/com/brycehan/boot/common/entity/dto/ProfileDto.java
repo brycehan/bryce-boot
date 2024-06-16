@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.time.LocalDate;
 
@@ -16,6 +17,7 @@ import java.time.LocalDate;
  * @author Bryce Han
  */
 @Data
+@EqualsAndHashCode(callSuper = false)
 @Schema(description = "个人信息Dto")
 public class ProfileDto extends BaseDto {
 

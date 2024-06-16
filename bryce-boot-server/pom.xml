@@ -21,7 +21,23 @@
         </dependency>
         <dependency>
             <groupId>com.brycehan.boot</groupId>
+            <artifactId>bryce-module-email</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.brycehan.boot</groupId>
+            <artifactId>bryce-module-ma</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.brycehan.boot</groupId>
             <artifactId>bryce-module-monitor</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.brycehan.boot</groupId>
+            <artifactId>bryce-module-mp</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.brycehan.boot</groupId>
+            <artifactId>bryce-module-pay</artifactId>
         </dependency>
         <dependency>
             <groupId>com.brycehan.boot</groupId>
@@ -30,18 +46,6 @@
         <dependency>
             <groupId>com.brycehan.boot</groupId>
             <artifactId>bryce-module-sms</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.brycehan.boot</groupId>
-            <artifactId>bryce-module-pay</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.brycehan.boot</groupId>
-            <artifactId>bryce-module-mp</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.brycehan.boot</groupId>
-            <artifactId>bryce-module-ma</artifactId>
         </dependency>
         <dependency>
             <groupId>com.brycehan.boot</groupId>

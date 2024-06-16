@@ -1,5 +1,7 @@
 package com.brycehan.boot.common.enums;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 
@@ -9,7 +11,7 @@ import lombok.RequiredArgsConstructor;
  * @author Bryce Han
  * @since 2024/5/23
  */
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+@RequiredArgsConstructor
 public enum SmsType {
 
     LOGIN("login", "登录"),
@@ -18,6 +20,12 @@ public enum SmsType {
     private final String value;
     private final String desc;
 
+    /**
+     * 获取值
+     *
+     * @return 值
+     */
+    @JsonValue
     public String value() {
         return value;
     }
@@ -25,4 +33,21 @@ public enum SmsType {
     public String desc() {
         return desc;
     }
+
+    /**
+     * 根据值获取枚举
+     *
+     * @param value 值
+     * @return 枚举
+     */
+    @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
+    public static SmsType getByValue(String value) {
+        for (SmsType smsType : values()) {
+            if (smsType.value.equals(value)) {
+                return smsType;
+            }
+        }
+        return null;
+    }
+
 }

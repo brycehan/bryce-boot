@@ -1,11 +1,15 @@
 package com.brycehan.boot.common.enums;
 
-import lombok.Getter;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.RequiredArgsConstructor;
-import lombok.experimental.Accessors;
 
-@Getter
-@Accessors(fluent = true)
+/**
+ * 数据范围类型
+ *
+ * @since 2022/5/8
+ * @author Bryce Han
+ */
 @RequiredArgsConstructor
 public enum DataScopeType {
 
@@ -22,12 +26,30 @@ public enum DataScopeType {
 
     private final Integer value;
 
+    /**
+     * 获取值
+     *
+     * @return 值
+     */
+    @JsonValue
+    public Integer value() {
+        return value;
+    }
+
+    /**
+     * 根据值获取枚举
+     *
+     * @param value 值
+     * @return 枚举
+     */
+    @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
     public static DataScopeType getByValue(Integer value) {
-        for (DataScopeType type : DataScopeType.values()) {
+        for (DataScopeType type : values()) {
             if(value.equals(type.value)){
                 return type;
             }
         }
         return null;
     }
+
 }

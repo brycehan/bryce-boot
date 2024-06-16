@@ -1,0 +1,20 @@
+spring:
+  mail:
+    # smtp服务主机 smtp.163.com smtps 465 qq邮箱为smtp.qq.com
+    host: smtp.163.com
+    # 服务协议
+    protocol: smtps
+    # 端口
+    port: 465
+    # 发送邮件的账户
+    username: brycehan@163.com
+    # 授权码
+    password: SJBNFIOPVDRJPQPB
+    test-connection: true
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
