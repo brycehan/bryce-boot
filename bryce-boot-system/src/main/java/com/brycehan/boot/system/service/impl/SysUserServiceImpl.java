@@ -5,14 +5,12 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.brycehan.boot.common.base.IdGenerator;
 import com.brycehan.boot.common.base.LoginUser;
 import com.brycehan.boot.common.base.LoginUserContext;
 import com.brycehan.boot.common.base.ServerException;
 import com.brycehan.boot.common.constant.DataConstants;
-import com.brycehan.boot.common.constant.UserConstants;
 import com.brycehan.boot.common.entity.PageResult;
 import com.brycehan.boot.common.entity.dto.IdsDto;
 import com.brycehan.boot.common.response.UserResponseStatus;
@@ -287,24 +285,15 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
     }
 
     @Override
-    public boolean checkUsernameUnique(SysUser sysUser) {
-        QueryWrapper<SysUser> queryWrapper = new QueryWrapper<>();
-        queryWrapper
-                .select("id", "username")
-                .eq("username", sysUser.getUsername())
-                .last("limit 1");
-        SysUser user = this.baseMapper.selectOne(queryWrapper);
-        Long userId = sysUser.getId() == null ? UserConstants.NULL_USER_ID : sysUser.getId();
-
-        // 修改时，同账号同ID为账号唯一
-        return Objects.isNull(user) || userId.equals(user.getId());
-    }
-
-    @Override
-    public boolean checkUsernameUnique(String username) {
+    public boolean checkUsernameUnique(SysUsernameDto sysUsernameDto) {
         LambdaQueryWrapper<SysUser> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(SysUser::getUsername, username);
-        return !this.baseMapper.exists(queryWrapper);
+        queryWrapper
+                .select(SysUser::getUsername, SysUser::getId)
+                .eq(SysUser::getUsername, sysUsernameDto.getUsername());
+        SysUser sysUser = this.baseMapper.selectOne(queryWrapper, false);
+
+        // 修改时，同手机号同ID为手机号唯一
+        return Objects.isNull(sysUser) || Objects.equals(sysUsernameDto.getId(), sysUser.getId());
     }
 
     @Override

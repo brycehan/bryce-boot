@@ -4,6 +4,7 @@ import com.brycehan.boot.common.constant.ParamConstants;
 import com.brycehan.boot.common.entity.dto.RegisterDto;
 import com.brycehan.boot.common.enums.CaptchaType;
 import com.brycehan.boot.system.common.security.RegisterSuccessEvent;
+import com.brycehan.boot.system.entity.dto.SysUsernameDto;
 import com.brycehan.boot.system.entity.po.SysUser;
 import com.brycehan.boot.system.service.AuthCaptchaService;
 import com.brycehan.boot.system.service.AuthRegisterService;
@@ -64,7 +65,9 @@ public class AuthRegisterServiceImpl implements AuthRegisterService {
 
     @Override
     public boolean checkUsernameUnique(String username) {
-        return this.sysUserService.checkUsernameUnique(username);
+        SysUsernameDto sysUsernameDto = new SysUsernameDto();
+        sysUsernameDto.setUsername(username);
+        return this.sysUserService.checkUsernameUnique(sysUsernameDto);
     }
 
 }

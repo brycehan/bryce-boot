@@ -10,7 +10,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * 分页结果数据
+ * 分页结果
  *
  * @since 2023/4/10
  * @author Bryce Han

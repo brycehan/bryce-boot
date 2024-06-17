@@ -206,7 +206,9 @@ public class SysUserController {
     @Operation(summary = "校验用户账号是否可注册（true：可以注册，false：不可以）")
     @GetMapping(path = "/checkUsernameUnique/{username}")
     public ResponseResult<Boolean> checkUsernameUnique(@PathVariable String username) {
-        boolean checked = this.sysUserService.checkUsernameUnique(username);
+        SysUsernameDto sysUsernameDto = new SysUsernameDto();
+        sysUsernameDto.setUsername(username);
+        boolean checked = this.sysUserService.checkUsernameUnique(sysUsernameDto);
         return ResponseResult.ok(checked);
     }
 
