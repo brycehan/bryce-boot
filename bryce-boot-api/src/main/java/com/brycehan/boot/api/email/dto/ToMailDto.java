@@ -1,6 +1,7 @@
 package com.brycehan.boot.api.email.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
@@ -15,7 +16,7 @@ import java.util.Map;
  * @since 2024/6/15
  */
 @Data
-public class ToMail implements Serializable {
+public class ToMailDto implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -31,6 +32,7 @@ public class ToMail implements Serializable {
      * 邮件主题
      */
     @Schema(description = "邮件主题")
+    @NotBlank(message = "邮件主题不能为空")
     @Size(min = 2, max = 200, message = "邮件主题长度在2-200个字符")
     private String subject;
 
@@ -38,6 +40,8 @@ public class ToMail implements Serializable {
      * 邮件内容
      */
     @Schema(description = "邮件内容")
+    @NotBlank(message = "邮件内容不能为空")
+    @Size(message = "邮件内容不能超过2G")
     private String content;
 
     /**

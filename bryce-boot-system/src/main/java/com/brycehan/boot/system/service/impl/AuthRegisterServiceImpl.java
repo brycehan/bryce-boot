@@ -1,7 +1,7 @@
 package com.brycehan.boot.system.service.impl;
 
-import com.brycehan.boot.common.entity.dto.RegisterDto;
 import com.brycehan.boot.common.constant.ParamConstants;
+import com.brycehan.boot.common.entity.dto.RegisterDto;
 import com.brycehan.boot.common.enums.CaptchaType;
 import com.brycehan.boot.system.common.security.RegisterSuccessEvent;
 import com.brycehan.boot.system.entity.po.SysUser;

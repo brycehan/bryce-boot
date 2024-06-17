@@ -1,4 +1,4 @@
-package com.brycehan.boot.framework.common;
+package com.brycehan.boot.common.enums;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;

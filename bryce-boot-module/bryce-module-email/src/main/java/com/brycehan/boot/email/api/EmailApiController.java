@@ -1,7 +1,7 @@
 package com.brycehan.boot.email.api;
 
 
-import com.brycehan.boot.api.email.dto.ToMail;
+import com.brycehan.boot.api.email.dto.ToMailDto;
 import com.brycehan.boot.api.email.dto.ToVerifyCodeEmailDto;
 import com.brycehan.boot.common.enums.EmailType;
 import com.brycehan.boot.common.response.ResponseResult;
@@ -37,7 +37,7 @@ public class EmailApiController {
      */
     @Operation(summary = "发送简单邮件")
     @PostMapping(path = "/sendSimpleEmail")
-    public ResponseResult<Void> sendSimpleEmail(@Validated @RequestBody ToMail toEmail) {
+    public ResponseResult<Void> sendSimpleEmail(@Validated @RequestBody ToMailDto toEmail) {
         this.emailService.sendSimpleEmail(toEmail);
         return ResponseResult.ok();
     }
@@ -51,7 +51,7 @@ public class EmailApiController {
      */
     @Operation(summary = "发送附件邮件")
     @PostMapping(path = "/sendHtmlEmail")
-    public ResponseResult<Void> sendHtmlEmail(@Validated @RequestBody ToMail toEmail, MultipartFile file) {
+    public ResponseResult<Void> sendHtmlEmail(@Validated ToMailDto toEmail, MultipartFile[] file) {
         this.emailService.sendHtmlEmail(toEmail, file);
         return ResponseResult.ok();
     }

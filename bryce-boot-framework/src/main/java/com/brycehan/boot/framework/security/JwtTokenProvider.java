@@ -15,7 +15,7 @@ import com.brycehan.boot.common.util.IpUtils;
 import com.brycehan.boot.common.util.JsonUtils;
 import com.brycehan.boot.common.util.LocationUtils;
 import com.brycehan.boot.common.util.ServletUtils;
-import com.brycehan.boot.framework.common.SourceClientType;
+import com.brycehan.boot.common.enums.SourceClientType;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -70,12 +70,26 @@ public class JwtTokenProvider {
      * @param loginUser 登录用户
      */
     public void prepare(LoginUser loginUser) {
-        // 设置用户代理
-        this.setUserAgent(loginUser);
+        // 获取客户端信息
+        String userAgent = ServletUtils.getRequest().getHeader(HttpHeaders.USER_AGENT);
+        UserAgent parser = UserAgentUtil.parse(userAgent);
+
+        // 获取客户端操作系统
+        String os = parser.getOs().getName();
+        // 获取客户端浏览器
+        String browser = parser.getBrowser().getName();
+
+        // 获取客户端IP和对应登录位置
+        String ip = IpUtils.getIp(ServletUtils.getRequest());
+        String loginLocation = LocationUtils.getLocationByIP(ip);
 
         // 设置来源客户端
-        SourceClientType sourceClientType = TokenUtils.getSourceClient(ServletUtils.getRequest());
-        loginUser.setSourceClient(sourceClientType.value());
+        loginUser.setSourceClientType(TokenUtils.getSourceClient(ServletUtils.getRequest()));
+        loginUser.setUserAgent(userAgent);
+        loginUser.setOs(os);
+        loginUser.setBrowser(browser);
+        loginUser.setLoginIp(ip);
+        loginUser.setLoginLocation(loginLocation);
     }
 
     /**
@@ -89,7 +103,7 @@ public class JwtTokenProvider {
         Map<String, Object> claims = new HashMap<>();
         long expiredInSeconds;
 
-        switch (Objects.requireNonNull(SourceClientType.getByValue(loginUser.getSourceClient()))) {
+        switch (Objects.requireNonNull(loginUser.getSourceClientType())) {
             case PC, H5 -> {
                 loginUser.setUserKey(TokenUtils.uuid());
                 claims.put(JwtConstants.USER_KEY, loginUser.getUserKey());
@@ -133,7 +147,7 @@ public class JwtTokenProvider {
     public long getExpiredInSeconds(LoginUser loginUser) {
         long expiredInSeconds;
 
-        switch (Objects.requireNonNull(SourceClientType.getByValue(loginUser.getSourceClient()))) {
+        switch (Objects.requireNonNull(loginUser.getSourceClientType())) {
             case PC, H5 -> expiredInSeconds = tokenValidityInSeconds;
             case APP -> expiredInSeconds = appTokenValidityInDays * 24 * 3600;
             default -> throw new IllegalArgumentException("不支持的来源客户端");
@@ -142,33 +156,9 @@ public class JwtTokenProvider {
         return expiredInSeconds;
     }
 
-    /**
-     * 设置用户代理
-     *
-     * @param loginUser 登录用户
-     */
-    private void setUserAgent(LoginUser loginUser) {
-        String userAgent = ServletUtils.getRequest().getHeader("User-Agent");
-        UserAgent parser = UserAgentUtil.parse(userAgent);
-
-        // 获取客户端操作系统
-        String os = parser.getOs().getName();
-        // 获取客户端浏览器
-        String browser = parser.getBrowser().getName();
-
-        // 获取客户端IP和对应登录位置
-        String ip = IpUtils.getIp(ServletUtils.getRequest());
-        String loginLocation = LocationUtils.getLocationByIP(ip);
-
-        loginUser.setOs(os);
-        loginUser.setBrowser(browser);
-        loginUser.setLoginIp(ip);
-        loginUser.setLoginLocation(loginLocation);
-    }
-
     public void cache(LoginUser loginUser) {
         // 来源客户端
-        SourceClientType sourceClientType = SourceClientType.getByValue(loginUser.getSourceClient());
+        SourceClientType sourceClientType = loginUser.getSourceClientType();
 
         LocalDateTime now = LocalDateTime.now();
         // 设置过期时间

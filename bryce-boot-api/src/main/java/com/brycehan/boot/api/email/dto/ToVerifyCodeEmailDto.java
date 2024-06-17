@@ -1,6 +1,7 @@
 package com.brycehan.boot.api.email.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
@@ -25,8 +26,9 @@ public class ToVerifyCodeEmailDto implements Serializable {
      * 收件人
      */
     @Schema(description = "收件人")
-    @Size(min = 1, max = 2000, message = "邮件收件人数在1-2000个")
-    private String[] tos;
+    @NotBlank(message = "收件人不能为空")
+    @Size(min = 5, max = 100, message = "邮件收件人长度在5-100个字符")
+    private String to;
 
     /**
      * 验证码
@@ -35,19 +37,5 @@ public class ToVerifyCodeEmailDto implements Serializable {
     @Length(min = 6, max = 6, message = "验证码长度为6")
     @NotEmpty(message = "验证码不能为空")
     private String verifyCode;
-
-    /**
-     * 抄送
-     */
-    @Schema(description = "抄送")
-    @Size(max = 2000, message = "抄送收件人数最大2000个")
-    private String[] cc;
-
-    /**
-     * 密送
-     */
-    @Schema(description = "密送")
-    @Size(max = 2000, message = "密送收件人数最大2000个")
-    private String[] bcc;
 
 }

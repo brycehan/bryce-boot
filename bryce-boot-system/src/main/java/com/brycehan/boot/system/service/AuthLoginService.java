@@ -4,7 +4,6 @@ import com.brycehan.boot.common.base.LoginUser;
 import com.brycehan.boot.common.entity.dto.AccountLoginDto;
 import com.brycehan.boot.common.entity.dto.PhoneLoginDto;
 import com.brycehan.boot.common.entity.vo.LoginVo;
-import org.springframework.security.core.userdetails.UserDetails;
 
 /**
  * 认证服务
@@ -36,7 +35,7 @@ public interface AuthLoginService {
      *
      * @param loginUser 登录用户
      */
-    void updateLoginInfo(UserDetails loginUser);
+    void updateLoginInfo(LoginUser loginUser);
 
     /**
      * 退出登录

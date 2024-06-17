@@ -4,7 +4,7 @@ import cn.hutool.core.lang.UUID;
 import cn.hutool.core.util.StrUtil;
 import com.brycehan.boot.common.base.ServerException;
 import com.brycehan.boot.common.constant.JwtConstants;
-import com.brycehan.boot.framework.common.SourceClientType;
+import com.brycehan.boot.common.enums.SourceClientType;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;

@@ -1,6 +1,6 @@
 package com.brycehan.boot.email.service;
 
-import com.brycehan.boot.api.email.dto.ToMail;
+import com.brycehan.boot.api.email.dto.ToMailDto;
 import com.brycehan.boot.api.email.dto.ToVerifyCodeEmailDto;
 import com.brycehan.boot.common.enums.EmailType;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,14 +17,14 @@ public interface EmailService {
      * 发送简单邮件
      * @param toEmail 收邮件参数
      */
-    void sendSimpleEmail(ToMail toEmail);
+    void sendSimpleEmail(ToMailDto toEmail);
 
     /**
      * 发送html邮件
      * @param toEmail 收邮件参数
      * @param file 附件
      */
-    void sendHtmlEmail(ToMail toEmail, MultipartFile file);
+    void sendHtmlEmail(ToMailDto toEmail, MultipartFile[] file);
 
     /**
      * 发送邮件

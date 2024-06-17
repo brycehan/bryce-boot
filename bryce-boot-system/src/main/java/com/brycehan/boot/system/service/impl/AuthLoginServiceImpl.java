@@ -2,14 +2,12 @@ package com.brycehan.boot.system.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.brycehan.boot.common.base.LoginUser;
+import com.brycehan.boot.common.constant.DataConstants;
+import com.brycehan.boot.common.constant.JwtConstants;
 import com.brycehan.boot.common.entity.dto.AccountLoginDto;
 import com.brycehan.boot.common.entity.dto.PhoneLoginDto;
 import com.brycehan.boot.common.entity.vo.LoginVo;
-import com.brycehan.boot.common.constant.DataConstants;
-import com.brycehan.boot.common.constant.JwtConstants;
 import com.brycehan.boot.common.enums.CaptchaType;
-import com.brycehan.boot.common.util.IpUtils;
-import com.brycehan.boot.common.util.ServletUtils;
 import com.brycehan.boot.framework.security.JwtTokenProvider;
 import com.brycehan.boot.framework.security.phone.PhoneCodeAuthenticationToken;
 import com.brycehan.boot.system.common.LoginOperateType;
@@ -24,7 +22,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -122,13 +119,13 @@ public class AuthLoginServiceImpl implements AuthLoginService {
     }
 
     @Override
-    public void updateLoginInfo(UserDetails user) {
+    public void updateLoginInfo(LoginUser loginUser) {
         SysUser sysUser = new SysUser();
-        sysUser.setLastLoginIp(IpUtils.getIp(ServletUtils.getRequest()));
+        sysUser.setLastLoginIp(loginUser.getLoginIp());
         sysUser.setLastLoginTime(LocalDateTime.now());
 
         LambdaUpdateWrapper<SysUser> updateWrapper = new LambdaUpdateWrapper<>();
-        updateWrapper.eq(SysUser::getUsername, user.getUsername());
+        updateWrapper.eq(SysUser::getUsername, loginUser.getUsername());
 
         this.sysUserService.update(sysUser, updateWrapper);
     }

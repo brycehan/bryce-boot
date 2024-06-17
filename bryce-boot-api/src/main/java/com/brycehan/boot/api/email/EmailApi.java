@@ -1,6 +1,6 @@
 package com.brycehan.boot.api.email;
 
-import com.brycehan.boot.api.email.dto.ToMail;
+import com.brycehan.boot.api.email.dto.ToMailDto;
 import com.brycehan.boot.api.email.dto.ToVerifyCodeEmailDto;
 import com.brycehan.boot.common.enums.EmailType;
 import io.swagger.v3.oas.annotations.Operation;
@@ -24,7 +24,7 @@ public interface EmailApi {
      * @param toEmail 收邮件参数
      */
     @PostMapping(path = "/sendSimpleEmail")
-    void sendSimpleEmail(@Validated @RequestBody ToMail toEmail);
+    void sendSimpleEmail(@Validated @RequestBody ToMailDto toEmail);
 
     /**
      * 发送附件邮件
@@ -33,7 +33,7 @@ public interface EmailApi {
      * @param file 附件
      */
     @PostMapping(path = "/sendHtmlEmail")
-    void sendHtmlEmail(@Validated @RequestBody ToMail toEmail, MultipartFile file);
+    void sendHtmlEmail(@Validated @RequestBody ToMailDto toEmail, MultipartFile[] file);
 
     /**
      * 发送验证码邮件

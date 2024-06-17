@@ -1,7 +1,7 @@
 package com.brycehan.boot.system.controller;
 
-import com.brycehan.boot.common.response.ResponseResult;
 import com.brycehan.boot.common.enums.SmsType;
+import com.brycehan.boot.common.response.ResponseResult;
 import com.brycehan.boot.system.service.AuthSmsService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

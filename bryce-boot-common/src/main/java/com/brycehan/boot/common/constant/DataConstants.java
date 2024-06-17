@@ -79,4 +79,14 @@ public class DataConstants {
      */
     public static final String WECHAT_MP_MENU = "wechat.mp.menu";
 
+    /**
+     * 公司名称
+     */
+    public static final String COMPANY_NAME = "Bryce 团队";
+
+    /**
+     * 电子邮件验证码主题
+     */
+    public static final String COMPANY_EMAIL_VERIFY_CODE_SUBJECT = "电子邮件验证码：";
+
 }

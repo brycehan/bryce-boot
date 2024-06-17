@@ -9,8 +9,8 @@ spring:
     # 发送邮件的账户
     username: brycehan@163.com
     # 授权码
-    password: SJBNFIOPVDRJPQPB
-    test-connection: true
+    password: xxx
+    test-connection: false
     properties:
       mail:
         smtp:
