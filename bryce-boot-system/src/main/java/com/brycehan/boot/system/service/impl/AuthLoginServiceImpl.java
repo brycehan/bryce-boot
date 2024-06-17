@@ -50,6 +50,7 @@ public class AuthLoginServiceImpl implements AuthLoginService {
 
     @Override
     public LoginVo loginByAccount(@NotNull AccountLoginDto accountLoginDto) {
+        log.debug("loginByAccount，账号认证");
         // 校验验证码
         boolean validated = this.authCaptchaService.validate(accountLoginDto.getKey(), accountLoginDto.getCode(), CaptchaType.LOGIN);
         if (!validated) {
@@ -100,9 +101,6 @@ public class AuthLoginServiceImpl implements AuthLoginService {
     private LoginVo loadLoginVo(Authentication authentication) {
         LoginUser loginUser = (LoginUser) authentication.getPrincipal();
 
-        // 准备 loginUser
-        this.jwtTokenProvider.prepare(loginUser);
-
         // 生成 jwt
         String token = this.jwtTokenProvider.generateToken(loginUser);
         long expiredIn = this.jwtTokenProvider.getExpiredInSeconds(loginUser);
@@ -110,6 +108,7 @@ public class AuthLoginServiceImpl implements AuthLoginService {
         // 缓存 loginUser
         this.jwtTokenProvider.cache(loginUser);
 
+        // 封装 LoginVo
         LoginVo loginVo = new LoginVo();
         BeanUtils.copyProperties(loginUser, loginVo);
         loginVo.setAccessToken(JwtConstants.TOKEN_PREFIX.concat(token));
@@ -123,6 +122,7 @@ public class AuthLoginServiceImpl implements AuthLoginService {
         SysUser sysUser = new SysUser();
         sysUser.setLastLoginIp(loginUser.getLoginIp());
         sysUser.setLastLoginTime(LocalDateTime.now());
+        sysUser.setUpdatedUserId(loginUser.getId());
 
         LambdaUpdateWrapper<SysUser> updateWrapper = new LambdaUpdateWrapper<>();
         updateWrapper.eq(SysUser::getUsername, loginUser.getUsername());

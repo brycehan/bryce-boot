@@ -1,8 +1,6 @@
 package com.brycehan.boot.framework.security;
 
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.http.useragent.UserAgent;
-import cn.hutool.http.useragent.UserAgentUtil;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -11,11 +9,9 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.brycehan.boot.common.base.LoginUser;
 import com.brycehan.boot.common.constant.CacheConstants;
 import com.brycehan.boot.common.constant.JwtConstants;
-import com.brycehan.boot.common.util.IpUtils;
-import com.brycehan.boot.common.util.JsonUtils;
-import com.brycehan.boot.common.util.LocationUtils;
-import com.brycehan.boot.common.util.ServletUtils;
 import com.brycehan.boot.common.enums.SourceClientType;
+import com.brycehan.boot.common.util.JsonUtils;
+import com.brycehan.boot.common.util.ServletUtils;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -63,34 +59,6 @@ public class JwtTokenProvider {
     private long appTokenValidityInDays;
 
     private final RedisTemplate<String, LoginUser> redisTemplate;
-
-    /**
-     * 预处理登录用户
-     *
-     * @param loginUser 登录用户
-     */
-    public void prepare(LoginUser loginUser) {
-        // 获取客户端信息
-        String userAgent = ServletUtils.getRequest().getHeader(HttpHeaders.USER_AGENT);
-        UserAgent parser = UserAgentUtil.parse(userAgent);
-
-        // 获取客户端操作系统
-        String os = parser.getOs().getName();
-        // 获取客户端浏览器
-        String browser = parser.getBrowser().getName();
-
-        // 获取客户端IP和对应登录位置
-        String ip = IpUtils.getIp(ServletUtils.getRequest());
-        String loginLocation = LocationUtils.getLocationByIP(ip);
-
-        // 设置来源客户端
-        loginUser.setSourceClientType(TokenUtils.getSourceClient(ServletUtils.getRequest()));
-        loginUser.setUserAgent(userAgent);
-        loginUser.setOs(os);
-        loginUser.setBrowser(browser);
-        loginUser.setLoginIp(ip);
-        loginUser.setLoginLocation(loginLocation);
-    }
 
     /**
      * 生成token

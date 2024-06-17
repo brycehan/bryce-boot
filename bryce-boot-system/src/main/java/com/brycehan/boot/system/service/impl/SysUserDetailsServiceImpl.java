@@ -1,10 +1,16 @@
 package com.brycehan.boot.system.service.impl;
 
+import cn.hutool.http.useragent.UserAgent;
+import cn.hutool.http.useragent.UserAgentUtil;
 import com.brycehan.boot.common.base.LoginUser;
 import com.brycehan.boot.common.base.ServerException;
 import com.brycehan.boot.common.constant.DataConstants;
 import com.brycehan.boot.common.enums.DataScopeType;
 import com.brycehan.boot.common.response.UserResponseStatus;
+import com.brycehan.boot.common.util.IpUtils;
+import com.brycehan.boot.common.util.LocationUtils;
+import com.brycehan.boot.common.util.ServletUtils;
+import com.brycehan.boot.framework.security.TokenUtils;
 import com.brycehan.boot.system.mapper.SysRoleDataScopeMapper;
 import com.brycehan.boot.system.mapper.SysRoleMapper;
 import com.brycehan.boot.system.service.SysMenuService;
@@ -12,6 +18,7 @@ import com.brycehan.boot.system.service.SysOrgService;
 import com.brycehan.boot.system.service.SysUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -48,22 +55,57 @@ public class SysUserDetailsServiceImpl implements SysUserDetailsService {
             throw new ServerException(UserResponseStatus.USER_ACCOUNT_LOCKED);
         }
 
+        // 预处理登录用户
+        prepare(loginUser);
+
         // 数据权限范围
         Set<Long> dataScopeSet = this.getDataScope(loginUser);
         loginUser.setDataScopeSet(dataScopeSet);
 
         // 登录用户权限集合
         Set<String> authoritySet = this.sysMenuService.findAuthority(loginUser);
-
         // 用户角色编码列表
         Set<String> roleCodeSet = this.sysRoleMapper.getRoleCodeByUserId(loginUser.getId());
         roleCodeSet.forEach(roleCode -> authoritySet.add(DataConstants.ROLE_PREFIX + roleCode));
-
         loginUser.setAuthoritySet(authoritySet);
 
         return loginUser;
     }
 
+    /**
+     * 预处理登录用户
+     *
+     * @param loginUser 登录用户
+     */
+    public void prepare(LoginUser loginUser) {
+        // 获取客户端信息
+        String userAgent = ServletUtils.getRequest().getHeader(HttpHeaders.USER_AGENT);
+        UserAgent parser = UserAgentUtil.parse(userAgent);
+
+        // 获取客户端操作系统
+        String os = parser.getOs().getName();
+        // 获取客户端浏览器
+        String browser = parser.getBrowser().getName();
+
+        // 获取客户端IP和对应登录位置
+        String ip = IpUtils.getIp(ServletUtils.getRequest());
+        String loginLocation = LocationUtils.getLocationByIP(ip);
+
+        // 设置来源客户端
+        loginUser.setSourceClientType(TokenUtils.getSourceClient(ServletUtils.getRequest()));
+        loginUser.setUserAgent(userAgent);
+        loginUser.setOs(os);
+        loginUser.setBrowser(browser);
+        loginUser.setLoginIp(ip);
+        loginUser.setLoginLocation(loginLocation);
+    }
+
+    /**
+     * 获取数据权限范围
+     *
+     * @param loginUser 登录用户
+     * @return 数据权限范围
+     */
     private Set<Long> getDataScope(LoginUser loginUser) {
         Integer dataScope = this.sysRoleMapper.getDataScopeByUserId(loginUser.getId());
         if (dataScope == null) {

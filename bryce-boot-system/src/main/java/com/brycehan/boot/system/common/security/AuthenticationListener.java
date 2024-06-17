@@ -33,11 +33,11 @@ public class AuthenticationListener {
     @EventListener
     public void onSuccess(AuthenticationSuccessEvent event) {
         // 用户信息
-        LoginUser user = (LoginUser) event.getAuthentication().getPrincipal();
+        LoginUser loginUser = (LoginUser) event.getAuthentication().getPrincipal();
         // 记录登录日志
-        this.sysLoginLogService.save(user.getUsername(), DataConstants.SUCCESS, LoginOperateType.LOGIN_SUCCESS.getValue());
+        this.sysLoginLogService.save(loginUser.getUsername(), DataConstants.SUCCESS, LoginOperateType.LOGIN_SUCCESS.getValue());
         // 更新用户登录信息
-        this.authLoginService.updateLoginInfo(user);
+        this.authLoginService.updateLoginInfo(loginUser);
     }
 
     /**

@@ -19,10 +19,10 @@
             <groupId>com.brycehan.boot</groupId>
             <artifactId>bryce-boot-system</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.brycehan.boot</groupId>
-            <artifactId>bryce-module-email</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.brycehan.boot</groupId>-->
+<!--            <artifactId>bryce-module-email</artifactId>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>com.brycehan.boot</groupId>
             <artifactId>bryce-module-ma</artifactId>
@@ -43,10 +43,10 @@
             <groupId>com.brycehan.boot</groupId>
             <artifactId>bryce-module-quartz</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.brycehan.boot</groupId>
-            <artifactId>bryce-module-sms</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.brycehan.boot</groupId>-->
+<!--            <artifactId>bryce-module-sms</artifactId>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>com.brycehan.boot</groupId>
             <artifactId>bryce-module-third-login</artifactId>
