@@ -53,9 +53,9 @@ mybatis-plus:
       # 用户输入ID
       id-type: none
       # 逻辑已删除值
-      logic-delete-value: true
+      logic-delete-value: now()
       # 逻辑未删除值
-      logic-not-delete-value: false
+      logic-not-delete-value: 'null'
 
 # easy trans 数据翻译插件
 easy-trans:

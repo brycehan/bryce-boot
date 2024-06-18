@@ -33,7 +33,7 @@
     <select id="list" resultType="com.brycehan.boot.system.entity.po.SysOrg">
         select bso.*
         from brc_sys_org bso
-        where bso.deleted = false
+        where bso.deleted is null
         order by bso.sort asc
     </select>
 </mapper>

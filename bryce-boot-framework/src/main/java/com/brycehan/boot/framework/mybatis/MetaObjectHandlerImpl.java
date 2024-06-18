@@ -29,8 +29,6 @@ public class MetaObjectHandlerImpl implements MetaObjectHandler {
         strictInsertFill(metaObject, "createdTime", LocalDateTime.class, LocalDateTime.now());
         // 版本号
         strictInsertFill(metaObject, "version", Integer.class, 1);
-        // 删除标识
-        strictInsertFill(metaObject, "deleted", Boolean.class, false);
     }
 
     @Override

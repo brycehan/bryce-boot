@@ -35,11 +35,10 @@ public abstract class BaseEntity implements TransPojo, Serializable {
     private Integer version;
 
     /**
-     * 删除标识（false：正常，true：删除）
+     * 删除标识（null：正常，非null：删除）
      */
     @TableLogic
-    @TableField(fill = FieldFill.INSERT)
-    private Boolean deleted;
+    private LocalDateTime deleted;
 
     /**
      * 创建者ID

@@ -31,9 +31,9 @@
         select min(bsr.data_scope)
         from brc_sys_role bsr
         left join brc_sys_user_role bsur on bsr.id = bsur.role_id
-        where bsr.deleted = false
+        where bsr.deleted is null
           and bsr.status = true
-          and bsur.deleted = false
+          and bsur.deleted is null
           and bsur.user_id = #{userId}
     </select>
 
@@ -42,7 +42,7 @@
         select code
         from brc_sys_role sr
         left join brc_sys_user_role sur on sr.id = sur.role_id
-        where sr.deleted = false
+        where sr.deleted is null
           and sur.user_id = #{userId}
     </select>
 
