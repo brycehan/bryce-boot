@@ -57,6 +57,18 @@ public class AuthLoginController {
     }
 
     /**
+     * 刷新令牌
+     *
+     * @return 响应结果
+     */
+    @Operation(summary = "刷新令牌")
+    @GetMapping(path = "/refreshToken")
+    public ResponseResult<LoginVo> refreshToken() {
+        authLoginService.refreshToken();
+        return ResponseResult.ok();
+    }
+
+    /**
      * 查询系统登录用户详情
      *
      * @return 响应结果

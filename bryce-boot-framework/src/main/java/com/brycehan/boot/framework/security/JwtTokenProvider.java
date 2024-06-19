@@ -168,6 +168,9 @@ public class JwtTokenProvider {
      * @param loginUser 登录用户
      */
     public void doRefreshToken(LoginUser loginUser) {
+        if (loginUser == null) {
+            return;
+        }
         // 生成 jwt
         String token = generateToken(loginUser);
         // 缓存 loginUser

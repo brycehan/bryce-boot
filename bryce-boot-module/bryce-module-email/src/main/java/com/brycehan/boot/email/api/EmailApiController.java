@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,7 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
  * @author Bryce Han
  */
 @Slf4j
-@Tag(name = "邮件Api")
+@Tag(name = "邮件")
 @RequestMapping(path = "/api/email")
 @RestController
 @RequiredArgsConstructor
@@ -50,8 +51,8 @@ public class EmailApiController {
      * @return 响应结果
      */
     @Operation(summary = "发送附件邮件")
-    @PostMapping(path = "/sendHtmlEmail")
-    public ResponseResult<Void> sendHtmlEmail(@Validated ToMailDto toEmail, MultipartFile[] file) {
+    @PostMapping(path = "/sendHtmlEmail", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseResult<Void> sendHtmlEmail(@Validated ToMailDto toEmail, @RequestPart(required = false) MultipartFile[] file) {
         this.emailService.sendHtmlEmail(toEmail, file);
         return ResponseResult.ok();
     }

@@ -1,13 +1,14 @@
 package com.brycehan.boot.framework.common.config;
 
+import com.alibaba.ttl.threadpool.TtlExecutors;
 import com.brycehan.boot.common.util.ThreadUtils;
 import com.brycehan.boot.framework.common.config.properties.ThreadPoolProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.concurrent.BasicThreadFactory;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 
 import java.util.concurrent.*;
 
@@ -29,10 +30,10 @@ public class ThreadPoolConfig {
      * @return ThreadPoolExecutor线程池对象
      */
     @Bean
-    @ConditionalOnMissingBean
-    public ThreadPoolExecutor threadPoolExecutor(ThreadPoolProperties poolProperties) {
+    @Primary
+    public Executor threadPoolExecutor(ThreadPoolProperties poolProperties) {
         log.info("创建线程池：{}", poolProperties);
-        return new ThreadPoolExecutor(poolProperties.getCorePoolSize(),
+        ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(poolProperties.getCorePoolSize(),
                 poolProperties.getMaximumPoolSize(),
                 poolProperties.getKeepAliveTime(),
                 TimeUnit.SECONDS,
@@ -41,6 +42,7 @@ public class ThreadPoolConfig {
                 // 线程池对拒绝任务（无线程可用）的处理策略
                 // CallerRunsPolicy()由提交任务到线程池的线程来执行
                 new ThreadPoolExecutor.CallerRunsPolicy());
+        return TtlExecutors.getTtlExecutor(threadPoolExecutor);
     }
 
     /**

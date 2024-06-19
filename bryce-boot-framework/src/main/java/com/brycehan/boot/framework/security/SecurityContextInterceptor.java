@@ -1,5 +1,6 @@
 package com.brycehan.boot.framework.security;
 
+import com.brycehan.boot.common.base.LoginUserContextHolder;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.NotNull;
@@ -20,6 +21,6 @@ public class SecurityContextInterceptor implements HandlerInterceptor {
 
     @Override
     public void afterCompletion(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull Object handler, Exception ex) {
-        SecurityContextHolder.clearContext();
+        LoginUserContextHolder.clearContext();
     }
 }

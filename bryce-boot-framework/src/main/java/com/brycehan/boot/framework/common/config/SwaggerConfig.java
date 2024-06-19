@@ -31,8 +31,7 @@ public class SwaggerConfig {
     private static final String termsOfService = "https://github.com/brycehan";
     private static final String contactName = "Bryce Han";
     private static final String contactEmail = "brycehan@163.com";
-    private static final String SECURITY_SCHEME_NAME = "Bearer Token";
-    private static final String SECURITY_SCHEME_KEY = "Authorization";
+    private static final String SECURITY_SCHEME_NAME = "BearerToken";
 
     @Bean
     public GroupedOpenApi bryceBootApi() {
@@ -54,8 +53,9 @@ public class SwaggerConfig {
                 .addSecurityItem(new SecurityRequirement().addList(SECURITY_SCHEME_NAME))
                 .components(
                         new Components()
-                                .addSecuritySchemes(SECURITY_SCHEME_KEY,
+                                .addSecuritySchemes(SECURITY_SCHEME_NAME,
                                         new SecurityScheme()
+                                                .name(SECURITY_SCHEME_NAME)
                                                 .type(SecurityScheme.Type.HTTP)
                                                 .scheme("bearer")
                                                 .bearerFormat("JWT")

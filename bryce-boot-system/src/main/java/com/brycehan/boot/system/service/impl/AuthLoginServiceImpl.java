@@ -2,6 +2,7 @@ package com.brycehan.boot.system.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.brycehan.boot.common.base.LoginUser;
+import com.brycehan.boot.common.base.LoginUserContext;
 import com.brycehan.boot.common.constant.DataConstants;
 import com.brycehan.boot.common.constant.JwtConstants;
 import com.brycehan.boot.common.entity.dto.AccountLoginDto;
@@ -90,6 +91,11 @@ public class AuthLoginServiceImpl implements AuthLoginService {
         }
 
         return loadLoginVo(authentication);
+    }
+
+    @Override
+    public void refreshToken() {
+        this.jwtTokenProvider.doRefreshToken(LoginUserContext.currentUser());
     }
 
     /**

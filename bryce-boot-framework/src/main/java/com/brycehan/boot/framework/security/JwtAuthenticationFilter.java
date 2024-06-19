@@ -5,6 +5,7 @@ import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.brycehan.boot.common.base.LoginUser;
+import com.brycehan.boot.common.base.LoginUserContextHolder;
 import com.brycehan.boot.common.response.HttpResponseStatus;
 import com.brycehan.boot.common.response.ResponseResult;
 import com.brycehan.boot.common.util.JsonUtils;
@@ -17,10 +18,6 @@ import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -86,14 +83,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         // 用户存在，自动刷新令牌
         this.jwtTokenProvider.autoRefreshToken(loginUser);
-
         // 设置认证信息
-        Authentication authentication = new UsernamePasswordAuthenticationToken(loginUser, null, loginUser.getAuthorities());
-
-        // 新建 SecurityContext
-        SecurityContext context = SecurityContextHolder.createEmptyContext();
-        context.setAuthentication(authentication);
-        SecurityContextHolder.setContext(context);
+        LoginUserContextHolder.setContext(loginUser);
         log.info("将认证信息设置到安全上下文中，username：{}', uri: {}", loginUser.getUsername(), request.getRequestURI());
 
         filterChain.doFilter(request, response);
