@@ -6,6 +6,8 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.brycehan.boot.api.system.StorageApi;
+import com.brycehan.boot.api.system.vo.StorageVo;
 import com.brycehan.boot.common.base.IdGenerator;
 import com.brycehan.boot.common.base.LoginUser;
 import com.brycehan.boot.common.base.LoginUserContext;
@@ -71,6 +73,8 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
     private final SysRoleService sysRoleService;
 
     private final ThreadPoolExecutor threadPoolExecutor;
+
+    private final StorageApi storageApi;
 
     @Transactional(rollbackFor = Exception.class)
     @Override
@@ -371,16 +375,21 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
     }
 
     @Override
-    public void updateAvatar(SysUserAvatarDto sysUserAvatarDto) {
-        SysUser sysUser = SysUserConvert.INSTANCE.convert(sysUserAvatarDto);
+    public String updateAvatar(MultipartFile file) {
+        StorageVo storageVo = this.storageApi.upload(file, "avatar");
+        if (storageVo == null || StringUtils.isEmpty(storageVo.getUrl())) {
+            throw new ServerException(UserResponseStatus.USER_PROFILE_ALTER_AVATAR_ERROR);
+        }
+        SysUser sysUser = new SysUser();
         // 设置登录用户ID
         sysUser.setId(LoginUserContext.currentUserId());
+        sysUser.setAvatar(storageVo.getUrl());
 
         // 更新并更新用户登录信息
         if (this.updateById(sysUser)) {
             SysUser user = this.baseMapper.selectById(sysUser.getId());
             this.applicationEventPublisher.publishEvent(new RefreshTokenEvent(user));
-            return;
+            return storageVo.getUrl();
         }
 
         throw new ServerException(UserResponseStatus.USER_PROFILE_ALTER_AVATAR_ERROR);

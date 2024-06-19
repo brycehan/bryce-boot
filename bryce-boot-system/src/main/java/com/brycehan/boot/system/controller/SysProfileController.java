@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 
 /**
@@ -62,15 +63,15 @@ public class SysProfileController {
     /**
      * 修改用户头像
      *
-     * @param sysUserAvatarDto 用户头像Dto
+     * @param file 用户头像文件
      * @return 响应结果
      */
     @Operation(summary = "修改用户头像")
     @OperateLog(type = OperateType.UPDATE)
-    @PutMapping(path = "/avatar")
-    public ResponseResult<Void> updateAvatar(@RequestBody SysUserAvatarDto sysUserAvatarDto) {
-        this.sysUserService.updateAvatar(sysUserAvatarDto);
-        return ResponseResult.ok();
+    @PostMapping(path = "/avatar")
+    public ResponseResult<String> updateAvatar(@RequestPart MultipartFile file) {
+        String avatar = this.sysUserService.updateAvatar(file);
+        return ResponseResult.ok(avatar);
     }
 
     /**

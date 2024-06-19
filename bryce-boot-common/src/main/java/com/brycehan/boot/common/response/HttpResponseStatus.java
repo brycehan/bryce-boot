@@ -21,7 +21,7 @@ public enum HttpResponseStatus implements ResponseStatus {
 
     HTTP_BAD_REQUEST(400, "参数不合法"),
 
-    HTTP_UNAUTHORIZED(401, "您还未授权，不能访问"),
+    HTTP_UNAUTHORIZED(401, "您还未登录，不能访问"),
 
     HTTP_FORBIDDEN(403, "没有权限，禁止访问"),
 

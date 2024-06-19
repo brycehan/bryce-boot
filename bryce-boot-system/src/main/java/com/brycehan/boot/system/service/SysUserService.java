@@ -127,9 +127,9 @@ public interface SysUserService extends BaseService<SysUser> {
     /**
      * 更新用户头像
      *
-     * @param sysUserAvatarDto 用户头像信息
+     * @param file 用户头像信息
      */
-    void updateAvatar(SysUserAvatarDto sysUserAvatarDto);
+    String updateAvatar(MultipartFile file);
 
     /**
      * 更新密码
