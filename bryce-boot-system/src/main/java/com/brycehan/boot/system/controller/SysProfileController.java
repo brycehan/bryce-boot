@@ -4,7 +4,6 @@ import com.brycehan.boot.common.base.LoginUserContext;
 import com.brycehan.boot.common.response.ResponseResult;
 import com.brycehan.boot.framework.operatelog.annotation.OperateLog;
 import com.brycehan.boot.framework.operatelog.annotation.OperateType;
-import com.brycehan.boot.system.entity.dto.SysUserAvatarDto;
 import com.brycehan.boot.system.entity.dto.SysUserInfoDto;
 import com.brycehan.boot.system.entity.dto.SysUserPasswordDto;
 import com.brycehan.boot.system.entity.vo.SysUserInfoVo;

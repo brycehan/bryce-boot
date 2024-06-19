@@ -2,8 +2,8 @@ package com.brycehan.boot.third.login.controller;
 
 import cn.hutool.core.img.ImgUtil;
 import cn.hutool.extra.qrcode.QrCodeUtil;
-import com.brycehan.boot.common.response.ResponseResult;
 import com.brycehan.boot.common.entity.vo.LoginVo;
+import com.brycehan.boot.common.response.ResponseResult;
 import com.brycehan.boot.third.login.service.WechatMpService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;

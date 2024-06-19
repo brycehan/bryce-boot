@@ -30,6 +30,7 @@ import com.brycehan.boot.system.mapper.SysUserMapper;
 import com.brycehan.boot.system.service.*;
 import com.fhs.trans.service.impl.TransService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.context.ApplicationEventPublisher;
@@ -52,6 +53,7 @@ import java.util.concurrent.ThreadPoolExecutor;
  * @since 2022/5/08
  * @author Bryce Han
  */
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> implements SysUserService {
@@ -376,6 +378,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
 
     @Override
     public String updateAvatar(MultipartFile file) {
+        log.info("上传头像文件：{}", file.getOriginalFilename());
         StorageVo storageVo = this.storageApi.upload(file, "avatar");
         if (storageVo == null || StringUtils.isEmpty(storageVo.getUrl())) {
             throw new ServerException(UserResponseStatus.USER_PROFILE_ALTER_AVATAR_ERROR);

@@ -1,7 +1,7 @@
 package com.brycehan.boot.mp.controller;
 
-import com.brycehan.boot.common.entity.dto.IdsDto;
 import com.brycehan.boot.common.entity.PageResult;
+import com.brycehan.boot.common.entity.dto.IdsDto;
 import com.brycehan.boot.common.response.ResponseResult;
 import com.brycehan.boot.common.validator.SaveGroup;
 import com.brycehan.boot.common.validator.UpdateGroup;

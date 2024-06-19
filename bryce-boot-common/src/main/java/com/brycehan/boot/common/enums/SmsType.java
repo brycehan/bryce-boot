@@ -2,7 +2,6 @@ package com.brycehan.boot.common.enums;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 
 /**

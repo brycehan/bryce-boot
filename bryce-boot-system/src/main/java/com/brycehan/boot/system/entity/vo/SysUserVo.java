@@ -55,6 +55,12 @@ public class SysUserVo implements Serializable, TransPojo {
     private String nickname;
 
     /**
+     * 头像
+     */
+    @Schema(description = "头像")
+    private String avatar;
+
+    /**
      * 性别（M：男, F：女）
      */
     @Schema(description = "性别（M：男, F：女）")

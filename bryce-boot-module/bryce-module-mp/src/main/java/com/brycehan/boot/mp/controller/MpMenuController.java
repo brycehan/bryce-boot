@@ -2,8 +2,8 @@ package com.brycehan.boot.mp.controller;
 
 import com.brycehan.boot.api.system.SysParamApi;
 import com.brycehan.boot.api.system.dto.SysParamDto;
-import com.brycehan.boot.common.response.ResponseResult;
 import com.brycehan.boot.common.constant.DataConstants;
+import com.brycehan.boot.common.response.ResponseResult;
 import com.brycehan.boot.common.util.JsonUtils;
 import com.brycehan.boot.framework.operatelog.annotation.OperateLog;
 import com.brycehan.boot.framework.operatelog.annotation.OperateType;

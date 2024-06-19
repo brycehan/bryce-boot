@@ -1,6 +1,5 @@
 package com.brycehan.boot.mp.common;
 
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

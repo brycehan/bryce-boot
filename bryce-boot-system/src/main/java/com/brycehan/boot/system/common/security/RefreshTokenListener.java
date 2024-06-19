@@ -30,14 +30,13 @@ public class RefreshTokenListener {
     @EventListener
     public void onRefreshToken(RefreshTokenEvent event) {
         LoginUser loginUser = LoginUserContext.currentUser();
-
         if (loginUser == null) {
             return;
         }
 
+        log.info("用户[{}]刷新令牌事件处理...", loginUser.getUsername());
         // 用户信息
         SysUser sysUser = event.getSysUser();
-        log.info("用户[{}]刷新令牌事件处理...", loginUser.getUsername());
 
         // 更新用户信息
         loginUser.setNickname(sysUser.getNickname());
@@ -46,12 +45,7 @@ public class RefreshTokenListener {
         loginUser.setGender(sysUser.getGender());
         loginUser.setAvatar(sysUser.getAvatar());
 
-        // 生成 jwt
-        String token = this.jwtTokenProvider.generateToken(loginUser);
-
-        // 缓存 loginUser
-        this.jwtTokenProvider.cache(loginUser);
-        this.jwtTokenProvider.refreshToken(token);
+        this.jwtTokenProvider.doRefreshToken(loginUser);
     }
 
 }

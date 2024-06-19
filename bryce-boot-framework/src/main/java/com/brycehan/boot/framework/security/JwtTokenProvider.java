@@ -158,13 +158,22 @@ public class JwtTokenProvider {
      */
     public void autoRefreshToken(LoginUser loginUser) {
         if (needRefreshToken(loginUser)) {
-            // 生成 jwt
-            String token = generateToken(loginUser);
-            // 缓存 loginUser
-            cache(loginUser);
-            // 刷新令牌
-            refreshToken(token);
+            doRefreshToken(loginUser);
         }
+    }
+
+    /**
+     * 令牌续期
+     *
+     * @param loginUser 登录用户
+     */
+    public void doRefreshToken(LoginUser loginUser) {
+        // 生成 jwt
+        String token = generateToken(loginUser);
+        // 缓存 loginUser
+        cache(loginUser);
+        // 刷新令牌
+        refreshToken(token);
     }
 
     /**
@@ -193,6 +202,7 @@ public class JwtTokenProvider {
     public void refreshToken(String token) {
         HttpServletResponse response = ServletUtils.getResponse();
         if(response != null) {
+            response.setHeader(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, HttpHeaders.AUTHORIZATION);
             // 将 jwt token 添加到响应头
             response.setHeader(HttpHeaders.AUTHORIZATION, JwtConstants.TOKEN_PREFIX.concat(token));
         }
