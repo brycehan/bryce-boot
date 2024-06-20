@@ -18,6 +18,7 @@ import com.brycehan.boot.system.mapper.SysPostMapper;
 import com.brycehan.boot.system.service.SysPostService;
 import com.brycehan.boot.system.service.SysUserPostService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -33,6 +34,7 @@ import java.util.Objects;
  * @author Bryce Han
  */
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class SysPostServiceImpl extends BaseServiceImpl<SysPostMapper, SysPost> implements SysPostService {
 

@@ -45,7 +45,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.Executor;
 
 /**
  * 系统用户服务实现
@@ -74,7 +74,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
 
     private final SysRoleService sysRoleService;
 
-    private final ThreadPoolExecutor threadPoolExecutor;
+    private final Executor executor;
 
     private final StorageApi storageApi;
 
@@ -432,14 +432,14 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
 
         // 机构名称
         CompletableFuture<String> orgNameFuture = CompletableFuture
-                .supplyAsync(() -> this.sysOrgService.getOrgNameById(sysUser.getOrgId()), threadPoolExecutor);
+                .supplyAsync(() -> this.sysOrgService.getOrgNameById(sysUser.getOrgId()), executor);
 
         // 用户岗位名称列表
         CompletableFuture<String> postNameListFuture = CompletableFuture.supplyAsync(() -> {
             List<Long> postIdList = this.sysUserPostService.getPostIdsByUserId(userId);
             List<String> postNameList = this.sysPostService.getPostNameList(postIdList);
             return String.join(",", postNameList);
-        }, threadPoolExecutor);
+        }, executor);
 
         // 用户角色名称列表
         List<Long> roleIdList = this.sysUserRoleService.getRoleIdsByUserId(userId);

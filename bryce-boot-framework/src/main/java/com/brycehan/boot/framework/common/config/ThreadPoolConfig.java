@@ -31,14 +31,14 @@ public class ThreadPoolConfig {
      */
     @Bean
     @Primary
-    public Executor threadPoolExecutor(ThreadPoolProperties poolProperties) {
+    public Executor executor(ThreadPoolProperties poolProperties) {
         log.info("创建线程池：{}", poolProperties);
         ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(poolProperties.getCorePoolSize(),
                 poolProperties.getMaximumPoolSize(),
                 poolProperties.getKeepAliveTime(),
                 TimeUnit.SECONDS,
                 new LinkedBlockingQueue<>(poolProperties.getWorkQueueSize()),
-                new BasicThreadFactory.Builder().namingPattern("bryce-thread-%d").daemon(true).build(),
+                new BasicThreadFactory.Builder().namingPattern("brc-exec-%d").daemon(true).build(),
                 // 线程池对拒绝任务（无线程可用）的处理策略
                 // CallerRunsPolicy()由提交任务到线程池的线程来执行
                 new ThreadPoolExecutor.CallerRunsPolicy());
@@ -53,8 +53,8 @@ public class ThreadPoolConfig {
      */
     @Bean
     public ScheduledExecutorService scheduledExecutorService(ThreadPoolProperties threadPoolProperties) {
-        return new ScheduledThreadPoolExecutor(threadPoolProperties.getCorePoolSize(),
-                new BasicThreadFactory.Builder().namingPattern("bryce-scheduled-%d").daemon(true).build(),
+        ScheduledThreadPoolExecutor scheduledThreadPoolExecutor = new ScheduledThreadPoolExecutor(threadPoolProperties.getCorePoolSize(),
+                new BasicThreadFactory.Builder().namingPattern("brc-sch-%d").daemon(true).build(),
                 new ThreadPoolExecutor.CallerRunsPolicy()) {
             @Override
             protected void afterExecute(Runnable r, Throwable t) {
@@ -62,6 +62,7 @@ public class ThreadPoolConfig {
                 ThreadUtils.printException(r, t);
             }
         };
+        return TtlExecutors.getTtlScheduledExecutorService(scheduledThreadPoolExecutor);
     }
 
 }

@@ -14,7 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
  */
 public class LoginUserContextHolder {
 
-    private static final InheritableThreadLocal<LoginUser> CONTEXT_HOLDER = new TransmittableThreadLocal<>();
+    private static final ThreadLocal<LoginUser> CONTEXT_HOLDER = new TransmittableThreadLocal<>();
 
     /**
      * 设置登录用户
