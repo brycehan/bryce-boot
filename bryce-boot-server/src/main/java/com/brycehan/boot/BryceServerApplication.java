@@ -1,5 +1,6 @@
 package com.brycehan.boot;
 
+import com.brycehan.boot.framework.common.EnableBryceConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.retry.annotation.EnableRetry;
@@ -12,9 +13,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * @since 2023/11/19
  * @author Bryce Han
  */
-@EnableRetry
-@EnableTransactionManagement
-@EnableAsync
+@EnableBryceConfig
 @SpringBootApplication
 public class BryceServerApplication {
 
