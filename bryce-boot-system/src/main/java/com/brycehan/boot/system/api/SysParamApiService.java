@@ -1,7 +1,6 @@
 package com.brycehan.boot.system.api;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.brycehan.boot.api.system.SysParamApi;
 import com.brycehan.boot.api.system.dto.SysParamDto;
 import com.brycehan.boot.api.system.vo.SysParamVo;
@@ -10,6 +9,7 @@ import com.brycehan.boot.system.entity.po.SysParam;
 import com.brycehan.boot.system.service.SysParamService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -39,13 +39,20 @@ public class SysParamApiService implements SysParamApi {
         SysParam sysParam = new SysParam();
         BeanUtils.copyProperties(sysParamDto, sysParam);
         // 通过paramKey更新时
-        if (sysParam.getId() == null) {
-            LambdaUpdateWrapper<SysParam> updateWrapper = new LambdaUpdateWrapper<>();
-            updateWrapper.eq(SysParam::getParamKey, sysParam.getParamKey());
+        if (StringUtils.isNotEmpty(sysParam.getParamKey())) {
+            LambdaQueryWrapper<SysParam> queryWrapper = new LambdaQueryWrapper<>();
+            queryWrapper.select(SysParam::getId);
+            queryWrapper.eq(SysParam::getParamKey, sysParam.getParamKey());
+            SysParam param = this.sysParamService.getOne(queryWrapper, false);
+            if (param != null) {
+                sysParam.setId(param.getId());
+            }
+        }
 
-            this.sysParamService.update(sysParam, updateWrapper);
+        if (sysParamDto.getId() == null) {
             return;
         }
+
         this.sysParamService.updateById(sysParam);
     }
 

@@ -128,7 +128,7 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<M, 
         LoginUser loginUser = LoginUserContext.currentUser();
         // 如果是超级管理员，则不进行数据过滤
         assert loginUser != null;
-        if(loginUser.getSuperAdmin()) {
+        if(loginUser.isSuperAdmin()) {
             return null;
         }
 

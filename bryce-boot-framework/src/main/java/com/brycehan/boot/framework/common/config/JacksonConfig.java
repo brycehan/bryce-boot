@@ -18,6 +18,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
+import java.util.TimeZone;
 
 import static java.time.format.DateTimeFormatter.*;
 
@@ -35,6 +36,8 @@ public class JacksonConfig {
             .appendLiteral(' ')
             .append(ISO_TIME)
             .toFormatter();
+
+    private final TimeZone timeZone = TimeZone.getDefault();
 
     /**
      * 映射配置
@@ -55,6 +58,7 @@ public class JacksonConfig {
 
             builder.failOnUnknownProperties(false);
             builder.featuresToDisable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+            builder.timeZone(timeZone);
         };
     }
 }

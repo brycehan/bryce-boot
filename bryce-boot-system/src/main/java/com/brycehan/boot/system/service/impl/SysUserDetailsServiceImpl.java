@@ -22,10 +22,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * 系统用户详情服务实现
@@ -119,7 +116,8 @@ public class SysUserDetailsServiceImpl implements SysUserDetailsService {
             // 本机构及子机构数据
             List<Long> dataScopeList = this.sysOrgService.getSubOrgIds(loginUser.getOrgId());
             // 自定义数据权限范围
-            dataScopeList.addAll(this.sysRoleDataScopeMapper.getDataScopeOrgIds(loginUser.getId()));
+            List<Long> dataScopeOrgIds = this.sysRoleDataScopeMapper.getDataScopeOrgIds(loginUser.getId());
+            dataScopeList.addAll(dataScopeOrgIds.stream().filter(Objects::nonNull).toList());
 
             return Set.copyOf(dataScopeList);
         } else if (dataScope.equals(DataScopeType.ORG_ONLY.value())) {

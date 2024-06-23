@@ -131,7 +131,7 @@ public class SysOrgController {
      * @return 系统机构列表
      */
     @Operation(summary = "列表查询")
-    @PreAuthorize("hasAuthority('system:org:page')")
+    @PreAuthorize("isAuthenticated()")
     @PostMapping(path = "/list")
     public ResponseResult<List<SysOrgVo>> list(@Validated @RequestBody SysOrgDto sysOrgDto) {
         List<SysOrgVo> list = this.sysOrgService.list(sysOrgDto);

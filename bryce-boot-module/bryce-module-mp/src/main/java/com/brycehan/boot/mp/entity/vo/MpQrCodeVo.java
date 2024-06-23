@@ -56,14 +56,14 @@ public class MpQrCodeVo implements Serializable {
      * 该二维码失效时间
      */
     @Schema(description = "该二维码失效时间")
-    @JsonFormat(pattern = DatePattern.NORM_DATETIME_PATTERN, timezone = "GMT+8")
+    @JsonFormat(pattern = DatePattern.NORM_DATETIME_PATTERN)
     private LocalDateTime expireTime;
 
     /**
      * 该二维码创建时间
      */
     @Schema(description = "该二维码创建时间")
-    @JsonFormat(pattern = DatePattern.NORM_DATETIME_PATTERN, timezone = "GMT+8")
+    @JsonFormat(pattern = DatePattern.NORM_DATETIME_PATTERN)
     private LocalDateTime createTime;
 
 }

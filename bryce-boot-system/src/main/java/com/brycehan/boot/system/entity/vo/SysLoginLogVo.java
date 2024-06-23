@@ -114,7 +114,7 @@ public class SysLoginLogVo implements Serializable, TransPojo {
     @Schema(description = "访问时间")
     @ColumnWidth(20)
     @ExcelProperty(value = "访问时间", index = 8)
-    @JsonFormat(pattern = DatePattern.NORM_DATETIME_PATTERN, timezone = "GMT+8")
+    @JsonFormat(pattern = DatePattern.NORM_DATETIME_PATTERN)
     private LocalDateTime accessTime;
 
     /**
@@ -123,7 +123,7 @@ public class SysLoginLogVo implements Serializable, TransPojo {
     @Schema(description = "创建时间")
     @ColumnWidth(20)
     @ExcelProperty(value = "创建时间", index = 9)
-    @JsonFormat(pattern = DatePattern.NORM_DATETIME_PATTERN, timezone = "GMT+8")
+    @JsonFormat(pattern = DatePattern.NORM_DATETIME_PATTERN)
     private LocalDateTime createdTime;
 
 }

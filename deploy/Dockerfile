@@ -16,7 +16,7 @@ ENTRYPOINT java \
 	-Dspring.profiles.active=${spring_profiles_active:-prod} \
 	-Djava.security.egd=file:/dev/./urandom \
 	-Dfile.encoding=UTF-8 \
-	-Duser.timezone=GMT+08 \
+	-Duser.timezone=${TZ} \
 	-XX:+HeapDumpOnOutOfMemoryError \
 	-jar \
 	/app.jar

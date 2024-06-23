@@ -39,6 +39,7 @@ public class LoginUserContext {
      *
      * @return 当前登录用户的机构ID
      */
+    @SuppressWarnings("unused")
     public static Long currentOrgId() {
         LoginUser loginUser = currentUser();
         if(loginUser == null){

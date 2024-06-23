@@ -19,7 +19,7 @@ public enum HttpResponseStatus implements ResponseStatus {
 
     HTTP_OK(200, "操作成功"),
 
-    HTTP_BAD_REQUEST(400, "参数不合法"),
+    HTTP_BAD_REQUEST(400, "参数错误"),
 
     HTTP_UNAUTHORIZED(401, "您还未登录，不能访问"),
 

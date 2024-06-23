@@ -99,7 +99,7 @@ public class MaUserVo implements Serializable {
      * 生日
      */
     @Schema(description = "生日")
-    @JsonFormat(pattern = DatePattern.NORM_DATE_PATTERN, timezone = "GMT+8")
+    @JsonFormat(pattern = DatePattern.NORM_DATE_PATTERN)
     private LocalDate birthday;
 
     /**
@@ -124,7 +124,7 @@ public class MaUserVo implements Serializable {
      * 创建时间
      */
     @Schema(description = "创建时间")
-    @JsonFormat(pattern = DatePattern.NORM_DATETIME_PATTERN, timezone = "GMT+8")
+    @JsonFormat(pattern = DatePattern.NORM_DATETIME_PATTERN)
     private LocalDateTime createdTime;
 
 }

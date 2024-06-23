@@ -116,7 +116,7 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuMapper, SysMenu> 
     public List<SysMenuVo> getMenuTreeList(LoginUser loginUser, String type) {
         List<SysMenu> menuList;
 
-        if (loginUser.getSuperAdmin()) {
+        if (loginUser.isSuperAdmin()) {
             // 超级管理员菜单处理
             LambdaQueryWrapper<SysMenu> queryWrapper = new LambdaQueryWrapper<>();
             queryWrapper.eq(SysMenu::getStatus, DataStatusType.ENABLE.value());
@@ -149,7 +149,7 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuMapper, SysMenu> 
     public Set<String> findAuthority(LoginUser loginUser) {
         // 超级管理员，拥有最高权限
         Set<String> authoritySet;
-        if (loginUser.getSuperAdmin()) {
+        if (loginUser.isSuperAdmin()) {
             LambdaQueryWrapper<SysMenu> wrapper = new LambdaQueryWrapper<>();
             wrapper.select(SysMenu::getAuthority);
 

@@ -152,7 +152,7 @@ public class SysRoleController {
      * @return 系统角色列表
      */
     @Operation(summary = "列表查询")
-    @PreAuthorize("hasAuthority('system:role:list')")
+    @PreAuthorize("isAuthenticated()")
     @GetMapping(path = "/list")
     public ResponseResult<List<SysRoleVo>> list() {
         List<SysRoleVo> list = this.sysRoleService.list(new SysRolePageDto());

@@ -51,7 +51,7 @@ public class LoginUser implements UserDetails {
 
     private Boolean status;
 
-    private Boolean superAdmin;
+    private boolean superAdmin;
 
     /**
      * 用户登录存储Key
