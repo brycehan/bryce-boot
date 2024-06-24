@@ -111,13 +111,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                // 禁用退出自动配置接口
-                .logout(AbstractHttpConfigurer::disable)
-                // 添加 jwt 过滤器
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                // 基于token，不需要session
-                .sessionManagement(configurer -> configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                // 过滤请求
+                // 授权请求
                 .authorizeHttpRequests(registry -> registry
                         .requestMatchers(this.authProperties.getIgnoreUrls().getAll()).permitAll()
                         .requestMatchers(HttpMethod.GET, this.authProperties.getIgnoreUrls().getGet()).permitAll()
@@ -125,9 +119,15 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.OPTIONS).permitAll()
                         // 除上面外的所有请求全部需要鉴权认证
                         .anyRequest().authenticated())
+                // 基于token，不需要session
+                .sessionManagement(configurer -> configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                // 添加 jwt 过滤器
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling(configurer -> configurer
                         .authenticationEntryPoint(authenticationEntryPoint)
                         .accessDeniedHandler(accessDeniedHandler))
+                // 禁用退出自动配置接口
+                .logout(AbstractHttpConfigurer::disable)
                 // 禁用X-Frame-Options
                 .headers(configurer -> configurer.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
                 // 禁用csrf，jwt不需要csrf开启

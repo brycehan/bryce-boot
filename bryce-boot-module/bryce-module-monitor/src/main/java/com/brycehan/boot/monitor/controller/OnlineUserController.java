@@ -32,7 +32,7 @@ import java.util.Set;
  */
 @Tag(name = "在线用户")
 @RestController
-@RequestMapping(path = "/monitor/onlineUser")
+@RequestMapping(path = "/system/onlineUser")
 @RequiredArgsConstructor
 public class OnlineUserController {
 

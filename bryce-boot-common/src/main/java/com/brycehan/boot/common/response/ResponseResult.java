@@ -1,6 +1,5 @@
 package com.brycehan.boot.common.response;
 
-import cn.hutool.core.date.DatePattern;
 import com.brycehan.boot.common.base.ServerException;
 import com.brycehan.boot.common.util.StringFormatUtils;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -48,7 +47,7 @@ public class ResponseResult<T> implements Serializable {
      * 响应时间
      */
     @Schema(description = "响应时间")
-    @JsonFormat(pattern = DatePattern.NORM_DATETIME_PATTERN)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
     private LocalDateTime time;
 
     /**
