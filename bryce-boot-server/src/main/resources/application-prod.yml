@@ -1,17 +1,19 @@
-spring: # spring 配置
-  datasource: # 数据源配置
+# Spring 配置
+spring:
+  # 数据源配置
+  datasource:
     dynamic:
       primary: master # 设置默认的数据源或者数据源组,默认值即为 master
       hikari: # Hikari 连接池全局配置
         connection-timeout: 30000 # 等待连接池分配连接的最大时长（毫秒），超过这个时长还没有可用的连接则发生 SQLException，默认：30秒
-        minimum-idle: 2           # 最小空闲连接数
-        maximum-pool-size: 10     # 最大连接数
+        minimum-idle: 20           # 最小空闲连接数
+        maximum-pool-size: 100     # 最大连接数
         idle-timeout: 600000      # 连接超时的最大时长（毫秒），超时则被释放（retired），默认：10 分钟
         max-lifetime: 1800000     # 连接的生命时长（毫秒），超时而且没被使用则被释放（retired），默认：30分钟
         connection-test-query: select 1
       datasource:
         master:
-          # mysql 8
+          # MySQL 8.0
           driver-class-name: com.mysql.cj.jdbc.Driver
           url: jdbc:mysql://mysql:3306/bryce_boot?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&nullDatabaseMeansCurrent=true&useServerPrepStmts=true&cachePrepStmts=true
           username: root
@@ -26,9 +28,10 @@ spring: # spring 配置
   #          url: jdbc:dm://dm:5436/bryce_boot?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&nullDatabaseMeansCurrent=true
   #          username: bryce_boot
   #          password: 123456
-
-  data: # data 配置
-    redis: # data redis 配置
+  # Spring Data 配置
+  data:
+    # Spring Data Redis 配置
+    redis:
       # 主机
       host: redis
       # 端口，默认为6379
@@ -37,6 +40,12 @@ spring: # spring 配置
       database: 0
       # 连接超时时长
       connect-timeout: 6s
+      lettuce:
+        pool:
+          max-active: 100
+          max-idle: 50
+          min-idle: 10
+          max-wait: 6s
 
   task: # 任务配置
     scheduling: # 定时任务
@@ -60,10 +69,23 @@ server:
       max: 1000
       min-spare: 200
 
-# 日志配置
-logging:
-  level:
-    root: info
+bryce:
+  # 存储配置
+  storage:
+    enabled: true
+    config:
+      # 存储类型 local|aliyun|tencent|qiniu|huawei|minio
+      type: local
+      domain: http://localhost:${server.port}
+    local:
+      # 路径 System.getProperty("user.home") + projectName + "/attachment";
+      path: attachment
+    # minio 配置
+#    minio:
+#      endpoint: http://127.0.0.1:9000
+#      access-key: sVlpKIiyRXfNVosAqd1M
+#      secret-key: O0ArhGUegmt03hjEpt8mFLhwSoSxBDUCA2umsIuk
+#      bucketName: bryce-boot
 
 ## 接口配置
 #springdoc:

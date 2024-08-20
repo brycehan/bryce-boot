@@ -22,9 +22,6 @@ spring:
 server:
   # 服务器 HTTP 端口
   port: 8090
-  servlet:
-    # 应用的访问路径
-    context-path: /
 
 # 接口文档
 knife4j:
