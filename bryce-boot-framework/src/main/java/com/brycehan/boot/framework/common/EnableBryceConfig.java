@@ -9,8 +9,6 @@ import java.lang.annotation.*;
 
 /**
  * 启用 Bryce 配置<br>
- * &#064;EnableAspectJAutoProxy(exposeProxy  = true)
- * 表示通过aop框架暴露该代理对象,AopContext能够访问
  *
  * @author Bryce Han
  * @since 2024/6/20
