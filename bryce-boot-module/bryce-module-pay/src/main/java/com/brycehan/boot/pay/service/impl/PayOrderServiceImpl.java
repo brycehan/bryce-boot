@@ -110,7 +110,7 @@ public class PayOrderServiceImpl extends BaseServiceImpl<PayOrderMapper, PayOrde
         queryWrapper.eq(PayOrder::getPaymentType, payType.getValue());
         queryWrapper.eq(PayOrder::getUserId, LoginUserContext.currentUserId());
 
-        return this.baseMapper.selectOne(queryWrapper);
+        return this.baseMapper.selectOne(queryWrapper, false);
     }
 
     @Override
@@ -143,7 +143,7 @@ public class PayOrderServiceImpl extends BaseServiceImpl<PayOrderMapper, PayOrde
         LambdaQueryWrapper<PayOrder> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(PayOrder::getOrderNo, orderNo);
 
-        PayOrder payOrder = this.baseMapper.selectOne(queryWrapper);
+        PayOrder payOrder = this.baseMapper.selectOne(queryWrapper, false);
         if(payOrder == null) {
             return null;
         }
@@ -183,7 +183,7 @@ public class PayOrderServiceImpl extends BaseServiceImpl<PayOrderMapper, PayOrde
         LambdaQueryWrapper<PayOrder> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(PayOrder::getOrderNo, orderNo);
 
-        return this.baseMapper.selectOne(queryWrapper);
+        return this.baseMapper.selectOne(queryWrapper, false);
     }
 
 }

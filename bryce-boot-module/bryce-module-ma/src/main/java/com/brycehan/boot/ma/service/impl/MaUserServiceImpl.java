@@ -103,7 +103,7 @@ public class MaUserServiceImpl extends BaseServiceImpl<MaUserMapper, MaUser> imp
 
     @Override
     public MaUser getByOpenId(String openId) {
-        return this.baseMapper.selectOne(new LambdaQueryWrapper<MaUser>().eq(MaUser::getOpenId, openId));
+        return this.baseMapper.selectOne(new LambdaQueryWrapper<MaUser>().eq(MaUser::getOpenId, openId), false);
     }
 
     @Override

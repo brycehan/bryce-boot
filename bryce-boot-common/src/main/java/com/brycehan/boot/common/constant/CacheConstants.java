@@ -21,17 +21,32 @@ public class CacheConstants {
     /**
      * 短信验证码键
      */
-    public static final String SMS_CODE_KEY = "sms_code:";
+    public static final String SMS_CODE_KEY = "sms:code:";
+
+    /**
+     * 短信验证码过期时间
+     */
+    public static final long SMS_CODE_TTL = 5L;
 
     /**
      * 短信发送量键
      */
-    public static final String SMS_COUNT_KEY = "sms_count:";
+    public static final String SMS_COUNT_KEY = "sms:count:";
 
     /**
      * 登录账户密码错误次数键
      */
     public static final String PASSWORD_ERROR_COUNT_KEY = "account:password_error_count:";
+
+    /**
+     * 缓存空值存活时间
+     */
+    public static final long CACHE_NULL_TTL = 2L;
+
+    /**
+     * 锁键
+     */
+    public static final String LOCK_KEY = "lock:";
 
     /**
      * 获取第三方登录 key

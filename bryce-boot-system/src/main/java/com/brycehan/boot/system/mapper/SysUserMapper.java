@@ -18,11 +18,11 @@ import java.util.Map;
 public interface SysUserMapper extends BryceBaseMapper<SysUser> {
 
     default SysUser getByUsername(String username) {
-        return this.selectOne(new LambdaQueryWrapper<SysUser>().eq(SysUser::getUsername, username));
+        return this.selectOne(new LambdaQueryWrapper<SysUser>().eq(SysUser::getUsername, username), false);
     }
 
     default SysUser getByPhone(String phone) {
-        return this.selectOne(new LambdaQueryWrapper<SysUser>().eq(SysUser::getPhone, phone));
+        return this.selectOne(new LambdaQueryWrapper<SysUser>().eq(SysUser::getPhone, phone), false);
     }
 
     List<SysUser> roleUserList(Map<String, Object> params);
@@ -30,6 +30,6 @@ public interface SysUserMapper extends BryceBaseMapper<SysUser> {
     List<SysUser> list(Map<String, Object> params);
 
     default SysUser getByEmail(String email) {
-        return this.selectOne(new LambdaQueryWrapper<SysUser>().eq(SysUser::getEmail, email));
+        return this.selectOne(new LambdaQueryWrapper<SysUser>().eq(SysUser::getEmail, email), false);
     }
 }

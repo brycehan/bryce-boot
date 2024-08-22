@@ -19,7 +19,7 @@ public interface SysParamMapper extends BryceBaseMapper<SysParam> {
     }
 
     default SysParam selectOne(String paramKey) {
-        return this.selectOne(new LambdaQueryWrapper<SysParam>().eq(SysParam::getParamKey, paramKey));
+        return this.selectOne(new LambdaQueryWrapper<SysParam>().eq(SysParam::getParamKey, paramKey), false);
     }
 
 }

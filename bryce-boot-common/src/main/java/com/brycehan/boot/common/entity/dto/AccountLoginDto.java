@@ -2,8 +2,10 @@ package com.brycehan.boot.common.entity.dto;
 
 import com.brycehan.boot.common.constant.UserConstants;
 import com.brycehan.boot.common.entity.BaseDto;
+import com.brycehan.boot.common.util.RegexPatterns;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -45,7 +47,7 @@ public class AccountLoginDto extends BaseDto {
     /**
      * 验证码
      */
-    @Size(max = 8)
+    @Size(max = 6)
     @Schema(description = "验证码")
     private String code;
 

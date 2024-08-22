@@ -182,6 +182,6 @@ public class MpUserServiceImpl extends BaseServiceImpl<MpUserMapper, MpUser> imp
     public MpUser getByOpenid(String openid) {
         LambdaQueryWrapper<MpUser> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(MpUser::getOpenId, openid);
-        return this.baseMapper.selectOne(queryWrapper);
+        return this.baseMapper.selectOne(queryWrapper, false);
     }
 }

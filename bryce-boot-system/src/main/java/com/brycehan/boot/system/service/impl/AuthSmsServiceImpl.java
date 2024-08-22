@@ -7,6 +7,7 @@ import com.brycehan.boot.common.base.RedisKeys;
 import com.brycehan.boot.common.base.ServerException;
 import com.brycehan.boot.common.constant.ParamConstants;
 import com.brycehan.boot.common.enums.SmsType;
+import com.brycehan.boot.common.util.RegexUtils;
 import com.brycehan.boot.system.entity.vo.SysUserVo;
 import com.brycehan.boot.system.service.AuthSmsService;
 import com.brycehan.boot.system.service.SysUserService;
@@ -18,6 +19,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.LinkedHashMap;
 import java.util.concurrent.TimeUnit;
+
+import static com.brycehan.boot.common.constant.CacheConstants.SMS_CODE_TTL;
 
 /**
  * 验证码服务实现
@@ -38,16 +41,19 @@ public class AuthSmsServiceImpl implements AuthSmsService {
 
     private final SysUserService sysUserService;
 
-    private final long expiration = 5;
-
     @Override
     public void sendCode(String phone, SmsType smsType) {
+
         if (!this.smsEnabled()) {
             throw new RuntimeException("短信功能未开启");
         }
 
         if (!this.smsEnabled(smsType)) {
             throw new RuntimeException(smsType.desc() + "短信功能未开启");
+        }
+
+        if (!RegexUtils.isPhoneValid(phone)) {
+            throw new ServerException("手机号码格式错误");
         }
 
         SysUserVo sysUserVo = this.sysUserService.getByPhone(phone);
@@ -79,7 +85,7 @@ public class AuthSmsServiceImpl implements AuthSmsService {
 
         // 存储到 Redis
         this.stringRedisTemplate.opsForValue()
-                .set(smsCodeKey, smsCodeValue, this.expiration, TimeUnit.MINUTES);
+                .set(smsCodeKey, smsCodeValue, SMS_CODE_TTL, TimeUnit.MINUTES);
     }
 
     @Override

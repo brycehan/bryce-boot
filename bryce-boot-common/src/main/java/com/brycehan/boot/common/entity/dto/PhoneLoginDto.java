@@ -1,10 +1,10 @@
 package com.brycehan.boot.common.entity.dto;
 
 import com.brycehan.boot.common.entity.BaseDto;
+import com.brycehan.boot.common.util.RegexPatterns;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -22,18 +22,16 @@ public class PhoneLoginDto extends BaseDto {
     /**
      * 手机号
      */
-    @NotNull
     @NotBlank
-    @Size(min = 11, max = 20)
+    @Pattern(regexp = RegexPatterns.PHONE_REGEX, message = "手机号格式错误")
     @Schema(description = "手机号")
     private String phone;
 
     /**
      * 验证码
      */
-    @NotNull
     @NotBlank
-    @Size(max = 8)
+    @Pattern(regexp = RegexPatterns.VERIFY_CODE_REGEX, message = "验证码格式错误")
     @Schema(description = "验证码")
     private String code;
 

@@ -17,6 +17,7 @@ import java.io.IOException;
  * @since 2023/5/24
  * @author Bryce Han
  */
+@SuppressWarnings("unused")
 public class JsonUtils {
 
     private static final ObjectMapper objectMapper = new ObjectMapper();
@@ -26,6 +27,12 @@ public class JsonUtils {
         objectMapper.registerModule(new JavaTimeModule());
     }
 
+    /**
+     * 将对象转换为JSON字符串
+     *
+     * @param object 对象
+     * @return JSON字符串
+     */
     public static String writeValueAsString(Object object){
         try {
             return objectMapper.writeValueAsString(object);
@@ -34,6 +41,14 @@ public class JsonUtils {
         }
     }
 
+    /**
+     * 将JSON字符串转换为对象
+     *
+     * @param content JSON字符串
+     * @param valueType 对象类型
+     * @param <T> 泛型
+     * @return 对象
+     */
     public static <T> T readValue(String content, Class<T> valueType){
         if(StringUtils.isBlank(content)){
             return null;
@@ -45,6 +60,14 @@ public class JsonUtils {
         }
     }
 
+    /**
+     * 将JSON字符串转换为对象
+     *
+     * @param src JSON字符串
+     * @param valueType 对象类型
+     * @param <T> 泛型
+     * @return 对象
+     */
     public static <T> T readValue(byte[] src, Class<T> valueType){
         if(ArrayUtils.isEmpty(src)){
             return null;
@@ -56,6 +79,14 @@ public class JsonUtils {
         }
     }
 
+    /**
+     * 将JSON字符串转换为对象
+     *
+     * @param content JSON字符串
+     * @param valueTypeRef 对象类型引用
+     * @param <T> 泛型
+     * @return 对象
+     */
     public static <T> T readValue(String content, TypeReference<T> valueTypeRef){
         if(StringUtils.isEmpty(content)){
             return null;
@@ -67,6 +98,14 @@ public class JsonUtils {
         }
     }
 
+    /**
+     * 转换值
+     *
+     * @param content 内容
+     * @param valueType 转换类型
+     * @param <T> 泛型
+     * @return 转换后的值
+     */
     public static <T> T readValue(String content, JavaType valueType){
         if(StringUtils.isEmpty(content)){
             return null;
@@ -74,6 +113,25 @@ public class JsonUtils {
         try {
             return objectMapper.readValue(content, valueType);
         } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * 转换值
+     *
+     * @param value 值
+     * @param toValueType 转换类型
+     * @param <T> 泛型
+     * @return 转换后的值
+     */
+    public static <T> T convertValue(Object value, Class<T> toValueType){
+        if(value == null){
+            return null;
+        }
+        try {
+            return objectMapper.convertValue(value, toValueType);
+        } catch (IllegalArgumentException e) {
             throw new RuntimeException(e);
         }
     }

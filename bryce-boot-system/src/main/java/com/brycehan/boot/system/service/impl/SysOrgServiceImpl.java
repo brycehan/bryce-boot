@@ -140,7 +140,7 @@ public class SysOrgServiceImpl extends BaseServiceImpl<SysOrgMapper, SysOrg> imp
             LambdaQueryWrapper<SysOrg> queryWrapper = new LambdaQueryWrapper<>();
             queryWrapper.select(SysOrg::getName);
             queryWrapper.eq(SysOrg::getId, orgId);
-            SysOrg sysOrg = this.baseMapper.selectOne(queryWrapper);
+            SysOrg sysOrg = this.baseMapper.selectOne(queryWrapper, false);
             if (sysOrg != null) {
                 return sysOrg.getName();
             }

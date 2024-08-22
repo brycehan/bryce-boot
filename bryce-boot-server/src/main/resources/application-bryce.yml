@@ -76,7 +76,7 @@ bryce:
         - /favicon.ico
         - /attachment/**
         - /auth/captcha/**
-        - /system/sms/**
+        - /auth/sms/**
         - /third/login/wechat/mp/**
         - /auth/logout
       post:

@@ -33,7 +33,6 @@ import com.fhs.trans.service.impl.TransService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -429,8 +428,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         }
 
         SysUser sysUser = this.baseMapper.selectById(userId);
-        SysUserInfoVo sysUserInfoVo = new SysUserInfoVo();
-        BeanUtils.copyProperties(sysUser, sysUserInfoVo);
+        SysUserInfoVo sysUserInfoVo = BeanUtil.copyProperties(sysUser, SysUserInfoVo.class);
 
         // 机构名称
         CompletableFuture<String> orgNameFuture = CompletableFuture
