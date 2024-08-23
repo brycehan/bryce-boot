@@ -20,6 +20,7 @@ import java.util.Set;
  * @since 2022/5/8
  */
 @Data
+@SuppressWarnings("unused")
 @EqualsAndHashCode(callSuper = true)
 @TableName("brc_sys_user")
 public class SysUser extends BaseEntity {
@@ -138,7 +139,7 @@ public class SysUser extends BaseEntity {
      * @return 是否具有某个角色布尔值
      */
     public boolean hasRole(String roleKey) {
-        return !CollectionUtils.isEmpty(roles) && roles.contains(roleKey);
+        return !CollectionUtils.isEmpty(this.roles) && this.roles.contains(roleKey);
     }
 
 }

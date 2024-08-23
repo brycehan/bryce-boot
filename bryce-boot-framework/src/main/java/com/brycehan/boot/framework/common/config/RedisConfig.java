@@ -6,8 +6,10 @@ import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import org.redisson.spring.starter.RedissonAutoConfigurationV2;
-import org.springframework.boot.autoconfigure.AutoConfigureBefore;
+import org.redisson.Redisson;
+import org.redisson.api.RedissonClient;
+import org.redisson.config.Config;
+import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -29,7 +31,6 @@ import java.util.Objects;
  * @author Bryce Han
  */
 @Configuration
-@AutoConfigureBefore(RedissonAutoConfigurationV2.class)
 public class RedisConfig {
 
     @Bean
@@ -66,6 +67,16 @@ public class RedisConfig {
         RedisCacheConfiguration redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()
                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(redisTemplate.getValueSerializer()));
         return new CustomRedisCacheManager(redisCacheWriter, redisCacheConfiguration);
+    }
+
+    @Bean
+    public RedissonClient redissonClient(RedisProperties redisProperties) {
+        Config config = new Config();
+        config.useSingleServer()
+                .setAddress("redis://" + redisProperties.getHost() + ":" + redisProperties.getPort())
+                .setDatabase(redisProperties.getDatabase())
+                .setPassword(redisProperties.getPassword());
+        return Redisson.create(config);
     }
 
 }
