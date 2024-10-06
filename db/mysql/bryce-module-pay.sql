@@ -18,7 +18,6 @@ create table brc_pay_order
     code_url        varchar(50)                        null comment '订单二维码连接',
     order_status    varchar(10)                        null comment '订单状态',
     remark          varchar(500)                       null comment '备注',
-    version         int                                not null comment '版本号',
     deleted         datetime                           null comment '删除标识',
     created_user_id bigint                             null comment '创建者ID',
     created_time    datetime                           null comment '创建时间',
@@ -37,7 +36,6 @@ create table brc_pay_payment
     trade_state     varchar(50)                        null comment '交易状态',
     payer_total     int                                null comment '支付金额(分)',
     content         text                               null comment '通知参数',
-    version         int                                not null comment '版本号',
     deleted         datetime                           null comment '删除标识',
     created_user_id bigint                             null comment '创建者ID',
     created_time    datetime                           null comment '创建时间',
@@ -51,7 +49,6 @@ create table brc_pay_product
     id              bigint                             primary key comment '商品ID',
     title           varchar(20)                        null comment '商品名称',
     price           int                                null comment '价格（分）',
-    version         int                                not null comment '版本号',
     deleted         datetime                           null comment '删除标识',
     created_user_id bigint                             null comment '创建者ID',
     created_time    datetime                           null comment '创建时间',
@@ -60,10 +57,10 @@ create table brc_pay_product
 ) comment '商品表';
 
 -- 商品表数据
-INSERT INTO brc_pay_product (id, title, price, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1, 'Java课程', 1, 1, null, 1, now(), null, null);
-INSERT INTO brc_pay_product (id, title, price, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (2, '大数据课程', 1, 1, null, 1, now(), null, null);
-INSERT INTO brc_pay_product (id, title, price, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (3, '前端课程', 1, 1, null, 1, now(), null, null);
-INSERT INTO brc_pay_product (id, title, price, version, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (4, 'UI课程', 1, 1, null, 1, now(), null, null);
+INSERT INTO brc_pay_product (id, title, price, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1, 'Java课程', 1, null, 1, now(), null, null);
+INSERT INTO brc_pay_product (id, title, price, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (2, '大数据课程', 1, null, 1, now(), null, null);
+INSERT INTO brc_pay_product (id, title, price, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (3, '前端课程', 1, null, 1, now(), null, null);
+INSERT INTO brc_pay_product (id, title, price, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (4, 'UI课程', 1, null, 1, now(), null, null);
 
 -- 4、退款单表
 create table brc_pay_refund
@@ -78,7 +75,6 @@ create table brc_pay_refund
     refund_status   varchar(20)                        null comment '退款状态',
     content_return  text                               null comment '申请退款返回参数',
     content_notify  text                               null comment '退款结果通知参数',
-    version         int                                not null comment '版本号',
     deleted         datetime                           null comment '删除标识',
     created_user_id bigint                             null comment '创建者ID',
     created_time    datetime                           null comment '创建时间',

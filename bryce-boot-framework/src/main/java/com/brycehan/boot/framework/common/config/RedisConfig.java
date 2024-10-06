@@ -9,6 +9,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;
 import org.redisson.config.Config;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -33,6 +34,11 @@ import java.util.Objects;
 @Configuration
 public class RedisConfig {
 
+    /**
+     * Jackson2JsonRedisSerializer序列化器
+     *
+     * @return Jackson2JsonRedisSerializer
+     */
     @Bean
     public Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer(){
         ObjectMapper objectMapper = new ObjectMapper();
@@ -43,6 +49,12 @@ public class RedisConfig {
         return new Jackson2JsonRedisSerializer<>(objectMapper, Object.class);
     }
 
+    /**
+     * RedisTemplate配置
+     *
+     * @param redisConnectionFactory Redis连接工厂
+     * @return RedisTemplate
+     */
     @Bean
     @Primary
     public RedisTemplate<?, ?> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
@@ -61,6 +73,12 @@ public class RedisConfig {
         return redisTemplate;
     }
 
+    /**
+     * RedisCacheManager配置
+     *
+     * @param redisTemplate RedisTemplate
+     * @return RedisCacheManager
+     */
     @Bean
     public RedisCacheManager redisCacheManager(RedisTemplate<?, ?> redisTemplate) {
         RedisCacheWriter redisCacheWriter = RedisCacheWriter.nonLockingRedisCacheWriter(Objects.requireNonNull(redisTemplate.getConnectionFactory()));
@@ -69,12 +87,40 @@ public class RedisConfig {
         return new CustomRedisCacheManager(redisCacheWriter, redisCacheConfiguration);
     }
 
+    /**
+     * RedissonClient配置
+     *
+     * @param redisProperties RedisProperties
+     * @return RedissonClient
+     */
     @Bean
     public RedissonClient redissonClient(RedisProperties redisProperties) {
         Config config = new Config();
+        // 哨兵模式
+        RedisProperties.Sentinel sentinel = redisProperties.getSentinel();
+        if (sentinel != null) {
+            config.useSentinelServers()
+                    .addSentinelAddress(sentinel.getNodes().toArray(new String[0]))
+                    .setMasterName(sentinel.getMaster())
+                    .setDatabase(redisProperties.getDatabase())
+                    .setUsername(redisProperties.getUsername())
+                    .setPassword(redisProperties.getPassword());
+            return Redisson.create(config);
+        }
+        // 集群模式
+        RedisProperties.Cluster cluster = redisProperties.getCluster();
+        if (cluster != null) {
+            config.useClusterServers()
+                    .addNodeAddress(redisProperties.getCluster().getNodes().toArray(new String[0]))
+                    .setPassword(redisProperties.getPassword());
+            return Redisson.create(config);
+        }
+
+        // 单机模式
         config.useSingleServer()
                 .setAddress("redis://" + redisProperties.getHost() + ":" + redisProperties.getPort())
                 .setDatabase(redisProperties.getDatabase())
+                .setUsername(redisProperties.getUsername())
                 .setPassword(redisProperties.getPassword());
         return Redisson.create(config);
     }

@@ -14,7 +14,6 @@
         <result column="email" property="email"/>
         <result column="sort" property="sort"/>
         <result column="status" property="status"/>
-        <result column="version" property="version"/>
         <result column="deleted" property="deleted"/>
         <result column="created_user_id" property="createdUserId"/>
         <result column="created_time" property="createdTime"/>

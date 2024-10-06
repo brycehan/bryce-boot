@@ -236,7 +236,8 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         });
 
         // 批量新增
-        ((SysUserService) AopContext.currentProxy()).saveBatch(sysUsers);
+        SysUserService proxy = (SysUserService) AopContext.currentProxy();
+        proxy.saveBatch(sysUsers);
     }
 
     @Override

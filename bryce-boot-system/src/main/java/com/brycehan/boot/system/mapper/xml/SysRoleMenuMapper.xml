@@ -7,7 +7,6 @@
         <id column="id" property="id"/>
         <result column="role_id" property="roleId"/>
         <result column="menu_id" property="menuId"/>
-        <result column="version" property="version"/>
         <result column="deleted" property="deleted"/>
         <result column="created_user_id" property="createdUserId"/>
         <result column="created_time" property="createdTime"/>
@@ -17,7 +16,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, role_id, menu_id, version, deleted,
+        id, role_id, menu_id, deleted,
         created_user_id, created_time, updated_user_id, updated_time
     </sql>
 

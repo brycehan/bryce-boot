@@ -15,7 +15,6 @@
         <result column="effect_time_end" property="effectTimeEnd" />
         <result column="priority" property="priority" />
         <result column="remark" property="remark" />
-        <result column="version" property="version" />
         <result column="deleted" property="deleted" />
         <result column="created_user_id" property="createdUserId" />
         <result column="created_time" property="createdTime" />
@@ -27,7 +26,7 @@
     <sql id="Base_Column_List">
         id, name, match_value, exact_match, reply_type, 
         reply_content, status, effect_time_start, effect_time_end, priority, 
-        remark, version, deleted, created_user_id, created_time, 
+        remark, deleted, created_user_id, created_time,
         updated_user_id, updated_time
     </sql>
 

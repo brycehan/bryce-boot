@@ -10,7 +10,6 @@
         <result column="param_value" property="paramValue"/>
         <result column="param_type" property="paramType"/>
         <result column="remark" property="remark"/>
-        <result column="version" property="version"/>
         <result column="deleted" property="deleted"/>
         <result column="created_user_id" property="createdUserId"/>
         <result column="created_time" property="createdTime"/>
@@ -21,7 +20,7 @@
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, param_name, param_key, param_value, param_type,
-        remark, version, deleted, created_user_id,
+        remark, deleted, created_user_id,
         created_time, updated_user_id, updated_time
     </sql>
 

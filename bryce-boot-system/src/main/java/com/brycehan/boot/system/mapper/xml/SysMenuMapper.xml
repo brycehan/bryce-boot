@@ -15,7 +15,6 @@
         <result column="sort" property="sort"/>
         <result column="remark" property="remark"/>
         <result column="status" property="status"/>
-        <result column="version" property="version"/>
         <result column="deleted" property="deleted"/>
         <result column="created_user_id" property="createdUserId"/>
         <result column="created_time" property="createdTime"/>
@@ -27,7 +26,7 @@
     <sql id="Base_Column_List">
         id, name, type, parent_id, url,
         authority, icon, open_style, sort, remark,
-        status, version, deleted, created_user_id, created_time,
+        status, deleted, created_user_id, created_time,
         updated_user_id, updated_time
     </sql>
 

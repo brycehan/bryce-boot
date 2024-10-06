@@ -16,6 +16,7 @@ import com.brycehan.boot.system.entity.vo.SysParamVo;
  * @since 2023/09/28
  * @author Bryce Han
  */
+@SuppressWarnings("unused")
 public interface SysParamService extends BaseService<SysParam> {
 
     /**

@@ -28,13 +28,6 @@ public abstract class BaseEntity implements TransPojo, Serializable {
     private Long id;
 
     /**
-     * 版本号
-     */
-    @Version
-    @TableField(fill = FieldFill.INSERT)
-    private Integer version;
-
-    /**
      * 删除标识（null：正常，非null：删除）
      */
     @TableLogic
@@ -69,6 +62,7 @@ public abstract class BaseEntity implements TransPojo, Serializable {
      *
      * @return JSON字符串
      */
+    @SuppressWarnings("unused")
     public String toJson(){
         return JsonUtils.writeValueAsString(this);
     }
