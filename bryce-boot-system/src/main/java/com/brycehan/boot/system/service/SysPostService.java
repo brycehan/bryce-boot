@@ -38,13 +38,6 @@ public interface SysPostService extends BaseService<SysPost> {
     default void update(SysPostDto sysPostDto) {
         SysPost sysPost = SysPostConvert.INSTANCE.convert(sysPostDto);
 
-        // 设置版本号
-        SysPost post = this.getBaseMapper().selectById(sysPost.getId());
-        if (post == null) {
-            return;
-        }
-        sysPost.setVersion(post.getVersion());
-
         // 更新
         int updated = this.getBaseMapper().updateById(sysPost);
         if (updated == 0) {
