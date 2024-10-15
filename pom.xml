@@ -27,7 +27,6 @@
         <skipTests>true</skipTests>
         <!-- Mybatis Plus -->
         <mybatis-plus.version>3.5.8</mybatis-plus.version>
-        <mybatis-plus-join.version>1.4.7</mybatis-plus-join.version>
         <dynamic-datasource.version>4.3.1</dynamic-datasource.version>
         <p6spy.version>3.9.1</p6spy.version>
         <dameng.version>8.1.2.79</dameng.version>
@@ -184,11 +183,6 @@
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
                 <version>${mybatis-plus.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.yulichang</groupId>
-                <artifactId>mybatis-plus-join-boot-starter</artifactId>
-                <version>${mybatis-plus-join.version}</version>
             </dependency>
             <!-- 动态数据源 -->
             <dependency>
