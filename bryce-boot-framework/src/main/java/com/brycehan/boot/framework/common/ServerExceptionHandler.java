@@ -22,6 +22,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.multipart.MultipartException;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.util.List;
 import java.util.Set;
@@ -51,7 +52,7 @@ public class ServerExceptionHandler {
         String message = e.getAllErrors().stream()
                 .map(DefaultMessageSourceResolvable::getDefaultMessage)
                 .collect(Collectors.joining(","));
-
+        log.error("数据绑定异常，{}", e.getMessage());
         return ResponseResult.error(HttpResponseStatus.HTTP_BAD_REQUEST.code(), message);
     }
 
@@ -63,7 +64,7 @@ public class ServerExceptionHandler {
      */
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseResult<Void> handleException(AccessDeniedException e) {
-        log.info(" 访问不允许异常，{}", e.getMessage());
+        log.error("访问不允许异常，{}", e.getMessage());
         return ResponseResult.error(HttpResponseStatus.HTTP_FORBIDDEN);
     }
 
@@ -75,7 +76,7 @@ public class ServerExceptionHandler {
      */
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseResult<Void> handleException(BadCredentialsException e) {
-        log.info(" 密码错误异常，{}", e.getMessage());
+        log.error(" 密码错误异常，{}", e.getMessage());
         return ResponseResult.error(UserResponseStatus.USER_USERNAME_OR_PASSWORD_ERROR);
     }
 
@@ -86,8 +87,7 @@ public class ServerExceptionHandler {
      */
     @ExceptionHandler(MultipartException.class)
     public ResponseResult<Void> handleException(MultipartException e) {
-        log.info(" 上传异常，{}", e.getMessage());
-
+        log.error(" 上传异常，{}", e.getMessage());
         return ResponseResult.error(UploadResponseStatus.UPLOAD_EXCEED_MAX_SIZE, maxRequestSize);
     }
 
@@ -99,6 +99,7 @@ public class ServerExceptionHandler {
      */
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public ResponseResult<Void> handleException(HttpRequestMethodNotSupportedException e) {
+        log.error(" 请求方法不支持异常，{}", e.getMethod());
         return ResponseResult.error(HttpResponseStatus.HTTP_METHOD_NOT_ALLOWED, e.getMethod());
     }
 
@@ -124,7 +125,7 @@ public class ServerExceptionHandler {
      */
     @ExceptionHandler(InternalAuthenticationServiceException.class)
     public ResponseResult<Void> handleException(InternalAuthenticationServiceException e) {
-        log.info("业务异常", e);
+        log.error("业务异常", e);
         return ResponseResult.error(UserResponseStatus.USER_USERNAME_OR_PASSWORD_ERROR.code(), e.getMessage());
     }
 
@@ -144,8 +145,6 @@ public class ServerExceptionHandler {
         return ResponseResult.error(HttpResponseStatus.HTTP_BAD_REQUEST.code(), message);
     }
 
-
-
     /**
      * 用户账户没有启用异常处理
      *
@@ -154,8 +153,14 @@ public class ServerExceptionHandler {
      */
     @ExceptionHandler(DisabledException.class)
     public ResponseResult<Void> handleException(DisabledException e) {
-        log.info("用户账户没有启用异常，{}", e.getLocalizedMessage());
+        log.error("用户账户没有启用异常，{}", e.getLocalizedMessage());
         return ResponseResult.error(UserResponseStatus.USER_ACCOUNT_DISABLED);
+    }
+
+    @ExceptionHandler(NoResourceFoundException.class)
+    public ResponseResult<Void> handleException(NoResourceFoundException e) {
+        log.error("全局异常捕获：{}", e.getMessage());
+        return ResponseResult.error(HttpResponseStatus.HTTP_NOT_FOUND);
     }
 
     /**
@@ -166,14 +171,14 @@ public class ServerExceptionHandler {
      */
     @ExceptionHandler(ServerException.class)
     public ResponseResult<Void> handleException(ServerException e) {
-        log.info("服务器异常", e);
+        log.error("服务器异常", e);
         return ResponseResult.error(e.getCode(), e.getMessage());
     }
 
     @ExceptionHandler(WxErrorException.class)
     public ResponseResult<Void> handleException(WxErrorException e) {
         WxError error = e.getError();
-        log.info("调用微信API异常，错误码：{}，错误消息：{}", error.getErrorCode(), error.getErrorMsg());
+        log.error("调用微信API异常，错误码：{}，错误消息：{}", error.getErrorCode(), error.getErrorMsg());
         return ResponseResult.error(error.getErrorMsg());
     }
 
@@ -185,7 +190,7 @@ public class ServerExceptionHandler {
      */
     @ExceptionHandler(Exception.class)
     public ResponseResult<Void> handleException(Exception e) {
-        log.info("系统内部异常", e);
+        log.error("系统内部异常", e);
         return ResponseResult.error(HttpResponseStatus.HTTP_INTERNAL_ERROR.code(), e.getMessage());
     }
 
