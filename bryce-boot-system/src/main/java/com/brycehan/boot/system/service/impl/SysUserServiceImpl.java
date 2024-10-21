@@ -147,7 +147,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
 
         if (CollUtil.isNotEmpty(ids)) {
             // 删除用户
-            this.baseMapper.deleteBatchIds(ids);
+            this.baseMapper.deleteByIds(ids);
 
             // 删除用户角色关系
             this.sysUserRoleService.deleteByUserIds(ids);

@@ -80,7 +80,7 @@ public class SysOrgServiceImpl extends BaseServiceImpl<SysOrgMapper, SysOrg> imp
         }
 
         // 删除
-        this.baseMapper.deleteBatchIds(ids);
+        this.baseMapper.deleteByIds(ids);
     }
 
     @Override

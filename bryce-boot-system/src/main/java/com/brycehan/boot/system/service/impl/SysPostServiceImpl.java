@@ -50,7 +50,7 @@ public class SysPostServiceImpl extends BaseServiceImpl<SysPostMapper, SysPost> 
         }
 
         // 删除岗位
-        this.baseMapper.deleteBatchIds(ids);
+        this.baseMapper.deleteByIds(ids);
 
         // 删除岗位用户关系
         this.sysUserPostService.deleteByPostIds(ids);

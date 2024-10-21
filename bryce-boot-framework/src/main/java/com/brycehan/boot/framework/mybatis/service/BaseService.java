@@ -31,7 +31,7 @@ public interface BaseService<T> extends IService<T> {
             return;
         }
 
-        this.getBaseMapper().deleteBatchIds(ids);
+        this.getBaseMapper().deleteByIds(ids);
     }
 
 }

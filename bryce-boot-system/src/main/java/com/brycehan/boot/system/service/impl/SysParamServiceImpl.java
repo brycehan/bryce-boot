@@ -97,10 +97,10 @@ public class SysParamServiceImpl extends BaseServiceImpl<SysParamMapper, SysPara
         }
 
         // 删除数据
-        this.baseMapper.deleteBatchIds(ids);
+        this.baseMapper.deleteByIds(ids);
 
         // 查询列表
-        List<SysParam> sysParams = this.baseMapper.selectBatchIds(ids);
+        List<SysParam> sysParams = this.baseMapper.selectByIds(ids);
 
         // 删除缓存
         Object[] paramKeys = sysParams.stream().map(SysParam::getParamKey).toArray();

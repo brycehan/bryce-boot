@@ -85,7 +85,7 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
         }
 
         // 删除角色
-        this.baseMapper.deleteBatchIds(ids);
+        this.baseMapper.deleteByIds(ids);
 
         // 删除用户角色关系
         this.sysUserRoleService.deleteByRoleIds(ids);
