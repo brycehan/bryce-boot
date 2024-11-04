@@ -13,10 +13,12 @@ import com.brycehan.boot.system.entity.po.SysNotice;
 import com.brycehan.boot.system.entity.vo.SysNoticeVo;
 import com.brycehan.boot.system.mapper.SysNoticeMapper;
 import com.brycehan.boot.system.service.SysNoticeService;
+import com.brycehan.boot.system.service.SysUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -29,9 +31,26 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class SysNoticeServiceImpl extends BaseServiceImpl<SysNoticeMapper, SysNotice> implements SysNoticeService {
 
+    private final SysUserService sysUserService;
+
+    @Override
+    public SysNoticeVo get(Long id) {
+        SysNotice sysNotice = this.getById(id);
+        SysNoticeVo sysNoticeVo = SysNoticeConvert.INSTANCE.convert(sysNotice);
+        // 处理创建用户名称
+        Map<Long, String> usernames = sysUserService.getUsernamesByIds(List.of(sysNoticeVo.getCreatedUserId()));
+        sysNoticeVo.setCreatedUsername(usernames.get(sysNotice.getCreatedUserId()));
+        return sysNoticeVo;
+    }
+
     @Override
     public PageResult<SysNoticeVo> page(SysNoticePageDto sysNoticePageDto) {
         IPage<SysNotice> page = this.baseMapper.selectPage(getPage(sysNoticePageDto), getWrapper(sysNoticePageDto));
+        List<SysNoticeVo> sysNoticeVoList = SysNoticeConvert.INSTANCE.convert(page.getRecords());
+        // 处理创建用户名称
+        Map<Long, String> usernames = sysUserService.getUsernamesByIds(sysNoticeVoList.stream().map(SysNoticeVo::getCreatedUserId).toList());
+        sysNoticeVoList.forEach(sysNotice -> sysNotice.setCreatedUsername(usernames.get(sysNotice.getCreatedUserId())));
+
         return new PageResult<>(page.getTotal(), SysNoticeConvert.INSTANCE.convert(page.getRecords()));
     }
 

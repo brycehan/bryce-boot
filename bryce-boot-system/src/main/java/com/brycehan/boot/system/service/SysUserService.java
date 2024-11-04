@@ -1,5 +1,6 @@
 package com.brycehan.boot.system.service;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.brycehan.boot.common.base.IdGenerator;
 import com.brycehan.boot.common.entity.PageResult;
 import com.brycehan.boot.framework.mybatis.service.BaseService;
@@ -8,9 +9,13 @@ import com.brycehan.boot.system.entity.dto.*;
 import com.brycehan.boot.system.entity.po.SysUser;
 import com.brycehan.boot.system.entity.vo.SysUserInfoVo;
 import com.brycehan.boot.system.entity.vo.SysUserVo;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * 系统用户服务
@@ -41,6 +46,14 @@ public interface SysUserService extends BaseService<SysUser> {
         SysUser sysUser = SysUserConvert.INSTANCE.convert(sysUserDto);
         this.getBaseMapper().updateById(sysUser);
     }
+
+    /**
+     * 根据ID查询系统用户
+     *
+     * @param id ID
+     * @return 系统用户
+     */
+    SysUserVo get(Long id);
 
     /**
      * 系统用户分页查询
@@ -155,11 +168,43 @@ public interface SysUserService extends BaseService<SysUser> {
     void resetPassword(SysResetPasswordDto sysResetPasswordDto);
 
     /**
+     * 授权用户角色
+     *
+     * @param userId  用户ID
+     * @param roleIds 角色ID列表
+     */
+    void insertAuthRole(Long userId, List<Long> roleIds);
+
+    /**
      * 获取用户信息
      *
      * @param userId 用户ID
      * @return 用户信息
      */
     SysUserInfoVo getUserInfo(Long userId);
+
+    /**
+     * 根据用户ID查询 用户ID用户名称列表map
+     *
+     * @param userIds 用户ID列表
+     * @return 用户ID用户名称列表map
+     */
+    default Map<Long, String> getUsernamesByIds(List<Long> userIds) {
+        if (CollectionUtils.isEmpty(userIds)) {
+            return new HashMap<>();
+        }
+
+        LambdaQueryWrapper<SysUser> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.select(SysUser::getId, SysUser::getUsername);
+        queryWrapper.in(SysUser::getId, userIds);
+
+        List<SysUser> sysUserList = getBaseMapper().selectList(queryWrapper);
+
+        if (CollectionUtils.isEmpty(sysUserList)) {
+            return new HashMap<>();
+        }
+
+        return sysUserList.stream().collect(Collectors.toMap(SysUser::getId, SysUser::getUsername));
+    }
 
 }

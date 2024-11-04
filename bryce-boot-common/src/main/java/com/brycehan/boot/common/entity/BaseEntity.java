@@ -2,7 +2,6 @@ package com.brycehan.boot.common.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.brycehan.boot.common.util.JsonUtils;
-import com.fhs.core.trans.vo.TransPojo;
 import lombok.Data;
 
 import java.io.Serial;
@@ -16,7 +15,7 @@ import java.time.LocalDateTime;
  * @author Bryce Han
  */
 @Data
-public abstract class BaseEntity implements TransPojo, Serializable {
+public abstract class BaseEntity implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;

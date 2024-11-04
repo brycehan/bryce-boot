@@ -5,9 +5,7 @@ import com.brycehan.boot.common.entity.dto.IdsDto;
 import com.brycehan.boot.common.response.ResponseResult;
 import com.brycehan.boot.framework.operatelog.annotation.OperateLog;
 import com.brycehan.boot.framework.operatelog.annotation.OperateType;
-import com.brycehan.boot.system.entity.convert.SysOperateLogConvert;
 import com.brycehan.boot.system.entity.dto.SysOperateLogPageDto;
-import com.brycehan.boot.system.entity.po.SysOperateLog;
 import com.brycehan.boot.system.entity.vo.SysOperateLogVo;
 import com.brycehan.boot.system.service.SysOperateLogService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -57,8 +55,8 @@ public class SysOperateLogController {
     @PreAuthorize("hasAuthority('system:operateLog:info')")
     @GetMapping(path = "/{id}")
     public ResponseResult<SysOperateLogVo> get(@Parameter(description = "系统操作日志ID", required = true) @PathVariable Long id) {
-        SysOperateLog sysOperateLog = this.sysOperateLogService.getById(id);
-        return ResponseResult.ok(SysOperateLogConvert.INSTANCE.convert(sysOperateLog));
+        SysOperateLogVo sysOperateLogVo = this.sysOperateLogService.get(id);
+        return ResponseResult.ok(sysOperateLogVo);
     }
 
     /**

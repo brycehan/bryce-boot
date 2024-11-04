@@ -39,6 +39,14 @@ public interface SysOperateLogService extends BaseService<SysOperateLog> {
     }
 
     /**
+     * 查询系统操作日志详情
+     *
+     * @param id 系统操作日志ID
+     * @return 系统操作日志VO
+     */
+    SysOperateLogVo get(Long id);
+
+    /**
      * 系统操作日志分页查询
      *
      * @param sysOperateLogPageDto 查询条件

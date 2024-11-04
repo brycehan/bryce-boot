@@ -1,11 +1,9 @@
 package com.brycehan.boot.system.entity.vo;
 
 import cn.hutool.core.date.DatePattern;
+import com.brycehan.boot.common.base.Trans;
 import com.brycehan.boot.system.entity.po.SysOrg;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fhs.core.trans.anno.Trans;
-import com.fhs.core.trans.constant.TransType;
-import com.fhs.core.trans.vo.TransPojo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -21,7 +19,7 @@ import java.time.LocalDateTime;
  */
 @Data
 @Schema(description = "系统操作日志Vo")
-public class SysOperateLogVo implements Serializable, TransPojo {
+public class SysOperateLogVo implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -72,7 +70,7 @@ public class SysOperateLogVo implements Serializable, TransPojo {
      * 操作类型
      */
     @Schema(description = "操作类型")
-    @Trans(type = TransType.DICTIONARY, key = "sys_operate_type", ref = "operatedTypeName")
+    @Trans(dict = "sys_operate_type", ref = "operatedTypeName")
     private String operatedType;
 
     /**
@@ -133,7 +131,6 @@ public class SysOperateLogVo implements Serializable, TransPojo {
     /**
      * 机构ID
      */
-    @Trans(type = TransType.SIMPLE, target = SysOrg.class, fields = "name", ref = "orgName")
     @Schema(description = "机构ID")
     private Long orgId;
 

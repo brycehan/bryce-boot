@@ -16,7 +16,7 @@ public class CacheConstants {
     /**
      * 图片验证码键
      */
-    public static final String CAPTCHA_CODE_KEY = "system:captcha:";
+    public static final String CAPTCHA_CODE_KEY = "sys:captcha:";
 
     /**
      * 短信验证码键
@@ -51,16 +51,26 @@ public class CacheConstants {
     /**
      * 获取第三方登录 key
      */
-    public static final String SYSTEM_THIRDLOGIN_KEY = "system:thirdlogin:";
+    public static final String SYSTEM_THIRDLOGIN_KEY = "sys:thirdlogin:";
 
     /**
      * 系统参数键
      */
-    public static final String SYSTEM_PARAM_KEY = "system:param";
+    public static final String SYSTEM_PARAM_KEY = "sys:param";
 
     /**
      * 系统操作日志键
      */
-    public static final String SYSTEM_OPERATE_LOG_KEY = "system:log";
+    public static final String SYSTEM_OPERATE_LOG_KEY = "sys:log";
+
+    /**
+     * 系统字典翻译键
+     */
+    public static final String SYSTEM_DICT_TRANS_KEY = "sys:dict:trans:";
+
+    /**
+     * 系统字典反向翻译键
+     */
+    public static final String SYSTEM_DICT_UN_TRANS_KEY = "sys:dict:un_trans:";
 
 }

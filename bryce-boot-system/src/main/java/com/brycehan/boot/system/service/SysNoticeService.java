@@ -39,6 +39,13 @@ public interface SysNoticeService extends BaseService<SysNotice> {
     }
 
     /**
+     * 根据ID删除系统通知公告
+     *
+     * @param id 系统通知公告ID
+     */
+    SysNoticeVo get(Long id);
+
+    /**
      * 系统通知公告分页查询
      *
      * @param sysNoticePageDto 查询条件

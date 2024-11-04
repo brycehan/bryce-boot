@@ -68,18 +68,6 @@
             <groupId>com.alibaba</groupId>
             <artifactId>easyexcel</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.fhs-opensource</groupId>
-            <artifactId>easy-trans-spring-boot-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.fhs-opensource</groupId>
-            <artifactId>easy-trans-mybatis-plus-extend</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.fhs-opensource</groupId>
-            <artifactId>easy-trans-untrans-driver</artifactId>
-        </dependency>
         <!-- Minio 对象存储服务 -->
         <dependency>
             <groupId>io.minio</groupId>
@@ -110,30 +98,16 @@
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.google.zxing</groupId>
-            <artifactId>core</artifactId>
-        </dependency>
-        <!-- Guava 库 -->
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-        </dependency>
         <!-- lang3 库 -->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
         </dependency>
-        <!-- 字符串算法库 -->
+        <!-- 阿里JSON库 -->
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-text</artifactId>
+            <groupId>com.alibaba.fastjson2</groupId>
+            <artifactId>fastjson2</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.squareup.okio</groupId>
-            <artifactId>okio</artifactId>
-        </dependency>
-
         <!-- Lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>

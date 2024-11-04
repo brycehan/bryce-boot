@@ -1,6 +1,7 @@
 package com.brycehan.boot.mp.service.impl;
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONObject;
 import com.brycehan.boot.mp.entity.po.MpMessage;
 import com.brycehan.boot.mp.entity.po.MpMessageReplyRule;
 import com.brycehan.boot.mp.service.MpMessageReplyRuleService;
@@ -232,7 +233,7 @@ public class MpMessageReplyServiceImpl implements MpMessageReplyService {
     @Override
     public void replyMenu(String toUser, String menusJson) throws WxErrorException {
         JSONObject jsonObject = JSONObject.parseObject(menusJson);
-        List<WxMpKefuMessage.MsgMenu> msgMenus = JSONObject.parseArray(jsonObject.getString("list"), WxMpKefuMessage.MsgMenu.class);
+        List<WxMpKefuMessage.MsgMenu> msgMenus = JSON.parseArray(jsonObject.getString("list"), WxMpKefuMessage.MsgMenu.class);
 
         this.wxMpService.getKefuService().sendKefuMessage(
                 WxMpKefuMessage.MSGMENU().

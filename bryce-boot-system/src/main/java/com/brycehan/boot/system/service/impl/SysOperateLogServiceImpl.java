@@ -17,6 +17,7 @@ import com.brycehan.boot.system.entity.po.SysOperateLog;
 import com.brycehan.boot.system.entity.vo.SysOperateLogVo;
 import com.brycehan.boot.system.mapper.SysOperateLogMapper;
 import com.brycehan.boot.system.service.SysOperateLogService;
+import com.brycehan.boot.system.service.SysOrgService;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
@@ -45,6 +46,19 @@ import java.util.concurrent.TimeUnit;
 public class SysOperateLogServiceImpl extends BaseServiceImpl<SysOperateLogMapper, SysOperateLog> implements SysOperateLogService {
 
     private final RedisTemplate<String, OperateLogDto> redisTemplate;
+    private final SysOrgService sysOrgService;
+
+    @Override
+    public SysOperateLogVo get(Long id) {
+        SysOperateLog sysOperateLog = this.getById(id);
+        SysOperateLogVo sysOperateLogVo = SysOperateLogConvert.INSTANCE.convert(sysOperateLog);
+
+        // 机构名称
+        String orgName = sysOrgService.getOrgNameById(sysOperateLogVo.getOrgId());
+        sysOperateLogVo.setOrgName(orgName);
+
+        return sysOperateLogVo;
+    }
 
     @Override
     public PageResult<SysOperateLogVo> page(SysOperateLogPageDto sysOperateLogPageDto) {

@@ -7,10 +7,8 @@ import com.brycehan.boot.common.validator.SaveGroup;
 import com.brycehan.boot.common.validator.UpdateGroup;
 import com.brycehan.boot.framework.operatelog.annotation.OperateLog;
 import com.brycehan.boot.framework.operatelog.annotation.OperateType;
-import com.brycehan.boot.system.entity.convert.SysNoticeConvert;
 import com.brycehan.boot.system.entity.dto.SysNoticeDto;
 import com.brycehan.boot.system.entity.dto.SysNoticePageDto;
-import com.brycehan.boot.system.entity.po.SysNotice;
 import com.brycehan.boot.system.entity.vo.SysNoticeVo;
 import com.brycehan.boot.system.service.SysNoticeService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -90,8 +88,8 @@ public class SysNoticeController {
     @PreAuthorize("hasAuthority('system:notice:info')")
     @GetMapping(path = "/{id}")
     public ResponseResult<SysNoticeVo> get(@Parameter(description = "系统通知公告ID", required = true) @PathVariable Long id) {
-        SysNotice sysNotice = this.sysNoticeService.getById(id);
-        return ResponseResult.ok(SysNoticeConvert.INSTANCE.convert(sysNotice));
+        SysNoticeVo sysNoticeVo = this.sysNoticeService.get(id);
+        return ResponseResult.ok(sysNoticeVo);
     }
 
     /**

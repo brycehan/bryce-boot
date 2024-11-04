@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.brycehan.boot.common.base.DictTransService;
+import com.brycehan.boot.common.constant.CacheConstants;
 import com.brycehan.boot.common.entity.PageResult;
 import com.brycehan.boot.common.util.DateTimeUtils;
 import com.brycehan.boot.common.util.ExcelUtils;
@@ -18,10 +20,10 @@ import com.brycehan.boot.system.entity.vo.SysDictVo;
 import com.brycehan.boot.system.mapper.SysDictDataMapper;
 import com.brycehan.boot.system.mapper.SysDictTypeMapper;
 import com.brycehan.boot.system.service.SysDictTypeService;
-import com.fhs.trans.service.impl.DictionaryTransService;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -29,6 +31,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 /**
@@ -38,12 +41,13 @@ import java.util.stream.Collectors;
  * @author Bryce Han
  */
 @Service
+@SuppressWarnings("all")
 @RequiredArgsConstructor
-public class SysDictTypeServiceImpl extends BaseServiceImpl<SysDictTypeMapper, SysDictType> implements SysDictTypeService, InitializingBean {
+public class SysDictTypeServiceImpl extends BaseServiceImpl<SysDictTypeMapper, SysDictType> implements SysDictTypeService, DictTransService, InitializingBean {
 
     private final SysDictDataMapper sysDictDataMapper;
-
-    private final DictionaryTransService dictionaryTransService;
+    private final RedisTemplate<String, Object> redisTemplate;
+    private final Map<String, String> localCacheMap = new ConcurrentHashMap<>();
 
     @Override
     public PageResult<SysDictTypeVo> page(SysDictTypePageDto sysDictTypePageDto) {
@@ -118,7 +122,7 @@ public class SysDictTypeServiceImpl extends BaseServiceImpl<SysDictTypeMapper, S
     }
 
     /**
-     * 刷新字典缓存
+     * 刷新字典翻译缓存
      */
     public void refreshTransCache() {
         // 异步不阻塞主线程，不会增加启动用时
@@ -131,14 +135,40 @@ public class SysDictTypeServiceImpl extends BaseServiceImpl<SysDictTypeMapper, S
 
             List<SysDictType> dictTypeList = super.list();
             for (SysDictType dictType : dictTypeList) {
-                if (dictTypeDataMap.containsKey(dictType.getId())) {
-                    Map<String, String> dictTypeMap = dictTypeDataMap.get(dictType.getId()).stream().collect(Collectors
-                            .toMap(SysDictData::getDictValue, SysDictData::getDictLabel));
-
-                    this.dictionaryTransService.refreshCache(dictType.getDictType(), dictTypeMap);
+                List<SysDictData> dataListByType = dictTypeDataMap.get(dictType.getId());
+                if (dataListByType == null) {
+                    continue;
                 }
+                Map<String, String> dictTypeMap = dictTypeDataMap.get(dictType.getId()).stream().collect(Collectors
+                        .toMap(SysDictData::getDictValue, SysDictData::getDictLabel));
+
+                this.refreshTransDataCache(dictType.getDictType(), dictTypeMap);
             }
         });
+    }
+
+    /**
+     * 刷新字典类型缓存
+     *
+     * @param dictTypeCode 字典类型编码
+     * @param dictMap       字典数据
+     */
+    private void refreshTransDataCache(String dictTypeCode, Map<String, String> dictMap) {
+        dictMap.keySet().forEach(key -> {
+            this.set(CacheConstants.SYSTEM_DICT_TRANS_KEY + dictTypeCode + "_" + key, dictMap.get(key));
+            this.set(CacheConstants.SYSTEM_DICT_UN_TRANS_KEY + dictTypeCode + "_" + dictMap.get(key), key);
+        });
+    }
+
+    @Override
+    public Map<String, String> getDictTransMap() {
+        return localCacheMap;
+    }
+
+    @Override
+    public void set(String key, String value) {
+        redisTemplate.opsForValue().set(key, value);
+        DictTransService.super.set(key, value);
     }
 
 }

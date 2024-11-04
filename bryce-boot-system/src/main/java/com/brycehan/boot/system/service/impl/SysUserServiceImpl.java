@@ -28,7 +28,6 @@ import com.brycehan.boot.system.entity.vo.SysUserInfoVo;
 import com.brycehan.boot.system.entity.vo.SysUserVo;
 import com.brycehan.boot.system.mapper.SysUserMapper;
 import com.brycehan.boot.system.service.*;
-import com.fhs.trans.service.impl.TransService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -63,8 +62,6 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
     private final SysUserPostService sysUserPostService;
 
     private final PasswordEncoder passwordEncoder;
-
-    private final TransService transService;
 
     private final ApplicationEventPublisher applicationEventPublisher;
 
@@ -137,6 +134,25 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         this.sysUserPostService.saveOrUpdate(sysUserDto.getId(), sysUserDto.getPostIds());
     }
 
+    @Override
+    public SysUserVo get(Long id) {
+        SysUser sysUser = this.getById(id);
+        SysUserVo sysUserVo = SysUserConvert.INSTANCE.convert(sysUser);
+
+        // 机构名称
+        sysUserVo.setOrgName(this.sysOrgService.getOrgNameById(sysUser.getOrgId()));
+
+        // 用户角色Ids
+        List<Long> roleIds = this.sysUserRoleService.getRoleIdsByUserId(id);
+        sysUserVo.setRoleIds(roleIds);
+
+        // 用户岗位Ids
+        List<Long> postIds = this.sysUserPostService.getPostIdsByUserId(id);
+        sysUserVo.setPostIds(postIds);
+
+        return sysUserVo;
+    }
+
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void delete(IdsDto idsDto) {
@@ -168,8 +184,13 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
 
         // 数据列表
         List<SysUser> list = this.baseMapper.list(params);
+        List<SysUserVo> sysUserVoList = SysUserConvert.INSTANCE.convert(list);
 
-        return new PageResult<>(page.getTotal(), SysUserConvert.INSTANCE.convert(list));
+        // 处理机构名称
+        Map<Long, String> orgNames = this.sysOrgService.getOrgNamesByIds(list.stream().map(SysUser::getOrgId).toList());
+        sysUserVoList.forEach(sysUserVo -> sysUserVo.setOrgName(orgNames.get(sysUserVo.getOrgId())));
+
+        return new PageResult<>(page.getTotal(), sysUserVoList);
     }
 
     private Map<String, Object> getParams(SysUserPageDto sysUserPageDto) {
@@ -215,7 +236,8 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
     public void export(SysUserPageDto sysUserPageDto) {
         List<SysUser> sysUserList = this.baseMapper.selectList(getWrapper(sysUserPageDto));
         List<SysUserVo> sysUserVoList = SysUserConvert.INSTANCE.convert(sysUserList);
-        this.transService.transBatch(sysUserVoList);
+        // 数据字典翻译
+        ExcelUtils.transList(sysUserVoList);
         ExcelUtils.export(SysUserVo.class, "系统用户_".concat(DateTimeUtils.today()), "系统用户", sysUserVoList);
     }
 
@@ -233,6 +255,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         sysUsers.forEach(sysUser -> {
             sysUser.setId(IdGenerator.nextId());
             sysUser.setPassword(this.passwordEncoder.encode(password));
+            sysUser.setSuperAdmin(false);
         });
 
         // 批量新增
@@ -345,6 +368,11 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         checkUserAllowed(sysUser);
         sysUser.setPassword(passwordEncoder.encode(sysResetPasswordDto.getPassword()));
         this.updateById(sysUser);
+    }
+
+    @Override
+    public void insertAuthRole(Long userId, List<Long> roleIds) {
+        this.sysUserRoleService.saveOrUpdate(userId, roleIds);
     }
 
     @Override

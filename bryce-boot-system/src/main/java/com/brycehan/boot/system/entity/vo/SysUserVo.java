@@ -4,11 +4,8 @@ import cn.hutool.core.date.DatePattern;
 import com.alibaba.excel.annotation.ExcelIgnoreUnannotated;
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.alibaba.excel.annotation.write.style.ColumnWidth;
-import com.brycehan.boot.system.entity.po.SysOrg;
+import com.brycehan.boot.common.base.Trans;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fhs.core.trans.anno.Trans;
-import com.fhs.core.trans.constant.TransType;
-import com.fhs.core.trans.vo.TransPojo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -27,7 +24,7 @@ import java.util.List;
 @Data
 @ExcelIgnoreUnannotated
 @Schema(description = "系统用户Vo")
-public class SysUserVo implements Serializable, TransPojo {
+public class SysUserVo implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -64,7 +61,7 @@ public class SysUserVo implements Serializable, TransPojo {
      * 性别（M：男, F：女）
      */
     @Schema(description = "性别（M：男, F：女）")
-    @Trans(type = TransType.DICTIONARY, key = "sys_user_gender", ref = "genderLabel")
+    @Trans(dict = "sys_user_gender", ref = "genderLabel")
     private String gender;
 
     /**
@@ -116,7 +113,6 @@ public class SysUserVo implements Serializable, TransPojo {
     /**
      * 机构ID
      */
-    @Trans(type = TransType.SIMPLE, target = SysOrg.class, fields = "name", ref = "orgName")
     @ExcelProperty(value = "机构ID")
     @Schema(description = "机构ID")
     private Long orgId;
@@ -130,7 +126,7 @@ public class SysUserVo implements Serializable, TransPojo {
     /**
      * 状态（0：停用，1：正常）
      */
-    @Trans(type = TransType.DICTIONARY, key = "sys_status", ref = "statusLabel")
+    @Trans(dict = "sys_status", ref = "statusLabel")
     @Schema(description = "状态（0：停用，1：正常）")
     private Boolean status;
 

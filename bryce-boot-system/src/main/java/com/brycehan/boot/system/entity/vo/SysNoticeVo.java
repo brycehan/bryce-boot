@@ -5,9 +5,6 @@ import com.brycehan.boot.system.entity.po.SysUser;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.deser.std.StringDeserializer;
-import com.fhs.core.trans.anno.Trans;
-import com.fhs.core.trans.constant.TransType;
-import com.fhs.core.trans.vo.TransPojo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -23,7 +20,7 @@ import java.time.LocalDateTime;
  */
 @Data
 @Schema(description = "系统通知公告Vo")
-public class SysNoticeVo implements Serializable, TransPojo {
+public class SysNoticeVo implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -68,7 +65,6 @@ public class SysNoticeVo implements Serializable, TransPojo {
     /**
      * 创建者ID
      */
-    @Trans(type = TransType.SIMPLE, target = SysUser.class, fields = "username", ref = "createdUsername")
     private Long createdUserId;
 
     /**

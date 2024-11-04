@@ -2,9 +2,7 @@ package com.brycehan.boot.system.entity.dto;
 
 import com.alibaba.excel.annotation.ExcelIgnoreUnannotated;
 import com.alibaba.excel.annotation.ExcelProperty;
-import com.fhs.core.trans.anno.UnTrans;
-import com.fhs.core.trans.constant.UnTransType;
-import com.fhs.core.trans.vo.TransPojo;
+import com.brycehan.boot.common.base.UnTrans;
 import lombok.Data;
 
 import java.io.Serial;
@@ -19,7 +17,7 @@ import java.time.LocalDateTime;
  */
 @Data
 @ExcelIgnoreUnannotated
-public class SysUserExcelDto implements Serializable, TransPojo {
+public class SysUserExcelDto implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -45,7 +43,7 @@ public class SysUserExcelDto implements Serializable, TransPojo {
     /**
      * 性别（M：男, F：女，N：未知）
      */
-    @UnTrans(type = UnTransType.DICTIONARY, dict = "sys_user_gender", refs = {"genderLabel"})
+    @UnTrans(dict = "sys_user_gender", ref = "genderLabel")
     private String gender;
 
     /**
@@ -75,7 +73,7 @@ public class SysUserExcelDto implements Serializable, TransPojo {
     /**
      * 状态（0：停用，1：正常）
      */
-    @UnTrans(type = UnTransType.DICTIONARY, dict = "sys_status", refs = "statusLabel")
+    @UnTrans(dict = "sys_status", ref = "statusLabel")
     private Boolean status;
 
     /**

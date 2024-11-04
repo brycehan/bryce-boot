@@ -4,10 +4,8 @@ import cn.hutool.core.date.DatePattern;
 import com.alibaba.excel.annotation.ExcelIgnoreUnannotated;
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.alibaba.excel.annotation.write.style.ColumnWidth;
+import com.brycehan.boot.common.base.Trans;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fhs.core.trans.anno.Trans;
-import com.fhs.core.trans.constant.TransType;
-import com.fhs.core.trans.vo.TransPojo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -24,7 +22,7 @@ import java.time.LocalDateTime;
 @Data
 @ExcelIgnoreUnannotated
 @Schema(description = "系统登录日志Vo")
-public class SysLoginLogVo implements Serializable, TransPojo {
+public class SysLoginLogVo implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -46,7 +44,7 @@ public class SysLoginLogVo implements Serializable, TransPojo {
     /**
      * 操作信息
      */
-    @Trans(type = TransType.DICTIONARY, key = "sys_login_status", ref = "infoLabel")
+    @Trans(dict = "sys_login_status", ref = "infoLabel")
     @Schema(description = "操作信息")
     private Integer info;
 
@@ -98,7 +96,7 @@ public class SysLoginLogVo implements Serializable, TransPojo {
      * 状态（0：失败，1：成功）
      */
     @Schema(description = "状态（0：失败，1：成功）")
-    @Trans(type = TransType.DICTIONARY, key = "sys_operate_status", ref = "statusLabel")
+    @Trans(dict = "sys_operate_status", ref = "statusLabel")
     private Boolean status;
 
     /**
