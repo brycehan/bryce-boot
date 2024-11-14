@@ -37,10 +37,6 @@
         </dependency>
         <dependency>
             <groupId>com.brycehan.boot</groupId>
-            <artifactId>bryce-module-pay</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.brycehan.boot</groupId>
             <artifactId>bryce-module-quartz</artifactId>
         </dependency>
 <!--        <dependency>-->

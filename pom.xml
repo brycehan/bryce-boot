@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.3.4</version>
+        <version>3.3.5</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.brycehan.boot</groupId>
@@ -60,8 +60,6 @@
         <oshi.version>6.4.6</oshi.version>
         <fastjson2.version>2.0.53</fastjson2.version>
         <binarywang-weixin.version>4.6.0</binarywang-weixin.version>
-        <wechatpay.version>0.2.12</wechatpay.version>
-        <alipay.version>4.39.1.ALL</alipay.version>
     </properties>
 
     <!-- 模块 -->
@@ -129,12 +127,6 @@
             <dependency>
                 <groupId>com.brycehan.boot</groupId>
                 <artifactId>bryce-module-mp</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <!-- 支付模块 -->
-            <dependency>
-                <groupId>com.brycehan.boot</groupId>
-                <artifactId>bryce-module-pay</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <!-- quartz模块 -->
@@ -324,18 +316,6 @@
                 <groupId>com.github.binarywang</groupId>
                 <artifactId>weixin-java-common</artifactId>
                 <version>${binarywang-weixin.version}</version>
-            </dependency>
-            <!-- 微信支付 -->
-            <dependency>
-                <groupId>com.github.wechatpay-apiv3</groupId>
-                <artifactId>wechatpay-java</artifactId>
-                <version>${wechatpay.version}</version>
-            </dependency>
-            <!-- 支付宝支付 -->
-            <dependency>
-                <groupId>com.alipay.sdk</groupId>
-                <artifactId>alipay-sdk-java</artifactId>
-                <version>${alipay.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

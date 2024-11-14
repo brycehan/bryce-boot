@@ -48,8 +48,7 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<M, 
         // 处理排序参数
         if (CollectionUtils.isNotEmpty(pageDto.getOrderItems())) {
             // 过滤无效排序参数
-            List<OrderItemDto> itemDtoList = pageDto.getOrderItems()
-                    .stream()
+            List<OrderItemDto> itemDtoList = pageDto.getOrderItems().stream()
                     .filter(orderItem -> hasEntityField(pageDto.getClass(), orderItem.getColumn()))
                     .toList();
 
@@ -73,11 +72,7 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<M, 
 
         // 默认按id降序排序
         if (CollectionUtils.isEmpty(orderItems)) {
-            OrderItem orderItem = new OrderItem();
-            orderItem.setColumn("id");
-            orderItem.setAsc(false);
-
-            orderItems.add(orderItem);
+            orderItems.add(OrderItem.desc("id"));
         }
 
         page.addOrder(orderItems);

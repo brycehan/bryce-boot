@@ -35,7 +35,9 @@ public class MybatisPlusConfig {
         // 防止全表更新与删除
         interceptor.addInnerInterceptor(new BlockAttackInnerInterceptor());
         // 分页插件
-        interceptor.addInnerInterceptor(new PaginationInnerInterceptor());
+        PaginationInnerInterceptor paginationInnerInterceptor = new PaginationInnerInterceptor();
+        paginationInnerInterceptor.setMaxLimit(1000L); // 单页限制
+        interceptor.addInnerInterceptor(paginationInnerInterceptor);
 
         return interceptor;
     }
