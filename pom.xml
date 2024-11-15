@@ -111,22 +111,10 @@
                 <artifactId>bryce-module-email</artifactId>
                 <version>${project.version}</version>
             </dependency>
-            <!-- 微信小程序模块 -->
-            <dependency>
-                <groupId>com.brycehan.boot</groupId>
-                <artifactId>bryce-module-ma</artifactId>
-                <version>${project.version}</version>
-            </dependency>
             <!-- 监控模块 -->
             <dependency>
                 <groupId>com.brycehan.boot</groupId>
                 <artifactId>bryce-module-monitor</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <!-- 微信公众号模块 -->
-            <dependency>
-                <groupId>com.brycehan.boot</groupId>
-                <artifactId>bryce-module-mp</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <!-- quartz模块 -->
@@ -139,12 +127,6 @@
             <dependency>
                 <groupId>com.brycehan.boot</groupId>
                 <artifactId>bryce-module-sms</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <!-- 第三方登录 -->
-            <dependency>
-                <groupId>com.brycehan.boot</groupId>
-                <artifactId>bryce-module-third-login</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <!-- 服务组件 -->

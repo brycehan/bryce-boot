@@ -3,8 +3,8 @@ spring:
   application:
     name: bryce-boot  # 应用名称
   profiles:
-    include: bryce,mp,ma
-    active: dev   # 环境 dev|test|prod
+    include: bryce
+    active: dev   # 环境 dev|prod
   # Jackson 配置
   jackson:
     # 时区
