@@ -3,7 +3,6 @@ package com.brycehan.boot.framework.mybatis;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.BlockAttackInnerInterceptor;
-import com.baomidou.mybatisplus.extension.plugins.inner.OptimisticLockerInnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import com.brycehan.boot.framework.mybatis.interceptor.DataScopeInnerInterceptor;
 import org.springframework.context.annotation.Bean;
@@ -30,8 +29,6 @@ public class MybatisPlusConfig {
         MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
         // 数据权限
         interceptor.addInnerInterceptor(new DataScopeInnerInterceptor());
-        // 乐观锁
-        interceptor.addInnerInterceptor(new OptimisticLockerInnerInterceptor());
         // 防止全表更新与删除
         interceptor.addInnerInterceptor(new BlockAttackInnerInterceptor());
         // 分页插件
