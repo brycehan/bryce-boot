@@ -99,7 +99,7 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
 
     @Override
     public PageResult<SysRoleVo> page(SysRolePageDto sysRolePageDto) {
-        IPage<SysRole> page = this.baseMapper.selectPage(getPage(sysRolePageDto), getWrapper(sysRolePageDto));
+        IPage<SysRole> page = this.baseMapper.selectPage(sysRolePageDto.toPage(), getWrapper(sysRolePageDto));
         return new PageResult<>(page.getTotal(), SysRoleConvert.INSTANCE.convert(page.getRecords()));
     }
 

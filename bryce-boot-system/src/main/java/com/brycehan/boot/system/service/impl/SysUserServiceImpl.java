@@ -179,7 +179,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         Map<String, Object> params = getParams(sysUserPageDto);
 
         // 分页查询
-        IPage<SysUser> page = getPage(sysUserPageDto);
+        IPage<SysUser> page = sysUserPageDto.toPage();
         params.put(DataConstants.PAGE, page);
 
         // 数据列表
@@ -277,7 +277,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         params.put(DataConstants.DATA_SCOPE, getDataScope("bsu", null));
 
         // 分页查询
-        IPage<SysUser> page = getPage(pageDto);
+        IPage<SysUser> page = pageDto.toPage();
         params.put(DataConstants.PAGE, page);
 
         // 数据列表

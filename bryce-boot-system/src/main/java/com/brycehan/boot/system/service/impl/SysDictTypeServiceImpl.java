@@ -51,7 +51,7 @@ public class SysDictTypeServiceImpl extends BaseServiceImpl<SysDictTypeMapper, S
 
     @Override
     public PageResult<SysDictTypeVo> page(SysDictTypePageDto sysDictTypePageDto) {
-        IPage<SysDictType> page = this.baseMapper.selectPage(getPage(sysDictTypePageDto), getWrapper(sysDictTypePageDto));
+        IPage<SysDictType> page = this.baseMapper.selectPage(sysDictTypePageDto.toPage(), getWrapper(sysDictTypePageDto));
         return new PageResult<>(page.getTotal(), SysDictTypeConvert.INSTANCE.convert(page.getRecords()));
     }
 

@@ -31,7 +31,7 @@ public class SysAttachmentServiceImpl extends BaseServiceImpl<SysAttachmentMappe
 
     @Override
     public PageResult<SysAttachmentVo> page(SysAttachmentPageDto sysAttachmentPageDto) {
-        IPage<SysAttachment> page = this.baseMapper.selectPage(getPage(sysAttachmentPageDto), getWrapper(sysAttachmentPageDto));
+        IPage<SysAttachment> page = this.baseMapper.selectPage(sysAttachmentPageDto.toPage(), getWrapper(sysAttachmentPageDto));
         return new PageResult<>(page.getTotal(), SysAttachmentConvert.INSTANCE.convert(page.getRecords()));
     }
 

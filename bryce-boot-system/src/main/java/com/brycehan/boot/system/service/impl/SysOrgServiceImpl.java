@@ -85,7 +85,7 @@ public class SysOrgServiceImpl extends BaseServiceImpl<SysOrgMapper, SysOrg> imp
 
     @Override
     public PageResult<SysOrgVo> page(SysOrgPageDto sysOrgPageDto) {
-        IPage<SysOrg> page = this.baseMapper.selectPage(getPage(sysOrgPageDto), getWrapper(sysOrgPageDto));
+        IPage<SysOrg> page = this.baseMapper.selectPage(sysOrgPageDto.toPage(), getWrapper(sysOrgPageDto));
         return new PageResult<>(page.getTotal(), SysOrgConvert.INSTANCE.convert(page.getRecords()));
     }
 

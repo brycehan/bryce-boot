@@ -62,7 +62,7 @@ public class SysOperateLogServiceImpl extends BaseServiceImpl<SysOperateLogMappe
 
     @Override
     public PageResult<SysOperateLogVo> page(SysOperateLogPageDto sysOperateLogPageDto) {
-        IPage<SysOperateLog> page = this.baseMapper.selectPage(getPage(sysOperateLogPageDto), getWrapper(sysOperateLogPageDto));
+        IPage<SysOperateLog> page = this.baseMapper.selectPage(sysOperateLogPageDto.toPage(), getWrapper(sysOperateLogPageDto));
         return new PageResult<>(page.getTotal(), SysOperateLogConvert.INSTANCE.convert(page.getRecords()));
     }
 
