@@ -2,7 +2,6 @@ package com.brycehan.boot.system.service;
 
 import com.brycehan.boot.common.entity.PageResult;
 import com.brycehan.boot.framework.mybatis.service.BaseService;
-import com.brycehan.boot.system.entity.convert.SysAreaCodeConvert;
 import com.brycehan.boot.system.entity.dto.SysAreaCodeDto;
 import com.brycehan.boot.system.entity.dto.SysAreaCodePageDto;
 import com.brycehan.boot.system.entity.po.SysAreaCode;
@@ -23,10 +22,7 @@ public interface SysAreaCodeService extends BaseService<SysAreaCode> {
      *
      * @param sysAreaCodeDto 地区编码Dto
      */
-    default void update(SysAreaCodeDto sysAreaCodeDto) {
-        SysAreaCode sysAreaCode = SysAreaCodeConvert.INSTANCE.convert(sysAreaCodeDto);
-        this.getBaseMapper().updateById(sysAreaCode);
-    }
+    void update(SysAreaCodeDto sysAreaCodeDto);
 
     /**
      * 地区编码分页查询

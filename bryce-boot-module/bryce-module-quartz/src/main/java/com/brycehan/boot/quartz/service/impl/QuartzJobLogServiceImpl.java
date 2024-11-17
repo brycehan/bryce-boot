@@ -4,8 +4,6 @@ import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.brycehan.boot.common.entity.PageResult;
-import com.brycehan.boot.common.util.DateTimeUtils;
-import com.brycehan.boot.common.util.ExcelUtils;
 import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
 import com.brycehan.boot.quartz.entity.convert.QuartzJobLogConvert;
 import com.brycehan.boot.quartz.entity.dto.QuartzJobLogPageDto;
@@ -16,8 +14,6 @@ import com.brycehan.boot.quartz.service.QuartzJobLogService;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * quartz定时任务调度日志服务实现
@@ -46,13 +42,6 @@ public class QuartzJobLogServiceImpl extends BaseServiceImpl<QuartzJobLogMapper,
         wrapper.eq(StringUtils.isNotEmpty(quartzJobLogPageDto.getJobName()), QuartzJobLog::getJobName, quartzJobLogPageDto.getJobName());
         wrapper.eq(StringUtils.isNotEmpty(quartzJobLogPageDto.getJobGroup()), QuartzJobLog::getJobGroup, quartzJobLogPageDto.getJobGroup());
         return wrapper;
-    }
-
-    @Override
-    public void export(QuartzJobLogPageDto quartzJobLogPageDto) {
-        List<QuartzJobLog> quartzJobLogList = this.baseMapper.selectList(getWrapper(quartzJobLogPageDto));
-        List<QuartzJobLogVo> quartzJobLogVoList = QuartzJobLogConvert.INSTANCE.convert(quartzJobLogList);
-        ExcelUtils.export(QuartzJobLogVo.class, "quartz定时任务调度日志_".concat(DateTimeUtils.today()), "quartz定时任务调度日志", quartzJobLogVoList);
     }
 
 }

@@ -1,12 +1,13 @@
 package com.brycehan.boot.quartz.service.impl;
 
+import cn.hutool.core.date.DatePattern;
+import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.brycehan.boot.common.base.IdGenerator;
 import com.brycehan.boot.common.entity.PageResult;
 import com.brycehan.boot.common.entity.dto.IdsDto;
-import com.brycehan.boot.common.util.DateTimeUtils;
 import com.brycehan.boot.common.util.ExcelUtils;
 import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
 import com.brycehan.boot.quartz.common.QuartzStatus;
@@ -27,6 +28,7 @@ import org.quartz.SchedulerException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -124,7 +126,8 @@ public class QuartzJobServiceImpl extends BaseServiceImpl<QuartzJobMapper, Quart
     public void export(QuartzJobPageDto quartzJobPageDto) {
         List<QuartzJob> quartzJobList = this.baseMapper.selectList(getWrapper(quartzJobPageDto));
         List<QuartzJobVo> quartzJobVoList = QuartzJobConvert.INSTANCE.convert(quartzJobList);
-        ExcelUtils.export(QuartzJobVo.class, "quartz定时任务调度_".concat(DateTimeUtils.today()), "quartz定时任务调度", quartzJobVoList);
+        String today = DateUtil.format(new Date(), DatePattern.PURE_DATE_PATTERN);
+        ExcelUtils.export(QuartzJobVo.class, "quartz定时任务调度_".concat(today), "quartz定时任务调度", quartzJobVoList);
     }
 
     @Override

@@ -1,9 +1,7 @@
 package com.brycehan.boot.system.service;
 
-import com.brycehan.boot.common.base.IdGenerator;
 import com.brycehan.boot.common.entity.PageResult;
 import com.brycehan.boot.framework.mybatis.service.BaseService;
-import com.brycehan.boot.system.entity.convert.SysNoticeConvert;
 import com.brycehan.boot.system.entity.dto.SysNoticeDto;
 import com.brycehan.boot.system.entity.dto.SysNoticePageDto;
 import com.brycehan.boot.system.entity.po.SysNotice;
@@ -22,21 +20,14 @@ public interface SysNoticeService extends BaseService<SysNotice> {
      *
      * @param sysNoticeDto 系统通知公告Dto
      */
-    default void save(SysNoticeDto sysNoticeDto) {
-        SysNotice sysNotice = SysNoticeConvert.INSTANCE.convert(sysNoticeDto);
-        sysNotice.setId(IdGenerator.nextId());
-        this.getBaseMapper().insert(sysNotice);
-    }
+    void save(SysNoticeDto sysNoticeDto);
 
     /**
      * 更新系统通知公告
      *
      * @param sysNoticeDto 系统通知公告Dto
      */
-    default void update(SysNoticeDto sysNoticeDto) {
-        SysNotice sysNotice = SysNoticeConvert.INSTANCE.convert(sysNoticeDto);
-        this.getBaseMapper().updateById(sysNotice);
-    }
+    void update(SysNoticeDto sysNoticeDto);
 
     /**
      * 根据ID删除系统通知公告

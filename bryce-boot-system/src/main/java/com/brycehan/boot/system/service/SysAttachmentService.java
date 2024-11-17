@@ -1,9 +1,7 @@
 package com.brycehan.boot.system.service;
 
-import com.brycehan.boot.common.base.IdGenerator;
 import com.brycehan.boot.common.entity.PageResult;
 import com.brycehan.boot.framework.mybatis.service.BaseService;
-import com.brycehan.boot.system.entity.convert.SysAttachmentConvert;
 import com.brycehan.boot.system.entity.dto.SysAttachmentDto;
 import com.brycehan.boot.system.entity.dto.SysAttachmentPageDto;
 import com.brycehan.boot.system.entity.po.SysAttachment;
@@ -22,21 +20,14 @@ public interface SysAttachmentService extends BaseService<SysAttachment> {
      *
      * @param sysAttachmentDto 系统附件Dto
      */
-    default void save(SysAttachmentDto sysAttachmentDto) {
-        SysAttachment sysAttachment = SysAttachmentConvert.INSTANCE.convert(sysAttachmentDto);
-        sysAttachment.setId(IdGenerator.nextId());
-        this.getBaseMapper().insert(sysAttachment);
-    }
+    void save(SysAttachmentDto sysAttachmentDto);
 
     /**
      * 更新系统附件
      *
      * @param sysAttachmentDto 系统附件Dto
      */
-    default void update(SysAttachmentDto sysAttachmentDto) {
-        SysAttachment sysAttachment = SysAttachmentConvert.INSTANCE.convert(sysAttachmentDto);
-        this.getBaseMapper().updateById(sysAttachment);
-    }
+    void update(SysAttachmentDto sysAttachmentDto);
 
     /**
      * 系统附件分页查询

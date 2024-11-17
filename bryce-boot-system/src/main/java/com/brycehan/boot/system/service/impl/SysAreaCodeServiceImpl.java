@@ -1,13 +1,15 @@
 package com.brycehan.boot.system.service.impl;
 
+import cn.hutool.core.date.DatePattern;
+import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.brycehan.boot.api.system.SysAreaCodeApi;
 import com.brycehan.boot.common.entity.PageResult;
-import com.brycehan.boot.common.util.DateTimeUtils;
 import com.brycehan.boot.common.util.ExcelUtils;
 import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
 import com.brycehan.boot.system.entity.convert.SysAreaCodeConvert;
+import com.brycehan.boot.system.entity.dto.SysAreaCodeDto;
 import com.brycehan.boot.system.entity.dto.SysAreaCodePageDto;
 import com.brycehan.boot.system.entity.po.SysAreaCode;
 import com.brycehan.boot.system.entity.vo.SysAreaCodeVo;
@@ -18,6 +20,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,6 +34,16 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class SysAreaCodeServiceImpl extends BaseServiceImpl<SysAreaCodeMapper, SysAreaCode> implements SysAreaCodeService, SysAreaCodeApi {
+
+    /**
+     * 更新地区编码
+     *
+     * @param sysAreaCodeDto 地区编码Dto
+     */
+    public void update(SysAreaCodeDto sysAreaCodeDto) {
+        SysAreaCode sysAreaCode = SysAreaCodeConvert.INSTANCE.convert(sysAreaCodeDto);
+        this.baseMapper.updateById(sysAreaCode);
+    }
 
     @Override
     public PageResult<SysAreaCodeVo> page(SysAreaCodePageDto sysAreaCodePageDto) {
@@ -54,7 +67,8 @@ public class SysAreaCodeServiceImpl extends BaseServiceImpl<SysAreaCodeMapper, S
     public void export(SysAreaCodePageDto sysAreaCodePageDto) {
         List<SysAreaCode> sysAreaCodeList = this.baseMapper.selectList(getWrapper(sysAreaCodePageDto));
         List<SysAreaCodeVo> sysAreaCodeVoList = SysAreaCodeConvert.INSTANCE.convert(sysAreaCodeList);
-        ExcelUtils.export(SysAreaCodeVo.class, "地区编码_".concat(DateTimeUtils.today()), "地区编码", sysAreaCodeVoList);
+        String today = DateUtil.format(new Date(), DatePattern.PURE_DATE_PATTERN);
+        ExcelUtils.export(SysAreaCodeVo.class, "地区编码_".concat(today), "地区编码", sysAreaCodeVoList);
     }
 
     @Override

@@ -1,13 +1,16 @@
 package com.brycehan.boot.system.service.impl;
 
+import cn.hutool.core.date.DatePattern;
+import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.brycehan.boot.common.base.IdGenerator;
 import com.brycehan.boot.common.entity.PageResult;
-import com.brycehan.boot.common.util.DateTimeUtils;
 import com.brycehan.boot.common.util.ExcelUtils;
 import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
 import com.brycehan.boot.system.entity.convert.SysNoticeConvert;
+import com.brycehan.boot.system.entity.dto.SysNoticeDto;
 import com.brycehan.boot.system.entity.dto.SysNoticePageDto;
 import com.brycehan.boot.system.entity.po.SysNotice;
 import com.brycehan.boot.system.entity.vo.SysNoticeVo;
@@ -17,6 +20,7 @@ import com.brycehan.boot.system.service.SysUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -32,6 +36,27 @@ import java.util.Objects;
 public class SysNoticeServiceImpl extends BaseServiceImpl<SysNoticeMapper, SysNotice> implements SysNoticeService {
 
     private final SysUserService sysUserService;
+
+     /**
+     * 添加系统通知公告
+     *
+     * @param sysNoticeDto 系统通知公告Dto
+     */
+    public void save(SysNoticeDto sysNoticeDto) {
+        SysNotice sysNotice = SysNoticeConvert.INSTANCE.convert(sysNoticeDto);
+        sysNotice.setId(IdGenerator.nextId());
+        this.baseMapper.insert(sysNotice);
+    }
+
+    /**
+     * 更新系统通知公告
+     *
+     * @param sysNoticeDto 系统通知公告Dto
+     */
+    public void update(SysNoticeDto sysNoticeDto) {
+        SysNotice sysNotice = SysNoticeConvert.INSTANCE.convert(sysNoticeDto);
+        this.baseMapper.updateById(sysNotice);
+    }
 
     @Override
     public SysNoticeVo get(Long id) {
@@ -72,7 +97,8 @@ public class SysNoticeServiceImpl extends BaseServiceImpl<SysNoticeMapper, SysNo
     public void export(SysNoticePageDto sysNoticePageDto) {
         List<SysNotice> sysNoticeList = this.baseMapper.selectList(getWrapper(sysNoticePageDto));
         List<SysNoticeVo> sysNoticeVoList = SysNoticeConvert.INSTANCE.convert(sysNoticeList);
-        ExcelUtils.export(SysNoticeVo.class, "系统通知公告_".concat(DateTimeUtils.today()), "系统通知公告", sysNoticeVoList);
+        String today = DateUtil.format(new Date(), DatePattern.PURE_DATE_PATTERN);
+        ExcelUtils.export(SysNoticeVo.class, "系统通知公告_".concat(today), "系统通知公告", sysNoticeVoList);
     }
 
 }

@@ -1,13 +1,15 @@
 package com.brycehan.boot.system.service.impl;
 
+import cn.hutool.core.date.DatePattern;
+import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.brycehan.boot.common.base.IdGenerator;
 import com.brycehan.boot.common.base.LoginUser;
 import com.brycehan.boot.common.entity.PageResult;
 import com.brycehan.boot.common.entity.dto.IdsDto;
 import com.brycehan.boot.common.enums.DataStatusType;
-import com.brycehan.boot.common.util.DateTimeUtils;
 import com.brycehan.boot.common.util.ExcelUtils;
 import com.brycehan.boot.common.util.TreeUtils;
 import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
@@ -38,6 +40,17 @@ import java.util.*;
 public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuMapper, SysMenu> implements SysMenuService {
 
     private final SysRoleMenuService sysRoleMenuService;
+
+     /**
+     * 添加系统菜单
+     *
+     * @param sysMenuDto 系统菜单Dto
+     */
+    public void save(SysMenuDto sysMenuDto) {
+        SysMenu sysMenu = SysMenuConvert.INSTANCE.convert(sysMenuDto);
+        sysMenu.setId(IdGenerator.nextId());
+        this.baseMapper.insert(sysMenu);
+    }
 
     /**
      * 更新系统菜单
@@ -98,7 +111,8 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuMapper, SysMenu> 
     public void export(SysMenuPageDto sysMenuPageDto) {
         List<SysMenu> sysMenuList = this.baseMapper.selectList(getWrapper(sysMenuPageDto));
         List<SysMenuVo> sysMenuVoList = SysMenuConvert.INSTANCE.convert(sysMenuList);
-        ExcelUtils.export(SysMenuVo.class, "系统菜单_" + DateTimeUtils.today(), "系统菜单", sysMenuVoList);
+        String today = DateUtil.format(new Date(), DatePattern.PURE_DATE_PATTERN);
+        ExcelUtils.export(SysMenuVo.class, "系统菜单_" + today, "系统菜单", sysMenuVoList);
     }
 
     @Override

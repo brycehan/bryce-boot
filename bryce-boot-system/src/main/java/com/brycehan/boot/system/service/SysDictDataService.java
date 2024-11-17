@@ -1,9 +1,7 @@
 package com.brycehan.boot.system.service;
 
-import com.brycehan.boot.common.base.IdGenerator;
 import com.brycehan.boot.common.entity.PageResult;
 import com.brycehan.boot.framework.mybatis.service.BaseService;
-import com.brycehan.boot.system.entity.convert.SysDictDataConvert;
 import com.brycehan.boot.system.entity.dto.SysDictDataDto;
 import com.brycehan.boot.system.entity.dto.SysDictDataPageDto;
 import com.brycehan.boot.system.entity.po.SysDictData;
@@ -22,21 +20,14 @@ public interface SysDictDataService extends BaseService<SysDictData> {
      *
      * @param sysDictDataDto 系统字典数据Dto
      */
-    default void save(SysDictDataDto sysDictDataDto) {
-        SysDictData sysDictData = SysDictDataConvert.INSTANCE.convert(sysDictDataDto);
-        sysDictData.setId(IdGenerator.nextId());
-        this.getBaseMapper().insert(sysDictData);
-    }
+    void save(SysDictDataDto sysDictDataDto);
 
     /**
      * 更新系统字典数据
      *
      * @param sysDictDataDto 系统字典数据Dto
      */
-    default void update(SysDictDataDto sysDictDataDto) {
-        SysDictData sysDictData = SysDictDataConvert.INSTANCE.convert(sysDictDataDto);
-        this.getBaseMapper().updateById(sysDictData);
-    }
+    void update(SysDictDataDto sysDictDataDto);
 
     /**
      * 系统字典数据分页查询

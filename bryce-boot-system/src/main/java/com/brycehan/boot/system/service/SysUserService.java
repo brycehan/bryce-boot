@@ -1,10 +1,8 @@
 package com.brycehan.boot.system.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.brycehan.boot.common.base.IdGenerator;
 import com.brycehan.boot.common.entity.PageResult;
 import com.brycehan.boot.framework.mybatis.service.BaseService;
-import com.brycehan.boot.system.entity.convert.SysUserConvert;
 import com.brycehan.boot.system.entity.dto.*;
 import com.brycehan.boot.system.entity.po.SysUser;
 import com.brycehan.boot.system.entity.vo.SysUserInfoVo;
@@ -31,21 +29,14 @@ public interface SysUserService extends BaseService<SysUser> {
      *
      * @param sysUserDto 系统用户Dto
      */
-    default void save(SysUserDto sysUserDto) {
-        SysUser sysUser = SysUserConvert.INSTANCE.convert(sysUserDto);
-        sysUser.setId(IdGenerator.nextId());
-        this.getBaseMapper().insert(sysUser);
-    }
+    void save(SysUserDto sysUserDto);
 
     /**
      * 更新系统用户
      *
      * @param sysUserDto 系统用户Dto
      */
-    default void update(SysUserDto sysUserDto) {
-        SysUser sysUser = SysUserConvert.INSTANCE.convert(sysUserDto);
-        this.getBaseMapper().updateById(sysUser);
-    }
+    void update(SysUserDto sysUserDto);
 
     /**
      * 根据ID查询系统用户

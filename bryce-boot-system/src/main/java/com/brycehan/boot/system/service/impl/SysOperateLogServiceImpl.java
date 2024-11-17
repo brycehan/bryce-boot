@@ -7,8 +7,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.brycehan.boot.common.base.IdGenerator;
 import com.brycehan.boot.common.constant.CacheConstants;
 import com.brycehan.boot.common.entity.PageResult;
-import com.brycehan.boot.common.util.DateTimeUtils;
-import com.brycehan.boot.common.util.ExcelUtils;
 import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
 import com.brycehan.boot.framework.operatelog.OperateLogDto;
 import com.brycehan.boot.system.entity.convert.SysOperateLogConvert;
@@ -83,13 +81,6 @@ public class SysOperateLogServiceImpl extends BaseServiceImpl<SysOperateLogMappe
         addTimeRangeCondition(wrapper, SysOperateLog::getOperatedTime, sysOperateLogPageDto.getOperatedTimeStart(), sysOperateLogPageDto.getOperatedTimeEnd());
 
         return wrapper;
-    }
-
-    @Override
-    public void export(SysOperateLogPageDto sysOperateLogPageDto) {
-        List<SysOperateLog> sysOperateLogList = this.baseMapper.selectList(getWrapper(sysOperateLogPageDto));
-        List<SysOperateLogVo> sysOperateLogVoList = SysOperateLogConvert.INSTANCE.convert(sysOperateLogList);
-        ExcelUtils.export(SysOperateLogVo.class, "系统操作日志_".concat(DateTimeUtils.today()), "系统操作日志", sysOperateLogVoList);
     }
 
     /**

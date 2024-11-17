@@ -1,17 +1,12 @@
 package com.brycehan.boot.system.service;
 
-import com.brycehan.boot.common.base.IdGenerator;
-import com.brycehan.boot.common.base.VersionException;
 import com.brycehan.boot.common.entity.PageResult;
 import com.brycehan.boot.framework.mybatis.service.BaseService;
-import com.brycehan.boot.system.entity.convert.SysPostConvert;
 import com.brycehan.boot.system.entity.dto.SysPostCodeDto;
 import com.brycehan.boot.system.entity.dto.SysPostDto;
 import com.brycehan.boot.system.entity.dto.SysPostPageDto;
 import com.brycehan.boot.system.entity.po.SysPost;
 import com.brycehan.boot.system.entity.vo.SysPostVo;
-import org.springframework.retry.annotation.Backoff;
-import org.springframework.retry.annotation.Retryable;
 
 import java.util.List;
 
@@ -28,22 +23,14 @@ public interface SysPostService extends BaseService<SysPost> {
      *
      * @param sysPostDto 系统岗位Dto
      */
-    default void save(SysPostDto sysPostDto) {
-        SysPost sysPost = SysPostConvert.INSTANCE.convert(sysPostDto);
-        sysPost.setId(IdGenerator.nextId());
-        this.getBaseMapper().insert(sysPost);
-    }
+    void save(SysPostDto sysPostDto);
 
-    @Retryable(retryFor = VersionException.class, backoff = @Backoff(delay = 0))
-    default void update(SysPostDto sysPostDto) {
-        SysPost sysPost = SysPostConvert.INSTANCE.convert(sysPostDto);
-
-        // 更新
-        int updated = this.getBaseMapper().updateById(sysPost);
-        if (updated == 0) {
-            throw new VersionException();
-        }
-    }
+    /**
+     * 更新系统岗位
+     *
+     * @param sysPostDto 系统岗位Dto
+     */
+    void update(SysPostDto sysPostDto);
 
     /**
      * 系统岗位分页查询

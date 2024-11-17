@@ -3,6 +3,7 @@ package com.brycehan.boot.system.service.impl;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.brycehan.boot.common.base.IdGenerator;
 import com.brycehan.boot.common.constant.DataConstants;
 import com.brycehan.boot.common.entity.PageResult;
 import com.brycehan.boot.common.entity.dto.IdsDto;
@@ -36,6 +37,17 @@ import java.util.*;
 public class SysOrgServiceImpl extends BaseServiceImpl<SysOrgMapper, SysOrg> implements SysOrgService {
 
     private final SysUserMapper sysUserMapper;
+
+    /**
+     * 添加系统机构
+     *
+     * @param sysOrgDto 系统机构Dto
+     */
+    public void save(SysOrgDto sysOrgDto) {
+        SysOrg sysOrg = SysOrgConvert.INSTANCE.convert(sysOrgDto);
+        sysOrg.setId(IdGenerator.nextId());
+        this.baseMapper.insert(sysOrg);
+    }
 
     @Override
     public void update(SysOrgDto sysOrgDto) {

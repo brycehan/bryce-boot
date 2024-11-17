@@ -1,9 +1,7 @@
 package com.brycehan.boot.system.service;
 
-import com.brycehan.boot.common.base.IdGenerator;
 import com.brycehan.boot.common.entity.PageResult;
 import com.brycehan.boot.framework.mybatis.service.BaseService;
-import com.brycehan.boot.system.entity.convert.SysRoleConvert;
 import com.brycehan.boot.system.entity.dto.SysRoleCodeDto;
 import com.brycehan.boot.system.entity.dto.SysRoleDataScopeDto;
 import com.brycehan.boot.system.entity.dto.SysRoleDto;
@@ -26,21 +24,14 @@ public interface SysRoleService extends BaseService<SysRole> {
      *
      * @param sysRoleDto 系统角色Dto
      */
-    default void save(SysRoleDto sysRoleDto) {
-        SysRole sysRole = SysRoleConvert.INSTANCE.convert(sysRoleDto);
-        sysRole.setId(IdGenerator.nextId());
-        this.getBaseMapper().insert(sysRole);
-    }
+    void save(SysRoleDto sysRoleDto);
 
     /**
      * 更新系统角色
      *
      * @param sysRoleDto 系统角色Dto
      */
-    default void update(SysRoleDto sysRoleDto) {
-        SysRole sysRole = SysRoleConvert.INSTANCE.convert(sysRoleDto);
-        this.getBaseMapper().updateById(sysRole);
-    }
+    void update(SysRoleDto sysRoleDto);
 
     /**
      * 系统角色分页查询

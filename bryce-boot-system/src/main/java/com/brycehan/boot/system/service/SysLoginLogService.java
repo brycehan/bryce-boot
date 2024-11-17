@@ -1,9 +1,7 @@
 package com.brycehan.boot.system.service;
 
-import com.brycehan.boot.common.base.IdGenerator;
 import com.brycehan.boot.common.entity.PageResult;
 import com.brycehan.boot.framework.mybatis.service.BaseService;
-import com.brycehan.boot.system.entity.convert.SysLoginLogConvert;
 import com.brycehan.boot.system.entity.dto.SysLoginLogDto;
 import com.brycehan.boot.system.entity.dto.SysLoginLogPageDto;
 import com.brycehan.boot.system.entity.po.SysLoginLog;
@@ -22,21 +20,14 @@ public interface SysLoginLogService extends BaseService<SysLoginLog> {
      *
      * @param sysLoginLogDto 系统登录日志Dto
      */
-    default void save(SysLoginLogDto sysLoginLogDto) {
-        SysLoginLog sysLoginLog = SysLoginLogConvert.INSTANCE.convert(sysLoginLogDto);
-        sysLoginLog.setId(IdGenerator.nextId());
-        this.getBaseMapper().insert(sysLoginLog);
-    }
+    void save(SysLoginLogDto sysLoginLogDto);
 
     /**
      * 更新系统登录日志
      *
      * @param sysLoginLogDto 系统登录日志Dto
      */
-    default void update(SysLoginLogDto sysLoginLogDto) {
-        SysLoginLog sysLoginLog = SysLoginLogConvert.INSTANCE.convert(sysLoginLogDto);
-        this.getBaseMapper().updateById(sysLoginLog);
-    }
+    void update(SysLoginLogDto sysLoginLogDto);
 
     /**
      * 系统登录日志分页查询

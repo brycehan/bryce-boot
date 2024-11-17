@@ -1,9 +1,7 @@
 package com.brycehan.boot.system.service;
 
-import com.brycehan.boot.common.base.IdGenerator;
 import com.brycehan.boot.common.entity.PageResult;
 import com.brycehan.boot.framework.mybatis.service.BaseService;
-import com.brycehan.boot.system.entity.convert.SysOperateLogConvert;
 import com.brycehan.boot.system.entity.dto.SysOperateLogDto;
 import com.brycehan.boot.system.entity.dto.SysOperateLogPageDto;
 import com.brycehan.boot.system.entity.po.SysOperateLog;
@@ -22,21 +20,14 @@ public interface SysOperateLogService extends BaseService<SysOperateLog> {
      *
      * @param sysOperateLogDto 系统操作日志Dto
      */
-    default void save(SysOperateLogDto sysOperateLogDto) {
-        SysOperateLog sysOperateLog = SysOperateLogConvert.INSTANCE.convert(sysOperateLogDto);
-        sysOperateLog.setId(IdGenerator.nextId());
-        this.getBaseMapper().insert(sysOperateLog);
-    }
+    void save(SysOperateLogDto sysOperateLogDto);
 
     /**
      * 更新系统操作日志
      *
      * @param sysOperateLogDto 系统操作日志Dto
      */
-    default void update(SysOperateLogDto sysOperateLogDto) {
-        SysOperateLog sysOperateLog = SysOperateLogConvert.INSTANCE.convert(sysOperateLogDto);
-        this.getBaseMapper().updateById(sysOperateLog);
-    }
+    void update(SysOperateLogDto sysOperateLogDto);
 
     /**
      * 查询系统操作日志详情
@@ -53,12 +44,5 @@ public interface SysOperateLogService extends BaseService<SysOperateLog> {
      * @return 分页信息
      */
     PageResult<SysOperateLogVo> page(SysOperateLogPageDto sysOperateLogPageDto);
-
-    /**
-     * 系统操作日志导出数据
-     *
-     * @param sysOperateLogPageDto 系统操作日志查询条件
-     */
-    void export(SysOperateLogPageDto sysOperateLogPageDto);
 
 }

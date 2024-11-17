@@ -73,16 +73,4 @@ public class SysOperateLogController {
         return ResponseResult.ok(page);
     }
 
-    /**
-     * 系统操作日志导出数据
-     *
-     * @param sysOperateLogPageDto 查询条件
-     */
-    @Operation(summary = "系统操作日志导出")
-    @PreAuthorize("hasAuthority('system:operateLog:export')")
-    @PostMapping(path = "/export")
-    public void export(@Validated @RequestBody SysOperateLogPageDto sysOperateLogPageDto) {
-        this.sysOperateLogService.export(sysOperateLogPageDto);
-    }
-
 }

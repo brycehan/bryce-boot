@@ -1,9 +1,7 @@
 package com.brycehan.boot.system.service;
 
-import com.brycehan.boot.common.base.IdGenerator;
 import com.brycehan.boot.common.entity.PageResult;
 import com.brycehan.boot.framework.mybatis.service.BaseService;
-import com.brycehan.boot.system.entity.convert.SysParamConvert;
 import com.brycehan.boot.system.entity.dto.SysParamDto;
 import com.brycehan.boot.system.entity.dto.SysParamKeyDto;
 import com.brycehan.boot.system.entity.dto.SysParamPageDto;
@@ -24,21 +22,14 @@ public interface SysParamService extends BaseService<SysParam> {
      *
      * @param sysParamDto 系统参数Dto
      */
-    default void save(SysParamDto sysParamDto) {
-        SysParam sysParam = SysParamConvert.INSTANCE.convert(sysParamDto);
-        sysParam.setId(IdGenerator.nextId());
-        this.getBaseMapper().insert(sysParam);
-    }
+    void save(SysParamDto sysParamDto);
 
     /**
      * 更新系统参数
      *
      * @param sysParamDto 系统参数Dto
      */
-    default void update(SysParamDto sysParamDto) {
-        SysParam sysParam = SysParamConvert.INSTANCE.convert(sysParamDto);
-        this.getBaseMapper().updateById(sysParam);
-    }
+    void update(SysParamDto sysParamDto);
 
     /**
      * 系统参数分页查询

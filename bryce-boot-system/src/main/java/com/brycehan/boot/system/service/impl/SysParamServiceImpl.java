@@ -1,5 +1,7 @@
 package com.brycehan.boot.system.service.impl;
 
+import cn.hutool.core.date.DatePattern;
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
@@ -9,7 +11,6 @@ import com.brycehan.boot.common.base.IdGenerator;
 import com.brycehan.boot.common.constant.CacheConstants;
 import com.brycehan.boot.common.entity.PageResult;
 import com.brycehan.boot.common.entity.dto.IdsDto;
-import com.brycehan.boot.common.util.DateTimeUtils;
 import com.brycehan.boot.common.util.ExcelUtils;
 import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
 import com.brycehan.boot.system.common.ParamType;
@@ -27,6 +28,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -134,7 +136,8 @@ public class SysParamServiceImpl extends BaseServiceImpl<SysParamMapper, SysPara
     public void export(SysParamPageDto sysParamPageDto) {
         List<SysParam> sysParamList = this.baseMapper.selectList(getWrapper(sysParamPageDto));
         List<SysParamVo> sysParamVoList = SysParamConvert.INSTANCE.convert(sysParamList);
-        ExcelUtils.export(SysParamVo.class, "系统参数_".concat(DateTimeUtils.today()), "系统参数", sysParamVoList);
+        String today = DateUtil.format(new Date(), DatePattern.PURE_DATE_PATTERN);
+        ExcelUtils.export(SysParamVo.class, "系统参数_".concat(today), "系统参数", sysParamVoList);
     }
 
     @Override

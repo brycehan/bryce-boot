@@ -1,9 +1,7 @@
 package com.brycehan.boot.quartz.service;
 
-import com.brycehan.boot.common.base.IdGenerator;
 import com.brycehan.boot.common.entity.PageResult;
 import com.brycehan.boot.framework.mybatis.service.BaseService;
-import com.brycehan.boot.quartz.entity.convert.QuartzJobConvert;
 import com.brycehan.boot.quartz.entity.dto.QuartzJobDto;
 import com.brycehan.boot.quartz.entity.dto.QuartzJobPageDto;
 import com.brycehan.boot.quartz.entity.po.QuartzJob;
@@ -22,21 +20,14 @@ public interface QuartzJobService extends BaseService<QuartzJob> {
      *
      * @param quartzJobDto quartz定时任务调度Dto
      */
-    default void save(QuartzJobDto quartzJobDto) {
-        QuartzJob quartzJob = QuartzJobConvert.INSTANCE.convert(quartzJobDto);
-        quartzJob.setId(IdGenerator.nextId());
-        this.getBaseMapper().insert(quartzJob);
-    }
+    void save(QuartzJobDto quartzJobDto);
 
     /**
      * 更新quartz定时任务调度
      *
      * @param quartzJobDto quartz定时任务调度Dto
      */
-    default void update(QuartzJobDto quartzJobDto) {
-        QuartzJob quartzJob = QuartzJobConvert.INSTANCE.convert(quartzJobDto);
-        this.getBaseMapper().updateById(quartzJob);
-    }
+    void update(QuartzJobDto quartzJobDto);
 
     /**
      * quartz定时任务调度分页查询
