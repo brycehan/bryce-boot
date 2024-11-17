@@ -1,7 +1,6 @@
 package com.brycehan.boot.common.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
-import com.brycehan.boot.common.util.JsonUtils;
 import lombok.Data;
 
 import java.io.Serial;
@@ -55,15 +54,5 @@ public abstract class BaseEntity implements Serializable {
      */
     @TableField(fill = FieldFill.UPDATE)
     private LocalDateTime updatedTime;
-
-    /**
-     * 转换为JSON字符串
-     *
-     * @return JSON字符串
-     */
-    @SuppressWarnings("unused")
-    public String toJson(){
-        return JsonUtils.writeValueAsString(this);
-    }
 
 }

@@ -1,9 +1,9 @@
 package com.brycehan.boot.common.entity.dto;
 
+import com.brycehan.boot.common.base.GenderType;
 import com.brycehan.boot.common.entity.BaseDto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -49,8 +49,7 @@ public class ProfileDto extends BaseDto {
      * 性别（M：男, F：女）
      */
     @Schema(description = "性别（M：男, F：女）")
-    @Pattern(regexp = "^[MF]$", message = "性别值只能是M或F")
-    private String gender;
+    private GenderType gender;
 
     /**
      * 生日

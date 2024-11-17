@@ -2,7 +2,6 @@ package com.brycehan.boot.common.response;
 
 import com.brycehan.boot.common.base.ServerException;
 import com.brycehan.boot.common.util.StringFormatUtils;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -47,7 +46,6 @@ public class ResponseResult<T> implements Serializable {
      * 响应时间
      */
     @Schema(description = "响应时间")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
     private LocalDateTime time;
 
     /**

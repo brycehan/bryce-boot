@@ -1,6 +1,7 @@
 package com.brycehan.boot.system.service.impl;
 
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -10,7 +11,6 @@ import com.brycehan.boot.common.entity.PageResult;
 import com.brycehan.boot.common.entity.dto.IdsDto;
 import com.brycehan.boot.common.util.DateTimeUtils;
 import com.brycehan.boot.common.util.ExcelUtils;
-import com.brycehan.boot.common.util.JsonUtils;
 import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
 import com.brycehan.boot.system.common.ParamType;
 import com.brycehan.boot.system.entity.convert.SysParamConvert;
@@ -184,7 +184,7 @@ public class SysParamServiceImpl extends BaseServiceImpl<SysParamMapper, SysPara
     @Override
     public <T> T getJSONObject(String paramKey, Class<T> valueType) {
         String value = getString(paramKey);
-        return JsonUtils.readValue(value, valueType);
+        return JSONUtil.toBean(value, valueType);
     }
 
     @Override

@@ -1,7 +1,8 @@
 package com.brycehan.boot.framework.common.utils;
 
 import cn.hutool.core.util.StrUtil;
-import com.brycehan.boot.common.util.JsonUtils;
+import cn.hutool.json.JSONUtil;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;
@@ -43,7 +44,7 @@ public class CacheClient {
      * @param unit    时间单位
      */
     public void set(String key, Object value, long timeout, TimeUnit unit) {
-        stringRedisTemplate.opsForValue().set(key, JsonUtils.writeValueAsString(value), timeout, unit);
+        stringRedisTemplate.opsForValue().set(key, JSONUtil.toJsonStr(value), timeout, unit);
     }
 
     /**
@@ -60,7 +61,7 @@ public class CacheClient {
         redisData.setData(value);
         redisData.setExpireTime(LocalDateTime.now().plusSeconds(unit.toSeconds(timeout)));
         // 写入Redis
-        stringRedisTemplate.opsForValue().set(key, JsonUtils.writeValueAsString(redisData));
+        stringRedisTemplate.opsForValue().set(key, JSONUtil.toJsonStr(redisData));
     }
 
     /**
@@ -86,12 +87,13 @@ public class CacheClient {
         }
 
         // 命中，需要先把json反序列化为对象
-        RedisData redisData = JsonUtils.readValue(json, RedisData.class);
+        RedisData redisData = JSONUtil.toBean(json, RedisData.class);
 
         if (redisData == null) {
             return null;
         }
-        E entity = JsonUtils.convertValue(redisData.getData(), entityType);
+        ObjectMapper objectMapper = new ObjectMapper();
+        E entity = objectMapper.convertValue(redisData.getData(), entityType);
         LocalDateTime expireTime = redisData.getExpireTime();
 
         // 判断是否过期
@@ -144,7 +146,7 @@ public class CacheClient {
 
         // 判断缓存是否存在
         if (StrUtil.isNotBlank(json)) {
-            return JsonUtils.readValue(json, entityType);
+            return JSONUtil.toBean(json, entityType);
         }
 
         // 判断是否是空值

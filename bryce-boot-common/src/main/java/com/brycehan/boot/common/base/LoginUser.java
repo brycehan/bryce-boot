@@ -41,7 +41,7 @@ public class LoginUser implements UserDetails {
 
     private String avatar;
 
-    private String gender;
+    private GenderType gender;
 
     private String email;
 

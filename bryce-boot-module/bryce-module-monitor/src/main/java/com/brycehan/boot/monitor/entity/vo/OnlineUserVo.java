@@ -1,5 +1,6 @@
 package com.brycehan.boot.monitor.entity.vo;
 
+import com.brycehan.boot.common.base.GenderType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -42,7 +43,7 @@ public class OnlineUserVo implements Serializable {
      * 性别
      */
     @Schema(description = "性别")
-    private String gender;
+    private GenderType gender;
 
     /**
      * 邮箱

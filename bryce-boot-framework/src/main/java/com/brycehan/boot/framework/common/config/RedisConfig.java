@@ -1,15 +1,16 @@
 package com.brycehan.boot.framework.common.config;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import cn.hutool.core.date.DatePattern;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;
 import org.redisson.config.Config;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,10 +20,11 @@ import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.cache.RedisCacheWriter;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.RedisSerializer;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 /**
@@ -35,18 +37,29 @@ import java.util.Objects;
 public class RedisConfig {
 
     /**
-     * Jackson2JsonRedisSerializer序列化器
+     * GenericJackson2JsonRedisSerializer序列化器
      *
      * @return Jackson2JsonRedisSerializer
      */
     @Bean
-    public Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer(){
+    public GenericJackson2JsonRedisSerializer jackson2JsonRedisSerializer(){
         ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
+
+        // 禁用时间戳
+        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+
+        // 启用JavaTimeModule
+        JavaTimeModule javaTimeModule = new JavaTimeModule();
+        javaTimeModule.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(DatePattern.NORM_DATETIME_FORMATTER));
+        javaTimeModule.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(DatePattern.NORM_DATETIME_FORMATTER));
+        objectMapper.registerModule(javaTimeModule);
+
+        // 启用默认类型，JsonTypeInfo.As.PROPERTY表示类型信息将作为 JSON 对象的一个属性来存储
         objectMapper.activateDefaultTyping(LaissezFaireSubTypeValidator.instance, ObjectMapper.DefaultTyping.NON_FINAL, JsonTypeInfo.As.PROPERTY);
-//        objectMapper.deactivateDefaultTyping();
-        objectMapper.registerModule(new JavaTimeModule());
-        return new Jackson2JsonRedisSerializer<>(objectMapper, Object.class);
+
+        return GenericJackson2JsonRedisSerializer.builder()
+                .objectMapper(objectMapper)
+                .build();
     }
 
     /**

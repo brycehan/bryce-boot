@@ -1,11 +1,11 @@
 package com.brycehan.boot.system.entity.dto;
 
+import com.brycehan.boot.common.base.GenderType;
 import com.brycehan.boot.common.entity.BaseDto;
 import com.brycehan.boot.common.validator.SaveGroup;
 import com.brycehan.boot.common.validator.UpdateGroup;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -63,9 +63,7 @@ public class SysUserDto extends BaseDto {
      * 性别（M：男, F：女，N：未知）
      */
     @Schema(description = "性别（M：男, F：女，N：未知）")
-    @Size(max = 1, groups = {SaveGroup.class, UpdateGroup.class})
-    @Pattern(regexp = "^[MFN]$", groups = {SaveGroup.class, UpdateGroup.class}, message = "性别值只能是M、F、N")
-    private String gender;
+    private GenderType gender;
 
     /**
      * 用户类型（0：系统用户）

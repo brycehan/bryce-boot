@@ -8,7 +8,6 @@ import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.brycehan.boot.common.constant.DataConstants;
 import com.brycehan.boot.common.entity.convert.OrderItemConvert;
-import com.brycehan.boot.common.util.JsonUtils;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -76,7 +75,7 @@ public abstract class BasePageDto implements Serializable {
                     .filter(orderItem -> hasEntityField(this.getClass(), orderItem.getColumn()))
                     .toList();
 
-            log.debug("排序参数: {}", JsonUtils.writeValueAsString(itemDtoList));
+            log.debug("排序参数: {}", JSONUtil.toJsonStr(itemDtoList));
 
             if (CollectionUtils.isNotEmpty(itemDtoList)) {
                 // 驼峰转下划线命名
@@ -122,15 +121,6 @@ public abstract class BasePageDto implements Serializable {
         } catch (ClassNotFoundException e) {
             return false;
         }
-    }
-
-    /**
-     * 转换为JSON字符串
-     *
-     * @return JSON字符串
-     */
-    public String toJson(){
-        return JSONUtil.toJsonStr(this);
     }
 
 }

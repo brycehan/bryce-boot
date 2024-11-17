@@ -1,8 +1,6 @@
 package com.brycehan.boot.system.entity.vo;
 
-import cn.hutool.core.date.DatePattern;
 import com.brycehan.boot.common.util.TreeNode;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -87,7 +85,6 @@ public class SysMenuVo extends TreeNode<SysMenuVo> {
      * 创建时间
      */
     @Schema(description = "创建时间")
-    @JsonFormat(pattern = DatePattern.NORM_DATETIME_PATTERN)
     private LocalDateTime createdTime;
 
 }

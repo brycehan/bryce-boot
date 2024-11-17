@@ -1,7 +1,5 @@
 package com.brycehan.boot.system.entity.vo;
 
-import cn.hutool.core.date.DatePattern;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -56,7 +54,6 @@ public class SysUserInfoVo implements Serializable {
      * 创建时间
      */
     @Schema(description = "创建时间")
-    @JsonFormat(pattern = DatePattern.NORM_DATETIME_PATTERN)
     private LocalDateTime createdTime;
 
     /**

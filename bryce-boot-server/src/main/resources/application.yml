@@ -9,10 +9,9 @@ spring:
     active: dev
   # Jackson 配置
   jackson:
-    # 时区
-    time-zone: GMT+8
     # 空值处理
     default-property-inclusion: always
+
   servlet:
     # 上传文件
     multipart:
@@ -51,6 +50,8 @@ mybatis-plus:
     call-setters-on-nulls: true
     # 设置参数值为null的字段的jdbcType为null
     jdbc-type-for-null: 'null'
+    # 枚举类型处理器
+    default-enum-type-handler: com.baomidou.mybatisplus.core.handlers.MybatisEnumTypeHandler
   # 全局配置
   global-config:
     # 是否显示banner

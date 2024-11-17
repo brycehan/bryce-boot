@@ -1,7 +1,6 @@
 package com.brycehan.boot.common.entity.vo;
 
-import cn.hutool.core.date.DatePattern;
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.brycehan.boot.common.base.GenderType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -50,13 +49,12 @@ public class ProfileVo implements Serializable {
      * 性别（0女，1男）
      */
     @Schema(description = "性别（0女，1男）")
-    private String gender;
+    private GenderType gender;
 
     /**
      * 生日
      */
     @Schema(description = "生日")
-    @JsonFormat(pattern = DatePattern.NORM_DATE_PATTERN)
     private LocalDate birthday;
 
     /**

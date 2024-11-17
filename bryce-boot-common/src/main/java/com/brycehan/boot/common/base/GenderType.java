@@ -1,5 +1,7 @@
-package com.brycehan.boot.system.common;
+package com.brycehan.boot.common.base;
 
+import com.baomidou.mybatisplus.annotation.EnumValue;
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -19,8 +21,15 @@ public enum GenderType {
     /**
      * 女
      */
-    FEMALE("F");
+    FEMALE("F"),
 
+    /**
+     * 未知
+     */
+    UNKNOWN("N");
+
+    @EnumValue
+    @JsonValue
     private final String value;
 
 }

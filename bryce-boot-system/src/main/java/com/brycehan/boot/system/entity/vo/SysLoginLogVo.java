@@ -1,11 +1,9 @@
 package com.brycehan.boot.system.entity.vo;
 
-import cn.hutool.core.date.DatePattern;
 import com.alibaba.excel.annotation.ExcelIgnoreUnannotated;
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.alibaba.excel.annotation.write.style.ColumnWidth;
 import com.brycehan.boot.common.base.Trans;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -112,7 +110,6 @@ public class SysLoginLogVo implements Serializable {
     @Schema(description = "访问时间")
     @ColumnWidth(20)
     @ExcelProperty(value = "访问时间", index = 8)
-    @JsonFormat(pattern = DatePattern.NORM_DATETIME_PATTERN)
     private LocalDateTime accessTime;
 
     /**
@@ -121,7 +118,6 @@ public class SysLoginLogVo implements Serializable {
     @Schema(description = "创建时间")
     @ColumnWidth(20)
     @ExcelProperty(value = "创建时间", index = 9)
-    @JsonFormat(pattern = DatePattern.NORM_DATETIME_PATTERN)
     private LocalDateTime createdTime;
 
 }

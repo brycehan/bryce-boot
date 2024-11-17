@@ -2,6 +2,7 @@ package com.brycehan.boot.system.entity.dto;
 
 import com.alibaba.excel.annotation.ExcelIgnoreUnannotated;
 import com.alibaba.excel.annotation.ExcelProperty;
+import com.brycehan.boot.common.base.GenderType;
 import com.brycehan.boot.common.base.UnTrans;
 import lombok.Data;
 
@@ -44,7 +45,7 @@ public class SysUserExcelDto implements Serializable {
      * 性别（M：男, F：女，N：未知）
      */
     @UnTrans(dict = "sys_user_gender", ref = "genderLabel")
-    private String gender;
+    private GenderType gender;
 
     /**
      * 性别

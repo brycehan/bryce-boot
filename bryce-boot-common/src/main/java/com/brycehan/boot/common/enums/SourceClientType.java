@@ -16,11 +16,12 @@ public enum SourceClientType {
     H5("h5"),
     APP("app"),
     MINI_APP("miniApp"),
+    UNKNOWN("unknown"),
     ;
 
+    @JsonValue
     private final String value;
 
-    @JsonValue
     public String value() {
         return value;
     }

@@ -1,6 +1,5 @@
 package com.brycehan.boot.common.entity;
 
-import com.brycehan.boot.common.util.JsonUtils;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -33,13 +32,5 @@ public class PageResult<T> implements Serializable {
      */
     @Schema(description = "列表数据")
     private List<T> list;
-
-    /**
-     * 转换为JSON字符串
-     * @return JSON字符串
-     */
-    public String toJson(){
-        return JsonUtils.writeValueAsString(this);
-    }
 
 }

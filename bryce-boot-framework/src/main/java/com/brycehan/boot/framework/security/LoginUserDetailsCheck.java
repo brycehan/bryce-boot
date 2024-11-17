@@ -1,9 +1,9 @@
 package com.brycehan.boot.framework.security;
 
+import cn.hutool.json.JSONUtil;
 import com.brycehan.boot.common.base.ServerException;
 import com.brycehan.boot.common.constant.CacheConstants;
 import com.brycehan.boot.common.response.UserResponseStatus;
-import com.brycehan.boot.common.util.JsonUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,7 +31,7 @@ public class LoginUserDetailsCheck implements UserDetailsChecker {
 
     @Override
     public void check(UserDetails toCheck) {
-        log.debug(JsonUtils.writeValueAsString(toCheck));
+        log.debug(JSONUtil.toJsonStr(toCheck));
 
         // 超过密码错误最大次数锁定账户
         Integer retryCount = this.redisTemplate.opsForValue()
