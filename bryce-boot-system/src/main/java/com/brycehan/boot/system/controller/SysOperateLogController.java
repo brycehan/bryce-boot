@@ -4,7 +4,7 @@ import com.brycehan.boot.common.entity.PageResult;
 import com.brycehan.boot.common.entity.dto.IdsDto;
 import com.brycehan.boot.common.response.ResponseResult;
 import com.brycehan.boot.framework.operatelog.annotation.OperateLog;
-import com.brycehan.boot.framework.operatelog.annotation.OperateType;
+import com.brycehan.boot.framework.operatelog.annotation.OperatedType;
 import com.brycehan.boot.system.entity.dto.SysOperateLogPageDto;
 import com.brycehan.boot.system.entity.vo.SysOperateLogVo;
 import com.brycehan.boot.system.service.SysOperateLogService;
@@ -37,7 +37,7 @@ public class SysOperateLogController {
      * @return 响应结果
      */
     @Operation(summary = "删除系统操作日志")
-    @OperateLog(type = OperateType.DELETE)
+    @OperateLog(type = OperatedType.DELETE)
     @PreAuthorize("hasAuthority('system:operateLog:delete')")
     @DeleteMapping
     public ResponseResult<Void> delete(@Validated @RequestBody IdsDto idsDto) {

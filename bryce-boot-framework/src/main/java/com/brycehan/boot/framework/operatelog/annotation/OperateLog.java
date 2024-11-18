@@ -28,6 +28,6 @@ public @interface OperateLog {
     /**
      * 操作类型
      */
-    OperateType type() default OperateType.OTHER;
+    OperatedType type() default OperatedType.OTHER;
 
 }

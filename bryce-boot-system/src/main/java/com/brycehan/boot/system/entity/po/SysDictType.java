@@ -2,6 +2,7 @@ package com.brycehan.boot.system.entity.po;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.brycehan.boot.common.entity.BaseEntity;
+import com.brycehan.boot.common.enums.StatusType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -39,7 +40,7 @@ public class SysDictType extends BaseEntity {
     /**
      * 状态（false：停用，true：正常）
      */
-    private Boolean status;
+    private StatusType status;
 
     /**
      * 备注

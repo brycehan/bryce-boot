@@ -4,7 +4,7 @@ import com.brycehan.boot.api.system.SysUploadFileApi;
 import com.brycehan.boot.api.system.vo.SysUploadFileVo;
 import com.brycehan.boot.common.response.ResponseResult;
 import com.brycehan.boot.framework.operatelog.annotation.OperateLog;
-import com.brycehan.boot.framework.operatelog.annotation.OperateType;
+import com.brycehan.boot.framework.operatelog.annotation.OperatedType;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -40,7 +40,7 @@ public class SysUploadFileController {
      * @return 响应结果
      */
     @Operation(summary = "上传文件")
-    @OperateLog(type = OperateType.INSERT)
+    @OperateLog(type = OperatedType.INSERT)
     @PostMapping(path = "/list")
     public ResponseResult<List<SysUploadFileVo>> uploadList(@RequestParam List<MultipartFile> file,
                                                         @RequestParam(defaultValue = "system") String moduleName) {
@@ -68,7 +68,7 @@ public class SysUploadFileController {
      * @return 响应结果
      */
     @Operation(summary = "上传文件")
-    @OperateLog(type = OperateType.INSERT)
+    @OperateLog(type = OperatedType.INSERT)
     @PostMapping
     public ResponseResult<SysUploadFileVo> upload(@RequestParam MultipartFile file,
                                                         @RequestParam(defaultValue = "system") String moduleName) {

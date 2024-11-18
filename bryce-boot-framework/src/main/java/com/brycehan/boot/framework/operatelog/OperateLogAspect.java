@@ -4,6 +4,7 @@ import cn.hutool.core.date.LocalDateTimeUtil;
 import cn.hutool.core.util.StrUtil;
 import com.brycehan.boot.common.base.LoginUser;
 import com.brycehan.boot.common.base.LoginUserContext;
+import com.brycehan.boot.common.enums.OperationStatusType;
 import com.brycehan.boot.common.util.IpUtils;
 import com.brycehan.boot.common.util.LocationUtils;
 import com.brycehan.boot.common.util.ServletUtils;
@@ -70,12 +71,12 @@ public class OperateLogAspect {
             Object result = joinPoint.proceed();
 
             // 处理日志
-            handleLog(joinPoint, operateLog, startTime, Boolean.TRUE);
+            handleLog(joinPoint, operateLog, startTime, OperationStatusType.SUCCESS);
 
             return result;
         } catch (Throwable ex) {
             // 处理日志
-            handleLog(joinPoint, operateLog, startTime, Boolean.FALSE);
+            handleLog(joinPoint, operateLog, startTime, OperationStatusType.FAIL);
             throw ex;
         }
     }
@@ -88,7 +89,7 @@ public class OperateLogAspect {
      * @param startTime 操作开始时间
      * @param status 操作状态
      */
-    private void handleLog(final ProceedingJoinPoint joinPoint, OperateLog operateLog, LocalDateTime startTime, Boolean status) {
+    private void handleLog(final ProceedingJoinPoint joinPoint, OperateLog operateLog, LocalDateTime startTime, OperationStatusType status) {
         OperateLogDto operateLogDto = new OperateLogDto();
 
         Annotation[] annotations = getClassAnnotations(joinPoint);
@@ -110,7 +111,7 @@ public class OperateLogAspect {
         }
 
         // 操作类型
-        operateLogDto.setOperatedType(operateLog.type().name());
+        operateLogDto.setOperatedType(operateLog.type());
         // 设置模块名
         operateLogDto.setModuleName(operateLog.moduleName());
         // 设置name值

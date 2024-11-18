@@ -1,11 +1,14 @@
 package com.brycehan.boot.common.enums;
 
+import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.experimental.Accessors;
+
+import java.util.Objects;
 
 /**
  * 操作状态
@@ -16,15 +19,15 @@ import lombok.experimental.Accessors;
 @Getter
 @Accessors(fluent = true)
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
-public enum OperationStatus {
+public enum OperationStatusType {
 
     /** 操作成功 */
-    SUCCESS(true),
+    SUCCESS(1),
     /** 操作失败 */
-    FAIL(false);
+    FAIL(0);
     /** 操作状态值 */
-
-    private final Boolean value;
+    @EnumValue
+    private final Integer value;
 
     /**
      * 获取值
@@ -32,7 +35,7 @@ public enum OperationStatus {
      * @return 值
      */
     @JsonValue
-    public Boolean value() {
+    public Integer value() {
         return value;
     }
 
@@ -43,10 +46,10 @@ public enum OperationStatus {
      * @return 枚举
      */
     @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
-    public static OperationStatus getByValue(Boolean value) {
-        for (OperationStatus operationStatus : values()) {
-            if (operationStatus.value == value) {
-                return operationStatus;
+    public static OperationStatusType getByValue(Integer value) {
+        for (OperationStatusType operationStatusType : values()) {
+            if (Objects.equals(operationStatusType.value, value)) {
+                return operationStatusType;
             }
         }
         return null;

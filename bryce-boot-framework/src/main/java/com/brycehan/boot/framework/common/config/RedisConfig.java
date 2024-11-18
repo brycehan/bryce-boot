@@ -1,13 +1,17 @@
 package com.brycehan.boot.framework.common.config;
 
 import cn.hutool.core.date.DatePattern;
+import com.brycehan.boot.common.constant.DataConstants;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;
 import org.redisson.config.Config;
@@ -25,7 +29,10 @@ import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.RedisSerializer;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Objects;
+
+import static java.time.format.DateTimeFormatter.ISO_TIME;
 
 /**
  * Redis配置
@@ -42,18 +49,24 @@ public class RedisConfig {
      * @return Jackson2JsonRedisSerializer
      */
     @Bean
-    public GenericJackson2JsonRedisSerializer jackson2JsonRedisSerializer(){
+    public GenericJackson2JsonRedisSerializer genericJackson2JsonRedisSerializer(){
         ObjectMapper objectMapper = new ObjectMapper();
 
-        // 禁用时间戳
-        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-
-        // 启用JavaTimeModule
         JavaTimeModule javaTimeModule = new JavaTimeModule();
+        // 日期时间序列化
+        javaTimeModule.addSerializer(LocalTime.class, new LocalTimeSerializer(DatePattern.NORM_TIME_FORMATTER));
         javaTimeModule.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(DatePattern.NORM_DATETIME_FORMATTER));
-        javaTimeModule.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(DatePattern.NORM_DATETIME_FORMATTER));
+        // 日期时间反序列化
+        javaTimeModule.addDeserializer(LocalTime.class, new LocalTimeDeserializer(ISO_TIME));
+        javaTimeModule.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(DataConstants.DATETIME_FORMATTER));
         objectMapper.registerModule(javaTimeModule);
 
+        // 忽略未知属性异常
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        // 禁用时间戳序列化
+        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        // 反序列化时忽略枚举的空属性
+        objectMapper.configure(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_AS_NULL, true);
         // 启用默认类型，JsonTypeInfo.As.PROPERTY表示类型信息将作为 JSON 对象的一个属性来存储
         objectMapper.activateDefaultTyping(LaissezFaireSubTypeValidator.instance, ObjectMapper.DefaultTyping.NON_FINAL, JsonTypeInfo.As.PROPERTY);
 
@@ -79,8 +92,8 @@ public class RedisConfig {
         redisTemplate.setHashKeySerializer(RedisSerializer.string());
 
         // Value、HashValue使用Jackson2JsonRedisSerializer来序列化
-        redisTemplate.setValueSerializer(jackson2JsonRedisSerializer());
-        redisTemplate.setHashValueSerializer(jackson2JsonRedisSerializer());
+        redisTemplate.setValueSerializer(genericJackson2JsonRedisSerializer());
+        redisTemplate.setHashValueSerializer(genericJackson2JsonRedisSerializer());
 
         redisTemplate.afterPropertiesSet();
         return redisTemplate;

@@ -1,8 +1,11 @@
 package com.brycehan.boot.common.enums;
 
+import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.RequiredArgsConstructor;
+
+import java.util.Objects;
 
 /**
  * 数据范围类型
@@ -24,6 +27,7 @@ public enum DataScopeType {
     /** 自定义数据 */
     CUSTOM(5);
 
+    @EnumValue
     private final Integer value;
 
     /**
@@ -45,7 +49,7 @@ public enum DataScopeType {
     @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
     public static DataScopeType getByValue(Integer value) {
         for (DataScopeType type : values()) {
-            if(value.equals(type.value)){
+            if(Objects.equals(type.value, value)){
                 return type;
             }
         }

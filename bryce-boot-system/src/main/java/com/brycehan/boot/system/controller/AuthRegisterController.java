@@ -4,7 +4,7 @@ import com.brycehan.boot.common.entity.dto.RegisterDto;
 import com.brycehan.boot.common.response.ResponseResult;
 import com.brycehan.boot.common.response.UserResponseStatus;
 import com.brycehan.boot.framework.operatelog.annotation.OperateLog;
-import com.brycehan.boot.framework.operatelog.annotation.OperateType;
+import com.brycehan.boot.framework.operatelog.annotation.OperatedType;
 import com.brycehan.boot.system.service.AuthRegisterService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -34,7 +34,7 @@ public class AuthRegisterController {
      * @return 响应结果
      */
     @Operation(summary = "注册")
-    @OperateLog(type = OperateType.INSERT)
+    @OperateLog(type = OperatedType.INSERT)
     @PostMapping
     public ResponseResult<Void> register(@Parameter(description = "注册参数", required = true) @Validated @RequestBody RegisterDto registerDto) {
         // 查询注册开关

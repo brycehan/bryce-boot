@@ -1,9 +1,12 @@
 package com.brycehan.boot.common.enums;
 
+import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+
+import java.util.Objects;
 
 /**
  * 数据状态枚举
@@ -13,25 +16,26 @@ import lombok.RequiredArgsConstructor;
  */
 @Getter
 @RequiredArgsConstructor
-public enum DataStatusType {
+public enum StatusType {
     /**
      * 正常
      */
-    ENABLE(true),
+    ENABLE(1),
     /**
      * 停用
      */
-    DISABLE(false);
+    DISABLE(0);
 
-    private final Boolean value;
+    @JsonValue
+    @EnumValue
+    private final Integer value;
 
     /**
      * 获取值
      *
      * @return 值
      */
-    @JsonValue
-    public Boolean value() {
+    public Integer value() {
         return value;
     }
 
@@ -42,9 +46,9 @@ public enum DataStatusType {
      * @return 枚举
      */
     @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
-    public static DataStatusType getByValue(boolean value) {
-        for (DataStatusType type : values()) {
-            if(value == type.value){
+    public static StatusType getByValue(Integer value) {
+        for (StatusType type : values()) {
+            if(Objects.equals(value, type.value)){
                 return type;
             }
         }

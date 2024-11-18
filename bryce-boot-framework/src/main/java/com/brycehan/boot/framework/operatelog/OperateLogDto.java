@@ -1,6 +1,8 @@
 package com.brycehan.boot.framework.operatelog;
 
 import com.brycehan.boot.common.entity.BaseDto;
+import com.brycehan.boot.common.enums.OperationStatusType;
+import com.brycehan.boot.framework.operatelog.annotation.OperatedType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -56,7 +58,7 @@ public class OperateLogDto extends BaseDto {
     /**
      * 操作类型
      */
-    private String operatedType;
+    private OperatedType operatedType;
 
     /**
      * 操作时间
@@ -71,7 +73,7 @@ public class OperateLogDto extends BaseDto {
     /**
      * 操作状态（0：失败，1：成功）
      */
-    private Boolean status;
+    private OperationStatusType status;
 
     /**
      * User Agent

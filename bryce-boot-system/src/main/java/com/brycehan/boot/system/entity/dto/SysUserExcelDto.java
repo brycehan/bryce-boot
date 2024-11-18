@@ -4,6 +4,7 @@ import com.alibaba.excel.annotation.ExcelIgnoreUnannotated;
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.brycehan.boot.common.base.GenderType;
 import com.brycehan.boot.common.base.UnTrans;
+import com.brycehan.boot.common.enums.StatusType;
 import lombok.Data;
 
 import java.io.Serial;
@@ -75,7 +76,7 @@ public class SysUserExcelDto implements Serializable {
      * 状态（0：停用，1：正常）
      */
     @UnTrans(dict = "sys_status", ref = "statusLabel")
-    private Boolean status;
+    private StatusType status;
 
     /**
      * 状态

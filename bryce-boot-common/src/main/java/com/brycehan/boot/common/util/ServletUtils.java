@@ -1,7 +1,5 @@
 package com.brycehan.boot.common.util;
 
-import cn.hutool.json.JSONConfig;
-import cn.hutool.json.JSONUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -59,7 +57,7 @@ public class ServletUtils {
      * @param <T> 待渲染的数据类型
      */
     public static <T> void render(HttpServletResponse response, T t) {
-        renderString(response, JSONUtil.toJsonStr(t, JSONConfig.create().setDateFormat("yyyy-MM-dd HH:mm:ss")));
+        renderString(response, JsonUtils.writeValueAsString(t));
     }
 
     /**

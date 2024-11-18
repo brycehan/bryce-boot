@@ -1,5 +1,7 @@
 package com.brycehan.boot.quartz.entity.vo;
 
+import com.brycehan.boot.common.enums.StatusType;
+import com.brycehan.boot.quartz.common.QuartzStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -78,7 +80,7 @@ public class QuartzJobVo implements Serializable {
      * 状态（0：停用，1：正常）
      */
     @Schema(description = "状态（0：停用，1：正常）")
-    private Boolean status;
+    private QuartzStatus status;
 
     /**
      * 备注

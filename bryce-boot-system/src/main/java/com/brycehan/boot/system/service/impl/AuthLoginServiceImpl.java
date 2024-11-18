@@ -9,6 +9,7 @@ import com.brycehan.boot.common.entity.dto.AccountLoginDto;
 import com.brycehan.boot.common.entity.dto.PhoneLoginDto;
 import com.brycehan.boot.common.entity.vo.LoginVo;
 import com.brycehan.boot.common.enums.CaptchaType;
+import com.brycehan.boot.common.enums.OperationStatusType;
 import com.brycehan.boot.framework.security.JwtTokenProvider;
 import com.brycehan.boot.framework.security.phone.PhoneCodeAuthenticationToken;
 import com.brycehan.boot.system.common.LoginOperateType;
@@ -56,7 +57,7 @@ public class AuthLoginServiceImpl implements AuthLoginService {
         boolean validated = this.authCaptchaService.validate(accountLoginDto.getKey(), accountLoginDto.getCode(), CaptchaType.LOGIN);
         if (!validated) {
             // 保存登录日志
-            this.sysLoginLogService.save(accountLoginDto.getUsername(), DataConstants.FAIL, LoginOperateType.CAPTCHA_FAIL.getValue());
+            this.sysLoginLogService.save(accountLoginDto.getUsername(), OperationStatusType.FAIL, LoginOperateType.CAPTCHA_FAIL.getValue());
             throw new RuntimeException("验证码错误");
         }
 
@@ -148,7 +149,7 @@ public class AuthLoginServiceImpl implements AuthLoginService {
         }
 
         // 记录用户退出日志
-        this.sysLoginLogService.save(loginUser.getUsername(), DataConstants.SUCCESS, LoginOperateType.LOGOUT_SUCCESS.getValue());
+        this.sysLoginLogService.save(loginUser.getUsername(), OperationStatusType.SUCCESS, LoginOperateType.LOGOUT_SUCCESS.getValue());
     }
 
 }

@@ -1,6 +1,7 @@
 package com.brycehan.boot.framework.common.config;
 
 import cn.hutool.core.date.DatePattern;
+import com.brycehan.boot.common.constant.DataConstants;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
@@ -15,10 +16,7 @@ import org.springframework.core.annotation.Order;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
 
-import static java.time.format.DateTimeFormatter.ISO_LOCAL_DATE;
 import static java.time.format.DateTimeFormatter.ISO_TIME;
 
 /**
@@ -29,13 +27,6 @@ import static java.time.format.DateTimeFormatter.ISO_TIME;
  */
 @Configuration
 public class JacksonConfig {
-
-    /**
-     * 全局日期时间格式
-     */
-    private final DateTimeFormatter dateTimeFormatter = new DateTimeFormatterBuilder()
-            .append(ISO_LOCAL_DATE).appendLiteral(' ').append(ISO_TIME)
-            .toFormatter();
 
     /**
      * Jackson全局Json对象映射配置
@@ -51,11 +42,11 @@ public class JacksonConfig {
             builder.serializerByType(LocalDateTime.class, new LocalDateTimeSerializer(DatePattern.NORM_DATETIME_FORMATTER));
             // 日期时间反序列化
             builder.deserializerByType(LocalTime.class, new LocalTimeDeserializer(ISO_TIME));
-            builder.deserializerByType(LocalDateTime.class, new LocalDateTimeDeserializer(dateTimeFormatter));
+            builder.deserializerByType(LocalDateTime.class, new LocalDateTimeDeserializer(DataConstants.DATETIME_FORMATTER));
 
-            // 忽略未知属性
+            // 忽略未知属性异常
             builder.failOnUnknownProperties(false);
-            // 禁用时间戳格式化
+            // 禁用时间戳序列化
             builder.featuresToDisable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
             // 反序列化时忽略枚举的空属性
             builder.postConfigurer(mapper -> mapper.configure(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_AS_NULL, true));

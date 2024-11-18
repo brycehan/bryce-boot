@@ -11,7 +11,7 @@ import lombok.RequiredArgsConstructor;
  */
 @Getter
 @RequiredArgsConstructor
-public enum OperateType {
+public enum OperatedType {
 
     /**
      * 新增

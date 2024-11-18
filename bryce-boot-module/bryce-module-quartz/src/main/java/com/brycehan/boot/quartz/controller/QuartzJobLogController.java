@@ -4,7 +4,7 @@ import com.brycehan.boot.common.entity.PageResult;
 import com.brycehan.boot.common.entity.dto.IdsDto;
 import com.brycehan.boot.common.response.ResponseResult;
 import com.brycehan.boot.framework.operatelog.annotation.OperateLog;
-import com.brycehan.boot.framework.operatelog.annotation.OperateType;
+import com.brycehan.boot.framework.operatelog.annotation.OperatedType;
 import com.brycehan.boot.quartz.entity.convert.QuartzJobLogConvert;
 import com.brycehan.boot.quartz.entity.dto.QuartzJobLogPageDto;
 import com.brycehan.boot.quartz.entity.po.QuartzJobLog;
@@ -39,7 +39,7 @@ public class QuartzJobLogController {
      * @return 响应结果
      */
     @Operation(summary = "删除quartz定时任务调度日志")
-    @OperateLog(type = OperateType.DELETE)
+    @OperateLog(type = OperatedType.DELETE)
     @PreAuthorize("hasAuthority('quartz:jobLog:delete')")
     @DeleteMapping
     public ResponseResult<Void> delete(@Validated @RequestBody IdsDto idsDto) {

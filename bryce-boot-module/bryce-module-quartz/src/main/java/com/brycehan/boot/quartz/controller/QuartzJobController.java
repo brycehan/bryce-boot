@@ -8,7 +8,7 @@ import com.brycehan.boot.common.response.ResponseResult;
 import com.brycehan.boot.common.validator.SaveGroup;
 import com.brycehan.boot.common.validator.UpdateGroup;
 import com.brycehan.boot.framework.operatelog.annotation.OperateLog;
-import com.brycehan.boot.framework.operatelog.annotation.OperateType;
+import com.brycehan.boot.framework.operatelog.annotation.OperatedType;
 import com.brycehan.boot.quartz.entity.convert.QuartzJobConvert;
 import com.brycehan.boot.quartz.entity.dto.QuartzJobDto;
 import com.brycehan.boot.quartz.entity.dto.QuartzJobPageDto;
@@ -46,7 +46,7 @@ public class QuartzJobController {
      * @return 响应结果
      */
     @Operation(summary = "保存quartz定时任务调度")
-    @OperateLog(type = OperateType.INSERT)
+    @OperateLog(type = OperatedType.INSERT)
     @PreAuthorize("hasAuthority('quartz:job:save')")
     @PostMapping
     public ResponseResult<Void> save(@Validated(value = SaveGroup.class) @RequestBody QuartzJobDto quartzJobDto) {
@@ -68,7 +68,7 @@ public class QuartzJobController {
      * @return 响应结果
      */
     @Operation(summary = "更新quartz定时任务调度")
-    @OperateLog(type = OperateType.UPDATE)
+    @OperateLog(type = OperatedType.UPDATE)
     @PreAuthorize("hasAuthority('quartz:job:update')")
     @PutMapping
     public ResponseResult<Void> update(@Validated(value = UpdateGroup.class) @RequestBody QuartzJobDto quartzJobDto) {
@@ -90,7 +90,7 @@ public class QuartzJobController {
      * @return 响应结果
      */
     @Operation(summary = "删除quartz定时任务调度")
-    @OperateLog(type = OperateType.DELETE)
+    @OperateLog(type = OperatedType.DELETE)
     @PreAuthorize("hasAuthority('quartz:job:delete')")
     @DeleteMapping
     public ResponseResult<Void> delete(@Validated @RequestBody IdsDto idsDto) {
@@ -145,7 +145,7 @@ public class QuartzJobController {
      * @return 响应结果
      */
     @Operation(summary = "quartz定时任务立即执行")
-    @OperateLog(type = OperateType.OTHER)
+    @OperateLog(type = OperatedType.OTHER)
     @PreAuthorize("hasAuthority('quartz:job:run')")
     @PutMapping(path = "/run")
     public ResponseResult<Void> run(@Validated(value = UpdateGroup.class) @RequestBody QuartzJobDto quartzJobDto) {
@@ -160,7 +160,7 @@ public class QuartzJobController {
      * @return 响应结果
      */
     @Operation(summary = "修改quartz定时任务状态")
-    @OperateLog(type = OperateType.UPDATE)
+    @OperateLog(type = OperatedType.UPDATE)
     @PreAuthorize("hasAuthority('quartz:job:update')")
     @PutMapping(path = "/status")
     public ResponseResult<Void> status(@Validated(value = UpdateGroup.class) @RequestBody QuartzJobDto quartzJobDto) {

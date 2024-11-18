@@ -1,6 +1,8 @@
 package com.brycehan.boot.system.entity.dto;
 
 import com.brycehan.boot.common.entity.BaseDto;
+import com.brycehan.boot.common.enums.DataScopeType;
+import com.brycehan.boot.common.enums.StatusType;
 import com.brycehan.boot.common.validator.SaveGroup;
 import com.brycehan.boot.common.validator.UpdateGroup;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -45,7 +47,7 @@ public class SysRoleDto extends BaseDto {
      * 数据范围（1：全部数据，2：本机构及以下机构数据，3：本机构数据，4：本人数据，5：自定义数据）
      */
     @Schema(description = "数据范围（1：全部数据，2：本机构及以下机构数据，3：本机构数据，4：本人数据，5：自定义数据）")
-    private Integer dataScope;
+    private DataScopeType dataScope;
 
     /**
      * 显示顺序
@@ -57,7 +59,7 @@ public class SysRoleDto extends BaseDto {
      * 状态（0：停用，1：正常）
      */
     @Schema(description = "状态（0：停用，1：正常）")
-    private Boolean status;
+    private StatusType status;
 
     /**
      * 备注

@@ -1,5 +1,11 @@
 package com.brycehan.boot.common.constant;
 
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+
+import static java.time.format.DateTimeFormatter.ISO_LOCAL_DATE;
+import static java.time.format.DateTimeFormatter.ISO_TIME;
+
 /**
  * 数据状态常量
  *
@@ -7,12 +13,6 @@ package com.brycehan.boot.common.constant;
  * @author Bryce Han
  */
 public class DataConstants {
-
-    /** 默认 */
-    public static final int DEFAULT = 1;
-
-    /** 非默认 */
-    public static final int NON_DEFAULT = 0;
 
     /** 通用成功标识 */
     public static final boolean SUCCESS = true;
@@ -75,9 +75,15 @@ public class DataConstants {
     public static final String PG_DRIVER = "org.postgresql.Driver";
 
     /**
-     * 微信公众号菜单
+     * 全局日期时间格式
+     * <br>
+     * yyyy-MM-dd HH:mm:ss<br>
+     * yyyy-MM-dd HH:mm<br>
+     * yyyy-MM-dd HH:mm:ss.SSSSSS<br>
      */
-    public static final String WECHAT_MP_MENU = "wechat.mp.menu";
+    public static final DateTimeFormatter DATETIME_FORMATTER = new DateTimeFormatterBuilder()
+            .append(ISO_LOCAL_DATE).appendLiteral(' ').append(ISO_TIME)
+            .toFormatter();
 
     /**
      * 公司名称

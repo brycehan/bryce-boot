@@ -6,7 +6,7 @@ import com.brycehan.boot.common.response.ResponseResult;
 import com.brycehan.boot.common.validator.SaveGroup;
 import com.brycehan.boot.common.validator.UpdateGroup;
 import com.brycehan.boot.framework.operatelog.annotation.OperateLog;
-import com.brycehan.boot.framework.operatelog.annotation.OperateType;
+import com.brycehan.boot.framework.operatelog.annotation.OperatedType;
 import com.brycehan.boot.system.entity.convert.SysAttachmentConvert;
 import com.brycehan.boot.system.entity.dto.SysAttachmentDto;
 import com.brycehan.boot.system.entity.dto.SysAttachmentPageDto;
@@ -42,7 +42,7 @@ public class SysAttachmentController {
      * @return 响应结果
      */
     @Operation(summary = "保存系统附件")
-    @OperateLog(type = OperateType.INSERT)
+    @OperateLog(type = OperatedType.INSERT)
     @PreAuthorize("hasAuthority('system:attachment:save')")
     @PostMapping
     public ResponseResult<Void> save(@Validated(value = SaveGroup.class) @RequestBody SysAttachmentDto sysAttachmentDto) {
@@ -57,7 +57,7 @@ public class SysAttachmentController {
      * @return 响应结果
      */
     @Operation(summary = "更新系统附件")
-    @OperateLog(type = OperateType.UPDATE)
+    @OperateLog(type = OperatedType.UPDATE)
     @PreAuthorize("hasAuthority('system:attachment:update')")
     @PutMapping
     public ResponseResult<Void> update(@Validated(value = UpdateGroup.class) @RequestBody SysAttachmentDto sysAttachmentDto) {
@@ -72,7 +72,7 @@ public class SysAttachmentController {
      * @return 响应结果
      */
     @Operation(summary = "删除系统附件")
-    @OperateLog(type = OperateType.DELETE)
+    @OperateLog(type = OperatedType.DELETE)
     @PreAuthorize("hasAuthority('system:attachment:delete')")
     @DeleteMapping
     public ResponseResult<Void> delete(@Validated @RequestBody IdsDto idsDto) {

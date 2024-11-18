@@ -1,5 +1,6 @@
 package com.brycehan.boot.system.entity.vo;
 
+import com.brycehan.boot.common.enums.StatusType;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.deser.std.StringDeserializer;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -51,7 +52,7 @@ public class SysNoticeVo implements Serializable {
      * 状态（0：关闭，1：正常）
      */
     @Schema(description = "状态（0：关闭，1：正常）")
-    private Boolean status;
+    private StatusType status;
 
     /**
      * 备注

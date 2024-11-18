@@ -5,6 +5,7 @@ import com.alibaba.excel.annotation.ExcelProperty;
 import com.alibaba.excel.annotation.write.style.ColumnWidth;
 import com.brycehan.boot.common.base.GenderType;
 import com.brycehan.boot.common.base.Trans;
+import com.brycehan.boot.common.enums.StatusType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -127,7 +128,7 @@ public class SysUserVo implements Serializable {
      */
     @Trans(dict = "sys_status", ref = "statusLabel")
     @Schema(description = "状态（0：停用，1：正常）")
-    private Boolean status;
+    private StatusType status;
 
     /**
      * 状态

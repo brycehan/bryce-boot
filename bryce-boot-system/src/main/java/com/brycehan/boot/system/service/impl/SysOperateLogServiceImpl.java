@@ -10,6 +10,7 @@ import com.brycehan.boot.common.entity.PageResult;
 import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
 import com.brycehan.boot.framework.operatelog.OperateLogDto;
 import com.brycehan.boot.system.entity.convert.SysOperateLogConvert;
+import com.brycehan.boot.system.entity.dto.SysOperateLogDto;
 import com.brycehan.boot.system.entity.dto.SysOperateLogPageDto;
 import com.brycehan.boot.system.entity.po.SysOperateLog;
 import com.brycehan.boot.system.entity.vo.SysOperateLogVo;
@@ -45,6 +46,17 @@ public class SysOperateLogServiceImpl extends BaseServiceImpl<SysOperateLogMappe
 
     private final RedisTemplate<String, OperateLogDto> redisTemplate;
     private final SysOrgService sysOrgService;
+
+    public void save(SysOperateLogDto sysOperateLogDto) {
+        SysOperateLog sysOperateLog = SysOperateLogConvert.INSTANCE.convert(sysOperateLogDto);
+        sysOperateLog.setId(IdGenerator.nextId());
+        this.baseMapper.insert(sysOperateLog);
+    }
+
+    public void update(SysOperateLogDto sysOperateLogDto) {
+        SysOperateLog sysOperateLog = SysOperateLogConvert.INSTANCE.convert(sysOperateLogDto);
+        this.baseMapper.updateById(sysOperateLog);
+    }
 
     @Override
     public SysOperateLogVo get(Long id) {

@@ -54,7 +54,7 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
         sysRole.setId(IdGenerator.nextId());
 
         // 保存角色
-        sysRole.setDataScope(DataScopeType.SELF.value());
+        sysRole.setDataScope(DataScopeType.SELF);
         this.baseMapper.insert(sysRole);
 
         // 保存角色菜单关系

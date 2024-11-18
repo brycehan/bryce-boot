@@ -9,7 +9,7 @@ import com.brycehan.boot.common.base.IdGenerator;
 import com.brycehan.boot.common.base.LoginUser;
 import com.brycehan.boot.common.entity.PageResult;
 import com.brycehan.boot.common.entity.dto.IdsDto;
-import com.brycehan.boot.common.enums.DataStatusType;
+import com.brycehan.boot.common.enums.StatusType;
 import com.brycehan.boot.common.util.ExcelUtils;
 import com.brycehan.boot.common.util.TreeUtils;
 import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
@@ -133,7 +133,7 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuMapper, SysMenu> 
         if (loginUser.isSuperAdmin()) {
             // 超级管理员菜单处理
             LambdaQueryWrapper<SysMenu> queryWrapper = new LambdaQueryWrapper<>();
-            queryWrapper.eq(SysMenu::getStatus, DataStatusType.ENABLE.value());
+            queryWrapper.eq(SysMenu::getStatus, StatusType.ENABLE.value());
             queryWrapper.eq(StringUtils.isNotEmpty(type), SysMenu::getType, type);
             queryWrapper.orderByAsc(Arrays.asList(SysMenu::getParentId, SysMenu::getSort));
 

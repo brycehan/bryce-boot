@@ -2,6 +2,7 @@ package com.brycehan.boot.system.entity.dto;
 
 import com.brycehan.boot.common.base.GenderType;
 import com.brycehan.boot.common.entity.BasePageDto;
+import com.brycehan.boot.common.enums.StatusType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
@@ -60,7 +61,7 @@ public class SysUserPageDto extends BasePageDto {
      * 状态（0：停用，1：正常）
      */
     @Schema(description = "状态（0：停用，1：正常）")
-    private Boolean status;
+    private StatusType status;
 
     /**
      * 创建时间开始

@@ -151,9 +151,9 @@ public class QuartzJobServiceImpl extends BaseServiceImpl<QuartzJobMapper, Quart
         quartzJob.setStatus(quartzJobDto.getStatus());
         updateById(quartzJob);
 
-        if(QuartzStatus.PAUSE.getValue() == quartzJobDto.getStatus().booleanValue()) {
+        if(QuartzStatus.PAUSE == quartzJobDto.getStatus()) {
             QuartzUtils.pauseJob(scheduler, quartzJob);
-        } else if (QuartzStatus.NORMAL.getValue() == quartzJobDto.getStatus().booleanValue()) {
+        } else if (QuartzStatus.NORMAL == quartzJobDto.getStatus()) {
             QuartzUtils.resumeJob(scheduler, quartzJob);
         }
     }

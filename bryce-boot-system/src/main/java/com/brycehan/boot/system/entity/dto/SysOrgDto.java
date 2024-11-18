@@ -1,5 +1,6 @@
 package com.brycehan.boot.system.entity.dto;
 
+import com.brycehan.boot.common.enums.StatusType;
 import com.brycehan.boot.common.util.TreeNode;
 import com.brycehan.boot.common.validator.SaveGroup;
 import com.brycehan.boot.common.validator.UpdateGroup;
@@ -80,6 +81,6 @@ public class SysOrgDto extends TreeNode<SysOrgDto> {
      * 状态（0：停用，1：正常）
      */
     @Schema(description = "状态（0：停用，1：正常）")
-    private Boolean status;
+    private StatusType status;
 
 }

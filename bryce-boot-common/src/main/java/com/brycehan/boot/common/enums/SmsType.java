@@ -16,6 +16,7 @@ public enum SmsType {
     LOGIN("login", "登录"),
     REGISTER("register", "注册");
 
+    @JsonValue
     private final String value;
     private final String desc;
 
@@ -24,7 +25,6 @@ public enum SmsType {
      *
      * @return 值
      */
-    @JsonValue
     public String value() {
         return value;
     }

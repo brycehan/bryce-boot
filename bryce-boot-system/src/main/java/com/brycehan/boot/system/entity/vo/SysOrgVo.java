@@ -1,5 +1,6 @@
 package com.brycehan.boot.system.entity.vo;
 
+import com.brycehan.boot.common.enums.StatusType;
 import com.brycehan.boot.common.util.TreeNode;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -68,7 +69,7 @@ public class SysOrgVo extends TreeNode<SysOrgVo> {
      * 状态（0：停用，1：正常）
      */
     @Schema(description = "状态（0：停用，1：正常）")
-    private Boolean status;
+    private StatusType status;
 
     /**
      * 创建时间

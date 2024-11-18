@@ -2,6 +2,7 @@ package com.brycehan.boot.quartz.common.utils;
 
 import cn.hutool.core.date.DateUtil;
 import com.brycehan.boot.common.constant.DataConstants;
+import com.brycehan.boot.quartz.common.QuartzStatus;
 import com.brycehan.boot.quartz.entity.po.QuartzJob;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.*;
@@ -67,7 +68,7 @@ public class QuartzUtils {
             }
 
             // 暂停任务
-            if(!quartzJob.getStatus()) {
+            if(quartzJob.getStatus() == QuartzStatus.PAUSE) {
                 scheduler.pauseJob(jobKey);
             }
         } catch (SchedulerException e) {

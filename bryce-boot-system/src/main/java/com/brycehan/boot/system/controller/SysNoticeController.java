@@ -6,7 +6,7 @@ import com.brycehan.boot.common.response.ResponseResult;
 import com.brycehan.boot.common.validator.SaveGroup;
 import com.brycehan.boot.common.validator.UpdateGroup;
 import com.brycehan.boot.framework.operatelog.annotation.OperateLog;
-import com.brycehan.boot.framework.operatelog.annotation.OperateType;
+import com.brycehan.boot.framework.operatelog.annotation.OperatedType;
 import com.brycehan.boot.system.entity.dto.SysNoticeDto;
 import com.brycehan.boot.system.entity.dto.SysNoticePageDto;
 import com.brycehan.boot.system.entity.vo.SysNoticeVo;
@@ -40,7 +40,7 @@ public class SysNoticeController {
      * @return 响应结果
      */
     @Operation(summary = "保存系统通知公告")
-    @OperateLog(type = OperateType.INSERT)
+    @OperateLog(type = OperatedType.INSERT)
     @PreAuthorize("hasAuthority('system:notice:save')")
     @PostMapping
     public ResponseResult<Void> save(@Validated(value = SaveGroup.class) @RequestBody SysNoticeDto sysNoticeDto) {
@@ -55,7 +55,7 @@ public class SysNoticeController {
      * @return 响应结果
      */
     @Operation(summary = "更新系统通知公告")
-    @OperateLog(type = OperateType.UPDATE)
+    @OperateLog(type = OperatedType.UPDATE)
     @PreAuthorize("hasAuthority('system:notice:update')")
     @PutMapping
     public ResponseResult<Void> update(@Validated(value = UpdateGroup.class) @RequestBody SysNoticeDto sysNoticeDto) {
@@ -70,7 +70,7 @@ public class SysNoticeController {
      * @return 响应结果
      */
     @Operation(summary = "删除系统通知公告")
-    @OperateLog(type = OperateType.DELETE)
+    @OperateLog(type = OperatedType.DELETE)
     @PreAuthorize("hasAuthority('system:notice:delete')")
     @DeleteMapping
     public ResponseResult<Void> delete(@Validated @RequestBody IdsDto idsDto) {

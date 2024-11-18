@@ -1,6 +1,7 @@
 package com.brycehan.boot.system.entity.dto;
 
 import com.brycehan.boot.common.entity.BasePageDto;
+import com.brycehan.boot.common.enums.StatusType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -31,6 +32,6 @@ public class SysDictDataPageDto extends BasePageDto {
      * 状态（0：停用，1：正常）
      */
     @Schema(description = "状态（0：停用，1：正常）")
-    private Boolean status;
+    private StatusType status;
 
 }

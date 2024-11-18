@@ -9,6 +9,8 @@ import com.brycehan.boot.common.base.IdGenerator;
 import com.brycehan.boot.common.base.LoginUser;
 import com.brycehan.boot.common.base.LoginUserContext;
 import com.brycehan.boot.common.entity.PageResult;
+import com.brycehan.boot.common.enums.OperationStatusType;
+import com.brycehan.boot.common.enums.StatusType;
 import com.brycehan.boot.common.util.ExcelUtils;
 import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
 import com.brycehan.boot.system.entity.convert.SysLoginLogConvert;
@@ -90,7 +92,7 @@ public class SysLoginLogServiceImpl extends BaseServiceImpl<SysLoginLogMapper, S
     }
 
     @Override
-    public void save(String username, boolean status, Integer info) {
+    public void save(String username, OperationStatusType status, Integer info) {
         LoginUser loginUser = LoginUserContext.currentUser();
         if (loginUser == null) {
             return;

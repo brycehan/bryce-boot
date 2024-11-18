@@ -2,7 +2,6 @@ package com.brycehan.boot.common.util;
 
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HttpUtil;
-import cn.hutool.json.JSONUtil;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
@@ -49,7 +48,7 @@ public class LocationUtils {
                 return UNKNOWN;
             }
 
-            Location location = JSONUtil.toBean(responseData, Location.class);
+            Location location = JsonUtils.readValue(responseData, Location.class);
             assert location != null;
             return String.format("%s %s", location.getPro(), location.getCity());
         } catch (Exception e) {

@@ -8,7 +8,7 @@ import com.brycehan.boot.common.response.ResponseResult;
 import com.brycehan.boot.common.validator.SaveGroup;
 import com.brycehan.boot.common.validator.UpdateGroup;
 import com.brycehan.boot.framework.operatelog.annotation.OperateLog;
-import com.brycehan.boot.framework.operatelog.annotation.OperateType;
+import com.brycehan.boot.framework.operatelog.annotation.OperatedType;
 import com.brycehan.boot.system.entity.convert.SysRoleConvert;
 import com.brycehan.boot.system.entity.dto.*;
 import com.brycehan.boot.system.entity.po.SysRole;
@@ -57,7 +57,7 @@ public class SysRoleController {
      * @return 响应结果
      */
     @Operation(summary = "保存系统角色")
-    @OperateLog(type = OperateType.INSERT)
+    @OperateLog(type = OperatedType.INSERT)
     @PreAuthorize("hasAuthority('system:role:save')")
     @PostMapping
     public ResponseResult<Void> save(@Validated(value = SaveGroup.class) @RequestBody SysRoleDto sysRoleDto) {
@@ -72,7 +72,7 @@ public class SysRoleController {
      * @return 响应结果
      */
     @Operation(summary = "更新系统角色")
-    @OperateLog(type = OperateType.UPDATE)
+    @OperateLog(type = OperatedType.UPDATE)
     @PreAuthorize("hasAuthority('system:role:update')")
     @PutMapping
     public ResponseResult<Void> update(@Validated(value = UpdateGroup.class) @RequestBody SysRoleDto sysRoleDto) {
@@ -87,7 +87,7 @@ public class SysRoleController {
      * @return 响应结果
      */
     @Operation(summary = "删除系统角色")
-    @OperateLog(type = OperateType.DELETE)
+    @OperateLog(type = OperatedType.DELETE)
     @PreAuthorize("hasAuthority('system:role:delete')")
     @DeleteMapping
     public ResponseResult<Void> delete(@Validated @RequestBody IdsDto idsDto) {
@@ -180,7 +180,7 @@ public class SysRoleController {
      * @return 响应结果
      */
     @Operation(summary = "分配数据权限")
-    @OperateLog(type = OperateType.UPDATE)
+    @OperateLog(type = OperatedType.UPDATE)
     @PreAuthorize("hasAuthority('system:role:update')")
     @PutMapping(path = "/dataScope")
     public ResponseResult<Void> dataScope(@Validated @RequestBody SysRoleDataScopeDto dataScopeDto) {
@@ -210,7 +210,7 @@ public class SysRoleController {
      * @return 响应结果
      */
     @Operation(summary = "分配角色给多个用户")
-    @OperateLog(type = OperateType.INSERT)
+    @OperateLog(type = OperatedType.INSERT)
     @PreAuthorize("hasAuthority('system:role:save')")
     @PostMapping(path = "/user/{roleId}")
     public ResponseResult<Void> saveUsers(@PathVariable Long roleId, @RequestBody List<Long> userIds) {
@@ -226,7 +226,7 @@ public class SysRoleController {
      * @return 响应结果
      */
     @Operation(summary = "删除系统角色用户")
-    @OperateLog(type = OperateType.DELETE)
+    @OperateLog(type = OperatedType.DELETE)
     @PreAuthorize("hasAuthority('system:role:delete')")
     @DeleteMapping(path = "/user/{roleId}")
     public ResponseResult<Void> deleteUsers(@PathVariable Long roleId, @RequestBody List<Long> userIds) {

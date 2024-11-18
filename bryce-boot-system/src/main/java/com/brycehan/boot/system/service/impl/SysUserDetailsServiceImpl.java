@@ -6,6 +6,7 @@ import com.brycehan.boot.common.base.LoginUser;
 import com.brycehan.boot.common.base.ServerException;
 import com.brycehan.boot.common.constant.DataConstants;
 import com.brycehan.boot.common.enums.DataScopeType;
+import com.brycehan.boot.common.enums.StatusType;
 import com.brycehan.boot.common.response.UserResponseStatus;
 import com.brycehan.boot.common.util.IpUtils;
 import com.brycehan.boot.common.util.LocationUtils;
@@ -46,7 +47,7 @@ public class SysUserDetailsServiceImpl implements SysUserDetailsService {
     @Override
     public UserDetails getUserDetails(LoginUser loginUser) {
         // 账号不可用
-        loginUser.setEnabled(loginUser.getStatus());
+        loginUser.setEnabled(loginUser.getStatus() == StatusType.ENABLE);
         if (!loginUser.isEnabled()) {
             log.info("登录用户：{}已被锁定.", loginUser.getUsername());
             throw new ServerException(UserResponseStatus.USER_ACCOUNT_LOCKED);

@@ -1,6 +1,8 @@
 package com.brycehan.boot.system.entity.dto;
 
 import com.brycehan.boot.common.entity.BaseDto;
+import com.brycehan.boot.common.enums.OperationStatusType;
+import com.brycehan.boot.common.enums.StatusType;
 import com.brycehan.boot.common.validator.SaveGroup;
 import com.brycehan.boot.common.validator.UpdateGroup;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -74,7 +76,7 @@ public class SysLoginLogDto extends BaseDto {
      * 状态（0：失败，1：成功）
      */
     @Schema(description = "状态（0：失败，1：成功）")
-    private Boolean status;
+    private OperationStatusType status;
 
     /**
      * 访问时间

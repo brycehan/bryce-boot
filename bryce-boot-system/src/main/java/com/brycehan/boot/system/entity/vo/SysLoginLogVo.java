@@ -4,6 +4,8 @@ import com.alibaba.excel.annotation.ExcelIgnoreUnannotated;
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.alibaba.excel.annotation.write.style.ColumnWidth;
 import com.brycehan.boot.common.base.Trans;
+import com.brycehan.boot.common.enums.OperationStatusType;
+import com.brycehan.boot.common.enums.StatusType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -95,7 +97,7 @@ public class SysLoginLogVo implements Serializable {
      */
     @Schema(description = "状态（0：失败，1：成功）")
     @Trans(dict = "sys_operate_status", ref = "statusLabel")
-    private Boolean status;
+    private OperationStatusType status;
 
     /**
      * 状态（0：失败，1：成功）

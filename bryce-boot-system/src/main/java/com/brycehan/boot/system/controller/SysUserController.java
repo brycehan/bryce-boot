@@ -8,7 +8,7 @@ import com.brycehan.boot.common.response.ResponseResult;
 import com.brycehan.boot.common.validator.SaveGroup;
 import com.brycehan.boot.common.validator.UpdateGroup;
 import com.brycehan.boot.framework.operatelog.annotation.OperateLog;
-import com.brycehan.boot.framework.operatelog.annotation.OperateType;
+import com.brycehan.boot.framework.operatelog.annotation.OperatedType;
 import com.brycehan.boot.system.entity.dto.*;
 import com.brycehan.boot.system.entity.vo.SysUserVo;
 import com.brycehan.boot.system.service.SysUserService;
@@ -44,7 +44,7 @@ public class SysUserController {
      * @return 响应结果
      */
     @Operation(summary = "保存系统用户")
-    @OperateLog(type = OperateType.INSERT)
+    @OperateLog(type = OperatedType.INSERT)
     @PreAuthorize("hasAuthority('system:user:save')")
     @PostMapping
     public ResponseResult<Void> save(@Validated(value = SaveGroup.class) @RequestBody SysUserDto sysUserDto) {
@@ -59,7 +59,7 @@ public class SysUserController {
      * @return 响应结果
      */
     @Operation(summary = "更新系统用户")
-    @OperateLog(type = OperateType.UPDATE)
+    @OperateLog(type = OperatedType.UPDATE)
     @PreAuthorize("hasAuthority('system:user:update')")
     @PutMapping
     public ResponseResult<Void> update(@Validated(value = UpdateGroup.class) @RequestBody SysUserDto sysUserDto) {
@@ -74,7 +74,7 @@ public class SysUserController {
      * @return 响应结果
      */
     @Operation(summary = "删除系统用户")
-    @OperateLog(type = OperateType.DELETE)
+    @OperateLog(type = OperatedType.DELETE)
     @PreAuthorize("hasAuthority('system:user:delete')")
     @DeleteMapping
     public ResponseResult<Void> delete(@Validated @RequestBody IdsDto idsDto) {
@@ -135,7 +135,7 @@ public class SysUserController {
      * @return 响应结果
      */
     @Operation(summary = "导入用户")
-    @OperateLog(type = OperateType.IMPORT)
+    @OperateLog(type = OperatedType.IMPORT)
     @PreAuthorize("hasAuthority('system:user:import')")
     @PostMapping(path = "/import")
     public ResponseResult<Void> importByExcel(@RequestParam MultipartFile file) {
@@ -155,7 +155,7 @@ public class SysUserController {
      * @return 响应结果
      */
     @Operation(summary = "重置密码")
-    @OperateLog(type = OperateType.UPDATE)
+    @OperateLog(type = OperatedType.UPDATE)
     @PreAuthorize("hasAuthority('system:user:resetPassword')")
     @PostMapping(path = "/resetPassword")
     public ResponseResult<Void> resetPassword(@Validated @RequestBody SysResetPasswordDto sysResetPasswordDto) {
@@ -171,7 +171,7 @@ public class SysUserController {
      * @return 响应结果
      */
     @Operation(summary = "授权用户角色")
-    @OperateLog(type = OperateType.GRANT)
+    @OperateLog(type = OperatedType.GRANT)
     @PreAuthorize("hasAuthority('system:user:grant')")
     @PutMapping(path = "/authRole")
     public ResponseResult<Void> insertAuthRole(Long userId, List<Long> roleIds) {

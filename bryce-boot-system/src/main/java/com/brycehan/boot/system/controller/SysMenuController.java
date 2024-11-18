@@ -7,7 +7,7 @@ import com.brycehan.boot.common.response.ResponseResult;
 import com.brycehan.boot.common.validator.SaveGroup;
 import com.brycehan.boot.common.validator.UpdateGroup;
 import com.brycehan.boot.framework.operatelog.annotation.OperateLog;
-import com.brycehan.boot.framework.operatelog.annotation.OperateType;
+import com.brycehan.boot.framework.operatelog.annotation.OperatedType;
 import com.brycehan.boot.system.common.MenuType;
 import com.brycehan.boot.system.entity.convert.SysMenuConvert;
 import com.brycehan.boot.system.entity.dto.SysMenuAuthorityDto;
@@ -49,7 +49,7 @@ public class SysMenuController {
      * @return 响应结果
      */
     @Operation(summary = "保存系统菜单")
-    @OperateLog(type = OperateType.INSERT)
+    @OperateLog(type = OperatedType.INSERT)
     @PreAuthorize("hasAuthority('system:menu:save')")
     @PostMapping
     public ResponseResult<Void> save(@Validated(value = SaveGroup.class) @RequestBody SysMenuDto sysMenuDto) {
@@ -64,7 +64,7 @@ public class SysMenuController {
      * @return 响应结果
      */
     @Operation(summary = "更新系统菜单")
-    @OperateLog(type = OperateType.UPDATE)
+    @OperateLog(type = OperatedType.UPDATE)
     @PreAuthorize("hasAuthority('system:menu:update')")
     @PutMapping
     public ResponseResult<Void> update(@Validated(value = UpdateGroup.class) @RequestBody SysMenuDto sysMenuDto) {
@@ -79,7 +79,7 @@ public class SysMenuController {
      * @return 响应结果
      */
     @Operation(summary = "删除系统菜单")
-    @OperateLog(type = OperateType.DELETE)
+    @OperateLog(type = OperatedType.DELETE)
     @PreAuthorize("hasAuthority('system:menu:delete')")
     @DeleteMapping
     public ResponseResult<Void> delete(@Validated @RequestBody IdsDto idsDto) {

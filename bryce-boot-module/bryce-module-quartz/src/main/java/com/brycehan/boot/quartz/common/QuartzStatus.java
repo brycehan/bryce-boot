@@ -1,5 +1,7 @@
 package com.brycehan.boot.quartz.common;
 
+import com.baomidou.mybatisplus.annotation.EnumValue;
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -16,12 +18,14 @@ public enum QuartzStatus {
     /**
      * 暂停
      */
-    PAUSE(false),
+    PAUSE(0),
 
     /**
      * 正常
      */
-    NORMAL(true);
+    NORMAL(1);
 
-    private final Boolean value;
+    @EnumValue
+    @JsonValue
+    private final Integer value;
 }

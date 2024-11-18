@@ -1,6 +1,7 @@
 package com.brycehan.boot.common.base;
 
 import com.brycehan.boot.common.enums.SourceClientType;
+import com.brycehan.boot.common.enums.StatusType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
@@ -49,7 +50,7 @@ public class LoginUser implements UserDetails {
 
     private Long orgId;
 
-    private Boolean status;
+    private StatusType status;
 
     private boolean superAdmin;
 

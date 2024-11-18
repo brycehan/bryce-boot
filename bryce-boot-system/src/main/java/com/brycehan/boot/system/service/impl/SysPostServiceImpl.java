@@ -9,7 +9,7 @@ import com.brycehan.boot.common.base.IdGenerator;
 import com.brycehan.boot.common.base.VersionException;
 import com.brycehan.boot.common.entity.PageResult;
 import com.brycehan.boot.common.entity.dto.IdsDto;
-import com.brycehan.boot.common.enums.DataStatusType;
+import com.brycehan.boot.common.enums.StatusType;
 import com.brycehan.boot.common.util.ExcelUtils;
 import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
 import com.brycehan.boot.system.entity.convert.SysPostConvert;
@@ -25,7 +25,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -57,7 +56,6 @@ public class SysPostServiceImpl extends BaseServiceImpl<SysPostMapper, SysPost> 
         this.baseMapper.insert(sysPost);
     }
 
-    @Retryable(retryFor = VersionException.class, backoff = @Backoff(delay = 0))
     public void update(SysPostDto sysPostDto) {
         SysPost sysPost = SysPostConvert.INSTANCE.convert(sysPostDto);
 
@@ -116,7 +114,7 @@ public class SysPostServiceImpl extends BaseServiceImpl<SysPostMapper, SysPost> 
     @Override
     public List<SysPostVo> list(SysPostPageDto sysPostPageDto) {
         // 正常岗位列表
-        sysPostPageDto.setStatus(DataStatusType.ENABLE.value());
+        sysPostPageDto.setStatus(StatusType.ENABLE);
         List<SysPost> sysPostList = this.baseMapper.selectList(getWrapper(sysPostPageDto));
 
         return SysPostConvert.INSTANCE.convert(sysPostList);

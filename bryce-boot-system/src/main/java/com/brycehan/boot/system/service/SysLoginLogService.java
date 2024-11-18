@@ -1,6 +1,8 @@
 package com.brycehan.boot.system.service;
 
 import com.brycehan.boot.common.entity.PageResult;
+import com.brycehan.boot.common.enums.OperationStatusType;
+import com.brycehan.boot.common.enums.StatusType;
 import com.brycehan.boot.framework.mybatis.service.BaseService;
 import com.brycehan.boot.system.entity.dto.SysLoginLogDto;
 import com.brycehan.boot.system.entity.dto.SysLoginLogPageDto;
@@ -51,5 +53,5 @@ public interface SysLoginLogService extends BaseService<SysLoginLog> {
      * @param status   登录状态
      * @param info     操作信息
      */
-    void save(String username, boolean status, Integer info);
+    void save(String username, OperationStatusType status, Integer info);
 }

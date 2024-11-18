@@ -1,7 +1,6 @@
 package com.brycehan.boot.framework.security;
 
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.json.JSONUtil;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
@@ -9,6 +8,7 @@ import com.brycehan.boot.common.base.LoginUser;
 import com.brycehan.boot.common.base.LoginUserContextHolder;
 import com.brycehan.boot.common.response.HttpResponseStatus;
 import com.brycehan.boot.common.response.ResponseResult;
+import com.brycehan.boot.common.util.JsonUtils;
 import com.brycehan.boot.common.util.ServletUtils;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -73,7 +73,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if(StringUtils.isNotEmpty(userKey)) {
             loginUser = this.jwtTokenProvider.loadLoginUser(userKey);
         } else if (StringUtils.isNotEmpty(userData)) {
-            loginUser = JSONUtil.toBean(URLDecoder.decode(userData, StandardCharsets.UTF_8), LoginUser.class);
+            loginUser = JsonUtils.readValue(URLDecoder.decode(userData, StandardCharsets.UTF_8), LoginUser.class);
         }
 
         if(loginUser == null) {

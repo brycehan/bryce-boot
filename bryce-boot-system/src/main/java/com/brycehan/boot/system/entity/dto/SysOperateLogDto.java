@@ -1,8 +1,10 @@
 package com.brycehan.boot.system.entity.dto;
 
 import com.brycehan.boot.common.entity.BaseDto;
+import com.brycehan.boot.common.enums.OperationStatusType;
 import com.brycehan.boot.common.validator.SaveGroup;
 import com.brycehan.boot.common.validator.UpdateGroup;
+import com.brycehan.boot.framework.operatelog.annotation.OperatedType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Null;
@@ -77,8 +79,8 @@ public class SysOperateLogDto extends BaseDto {
      * 操作类型
      */
     @Schema(description = "操作类型")
-    @Size(max = 20, groups = {SaveGroup.class, UpdateGroup.class})
-    private String operatedType;
+//    @Size(max = 20, groups = {SaveGroup.class, UpdateGroup.class})
+    private OperatedType operatedType;
 
     /**
      * 操作时间
@@ -96,7 +98,7 @@ public class SysOperateLogDto extends BaseDto {
      * 操作状态（0：失败，1：成功）
      */
     @Schema(description = "操作状态（0：失败，1：成功）")
-    private Boolean status;
+    private OperationStatusType status;
 
     /**
      * User Agent
