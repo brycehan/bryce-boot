@@ -2,9 +2,9 @@ package com.brycehan.boot.system.entity.dto;
 
 import com.brycehan.boot.common.entity.BaseDto;
 import com.brycehan.boot.common.enums.OperationStatusType;
-import com.brycehan.boot.common.enums.StatusType;
 import com.brycehan.boot.common.validator.SaveGroup;
 import com.brycehan.boot.common.validator.UpdateGroup;
+import com.brycehan.boot.common.enums.LoginOperateType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
@@ -34,8 +34,7 @@ public class SysLoginLogDto extends BaseDto {
      * 操作信息
      */
     @Schema(description = "操作信息")
-    @Size(max = 255, groups = {SaveGroup.class, UpdateGroup.class})
-    private Integer info;
+    private LoginOperateType info;
 
     /**
      * 登录IP地址

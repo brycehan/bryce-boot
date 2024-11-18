@@ -148,7 +148,7 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
         this.baseMapper.updateById(sysRole);
 
         // 更新角色数据范围关系
-        if (dataScopeDto.getDataScope().equals(DataScopeType.CUSTOM.value())) {
+        if (dataScopeDto.getDataScope() == DataScopeType.CUSTOM) {
             this.sysRoleDataScopeService.saveOrUpdate(dataScopeDto.getId(), dataScopeDto.getOrgIds());
         } else {
             this.sysRoleDataScopeService.deleteByRoleIds(Collections.singletonList(dataScopeDto.getId()));

@@ -14,22 +14,6 @@ import static java.time.format.DateTimeFormatter.ISO_TIME;
  */
 public class DataConstants {
 
-    /** 通用成功标识 */
-    public static final boolean SUCCESS = true;
-
-    /** 通用失败标识 */
-    public static final boolean FAIL = false;
-
-    /**
-     * 是
-     */
-    public static final String YES = "Y";
-
-    /**
-     * 否
-     */
-    public static final String NO = "N";
-
     /**
      * 默认角色ID
      */
@@ -39,9 +23,9 @@ public class DataConstants {
     public static final String PAGE = "page";
 
     /**
-     * 分页条数
+     * 默认分页条数
      */
-    public static final int pageSize = 20;
+    public static final int pageSize = 10;
 
     /** 根ID */
     public static final Long TREE_ROOT_ID = 0L;

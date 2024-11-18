@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.brycehan.boot.common.enums.OperationStatusType;
-import com.brycehan.boot.common.enums.StatusType;
+import com.brycehan.boot.common.enums.LoginOperateType;
 import lombok.Data;
 
 import java.io.Serial;
@@ -39,7 +39,7 @@ public class SysLoginLog implements Serializable {
     /**
      * 操作信息
      */
-    private Integer info;
+    private LoginOperateType info;
 
     /**
      * 登录IP地址

@@ -1,8 +1,7 @@
 package com.brycehan.boot.common.enums;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import lombok.RequiredArgsConstructor;
+import lombok.Getter;
 
 /**
  * 请求来源客户端类型
@@ -10,7 +9,7 @@ import lombok.RequiredArgsConstructor;
  * @author Bryce Han
  * @since 2024/4/7
  */
-@RequiredArgsConstructor
+@Getter
 public enum SourceClientType {
     PC("pc"),
     H5("h5"),
@@ -22,8 +21,8 @@ public enum SourceClientType {
     @JsonValue
     private final String value;
 
-    public String value() {
-        return value;
+    SourceClientType(String value) {
+        this.value = value;
     }
 
     /**
@@ -32,7 +31,6 @@ public enum SourceClientType {
      * @param value 值
      * @return 枚举
      */
-    @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
     public static SourceClientType getByValue(String value) {
         for (SourceClientType sourceClientType : values()) {
             if (sourceClientType.value.equals(value)) {

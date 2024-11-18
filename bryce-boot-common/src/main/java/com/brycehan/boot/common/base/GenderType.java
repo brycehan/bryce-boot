@@ -3,7 +3,6 @@ package com.brycehan.boot.common.base;
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 /**
  * 性别类型
@@ -12,24 +11,29 @@ import lombok.RequiredArgsConstructor;
  * @since 2023/11/23
  */
 @Getter
-@RequiredArgsConstructor
 public enum GenderType {
     /**
      * 男
      */
-    MALE("M"),
+    MALE("M", "男"),
     /**
      * 女
      */
-    FEMALE("F"),
+    FEMALE("F", "女"),
 
     /**
      * 未知
      */
-    UNKNOWN("N");
+    UNKNOWN("N", "未知");
 
     @EnumValue
     @JsonValue
     private final String value;
+    private final String desc;
+
+    GenderType(String value, String desc) {
+        this.value = value;
+        this.desc = desc;
+    }
 
 }

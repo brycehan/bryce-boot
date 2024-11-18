@@ -1,7 +1,6 @@
 package com.brycehan.boot.quartz.entity.dto;
 
 import com.brycehan.boot.common.entity.BaseDto;
-import com.brycehan.boot.common.enums.StatusType;
 import com.brycehan.boot.common.validator.SaveGroup;
 import com.brycehan.boot.common.validator.UpdateGroup;
 import com.brycehan.boot.quartz.common.QuartzStatus;

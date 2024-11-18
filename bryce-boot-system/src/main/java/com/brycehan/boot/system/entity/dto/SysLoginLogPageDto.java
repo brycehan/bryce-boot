@@ -1,7 +1,7 @@
 package com.brycehan.boot.system.entity.dto;
 
 import com.brycehan.boot.common.entity.BasePageDto;
-import com.brycehan.boot.common.enums.StatusType;
+import com.brycehan.boot.common.enums.OperationStatusType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
@@ -42,7 +42,7 @@ public class SysLoginLogPageDto extends BasePageDto {
      * 状态（0：失败，1：成功）
      */
     @Schema(description = "状态（0：失败，1：成功）")
-    private StatusType status;
+    private OperationStatusType status;
 
     /**
      * 访问时间开始

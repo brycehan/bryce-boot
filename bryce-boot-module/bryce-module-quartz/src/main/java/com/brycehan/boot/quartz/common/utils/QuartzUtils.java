@@ -1,7 +1,7 @@
 package com.brycehan.boot.quartz.common.utils;
 
 import cn.hutool.core.date.DateUtil;
-import com.brycehan.boot.common.constant.DataConstants;
+import com.brycehan.boot.common.enums.YesNoType;
 import com.brycehan.boot.quartz.common.QuartzStatus;
 import com.brycehan.boot.quartz.entity.po.QuartzJob;
 import lombok.extern.slf4j.Slf4j;
@@ -177,7 +177,7 @@ public class QuartzUtils {
      * @return quartz 任务类
      */
     private static Class<? extends Job> getJobClass(QuartzJob quartzJob) {
-        if(quartzJob.getConcurrent().equals(DataConstants.YES)) {
+        if(quartzJob.getConcurrent() == YesNoType.YES) {
             return ConcurrentQuartzJob.class;
         } else {
             return NonConcurrentQuartzJob.class;

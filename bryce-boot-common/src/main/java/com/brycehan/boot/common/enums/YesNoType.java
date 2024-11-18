@@ -5,24 +5,25 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 
 /**
- * 操作状态
+ * 是/否类型
  *
- * @since 2022/11/21
  * @author Bryce Han
+ * @since 2024/11/18
  */
 @Getter
-public enum OperationStatusType {
+public enum YesNoType {
 
-    /** 操作成功 */
-    SUCCESS(1),
-    /** 操作失败 */
-    FAIL(0);
-    /** 操作状态值 */
+    YES("Y", "是"),
+    NO("N", "否");
+
     @JsonValue
     @EnumValue
-    private final Integer value;
+    private final String value;
+    private final String desc;
 
-    OperationStatusType(Integer value) {
+    YesNoType(String value, String desc) {
         this.value = value;
+        this.desc = desc;
     }
+
 }

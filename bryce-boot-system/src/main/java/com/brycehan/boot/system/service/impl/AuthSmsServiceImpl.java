@@ -49,7 +49,7 @@ public class AuthSmsServiceImpl implements AuthSmsService {
         }
 
         if (!this.smsEnabled(smsType)) {
-            throw new RuntimeException(smsType.desc() + "短信功能未开启");
+            throw new RuntimeException(smsType.getDesc() + "短信功能未开启");
         }
 
         if (!RegexUtils.isPhoneValid(phone)) {

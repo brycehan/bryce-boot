@@ -2,7 +2,7 @@ package com.brycehan.boot.quartz.entity.po;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.brycehan.boot.common.entity.BaseEntity;
-import com.brycehan.boot.common.enums.StatusType;
+import com.brycehan.boot.common.enums.YesNoType;
 import com.brycehan.boot.quartz.common.QuartzStatus;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -56,7 +56,7 @@ public class QuartzJob extends BaseEntity {
     /**
      * 是否并发执行（N：否，Y：是）
      */
-    private String concurrent;
+    private YesNoType concurrent;
 
     /**
      * 显示顺序

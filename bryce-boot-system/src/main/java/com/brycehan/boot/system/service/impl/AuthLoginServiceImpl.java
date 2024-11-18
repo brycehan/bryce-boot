@@ -3,7 +3,6 @@ package com.brycehan.boot.system.service.impl;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.brycehan.boot.common.base.LoginUser;
 import com.brycehan.boot.common.base.LoginUserContext;
-import com.brycehan.boot.common.constant.DataConstants;
 import com.brycehan.boot.common.constant.JwtConstants;
 import com.brycehan.boot.common.entity.dto.AccountLoginDto;
 import com.brycehan.boot.common.entity.dto.PhoneLoginDto;
@@ -12,7 +11,7 @@ import com.brycehan.boot.common.enums.CaptchaType;
 import com.brycehan.boot.common.enums.OperationStatusType;
 import com.brycehan.boot.framework.security.JwtTokenProvider;
 import com.brycehan.boot.framework.security.phone.PhoneCodeAuthenticationToken;
-import com.brycehan.boot.system.common.LoginOperateType;
+import com.brycehan.boot.common.enums.LoginOperateType;
 import com.brycehan.boot.system.entity.po.SysUser;
 import com.brycehan.boot.system.service.*;
 import jakarta.validation.constraints.NotNull;
@@ -57,7 +56,7 @@ public class AuthLoginServiceImpl implements AuthLoginService {
         boolean validated = this.authCaptchaService.validate(accountLoginDto.getKey(), accountLoginDto.getCode(), CaptchaType.LOGIN);
         if (!validated) {
             // 保存登录日志
-            this.sysLoginLogService.save(accountLoginDto.getUsername(), OperationStatusType.FAIL, LoginOperateType.CAPTCHA_FAIL.getValue());
+            this.sysLoginLogService.save(accountLoginDto.getUsername(), OperationStatusType.FAIL, LoginOperateType.CAPTCHA_FAIL);
             throw new RuntimeException("验证码错误");
         }
 
@@ -149,7 +148,7 @@ public class AuthLoginServiceImpl implements AuthLoginService {
         }
 
         // 记录用户退出日志
-        this.sysLoginLogService.save(loginUser.getUsername(), OperationStatusType.SUCCESS, LoginOperateType.LOGOUT_SUCCESS.getValue());
+        this.sysLoginLogService.save(loginUser.getUsername(), OperationStatusType.SUCCESS, LoginOperateType.LOGOUT_SUCCESS);
     }
 
 }

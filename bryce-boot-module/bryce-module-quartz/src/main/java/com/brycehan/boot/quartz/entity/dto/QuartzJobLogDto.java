@@ -1,6 +1,7 @@
 package com.brycehan.boot.quartz.entity.dto;
 
 import com.brycehan.boot.common.entity.BaseDto;
+import com.brycehan.boot.common.enums.OperationStatusType;
 import com.brycehan.boot.common.validator.SaveGroup;
 import com.brycehan.boot.common.validator.UpdateGroup;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -76,7 +77,7 @@ public class QuartzJobLogDto extends BaseDto {
      * 执行状态（0：失败，1：成功）
      */
     @Schema(description = "执行状态（0：失败，1：成功）")
-    private Boolean executeStatus;
+    private OperationStatusType executeStatus;
 
     /**
      * 执行时长（毫秒）

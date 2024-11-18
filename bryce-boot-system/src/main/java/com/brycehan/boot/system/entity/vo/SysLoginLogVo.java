@@ -5,7 +5,7 @@ import com.alibaba.excel.annotation.ExcelProperty;
 import com.alibaba.excel.annotation.write.style.ColumnWidth;
 import com.brycehan.boot.common.base.Trans;
 import com.brycehan.boot.common.enums.OperationStatusType;
-import com.brycehan.boot.common.enums.StatusType;
+import com.brycehan.boot.common.enums.LoginOperateType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -44,9 +44,8 @@ public class SysLoginLogVo implements Serializable {
     /**
      * 操作信息
      */
-    @Trans(dict = "sys_login_status", ref = "infoLabel")
     @Schema(description = "操作信息")
-    private Integer info;
+    private LoginOperateType info;
 
     @ColumnWidth(14)
     @ExcelProperty(value = "操作信息", index = 1)
@@ -122,4 +121,10 @@ public class SysLoginLogVo implements Serializable {
     @ExcelProperty(value = "创建时间", index = 9)
     private LocalDateTime createdTime;
 
+    public String getInfoLabel() {
+        if (info != null) {
+            return info.getDesc();
+        }
+        return infoLabel;
+    }
 }

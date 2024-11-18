@@ -6,7 +6,6 @@ package com.brycehan.boot.common.base;
  * @author Bryce Han
  * @since 2024/6/23
  */
-@SuppressWarnings("unused")
 public enum DesensitizedType {
     /**
      * 用户ID

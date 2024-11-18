@@ -30,7 +30,7 @@ public class RedisKeys {
      * @return 验证码key
      */
     public static String getSmsCodeKey(String phone, SmsType smsType) {
-        return CacheConstants.SMS_CODE_KEY + smsType.value() + ":" + phone;
+        return CacheConstants.SMS_CODE_KEY + smsType.getValue() + ":" + phone;
     }
 
     /**
