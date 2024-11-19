@@ -1,24 +1,38 @@
+/**
+    drop table if exists brc_quartz_job;
+    drop table if exists brc_quartz_job_log;
+    drop table if exists qrtz_fired_triggers;
+    drop table if exists qrtz_paused_trigger_grps;
+    drop table if exists qrtz_scheduler_state;
+    drop table if exists qrtz_locks;
+    drop table if exists qrtz_simple_triggers;
+    drop table if exists qrtz_simprop_triggers;
+    drop table if exists qrtz_cron_triggers;
+    drop table if exists qrtz_blob_triggers;
+    drop table if exists qrtz_triggers;
+    drop table if exists qrtz_job_details;
+    drop table if exists qrtz_calendars;
+ */
 -- 初始化-菜单数据
 -- 二级菜单
-INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (111, '定时任务', 'M', 2, 'quartz/job/index', 'quartz:job:page', 'icon-reloadtime', false, 1, '定时任务菜单', true, null, 1, now(), null, null);
-INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (143, '定时任务日志', 'M', 5, 'quartz/jobLog/index', 'quartz:jobLog:page', 'icon-menu', false, 3, '定时任务日志菜单', true, null, 1, now(), null, null);
+INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (111, '定时任务', 'M', 2, 'quartz/job/index', 'quartz:job:page', 'icon-reloadtime', 0, 1, '定时任务菜单', 1, null, 1, now(), 1, now());
+INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (143, '定时任务日志', 'M', 5, 'quartz/jobLog/index', 'quartz:jobLog:page', 'icon-menu', 0, 3, '定时任务日志菜单', 1, null, 1, now(), 1, now());
 -- 三级菜单
-INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1111, '定时任务新增', 'B', 111, null, 'quartz:job:save', '', false, 1, null, true, null, 1, now(), null, null);
-INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1112, '定时任务修改', 'B', 111, null, 'quartz:job:update', '', false, 2, null, true, null, 1, now(), null, null);
-INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1113, '定时任务删除', 'B', 111, null, 'quartz:job:delete', '', false, 3, null, true, null, 1, now(), null, null);
-INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1114, '定时任务详情', 'B', 111, null, 'quartz:job:info', '', false, 4, null, true, null, 1, now(), null, null);
-INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1115, '定时任务导出', 'B', 111, null, 'quartz:job:export', '', false, 5, null, true, null, 1, now(), null, null);
-INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1116, '定时任务导入', 'B', 111, null, 'quartz:job:import', '', false, 6, null, true, null, 1, now(), null, null);
-INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1117, '定时任务立即执行', 'B', 111, null, 'quartz:job:run', '', false, 7, null, true, null, 1, now(), null, null);
-INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1431, '定时任务日志新增', 'B', 143, null, 'quartz:jobLog:save', '', false, 1, null, true, null, 1, now(), null, null);
-INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1432, '定时任务日志修改', 'B', 143, null, 'quartz:jobLog:update', '', false, 2, null, true, null, 1, now(), null, null);
-INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1433, '定时任务日志删除', 'B', 143, null, 'quartz:jobLog:delete', '', false, 3, null, true, null, 1, now(), null, null);
-INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1434, '定时任务日志详情', 'B', 143, null, 'quartz:jobLog:info', '', false, 4, null, true, null, 1, now(), null, null);
-INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1435, '定时任务日志导出', 'B', 143, null, 'quartz:jobLog:export', '', false, 5, null, true, null, 1, now(), null, null);
-INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1436, '定时任务日志导入', 'B', 143, null, 'quartz:jobLog:import', '', false, 6, null, true, null, 1, now(), null, null);
+INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1111, '定时任务新增', 'B', 111, null, 'quartz:job:save', '', 0, 1, null, 1, null, 1, now(), 1, now());
+INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1112, '定时任务修改', 'B', 111, null, 'quartz:job:update', '', 0, 2, null, 1, null, 1, now(), 1, now());
+INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1113, '定时任务删除', 'B', 111, null, 'quartz:job:delete', '', 0, 3, null, 1, null, 1, now(), 1, now());
+INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1114, '定时任务详情', 'B', 111, null, 'quartz:job:info', '', 0, 4, null, 1, null, 1, now(), 1, now());
+INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1115, '定时任务导出', 'B', 111, null, 'quartz:job:export', '', 0, 5, null, 1, null, 1, now(), 1, now());
+INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1116, '定时任务导入', 'B', 111, null, 'quartz:job:import', '', 0, 6, null, 1, null, 1, now(), 1, now());
+INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1117, '定时任务立即执行', 'B', 111, null, 'quartz:job:run', '', 0, 7, null, 1, null, 1, now(), 1, now());
+INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1431, '定时任务日志新增', 'B', 143, null, 'quartz:jobLog:save', '', 0, 1, null, 1, null, 1, now(), 1, now());
+INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1432, '定时任务日志修改', 'B', 143, null, 'quartz:jobLog:update', '', 0, 2, null, 1, null, 1, now(), 1, now());
+INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1433, '定时任务日志删除', 'B', 143, null, 'quartz:jobLog:delete', '', 0, 3, null, 1, null, 1, now(), 1, now());
+INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1434, '定时任务日志详情', 'B', 143, null, 'quartz:jobLog:info', '', 0, 4, null, 1, null, 1, now(), 1, now());
+INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1435, '定时任务日志导出', 'B', 143, null, 'quartz:jobLog:export', '', 0, 5, null, 1, null, 1, now(), 1, now());
+INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1436, '定时任务日志导入', 'B', 143, null, 'quartz:jobLog:import', '', 0, 6, null, 1, null, 1, now(), 1, now());
 
 -- 1、quartz定时任务调度表
-drop table if exists brc_quartz_job;
 create table brc_quartz_job
 (
     id              bigint       not null primary key,
@@ -30,7 +44,7 @@ create table brc_quartz_job
     cron_expression varchar(255),
     concurrent      char        default 'N',
     sort            integer     default 0,
-    status          boolean     default true,
+    status          smallint    default 1,
     remark          varchar(500),
     deleted         timestamp,
     created_user_id bigint,
@@ -58,10 +72,9 @@ comment on column brc_quartz_job.updated_user_id is '修改者ID';
 comment on column brc_quartz_job.updated_time is '修改时间';
 
 -- 初始化- quartz定时任务调度表数据
-INSERT INTO brc_quartz_job (id, job_name, job_group, bean_name, method, params, cron_expression, concurrent, sort, status, remark, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1, '测试任务', 'SYSTEM', 'testTaskServiceImpl', 'run', 'test', '0 * * * * ? *', 'N', 0, false, '', null, 1, now(), null, null);
+INSERT INTO brc_quartz_job (id, job_name, job_group, bean_name, method, params, cron_expression, concurrent, sort, status, remark, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1, '测试任务', 'SYSTEM', 'testTaskServiceImpl', 'run', 'test', '0 * * * * ? *', 'N', 0, 0, '', null, 1, now(), 1, now());
 
 -- 2、quartz定时任务调度日志表
-drop table if exists brc_quartz_job_log;
 create table brc_quartz_job_log
 (
     id             bigint       not null,
@@ -71,7 +84,7 @@ create table brc_quartz_job_log
     bean_name      varchar(200) not null,
     method         varchar(100) not null,
     params         varchar(500),
-    execute_status boolean default false,
+    execute_status smallint default 0,
     duration       integer      not null,
     error_info     varchar(3000),
     created_time   timestamp
@@ -91,18 +104,6 @@ comment on column brc_quartz_job_log.error_info is '异常信息';
 comment on column brc_quartz_job_log.created_time is '创建时间';
 
 -- 3、quartz 框架自带的表结构
-drop table if exists qrtz_fired_triggers;
-drop table if exists qrtz_paused_trigger_grps;
-drop table if exists qrtz_scheduler_state;
-drop table if exists qrtz_locks;
-drop table if exists qrtz_simple_triggers;
-drop table if exists qrtz_simprop_triggers;
-drop table if exists qrtz_cron_triggers;
-drop table if exists qrtz_blob_triggers;
-drop table if exists qrtz_triggers;
-drop table if exists qrtz_job_details;
-drop table if exists qrtz_calendars;
-
 create table qrtz_job_details
 (
     sched_name        varchar(120) not null,

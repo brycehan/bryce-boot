@@ -3,7 +3,6 @@ package com.brycehan.boot.framework.operatelog.annotation;
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 /**
  * 操作类型

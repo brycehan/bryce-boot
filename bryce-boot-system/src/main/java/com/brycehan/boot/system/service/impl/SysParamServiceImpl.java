@@ -13,7 +13,6 @@ import com.brycehan.boot.common.entity.dto.IdsDto;
 import com.brycehan.boot.common.util.ExcelUtils;
 import com.brycehan.boot.common.util.JsonUtils;
 import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
-import com.brycehan.boot.common.enums.ParamType;
 import com.brycehan.boot.system.entity.convert.SysParamConvert;
 import com.brycehan.boot.system.entity.dto.SysParamDto;
 import com.brycehan.boot.system.entity.dto.SysParamKeyDto;
@@ -105,9 +104,13 @@ public class SysParamServiceImpl extends BaseServiceImpl<SysParamMapper, SysPara
         List<SysParam> sysParams = this.baseMapper.selectByIds(ids);
 
         // 删除缓存
-        Object[] paramKeys = sysParams.stream().map(SysParam::getParamKey).toArray();
-        this.stringRedisTemplate.opsForHash()
-                .delete(CacheConstants.SYSTEM_PARAM_KEY, paramKeys);
+        List<String> list = sysParams.stream().map(SysParam::getParamKey).toList();
+
+        if (!CollectionUtils.isEmpty(list)) {
+            this.stringRedisTemplate.opsForHash()
+                    .delete(CacheConstants.SYSTEM_PARAM_KEY, list);
+        }
+
     }
 
     @Override

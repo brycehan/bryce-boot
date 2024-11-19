@@ -46,13 +46,13 @@ public abstract class BaseEntity implements Serializable {
     /**
      * 修改者ID
      */
-    @TableField(fill = FieldFill.UPDATE, updateStrategy = FieldStrategy.NOT_NULL)
+    @TableField(fill = FieldFill.INSERT_UPDATE, updateStrategy = FieldStrategy.NOT_NULL)
     private Long updatedUserId;
 
     /**
      * 修改时间
      */
-    @TableField(fill = FieldFill.UPDATE)
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updatedTime;
 
 }

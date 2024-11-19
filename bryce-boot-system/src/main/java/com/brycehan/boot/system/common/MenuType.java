@@ -3,7 +3,6 @@ package com.brycehan.boot.system.common;
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 /**
  * 菜单类型
@@ -16,7 +15,8 @@ public enum MenuType {
 
     MENU("M", "菜单"),
     BUTTON("B", "按钮"),
-    INTERFACE("I", "接口");
+    INTERFACE("I", "接口"),
+    ;
 
     /**
      * 类型值

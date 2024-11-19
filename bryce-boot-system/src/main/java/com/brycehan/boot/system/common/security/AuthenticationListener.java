@@ -1,8 +1,8 @@
 package com.brycehan.boot.system.common.security;
 
 import com.brycehan.boot.common.base.LoginUser;
-import com.brycehan.boot.common.enums.OperationStatusType;
 import com.brycehan.boot.common.enums.LoginOperateType;
+import com.brycehan.boot.common.enums.OperationStatusType;
 import com.brycehan.boot.system.service.AuthLoginService;
 import com.brycehan.boot.system.service.SysLoginLogService;
 import lombok.RequiredArgsConstructor;

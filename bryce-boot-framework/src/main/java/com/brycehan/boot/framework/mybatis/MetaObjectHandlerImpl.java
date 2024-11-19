@@ -23,10 +23,15 @@ public class MetaObjectHandlerImpl implements MetaObjectHandler {
             strictInsertFill(metaObject, "createdUserId", Long.class, loginUser.getId());
             // 创建者所属机构
             strictInsertFill(metaObject, "orgId", Long.class, loginUser.getOrgId());
+            // 更新者ID
+            strictInsertFill(metaObject, "updatedUserId", Long.class, loginUser.getId());
         }
 
+        LocalDateTime now = LocalDateTime.now();
         // 创建时间
-        strictInsertFill(metaObject, "createdTime", LocalDateTime.class, LocalDateTime.now());
+        strictInsertFill(metaObject, "createdTime", LocalDateTime.class, now);
+        // 更新时间
+        strictInsertFill(metaObject, "updatedTime", LocalDateTime.class, now);
     }
 
     @Override
