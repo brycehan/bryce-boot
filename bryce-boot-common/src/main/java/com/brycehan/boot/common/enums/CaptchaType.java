@@ -2,6 +2,7 @@ package com.brycehan.boot.common.enums;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 /**
  * 验证码类型
@@ -11,19 +12,24 @@ import lombok.Getter;
  */
 @Getter
 public enum CaptchaType {
-    /**
-     * 登录
-     */
-    LOGIN("login"),
-    /**
-     * 注册
-     */
-    REGISTER("register");
 
+    LOGIN("login", "登录"),
+    REGISTER("register", "注册");
+
+    /**
+     * 类型值
+     */
     @JsonValue
     private final String value;
 
-    CaptchaType(String value) {
+    /**
+     * 描述
+     */
+    private final String desc;
+
+    CaptchaType(String value, String desc) {
         this.value = value;
+        this.desc = desc;
     }
+
 }

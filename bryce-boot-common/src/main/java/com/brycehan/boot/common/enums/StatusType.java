@@ -12,22 +12,25 @@ import lombok.Getter;
  */
 @Getter
 public enum StatusType {
-    /**
-     * 正常
-     */
+
     ENABLE(1, "正常"),
-    /**
-     * 停用
-     */
     DISABLE(0, "停用");
 
+    /**
+     * 状态值
+     */
     @JsonValue
     @EnumValue
     private final Integer value;
+
+    /**
+     * 描述
+     */
     private final String desc;
 
     StatusType(Integer value, String desc) {
         this.value = value;
         this.desc = desc;
     }
+
 }

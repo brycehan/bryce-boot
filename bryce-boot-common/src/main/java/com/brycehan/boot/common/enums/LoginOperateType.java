@@ -12,30 +12,27 @@ import lombok.Getter;
  */
 @Getter
 public enum LoginOperateType {
-    /**
-     * 登录成功
-     */
+
     LOGIN_SUCCESS(0, "登录成功"),
-    /**
-     * 退出成功
-     */
     LOGOUT_SUCCESS(1, "退出成功"),
-    /**
-     * 验证码错误
-     */
     CAPTCHA_FAIL(2, "验证码错误"),
-    /**
-     * 账号密码错误
-     */
     ACCOUNT_FAIL(3, "账号不存在/密码错误");
 
+    /**
+     * 类型值
+     */
     @JsonValue
     @EnumValue
-    private final int value;
+    private final Integer value;
+
+    /**
+     * 描述
+     */
     private final String desc;
 
-    LoginOperateType(int value, String desc) {
+    LoginOperateType(Integer value, String desc) {
         this.value = value;
         this.desc = desc;
     }
+
 }

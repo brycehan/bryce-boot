@@ -12,18 +12,9 @@ import lombok.Getter;
  */
 @Getter
 public enum GenderType {
-    /**
-     * 男
-     */
-    MALE("M", "男"),
-    /**
-     * 女
-     */
-    FEMALE("F", "女"),
 
-    /**
-     * 未知
-     */
+    MALE("M", "男"),
+    FEMALE("F", "女"),
     UNKNOWN("N", "未知");
 
     @EnumValue

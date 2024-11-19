@@ -11,18 +11,28 @@ import lombok.Getter;
  */
 @Getter
 public enum SourceClientType {
-    PC("pc"),
-    H5("h5"),
-    APP("app"),
-    MINI_APP("miniApp"),
-    UNKNOWN("unknown"),
+
+    PC("pc", "PC"),
+    H5("h5", "H5"),
+    APP("app", "APP"),
+    MINI_APP("miniApp", "小程序"),
+    UNKNOWN("unknown", "未知"),
     ;
 
+    /**
+     * 值
+     */
     @JsonValue
     private final String value;
 
-    SourceClientType(String value) {
+    /**
+     * 描述
+     */
+    private final String desc;
+
+    SourceClientType(String value, String desc) {
         this.value = value;
+        this.desc = desc;
     }
 
     /**

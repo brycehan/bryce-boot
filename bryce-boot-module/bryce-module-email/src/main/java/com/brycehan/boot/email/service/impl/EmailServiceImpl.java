@@ -97,7 +97,7 @@ public class EmailServiceImpl implements EmailService, EmailApi {
 
         // 参数封装
         Context context = new Context();
-        context.setVariable("emailType", emailType.desc());
+        context.setVariable("emailType", emailType.getDesc());
         context.setVariable("verifyCode", toVerifyCodeEmailDto.getVerifyCode());
         context.setVariable("companyName", DataConstants.COMPANY_NAME);
 

@@ -15,8 +15,15 @@ public enum SmsType {
     LOGIN("login", "登录"),
     REGISTER("register", "注册");
 
+    /**
+     * 值
+     */
     @JsonValue
     private final String value;
+
+    /**
+     * 描述
+     */
     private final String desc;
 
     SmsType(String value, String desc) {

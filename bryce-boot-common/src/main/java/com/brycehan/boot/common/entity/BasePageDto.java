@@ -115,7 +115,7 @@ public abstract class BasePageDto implements Serializable {
         if(clazzName.endsWith("PageDto")) {
             clazzName = clazzName.substring(0, clazzName.indexOf("PageDto"));
         }
-        clazzName = clazzName.replace(".dto.", ".entity.");
+        clazzName = clazzName.replace(".dto.", ".po.");
         try {
             return ReflectUtil.hasField(Class.forName(clazzName), fieldName);
         } catch (ClassNotFoundException e) {

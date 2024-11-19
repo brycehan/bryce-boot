@@ -1,4 +1,4 @@
-package com.brycehan.boot.system.common;
+package com.brycehan.boot.common.enums;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -14,12 +14,19 @@ import lombok.Getter;
 @Getter
 public enum ParamType {
 
-    SYSTEM(0, "系统"),
-    BUILD_IN(1, "内置");
+    SYSTEM(0, "系统内置"),
+    APP(1, "应用");
 
+    /**
+     * 类型值
+     */
     @JsonValue
     @EnumValue
     private final Integer value;
+
+    /**
+     * 描述
+     */
     private final String desc;
 
     ParamType(Integer value, String desc) {

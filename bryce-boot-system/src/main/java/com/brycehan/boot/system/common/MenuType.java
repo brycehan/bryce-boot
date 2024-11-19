@@ -13,22 +13,21 @@ import lombok.RequiredArgsConstructor;
  */
 @Getter
 public enum MenuType {
-    /**
-     * 菜单
-     */
+
     MENU("M", "菜单"),
-    /**
-     * 按钮
-     */
     BUTTON("B", "按钮"),
-    /**
-     * 接口
-     */
     INTERFACE("I", "接口");
 
+    /**
+     * 类型值
+     */
     @EnumValue
     @JsonValue
     private final String value;
+
+    /**
+     * 描述
+     */
     private final String desc;
 
     MenuType(String value, String desc) {

@@ -2,6 +2,7 @@ package com.brycehan.boot.system.entity.po;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.brycehan.boot.common.entity.BaseEntity;
+import com.brycehan.boot.common.enums.ParamType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -37,9 +38,9 @@ public class SysParam extends BaseEntity {
     private String paramValue;
 
     /**
-     * 参数类型（built_in：内置，system：系统）
+     * 参数类型（0：内置，0：应用）
      */
-    private String paramType;
+    private ParamType paramType;
 
     /**
      * 备注

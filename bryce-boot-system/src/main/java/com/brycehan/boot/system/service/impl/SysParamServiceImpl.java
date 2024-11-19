@@ -13,7 +13,7 @@ import com.brycehan.boot.common.entity.dto.IdsDto;
 import com.brycehan.boot.common.util.ExcelUtils;
 import com.brycehan.boot.common.util.JsonUtils;
 import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
-import com.brycehan.boot.system.common.ParamType;
+import com.brycehan.boot.common.enums.ParamType;
 import com.brycehan.boot.system.entity.convert.SysParamConvert;
 import com.brycehan.boot.system.entity.dto.SysParamDto;
 import com.brycehan.boot.system.entity.dto.SysParamKeyDto;
@@ -126,7 +126,7 @@ public class SysParamServiceImpl extends BaseServiceImpl<SysParamMapper, SysPara
         LambdaQueryWrapper<SysParam> wrapper = new LambdaQueryWrapper<>();
         wrapper.like(StringUtils.isNotEmpty(sysParamPageDto.getParamName()), SysParam::getParamName, sysParamPageDto.getParamName());
         wrapper.like(StringUtils.isNotEmpty(sysParamPageDto.getParamKey()), SysParam::getParamKey, sysParamPageDto.getParamKey());
-        wrapper.eq(SysParam::getParamType, ParamType.system.name());
+        wrapper.eq(sysParamPageDto.getParamType() != null, SysParam::getParamType, sysParamPageDto.getParamType());
         addTimeRangeCondition(wrapper, SysParam::getCreatedTime, sysParamPageDto.getCreatedTimeStart(), sysParamPageDto.getCreatedTimeEnd());
 
         return wrapper;

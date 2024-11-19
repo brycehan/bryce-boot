@@ -13,16 +13,24 @@ import lombok.Getter;
 @Getter
 public enum OperationStatusType {
 
-    /** 操作成功 */
-    SUCCESS(1),
-    /** 操作失败 */
-    FAIL(0);
-    /** 操作状态值 */
+    SUCCESS(1, "操作成功"),
+    FAIL(0, "操作失败");
+
+    /**
+     * 状态值
+     */
     @JsonValue
     @EnumValue
     private final Integer value;
 
-    OperationStatusType(Integer value) {
+    /**
+     * 描述
+     */
+    private final String desc;
+
+    OperationStatusType(Integer value, String desc) {
         this.value = value;
+        this.desc = desc;
     }
+
 }

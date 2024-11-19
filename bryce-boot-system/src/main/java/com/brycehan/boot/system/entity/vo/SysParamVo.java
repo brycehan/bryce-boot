@@ -1,5 +1,6 @@
 package com.brycehan.boot.system.entity.vo;
 
+import com.brycehan.boot.common.enums.ParamType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -45,10 +46,10 @@ public class SysParamVo implements Serializable {
     private String paramValue;
 
     /**
-     * 参数类型（built_in：内置，system：系统）
+     * 参数类型（0：内置，0：应用）
      */
-    @Schema(description = "参数类型（built_in：内置，system：系统）")
-    private String paramType;
+    @Schema(description = "参数类型（0：内置，0：应用）")
+    private ParamType paramType;
 
     /**
      * 备注

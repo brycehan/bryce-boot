@@ -7,6 +7,7 @@ package com.brycehan.boot.common.base;
  * @since 2024/6/23
  */
 public enum DesensitizedType {
+
     /**
      * 用户ID
      */
