@@ -1,7 +1,7 @@
 package com.brycehan.boot.system.entity.dto;
 
 import com.brycehan.boot.common.entity.BaseDto;
-import com.brycehan.boot.common.enums.DataScopeType;
+import com.brycehan.boot.common.enums.DataScope;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -32,7 +32,7 @@ public class SysRoleDataScopeDto extends BaseDto {
      */
     @Schema(description = "数据范围（1：全部数据，2：本机构及以下机构数据，3：本机构数据，4：本人数据，5：自定义数据）")
     @NotNull(message = "数据范围不能为空")
-    private DataScopeType dataScope;
+    private DataScope dataScope;
 
     /**
      * 机构IDs

@@ -5,33 +5,31 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 
 /**
- * 数据范围类型
+ * 通知类型
  *
- * @since 2022/5/8
+ * @since 2022/11/21
  * @author Bryce Han
  */
 @Getter
-public enum DataScopeType {
+public enum NoticeType {
 
-    ALL(0, "全部数据"),
-    ORG_AND_CHILDREN(1, "本机构及以下机构数据"),
-    ORG_ONLY(2, "本机构数据"),
-    SELF(3, "本人数据"),
-    CUSTOM(4, "自定义数据");
+    NOTICE(0, "通知"),
+    ANNOUNCE(1, "公告"),
+    ;
 
     /**
-     * 类型值
+     * 状态值
      */
-    @EnumValue
     @JsonValue
+    @EnumValue
     private final Integer value;
 
-     /**
+    /**
      * 描述
      */
     private final String desc;
 
-    DataScopeType(Integer value, String desc) {
+    NoticeType(Integer value, String desc) {
         this.value = value;
         this.desc = desc;
     }

@@ -1,7 +1,7 @@
 package com.brycehan.boot.framework.operatelog;
 
 import com.brycehan.boot.common.entity.BaseDto;
-import com.brycehan.boot.common.enums.OperationStatusType;
+import com.brycehan.boot.common.enums.OperateStatus;
 import com.brycehan.boot.framework.operatelog.annotation.OperatedType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -73,7 +73,7 @@ public class OperateLogDto extends BaseDto {
     /**
      * 操作状态（0：失败，1：成功）
      */
-    private OperationStatusType status;
+    private OperateStatus status;
 
     /**
      * User Agent

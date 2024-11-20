@@ -4,8 +4,8 @@ import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.brycehan.boot.common.enums.LoginOperateType;
-import com.brycehan.boot.common.enums.OperationStatusType;
+import com.brycehan.boot.common.enums.LoginStatus;
+import com.brycehan.boot.common.enums.OperateStatus;
 import lombok.Data;
 
 import java.io.Serial;
@@ -39,7 +39,7 @@ public class SysLoginLog implements Serializable {
     /**
      * 操作信息
      */
-    private LoginOperateType info;
+    private LoginStatus info;
 
     /**
      * 登录IP地址
@@ -69,7 +69,7 @@ public class SysLoginLog implements Serializable {
     /**
      * 状态（0：失败，1：成功）
      */
-    private OperationStatusType status;
+    private OperateStatus status;
 
     /**
      * 访问时间

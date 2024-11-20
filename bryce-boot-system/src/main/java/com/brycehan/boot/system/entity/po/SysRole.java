@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.brycehan.boot.common.entity.BaseEntity;
-import com.brycehan.boot.common.enums.DataScopeType;
+import com.brycehan.boot.common.enums.DataScope;
 import com.brycehan.boot.common.enums.StatusType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -38,7 +38,7 @@ public class SysRole extends BaseEntity {
     /**
      * 数据范围（1：全部数据，2：本机构及以下机构数据，3：本机构数据，4：本人数据，5：自定义数据）
      */
-    private DataScopeType dataScope;
+    private DataScope dataScope;
 
     /**
      * 显示顺序

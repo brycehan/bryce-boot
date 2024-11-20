@@ -4,7 +4,7 @@ import cn.hutool.core.date.LocalDateTimeUtil;
 import cn.hutool.core.util.StrUtil;
 import com.brycehan.boot.common.base.LoginUser;
 import com.brycehan.boot.common.base.LoginUserContext;
-import com.brycehan.boot.common.enums.OperationStatusType;
+import com.brycehan.boot.common.enums.OperateStatus;
 import com.brycehan.boot.common.util.IpUtils;
 import com.brycehan.boot.common.util.LocationUtils;
 import com.brycehan.boot.common.util.ServletUtils;
@@ -71,12 +71,12 @@ public class OperateLogAspect {
             Object result = joinPoint.proceed();
 
             // 处理日志
-            handleLog(joinPoint, operateLog, startTime, OperationStatusType.SUCCESS);
+            handleLog(joinPoint, operateLog, startTime, OperateStatus.SUCCESS);
 
             return result;
         } catch (Throwable ex) {
             // 处理日志
-            handleLog(joinPoint, operateLog, startTime, OperationStatusType.FAIL);
+            handleLog(joinPoint, operateLog, startTime, OperateStatus.FAIL);
             throw ex;
         }
     }
@@ -89,7 +89,7 @@ public class OperateLogAspect {
      * @param startTime 操作开始时间
      * @param status 操作状态
      */
-    private void handleLog(final ProceedingJoinPoint joinPoint, OperateLog operateLog, LocalDateTime startTime, OperationStatusType status) {
+    private void handleLog(final ProceedingJoinPoint joinPoint, OperateLog operateLog, LocalDateTime startTime, OperateStatus status) {
         OperateLogDto operateLogDto = new OperateLogDto();
 
         Annotation[] annotations = getClassAnnotations(joinPoint);

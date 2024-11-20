@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.brycehan.boot.common.enums.OperationStatusType;
+import com.brycehan.boot.common.enums.OperateStatus;
 import com.brycehan.boot.framework.operatelog.annotation.OperatedType;
 import lombok.Data;
 
@@ -79,7 +79,7 @@ public class SysOperateLog implements Serializable {
     /**
      * 操作状态（0：失败，1：成功）
      */
-    private OperationStatusType status;
+    private OperateStatus status;
 
     /**
      * User Agent

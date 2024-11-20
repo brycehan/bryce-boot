@@ -1,9 +1,10 @@
 package com.brycehan.boot.quartz.entity.dto;
 
 import com.brycehan.boot.common.entity.BaseDto;
-import com.brycehan.boot.common.enums.OperationStatusType;
+import com.brycehan.boot.common.enums.OperateStatus;
 import com.brycehan.boot.common.validator.SaveGroup;
 import com.brycehan.boot.common.validator.UpdateGroup;
+import com.brycehan.boot.quartz.common.JobGroup;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Null;
@@ -49,8 +50,7 @@ public class QuartzJobLogDto extends BaseDto {
      * 任务组名
      */
     @Schema(description = "任务组名")
-    @Size(max = 50, groups = {SaveGroup.class, UpdateGroup.class})
-    private String jobGroup;
+    private JobGroup jobGroup;
 
     /**
      * Spring Bean 名称
@@ -77,7 +77,7 @@ public class QuartzJobLogDto extends BaseDto {
      * 执行状态（0：失败，1：成功）
      */
     @Schema(description = "执行状态（0：失败，1：成功）")
-    private OperationStatusType executeStatus;
+    private OperateStatus executeStatus;
 
     /**
      * 执行时长（毫秒）

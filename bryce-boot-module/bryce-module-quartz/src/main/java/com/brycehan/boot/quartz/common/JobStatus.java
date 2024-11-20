@@ -1,37 +1,33 @@
-package com.brycehan.boot.common.enums;
+package com.brycehan.boot.quartz.common;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
-
+import lombok.RequiredArgsConstructor;
 
 /**
- * 参数类型
+ * 定时任务状态
  *
+ * @since 2023/10/20
  * @author Bryce Han
- * @since 2024/3/25
  */
 @Getter
-public enum ParamType {
+@RequiredArgsConstructor
+public enum JobStatus {
 
-    SYSTEM(0, "系统内置"),
-    APP(1, "应用");
+    PAUSE(0, "暂停"),
+    NORMAL(1, "正常");
 
     /**
-     * 类型值
+     * 状态值
      */
-    @JsonValue
     @EnumValue
+    @JsonValue
     private final Integer value;
 
     /**
      * 描述
      */
     private final String desc;
-
-    ParamType(Integer value, String desc) {
-        this.value = value;
-        this.desc = desc;
-    }
 
 }

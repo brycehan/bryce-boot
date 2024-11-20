@@ -37,7 +37,7 @@ create table brc_quartz_job
 (
     id              bigint       not null primary key,
     job_name        varchar(50)  not null,
-    job_group       varchar(50) default 'DEFAULT',
+    job_group       varchar(50) default 'app',
     bean_name       varchar(200) not null,
     method          varchar(100) not null,
     params          varchar(500),

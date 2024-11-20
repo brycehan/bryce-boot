@@ -1,8 +1,8 @@
 package com.brycehan.boot.system.entity.dto;
 
 import com.brycehan.boot.common.entity.BaseDto;
-import com.brycehan.boot.common.enums.LoginOperateType;
-import com.brycehan.boot.common.enums.OperationStatusType;
+import com.brycehan.boot.common.enums.LoginStatus;
+import com.brycehan.boot.common.enums.OperateStatus;
 import com.brycehan.boot.common.validator.SaveGroup;
 import com.brycehan.boot.common.validator.UpdateGroup;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -34,7 +34,7 @@ public class SysLoginLogDto extends BaseDto {
      * 操作信息
      */
     @Schema(description = "操作信息")
-    private LoginOperateType info;
+    private LoginStatus info;
 
     /**
      * 登录IP地址
@@ -75,7 +75,7 @@ public class SysLoginLogDto extends BaseDto {
      * 状态（0：失败，1：成功）
      */
     @Schema(description = "状态（0：失败，1：成功）")
-    private OperationStatusType status;
+    private OperateStatus status;
 
     /**
      * 访问时间

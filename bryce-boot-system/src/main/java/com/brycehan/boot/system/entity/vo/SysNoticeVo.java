@@ -1,5 +1,6 @@
 package com.brycehan.boot.system.entity.vo;
 
+import com.brycehan.boot.common.enums.NoticeType;
 import com.brycehan.boot.common.enums.StatusType;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.deser.std.StringDeserializer;
@@ -46,12 +47,12 @@ public class SysNoticeVo implements Serializable {
      * 公告类型（0：通知，1：公告）
      */
     @Schema(description = "公告类型（0：通知，1：公告）")
-    private Integer type;
+    private NoticeType type;
 
     /**
-     * 状态（0：关闭，1：正常）
+     * 状态（0：停用，1：正常）
      */
-    @Schema(description = "状态（0：关闭，1：正常）")
+    @Schema(description = "状态（0：停用，1：正常）")
     private StatusType status;
 
     /**

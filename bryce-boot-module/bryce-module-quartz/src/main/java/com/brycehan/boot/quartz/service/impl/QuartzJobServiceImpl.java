@@ -10,7 +10,7 @@ import com.brycehan.boot.common.entity.PageResult;
 import com.brycehan.boot.common.entity.dto.IdsDto;
 import com.brycehan.boot.common.util.ExcelUtils;
 import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
-import com.brycehan.boot.quartz.common.QuartzStatus;
+import com.brycehan.boot.quartz.common.JobStatus;
 import com.brycehan.boot.quartz.common.utils.QuartzUtils;
 import com.brycehan.boot.quartz.entity.convert.QuartzJobConvert;
 import com.brycehan.boot.quartz.entity.dto.QuartzJobDto;
@@ -151,9 +151,9 @@ public class QuartzJobServiceImpl extends BaseServiceImpl<QuartzJobMapper, Quart
         quartzJob.setStatus(quartzJobDto.getStatus());
         updateById(quartzJob);
 
-        if(QuartzStatus.PAUSE == quartzJobDto.getStatus()) {
+        if(JobStatus.PAUSE == quartzJobDto.getStatus()) {
             QuartzUtils.pauseJob(scheduler, quartzJob);
-        } else if (QuartzStatus.NORMAL == quartzJobDto.getStatus()) {
+        } else if (JobStatus.NORMAL == quartzJobDto.getStatus()) {
             QuartzUtils.resumeJob(scheduler, quartzJob);
         }
     }

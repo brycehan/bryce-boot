@@ -37,7 +37,7 @@ create table brc_quartz_job
 (
     id              bigint                        not null comment 'ID',
     job_name        varchar(50)                   not null comment '任务名称',
-    job_group       varchar(50) default 'DEFAULT' null comment '任务组名',
+    job_group       varchar(50) default 'app'     null comment '任务组名',
     bean_name       varchar(200)                  not null comment 'Spring Bean 名称',
     method          varchar(100)                  not null comment '执行方法',
     params          varchar(500)                  null comment '参数',

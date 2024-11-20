@@ -2,6 +2,7 @@ package com.brycehan.boot.quartz.entity.dto;
 
 import com.brycehan.boot.common.entity.BasePageDto;
 import com.brycehan.boot.common.enums.StatusType;
+import com.brycehan.boot.quartz.common.JobGroup;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
@@ -35,7 +36,7 @@ public class QuartzJobPageDto extends BasePageDto {
      */
     @Schema(description = "任务组名")
     @Size(max = 50)
-    private String jobGroup;
+    private JobGroup jobGroup;
 
     /**
      * 状态（0：停用，1：正常）

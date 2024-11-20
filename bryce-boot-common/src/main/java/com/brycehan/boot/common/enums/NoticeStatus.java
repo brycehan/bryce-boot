@@ -4,21 +4,22 @@ import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 
-
 /**
- * 参数类型
+ * 通知状态
  *
+ * @since 2022/11/21
  * @author Bryce Han
- * @since 2024/3/25
  */
 @Getter
-public enum ParamType {
+@SuppressWarnings("unused")
+public enum NoticeStatus {
 
-    SYSTEM(0, "系统内置"),
-    APP(1, "应用");
+    OFF(0, "关闭"),
+    ON(1, "正常"),
+    ;
 
     /**
-     * 类型值
+     * 状态值
      */
     @JsonValue
     @EnumValue
@@ -29,7 +30,7 @@ public enum ParamType {
      */
     private final String desc;
 
-    ParamType(Integer value, String desc) {
+    NoticeStatus(Integer value, String desc) {
         this.value = value;
         this.desc = desc;
     }

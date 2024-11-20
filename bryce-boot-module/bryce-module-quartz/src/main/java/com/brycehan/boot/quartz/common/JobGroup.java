@@ -6,26 +6,28 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 /**
- * 定时任务状态
+ * 定时任务组
  *
  * @since 2023/10/20
  * @author Bryce Han
  */
 @Getter
 @RequiredArgsConstructor
-public enum QuartzStatus {
+public enum JobGroup {
+
+    SYSTEM("system", "系统"),
+    APP("app", "应用");
 
     /**
-     * 暂停
+     * 状态值
      */
-    PAUSE(0),
-
-    /**
-     * 正常
-     */
-    NORMAL(1);
-
     @EnumValue
     @JsonValue
-    private final Integer value;
+    private final String value;
+
+    /**
+     * 描述
+     */
+    private final String desc;
+
 }

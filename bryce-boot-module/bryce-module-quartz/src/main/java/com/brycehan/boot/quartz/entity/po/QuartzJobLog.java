@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.brycehan.boot.common.enums.OperationStatusType;
+import com.brycehan.boot.common.enums.OperateStatus;
 import lombok.Data;
 
 import java.io.Serial;
@@ -63,7 +63,7 @@ public class QuartzJobLog implements Serializable {
     /**
      * 执行状态（0：失败，1：成功）
      */
-    private OperationStatusType executeStatus;
+    private OperateStatus executeStatus;
 
     /**
      * 执行时长（毫秒）

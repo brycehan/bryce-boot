@@ -4,18 +4,19 @@ import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 
-
 /**
- * 参数类型
+ * 登录状态
  *
+ * @since 2023/9/25
  * @author Bryce Han
- * @since 2024/3/25
  */
 @Getter
-public enum ParamType {
+public enum LoginStatus {
 
-    SYSTEM(0, "系统内置"),
-    APP(1, "应用");
+    LOGIN_SUCCESS(0, "登录成功"),
+    LOGOUT_SUCCESS(1, "退出成功"),
+    CAPTCHA_FAIL(2, "验证码错误"),
+    ACCOUNT_FAIL(3, "账号不存在/密码错误");
 
     /**
      * 类型值
@@ -29,7 +30,7 @@ public enum ParamType {
      */
     private final String desc;
 
-    ParamType(Integer value, String desc) {
+    LoginStatus(Integer value, String desc) {
         this.value = value;
         this.desc = desc;
     }

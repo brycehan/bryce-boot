@@ -1,6 +1,6 @@
 package com.brycehan.boot.quartz.entity.vo;
 
-import com.brycehan.boot.common.enums.OperationStatusType;
+import com.brycehan.boot.common.enums.OperateStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -67,7 +67,7 @@ public class QuartzJobLogVo implements Serializable {
      * 执行状态（0：失败，1：成功）
      */
     @Schema(description = "执行状态（0：失败，1：成功）")
-    private OperationStatusType executeStatus;
+    private OperateStatus executeStatus;
 
     /**
      * 执行时长（毫秒）

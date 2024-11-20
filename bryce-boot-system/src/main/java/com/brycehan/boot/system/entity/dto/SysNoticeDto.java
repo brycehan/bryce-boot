@@ -1,6 +1,7 @@
 package com.brycehan.boot.system.entity.dto;
 
 import com.brycehan.boot.common.entity.BaseDto;
+import com.brycehan.boot.common.enums.NoticeType;
 import com.brycehan.boot.common.enums.StatusType;
 import com.brycehan.boot.common.validator.SaveGroup;
 import com.brycehan.boot.common.validator.UpdateGroup;
@@ -43,12 +44,12 @@ public class SysNoticeDto extends BaseDto {
      * 公告类型（0：通知，1：公告）
      */
     @Schema(description = "公告类型（0：通知，1：公告）")
-    private Integer type;
+    private NoticeType type;
 
     /**
-     * 状态（0：关闭，1：正常）
+     * 状态（0：停用，1：正常）
      */
-    @Schema(description = "状态（0：关闭，1：正常）")
+    @Schema(description = "状态（0：停用，1：正常）")
     private StatusType status;
 
     /**

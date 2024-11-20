@@ -3,7 +3,8 @@ package com.brycehan.boot.quartz.entity.po;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.brycehan.boot.common.entity.BaseEntity;
 import com.brycehan.boot.common.enums.YesNoType;
-import com.brycehan.boot.quartz.common.QuartzStatus;
+import com.brycehan.boot.quartz.common.JobGroup;
+import com.brycehan.boot.quartz.common.JobStatus;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -31,7 +32,7 @@ public class QuartzJob extends BaseEntity {
     /**
      * 任务组名
      */
-    private String jobGroup;
+    private JobGroup jobGroup;
 
     /**
      * Spring Bean 名称
@@ -66,7 +67,7 @@ public class QuartzJob extends BaseEntity {
     /**
      * 状态（0：停用，1：正常）
      */
-    private QuartzStatus status;
+    private JobStatus status;
 
     /**
      * 备注

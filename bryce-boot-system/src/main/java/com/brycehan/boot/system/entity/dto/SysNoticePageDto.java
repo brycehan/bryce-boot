@@ -1,6 +1,7 @@
 package com.brycehan.boot.system.entity.dto;
 
 import com.brycehan.boot.common.entity.BasePageDto;
+import com.brycehan.boot.common.enums.NoticeType;
 import com.brycehan.boot.common.enums.StatusType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -26,12 +27,12 @@ public class SysNoticePageDto extends BasePageDto {
      * 公告类型（0：通知，1：公告）
      */
     @Schema(description = "公告类型（0：通知，1：公告）")
-    private Integer type;
+    private NoticeType type;
 
     /**
-     * 状态（0：关闭，1：正常）
+     * 状态（0：停用，1：正常）
      */
-    @Schema(description = "状态（0：关闭，1：正常）")
+    @Schema(description = "状态（0：停用，1：正常）")
     private StatusType status;
 
 }

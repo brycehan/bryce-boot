@@ -2,6 +2,7 @@ package com.brycehan.boot.system.entity.po;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.brycehan.boot.common.entity.BaseEntity;
+import com.brycehan.boot.common.enums.NoticeType;
 import com.brycehan.boot.common.enums.StatusType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -35,10 +36,10 @@ public class SysNotice extends BaseEntity {
     /**
      * 公告类型（0：通知，1：公告）
      */
-    private Integer type;
+    private NoticeType type;
 
     /**
-     * 状态（0：关闭，1：正常）
+     * 状态（0：停用，1：正常）
      */
     private StatusType status;
 

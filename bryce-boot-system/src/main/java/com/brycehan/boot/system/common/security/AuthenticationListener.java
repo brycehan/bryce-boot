@@ -1,8 +1,8 @@
 package com.brycehan.boot.system.common.security;
 
 import com.brycehan.boot.common.base.LoginUser;
-import com.brycehan.boot.common.enums.LoginOperateType;
-import com.brycehan.boot.common.enums.OperationStatusType;
+import com.brycehan.boot.common.enums.LoginStatus;
+import com.brycehan.boot.common.enums.OperateStatus;
 import com.brycehan.boot.system.service.AuthLoginService;
 import com.brycehan.boot.system.service.SysLoginLogService;
 import lombok.RequiredArgsConstructor;
@@ -37,7 +37,7 @@ public class AuthenticationListener {
         // 用户信息
         LoginUser loginUser = (LoginUser) event.getAuthentication().getPrincipal();
         // 记录登录日志
-        this.sysLoginLogService.save(loginUser.getUsername(), OperationStatusType.SUCCESS, LoginOperateType.LOGIN_SUCCESS);
+        this.sysLoginLogService.save(loginUser.getUsername(), OperateStatus.SUCCESS, LoginStatus.LOGIN_SUCCESS);
         // 更新用户登录信息
         this.authLoginService.updateLoginInfo(loginUser);
     }
@@ -53,7 +53,7 @@ public class AuthenticationListener {
         // 用户名
         String username = (String) authenticationFailureEvent.getAuthentication().getPrincipal();
         // 记录登录日志
-        this.sysLoginLogService.save(username, OperationStatusType.FAIL, LoginOperateType.ACCOUNT_FAIL);
+        this.sysLoginLogService.save(username, OperateStatus.FAIL, LoginStatus.ACCOUNT_FAIL);
     }
 
 }

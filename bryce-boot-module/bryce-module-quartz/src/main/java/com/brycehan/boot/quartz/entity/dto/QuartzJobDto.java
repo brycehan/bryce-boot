@@ -3,7 +3,8 @@ package com.brycehan.boot.quartz.entity.dto;
 import com.brycehan.boot.common.entity.BaseDto;
 import com.brycehan.boot.common.validator.SaveGroup;
 import com.brycehan.boot.common.validator.UpdateGroup;
-import com.brycehan.boot.quartz.common.QuartzStatus;
+import com.brycehan.boot.quartz.common.JobGroup;
+import com.brycehan.boot.quartz.common.JobStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
@@ -37,8 +38,7 @@ public class QuartzJobDto extends BaseDto {
      * 任务组名
      */
     @Schema(description = "任务组名")
-    @Size(max = 50, groups = {SaveGroup.class, UpdateGroup.class})
-    private String jobGroup;
+    private JobGroup jobGroup;
 
     /**
      * Spring Bean 名称
@@ -84,7 +84,7 @@ public class QuartzJobDto extends BaseDto {
      * 状态（0：停用，1：正常）
      */
     @Schema(description = "状态（0：停用，1：正常）")
-    private QuartzStatus status;
+    private JobStatus status;
 
     /**
      * 备注

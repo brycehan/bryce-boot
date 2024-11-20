@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 
 /**
- * 数据状态枚举
+ * 状态类型
  *
  * @since 2022/5/9
  * @author Bryce Han

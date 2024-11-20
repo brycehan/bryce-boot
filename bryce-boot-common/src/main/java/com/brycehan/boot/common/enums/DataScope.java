@@ -5,32 +5,33 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 
 /**
- * 登录操作类型
+ * 数据范围
  *
- * @since 2023/9/25
+ * @since 2022/5/8
  * @author Bryce Han
  */
 @Getter
-public enum LoginOperateType {
+public enum DataScope {
 
-    LOGIN_SUCCESS(0, "登录成功"),
-    LOGOUT_SUCCESS(1, "退出成功"),
-    CAPTCHA_FAIL(2, "验证码错误"),
-    ACCOUNT_FAIL(3, "账号不存在/密码错误");
+    ALL(0, "全部数据"),
+    ORG_AND_CHILDREN(1, "本机构及以下机构数据"),
+    ORG_ONLY(2, "本机构数据"),
+    SELF(3, "本人数据"),
+    CUSTOM(4, "自定义数据");
 
     /**
      * 类型值
      */
-    @JsonValue
     @EnumValue
+    @JsonValue
     private final Integer value;
 
-    /**
+     /**
      * 描述
      */
     private final String desc;
 
-    LoginOperateType(Integer value, String desc) {
+    DataScope(Integer value, String desc) {
         this.value = value;
         this.desc = desc;
     }

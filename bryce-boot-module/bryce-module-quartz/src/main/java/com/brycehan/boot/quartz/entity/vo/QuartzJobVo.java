@@ -1,6 +1,7 @@
 package com.brycehan.boot.quartz.entity.vo;
 
-import com.brycehan.boot.quartz.common.QuartzStatus;
+import com.brycehan.boot.quartz.common.JobGroup;
+import com.brycehan.boot.quartz.common.JobStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -37,7 +38,7 @@ public class QuartzJobVo implements Serializable {
      * 任务组名
      */
     @Schema(description = "任务组名")
-    private String jobGroup;
+    private JobGroup jobGroup;
 
     /**
      * Spring Bean 名称
@@ -79,7 +80,7 @@ public class QuartzJobVo implements Serializable {
      * 状态（0：停用，1：正常）
      */
     @Schema(description = "状态（0：停用，1：正常）")
-    private QuartzStatus status;
+    private JobStatus status;
 
     /**
      * 备注

@@ -2,7 +2,7 @@ package com.brycehan.boot.quartz.common.utils;
 
 import cn.hutool.core.date.DateUtil;
 import com.brycehan.boot.common.enums.YesNoType;
-import com.brycehan.boot.quartz.common.QuartzStatus;
+import com.brycehan.boot.quartz.common.JobStatus;
 import com.brycehan.boot.quartz.entity.po.QuartzJob;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.*;
@@ -68,7 +68,7 @@ public class QuartzUtils {
             }
 
             // 暂停任务
-            if(quartzJob.getStatus() == QuartzStatus.PAUSE) {
+            if(quartzJob.getStatus() == JobStatus.PAUSE) {
                 scheduler.pauseJob(jobKey);
             }
         } catch (SchedulerException e) {
@@ -191,7 +191,10 @@ public class QuartzUtils {
      * @return jobKey
      */
     private static JobKey getJobKey(QuartzJob quartzJob) {
-        return JobKey.jobKey(JOB_NAME + quartzJob.getId(), quartzJob.getJobGroup());
+        if (quartzJob.getJobGroup() == null) {
+            return null;
+        }
+        return JobKey.jobKey(JOB_NAME + quartzJob.getId(), quartzJob.getJobGroup().getValue());
     }
 
     /**
@@ -200,7 +203,10 @@ public class QuartzUtils {
      * @return 触发器 key
      */
     private static TriggerKey getTriggerKey(QuartzJob quartzJob) {
-        return TriggerKey.triggerKey(JOB_NAME + quartzJob.getId(), quartzJob.getJobGroup());
+        if (quartzJob.getJobGroup() == null) {
+            return null;
+        }
+        return TriggerKey.triggerKey(JOB_NAME + quartzJob.getId(), quartzJob.getJobGroup().getValue());
     }
 
     /**

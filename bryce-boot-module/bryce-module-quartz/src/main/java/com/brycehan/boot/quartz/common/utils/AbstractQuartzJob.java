@@ -3,7 +3,7 @@ package com.brycehan.boot.quartz.common.utils;
 import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import com.brycehan.boot.common.base.IdGenerator;
-import com.brycehan.boot.common.enums.OperationStatusType;
+import com.brycehan.boot.common.enums.OperateStatus;
 import com.brycehan.boot.quartz.entity.po.QuartzJob;
 import com.brycehan.boot.quartz.entity.po.QuartzJobLog;
 import com.brycehan.boot.quartz.service.QuartzJobLogService;
@@ -74,10 +74,10 @@ public abstract class AbstractQuartzJob implements Job {
         quartzJobLog.setCreatedTime(LocalDateTime.now());
 
         if (e != null) {
-            quartzJobLog.setExecuteStatus(OperationStatusType.FAIL);
+            quartzJobLog.setExecuteStatus(OperateStatus.FAIL);
             quartzJobLog.setErrorInfo(ExceptionUtil.stacktraceToString(e));
         } else {
-            quartzJobLog.setExecuteStatus(OperationStatusType.SUCCESS);
+            quartzJobLog.setExecuteStatus(OperateStatus.SUCCESS);
         }
 
         // 保存日志
