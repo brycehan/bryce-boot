@@ -13,17 +13,17 @@ import lombok.Getter;
 @Getter
 public enum OperatedType {
 
-    INSERT(1, "新增"),
-    UPDATE(2, "修改"),
-    DELETE(3, "删除"),
-    GET(4, "查询"),
-    IMPORT(5, "导入"),
-    EXPORT(6, "导出"),
-    GRANT(7, "授权"),
-    FORCE_QUIT(8, "强退"),
-    GEN_CODE(9, "生成代码"),
-    CLEAN_DATA(10, "清空数据"),
-    OTHER(11, "其它");
+    INSERT(0, "新增"),
+    UPDATE(1, "修改"),
+    DELETE(2, "删除"),
+    GET(3, "查询"),
+    IMPORT(4, "导入"),
+    EXPORT(5, "导出"),
+    GRANT(6, "授权"),
+    FORCE_QUIT(7, "强退"),
+    GEN_CODE(8, "生成代码"),
+    CLEAN_DATA(9, "清空数据"),
+    OTHER(10, "其它");
 
     /**
      * 类型值
