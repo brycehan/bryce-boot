@@ -33,6 +33,21 @@ public enum ParamType implements EnumType {
     private final String desc;
 
     /**
+     * 根据值获取枚举
+     *
+     * @param value 值
+     * @return 枚举
+     */
+    public static ParamType getByValue(Integer value) {
+        for (ParamType paramType : values()) {
+            if (paramType.getValue().equals(value)) {
+                return paramType;
+            }
+        }
+        return null;
+    }
+
+    /**
      * 根据描述获取枚举
      *
      * @param desc 描述

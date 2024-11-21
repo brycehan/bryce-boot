@@ -30,6 +30,21 @@ public enum SmsType implements EnumType {
     private final String desc;
 
     /**
+     * 根据值获取枚举
+     *
+     * @param value 值
+     * @return 枚举
+     */
+    public static SmsType getByValue(String value) {
+        for (SmsType smsType : SmsType.values()) {
+            if (smsType.getValue().equals(value)) {
+                return smsType;
+            }
+        }
+        return null;
+    }
+
+    /**
      * 根据描述获取枚举
      *
      * @param desc 描述

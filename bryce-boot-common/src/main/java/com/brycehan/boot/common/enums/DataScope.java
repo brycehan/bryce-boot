@@ -35,6 +35,21 @@ public enum DataScope implements EnumType {
     private final String desc;
 
     /**
+     * 根据值获取枚举
+     *
+     * @param value 值
+     * @return 枚举
+     */
+    public static DataScope getByValue(Integer value) {
+        for (DataScope dataScope : DataScope.values()) {
+            if (dataScope.getValue().equals(value)) {
+                return dataScope;
+            }
+        }
+        return null;
+    }
+
+    /**
      * 根据描述获取枚举
      *
      * @param desc 描述

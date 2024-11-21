@@ -30,6 +30,21 @@ public enum CaptchaType implements EnumType {
     private final String desc;
 
     /**
+     * 根据值获取枚举
+     *
+     * @param value 值
+     * @return 枚举
+     */
+    public static CaptchaType getByValue(String value) {
+        for (CaptchaType captchaType : values()) {
+            if (captchaType.getValue().equals(value)) {
+                return captchaType;
+            }
+        }
+        return null;
+    }
+
+    /**
      * 根据描述获取枚举
      *
      * @param desc 描述

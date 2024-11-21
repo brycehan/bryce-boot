@@ -33,6 +33,21 @@ public enum NoticeType implements EnumType {
     private final String desc;
 
     /**
+     * 根据值获取枚举
+     *
+     * @param value 值
+     * @return 枚举
+     */
+    public static NoticeType getByValue(Integer value) {
+        for (NoticeType noticeType : NoticeType.values()) {
+            if (noticeType.getValue().equals(value)) {
+                return noticeType;
+            }
+        }
+        return null;
+    }
+
+    /**
      * 根据描述获取枚举
      *
      * @param desc 描述

@@ -3,11 +3,7 @@ package com.brycehan.boot.system.entity.vo;
 import com.alibaba.excel.annotation.ExcelIgnoreUnannotated;
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.alibaba.excel.annotation.write.style.ColumnWidth;
-import com.brycehan.boot.common.enums.EnumTypeDescConverter;
-import com.brycehan.boot.common.enums.EnumTypeDescSerializer;
-import com.brycehan.boot.common.enums.GenderType;
-import com.brycehan.boot.common.enums.StatusType;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.brycehan.boot.common.enums.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 

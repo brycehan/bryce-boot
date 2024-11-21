@@ -33,6 +33,21 @@ public enum NoticeStatus implements EnumType {
     private final String desc;
 
     /**
+     * 根据值获取枚举
+     *
+     * @param value 值
+     * @return 枚举
+     */
+    public static NoticeStatus getByValue(Integer value) {
+        for (NoticeStatus status : values()) {
+            if (status.getValue().equals(value)) {
+                return status;
+            }
+        }
+        return null;
+    }
+
+    /**
      * 根据描述获取枚举
      *
      * @param desc 描述

@@ -32,6 +32,21 @@ public enum StatusType implements EnumType {
     private final String desc;
 
     /**
+     * 根据值获取枚举
+     *
+     * @param value 值
+     * @return 枚举
+     */
+    public static StatusType getByValue(Integer value) {
+        for (StatusType statusType : StatusType.values()) {
+            if (statusType.getValue().equals(value)) {
+                return statusType;
+            }
+        }
+        return null;
+    }
+
+    /**
      * 根据描述获取枚举
      *
      * @param desc 描述

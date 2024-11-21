@@ -34,6 +34,21 @@ public enum LoginStatus implements EnumType {
     private final String desc;
 
     /**
+     * 根据值获取枚举
+     *
+     * @param value 值
+     * @return 枚举
+     */
+    public static LoginStatus getByValue(Integer value) {
+        for (LoginStatus loginStatus : LoginStatus.values()) {
+            if (loginStatus.getValue().equals(value)) {
+                return loginStatus;
+            }
+        }
+        return null;
+    }
+
+    /**
      * 根据描述获取枚举
      *
      * @param desc 描述

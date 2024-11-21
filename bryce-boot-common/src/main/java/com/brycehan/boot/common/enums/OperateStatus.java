@@ -32,6 +32,21 @@ public enum OperateStatus implements EnumType {
     private final String desc;
 
     /**
+     * 根据值获取枚举
+     *
+     * @param value 值
+     * @return 枚举
+     */
+    public static OperateStatus getByValue(Integer value) {
+        for (OperateStatus operateStatus : OperateStatus.values()) {
+            if (operateStatus.getValue().equals(value)) {
+                return operateStatus;
+            }
+        }
+        return null;
+    }
+
+    /**
      * 根据描述获取枚举
      *
      * @param desc 描述

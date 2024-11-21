@@ -26,6 +26,21 @@ public enum GenderType implements EnumType {
     private final String desc;
 
     /**
+     * 根据值获取枚举类型
+     *
+     * @param value 值
+     * @return 枚举类型
+     */
+    public static GenderType getByValue(String value) {
+        for (GenderType genderType : values()) {
+            if (genderType.getValue().equals(value)) {
+                return genderType;
+            }
+        }
+        return null;
+    }
+
+    /**
      * 根据描述获取枚举类型
      *
      * @param desc 描述
