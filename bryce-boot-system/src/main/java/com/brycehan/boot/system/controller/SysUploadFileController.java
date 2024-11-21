@@ -2,7 +2,7 @@ package com.brycehan.boot.system.controller;
 
 import com.brycehan.boot.api.system.SysUploadFileApi;
 import com.brycehan.boot.api.system.vo.SysUploadFileVo;
-import com.brycehan.boot.common.response.ResponseResult;
+import com.brycehan.boot.common.base.response.ResponseResult;
 import com.brycehan.boot.framework.operatelog.annotation.OperateLog;
 import com.brycehan.boot.framework.operatelog.annotation.OperatedType;
 import io.swagger.v3.oas.annotations.Operation;

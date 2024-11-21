@@ -47,14 +47,15 @@
         <aliyun-dysmsapi.version>2.0.23</aliyun-dysmsapi.version>
         <tencentcloud-sdk.version>3.1.574</tencentcloud-sdk.version>
         <!-- 对象存储 -->
-        <minio.version>8.5.1</minio.version>
+        <minio.version>8.5.13</minio.version>
         <aliyun-oss.version>3.16.1</aliyun-oss.version>
         <qcloud-cos.version>5.6.97</qcloud-cos.version>
         <qiniu.version>7.12.1</qiniu.version>
         <huaweicloud-obs.version>3.23.9.1</huaweicloud-obs.version>
         <!-- 工具 -->
-        <hutool.version>5.8.28</hutool.version>
-        <easyexcel.version>3.3.4</easyexcel.version>
+        <hutool.version>5.8.32</hutool.version>
+        <easyexcel.version>4.0.3</easyexcel.version>
+        <commons-io.version>2.16.1</commons-io.version>
         <transmittable-thread-local.version>2.14.3</transmittable-thread-local.version>
         <jsoup.version>1.16.1</jsoup.version>
         <oshi.version>6.4.6</oshi.version>
@@ -260,6 +261,11 @@
                 <groupId>com.alibaba</groupId>
                 <artifactId>easyexcel</artifactId>
                 <version>${easyexcel.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${commons-io.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.alibaba</groupId>

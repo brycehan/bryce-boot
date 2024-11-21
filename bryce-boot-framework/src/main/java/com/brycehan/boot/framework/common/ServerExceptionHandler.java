@@ -1,10 +1,10 @@
 package com.brycehan.boot.framework.common;
 
 import com.brycehan.boot.common.base.ServerException;
-import com.brycehan.boot.common.response.HttpResponseStatus;
-import com.brycehan.boot.common.response.ResponseResult;
-import com.brycehan.boot.common.response.UploadResponseStatus;
-import com.brycehan.boot.common.response.UserResponseStatus;
+import com.brycehan.boot.common.base.response.HttpResponseStatus;
+import com.brycehan.boot.common.base.response.ResponseResult;
+import com.brycehan.boot.common.base.response.UploadResponseStatus;
+import com.brycehan.boot.common.base.response.UserResponseStatus;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;

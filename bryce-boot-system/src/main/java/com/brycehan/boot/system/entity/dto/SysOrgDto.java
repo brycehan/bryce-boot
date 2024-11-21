@@ -2,8 +2,8 @@ package com.brycehan.boot.system.entity.dto;
 
 import com.brycehan.boot.common.enums.StatusType;
 import com.brycehan.boot.common.util.TreeNode;
-import com.brycehan.boot.common.validator.SaveGroup;
-import com.brycehan.boot.common.validator.UpdateGroup;
+import com.brycehan.boot.common.base.validator.SaveGroup;
+import com.brycehan.boot.common.base.validator.UpdateGroup;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;

@@ -2,6 +2,7 @@ package com.brycehan.boot.common.enums;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 /**
  * 邮件类型
@@ -10,7 +11,9 @@ import lombok.Getter;
  * @since 2024/5/23
  */
 @Getter
-public enum EmailType {
+@SuppressWarnings("unused")
+@RequiredArgsConstructor
+public enum EmailType implements EnumType {
 
     LOGIN("login", "登录"),
     REGISTER("register", "注册账号");
@@ -26,9 +29,19 @@ public enum EmailType {
      */
     private final String desc;
 
-    EmailType(String value, String desc) {
-        this.value = value;
-        this.desc = desc;
+    /**
+     * 根据描述获取枚举
+     *
+     * @param desc 描述
+     * @return 枚举
+     */
+    public static EmailType getByDesc(String desc) {
+        for (EmailType emailType : EmailType.values()) {
+            if (emailType.getDesc().equals(desc)) {
+                return emailType;
+            }
+        }
+        return null;
     }
 
 }

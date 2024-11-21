@@ -1,4 +1,4 @@
-package com.brycehan.boot.common.response;
+package com.brycehan.boot.common.base.response;
 
 /**
  * 响应状态

@@ -1,6 +1,6 @@
 package com.brycehan.boot.monitor.controller;
 
-import com.brycehan.boot.common.response.ResponseResult;
+import com.brycehan.boot.common.base.response.ResponseResult;
 import com.brycehan.boot.monitor.entity.vo.Server;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

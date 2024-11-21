@@ -3,8 +3,11 @@ package com.brycehan.boot.system.entity.vo;
 import com.alibaba.excel.annotation.ExcelIgnoreUnannotated;
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.alibaba.excel.annotation.write.style.ColumnWidth;
-import com.brycehan.boot.common.base.GenderType;
+import com.brycehan.boot.common.enums.EnumTypeDescConverter;
+import com.brycehan.boot.common.enums.EnumTypeDescSerializer;
+import com.brycehan.boot.common.enums.GenderType;
 import com.brycehan.boot.common.enums.StatusType;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -60,13 +63,8 @@ public class SysUserVo implements Serializable {
      * 性别（M：男, F：女）
      */
     @Schema(description = "性别（M：男, F：女）")
+    @ExcelProperty(value = "性别", converter = EnumTypeDescConverter.class)
     private GenderType gender;
-
-    /**
-     * 性别
-     */
-    @ExcelProperty(value = "性别")
-    private String genderLabel;
 
     /**
      * 用户类型（0：系统用户）
@@ -125,13 +123,8 @@ public class SysUserVo implements Serializable {
      * 状态（0：停用，1：正常）
      */
     @Schema(description = "状态（0：停用，1：正常）")
+    @ExcelProperty(value = "状态", converter = EnumTypeDescConverter.class)
     private StatusType status;
-
-    /**
-     * 状态
-     */
-    @ExcelProperty(value = "状态")
-    private String statusLabel;
 
     /**
      * 备注
@@ -158,19 +151,5 @@ public class SysUserVo implements Serializable {
      */
     @Schema(description = "岗位ID")
     private List<Long> postIds;
-
-    public String getGenderLabel() {
-        if (gender != null) {
-            return gender.getDesc();
-        }
-        return genderLabel;
-    }
-
-    public String getStatusLabel() {
-        if (status != null) {
-            return status.getDesc();
-        }
-        return statusLabel;
-    }
 
 }

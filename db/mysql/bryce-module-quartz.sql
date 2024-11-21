@@ -55,7 +55,7 @@ create table brc_quartz_job
 ) engine InnoDB comment 'quartz定时任务调度表';
 
 -- 初始化- quartz定时任务调度表数据
-INSERT INTO brc_quartz_job (id, job_name, job_group, bean_name, method, params, cron_expression, concurrent, sort, status, remark, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1, '测试任务', 'SYSTEM', 'testTaskServiceImpl', 'run', 'test', '0 * * * * ? *', 'N', 0, 0, '', null, 1, now(), 1, now());
+INSERT INTO brc_quartz_job (id, job_name, job_group, bean_name, method, params, cron_expression, concurrent, sort, status, remark, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1, '测试任务', 'system', 'testTaskServiceImpl', 'run', 'test', '0 * * * * ? *', 'N', 0, 0, '', null, 1, now(), 1, now());
 
 -- 2、quartz定时任务调度日志表
 create table brc_quartz_job_log

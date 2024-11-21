@@ -7,7 +7,7 @@ import com.brycehan.boot.common.base.ServerException;
 import com.brycehan.boot.common.constant.DataConstants;
 import com.brycehan.boot.common.enums.DataScope;
 import com.brycehan.boot.common.enums.StatusType;
-import com.brycehan.boot.common.response.UserResponseStatus;
+import com.brycehan.boot.common.base.response.UserResponseStatus;
 import com.brycehan.boot.common.util.IpUtils;
 import com.brycehan.boot.common.util.LocationUtils;
 import com.brycehan.boot.common.util.ServletUtils;

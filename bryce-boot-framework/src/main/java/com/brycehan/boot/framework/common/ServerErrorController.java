@@ -1,7 +1,7 @@
 package com.brycehan.boot.framework.common;
 
-import com.brycehan.boot.common.response.HttpResponseStatus;
-import com.brycehan.boot.common.response.ResponseResult;
+import com.brycehan.boot.common.base.response.HttpResponseStatus;
+import com.brycehan.boot.common.base.response.ResponseResult;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.http.HttpServletRequest;

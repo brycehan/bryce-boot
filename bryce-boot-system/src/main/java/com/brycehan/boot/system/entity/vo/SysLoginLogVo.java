@@ -3,9 +3,11 @@ package com.brycehan.boot.system.entity.vo;
 import com.alibaba.excel.annotation.ExcelIgnoreUnannotated;
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.alibaba.excel.annotation.write.style.ColumnWidth;
-import com.brycehan.boot.common.base.Trans;
+import com.brycehan.boot.common.enums.EnumTypeDescConverter;
+import com.brycehan.boot.common.enums.EnumTypeDescSerializer;
 import com.brycehan.boot.common.enums.LoginStatus;
 import com.brycehan.boot.common.enums.OperateStatus;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -44,12 +46,10 @@ public class SysLoginLogVo implements Serializable {
     /**
      * 操作信息
      */
+    @ColumnWidth(14)
+    @ExcelProperty(value = "操作信息", index = 1, converter = EnumTypeDescConverter.class)
     @Schema(description = "操作信息")
     private LoginStatus info;
-
-    @ColumnWidth(14)
-    @ExcelProperty(value = "操作信息", index = 1)
-    private String infoLabel;
 
     /**
      * 登录IP
@@ -95,15 +95,9 @@ public class SysLoginLogVo implements Serializable {
      * 状态（0：失败，1：成功）
      */
     @Schema(description = "状态（0：失败，1：成功）")
-    @Trans(dict = "sys_operate_status", ref = "statusLabel")
-    private OperateStatus status;
-
-    /**
-     * 状态（0：失败，1：成功）
-     */
     @ColumnWidth(14)
-    @ExcelProperty(value = "操作状态", index = 2)
-    private String statusLabel;
+    @ExcelProperty(value = "操作状态", index = 2, converter = EnumTypeDescConverter.class)
+    private OperateStatus status;
 
     /**
      * 访问时间
@@ -121,10 +115,4 @@ public class SysLoginLogVo implements Serializable {
     @ExcelProperty(value = "创建时间", index = 9)
     private LocalDateTime createdTime;
 
-    public String getInfoLabel() {
-        if (info != null) {
-            return info.getDesc();
-        }
-        return infoLabel;
-    }
 }

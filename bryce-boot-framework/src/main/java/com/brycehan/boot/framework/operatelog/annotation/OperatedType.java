@@ -1,6 +1,7 @@
 package com.brycehan.boot.framework.operatelog.annotation;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
+import com.brycehan.boot.common.enums.EnumType;
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 
@@ -11,7 +12,7 @@ import lombok.Getter;
  * @author Bryce Han
  */
 @Getter
-public enum OperatedType {
+public enum OperatedType implements EnumType {
 
     INSERT(0, "新增"),
     UPDATE(1, "修改"),
@@ -40,6 +41,15 @@ public enum OperatedType {
     OperatedType(Integer value, String desc) {
         this.value = value;
         this.desc = desc;
+    }
+
+    public static OperatedType getByDesc(String desc) {
+        for (OperatedType type : values()) {
+            if (type.getDesc().equals(desc)) {
+                return type;
+            }
+        }
+        return null;
     }
 
 }

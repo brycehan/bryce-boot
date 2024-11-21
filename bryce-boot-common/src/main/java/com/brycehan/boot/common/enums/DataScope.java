@@ -3,6 +3,7 @@ package com.brycehan.boot.common.enums;
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 /**
  * 数据范围
@@ -11,7 +12,9 @@ import lombok.Getter;
  * @author Bryce Han
  */
 @Getter
-public enum DataScope {
+@SuppressWarnings("unused")
+@RequiredArgsConstructor
+public enum DataScope implements EnumType {
 
     ALL(0, "全部数据"),
     ORG_AND_CHILDREN(1, "本机构及以下机构数据"),
@@ -31,9 +34,19 @@ public enum DataScope {
      */
     private final String desc;
 
-    DataScope(Integer value, String desc) {
-        this.value = value;
-        this.desc = desc;
+    /**
+     * 根据描述获取枚举
+     *
+     * @param desc 描述
+     * @return 枚举
+     */
+    public static DataScope getByDesc(String desc) {
+        for (DataScope dataScope : DataScope.values()) {
+            if (dataScope.getDesc().equals(desc)) {
+                return dataScope;
+            }
+        }
+        return null;
     }
 
 }

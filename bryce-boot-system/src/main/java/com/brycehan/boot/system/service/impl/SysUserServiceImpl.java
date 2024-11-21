@@ -17,7 +17,7 @@ import com.brycehan.boot.common.base.ServerException;
 import com.brycehan.boot.common.constant.DataConstants;
 import com.brycehan.boot.common.entity.PageResult;
 import com.brycehan.boot.common.entity.dto.IdsDto;
-import com.brycehan.boot.common.response.UserResponseStatus;
+import com.brycehan.boot.common.base.response.UserResponseStatus;
 import com.brycehan.boot.common.util.ExcelUtils;
 import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
 import com.brycehan.boot.system.common.security.RefreshTokenEvent;
@@ -235,7 +235,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         List<SysUser> sysUserList = this.baseMapper.selectList(getWrapper(sysUserPageDto));
         List<SysUserVo> sysUserVoList = SysUserConvert.INSTANCE.convert(sysUserList);
         // 数据字典翻译
-        ExcelUtils.transList(sysUserVoList);
+//        ExcelUtils.transList(sysUserVoList);
         String today = DateUtil.format(new Date(), DatePattern.PURE_DATE_PATTERN);
         ExcelUtils.export(SysUserVo.class, "系统用户_".concat(today), "系统用户", sysUserVoList);
     }
@@ -249,7 +249,6 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void saveUsers(List<SysUserExcelDto> list, String password) {
-        ExcelUtils.unTransList(list);
         List<SysUser> sysUsers = SysUserConvert.INSTANCE.convertList(list);
         sysUsers.forEach(sysUser -> {
             sysUser.setId(IdGenerator.nextId());

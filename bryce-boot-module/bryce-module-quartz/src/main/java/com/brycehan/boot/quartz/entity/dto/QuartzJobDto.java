@@ -1,8 +1,8 @@
 package com.brycehan.boot.quartz.entity.dto;
 
 import com.brycehan.boot.common.entity.BaseDto;
-import com.brycehan.boot.common.validator.SaveGroup;
-import com.brycehan.boot.common.validator.UpdateGroup;
+import com.brycehan.boot.common.base.validator.SaveGroup;
+import com.brycehan.boot.common.base.validator.UpdateGroup;
 import com.brycehan.boot.quartz.common.JobGroup;
 import com.brycehan.boot.quartz.common.JobStatus;
 import io.swagger.v3.oas.annotations.media.Schema;

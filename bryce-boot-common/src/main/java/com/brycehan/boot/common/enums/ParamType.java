@@ -3,6 +3,7 @@ package com.brycehan.boot.common.enums;
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 
 /**
@@ -12,7 +13,9 @@ import lombok.Getter;
  * @since 2024/3/25
  */
 @Getter
-public enum ParamType {
+@SuppressWarnings("unused")
+@RequiredArgsConstructor
+public enum ParamType implements EnumType {
 
     SYSTEM(0, "系统内置"),
     APP(1, "应用");
@@ -29,9 +32,19 @@ public enum ParamType {
      */
     private final String desc;
 
-    ParamType(Integer value, String desc) {
-        this.value = value;
-        this.desc = desc;
+    /**
+     * 根据描述获取枚举
+     *
+     * @param desc 描述
+     * @return 枚举
+     */
+    public static ParamType getByDesc(String desc) {
+        for (ParamType paramType : values()) {
+            if (paramType.getDesc().equals(desc)) {
+                return paramType;
+            }
+        }
+        return null;
     }
 
 }

@@ -4,7 +4,7 @@ import com.brycehan.boot.common.base.LoginUserContext;
 import com.brycehan.boot.common.entity.dto.AccountLoginDto;
 import com.brycehan.boot.common.entity.dto.PhoneLoginDto;
 import com.brycehan.boot.common.entity.vo.LoginVo;
-import com.brycehan.boot.common.response.ResponseResult;
+import com.brycehan.boot.common.base.response.ResponseResult;
 import com.brycehan.boot.system.entity.convert.SysUserConvert;
 import com.brycehan.boot.system.entity.vo.SysUserVo;
 import com.brycehan.boot.system.service.AuthLoginService;

@@ -6,29 +6,23 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 /**
- * 是/否类型
+ * 性别类型
  *
  * @author Bryce Han
- * @since 2024/11/18
+ * @since 2023/11/23
  */
 @Getter
 @SuppressWarnings("unused")
 @RequiredArgsConstructor
-public enum YesNoType implements EnumType {
+public enum GenderType implements EnumType {
 
-    YES("Y", "是"),
-    NO("N", "否");
+    MALE("M", "男"),
+    FEMALE("F", "女"),
+    UNKNOWN("N", "未知");
 
-    /**
-     * 类型值
-     */
-    @JsonValue
     @EnumValue
+    @JsonValue
     private final String value;
-
-    /**
-     * 描述
-     */
     private final String desc;
 
     /**
@@ -37,10 +31,10 @@ public enum YesNoType implements EnumType {
      * @param desc 描述
      * @return 枚举类型
      */
-    public static YesNoType getByDesc(String desc) {
-        for (YesNoType type : values()) {
-            if (type.getDesc().equals(desc)) {
-                return type;
+    public static GenderType getByDesc(String desc) {
+        for (GenderType genderType : values()) {
+            if (genderType.getDesc().equals(desc)) {
+                return genderType;
             }
         }
         return null;

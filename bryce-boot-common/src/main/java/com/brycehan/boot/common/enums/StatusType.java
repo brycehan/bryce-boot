@@ -3,6 +3,7 @@ package com.brycehan.boot.common.enums;
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 /**
  * 状态类型
@@ -11,7 +12,9 @@ import lombok.Getter;
  * @author Bryce Han
  */
 @Getter
-public enum StatusType {
+@SuppressWarnings("unused")
+@RequiredArgsConstructor
+public enum StatusType implements EnumType {
 
     ENABLE(1, "正常"),
     DISABLE(0, "停用");
@@ -28,9 +31,19 @@ public enum StatusType {
      */
     private final String desc;
 
-    StatusType(Integer value, String desc) {
-        this.value = value;
-        this.desc = desc;
+    /**
+     * 根据描述获取枚举
+     *
+     * @param desc 描述
+     * @return 枚举
+     */
+    public static StatusType getByDesc(String desc) {
+        for (StatusType statusType : StatusType.values()) {
+            if (statusType.getDesc().equals(desc)) {
+                return statusType;
+            }
+        }
+        return null;
     }
 
 }

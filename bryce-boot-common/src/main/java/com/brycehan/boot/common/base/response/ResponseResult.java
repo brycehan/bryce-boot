@@ -1,4 +1,4 @@
-package com.brycehan.boot.common.response;
+package com.brycehan.boot.common.base.response;
 
 import com.brycehan.boot.common.base.ServerException;
 import com.brycehan.boot.common.util.StringFormatUtils;

@@ -2,7 +2,7 @@ package com.brycehan.boot.system.entity.po;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.brycehan.boot.common.base.GenderType;
+import com.brycehan.boot.common.enums.GenderType;
 import com.brycehan.boot.common.entity.BaseEntity;
 import com.brycehan.boot.common.enums.StatusType;
 import io.swagger.v3.oas.annotations.media.Schema;

@@ -3,6 +3,7 @@ package com.brycehan.boot.common.enums;
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 /**
  * 操作状态
@@ -11,7 +12,9 @@ import lombok.Getter;
  * @author Bryce Han
  */
 @Getter
-public enum OperateStatus {
+@SuppressWarnings("unused")
+@RequiredArgsConstructor
+public enum OperateStatus implements EnumType {
 
     SUCCESS(1, "成功"),
     FAIL(0, "失败");
@@ -28,9 +31,19 @@ public enum OperateStatus {
      */
     private final String desc;
 
-    OperateStatus(Integer value, String desc) {
-        this.value = value;
-        this.desc = desc;
+    /**
+     * 根据描述获取枚举
+     *
+     * @param desc 描述
+     * @return 枚举
+     */
+    public static OperateStatus getByDesc(String desc) {
+        for (OperateStatus operateStatus : OperateStatus.values()) {
+            if (operateStatus.getDesc().equals(desc)) {
+                return operateStatus;
+            }
+        }
+        return null;
     }
 
 }

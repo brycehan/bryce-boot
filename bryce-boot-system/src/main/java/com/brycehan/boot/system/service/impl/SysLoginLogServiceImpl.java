@@ -84,8 +84,6 @@ public class SysLoginLogServiceImpl extends BaseServiceImpl<SysLoginLogMapper, S
     public void export(SysLoginLogPageDto sysLoginLogPageDto) {
         List<SysLoginLog> sysLoginLogList = this.baseMapper.selectList(getWrapper(sysLoginLogPageDto));
         List<SysLoginLogVo> sysLoginLogVoList = SysLoginLogConvert.INSTANCE.convert(sysLoginLogList);
-        // 数据字典翻译
-        ExcelUtils.transList(sysLoginLogVoList);
         String today = DateUtil.format(new Date(), DatePattern.PURE_DATE_PATTERN);
 
         ExcelUtils.export(SysLoginLogVo.class, "系统登录日志_".concat(today), "系统登录日志", sysLoginLogVoList);

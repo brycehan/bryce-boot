@@ -3,6 +3,7 @@ package com.brycehan.boot.common.enums;
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 /**
  * 通知状态
@@ -12,7 +13,8 @@ import lombok.Getter;
  */
 @Getter
 @SuppressWarnings("unused")
-public enum NoticeStatus {
+@RequiredArgsConstructor
+public enum NoticeStatus implements EnumType {
 
     OFF(0, "关闭"),
     ON(1, "正常"),
@@ -30,9 +32,19 @@ public enum NoticeStatus {
      */
     private final String desc;
 
-    NoticeStatus(Integer value, String desc) {
-        this.value = value;
-        this.desc = desc;
+    /**
+     * 根据描述获取枚举
+     *
+     * @param desc 描述
+     * @return 枚举
+     */
+    public static NoticeStatus getByDesc(String desc) {
+        for (NoticeStatus status : values()) {
+            if (status.getDesc().equals(desc)) {
+                return status;
+            }
+        }
+        return null;
     }
 
 }

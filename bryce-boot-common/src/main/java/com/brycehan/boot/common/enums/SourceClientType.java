@@ -2,6 +2,7 @@ package com.brycehan.boot.common.enums;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 /**
  * 请求来源客户端类型
@@ -10,7 +11,9 @@ import lombok.Getter;
  * @since 2024/4/7
  */
 @Getter
-public enum SourceClientType {
+@SuppressWarnings("unused")
+@RequiredArgsConstructor
+public enum SourceClientType implements EnumType {
 
     PC("pc", "PC"),
     H5("h5", "H5"),
@@ -30,11 +33,6 @@ public enum SourceClientType {
      */
     private final String desc;
 
-    SourceClientType(String value, String desc) {
-        this.value = value;
-        this.desc = desc;
-    }
-
     /**
      * 根据值获取枚举
      *
@@ -44,6 +42,21 @@ public enum SourceClientType {
     public static SourceClientType getByValue(String value) {
         for (SourceClientType sourceClientType : values()) {
             if (sourceClientType.value.equals(value)) {
+                return sourceClientType;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * 根据描述获取枚举
+     *
+     * @param desc 描述
+     * @return 枚举
+     */
+    public static SourceClientType getByDesc(String desc) {
+        for (SourceClientType sourceClientType : values()) {
+            if (sourceClientType.desc.equals(desc)) {
                 return sourceClientType;
             }
         }

@@ -1,7 +1,7 @@
 package com.brycehan.boot.framework.security;
 
-import com.brycehan.boot.common.response.HttpResponseStatus;
-import com.brycehan.boot.common.response.ResponseResult;
+import com.brycehan.boot.common.base.response.HttpResponseStatus;
+import com.brycehan.boot.common.base.response.ResponseResult;
 import com.brycehan.boot.common.util.ServletUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

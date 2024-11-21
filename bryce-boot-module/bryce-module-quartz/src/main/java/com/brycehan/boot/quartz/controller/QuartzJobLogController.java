@@ -2,7 +2,7 @@ package com.brycehan.boot.quartz.controller;
 
 import com.brycehan.boot.common.entity.PageResult;
 import com.brycehan.boot.common.entity.dto.IdsDto;
-import com.brycehan.boot.common.response.ResponseResult;
+import com.brycehan.boot.common.base.response.ResponseResult;
 import com.brycehan.boot.framework.operatelog.annotation.OperateLog;
 import com.brycehan.boot.framework.operatelog.annotation.OperatedType;
 import com.brycehan.boot.quartz.entity.convert.QuartzJobLogConvert;

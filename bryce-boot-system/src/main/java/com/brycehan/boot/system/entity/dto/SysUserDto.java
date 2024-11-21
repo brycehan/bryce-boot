@@ -1,10 +1,10 @@
 package com.brycehan.boot.system.entity.dto;
 
-import com.brycehan.boot.common.base.GenderType;
+import com.brycehan.boot.common.enums.GenderType;
 import com.brycehan.boot.common.entity.BaseDto;
 import com.brycehan.boot.common.enums.StatusType;
-import com.brycehan.boot.common.validator.SaveGroup;
-import com.brycehan.boot.common.validator.UpdateGroup;
+import com.brycehan.boot.common.base.validator.SaveGroup;
+import com.brycehan.boot.common.base.validator.UpdateGroup;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;

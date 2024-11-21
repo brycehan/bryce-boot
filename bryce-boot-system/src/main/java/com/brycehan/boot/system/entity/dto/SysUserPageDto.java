@@ -1,6 +1,6 @@
 package com.brycehan.boot.system.entity.dto;
 
-import com.brycehan.boot.common.base.GenderType;
+import com.brycehan.boot.common.enums.GenderType;
 import com.brycehan.boot.common.entity.BasePageDto;
 import com.brycehan.boot.common.enums.StatusType;
 import io.swagger.v3.oas.annotations.media.Schema;

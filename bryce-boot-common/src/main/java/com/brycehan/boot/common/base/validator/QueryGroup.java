@@ -1,4 +1,4 @@
-package com.brycehan.boot.common.validator;
+package com.brycehan.boot.common.base.validator;
 
 /**
  * 查询校验组

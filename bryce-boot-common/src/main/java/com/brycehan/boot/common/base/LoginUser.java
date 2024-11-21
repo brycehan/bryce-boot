@@ -1,5 +1,6 @@
 package com.brycehan.boot.common.base;
 
+import com.brycehan.boot.common.enums.GenderType;
 import com.brycehan.boot.common.enums.SourceClientType;
 import com.brycehan.boot.common.enums.StatusType;
 import com.fasterxml.jackson.annotation.JsonIgnore;

@@ -2,6 +2,7 @@ package com.brycehan.boot.common.enums;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 /**
  * 验证码类型
@@ -10,7 +11,9 @@ import lombok.Getter;
  * @since 2023/11/23
  */
 @Getter
-public enum CaptchaType {
+@SuppressWarnings("unused")
+@RequiredArgsConstructor
+public enum CaptchaType implements EnumType {
 
     LOGIN("login", "登录"),
     REGISTER("register", "注册");
@@ -26,9 +29,19 @@ public enum CaptchaType {
      */
     private final String desc;
 
-    CaptchaType(String value, String desc) {
-        this.value = value;
-        this.desc = desc;
+    /**
+     * 根据描述获取枚举
+     *
+     * @param desc 描述
+     * @return 枚举
+     */
+    public static CaptchaType getByDesc(String desc) {
+        for (CaptchaType captchaType : values()) {
+            if (captchaType.getDesc().equals(desc)) {
+                return captchaType;
+            }
+        }
+        return null;
     }
 
 }

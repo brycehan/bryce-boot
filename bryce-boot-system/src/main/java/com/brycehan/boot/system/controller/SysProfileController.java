@@ -1,7 +1,7 @@
 package com.brycehan.boot.system.controller;
 
 import com.brycehan.boot.common.base.LoginUserContext;
-import com.brycehan.boot.common.response.ResponseResult;
+import com.brycehan.boot.common.base.response.ResponseResult;
 import com.brycehan.boot.framework.operatelog.annotation.OperateLog;
 import com.brycehan.boot.framework.operatelog.annotation.OperatedType;
 import com.brycehan.boot.system.entity.dto.SysUserInfoDto;

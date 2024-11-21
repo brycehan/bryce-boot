@@ -2,6 +2,7 @@ package com.brycehan.boot.common.enums;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 /**
  * 短信类型
@@ -10,7 +11,9 @@ import lombok.Getter;
  * @since 2024/5/23
  */
 @Getter
-public enum SmsType {
+@SuppressWarnings("unused")
+@RequiredArgsConstructor
+public enum SmsType implements EnumType {
 
     LOGIN("login", "登录"),
     REGISTER("register", "注册");
@@ -26,8 +29,19 @@ public enum SmsType {
      */
     private final String desc;
 
-    SmsType(String value, String desc) {
-        this.value = value;
-        this.desc = desc;
+    /**
+     * 根据描述获取枚举
+     *
+     * @param desc 描述
+     * @return 枚举
+     */
+    public static SmsType getByDesc(String desc) {
+        for (SmsType smsType : SmsType.values()) {
+            if (smsType.getDesc().equals(desc)) {
+                return smsType;
+            }
+        }
+        return null;
     }
+
 }

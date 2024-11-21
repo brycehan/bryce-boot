@@ -4,7 +4,7 @@ import cn.hutool.core.collection.ListUtil;
 import com.brycehan.boot.common.base.LoginUser;
 import com.brycehan.boot.common.constant.CacheConstants;
 import com.brycehan.boot.common.entity.PageResult;
-import com.brycehan.boot.common.response.ResponseResult;
+import com.brycehan.boot.common.base.response.ResponseResult;
 import com.brycehan.boot.framework.operatelog.annotation.OperateLog;
 import com.brycehan.boot.framework.operatelog.annotation.OperatedType;
 import com.brycehan.boot.framework.security.JwtTokenProvider;
