@@ -34,13 +34,13 @@ public class ParamConstants {
     public static final String SYSTEM_REGISTER_SMS_ENABLED = "system.register.sms.enabled";
 
     /**
-     * 系统账号注册邮件开关键
-     */
-    public static final String SYSTEM_REGISTER_EMAIL_ENABLED = "system.register.email.enabled";
-
-    /**
      * 系统短信开关键
      */
     public static final String SYSTEM_SMS_ENABLED = "system.sms.enabled";
+
+    /**
+     * 系统初始密码键
+     */
+    public static final String SYSTEM_USER_INIT_PASSWORD = "system.user.init.password";
 
 }

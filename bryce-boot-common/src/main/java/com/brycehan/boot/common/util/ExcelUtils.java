@@ -1,5 +1,6 @@
 package com.brycehan.boot.common.util;
 
+import cn.hutool.core.util.StrUtil;
 import com.alibaba.excel.EasyExcel;
 import com.brycehan.boot.common.util.excel.ExcelDataListener;
 import com.brycehan.boot.common.util.excel.ExcelFinishCallback;
@@ -17,6 +18,8 @@ import java.util.List;
 
 /**
  * Excel工具类
+ * <br/>
+ * <a href="https://easyexcel.opensource.alibaba.com/">https://easyexcel.opensource.alibaba.com/</a>
  *
  * @since 2023/4/23
  * @author Bryce Han
@@ -49,6 +52,56 @@ public class ExcelUtils {
                     .sheet(StringUtils.isBlank(sheetName) ? "Sheet1": sheetName)
                     .doWrite(data);
         }catch (IOException e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * 导出数据到文件
+     *
+     * @param head 实体类表头
+     * @param file 文件对象
+     * @param sheetName sheet 名称
+     * @param data 数据列表
+     * @param <T> 实体类型
+     */
+    public static <T> void export(Class<T> head, File file, String sheetName, List<T> data) {
+        if (StrUtil.isBlank(sheetName)) {
+            sheetName = "Sheet1";
+        }
+        try {
+            EasyExcel.write(file, head).sheet(sheetName).doWrite(data);
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * 读取 Excel 文件
+     *
+     * @param file Excel 文件
+     * @param head 列名类
+     * @param <T> 数据类型
+     * @return 数据列表
+     */
+    public static <T> List<T> read(MultipartFile file, Class<T> head) {
+        return read(file, head, 1, 0);
+    }
+
+    /**
+     * 读取 Excel 文件
+     *
+     * @param file Excel 文件
+     * @param head 列名类
+     * @param headRowNumber 表头行数
+     * @param sheetNo sheet页
+     * @param <T> 数据类型
+     * @return 数据列表
+     */
+    public static <T> List<T> read(MultipartFile file, Class<T> head, Integer headRowNumber, Integer sheetNo) {
+        try {
+            return EasyExcel.read(file.getInputStream()).head(head).headRowNumber(headRowNumber).sheet(sheetNo).doReadSync();
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }

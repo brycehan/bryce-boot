@@ -674,7 +674,8 @@ INSERT INTO brc_sys_param (id, param_name, param_key, param_value, param_type, r
 INSERT INTO brc_sys_param (id, param_name, param_key, param_value, param_type, remark, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (3, '用户注册-开关', 'system.register.enabled', 'true', '0', '是否开启注册功能（true：开启，false：关闭）', null, 1, now(), 1, now());
 INSERT INTO brc_sys_param (id, param_name, param_key, param_value, param_type, remark, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (4, '用户注册-图片验证码开关', 'system.register.captcha.enabled', 'true', '0', '是否开启注册图片验证码功能（true：开启，false：关闭）', null, 1, now(), 1, now());
 INSERT INTO brc_sys_param (id, param_name, param_key, param_value, param_type, remark, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (5, '用户注册-短信验证码开关', 'system.register.sms.enabled', 'true', '0', '是否开启注册短信验证码功能（true：开启，false：关闭）', null, 1, now(), 1, now());
-INSERT INTO brc_sys_param (id, param_name, param_key, param_value, param_type, remark, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (6, '短信-开关', 'system.sms.enabled', 'true', '0', '是否开启短信功能（true：开启，false：关闭）', null, 1, now(), 1, now());
+INSERT INTO brc_sys_param (id, param_name, param_key, param_value, param_type, remark, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (6, '手机短信-开关', 'system.sms.enabled', 'true', '0', '是否开启短信功能（true：开启，false：关闭）', null, 1, now(), 1, now());
+INSERT INTO brc_sys_param (id, param_name, param_key, param_value, param_type, remark, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (7, '用户管理-账号初始密码', 'system.user.init.password', '123321', '0', '初始化密码 123321', null, 1, now(), 1, now());
 
 -- 15、系统附件表
 create table brc_sys_attachment

@@ -15,10 +15,12 @@ import com.brycehan.boot.common.base.LoginUser;
 import com.brycehan.boot.common.base.LoginUserContext;
 import com.brycehan.boot.common.base.ServerException;
 import com.brycehan.boot.common.constant.DataConstants;
+import com.brycehan.boot.common.constant.ParamConstants;
 import com.brycehan.boot.common.entity.PageResult;
 import com.brycehan.boot.common.entity.dto.IdsDto;
 import com.brycehan.boot.common.base.response.UserResponseStatus;
 import com.brycehan.boot.common.util.ExcelUtils;
+import com.brycehan.boot.common.util.ValidatorUtils;
 import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
 import com.brycehan.boot.system.common.security.RefreshTokenEvent;
 import com.brycehan.boot.system.entity.convert.SysUserConvert;
@@ -29,10 +31,10 @@ import com.brycehan.boot.system.entity.vo.SysUserInfoVo;
 import com.brycehan.boot.system.entity.vo.SysUserVo;
 import com.brycehan.boot.system.mapper.SysUserMapper;
 import com.brycehan.boot.system.service.*;
+import jakarta.validation.Validator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.aop.framework.AopContext;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -69,9 +71,13 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
 
     private final SysRoleService sysRoleService;
 
+    private final SysParamService sysParamService;
+
     private final Executor executor;
 
     private final StorageApi storageApi;
+
+    private final Validator validator;
 
     @Transactional(rollbackFor = Exception.class)
     @Override
@@ -234,31 +240,75 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
     public void export(SysUserPageDto sysUserPageDto) {
         List<SysUser> sysUserList = this.baseMapper.selectList(getWrapper(sysUserPageDto));
         List<SysUserVo> sysUserVoList = SysUserConvert.INSTANCE.convert(sysUserList);
-        // 数据字典翻译
-//        ExcelUtils.transList(sysUserVoList);
         String today = DateUtil.format(new Date(), DatePattern.PURE_DATE_PATTERN);
         ExcelUtils.export(SysUserVo.class, "系统用户_".concat(today), "系统用户", sysUserVoList);
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void importByExcel(MultipartFile file, String password) {
-        ExcelUtils.read(file, SysUserExcelDto.class, list -> ((SysUserService) AopContext.currentProxy()).saveUsers(list, password));
+    public String importByExcel(MultipartFile file, boolean isUpdateSupport) {
+        if(file.isEmpty()) {
+            throw new RuntimeException("请选择需要上传的文件");
+        }
+        List<SysUserExcelDto> sysUserExcelDtoList = ExcelUtils.read(file, SysUserExcelDto.class);
+        return saveUsers(sysUserExcelDtoList, isUpdateSupport);
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void saveUsers(List<SysUserExcelDto> list, String password) {
-        List<SysUser> sysUsers = SysUserConvert.INSTANCE.convertList(list);
-        sysUsers.forEach(sysUser -> {
-            sysUser.setId(IdGenerator.nextId());
-            sysUser.setPassword(this.passwordEncoder.encode(password));
-            sysUser.setSuperAdmin(false);
-        });
+    public String saveUsers(List<SysUserExcelDto> list, boolean isUpdateSupport) {
+        if (CollUtil.isEmpty(list)) {
+            throw new RuntimeException("导入用户数据不能为空");
+        }
 
-        // 批量新增
-        SysUserService proxy = (SysUserService) AopContext.currentProxy();
-        proxy.saveBatch(sysUsers);
+        // 初始密码
+        String password = this.sysParamService.getString(ParamConstants.SYSTEM_USER_INIT_PASSWORD);
+        String encodedPassword = this.passwordEncoder.encode(password);
+
+        // 批量处理
+        int successNum = 0;
+        int failNum = 0;
+        StringBuilder sucessMessage = new StringBuilder();
+        StringBuilder failMessage = new StringBuilder();
+        for (SysUserExcelDto sysUserExcelDto : list) {
+            String username = StringUtils.isBlank(sysUserExcelDto.getUsername()) ? "" : sysUserExcelDto.getUsername();
+            try {
+                SysUser sysUser = SysUserConvert.INSTANCE.convert(sysUserExcelDto);
+                // 查询用户是否存在
+                LambdaQueryWrapper<SysUser> queryWrapper = new LambdaQueryWrapper<>();
+                queryWrapper.select(SysUser::getId);
+                queryWrapper.eq(SysUser::getUsername, sysUser.getUsername());
+                SysUser user = this.getOne(queryWrapper, false);
+                // 系统不存在用户时
+                if (user == null) {
+                    ValidatorUtils.validate(validator, sysUserExcelDto);
+                    sysUser.setId(IdGenerator.nextId());
+                    sysUser.setPassword(encodedPassword);
+                    sysUser.setSuperAdmin(false);
+                    this.baseMapper.insert(sysUser);
+                    successNum++;
+                    sucessMessage.append("<br/>").append(successNum).append("、账号 ").append(username).append(" 导入成功");
+                } else if (isUpdateSupport) {
+                    ValidatorUtils.validate(validator, sysUserExcelDto);
+                    sysUser.setId(user.getId());
+                    this.baseMapper.updateById(sysUser);
+                    successNum++;
+                    sucessMessage.append("<br/>").append(successNum).append("、账号 ").append(username).append(" 更新成功");
+                } else {
+                    failNum++;
+                    failMessage.append("<br/>").append(failNum).append("、账号 ").append(username).append(" 已存在");
+                }
+            } catch (Exception e) {
+                failNum++;
+                String message = "<br/>" + failNum + "、账号 " + username + " 导入失败：";
+                failMessage.append(message).append(e.getMessage());
+                log.error(message, e);
+            }
+        }
+
+        if (failNum > 0) {
+            throw new RuntimeException("很抱歉，导入失败！共 " + failNum + " 条数据格式不正确，错误如下：" + failMessage);
+        }
+
+        return "恭喜您，数据已全部导入成功！共 " + successNum + " 条，数据如下：" + sucessMessage;
     }
 
     @Override

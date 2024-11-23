@@ -38,6 +38,6 @@ public interface SysUserConvert {
 
     LoginUser convertLoginUser(SysUser sysUser);
 
-    List<SysUser> convertList(List<SysUserExcelDto> list);
+    SysUser convert(SysUserExcelDto sysUserExcelDto);
 
 }

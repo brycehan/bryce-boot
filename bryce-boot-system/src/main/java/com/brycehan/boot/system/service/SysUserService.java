@@ -65,17 +65,18 @@ public interface SysUserService extends BaseService<SysUser> {
      * 批量导入用户
      *
      * @param file Excel 文件
-     * @param password 初始密码
+     * @param isUpdateSupport 是否更新已经存在的用户数据
      */
-    void importByExcel(MultipartFile file, String password);
+    String importByExcel(MultipartFile file, boolean isUpdateSupport);
 
     /**
      * 批量导入保存用户
      *
      * @param list      用户列表
-     * @param password 初始密码
+     * @param isUpdateSupport 是否更新已经存在的用户数据
      */
-    void saveUsers(List<SysUserExcelDto> list, String password);
+    String saveUsers(List<SysUserExcelDto> list, boolean isUpdateSupport);
+
     /**
      * 根据手机号码查询用户
      *
