@@ -2,10 +2,7 @@ package com.brycehan.boot.system.service;
 
 import com.brycehan.boot.common.entity.PageResult;
 import com.brycehan.boot.framework.mybatis.service.BaseService;
-import com.brycehan.boot.system.entity.dto.SysRoleCodeDto;
-import com.brycehan.boot.system.entity.dto.SysRoleDataScopeDto;
-import com.brycehan.boot.system.entity.dto.SysRoleDto;
-import com.brycehan.boot.system.entity.dto.SysRolePageDto;
+import com.brycehan.boot.system.entity.dto.*;
 import com.brycehan.boot.system.entity.po.SysRole;
 import com.brycehan.boot.system.entity.vo.SysRoleVo;
 
@@ -78,5 +75,13 @@ public interface SysRoleService extends BaseService<SysRole> {
      * @return 是否唯一
      */
     boolean checkCodeUnique(SysRoleCodeDto sysRoleCodeDto);
+
+    /**
+     * 分配给用户的角色分页查询
+     *
+     * @param sysAssignRolePageDto 查询条件
+     * @return 分页信息
+     */
+    PageResult<SysRoleVo> assignRolePage(SysAssignRolePageDto sysAssignRolePageDto);
 
 }

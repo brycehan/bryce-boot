@@ -21,12 +21,11 @@ public interface BaseService<T> extends IService<T> {
      *
      * @param idsDto ids参数
      */
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional
     default void delete(IdsDto idsDto) {
         // 过滤无效参数
-        List<Long> ids = idsDto.getIds().stream()
-                .filter(Objects::nonNull)
-                .toList();
+        List<Long> ids = idsDto.getIds().stream().filter(Objects::nonNull).toList();
+
         if (CollectionUtils.isEmpty(ids)) {
             return;
         }

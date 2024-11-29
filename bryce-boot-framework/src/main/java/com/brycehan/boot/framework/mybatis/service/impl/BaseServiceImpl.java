@@ -10,6 +10,7 @@ import com.brycehan.boot.common.base.LoginUserContext;
 import com.brycehan.boot.framework.mybatis.interceptor.DataScope;
 import com.brycehan.boot.framework.mybatis.service.BaseService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.Assert;
 
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -42,8 +43,9 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<M, 
      */
     protected DataScope getDataScope(String tableAlias, String orgIdAlias) {
         LoginUser loginUser = LoginUserContext.currentUser();
+        Assert.notNull(loginUser, "用户未登录");
+
         // 如果是超级管理员，则不进行数据过滤
-        assert loginUser != null;
         if(loginUser.isSuperAdmin()) {
             return null;
         }

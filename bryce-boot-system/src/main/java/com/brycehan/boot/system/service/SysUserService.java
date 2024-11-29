@@ -2,6 +2,7 @@ package com.brycehan.boot.system.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.brycehan.boot.common.entity.PageResult;
+import com.brycehan.boot.common.enums.StatusType;
 import com.brycehan.boot.framework.mybatis.service.BaseService;
 import com.brycehan.boot.system.entity.dto.*;
 import com.brycehan.boot.system.entity.po.SysUser;
@@ -132,6 +133,13 @@ public interface SysUserService extends BaseService<SysUser> {
     void checkUserAllowed(SysUser sysUser);
 
     /**
+     * 校验用户数据权限
+     *
+     * @param sysUser 系统用户信息
+     */
+    void checkUserDataScope(SysUser sysUser);
+
+    /**
      * 更新个人信息
      *
      * @param sysUserInfoDto 个人信息
@@ -144,6 +152,14 @@ public interface SysUserService extends BaseService<SysUser> {
      * @param file 用户头像信息
      */
     String updateAvatar(MultipartFile file);
+
+    /**
+     * 更新系统用户状态
+     *
+     * @param id 系统用户ID
+     * @param status 用户状态
+     */
+    void update(Long id, StatusType status);
 
     /**
      * 更新密码

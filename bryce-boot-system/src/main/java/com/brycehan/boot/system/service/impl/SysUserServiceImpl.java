@@ -7,6 +7,7 @@ import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.brycehan.boot.api.system.StorageApi;
 import com.brycehan.boot.api.system.vo.StorageVo;
@@ -19,6 +20,7 @@ import com.brycehan.boot.common.constant.ParamConstants;
 import com.brycehan.boot.common.entity.PageResult;
 import com.brycehan.boot.common.entity.dto.IdsDto;
 import com.brycehan.boot.common.base.response.UserResponseStatus;
+import com.brycehan.boot.common.enums.StatusType;
 import com.brycehan.boot.common.util.ExcelUtils;
 import com.brycehan.boot.common.util.ValidatorUtils;
 import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
@@ -39,6 +41,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.*;
@@ -79,8 +82,8 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
 
     private final Validator validator;
 
-    @Transactional(rollbackFor = Exception.class)
     @Override
+    @Transactional
     public void save(SysUserDto sysUserDto) {
         // 判断用户名是否存在
         SysUser user = this.baseMapper.getByUsername(sysUserDto.getUsername());
@@ -110,13 +113,15 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         this.sysUserPostService.saveOrUpdate(sysUser.getId(), sysUserDto.getPostIds());
     }
 
-    @Transactional(rollbackFor = Exception.class)
     @Override
+    @Transactional
     public void update(SysUserDto sysUserDto) {
         // 判断手机号是否存在
-        SysUser user = this.baseMapper.getByPhone(sysUserDto.getPhone());
-        if (user != null && !user.getId().equals(sysUserDto.getId())) {
-            throw new RuntimeException("手机号已经存在");
+        if (StrUtil.isNotBlank(sysUserDto.getPhone())) {
+            SysUser user = this.baseMapper.getByPhone(sysUserDto.getPhone());
+            if (user != null && !user.getId().equals(sysUserDto.getId())) {
+                throw new RuntimeException("手机号已经存在");
+            }
         }
 
         SysUser sysUser = SysUserConvert.INSTANCE.convert(sysUserDto);
@@ -157,24 +162,45 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         return sysUserVo;
     }
 
-    @Transactional(rollbackFor = Exception.class)
     @Override
+    @Transactional
     public void delete(IdsDto idsDto) {
         // 过滤无效参数
-        List<Long> ids = idsDto.getIds().stream()
-                .filter(Objects::nonNull)
-                .toList();
+        List<Long> ids = idsDto.getIds().stream().filter(Objects::nonNull).toList();
 
         if (CollUtil.isNotEmpty(ids)) {
-            // 删除用户
-            this.baseMapper.deleteByIds(ids);
+            LambdaQueryWrapper<SysUser> queryWrapper = new LambdaQueryWrapper<>();
+            queryWrapper.select(SysUser::getId, SysUser::getSuperAdmin);
+            queryWrapper.in(SysUser::getId, ids);
+            List<SysUser> sysUsers = this.baseMapper.selectList(queryWrapper);
+
+            if (CollUtil.isEmpty(sysUsers)) {
+                return;
+            }
+
+            for (SysUser sysUser : sysUsers) {
+                checkUserAllowed(sysUser);
+                checkUserDataScope(sysUser);
+            }
 
             // 删除用户角色关系
             this.sysUserRoleService.deleteByUserIds(ids);
 
             // 删除用户岗位关系
             this.sysUserPostService.deleteByUserIds(ids);
+
+            // 删除用户
+            this.baseMapper.deleteByIds(ids);
         }
+    }
+
+    @Override
+    public void checkUserDataScope(SysUser sysUser) {
+        if (SysUser.isSuperAdmin(sysUser)) {
+            return;
+        }
+
+
     }
 
     @Override
@@ -402,10 +428,11 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
 
     @Override
     public void checkUserAllowed(SysUser sysUser) {
-        Long userId = LoginUserContext.currentUserId();
-        SysUser user = this.baseMapper.selectById(userId);
-        // 检查用户权限
-        if (!user.getSuperAdmin() && sysUser.getSuperAdmin()) {
+        if (sysUser == null) {
+            return;
+        }
+        Assert.notNull(sysUser.getSuperAdmin(), "是否超级管理员不能为空");
+        if (sysUser.getId() != null && sysUser.getSuperAdmin()) {
             throw new RuntimeException("不允许操作超级管理员用户");
         }
     }
@@ -475,6 +502,26 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         }
 
         throw new ServerException(UserResponseStatus.USER_PROFILE_ALTER_AVATAR_ERROR);
+    }
+
+    @Override
+    public void update(Long id, StatusType status) {
+        Assert.notNull(id, "用户ID不能为空");
+        Assert.notNull(status, "用户状态不能为空");
+
+        // 过滤无效的用户
+        Optional<SysUser> sysUser = lambdaQuery().select(SysUser::getId, SysUser::getSuperAdmin).eq(SysUser::getId, id).oneOpt();
+        if (sysUser.isEmpty()) {
+            return;
+        }
+
+        // 不允许操作超级管理员状态
+        this.checkUserAllowed(sysUser.get());
+
+        // 更新状态
+        LambdaUpdateWrapper<SysUser> updateWrapper = new LambdaUpdateWrapper<>();
+        updateWrapper.set(SysUser::getStatus, status).eq(SysUser::getId, id);
+        this.update(updateWrapper);
     }
 
     @Override

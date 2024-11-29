@@ -189,6 +189,52 @@ public class SysRoleController {
     }
 
     /**
+     * 分配给用户的角色分页查询
+     *
+     * @param sysAssignRolePageDto 分配角色分页查询Dto
+     * @return 角色分页查询
+     */
+    @Operation(summary = "分配给用户的角色分页查询")
+    @PreAuthorize("hasAuthority('system:role:page')")
+    @PostMapping(path = "/assignRole/page")
+    public ResponseResult<PageResult<SysRoleVo>> assignRolePage(@Validated @RequestBody SysAssignRolePageDto sysAssignRolePageDto) {
+        PageResult<SysRoleVo> page = this.sysRoleService.assignRolePage(sysAssignRolePageDto);
+        return ResponseResult.ok(page);
+    }
+
+    /**
+     * 分配给用户多个角色
+     *
+     * @param userId  用户ID
+     * @param roleIds 角色IDs
+     * @return 响应结果
+     */
+    @Operation(summary = "分配给用户多个角色")
+    @OperateLog(type = OperatedType.INSERT)
+    @PreAuthorize("hasAuthority('system:role:update')")
+    @PostMapping(path = "/assignRole/{userId}")
+    public ResponseResult<Void> assignRoleSave(@PathVariable Long userId, @RequestBody List<Long> roleIds) {
+        this.sysUserRoleService.assignRoleSave(userId, roleIds);
+        return ResponseResult.ok();
+    }
+
+    /**
+     * 删除分配给用户的角色
+     *
+     * @param userId  用户ID
+     * @param roleIds 角色IDs
+     * @return 响应结果
+     */
+    @Operation(summary = "删除分配给用户的角色")
+    @OperateLog(type = OperatedType.DELETE)
+    @PreAuthorize("hasAuthority('system:role:delete')")
+    @DeleteMapping(path = "/assignRole/{userId}")
+    public ResponseResult<Void> assignRoleDelete(@PathVariable Long userId, @RequestBody List<Long> roleIds) {
+        this.sysUserRoleService.deleteByUserIdAndRoleIds(userId, roleIds);
+        return ResponseResult.ok();
+    }
+
+    /**
      * 角色用户分页查询
      *
      * @param pageDto 查询条件

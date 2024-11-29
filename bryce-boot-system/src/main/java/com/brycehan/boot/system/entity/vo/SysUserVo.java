@@ -116,6 +116,12 @@ public class SysUserVo implements Serializable {
     private String orgName;
 
     /**
+     * 是否是超级管理员
+     */
+    @Schema(description = "是否是超级管理员")
+    private Boolean superAdmin;
+
+    /**
      * 状态（0：停用，1：正常）
      */
     @Schema(description = "状态（0：停用，1：正常）")

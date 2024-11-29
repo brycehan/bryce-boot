@@ -59,8 +59,7 @@
     <select id="list" resultType="com.brycehan.boot.system.entity.po.SysUser">
         select bsu.*
         from brc_sys_user bsu
-        where bsu.super_admin = 0
-        and bsu.deleted is null
+        where bsu.deleted is null
         <if test="username != null and username.trim() != ''">
             and bsu.username like concat('%', #{username}, '%')
         </if>

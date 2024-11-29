@@ -50,7 +50,7 @@ public class AuthLoginServiceImpl implements AuthLoginService {
     private final AuthPasswordRetryService authPasswordRetryService;
 
     @Override
-    public LoginVo loginByAccount(@NotNull AccountLoginDto accountLoginDto) {
+    public LoginVo loginByAccount(AccountLoginDto accountLoginDto) {
         log.debug("loginByAccount，账号认证");
         // 校验验证码
         boolean validated = this.authCaptchaService.validate(accountLoginDto.getKey(), accountLoginDto.getCode(), CaptchaType.LOGIN);

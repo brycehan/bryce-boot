@@ -10,6 +10,7 @@ import com.brycehan.boot.system.service.SysUserRoleService;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import java.util.Collection;
 import java.util.List;
@@ -60,9 +61,7 @@ public class SysUserRoleServiceImpl extends BaseServiceImpl<SysUserRoleMapper, S
     @Override
     public void saveUsers(Long roleId, List<Long> userIds) {
         // 过滤无效参数
-        List<Long> ids = userIds.stream()
-                .filter(Objects::nonNull)
-                .toList();
+        List<Long> ids = userIds.stream().filter(Objects::nonNull).toList();
         if (CollectionUtils.isEmpty(ids)) {
             return;
         }
@@ -121,6 +120,48 @@ public class SysUserRoleServiceImpl extends BaseServiceImpl<SysUserRoleMapper, S
         LambdaQueryWrapper<SysUserRole> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(SysUserRole::getRoleId, roleId);
         queryWrapper.in(SysUserRole::getUserId, userIds);
+
+        remove(queryWrapper);
+    }
+
+    @Transactional
+    @Override
+    public void assignRoleSave(Long userId, List<Long> roleIds) {
+        Assert.notNull(userId, "用户ID不能为空");
+        Assert.notEmpty(roleIds, "角色IDs不能为空");
+        // 过滤无效参数
+        List<Long> ids = roleIds.stream().filter(Objects::nonNull).toList();
+        if (CollectionUtils.isEmpty(ids)) {
+            return;
+        }
+
+        // 过滤已经添加的数据
+        LambdaQueryWrapper<SysUserRole> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(SysUserRole::getUserId, userId);
+        queryWrapper.in(SysUserRole::getRoleId, roleIds);
+        List<SysUserRole> dbUserRoles = this.baseMapper.selectList(queryWrapper);
+
+        List<SysUserRole> userRoleList = roleIds.stream()
+                .filter(roleId -> dbUserRoles.stream().noneMatch(sysUserRole -> sysUserRole.getRoleId().equals(roleId)))
+                .map(roleId -> {
+                    SysUserRole userRole = new SysUserRole();
+                    userRole.setId(IdGenerator.nextId());
+                    userRole.setUserId(userId);
+                    userRole.setRoleId(roleId);
+                    return userRole;
+                }).toList();
+
+        if (CollectionUtils.isNotEmpty(userRoleList)) {
+            // 批量新增
+            saveBatch(userRoleList);
+        }
+    }
+
+    @Override
+    public void deleteByUserIdAndRoleIds(Long userId, List<Long> roleIds) {
+        LambdaQueryWrapper<SysUserRole> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(SysUserRole::getUserId, userId);
+        queryWrapper.in(SysUserRole::getRoleId, roleIds);
 
         remove(queryWrapper);
     }

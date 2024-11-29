@@ -2,7 +2,7 @@ spring: # spring 配置
   datasource: # 数据源配置
     dynamic:
       primary: master # 设置默认的数据源或者数据源组,默认值即为 master
-      p6spy: false
+      p6spy: true
       hikari: # Hikari 连接池全局配置
         connection-timeout: 30000 # 等待连接池分配连接的最大时长（毫秒），超过这个时长还没有可用的连接则发生 SQLException，默认：30秒
         minimum-idle: 2           # 最小空闲连接数
@@ -14,7 +14,7 @@ spring: # spring 配置
         master:
           # mysql 8
           driver-class-name: com.mysql.cj.jdbc.Driver
-          url: jdbc:mysql://localhost:3306/bryce_boot?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=UTF-8&nullDatabaseMeansCurrent=true&useServerPrepStmts=true&cachePrepStmts=true
+          url: jdbc:mysql://192.168.0.204:3306/bryce_boot?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=UTF-8&nullDatabaseMeansCurrent=true&useServerPrepStmts=true&cachePrepStmts=true
           username: root
           password: root
           # postgresql
@@ -31,7 +31,7 @@ spring: # spring 配置
   data: # data 配置
     redis: # data redis 配置
       # 主机
-      host: localhost
+      host: 192.168.0.204
       # 端口，默认为6379
       port: 6379
       # 数据库索引
@@ -43,11 +43,11 @@ spring: # spring 配置
       lettuce:
         pool:
           # 连接池最大连接数（使用负值表示没有限制）
-          max-active: 100
+          max-active: 10
           # 连接池中的最大空闲连接
-          max-idle: 50
+          max-idle: 5
           # 连接池中的最小空闲连接
-          min-idle: 10
+          min-idle: 1
           # 连接池最大阻塞等待时间（使用负值表示没有限制）
           max-wait: 6s
         shutdown-timeout: 1s
@@ -59,13 +59,13 @@ spring: # spring 配置
     scheduling:
       thread-name-prefix: brc-schdl-
       pool:
-        size: 50
+        size: 5
     execution:  # 异步任务
       thread-name-prefix: brc-task-
       pool:
-        core-size: 50
-        max-size: 100
-        queue-capacity: 100
+        core-size: 5
+        max-size: 10
+        queue-capacity: 10
         keep-alive: 60s
 
 # 日志配置

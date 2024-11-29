@@ -59,4 +59,20 @@ public interface SysUserRoleService extends BaseService<SysUserRole> {
      */
     void deleteByRoleIdAndUserIds(Long roleId, List<Long> userIds);
 
+    /**
+     * 保存用户角色关系
+     *
+     * @param userId  用户ID
+     * @param roleIds 角色IDs
+     */
+    void assignRoleSave(Long userId, List<Long> roleIds);
+
+    /**
+     * 根据用户ID和角色IDs，删除用户角色关系
+     *
+     * @param userId  用户ID
+     * @param roleIds 角色IDs
+     */
+    void deleteByUserIdAndRoleIds(Long userId, List<Long> roleIds);
+
 }

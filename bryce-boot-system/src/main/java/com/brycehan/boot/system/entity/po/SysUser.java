@@ -144,4 +144,14 @@ public class SysUser extends BaseEntity {
         return !CollectionUtils.isEmpty(this.roles) && this.roles.contains(roleKey);
     }
 
+    /**
+     * 是否是超级管理员
+     *
+     * @param sysUser 用户
+     * @return 是否是超级管理员布尔值
+     */
+    public static boolean isSuperAdmin(SysUser sysUser) {
+        return Boolean.TRUE.equals(sysUser.getSuperAdmin());
+    }
+
 }
