@@ -40,7 +40,7 @@ public class QuartzJobLogServiceImpl extends BaseServiceImpl<QuartzJobLogMapper,
     private Wrapper<QuartzJobLog> getWrapper(QuartzJobLogPageDto quartzJobLogPageDto){
         LambdaQueryWrapper<QuartzJobLog> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(StringUtils.isNotEmpty(quartzJobLogPageDto.getJobName()), QuartzJobLog::getJobName, quartzJobLogPageDto.getJobName());
-        wrapper.eq(StringUtils.isNotEmpty(quartzJobLogPageDto.getJobGroup()), QuartzJobLog::getJobGroup, quartzJobLogPageDto.getJobGroup());
+        wrapper.eq(quartzJobLogPageDto.getJobGroup() != null, QuartzJobLog::getJobGroup, quartzJobLogPageDto.getJobGroup());
         return wrapper;
     }
 

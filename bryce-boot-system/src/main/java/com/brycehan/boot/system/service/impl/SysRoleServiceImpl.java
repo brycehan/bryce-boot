@@ -126,7 +126,7 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
         List<SysRole> sysRoleList = this.baseMapper.selectList(getWrapper(sysRolePageDto));
         List<SysRoleVo> sysRoleVoList = SysRoleConvert.INSTANCE.convert(sysRoleList);
         String today = DateUtil.format(new Date(), DatePattern.PURE_DATE_PATTERN);
-        ExcelUtils.export(SysRoleVo.class, "系统角色", "系统角色", sysRoleVoList);
+        ExcelUtils.export(SysRoleVo.class, "角色数据_"+ today, "角色数据", sysRoleVoList);
     }
 
     @Override

@@ -1,5 +1,9 @@
 package com.brycehan.boot.system.entity.vo;
 
+import com.alibaba.excel.annotation.ExcelIgnoreUnannotated;
+import com.alibaba.excel.annotation.ExcelProperty;
+import com.alibaba.excel.annotation.write.style.ColumnWidth;
+import com.brycehan.boot.common.enums.EnumTypeDescConverter;
 import com.brycehan.boot.common.enums.StatusType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -16,6 +20,7 @@ import java.time.LocalDateTime;
  */
 @Data
 @Schema(description = "系统岗位Vo")
+@ExcelIgnoreUnannotated
 public class SysPostVo implements Serializable {
 
     @Serial
@@ -31,24 +36,32 @@ public class SysPostVo implements Serializable {
      * 岗位名称
      */
     @Schema(description = "岗位名称")
+    @ColumnWidth(20)
+    @ExcelProperty(value = "岗位名称")
     private String name;
 
     /**
      * 岗位编码
      */
     @Schema(description = "岗位编码")
+    @ColumnWidth(20)
+    @ExcelProperty(value = "岗位编码")
     private String code;
 
     /**
      * 显示顺序
      */
     @Schema(description = "显示顺序")
+    @ColumnWidth(20)
+    @ExcelProperty(value = "岗位排序")
     private Integer sort;
 
     /**
      * 状态（0：停用，1：正常）
      */
     @Schema(description = "状态（0：停用，1：正常）")
+    @ColumnWidth(14)
+    @ExcelProperty(value = "状态", converter = EnumTypeDescConverter.class)
     private StatusType status;
 
     /**

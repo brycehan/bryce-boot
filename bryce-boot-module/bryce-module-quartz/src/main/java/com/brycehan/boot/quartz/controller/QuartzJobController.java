@@ -21,6 +21,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.quartz.CronExpression;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -171,9 +172,10 @@ public class QuartzJobController {
     private void checkBean(String beanName) {
         // 为避免执行 jdbcTemplate 等类，只允许添加有 @Service 注解的 Bean
         String[] serviceBeans = SpringUtil.getApplicationContext().getBeanNamesForAnnotation(Service.class);
+        String[] componentBeans = SpringUtil.getApplicationContext().getBeanNamesForAnnotation(Component.class);
 
-        if(!ArrayUtil.contains(serviceBeans, beanName)) {
-            throw new RuntimeException("只允许添加有 @Service 注解的 Bean");
+        if(!ArrayUtil.contains(serviceBeans, beanName) && !ArrayUtil.contains(componentBeans, beanName)) {
+            throw new RuntimeException("只允许添加有 @Service @Component 注解的 Bean");
         }
     }
 

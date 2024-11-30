@@ -35,7 +35,6 @@ public class QuartzJobPageDto extends BasePageDto {
      * 任务组名
      */
     @Schema(description = "任务组名")
-    @Size(max = 50)
     private JobGroup jobGroup;
 
     /**

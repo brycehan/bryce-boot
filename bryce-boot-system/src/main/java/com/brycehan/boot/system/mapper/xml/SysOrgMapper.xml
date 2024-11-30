@@ -33,6 +33,12 @@
         select bso.*
         from brc_sys_org bso
         where bso.deleted is null
-        order by bso.sort asc
+        <if test="name != null and name != ''">
+            and bso.name like concat('%', #{params.name}, '%')
+        </if>
+        <if test="status != null">
+            and bso.status = #{status}
+        </if>
+        order by bso.parent_id, bso.sort asc
     </select>
 </mapper>

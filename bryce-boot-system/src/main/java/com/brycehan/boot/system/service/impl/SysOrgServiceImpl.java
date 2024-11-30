@@ -119,6 +119,10 @@ public class SysOrgServiceImpl extends BaseServiceImpl<SysOrgMapper, SysOrg> imp
     public List<SysOrgVo> list(SysOrgDto sysOrgDto) {
         Map<String, Object> params = new HashMap<>();
 
+        params.put("name", sysOrgDto.getName());
+        if (sysOrgDto.getStatus() != null) {
+            params.put("status", sysOrgDto.getStatus().getValue());
+        }
         // 数据权限
         params.put(DataConstants.DATA_SCOPE, getDataScope("bso", "id"));
 

@@ -108,7 +108,7 @@ public class SysPostServiceImpl extends BaseServiceImpl<SysPostMapper, SysPost> 
         List<SysPost> sysPostList = this.baseMapper.selectList(getWrapper(sysPostPageDto));
         List<SysPostVo> sysPostVoList = SysPostConvert.INSTANCE.convert(sysPostList);
         String today = DateUtil.format(new Date(), DatePattern.PURE_DATE_PATTERN);
-        ExcelUtils.export(SysPostVo.class, "系统岗位_".concat(today), "系统岗位", sysPostVoList);
+        ExcelUtils.export(SysPostVo.class, "岗位数据_".concat(today), "岗位数据", sysPostVoList);
     }
 
     @Override

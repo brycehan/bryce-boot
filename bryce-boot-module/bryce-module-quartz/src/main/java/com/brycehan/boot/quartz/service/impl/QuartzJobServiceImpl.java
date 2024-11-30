@@ -127,7 +127,7 @@ public class QuartzJobServiceImpl extends BaseServiceImpl<QuartzJobMapper, Quart
         List<QuartzJob> quartzJobList = this.baseMapper.selectList(getWrapper(quartzJobPageDto));
         List<QuartzJobVo> quartzJobVoList = QuartzJobConvert.INSTANCE.convert(quartzJobList);
         String today = DateUtil.format(new Date(), DatePattern.PURE_DATE_PATTERN);
-        ExcelUtils.export(QuartzJobVo.class, "quartz定时任务调度_".concat(today), "quartz定时任务调度", quartzJobVoList);
+        ExcelUtils.export(QuartzJobVo.class, "定时任务_".concat(today), "定时任务", quartzJobVoList);
     }
 
     @Override

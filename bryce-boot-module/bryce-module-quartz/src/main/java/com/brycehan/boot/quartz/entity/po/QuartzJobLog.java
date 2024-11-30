@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.brycehan.boot.common.enums.OperateStatus;
+import com.brycehan.boot.quartz.common.JobGroup;
 import lombok.Data;
 
 import java.io.Serial;
@@ -43,7 +44,7 @@ public class QuartzJobLog implements Serializable {
     /**
      * 任务组名
      */
-    private String jobGroup;
+    private JobGroup jobGroup;
 
     /**
      * Spring Bean 名称

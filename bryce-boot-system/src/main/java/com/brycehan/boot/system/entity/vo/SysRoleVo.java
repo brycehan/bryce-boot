@@ -1,6 +1,10 @@
 package com.brycehan.boot.system.entity.vo;
 
+import com.alibaba.excel.annotation.ExcelIgnoreUnannotated;
+import com.alibaba.excel.annotation.ExcelProperty;
+import com.alibaba.excel.annotation.write.style.ColumnWidth;
 import com.brycehan.boot.common.enums.DataScope;
+import com.brycehan.boot.common.enums.EnumTypeDescConverter;
 import com.brycehan.boot.common.enums.StatusType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -18,6 +22,7 @@ import java.util.List;
  */
 @Data
 @Schema(description = "系统角色Vo")
+@ExcelIgnoreUnannotated
 public class SysRoleVo implements Serializable {
 
     @Serial
@@ -33,30 +38,40 @@ public class SysRoleVo implements Serializable {
      * 角色名称
      */
     @Schema(description = "角色名称")
+    @ColumnWidth(20)
+    @ExcelProperty(value = "角色名称")
     private String name;
 
     /**
      * 角色编码
      */
     @Schema(description = "角色编码")
+    @ColumnWidth(20)
+    @ExcelProperty(value = "角色编码")
     private String code;
 
     /**
      * 数据范围（1：全部数据，2：本机构及以下机构数据，3：本机构数据，4：本人数据，5：自定义数据）
      */
     @Schema(description = "数据范围（1：全部数据，2：本机构及以下机构数据，3：本机构数据，4：本人数据，5：自定义数据）")
+    @ColumnWidth(20)
+    @ExcelProperty(value = "数据范围", converter = EnumTypeDescConverter.class)
     private DataScope dataScope;
 
     /**
      * 显示顺序
      */
     @Schema(description = "显示顺序")
+    @ColumnWidth(20)
+    @ExcelProperty(value = "角色排序")
     private Integer sort;
 
     /**
      * 状态（0：停用，1：正常）
      */
     @Schema(description = "状态（0：停用，1：正常）")
+    @ColumnWidth(14)
+    @ExcelProperty(value = "状态", converter = EnumTypeDescConverter.class)
     private StatusType status;
 
     /**

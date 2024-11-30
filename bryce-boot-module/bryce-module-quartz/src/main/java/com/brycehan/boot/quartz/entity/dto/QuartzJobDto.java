@@ -3,6 +3,7 @@ package com.brycehan.boot.quartz.entity.dto;
 import com.brycehan.boot.common.entity.BaseDto;
 import com.brycehan.boot.common.base.validator.SaveGroup;
 import com.brycehan.boot.common.base.validator.UpdateGroup;
+import com.brycehan.boot.common.enums.YesNoType;
 import com.brycehan.boot.quartz.common.JobGroup;
 import com.brycehan.boot.quartz.common.JobStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -72,7 +73,7 @@ public class QuartzJobDto extends BaseDto {
      * 是否并发执行（N：否，Y：是）
      */
     @Schema(description = "是否并发执行（N：否，Y：是）")
-    private String concurrent;
+    private YesNoType concurrent;
 
     /**
      * 显示顺序
