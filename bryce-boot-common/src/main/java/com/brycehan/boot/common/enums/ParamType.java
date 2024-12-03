@@ -17,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum ParamType implements EnumType {
 
-    SYSTEM(0, "系统内置"),
+    SYSTEM(0, "内置"),
     APP(1, "应用");
 
     /**

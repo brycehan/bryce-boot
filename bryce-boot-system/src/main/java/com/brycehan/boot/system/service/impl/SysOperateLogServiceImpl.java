@@ -76,6 +76,11 @@ public class SysOperateLogServiceImpl extends BaseServiceImpl<SysOperateLogMappe
         return new PageResult<>(page.getTotal(), SysOperateLogConvert.INSTANCE.convert(page.getRecords()));
     }
 
+    @Override
+    public void cleanOperateLog() {
+        this.baseMapper.cleanOperateLog();
+    }
+
     /**
      * 封装查询条件
      *

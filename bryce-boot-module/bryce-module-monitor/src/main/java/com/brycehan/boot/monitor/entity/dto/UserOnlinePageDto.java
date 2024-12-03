@@ -2,9 +2,9 @@ package com.brycehan.boot.monitor.entity.dto;
 
 import com.brycehan.boot.common.entity.BasePageDto;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.validator.constraints.Length;
 
 import java.io.Serial;
 
@@ -17,7 +17,7 @@ import java.io.Serial;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Schema(description = "在线用户PageDto")
-public class OnlineUserPageDto extends BasePageDto {
+public class UserOnlinePageDto extends BasePageDto {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -26,14 +26,14 @@ public class OnlineUserPageDto extends BasePageDto {
      * 账号
      */
     @Schema(description = "账号")
-    @Size(max = 50)
+    @Length(max = 50)
     private String username;
 
     /**
-     * 手机号码
+     * 登录IP
      */
-    @Schema(description = "手机号码")
-    @Size(max = 20)
-    private String phone;
+    @Schema(description = "登录IP")
+    @Length(max = 50)
+    private String loginIp;
 
 }

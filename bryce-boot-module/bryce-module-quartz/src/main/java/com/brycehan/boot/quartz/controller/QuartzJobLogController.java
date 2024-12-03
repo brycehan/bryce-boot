@@ -75,4 +75,30 @@ public class QuartzJobLogController {
         return ResponseResult.ok(page);
     }
 
+    /**
+     * quartz定时任务调度日志导出数据
+     *
+     * @param quartzJobLogPageDto 查询条件
+     */
+    @Operation(summary = "quartz定时任务调度日志导出")
+    @PreAuthorize("hasAuthority('quartz:jobLog:export')")
+    @PostMapping(path = "/export")
+    public void export(@Validated @RequestBody QuartzJobLogPageDto quartzJobLogPageDto) {
+        this.quartzJobLogService.export(quartzJobLogPageDto);
+    }
+
+    /**
+     * 清空quartz定时任务调度日志
+     *
+     * @return 响应结果
+     */
+    @Operation(summary = "清空quartz定时任务调度日志")
+    @OperateLog(type = OperatedType.CLEAN_DATA)
+    @PreAuthorize("hasAuthority('quartz:jobLog:delete')")
+    @DeleteMapping(path = "/clean")
+    public ResponseResult<Void> clean() {
+        this.quartzJobLogService.cleanJobLog();
+        return ResponseResult.ok();
+    }
+
 }

@@ -3,6 +3,7 @@ package com.brycehan.boot.system.mapper;
 import com.brycehan.boot.framework.mybatis.BryceBaseMapper;
 import com.brycehan.boot.system.entity.po.SysLoginLog;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Update;
 
 /**
  * 系统登录日志Mapper接口
@@ -11,6 +12,14 @@ import org.apache.ibatis.annotations.Mapper;
  * @author Bryce Han
  */
 @Mapper
+@SuppressWarnings("all")
 public interface SysLoginLogMapper extends BryceBaseMapper<SysLoginLog> {
+
+    /**
+     * 清理系统登录日志
+     */
+    @Update("""
+            truncate table brc_sys_login_log""")
+    void cleanLoginLog();
 
 }

@@ -1,8 +1,9 @@
 package com.brycehan.boot.system.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateUtil;
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.brycehan.boot.common.base.IdGenerator;
@@ -13,6 +14,7 @@ import com.brycehan.boot.system.entity.convert.SysNoticeConvert;
 import com.brycehan.boot.system.entity.dto.SysNoticeDto;
 import com.brycehan.boot.system.entity.dto.SysNoticePageDto;
 import com.brycehan.boot.system.entity.po.SysNotice;
+import com.brycehan.boot.system.entity.po.SysUser;
 import com.brycehan.boot.system.entity.vo.SysNoticeVo;
 import com.brycehan.boot.system.mapper.SysNoticeMapper;
 import com.brycehan.boot.system.service.SysNoticeService;
@@ -20,10 +22,7 @@ import com.brycehan.boot.system.service.SysUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * 系统通知公告服务实现
@@ -70,8 +69,26 @@ public class SysNoticeServiceImpl extends BaseServiceImpl<SysNoticeMapper, SysNo
 
     @Override
     public PageResult<SysNoticeVo> page(SysNoticePageDto sysNoticePageDto) {
-        IPage<SysNotice> page = this.baseMapper.selectPage(sysNoticePageDto.toPage(), getWrapper(sysNoticePageDto));
+        LambdaQueryWrapper<SysNotice> wrapper = getWrapper(sysNoticePageDto);
+
+        // 创建者账号条件处理
+        if (StrUtil.isNotBlank(sysNoticePageDto.getCreatedUsername())) {
+            LambdaQueryWrapper<SysUser> queryWrapper = new LambdaQueryWrapper<>();
+            queryWrapper.select(SysUser::getId).like(SysUser::getUsername, sysNoticePageDto.getCreatedUsername());
+            List<SysUser> list = sysUserService.list(queryWrapper);
+
+            if (CollUtil.isEmpty(list)) {
+                // 没有匹配用户时返回空
+                return new PageResult<>(0, new ArrayList<>(0));
+            }
+
+            wrapper.in(SysNotice::getCreatedUserId, list.stream().map(SysUser::getId).toList());
+        }
+
+        // 分页查询
+        IPage<SysNotice> page = this.baseMapper.selectPage(sysNoticePageDto.toPage(), wrapper);
         List<SysNoticeVo> sysNoticeVoList = SysNoticeConvert.INSTANCE.convert(page.getRecords());
+
         // 处理创建用户名称
         Map<Long, String> usernames = sysUserService.getUsernamesByIds(sysNoticeVoList.stream().map(SysNoticeVo::getCreatedUserId).toList());
         sysNoticeVoList.forEach(sysNotice -> sysNotice.setCreatedUsername(usernames.get(sysNotice.getCreatedUserId())));
@@ -85,8 +102,9 @@ public class SysNoticeServiceImpl extends BaseServiceImpl<SysNoticeMapper, SysNo
      * @param sysNoticePageDto 系统通知公告分页dto
      * @return 查询条件Wrapper
      */
-    private Wrapper<SysNotice> getWrapper(SysNoticePageDto sysNoticePageDto) {
+    private LambdaQueryWrapper<SysNotice> getWrapper(SysNoticePageDto sysNoticePageDto) {
         LambdaQueryWrapper<SysNotice> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(StrUtil.isNotBlank(sysNoticePageDto.getTitle()), SysNotice::getTitle, sysNoticePageDto.getTitle());
         wrapper.eq(Objects.nonNull(sysNoticePageDto.getType()), SysNotice::getType, sysNoticePageDto.getType());
         wrapper.eq(Objects.nonNull(sysNoticePageDto.getStatus()), SysNotice::getStatus, sysNoticePageDto.getStatus());
 

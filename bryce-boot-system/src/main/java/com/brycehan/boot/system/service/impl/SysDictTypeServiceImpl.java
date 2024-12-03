@@ -87,7 +87,7 @@ public class SysDictTypeServiceImpl extends BaseServiceImpl<SysDictTypeMapper, S
         List<SysDictType> sysDictTypeList = this.baseMapper.selectList(getWrapper(sysDictTypePageDto));
         List<SysDictTypeVo> sysDictTypeVoList = SysDictTypeConvert.INSTANCE.convert(sysDictTypeList);
         String today = DateUtil.format(new Date(), DatePattern.PURE_DATE_PATTERN);
-        ExcelUtils.export(SysDictTypeVo.class, "系统字典类型_" + today, "系统字典类型", sysDictTypeVoList);
+        ExcelUtils.export(SysDictTypeVo.class, "字典类型_" + today, "字典类型", sysDictTypeVoList);
     }
 
     @Override

@@ -73,4 +73,18 @@ public class SysOperateLogController {
         return ResponseResult.ok(page);
     }
 
+    /**
+     * 清空系统操作日志
+     *
+     * @return 响应结果
+     */
+    @Operation(summary = "清空系统操作日志")
+    @OperateLog(type = OperatedType.CLEAN_DATA)
+    @PreAuthorize("hasAuthority('system:operateLog:delete')")
+    @DeleteMapping(path = "/clean")
+    public ResponseResult<Void> clean() {
+        this.sysOperateLogService.cleanOperateLog();
+        return ResponseResult.ok();
+    }
+
 }

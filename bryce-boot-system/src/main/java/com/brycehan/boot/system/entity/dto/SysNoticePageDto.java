@@ -6,6 +6,7 @@ import com.brycehan.boot.common.enums.StatusType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.validator.constraints.Length;
 
 import java.io.Serial;
 
@@ -22,6 +23,20 @@ public class SysNoticePageDto extends BasePageDto {
 
     @Serial
     private static final long serialVersionUID = 1L;
+
+    /**
+     * 标题
+     */
+    @Schema(description = "标题")
+    @Length(max = 100)
+    private String title;
+
+    /**
+     * 创建者账号
+     */
+    @Schema(description = "创建者账号")
+    @Length(max = 50)
+    private String createdUsername;
 
     /**
      * 公告类型（0：通知，1：公告）

@@ -1,7 +1,7 @@
 package com.brycehan.boot.common.base.response;
 
+import cn.hutool.core.util.StrUtil;
 import com.brycehan.boot.common.base.ServerException;
-import com.brycehan.boot.common.util.StringFormatUtils;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -133,8 +133,8 @@ public class ResponseResult<T> implements Serializable {
      * @param params         参数
      * @return 响应结果
      */
-    public static <T> ResponseResult<T> error(ResponseStatus responseStatus, String ...params) {
-        return error(responseStatus.code(), StringFormatUtils.format(responseStatus.message(), params));
+    public static <T> ResponseResult<T> error(ResponseStatus responseStatus, Object... params) {
+        return error(responseStatus.code(), StrUtil.format(responseStatus.message(), params));
     }
 
     /**

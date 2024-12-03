@@ -1,8 +1,8 @@
 package com.brycehan.boot.common.base;
 
+import cn.hutool.core.util.StrUtil;
 import com.brycehan.boot.common.base.response.HttpResponseStatus;
 import com.brycehan.boot.common.base.response.ResponseStatus;
-import com.brycehan.boot.common.util.StringFormatUtils;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
@@ -38,7 +38,7 @@ public class ServerException extends RuntimeException {
     /**
      * 异常消息键对应的参数
      */
-    private String[] messageArgs;
+    private Object[] messageArgs;
 
     public ServerException(String message) {
         super(message);
@@ -64,16 +64,16 @@ public class ServerException extends RuntimeException {
         this.message = responseStatus.message();
     }
 
-    public ServerException(ResponseStatus responseStatus, String... params) {
-        super(StringFormatUtils.format(responseStatus.message(), params));
+    public ServerException(ResponseStatus responseStatus, Object... params) {
+        super(StrUtil.format(responseStatus.message(), params));
         this.code = responseStatus.code();
-        this.message = StringFormatUtils.format(responseStatus.message(), params);
+        this.message = StrUtil.format(responseStatus.message(), params);
     }
 
     @Override
     public String getMessage() {
         if (ArrayUtils.isNotEmpty(messageArgs)) {
-            return StringFormatUtils.format(message, messageArgs);
+            return StrUtil.format(message, messageArgs);
         } else if (StringUtils.isNotEmpty(message)) {
             return message;
         }

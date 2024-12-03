@@ -140,7 +140,7 @@ public class SysParamServiceImpl extends BaseServiceImpl<SysParamMapper, SysPara
         List<SysParam> sysParamList = this.baseMapper.selectList(getWrapper(sysParamPageDto));
         List<SysParamVo> sysParamVoList = SysParamConvert.INSTANCE.convert(sysParamList);
         String today = DateUtil.format(new Date(), DatePattern.PURE_DATE_PATTERN);
-        ExcelUtils.export(SysParamVo.class, "系统参数_".concat(today), "系统参数", sysParamVoList);
+        ExcelUtils.export(SysParamVo.class, "参数数据_".concat(today), "参数数据", sysParamVoList);
     }
 
     @Override

@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
  */
 @Data
 @Schema(description = "在级用户 vo")
-public class OnlineUserVo implements Serializable {
+public class UserOnlineVo implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;

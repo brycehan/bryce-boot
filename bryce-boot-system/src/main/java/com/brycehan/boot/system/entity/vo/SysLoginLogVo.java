@@ -4,10 +4,8 @@ import com.alibaba.excel.annotation.ExcelIgnoreUnannotated;
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.alibaba.excel.annotation.write.style.ColumnWidth;
 import com.brycehan.boot.common.enums.EnumTypeDescConverter;
-import com.brycehan.boot.common.enums.EnumTypeDescSerializer;
 import com.brycehan.boot.common.enums.LoginStatus;
 import com.brycehan.boot.common.enums.OperateStatus;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -47,7 +45,7 @@ public class SysLoginLogVo implements Serializable {
      * 操作信息
      */
     @ColumnWidth(14)
-    @ExcelProperty(value = "操作信息", index = 1, converter = EnumTypeDescConverter.class)
+    @ExcelProperty(value = "操作信息", index = 2, converter = EnumTypeDescConverter.class)
     @Schema(description = "操作信息")
     private LoginStatus info;
 
@@ -86,8 +84,6 @@ public class SysLoginLogVo implements Serializable {
     /**
      * User Agent
      */
-    @ColumnWidth(30)
-    @ExcelProperty(value = "User Agent", index = 7)
     @Schema(description = "User Agent")
     private String userAgent;
 
@@ -96,7 +92,7 @@ public class SysLoginLogVo implements Serializable {
      */
     @Schema(description = "状态（0：失败，1：成功）")
     @ColumnWidth(14)
-    @ExcelProperty(value = "操作状态", index = 2, converter = EnumTypeDescConverter.class)
+    @ExcelProperty(value = "操作状态", index = 1, converter = EnumTypeDescConverter.class)
     private OperateStatus status;
 
     /**
@@ -104,15 +100,13 @@ public class SysLoginLogVo implements Serializable {
      */
     @Schema(description = "访问时间")
     @ColumnWidth(20)
-    @ExcelProperty(value = "访问时间", index = 8)
+    @ExcelProperty(value = "访问时间", index = 7)
     private LocalDateTime accessTime;
 
     /**
      * 创建时间
      */
     @Schema(description = "创建时间")
-    @ColumnWidth(20)
-    @ExcelProperty(value = "创建时间", index = 9)
     private LocalDateTime createdTime;
 
 }

@@ -1,5 +1,9 @@
 package com.brycehan.boot.quartz.entity.vo;
 
+import com.alibaba.excel.annotation.ExcelIgnoreUnannotated;
+import com.alibaba.excel.annotation.ExcelProperty;
+import com.alibaba.excel.annotation.write.style.ColumnWidth;
+import com.brycehan.boot.common.enums.EnumTypeDescConverter;
 import com.brycehan.boot.common.enums.OperateStatus;
 import com.brycehan.boot.quartz.common.JobGroup;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -17,6 +21,7 @@ import java.time.LocalDateTime;
  */
 @Data
 @Schema(description = "quartz定时任务调度日志Vo")
+@ExcelIgnoreUnannotated
 public class QuartzJobLogVo implements Serializable {
 
     @Serial
@@ -26,6 +31,8 @@ public class QuartzJobLogVo implements Serializable {
      * ID
      */
     @Schema(description = "ID")
+    @ColumnWidth(20)
+    @ExcelProperty(value = "日志编号")
     private Long id;
 
     /**
@@ -38,54 +45,72 @@ public class QuartzJobLogVo implements Serializable {
      * 任务名称
      */
     @Schema(description = "任务名称")
+    @ColumnWidth(20)
+    @ExcelProperty(value = "任务名称")
     private String jobName;
 
     /**
      * 任务组名
      */
     @Schema(description = "任务组名")
+    @ColumnWidth(20)
+    @ExcelProperty(value = "任务组名", converter = EnumTypeDescConverter.class)
     private JobGroup jobGroup;
 
     /**
      * Spring Bean 名称
      */
     @Schema(description = "Spring Bean 名称")
+    @ColumnWidth(20)
+    @ExcelProperty(value = "Spring Bean 名称")
     private String beanName;
 
     /**
      * 执行方法
      */
     @Schema(description = "执行方法")
+    @ColumnWidth(20)
+    @ExcelProperty(value = "执行方法")
     private String method;
 
     /**
      * 参数
      */
     @Schema(description = "参数")
+    @ColumnWidth(14)
+    @ExcelProperty(value = "参数")
     private String params;
 
     /**
      * 执行状态（0：失败，1：成功）
      */
     @Schema(description = "执行状态（0：失败，1：成功）")
+    @ColumnWidth(20)
+    @ExcelProperty(value = "执行状态", converter = EnumTypeDescConverter.class)
     private OperateStatus executeStatus;
 
     /**
      * 执行时长（毫秒）
      */
     @Schema(description = "执行时长（毫秒）")
+    @ColumnWidth(20)
+    @ExcelProperty(value = "执行时长（毫秒）")
     private Integer duration;
 
     /**
      * 异常信息
      */
     @Schema(description = "异常信息")
+    @ColumnWidth(20)
+    @ExcelProperty(value = "异常信息")
     private String errorInfo;
 
     /**
      * 创建时间
      */
     @Schema(description = "创建时间")
+    @ColumnWidth(20)
+    @ExcelProperty(value = "执行时间")
     private LocalDateTime createdTime;
 
 }

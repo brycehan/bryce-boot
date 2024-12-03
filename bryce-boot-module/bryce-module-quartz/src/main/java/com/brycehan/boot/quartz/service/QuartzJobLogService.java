@@ -22,4 +22,13 @@ public interface QuartzJobLogService extends BaseService<QuartzJobLog> {
      */
     PageResult<QuartzJobLogVo> page(QuartzJobLogPageDto quartzJobLogPageDto);
 
+    /**
+     * quartz定时任务调度日志导出数据
+     *
+     * @param quartzJobLogPageDto quartz定时任务调度日志查询条件
+     */
+    void export(QuartzJobLogPageDto quartzJobLogPageDto);
+
+    void cleanJobLog();
+
 }
