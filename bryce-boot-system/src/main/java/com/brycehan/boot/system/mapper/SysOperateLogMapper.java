@@ -16,7 +16,7 @@ import org.apache.ibatis.annotations.Update;
 public interface SysOperateLogMapper extends BryceBaseMapper<SysOperateLog> {
 
     /**
-     * 清理系统操作日志
+     * 清空系统操作日志
      */
     @Update("""
             truncate table brc_sys_operate_log""")

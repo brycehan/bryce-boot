@@ -56,7 +56,7 @@ public interface SysLoginLogService extends BaseService<SysLoginLog> {
     void save(String username, OperateStatus status, LoginStatus info);
 
     /**
-     * 清理登录日志
+     * 清空登录日志
      */
     void cleanLoginLog();
 

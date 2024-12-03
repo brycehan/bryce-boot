@@ -29,6 +29,9 @@ public interface QuartzJobLogService extends BaseService<QuartzJobLog> {
      */
     void export(QuartzJobLogPageDto quartzJobLogPageDto);
 
+    /**
+     * 清空任务调度日志
+     */
     void cleanJobLog();
 
 }
