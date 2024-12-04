@@ -42,7 +42,11 @@ public enum HttpResponseStatus implements ResponseStatus {
      */
     HTTP_NOT_IMPLEMENTED(501, "请求的方法不被服务器支持"),
 
-    HTTP_SYSTEM_BUSY(599, "系统繁忙");
+    HTTP_SYSTEM_BUSY(598, "系统繁忙"),
+
+    HTTP_WARN(599, "系统警告消息"),
+    ;
+
 
     /**
      * 状态编码

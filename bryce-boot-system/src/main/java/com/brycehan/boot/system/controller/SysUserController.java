@@ -14,7 +14,10 @@ import com.brycehan.boot.common.util.ExcelUtils;
 import com.brycehan.boot.framework.operatelog.annotation.OperateLog;
 import com.brycehan.boot.framework.operatelog.annotation.OperatedType;
 import com.brycehan.boot.system.entity.dto.*;
+import com.brycehan.boot.system.entity.vo.SysRoleVo;
 import com.brycehan.boot.system.entity.vo.SysUserVo;
+import com.brycehan.boot.system.service.SysRoleService;
+import com.brycehan.boot.system.service.SysUserRoleService;
 import com.brycehan.boot.system.service.SysUserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -41,6 +44,8 @@ import java.util.List;
 public class SysUserController {
 
     private final SysUserService sysUserService;
+    private final SysUserRoleService sysUserRoleService;
+    private final SysRoleService sysRoleService;
 
     /**
      * 保存系统用户
@@ -76,7 +81,7 @@ public class SysUserController {
     @OperateLog(type = OperatedType.UPDATE)
     @PreAuthorize("hasAuthority('system:user:update')")
     @PatchMapping(path = "/{id}/{status}")
-    public ResponseResult<Void> patch(@PathVariable Long id, @PathVariable StatusType status) {
+    public ResponseResult<Void> updateStatus(@PathVariable Long id, @PathVariable StatusType status) {
         this.sysUserService.update(id, status);
         return ResponseResult.ok();
     }
@@ -183,18 +188,48 @@ public class SysUserController {
     }
 
     /**
-     * 授权用户指定的角色列表
+     * 分配给用户的角色分页查询
      *
-     * @param userId 用户ID
-     * @param roleIds 角色列表
+     * @param sysAssignRolePageDto 分配角色分页查询Dto
+     * @return 角色分页查询
+     */
+    @Operation(summary = "分配给用户的角色分页查询")
+    @PreAuthorize("hasAuthority('system:user:update')")
+    @PostMapping(path = "/assignRole/page")
+    public ResponseResult<PageResult<SysRoleVo>> assignRolePage(@Validated @RequestBody SysAssignRolePageDto sysAssignRolePageDto) {
+        PageResult<SysRoleVo> page = this.sysRoleService.assignRolePage(sysAssignRolePageDto);
+        return ResponseResult.ok(page);
+    }
+
+    /**
+     * 分配给用户多个角色
+     *
+     * @param userId  用户ID
+     * @param roleIds 角色IDs
      * @return 响应结果
      */
-    @Operation(summary = "授权用户角色")
-    @OperateLog(type = OperatedType.GRANT)
-    @PreAuthorize("hasAuthority('system:user:grant')")
-    @PutMapping(path = "/authRole")
-    public ResponseResult<Void> insertAuthRole(Long userId, List<Long> roleIds) {
-        this.sysUserService.insertAuthRole(userId, roleIds);
+    @Operation(summary = "分配给用户多个角色")
+    @OperateLog(type = OperatedType.INSERT)
+    @PreAuthorize("hasAuthority('system:user:update')")
+    @PostMapping(path = "/assignRole/{userId}")
+    public ResponseResult<Void> assignRoleSave(@PathVariable Long userId, @RequestBody List<Long> roleIds) {
+        this.sysUserRoleService.assignRoleSave(userId, roleIds);
+        return ResponseResult.ok();
+    }
+
+    /**
+     * 删除分配给用户的角色
+     *
+     * @param userId  用户ID
+     * @param roleIds 角色IDs
+     * @return 响应结果
+     */
+    @Operation(summary = "删除分配给用户的角色")
+    @OperateLog(type = OperatedType.DELETE)
+    @PreAuthorize("hasAuthority('system:user:update')")
+    @DeleteMapping(path = "/assignRole/{userId}")
+    public ResponseResult<Void> assignRoleDelete(@PathVariable Long userId, @RequestBody List<Long> roleIds) {
+        this.sysUserRoleService.deleteByUserIdAndRoleIds(userId, roleIds);
         return ResponseResult.ok();
     }
 

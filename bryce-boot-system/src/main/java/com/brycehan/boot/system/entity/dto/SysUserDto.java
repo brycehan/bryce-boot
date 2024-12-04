@@ -100,12 +100,6 @@ public class SysUserDto extends BaseDto {
     private Long orgId;
 
     /**
-     * 超级管理员
-     */
-    @Schema(description = "超级管理员")
-    private Boolean superAdmin;
-
-    /**
      * 状态（0：停用，1：正常）
      */
     @Schema(description = "状态（0：停用，1：正常）")

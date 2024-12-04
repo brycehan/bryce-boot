@@ -10,15 +10,15 @@ import lombok.EqualsAndHashCode;
 import java.io.Serial;
 
 /**
- * 系统分配角色PageDto
+ * 系统分配用户PageDto
  *
  * @since 2023/09/11
  * @author Bryce Han
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@Schema(description = "系统分配角色PageDto")
-public class SysAssignRolePageDto extends BasePageDto {
+@Schema(description = "系统分配用户PageDto")
+public class SysAssignUserPageDto extends BasePageDto {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -30,10 +30,10 @@ public class SysAssignRolePageDto extends BasePageDto {
     private StatusType status;
 
     /**
-     * 用户ID
+     * 角色ID
      */
-    @Schema(description = "用户ID")
-    private Long userId;
+    @Schema(description = "角色ID")
+    private Long roleId;
 
     /**
      * 是否已分配（N：未分配，Y：已分配）

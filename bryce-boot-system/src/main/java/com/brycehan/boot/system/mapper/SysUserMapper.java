@@ -15,6 +15,7 @@ import java.util.Map;
  * @author Bryce Han
  */
 @Mapper
+@SuppressWarnings("all")
 public interface SysUserMapper extends BryceBaseMapper<SysUser> {
 
     default SysUser getByUsername(String username) {
@@ -24,8 +25,6 @@ public interface SysUserMapper extends BryceBaseMapper<SysUser> {
     default SysUser getByPhone(String phone) {
         return this.selectOne(new LambdaQueryWrapper<SysUser>().eq(SysUser::getPhone, phone), false);
     }
-
-    List<SysUser> roleUserList(Map<String, Object> params);
 
     List<SysUser> list(Map<String, Object> params);
 

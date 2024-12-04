@@ -58,7 +58,7 @@ public interface SysRoleService extends BaseService<SysRole> {
      *
      * @param dataScopeDto 数据范围Dto
      */
-    void dataScope(SysRoleDataScopeDto dataScopeDto);
+    void assignDataScope(SysRoleDataScopeDto dataScopeDto);
 
     /**
      * 获取角色名称列表
@@ -69,19 +69,19 @@ public interface SysRoleService extends BaseService<SysRole> {
     List<String> getRoleNameList(List<Long> roleIdList);
 
     /**
+     * 分配/未分配 给用户的角色分页查询
+     *
+     * @param sysAssignRolePageDto 查询条件
+     * @return 角色分页信息
+     */
+    PageResult<SysRoleVo> assignRolePage(SysAssignRolePageDto sysAssignRolePageDto);
+
+    /**
      * 校验角色编码是否唯一
      *
      * @param sysRoleCodeDto 角色编码Dto
      * @return 是否唯一
      */
     boolean checkCodeUnique(SysRoleCodeDto sysRoleCodeDto);
-
-    /**
-     * 分配给用户的角色分页查询
-     *
-     * @param sysAssignRolePageDto 查询条件
-     * @return 分页信息
-     */
-    PageResult<SysRoleVo> assignRolePage(SysAssignRolePageDto sysAssignRolePageDto);
 
 }

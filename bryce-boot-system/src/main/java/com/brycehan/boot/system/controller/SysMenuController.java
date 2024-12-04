@@ -86,7 +86,7 @@ public class SysMenuController {
         // 判断是否有子菜单或按钮
         Long count = this.sysMenuService.getSubMenuCount(idsDto.getIds());
         if (count > 0) {
-            return ResponseResult.error("请先删除子菜单");
+            return ResponseResult.warn("存在子菜单,不允许删除");
         }
 
         this.sysMenuService.delete(idsDto);

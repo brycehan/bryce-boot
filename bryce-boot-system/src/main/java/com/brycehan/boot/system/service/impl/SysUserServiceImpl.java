@@ -15,12 +15,13 @@ import com.brycehan.boot.common.base.IdGenerator;
 import com.brycehan.boot.common.base.LoginUser;
 import com.brycehan.boot.common.base.LoginUserContext;
 import com.brycehan.boot.common.base.ServerException;
+import com.brycehan.boot.common.base.response.UserResponseStatus;
 import com.brycehan.boot.common.constant.DataConstants;
 import com.brycehan.boot.common.constant.ParamConstants;
 import com.brycehan.boot.common.entity.PageResult;
 import com.brycehan.boot.common.entity.dto.IdsDto;
-import com.brycehan.boot.common.base.response.UserResponseStatus;
 import com.brycehan.boot.common.enums.StatusType;
+import com.brycehan.boot.common.enums.YesNoType;
 import com.brycehan.boot.common.util.ExcelUtils;
 import com.brycehan.boot.common.util.ValidatorUtils;
 import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
@@ -135,6 +136,14 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
 
         // 更新用户
         this.baseMapper.updateById(sysUser);
+
+        // 机构为空时，清空机构ID
+        if (sysUser.getOrgId() == null) {
+            LambdaUpdateWrapper<SysUser> updateWrapper = new LambdaUpdateWrapper<>();
+            updateWrapper.set(SysUser::getOrgId, null);
+            updateWrapper.eq(SysUser::getId, sysUser.getId());
+            this.update(updateWrapper);
+        }
 
         // 更新用户角色关系
         this.sysUserRoleService.saveOrUpdate(sysUserDto.getId(), sysUserDto.getRoleIds());
@@ -344,24 +353,35 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
     }
 
     @Override
-    public PageResult<SysUserVo> roleUserPage(SysRoleUserPageDto pageDto) {
-        // 查询参数
-        Map<String, Object> params = BeanUtil.beanToMap(pageDto);
-        // 数据权限
-        params.put(DataConstants.DATA_SCOPE, getDataScope("bsu", null));
+    public PageResult<SysUserVo> assignUserPage(SysAssignUserPageDto sysAssignUserPageDto) {
+        // 指定角色已分配的用户ID列表
+        List<Long> userIds = this.sysUserRoleService.getUserIdsByRoleId(sysAssignUserPageDto.getRoleId());
+
+        LambdaQueryWrapper<SysUser> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.select(SysUser::getId, SysUser::getUsername, SysUser::getNickname, SysUser::getPhone, SysUser::getStatus, SysUser::getCreatedTime);
+
+        if (CollUtil.isEmpty(userIds) && sysAssignUserPageDto.getAssigned() == YesNoType.YES) {
+            return new PageResult<>(0, new ArrayList<>(0));
+        }
+
+        // 已分配/未分配 条件过滤
+        if (sysAssignUserPageDto.getAssigned() == YesNoType.YES) {
+            queryWrapper.in(CollUtil.isNotEmpty(userIds), SysUser::getId, userIds);
+        } else {
+            queryWrapper.notIn(CollUtil.isNotEmpty(userIds), SysUser::getId, userIds);
+        }
+
+        // 数据权限过滤
+        dataScopeWrapper(queryWrapper);
 
         // 分页查询
-        IPage<SysUser> page = pageDto.toPage();
-        params.put(DataConstants.PAGE, page);
+        IPage<SysUser> page = this.page(sysAssignUserPageDto.toPage(), queryWrapper);
+        return new PageResult<>(page.getTotal(), SysUserConvert.INSTANCE.convert(page.getRecords()));
 
-        // 数据列表
-        List<SysUser> list = this.baseMapper.roleUserList(params);
-
-        return new PageResult<>(page.getTotal(), SysUserConvert.INSTANCE.convert(list));
     }
 
-    @Transactional(rollbackFor = Exception.class)
     @Override
+    @Transactional
     public SysUser registerUser(SysUser sysUser) {
         // 校验是否已注册
         SysUser user = this.baseMapper.getByUsername(sysUser.getUsername());
@@ -443,11 +463,6 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         checkUserAllowed(sysUser);
         sysUser.setPassword(passwordEncoder.encode(sysResetPasswordDto.getPassword()));
         this.updateById(sysUser);
-    }
-
-    @Override
-    public void insertAuthRole(Long userId, List<Long> roleIds) {
-        this.sysUserRoleService.saveOrUpdate(userId, roleIds);
     }
 
     @Override

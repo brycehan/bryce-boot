@@ -87,12 +87,12 @@ public interface SysUserService extends BaseService<SysUser> {
     SysUserVo getByPhone(String phone);
 
     /**
-     * 角色分配用户，用户列表
+     * 分配/未分配 给角色的用户分页查询
      *
      * @param pageDto 查询条件
-     * @return 用户列表
+     * @return 用户分页信息
      */
-    PageResult<SysUserVo> roleUserPage(SysRoleUserPageDto pageDto);
+    PageResult<SysUserVo> assignUserPage(SysAssignUserPageDto pageDto);
 
     /**
      * 注册用户
@@ -174,14 +174,6 @@ public interface SysUserService extends BaseService<SysUser> {
      * @param sysResetPasswordDto 要重置的用户
      */
     void resetPassword(SysResetPasswordDto sysResetPasswordDto);
-
-    /**
-     * 授权用户角色
-     *
-     * @param userId  用户ID
-     * @param roleIds 角色ID列表
-     */
-    void insertAuthRole(Long userId, List<Long> roleIds);
 
     /**
      * 获取用户信息

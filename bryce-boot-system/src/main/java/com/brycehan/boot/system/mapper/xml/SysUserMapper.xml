@@ -39,23 +39,6 @@
         deleted, created_user_id, created_time, updated_user_id, updated_time
     </sql>
 
-    <select id="roleUserList" resultType="com.brycehan.boot.system.entity.po.SysUser">
-        select bsu.*
-        from brc_sys_user bsu
-        left join brc_sys_user_role bsur on bsu.id = bsur.user_id
-        where bsu.super_admin = 0
-        and bsu.deleted is null
-        and bsu.status = true
-        and bsur.deleted is null
-        and bsur.role_id = #{roleId}
-        <if test="username != null and username.trim() != ''">
-            and bsu.username like concat('%', #{username}, '%')
-        </if>
-        <if test="phone != null and phone.trim() != ''">
-            and bsu.phone = like concat('%', #{phone}, '%')
-        </if>
-    </select>
-
     <select id="list" resultType="com.brycehan.boot.system.entity.po.SysUser">
         select bsu.*
         from brc_sys_user bsu

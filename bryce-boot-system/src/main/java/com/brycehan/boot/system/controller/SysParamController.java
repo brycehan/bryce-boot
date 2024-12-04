@@ -122,6 +122,19 @@ public class SysParamController {
     }
 
     /**
+     * 获取系统参数值
+     *
+     * @param paramKey 参数键
+     * @return 参数值
+     */
+    @Operation(summary = "获取系统参数值")
+    @GetMapping(path = "/get/{paramKey}")
+    public ResponseResult<String> getValueByParamKey(@Parameter(description = "参数键", required = true) @PathVariable String paramKey) {
+        String paramValue = this.sysParamService.getString(paramKey);
+        return ResponseResult.ok(paramValue);
+    }
+
+    /**
      * 校验系统参数键名是否唯一
      *
      * @param sysParamKeyDto 系统参数键名Dto

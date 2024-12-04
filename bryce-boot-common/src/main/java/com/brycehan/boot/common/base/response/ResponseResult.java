@@ -83,6 +83,19 @@ public class ResponseResult<T> implements Serializable {
     }
 
     /**
+     * 返回警告消息
+     *
+     * @param message 响应消息
+     * @return 响应结果
+     */
+    public static <T> ResponseResult<T> warn(String message) {
+        ResponseResult<T> responseResult = new ResponseResult<>();
+        responseResult.setCode(HttpResponseStatus.HTTP_WARN.code());
+        responseResult.setMessage(message);
+        return responseResult;
+    }
+
+    /**
      * 响应失败
      *
      * @return 响应结果

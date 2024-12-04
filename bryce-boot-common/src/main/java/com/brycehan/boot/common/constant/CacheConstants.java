@@ -63,14 +63,4 @@ public class CacheConstants {
      */
     public static final String SYSTEM_OPERATE_LOG_KEY = "sys:log";
 
-    /**
-     * 系统字典翻译键
-     */
-    public static final String SYSTEM_DICT_TRANS_KEY = "sys:dict:trans:";
-
-    /**
-     * 系统字典反向翻译键
-     */
-    public static final String SYSTEM_DICT_UN_TRANS_KEY = "sys:dict:un_trans:";
-
 }

@@ -135,9 +135,9 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
         return SysRoleConvert.INSTANCE.convert(sysRoleList);
     }
 
-    @Transactional(rollbackFor = Exception.class)
     @Override
-    public void dataScope(SysRoleDataScopeDto dataScopeDto) {
+    @Transactional
+    public void assignDataScope(SysRoleDataScopeDto dataScopeDto) {
         SysRole sysRole = this.baseMapper.selectById(dataScopeDto.getId());
         if (sysRole == null) {
             return;
@@ -177,7 +177,9 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
 
     @Override
     public PageResult<SysRoleVo> assignRolePage(SysAssignRolePageDto sysAssignRolePageDto) {
+        // 指定用户已分配的角色ID列表
         List<Long> roleIds = this.sysUserRoleService.getRoleIdsByUserId(sysAssignRolePageDto.getUserId());
+
         LambdaQueryWrapper<SysRole> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.select(SysRole::getId, SysRole::getName, SysRole::getCode, SysRole::getCreatedTime);
 
@@ -185,12 +187,14 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
             return new PageResult<>(0, new ArrayList<>(0));
         }
 
+        // 已分配/未分配 条件过滤
         if (sysAssignRolePageDto.getAssigned() == YesNoType.YES) {
             queryWrapper.in(CollUtil.isNotEmpty(roleIds), SysRole::getId, roleIds);
         } else {
             queryWrapper.notIn(CollUtil.isNotEmpty(roleIds), SysRole::getId, roleIds);
         }
 
+        // 分页查询
         IPage<SysRole> page = this.page(sysAssignRolePageDto.toPage(), queryWrapper);
         return new PageResult<>(page.getTotal(), SysRoleConvert.INSTANCE.convert(page.getRecords()));
     }
