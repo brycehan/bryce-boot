@@ -38,24 +38,24 @@ public abstract class BasePageDto implements Serializable {
     /**
      * 当前页数（从1开始计算）
      */
-    @Schema(description = "当前页数（从1开始计算）")
-    @Range(min = 1, message = "页数最小值为1")
-    @NotNull(message = "页码不能为空")
+    @NotNull
+    @Range(min = 1)
+    @Schema(description = "当前页数")
     private Integer current = 1;
 
     /**
      * 每页条数
      */
+    @NotNull
+    @Range(min = 1, max = 1000)
     @Schema(description = "每页条数")
-    @Range(min = 1, max = 1000, message = "每页条数，取值范围在1-1000")
-    @NotNull(message = "每页条数不能为空")
     private Integer size = DataConstants.pageSize;
 
     /**
      * 排序项
      */
-    @Schema(description = "排序项")
     @Valid
+    @Schema(description = "排序项")
     private List<OrderItemDto> orderItems;
 
     /**

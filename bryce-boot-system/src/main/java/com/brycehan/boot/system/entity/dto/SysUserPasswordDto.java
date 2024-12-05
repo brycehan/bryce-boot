@@ -3,6 +3,7 @@ package com.brycehan.boot.system.entity.dto;
 import com.brycehan.boot.common.entity.BaseDto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Length;
@@ -21,15 +22,16 @@ public class SysUserPasswordDto extends BaseDto {
     /**
      * 原密码
      */
+    @NotBlank
     @Schema(description = "原密码")
-    @NotBlank(message = "原密码不能为空")
     private String password;
 
     /**
      * 新密码
      */
-    @Schema(description = "新密码（长度为6-30位）")
-    @Length(min = 6, max = 30, message = "新密码长度为 6-30 位")
+    @Length(min = 6, max = 20)
+    @Pattern(regexp = "^[^\\s\\u4e00-\\u9fa5]*$", message = "不允许有空格、中文")
+    @Schema(description = "新密码")
     private String newPassword;
 
 }

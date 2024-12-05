@@ -3,9 +3,9 @@ package com.brycehan.boot.system.entity.dto;
 import com.brycehan.boot.common.entity.BaseDto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.validator.constraints.Length;
 
 /**
  * 系统角色编码Dto
@@ -27,9 +27,9 @@ public class SysRoleCodeDto extends BaseDto {
     /**
      * 角色编码
      */
+    @NotBlank
+    @Length(min = 2, max = 30)
     @Schema(description = "角色编码")
-    @NotBlank(message = "角色编码不能为空")
-    @Size(min = 2, max = 30,  message = "角色编码长度在2-50个字符")
     private String code;
 
 }

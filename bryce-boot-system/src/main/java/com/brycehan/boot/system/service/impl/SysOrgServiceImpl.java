@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.brycehan.boot.common.base.IdGenerator;
+import com.brycehan.boot.common.base.ServerException;
+import com.brycehan.boot.common.base.response.SystemResponseStatus;
 import com.brycehan.boot.common.constant.DataConstants;
 import com.brycehan.boot.common.entity.PageResult;
 import com.brycehan.boot.common.entity.dto.IdsDto;
@@ -71,9 +73,7 @@ public class SysOrgServiceImpl extends BaseServiceImpl<SysOrgMapper, SysOrg> imp
     @Transactional(rollbackFor = Exception.class)
     public void delete(IdsDto idsDto) {
         // 过滤无效参数
-        List<Long> ids = idsDto.getIds().stream()
-                .filter(Objects::nonNull)
-                .toList();
+        List<Long> ids = idsDto.getIds().stream().filter(Objects::nonNull).toList();
 
         if (CollectionUtils.isEmpty(ids)) {
             return;
@@ -82,7 +82,7 @@ public class SysOrgServiceImpl extends BaseServiceImpl<SysOrgMapper, SysOrg> imp
         // 判断是否有子机构
         long orgCount = this.count(new LambdaQueryWrapper<SysOrg>().in(SysOrg::getParentId, ids));
         if (orgCount > 0) {
-            throw new RuntimeException("请先删除子机构");
+            throw new ServerException(SystemResponseStatus.ORG_LOWER_LEVEL_ORG_EXIST_CANNOT_BE_DELETED);
         }
 
         // 判断机构下面是否有用户

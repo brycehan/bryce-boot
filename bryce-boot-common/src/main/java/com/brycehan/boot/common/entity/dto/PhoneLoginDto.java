@@ -20,18 +20,18 @@ import lombok.EqualsAndHashCode;
 public class PhoneLoginDto extends BaseDto {
 
     /**
-     * 手机号
+     * 手机号码
      */
     @NotBlank
-    @Pattern(regexp = RegexPatterns.PHONE_REGEX, message = "手机号格式错误")
-    @Schema(description = "手机号")
+    @Pattern(regexp = RegexPatterns.PHONE_REGEX)
+    @Schema(description = "手机号码")
     private String phone;
 
     /**
      * 验证码
      */
     @NotBlank
-    @Pattern(regexp = RegexPatterns.VERIFY_CODE_REGEX, message = "验证码格式错误")
+    @Pattern(regexp = RegexPatterns.VERIFY_CODE_REGEX)
     @Schema(description = "验证码")
     private String code;
 

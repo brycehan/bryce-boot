@@ -20,11 +20,11 @@ import lombok.EqualsAndHashCode;
 public class OrderItemDto extends BaseDto {
 
     /**
-     * 需要进行排序的字段
+     * 排序的字段
      */
-    @Schema(description = "需要进行排序的字段")
-    @NotEmpty(message = "排序的字段不能为空")
-    @Pattern(regexp = "^[a-zA-Z0-9_]{1,64}$", message = "排序的字段只能是字母、数字和下划线，且长度在1-64字符")
+    @NotEmpty
+    @Pattern(regexp = "^[a-zA-Z0-9]{1,64}$", message = "只能是字母、数字，长度为1~64字符")
+    @Schema(description = "排序的字段")
     private String column;
 
     /**

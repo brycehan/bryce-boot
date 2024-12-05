@@ -31,7 +31,7 @@ public class SysOrgDto extends TreeNode<SysOrgDto> {
      * 机构名称
      */
     @Schema(description = "机构名称")
-    @NotBlank(groups = {SaveGroup.class, UpdateGroup.class}, message = "机构名称不能为空")
+    @NotBlank(groups = {SaveGroup.class, UpdateGroup.class})
     @Size(max = 100, groups = {SaveGroup.class, UpdateGroup.class})
     private String name;
 
@@ -74,7 +74,7 @@ public class SysOrgDto extends TreeNode<SysOrgDto> {
      * 显示顺序
      */
     @Schema(description = "显示顺序")
-    @Min(value = 0, message = "排序值不能小于0")
+    @Min(value = 0)
     private Integer sort;
 
     /**

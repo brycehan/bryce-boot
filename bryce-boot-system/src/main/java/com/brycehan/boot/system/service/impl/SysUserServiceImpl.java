@@ -585,6 +585,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         List<Long> roleIdList = this.sysUserRoleService.getRoleIdsByUserId(userId);
         List<String> roleNameList = this.sysRoleService.getRoleNameList(roleIdList);
         if (sysUser.getSuperAdmin()) {
+            roleNameList = new ArrayList<>(roleNameList);
             roleNameList.add(DataConstants.SUPER_ADMIN_NAME);
         }
         sysUserInfoVo.setRoleNameList(String.join(",", roleNameList));

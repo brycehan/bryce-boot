@@ -27,9 +27,9 @@ public class SysUserPhoneDto extends BaseDto {
     /**
      * 手机号码
      */
+    @NotBlank
+    @Pattern(regexp = "^1[3-9]\\d{9}$")
     @Schema(description = "手机号码")
-    @NotBlank(message = "手机号码不能为空")
-    @Pattern(regexp = "^1[3-9]\\d{9}$", message = "手机号码格式错误")
     private String phone;
 
 }

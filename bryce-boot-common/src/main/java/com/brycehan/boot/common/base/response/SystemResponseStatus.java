@@ -6,7 +6,9 @@ import lombok.Getter;
 import lombok.experimental.Accessors;
 
 /**
- * 短信响应状态枚举
+ * 用户响应状态枚举
+ * <br/>
+ * Warn 警告消息状态编码在 600-999 之间
  *
  * @since 2022/5/30
  * @author Bryce Han
@@ -14,9 +16,10 @@ import lombok.experimental.Accessors;
 @Getter
 @Accessors(fluent = true)
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
-public enum SmsResponseStatus implements ResponseStatus {
+public enum SystemResponseStatus implements ResponseStatus {
 
-    SMS_SEND_FAIL(1100, "短信发送失败");
+    ORG_LOWER_LEVEL_ORG_EXIST_CANNOT_BE_DELETED(601, "存在下级部门,不允许删除"),
+    ;
 
     /**
      * 状态编码

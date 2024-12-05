@@ -5,11 +5,13 @@ import com.brycehan.boot.common.base.response.HttpResponseStatus;
 import com.brycehan.boot.common.base.response.ResponseResult;
 import com.brycehan.boot.common.base.response.UploadResponseStatus;
 import com.brycehan.boot.common.base.response.UserResponseStatus;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.error.WxError;
 import me.chanjar.weixin.common.error.WxErrorException;
+import org.hibernate.validator.internal.engine.ConstraintViolationImpl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.security.access.AccessDeniedException;
@@ -17,6 +19,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.validation.BindException;
+import org.springframework.validation.FieldError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -24,6 +27,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
+import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -111,10 +115,39 @@ public class ServerExceptionHandler {
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseResult<Void> handleException(MethodArgumentNotValidException e) {
-        List<String> errors = e.getFieldErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage)
-                .collect(Collectors.toList());
+        List<String> errors = e.getFieldErrors().stream().map(fieldError -> getFieldCNName(fieldError) + fieldError.getDefaultMessage()).collect(Collectors.toList());
         log.error("实体字段校验不通过异常，{}", e.getMessage());
         return ResponseResult.error(HttpResponseStatus.HTTP_BAD_REQUEST.code(), String.join("，", errors));
+    }
+
+    /**
+     * 获取实体字段校验不通过异常字段的中文名
+     *
+     * @param fieldError 字段错误
+     * @return 字段中文名
+     */
+    private static String getFieldCNName(FieldError fieldError) {
+        Class<? extends FieldError> fieldErrorClass = fieldError.getClass();
+        try {
+            Field violationField = fieldErrorClass.getDeclaredField("violation");
+            violationField.setAccessible(true);
+            Object violation = violationField.get(fieldError);
+            if (violation instanceof ConstraintViolationImpl<?> constraintViolation) {
+                // 获取字段的实体类class
+                Class<?> rootBeanClass = constraintViolation.getRootBeanClass();
+                String field = fieldError.getField();
+                // 获取校验出错的实体类字段
+                Field erroredField = rootBeanClass.getDeclaredField(field);
+                Schema annotation = erroredField.getAnnotation(Schema.class);
+                if (annotation != null) {
+                    return annotation.description();
+                }
+            }
+        } catch (Exception ex) {
+            log.error("获取实体字段校验不通过异常注解失败", ex);
+        }
+
+        return "";
     }
 
     /**

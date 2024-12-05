@@ -24,7 +24,7 @@ public class IdsDto extends BaseDto {
      * IDs
      */
     @Schema(description = "IDs")
-    @Size(min = 1, max = 1000, message = "ID有效个数在1-1000")
+    @Size(min = 1, max = 1000)
     @NotNull
     private List<Long> ids;
 

@@ -27,9 +27,9 @@ public class SysParamKeyDto extends BaseDto {
     /**
      * 参数键名
      */
+    @NotBlank
+    @Size(min = 2, max = 100)
     @Schema(description = "参数键名")
-    @NotBlank(message = "参数键名不能为空")
-    @Size(min = 2, max = 100, message = "参数键名长度在2-100个字符")
     private String paramKey;
 
 }

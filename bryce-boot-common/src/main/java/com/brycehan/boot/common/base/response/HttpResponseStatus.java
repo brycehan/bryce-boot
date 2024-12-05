@@ -44,7 +44,7 @@ public enum HttpResponseStatus implements ResponseStatus {
 
     HTTP_SYSTEM_BUSY(598, "系统繁忙"),
 
-    HTTP_WARN(599, "系统警告消息"),
+    HTTP_WARN(600, "系统警告消息"),
     ;
 
 

@@ -27,9 +27,9 @@ public class SysMenuAuthorityDto extends BaseDto {
     /**
      * 权限标识
      */
+    @NotBlank
+    @Size(min = 5, max = 100)
     @Schema(description = "权限标识")
-    @NotBlank(message = "权限标识不能为空")
-    @Size(min = 5, max = 100, message = "权限标识长度在2-100个字符")
     private String authority;
 
 }
