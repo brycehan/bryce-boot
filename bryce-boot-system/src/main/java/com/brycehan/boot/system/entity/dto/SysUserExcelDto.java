@@ -3,6 +3,8 @@ package com.brycehan.boot.system.entity.dto;
 import com.alibaba.excel.annotation.ExcelIgnoreUnannotated;
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.alibaba.excel.annotation.write.style.ColumnWidth;
+import com.alibaba.excel.annotation.write.style.ContentStyle;
+import com.alibaba.excel.enums.poi.HorizontalAlignmentEnum;
 import com.brycehan.boot.common.enums.EnumTypeDescConverter;
 import com.brycehan.boot.common.enums.GenderType;
 import com.brycehan.boot.common.enums.StatusType;
@@ -23,6 +25,7 @@ import java.io.Serializable;
  */
 @Data
 @ExcelIgnoreUnannotated
+@ContentStyle(horizontalAlignment = HorizontalAlignmentEnum.CENTER)
 public class SysUserExcelDto implements Serializable {
 
     @Serial

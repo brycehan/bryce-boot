@@ -46,6 +46,13 @@ public interface SysOperateLogService extends BaseService<SysOperateLog> {
     PageResult<SysOperateLogVo> page(SysOperateLogPageDto sysOperateLogPageDto);
 
     /**
+     * 系统操作日志导出
+     *
+     * @param sysOperateLogPageDto 查询条件
+     */
+    void export(SysOperateLogPageDto sysOperateLogPageDto);
+
+    /**
      * 清空系统操作日志
      */
     void cleanOperateLog();

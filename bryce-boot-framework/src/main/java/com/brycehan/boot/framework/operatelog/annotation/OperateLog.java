@@ -16,7 +16,7 @@ import java.lang.annotation.Target;
 public @interface OperateLog {
 
     /**
-     * 模块名
+     * 模块名称
      */
     String moduleName() default "";
 
@@ -29,5 +29,20 @@ public @interface OperateLog {
      * 操作类型
      */
     OperatedType type() default OperatedType.OTHER;
+
+    /**
+     * 是否保存请求参数
+     */
+    boolean saveRequestParam() default true;
+
+    /**
+     * 是否保存响应数据
+     */
+    boolean saveResponseData() default true;
+
+    /**
+     * 脱敏指定的参数名称
+     */
+    String[] desensitizedParamNames() default {"password", "oldPassword", "newPassword", "confirmPassword"};
 
 }

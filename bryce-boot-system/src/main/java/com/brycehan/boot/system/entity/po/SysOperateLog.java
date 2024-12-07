@@ -37,7 +37,7 @@ public class SysOperateLog implements Serializable {
     private String name;
 
     /**
-     * 模块名
+     * 模块名称
      */
     private String moduleName;
 
@@ -47,7 +47,7 @@ public class SysOperateLog implements Serializable {
     private String requestUri;
 
     /**
-     * 请求方法
+     * 请求方式
      */
     private String requestMethod;
 
@@ -57,9 +57,14 @@ public class SysOperateLog implements Serializable {
     private String requestParam;
 
     /**
-     * 返回消息
+     * 返回结果
      */
-    private String resultMessage;
+    private String jsonResult;
+
+    /**
+     * 错误消息
+     */
+    private String errorMessage;
 
     /**
      * 操作类型
@@ -82,11 +87,6 @@ public class SysOperateLog implements Serializable {
     private OperateStatus status;
 
     /**
-     * User Agent
-     */
-    private String userAgent;
-
-    /**
      * 操作IP
      */
     private String ip;
@@ -95,6 +95,16 @@ public class SysOperateLog implements Serializable {
      * 操作地点
      */
     private String location;
+
+    /**
+     * 来源客户端
+     */
+    private String sourceClient;
+
+    /**
+     * User Agent
+     */
+    private String userAgent;
 
     /**
      * 操作人ID
@@ -110,6 +120,11 @@ public class SysOperateLog implements Serializable {
      * 机构ID
      */
     private Long orgId;
+
+    /**
+     * 机构名称
+     */
+    private String orgName;
 
     /**
      * 创建时间

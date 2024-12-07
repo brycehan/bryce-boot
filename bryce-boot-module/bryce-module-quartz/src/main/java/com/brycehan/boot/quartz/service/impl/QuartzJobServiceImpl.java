@@ -81,20 +81,18 @@ public class QuartzJobServiceImpl extends BaseServiceImpl<QuartzJobMapper, Quart
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional
     public void delete(IdsDto idsDto) {
         // 过滤无效参数
-        List<Long> ids = idsDto.getIds().stream()
-                .filter(Objects::nonNull)
-                .toList();
+        List<Long> ids = idsDto.getIds().stream().filter(Objects::nonNull).toList();
         if (CollectionUtils.isEmpty(ids)) {
             return;
         }
 
         for (Long id: ids) {
-            // 删除定时任务
+            QuartzJob quartzJob = getById(id);
             if(removeById(id)) {
-                QuartzJob quartzJob = getById(id);
+                // 删除定时任务
                 QuartzUtils.deleteSchedulerJob(scheduler, quartzJob);
             }
         }

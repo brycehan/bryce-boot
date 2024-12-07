@@ -3,6 +3,8 @@ package com.brycehan.boot.quartz.entity.vo;
 import com.alibaba.excel.annotation.ExcelIgnoreUnannotated;
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.alibaba.excel.annotation.write.style.ColumnWidth;
+import com.alibaba.excel.annotation.write.style.ContentStyle;
+import com.alibaba.excel.enums.poi.HorizontalAlignmentEnum;
 import com.brycehan.boot.common.enums.EnumTypeDescConverter;
 import com.brycehan.boot.common.enums.YesNoType;
 import com.brycehan.boot.quartz.common.JobGroup;
@@ -23,6 +25,7 @@ import java.time.LocalDateTime;
 @Data
 @Schema(description = "quartz定时任务调度Vo")
 @ExcelIgnoreUnannotated
+@ContentStyle(horizontalAlignment = HorizontalAlignmentEnum.CENTER)
 public class QuartzJobVo implements Serializable {
 
     @Serial

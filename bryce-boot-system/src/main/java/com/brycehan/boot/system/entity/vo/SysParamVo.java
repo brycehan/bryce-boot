@@ -2,7 +2,10 @@ package com.brycehan.boot.system.entity.vo;
 
 import com.alibaba.excel.annotation.ExcelIgnoreUnannotated;
 import com.alibaba.excel.annotation.ExcelProperty;
+import com.alibaba.excel.annotation.format.NumberFormat;
 import com.alibaba.excel.annotation.write.style.ColumnWidth;
+import com.alibaba.excel.annotation.write.style.ContentStyle;
+import com.alibaba.excel.enums.poi.HorizontalAlignmentEnum;
 import com.brycehan.boot.common.enums.EnumTypeDescConverter;
 import com.brycehan.boot.common.enums.ParamType;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -21,6 +24,7 @@ import java.time.LocalDateTime;
 @Data
 @Schema(description = "系统参数Vo")
 @ExcelIgnoreUnannotated
+@ContentStyle(horizontalAlignment = HorizontalAlignmentEnum.CENTER)
 public class SysParamVo implements Serializable {
 
     @Serial
@@ -30,6 +34,7 @@ public class SysParamVo implements Serializable {
      * ID
      */
     @Schema(description = "ID")
+    @NumberFormat(value = "#")
     @ColumnWidth(20)
     @ExcelProperty("参数编号")
     private Long id;

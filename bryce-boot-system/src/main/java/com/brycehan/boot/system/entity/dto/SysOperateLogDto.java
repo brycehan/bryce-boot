@@ -4,6 +4,7 @@ import com.brycehan.boot.common.entity.BaseDto;
 import com.brycehan.boot.common.enums.OperateStatus;
 import com.brycehan.boot.common.base.validator.SaveGroup;
 import com.brycehan.boot.common.base.validator.UpdateGroup;
+import com.brycehan.boot.common.enums.SourceClientType;
 import com.brycehan.boot.framework.operatelog.annotation.OperatedType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
@@ -55,9 +56,9 @@ public class SysOperateLogDto extends BaseDto {
     private String requestUri;
 
     /**
-     * 请求方法
+     * 请求方式
      */
-    @Schema(description = "请求方法")
+    @Schema(description = "请求方式")
     @Size(max = 10, groups = {SaveGroup.class, UpdateGroup.class})
     private String requestMethod;
 
@@ -69,17 +70,23 @@ public class SysOperateLogDto extends BaseDto {
     private String requestParam;
 
     /**
-     * 返回消息
+     * 返回结果
      */
-    @Schema(description = "返回消息")
-    @Size(max = 500, groups = {SaveGroup.class, UpdateGroup.class})
-    private String resultMessage;
+    @Schema(description = "返回结果")
+    @Size(max = 2000, groups = {SaveGroup.class, UpdateGroup.class})
+    private String jsonResult;
+
+    /**
+     * 错误消息
+     */
+    @Schema(description = "错误消息")
+    @Size(max = 2000, groups = {SaveGroup.class, UpdateGroup.class})
+    private String errorMessage;
 
     /**
      * 操作类型
      */
     @Schema(description = "操作类型")
-//    @Size(max = 20, groups = {SaveGroup.class, UpdateGroup.class})
     private OperatedType operatedType;
 
     /**
@@ -101,13 +108,6 @@ public class SysOperateLogDto extends BaseDto {
     private OperateStatus status;
 
     /**
-     * User Agent
-     */
-    @Schema(description = "User Agent")
-    @Size(max = 500, groups = {SaveGroup.class, UpdateGroup.class})
-    private String userAgent;
-
-    /**
      * 操作IP
      */
     @Schema(description = "操作IP")
@@ -120,6 +120,19 @@ public class SysOperateLogDto extends BaseDto {
     @Schema(description = "操作地点")
     @Size(max = 255, groups = {SaveGroup.class, UpdateGroup.class})
     private String location;
+
+    /**
+     * 来源客户端
+     */
+    @Schema(description = "来源客户端")
+    private SourceClientType sourceClient;
+
+    /**
+     * User Agent
+     */
+    @Schema(description = "User Agent")
+    @Size(max = 500, groups = {SaveGroup.class, UpdateGroup.class})
+    private String userAgent;
 
     /**
      * 操作人ID
@@ -139,6 +152,12 @@ public class SysOperateLogDto extends BaseDto {
      */
     @Schema(description = "机构ID")
     private Long orgId;
+
+    /**
+     * 机构名称
+     */
+    @Schema(description = "机构名称")
+    private String orgName;
 
     /**
      * 创建时间

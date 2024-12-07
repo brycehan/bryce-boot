@@ -48,6 +48,7 @@ public class ExcelUtils {
             response.addHeader(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, HttpHeaders.CONTENT_DISPOSITION);
             // 这里需要设置不关闭流
             EasyExcel.write(response.getOutputStream(), head)
+                    .useDefaultStyle(true) // 使用默认样式
                     .autoCloseStream(Boolean.FALSE)
                     .sheet(StringUtils.isBlank(sheetName) ? "Sheet1": sheetName)
                     .doWrite(data);

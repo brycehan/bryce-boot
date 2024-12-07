@@ -13,6 +13,7 @@ import java.util.Objects;
  * @since 2022/9/21
  * @author Bryce Han
  */
+@SuppressWarnings("unused")
 public class IpUtils {
 
     /**

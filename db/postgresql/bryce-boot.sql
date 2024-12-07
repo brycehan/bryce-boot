@@ -486,17 +486,20 @@ create table brc_sys_operate_log
     request_uri    varchar(2048),
     request_method varchar(10),
     request_param  text,
-    result_message varchar(500),
+    json_result    varchar(2000),
+    error_message  varchar(2000),
     operated_type  varchar(20),
     operated_time  timestamp,
     duration       integer,
     status         smallint,
-    user_agent     varchar(500),
     ip             varchar(128),
     location       varchar(255),
+    source_client  varchar(50),
+    user_agent     varchar(500),
     user_id        bigint,
     username       varchar(50),
     org_id         bigint,
+    org_name       varchar(50),
     created_time   timestamp
 );
 
@@ -505,19 +508,22 @@ comment on column brc_sys_operate_log.id is 'ID';
 comment on column brc_sys_operate_log.name is '操作名称';
 comment on column brc_sys_operate_log.module_name is '模块名';
 comment on column brc_sys_operate_log.request_uri is '请求URI';
-comment on column brc_sys_operate_log.request_method is '请求方法';
+comment on column brc_sys_operate_log.request_method is '请求方式';
 comment on column brc_sys_operate_log.request_param is '请求参数';
-comment on column brc_sys_operate_log.result_message is '返回消息';
+comment on column brc_sys_operate_log.json_result is '返回结果';
+comment on column brc_sys_operate_log.error_message is '错误消息';
 comment on column brc_sys_operate_log.operated_type is '操作类型';
 comment on column brc_sys_operate_log.operated_time is '操作时间';
 comment on column brc_sys_operate_log.duration is '执行时长（毫秒）';
 comment on column brc_sys_operate_log.status is '操作状态（0：失败，1：成功）';
-comment on column brc_sys_operate_log.user_agent is 'User Agent';
 comment on column brc_sys_operate_log.ip is '操作IP';
 comment on column brc_sys_operate_log.location is '操作地点';
+comment on column brc_sys_operate_log.source_client is '来源客户端';
+comment on column brc_sys_operate_log.user_agent is 'User Agent';
 comment on column brc_sys_operate_log.user_id is '操作人ID';
-comment on column brc_sys_operate_log.username is '操作人账号';
+comment on column brc_sys_operate_log.username is '操作账号';
 comment on column brc_sys_operate_log.org_id is '机构ID';
+comment on column brc_sys_operate_log.org_name is '机构名称';
 comment on column brc_sys_operate_log.created_time is '创建时间';
 
 -- 12、系统字典类型表

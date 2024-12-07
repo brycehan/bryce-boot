@@ -56,6 +56,9 @@ public class SysUserDetailsServiceImpl implements SysUserDetailsService {
         // 预处理登录用户
         prepare(loginUser);
 
+        // 机构名称
+        loginUser.setOrgName(sysOrgService.getOrgNameById(loginUser.getOrgId()));
+
         // 数据权限范围
         Set<Long> dataScopeSet = this.getDataScope(loginUser);
         loginUser.setDataScopeSet(dataScopeSet);

@@ -6,6 +6,7 @@ import com.brycehan.boot.common.base.LoginUser;
 import com.brycehan.boot.common.base.LoginUserContext;
 import com.brycehan.boot.common.enums.OperateStatus;
 import com.brycehan.boot.common.util.IpUtils;
+import com.brycehan.boot.common.util.JsonUtils;
 import com.brycehan.boot.common.util.LocationUtils;
 import com.brycehan.boot.common.util.ServletUtils;
 import com.brycehan.boot.framework.operatelog.annotation.OperateLog;
@@ -22,11 +23,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.Around;
-import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.*;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.boot.context.properties.bind.BindResult;
+import org.springframework.core.NamedThreadLocal;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
@@ -55,30 +56,47 @@ import java.util.stream.IntStream;
 public class OperateLogAspect {
 
     /**
-     * 排除敏感属性字段
+     * 计算操作消耗时间
      */
-    private static final String[] EXCLUDE_PROPERTIES = {"password", "oldPassword", "newPassword", "confirmPassword", "fileDto"};
+    private static final ThreadLocal<LocalDateTime> STARTTIME_THREADLOCAL = new NamedThreadLocal<>("StartTime");
 
     private final OperateLogService operateLogService;
 
-    @Around("@annotation(operateLog)")
-    public Object around(ProceedingJoinPoint joinPoint, OperateLog operateLog) throws Throwable {
+    /**
+     * 处理请求前执行
+     *
+     * @param joinPoint 连接点
+     * @param operateLog 操作日志注解
+     */
+    @SuppressWarnings("unused")
+    @Before(value = "@annotation(operateLog)")
+    public void doBefore(JoinPoint joinPoint, OperateLog operateLog) {
         // 记录开始时间
-        LocalDateTime startTime = LocalDateTime.now();
+        STARTTIME_THREADLOCAL.set(LocalDateTime.now());
+    }
 
-        try {
-            // 执行方法
-            Object result = joinPoint.proceed();
+    /**
+     * 处理完请求后记录日志
+     *
+     * @param joinPoint 连接点
+     * @param operateLog 操作日志注解
+     * @param result 返回结果
+     */
+    @AfterReturning(pointcut = "@annotation(operateLog)", returning = "result")
+    public void doAfterReturning(JoinPoint joinPoint, OperateLog operateLog, Object result) {
+        handleLog(joinPoint, operateLog, null, result);
+    }
 
-            // 处理日志
-            handleLog(joinPoint, operateLog, startTime, OperateStatus.SUCCESS);
-
-            return result;
-        } catch (Throwable ex) {
-            // 处理日志
-            handleLog(joinPoint, operateLog, startTime, OperateStatus.FAIL);
-            throw ex;
-        }
+    /**
+     * 拦截异常并记录日志
+     *
+     * @param joinPoint 连接点
+     * @param operateLog 操作日志注解
+     * @param ex 异常
+     */
+    @AfterThrowing(pointcut = "@annotation(operateLog)", throwing = "ex")
+    public void doAfterThrowing(JoinPoint joinPoint, OperateLog operateLog, Exception ex) {
+        handleLog(joinPoint, operateLog, ex, null);
     }
 
     /**
@@ -86,12 +104,12 @@ public class OperateLogAspect {
      *
      * @param joinPoint 连接点
      * @param operateLog 操作日志注解
-     * @param startTime 操作开始时间
-     * @param status 操作状态
+     * @param ex 异常
+     * @param result 返回结果
      */
-    private void handleLog(final ProceedingJoinPoint joinPoint, OperateLog operateLog, LocalDateTime startTime, OperateStatus status) {
-        OperateLogDto operateLogDto = new OperateLogDto();
+    private void handleLog(JoinPoint joinPoint, OperateLog operateLog, Exception ex, Object result) {
 
+        // 校验@OperateLog的使用
         Annotation[] annotations = getClassAnnotations(joinPoint);
         if(Arrays.stream(annotations).noneMatch(annotation ->
                 annotation instanceof RestController || annotation instanceof Controller)) {
@@ -99,24 +117,62 @@ public class OperateLogAspect {
             return;
         }
 
-        // 执行时长
-        long duration = LocalDateTimeUtil.between(startTime, LocalDateTime.now()).toMillis();
-        operateLogDto.setDuration((int)duration);
+        // 操作日志DTO封装
+        OperateLogDto operateLogDto = new OperateLogDto();
+
         // 操作用户
         LoginUser currentUser = LoginUserContext.currentUser();
         if(currentUser != null) {
             operateLogDto.setUserId(currentUser.getId());
             operateLogDto.setUsername(currentUser.getUsername());
             operateLogDto.setOrgId(currentUser.getOrgId());
+            operateLogDto.setOrgName(currentUser.getOrgName());
+            operateLogDto.setSourceClient(currentUser.getSourceClientType());
         }
 
+        // 请求相关参数
+        HttpServletRequest request = ServletUtils.getRequest();
+        operateLogDto.setIp(IpUtils.getIp(request));
+        operateLogDto.setLocation(LocationUtils.getLocationByIP(operateLogDto.getIp()));
+        operateLogDto.setUserAgent(request.getHeader(HttpHeaders.USER_AGENT));
+        operateLogDto.setRequestUri(StrUtil.subPre(request.getRequestURI(), 2000));
+        operateLogDto.setRequestMethod(request.getMethod());
+
+        // 处理注解上的参数
+        setControllerMethodParams(joinPoint, operateLog, operateLogDto, result);
+
+        // 执行时长
+        long duration = LocalDateTimeUtil.between(STARTTIME_THREADLOCAL.get(), LocalDateTime.now()).toMillis();
+        operateLogDto.setDuration((int)duration);
+
+        // 异常消息
+        if (ex != null) {
+            operateLogDto.setErrorMessage(StrUtil.subPre(ex.getMessage(), 2000));
+        }
+
+        // 操作状态
+        operateLogDto.setStatus(ex == null ? OperateStatus.SUCCESS : OperateStatus.FAIL);
+        operateLogDto.setOperatedTime(LocalDateTime.now());
+
+        // 保存操作日志
+        this.operateLogService.save(operateLogDto);
+    }
+
+
+    /**
+     * 设置操作日志参数
+     *
+     * @param joinPoint 连接点
+     * @param operateLog 操作日志注解
+     * @param operateLogDto 日志对象
+     * @param result 操作结果
+     */
+    private static void setControllerMethodParams(JoinPoint joinPoint, OperateLog operateLog, OperateLogDto operateLogDto, Object result) {
         // 操作类型
         operateLogDto.setOperatedType(operateLog.type());
+
         // 设置模块名
         operateLogDto.setModuleName(operateLog.moduleName());
-        // 设置name值
-        operateLogDto.setName(operateLog.name());
-
         // 如果没有指定模块名，则从Tag中读取
         if(StrUtil.isEmpty(operateLogDto.getModuleName())){
             Tag tag = getClassTagAnnotation(joinPoint);
@@ -125,6 +181,8 @@ public class OperateLogAspect {
             }
         }
 
+        // 设置name值
+        operateLogDto.setName(operateLog.name());
         // 如果没有指定name值，则从Operation中读取
         if(StrUtil.isEmpty(operateLogDto.getName())) {
             Operation operation = getMethodOperationAnnotation(joinPoint);
@@ -133,35 +191,55 @@ public class OperateLogAspect {
             }
         }
 
-        // 请求相关
-        HttpServletRequest request = ServletUtils.getRequest();
-        operateLogDto.setIp(IpUtils.getIp(request));
-        operateLogDto.setLocation(LocationUtils.getLocationByIP(operateLogDto.getIp()));
-        operateLogDto.setUserAgent(request.getHeader(HttpHeaders.USER_AGENT));
-        operateLogDto.setRequestUri(request.getRequestURI());
-        operateLogDto.setRequestMethod(request.getMethod());
+        // 请求参数
+        if (operateLog.saveRequestParam()) {
+            operateLogDto.setRequestParam(StrUtil.subPre(obtainRequestParam(joinPoint, operateLog), 2000));
+        }
 
-        operateLogDto.setRequestParam(obtainRequestParam(joinPoint));
-        operateLogDto.setStatus(status);
-        operateLogDto.setOperatedTime(LocalDateTime.now());
-
-        // 保存操作日志
-        this.operateLogService.save(operateLogDto);
+        // 响应结果
+        if (operateLog.saveResponseData()) {
+            operateLogDto.setJsonResult(StrUtil.subPre(JsonUtils.writeValueAsString(result), 2000));
+        }
     }
 
-    private static Tag getClassTagAnnotation(ProceedingJoinPoint joinPoint) {
-        return ((MethodSignature) joinPoint.getSignature()).getMethod().getDeclaringClass().getAnnotation(Tag.class);
-    }
-
-    private static Annotation[] getClassAnnotations(ProceedingJoinPoint joinPoint) {
+    /**
+     * 获取切点的方法的注解
+     *
+     * @param joinPoint 连接点
+     * @return 类注解
+     */
+    private static Annotation[] getClassAnnotations(JoinPoint joinPoint) {
         return ((MethodSignature) joinPoint.getSignature()).getMethod().getDeclaringClass().getAnnotations();
     }
 
-    private static Operation getMethodOperationAnnotation(ProceedingJoinPoint joinPoint) {
+    /**
+     * 获取切点的方法的Tag注解
+     *
+     * @param joinPoint 连接点
+     * @return Tag注解
+     */
+    private static Tag getClassTagAnnotation(JoinPoint joinPoint) {
+        return ((MethodSignature) joinPoint.getSignature()).getMethod().getDeclaringClass().getAnnotation(Tag.class);
+    }
+
+    /**
+     * 获取切点的方法的Operation注解
+     *
+     * @param joinPoint 连接点
+     * @return Operation注解
+     */
+    private static Operation getMethodOperationAnnotation(JoinPoint joinPoint) {
         return ((MethodSignature) joinPoint.getSignature()).getMethod().getAnnotation(Operation.class);
     }
 
-    private String obtainRequestParam(ProceedingJoinPoint joinPoint) {
+    /**
+     * 获取请求参数
+     *
+     * @param joinPoint 连接点
+     * @return 请求参数
+     */
+    private static String obtainRequestParam(JoinPoint joinPoint, OperateLog operateLog) {
+        // 获取参数名称和参数值
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         String[] paramNames = signature.getParameterNames();
         Object[] paramValues = joinPoint.getArgs();
@@ -174,7 +252,8 @@ public class OperateLogAspect {
             requestParam.put(paramName, ignoreParam(paramValue) ? "[ignore]" : paramValue);
         }
 
-        // 过滤掉指定敏感的属性
+        // 过滤掉指定的脱敏的属性
+        String[] EXCLUDE_PROPERTIES = operateLog.desensitizedParamNames();
         SimpleBeanPropertyFilter propertyFilter = SimpleBeanPropertyFilter.serializeAllExcept(EXCLUDE_PROPERTIES);
         FilterProvider filterProvider = new SimpleFilterProvider()
                 .addFilter("propertyFilter", propertyFilter);

@@ -51,6 +51,8 @@ public class LoginUser implements UserDetails {
 
     private Long orgId;
 
+    private String orgName;
+
     private StatusType status;
 
     private boolean superAdmin;
