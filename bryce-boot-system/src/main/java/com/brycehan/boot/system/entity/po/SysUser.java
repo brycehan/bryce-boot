@@ -51,7 +51,7 @@ public class SysUser extends BaseEntity {
     private String avatar;
 
     /**
-     * 性别（M：男, F：女）
+     * 性别（M：男，F：女，N：未知）
      */
     private GenderType gender;
 

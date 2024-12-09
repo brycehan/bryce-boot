@@ -4,6 +4,7 @@ import cn.hutool.core.date.DatePattern;
 import com.brycehan.boot.common.constant.DataConstants;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
@@ -37,6 +38,8 @@ public class JacksonConfig {
     @Order(Ordered.HIGHEST_PRECEDENCE)
     public Jackson2ObjectMapperBuilderCustomizer jackson2ObjectMapperBuilderCustomizer(){
         return builder -> {
+            // Long序列化转String
+            builder.serializerByType(Long.class, ToStringSerializer.instance);
             // 日期时间序列化
             builder.serializerByType(LocalTime.class, new LocalTimeSerializer(DatePattern.NORM_TIME_FORMATTER));
             builder.serializerByType(LocalDateTime.class, new LocalDateTimeSerializer(DatePattern.NORM_DATETIME_FORMATTER));

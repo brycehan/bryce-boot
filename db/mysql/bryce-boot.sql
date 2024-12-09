@@ -66,7 +66,7 @@ create table brc_sys_user
     password           varchar(255)             null comment '密码',
     nickname           varchar(50)              null comment '姓名',
     avatar             varchar(200)             null comment '头像地址',
-    gender             char                     null comment '性别（M：男, F：女，N：未知）',
+    gender             char                     null comment '性别（M：男，F：女，N：未知）',
     type               tinyint   default 0      null comment '用户类型（0：系统用户）',
     phone              varchar(20)              null comment '手机号码',
     email              varchar(50)              null comment '邮箱',

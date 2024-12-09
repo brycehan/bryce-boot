@@ -109,7 +109,7 @@ comment on column brc_sys_user.username is '账号';
 comment on column brc_sys_user.password is '密码';
 comment on column brc_sys_user.nickname is '姓名';
 comment on column brc_sys_user.avatar is '头像地址';
-comment on column brc_sys_user.gender is '性别（M：男, F：女，N：未知）';
+comment on column brc_sys_user.gender is '性别（M：男，F：女，N：未知）';
 comment on column brc_sys_user.type is '用户类型（0：系统用户）';
 comment on column brc_sys_user.phone is '手机号码';
 comment on column brc_sys_user.email is '邮箱';

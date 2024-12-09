@@ -49,6 +49,7 @@ public class CorsConfig {
         FilterRegistrationBean<CorsFilter> registration = new FilterRegistrationBean<>();
         registration.setFilter(corsFilter());
         registration.setOrder(Ordered.HIGHEST_PRECEDENCE + 10);
+        registration.setName("corsFilter");
         return registration;
     }
 

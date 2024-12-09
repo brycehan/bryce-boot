@@ -103,7 +103,7 @@ public class ServerExceptionHandler {
      */
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public ResponseResult<Void> handleException(HttpRequestMethodNotSupportedException e) {
-        log.error("请求方法不支持异常，{}", e.getMethod());
+        log.error("不支持{}类型的方法", e.getMethod(), e);
         return ResponseResult.error(HttpResponseStatus.HTTP_METHOD_NOT_ALLOWED, e.getMethod());
     }
 

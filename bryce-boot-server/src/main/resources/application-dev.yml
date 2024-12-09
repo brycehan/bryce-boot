@@ -74,3 +74,5 @@ logging:
     root: info
     org.quartz: warn
     me.chanjar: debug
+    org.springframework.web: info
+    org.springframework.security: info

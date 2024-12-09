@@ -5,6 +5,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
 import org.springframework.util.PathMatcher;
 
 /**
@@ -22,7 +23,7 @@ public class XssConfig {
     public FilterRegistrationBean<XssFilter> xssFilter(XssProperties xssProperties, PathMatcher pathMatcher) {
         FilterRegistrationBean<XssFilter> bean = new FilterRegistrationBean<>();
         bean.setFilter(new XssFilter(xssProperties, pathMatcher));
-        bean.setOrder(Integer.MAX_VALUE);
+        bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
         bean.setName("xssFilter");
 
         return bean;

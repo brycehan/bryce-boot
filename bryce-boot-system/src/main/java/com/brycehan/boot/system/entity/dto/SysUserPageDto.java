@@ -33,9 +33,9 @@ public class SysUserPageDto extends BasePageDto {
     private String username;
 
     /**
-     * 性别（M：男, F：女）
+     * 性别（M：男，F：女，N：未知）
      */
-    @Schema(description = "性别（M：男, F：女）")
+    @Schema(description = "性别（M：男，F：女，N：未知）")
     private GenderType gender;
 
     /**

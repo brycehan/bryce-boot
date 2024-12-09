@@ -30,10 +30,6 @@ public class LocalResourceConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(@NonNull ResourceHandlerRegistry registry) {
-        // knife4j 访问路径映射
-        registry.addResourceHandler("doc.html").addResourceLocations("classpath:/META-INF/resources/");
-        registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
-
         // 如果不是本地存储，则返回
         if(storageProperties.getConfig().getType() != StorageType.LOCAL) {
             return;
