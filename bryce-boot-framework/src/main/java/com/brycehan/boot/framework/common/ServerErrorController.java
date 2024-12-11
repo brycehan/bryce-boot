@@ -37,6 +37,10 @@ public class ServerErrorController implements ErrorController {
 
         Throwable throwable = (Throwable) request.getAttribute(RequestDispatcher.ERROR_EXCEPTION);
 
+        if (throwable == null) {
+            return ResponseResult.error();
+        }
+
         return ResponseResult.error(throwable.getMessage());
     }
 

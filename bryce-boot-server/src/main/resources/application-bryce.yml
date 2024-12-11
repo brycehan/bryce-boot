@@ -55,31 +55,22 @@ bryce:
       all:
         - /generator-ui/**
         - /auth/register/**
-        - /pay/alipay/trade/notify
-        - /pay/wechatPay/pay/notify
-        - /pay/wechatPay/refund/notify
-        - /pay/product
-        - /mp
         - /error
       get:
         - /
-        - /webjars/**
-        - /swagger-ui/**
-        - /swagger-resources/**
-        - /v3/api-docs/**
         - /doc.html
+        - /v3/api-docs/**
+        - /webjars/**
         - /favicon.ico
         - /attachment/**
         - /auth/captcha/**
         - /auth/sms/**
-        - /third/login/wechat/mp/**
         - /auth/logout
       post:
         - /auth/loginByAccount
         - /auth/loginByPhone
         - /auth/app/account/login
         - /auth/app/sms/login
-        - /ma/user/login
 
   # xss 过滤
   xss:

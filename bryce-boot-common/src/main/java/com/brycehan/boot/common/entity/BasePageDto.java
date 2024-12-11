@@ -1,5 +1,6 @@
 package com.brycehan.boot.common.entity;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.text.NamingCase;
 import cn.hutool.core.util.ReflectUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -12,7 +13,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-import org.apache.commons.collections4.CollectionUtils;
 import org.hibernate.validator.constraints.Range;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -69,7 +69,7 @@ public abstract class BasePageDto implements Serializable {
 
         List<OrderItem> orderItems = new ArrayList<>();
         // 处理排序参数
-        if (CollectionUtils.isNotEmpty(this.orderItems)) {
+        if (CollUtil.isNotEmpty(this.orderItems)) {
             // 过滤无效排序参数
             List<OrderItemDto> itemDtoList = this.orderItems.stream()
                     .filter(orderItem -> hasEntityField(this.getClass(), orderItem.getColumn()))
@@ -77,7 +77,7 @@ public abstract class BasePageDto implements Serializable {
 
             log.debug("排序参数: {}", JsonUtils.writeValueAsString(itemDtoList));
 
-            if (CollectionUtils.isNotEmpty(itemDtoList)) {
+            if (CollUtil.isNotEmpty(itemDtoList)) {
                 // 驼峰转下划线命名
                 itemDtoList.forEach(orderItem -> orderItem.setColumn(NamingCase.toUnderlineCase(orderItem.getColumn())));
                 orderItems.addAll(OrderItemConvert.INSTANCE.convert(itemDtoList));
@@ -85,7 +85,7 @@ public abstract class BasePageDto implements Serializable {
         }
 
         // 无参数时，若有sort字段，默认按sort排序升序
-        if (CollectionUtils.isEmpty(orderItems) && hasEntityField(this.getClass(), DataConstants.DEFAULT_SORT_COLUMN)) {
+        if (CollUtil.isEmpty(orderItems) && hasEntityField(this.getClass(), DataConstants.DEFAULT_SORT_COLUMN)) {
             OrderItem orderItem = new OrderItem();
             orderItem.setColumn(DataConstants.DEFAULT_SORT_COLUMN);
             orderItem.setAsc(DataConstants.DEFAULT_SORT_IS_ASC);
@@ -94,7 +94,7 @@ public abstract class BasePageDto implements Serializable {
         }
 
         // 默认按id降序排序
-        if (CollectionUtils.isEmpty(orderItems)) {
+        if (CollUtil.isEmpty(orderItems)) {
             orderItems.add(OrderItem.desc("id"));
         }
 

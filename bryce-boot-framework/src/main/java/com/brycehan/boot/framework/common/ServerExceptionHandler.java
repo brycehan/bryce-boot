@@ -1,5 +1,6 @@
 package com.brycehan.boot.framework.common;
 
+import cn.hutool.core.util.ReflectUtil;
 import com.brycehan.boot.common.base.ServerException;
 import com.brycehan.boot.common.base.response.HttpResponseStatus;
 import com.brycehan.boot.common.base.response.ResponseResult;
@@ -28,7 +29,9 @@ import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -137,11 +140,9 @@ public class ServerExceptionHandler {
                 Class<?> rootBeanClass = constraintViolation.getRootBeanClass();
                 String field = fieldError.getField();
                 // 获取校验出错的实体类字段
-                Field erroredField = rootBeanClass.getDeclaredField(field);
-                Schema annotation = erroredField.getAnnotation(Schema.class);
-                if (annotation != null) {
-                    return annotation.description();
-                }
+                Field[] fieldsDirectly = ReflectUtil.getFieldsDirectly(rootBeanClass, true);
+                Optional<Field> errorField = Arrays.stream(fieldsDirectly).filter(f -> f.getName().equals(field)).findFirst();
+                return errorField.map(f -> f.getAnnotation(Schema.class)).map(Schema::description).orElse("");
             }
         } catch (Exception ex) {
             log.error("获取实体字段校验不通过异常注解失败", ex);
