@@ -36,7 +36,7 @@ public class UserOnlineController {
      * @return 在线用户分页列表
      */
     @Operation(summary = "在线用户分页查询")
-    @PreAuthorize("hasAuthority('monitor:onlineUser:page')")
+    @PreAuthorize("@auth.hasAuthority('monitor:onlineUser:page')")
     @PostMapping(path = "/page")
     public ResponseResult<PageResult<UserOnlineVo>> page(@Validated @RequestBody UserOnlinePageDto userOnlinePageDto) {
         if (StringUtils.isNotBlank(userOnlinePageDto.getUsername()) || StringUtils.isNotBlank(userOnlinePageDto.getLoginIp())) {
@@ -58,7 +58,7 @@ public class UserOnlineController {
      */
     @Operation(summary = "强制退出")
     @OperateLog(type = OperatedType.FORCE_QUIT)
-    @PreAuthorize("hasAuthority('monitor:onlineUser:delete')")
+    @PreAuthorize("@auth.hasAuthority('monitor:onlineUser:delete')")
     @DeleteMapping(path = "/{userKey}")
     public ResponseResult<Void> delete(@PathVariable String userKey) {
         userOnlineService.deleteLoginUser(userKey);

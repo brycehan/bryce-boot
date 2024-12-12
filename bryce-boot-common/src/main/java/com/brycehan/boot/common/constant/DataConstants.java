@@ -49,6 +49,11 @@ public class DataConstants {
     public static final String SUPER_ADMIN_NAME = "超级管理员";
 
     /**
+     * 超级管理员角色
+     */
+    public static final String ROLE_SUPER_ADMIN = "ROLE_SUPER_ADMIN";
+
+    /**
      * 角色前缀
      */
     public static final String ROLE_PREFIX = "ROLE_";

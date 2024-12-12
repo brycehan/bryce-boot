@@ -43,7 +43,7 @@ public class SysDictDataController {
      */
     @Operation(summary = "保存系统字典数据")
     @OperateLog(type = OperatedType.INSERT)
-    @PreAuthorize("hasAuthority('system:dictData:save')")
+    @PreAuthorize("@auth.hasAuthority('system:dictData:save')")
     @PostMapping
     public ResponseResult<Void> save(@Validated(value = SaveGroup.class) @RequestBody SysDictDataDto sysDictDataDto) {
         this.sysDictDataService.save(sysDictDataDto);
@@ -58,7 +58,7 @@ public class SysDictDataController {
      */
     @Operation(summary = "更新系统字典数据")
     @OperateLog(type = OperatedType.UPDATE)
-    @PreAuthorize("hasAuthority('system:dictData:update')")
+    @PreAuthorize("@auth.hasAuthority('system:dictData:update')")
     @PutMapping
     public ResponseResult<Void> update(@Validated(value = UpdateGroup.class) @RequestBody SysDictDataDto sysDictDataDto) {
         this.sysDictDataService.update(sysDictDataDto);
@@ -73,7 +73,7 @@ public class SysDictDataController {
      */
     @Operation(summary = "删除系统字典数据")
     @OperateLog(type = OperatedType.DELETE)
-    @PreAuthorize("hasAuthority('system:dictData:delete')")
+    @PreAuthorize("@auth.hasAuthority('system:dictData:delete')")
     @DeleteMapping
     public ResponseResult<Void> delete(@Validated @RequestBody IdsDto idsDto) {
         this.sysDictDataService.delete(idsDto);
@@ -87,7 +87,7 @@ public class SysDictDataController {
      * @return 响应结果
      */
     @Operation(summary = "查询系统字典数据详情")
-    @PreAuthorize("hasAuthority('system:dictData:info')")
+    @PreAuthorize("@auth.hasAuthority('system:dictData:info')")
     @GetMapping(path = "/{id}")
     public ResponseResult<SysDictDataVo> get(@Parameter(description = "系统字典数据ID", required = true) @PathVariable Long id) {
         SysDictData sysDictData = this.sysDictDataService.getById(id);
@@ -101,7 +101,7 @@ public class SysDictDataController {
      * @return 系统字典数据分页列表
      */
     @Operation(summary = "系统字典数据分页查询")
-    @PreAuthorize("hasAuthority('system:dictData:page')")
+    @PreAuthorize("@auth.hasAuthority('system:dictData:page')")
     @PostMapping(path = "/page")
     public ResponseResult<PageResult<SysDictDataVo>> page(@Validated @RequestBody SysDictDataPageDto sysDictDataPageDto) {
         PageResult<SysDictDataVo> page = this.sysDictDataService.page(sysDictDataPageDto);
@@ -114,7 +114,7 @@ public class SysDictDataController {
      * @param sysDictDataPageDto 查询条件
      */
     @Operation(summary = "系统字典数据导出")
-    @PreAuthorize("hasAuthority('system:dictData:export')")
+    @PreAuthorize("@auth.hasAuthority('system:dictData:export')")
     @PostMapping(path = "/export")
     public void export(@Validated @RequestBody SysDictDataPageDto sysDictDataPageDto) {
         this.sysDictDataService.export(sysDictDataPageDto);

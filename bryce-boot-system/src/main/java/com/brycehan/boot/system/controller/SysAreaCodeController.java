@@ -42,7 +42,7 @@ public class SysAreaCodeController {
      */
     @Operation(summary = "更新地区编码")
     @OperateLog(type = OperatedType.UPDATE)
-    @PreAuthorize("hasAuthority('system:areaCode:update')")
+    @PreAuthorize("@auth.hasAuthority('system:areaCode:update')")
     @PutMapping
     public ResponseResult<Void> update(@Validated(value = UpdateGroup.class) @RequestBody SysAreaCodeDto sysAreaCodeDto) {
         this.sysAreaCodeService.update(sysAreaCodeDto);
@@ -57,7 +57,7 @@ public class SysAreaCodeController {
      */
     @Operation(summary = "删除地区编码")
     @OperateLog(type = OperatedType.DELETE)
-    @PreAuthorize("hasAuthority('system:areaCode:delete')")
+    @PreAuthorize("@auth.hasAuthority('system:areaCode:delete')")
     @DeleteMapping
     public ResponseResult<Void> delete(@Validated @RequestBody IdsDto idsDto) {
         this.sysAreaCodeService.delete(idsDto);
@@ -71,7 +71,7 @@ public class SysAreaCodeController {
      * @return 响应结果
      */
     @Operation(summary = "查询地区编码详情")
-    @PreAuthorize("hasAuthority('system:areaCode:info')")
+    @PreAuthorize("@auth.hasAuthority('system:areaCode:info')")
     @GetMapping(path = "/{id}")
     public ResponseResult<SysAreaCodeVo> get(@Parameter(description = "地区编码ID", required = true) @PathVariable Long id) {
         SysAreaCode sysAreaCode = this.sysAreaCodeService.getById(id);
@@ -85,7 +85,7 @@ public class SysAreaCodeController {
      * @return 地区编码分页列表
      */
     @Operation(summary = "地区编码分页查询")
-    @PreAuthorize("hasAuthority('system:areaCode:page')")
+    @PreAuthorize("@auth.hasAuthority('system:areaCode:page')")
     @PostMapping(path = "/page")
     public ResponseResult<PageResult<SysAreaCodeVo>> page(@Validated @RequestBody SysAreaCodePageDto sysAreaCodePageDto) {
         PageResult<SysAreaCodeVo> page = this.sysAreaCodeService.page(sysAreaCodePageDto);
@@ -98,7 +98,7 @@ public class SysAreaCodeController {
      * @param sysAreaCodePageDto 查询条件
      */
     @Operation(summary = "地区编码导出")
-    @PreAuthorize("hasAuthority('system:areaCode:export')")
+    @PreAuthorize("@auth.hasAuthority('system:areaCode:export')")
     @PostMapping(path = "/export")
     public void export(@Validated @RequestBody SysAreaCodePageDto sysAreaCodePageDto) {
         this.sysAreaCodeService.export(sysAreaCodePageDto);

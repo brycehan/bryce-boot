@@ -50,7 +50,7 @@ public class SysMenuController {
      */
     @Operation(summary = "保存系统菜单")
     @OperateLog(type = OperatedType.INSERT)
-    @PreAuthorize("hasAuthority('system:menu:save')")
+    @PreAuthorize("@auth.hasAuthority('system:menu:save')")
     @PostMapping
     public ResponseResult<Void> save(@Validated(value = SaveGroup.class) @RequestBody SysMenuDto sysMenuDto) {
         this.sysMenuService.save(sysMenuDto);
@@ -65,7 +65,7 @@ public class SysMenuController {
      */
     @Operation(summary = "更新系统菜单")
     @OperateLog(type = OperatedType.UPDATE)
-    @PreAuthorize("hasAuthority('system:menu:update')")
+    @PreAuthorize("@auth.hasAuthority('system:menu:update')")
     @PutMapping
     public ResponseResult<Void> update(@Validated(value = UpdateGroup.class) @RequestBody SysMenuDto sysMenuDto) {
         this.sysMenuService.update(sysMenuDto);
@@ -80,7 +80,7 @@ public class SysMenuController {
      */
     @Operation(summary = "删除系统菜单")
     @OperateLog(type = OperatedType.DELETE)
-    @PreAuthorize("hasAuthority('system:menu:delete')")
+    @PreAuthorize("@auth.hasAuthority('system:menu:delete')")
     @DeleteMapping
     public ResponseResult<Void> delete(@Validated @RequestBody IdsDto idsDto) {
         // 判断是否有子菜单或按钮
@@ -101,7 +101,7 @@ public class SysMenuController {
      * @return 响应结果
      */
     @Operation(summary = "查询系统菜单详情")
-    @PreAuthorize("hasAuthority('system:menu:info')")
+    @PreAuthorize("@auth.hasAuthority('system:menu:info')")
     @GetMapping(path = "/{id}")
     public ResponseResult<SysMenuVo> get(@Parameter(description = "系统菜单ID", required = true) @PathVariable Long id) {
         SysMenu sysMenu = this.sysMenuService.getById(id);
@@ -123,7 +123,7 @@ public class SysMenuController {
      * @return 系统菜单分页列表
      */
     @Operation(summary = "系统菜单分页查询")
-    @PreAuthorize("hasAuthority('system:menu:page')")
+    @PreAuthorize("@auth.hasAuthority('system:menu:page')")
     @PostMapping(path = "/page")
     public ResponseResult<PageResult<SysMenuVo>> page(@Validated @RequestBody SysMenuPageDto sysMenuPageDto) {
         PageResult<SysMenuVo> page = this.sysMenuService.page(sysMenuPageDto);
@@ -136,7 +136,7 @@ public class SysMenuController {
      * @param sysMenuPageDto 查询条件
      */
     @Operation(summary = "系统菜单导出")
-    @PreAuthorize("hasAuthority('system:menu:export')")
+    @PreAuthorize("@auth.hasAuthority('system:menu:export')")
     @PostMapping(path = "/export")
     public void export(@Validated @RequestBody SysMenuPageDto sysMenuPageDto) {
         this.sysMenuService.export(sysMenuPageDto);
@@ -149,7 +149,7 @@ public class SysMenuController {
      * @return 系统菜单列表
      */
     @Operation(summary = "列表查询")
-    @PreAuthorize("hasAuthority('system:menu:page')")
+    @PreAuthorize("@auth.hasAuthority('system:menu:page')")
     @PostMapping(path = "/list")
     public ResponseResult<List<SysMenuVo>> list(@Validated @RequestBody SysMenuDto sysMenuDto) {
         List<SysMenuVo> list = this.sysMenuService.list(sysMenuDto);

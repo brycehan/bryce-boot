@@ -138,6 +138,11 @@ public class LoginUser implements UserDetails {
      */
     private Set<String> authoritySet;
 
+    /**
+     * 拥有角色集合
+     */
+    private Set<String> roleSet;
+
     @Override
     @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {

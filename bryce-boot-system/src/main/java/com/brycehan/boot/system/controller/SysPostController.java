@@ -46,7 +46,7 @@ public class SysPostController {
      */
     @Operation(summary = "保存系统岗位")
     @OperateLog(type = OperatedType.INSERT)
-    @PreAuthorize("hasAuthority('system:post:save')")
+    @PreAuthorize("@auth.hasAuthority('system:post:save')")
     @PostMapping
     public ResponseResult<Void> save(@Validated(value = SaveGroup.class) @RequestBody SysPostDto sysPostDto) {
         this.sysPostService.save(sysPostDto);
@@ -61,7 +61,7 @@ public class SysPostController {
      */
     @Operation(summary = "更新系统岗位")
     @OperateLog(type = OperatedType.UPDATE)
-    @PreAuthorize("hasAuthority('system:post:update')")
+    @PreAuthorize("@auth.hasAuthority('system:post:update')")
     @PutMapping
     public ResponseResult<Void> update(@Validated(value = UpdateGroup.class) @RequestBody SysPostDto sysPostDto) {
         this.sysPostService.update(sysPostDto);
@@ -76,7 +76,7 @@ public class SysPostController {
      */
     @Operation(summary = "删除系统岗位")
     @OperateLog(type = OperatedType.DELETE)
-    @PreAuthorize("hasAuthority('system:post:delete')")
+    @PreAuthorize("@auth.hasAuthority('system:post:delete')")
     @DeleteMapping
     public ResponseResult<Void> delete(@Validated @RequestBody IdsDto idsDto) {
         this.sysPostService.delete(idsDto);
@@ -90,7 +90,7 @@ public class SysPostController {
      * @return 响应结果
      */
     @Operation(summary = "查询系统岗位详情")
-    @PreAuthorize("hasAuthority('system:post:info')")
+    @PreAuthorize("@auth.hasAuthority('system:post:info')")
     @GetMapping(path = "/{id}")
     public ResponseResult<SysPostVo> get(@Parameter(description = "系统岗位ID", required = true) @PathVariable Long id) {
         SysPost sysPost = this.sysPostService.getById(id);
@@ -104,7 +104,7 @@ public class SysPostController {
      * @return 系统岗位分页列表
      */
     @Operation(summary = "系统岗位分页查询")
-    @PreAuthorize("hasAuthority('system:post:page')")
+    @PreAuthorize("@auth.hasAuthority('system:post:page')")
     @PostMapping(path = "/page")
     public ResponseResult<PageResult<SysPostVo>> page(@Validated @RequestBody SysPostPageDto sysPostPageDto) {
         PageResult<SysPostVo> page = this.sysPostService.page(sysPostPageDto);
@@ -117,7 +117,7 @@ public class SysPostController {
      * @param sysPostPageDto 查询条件
      */
     @Operation(summary = "系统岗位导出")
-    @PreAuthorize("hasAuthority('system:post:export')")
+    @PreAuthorize("@auth.hasAuthority('system:post:export')")
     @PostMapping(path = "/export")
     public void export(@Validated @RequestBody SysPostPageDto sysPostPageDto) {
         this.sysPostService.export(sysPostPageDto);

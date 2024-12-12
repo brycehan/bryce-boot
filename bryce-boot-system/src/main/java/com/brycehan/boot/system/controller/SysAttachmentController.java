@@ -43,7 +43,7 @@ public class SysAttachmentController {
      */
     @Operation(summary = "保存系统附件")
     @OperateLog(type = OperatedType.INSERT)
-    @PreAuthorize("hasAuthority('system:attachment:save')")
+    @PreAuthorize("@auth.hasAuthority('system:attachment:save')")
     @PostMapping
     public ResponseResult<Void> save(@Validated(value = SaveGroup.class) @RequestBody SysAttachmentDto sysAttachmentDto) {
         this.sysAttachmentService.save(sysAttachmentDto);
@@ -58,7 +58,7 @@ public class SysAttachmentController {
      */
     @Operation(summary = "更新系统附件")
     @OperateLog(type = OperatedType.UPDATE)
-    @PreAuthorize("hasAuthority('system:attachment:update')")
+    @PreAuthorize("@auth.hasAuthority('system:attachment:update')")
     @PutMapping
     public ResponseResult<Void> update(@Validated(value = UpdateGroup.class) @RequestBody SysAttachmentDto sysAttachmentDto) {
         this.sysAttachmentService.update(sysAttachmentDto);
@@ -73,7 +73,7 @@ public class SysAttachmentController {
      */
     @Operation(summary = "删除系统附件")
     @OperateLog(type = OperatedType.DELETE)
-    @PreAuthorize("hasAuthority('system:attachment:delete')")
+    @PreAuthorize("@auth.hasAuthority('system:attachment:delete')")
     @DeleteMapping
     public ResponseResult<Void> delete(@Validated @RequestBody IdsDto idsDto) {
         this.sysAttachmentService.delete(idsDto);
@@ -87,7 +87,7 @@ public class SysAttachmentController {
      * @return 响应结果
      */
     @Operation(summary = "查询系统附件详情")
-    @PreAuthorize("hasAuthority('system:attachment:info')")
+    @PreAuthorize("@auth.hasAuthority('system:attachment:info')")
     @GetMapping(path = "/{id}")
     public ResponseResult<SysAttachmentVo> get(@Parameter(description = "系统附件ID", required = true) @PathVariable Long id) {
         SysAttachment sysAttachment = this.sysAttachmentService.getById(id);
@@ -101,7 +101,7 @@ public class SysAttachmentController {
      * @return 系统附件分页列表
      */
     @Operation(summary = "系统附件分页查询")
-    @PreAuthorize("hasAuthority('system:attachment:page')")
+    @PreAuthorize("@auth.hasAuthority('system:attachment:page')")
     @PostMapping(path = "/page")
     public ResponseResult<PageResult<SysAttachmentVo>> page(@Validated @RequestBody SysAttachmentPageDto sysAttachmentPageDto) {
         PageResult<SysAttachmentVo> page = this.sysAttachmentService.page(sysAttachmentPageDto);
@@ -114,7 +114,7 @@ public class SysAttachmentController {
      * @param sysAttachmentPageDto 查询条件
      */
     @Operation(summary = "系统附件导出")
-    @PreAuthorize("hasAuthority('system:attachment:export')")
+    @PreAuthorize("@auth.hasAuthority('system:attachment:export')")
     @PostMapping(path = "/export")
     public void export(@Validated @RequestBody SysAttachmentPageDto sysAttachmentPageDto) {
         this.sysAttachmentService.export(sysAttachmentPageDto);

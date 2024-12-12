@@ -38,7 +38,7 @@ public class SysOperateLogController {
      */
     @Operation(summary = "删除系统操作日志")
     @OperateLog(type = OperatedType.DELETE)
-    @PreAuthorize("hasAuthority('system:operateLog:delete')")
+    @PreAuthorize("@auth.hasAuthority('system:operateLog:delete')")
     @DeleteMapping
     public ResponseResult<Void> delete(@Validated @RequestBody IdsDto idsDto) {
         this.sysOperateLogService.delete(idsDto);
@@ -52,7 +52,7 @@ public class SysOperateLogController {
      * @return 响应结果
      */
     @Operation(summary = "查询系统操作日志详情")
-    @PreAuthorize("hasAuthority('system:operateLog:info')")
+    @PreAuthorize("@auth.hasAuthority('system:operateLog:info')")
     @GetMapping(path = "/{id}")
     public ResponseResult<SysOperateLogVo> get(@Parameter(description = "系统操作日志ID", required = true) @PathVariable Long id) {
         SysOperateLogVo sysOperateLogVo = this.sysOperateLogService.get(id);
@@ -66,7 +66,7 @@ public class SysOperateLogController {
      * @return 系统操作日志分页列表
      */
     @Operation(summary = "系统操作日志分页查询")
-    @PreAuthorize("hasAuthority('system:operateLog:page')")
+    @PreAuthorize("@auth.hasAuthority('system:operateLog:page')")
     @PostMapping(path = "/page")
     public ResponseResult<PageResult<SysOperateLogVo>> page(@Validated @RequestBody SysOperateLogPageDto sysOperateLogPageDto) {
         PageResult<SysOperateLogVo> page = this.sysOperateLogService.page(sysOperateLogPageDto);
@@ -79,7 +79,7 @@ public class SysOperateLogController {
      * @param sysOperateLogPageDto 查询条件
      */
     @Operation(summary = "操作日志导出")
-    @PreAuthorize("hasAuthority('system:operateLog:export')")
+    @PreAuthorize("@auth.hasAuthority('system:operateLog:export')")
     @PostMapping(path = "/export")
     public void export(@Validated @RequestBody SysOperateLogPageDto sysOperateLogPageDto) {
         this.sysOperateLogService.export(sysOperateLogPageDto);
@@ -92,7 +92,7 @@ public class SysOperateLogController {
      */
     @Operation(summary = "清空系统操作日志")
     @OperateLog(type = OperatedType.CLEAN_DATA)
-    @PreAuthorize("hasAuthority('system:operateLog:delete')")
+    @PreAuthorize("@auth.hasAuthority('system:operateLog:delete')")
     @DeleteMapping(path = "/clean")
     public ResponseResult<Void> clean() {
         this.sysOperateLogService.cleanOperateLog();

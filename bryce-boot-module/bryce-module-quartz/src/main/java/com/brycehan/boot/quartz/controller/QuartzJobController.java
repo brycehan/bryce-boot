@@ -48,7 +48,7 @@ public class QuartzJobController {
      */
     @Operation(summary = "保存quartz定时任务调度")
     @OperateLog(type = OperatedType.INSERT)
-    @PreAuthorize("hasAuthority('quartz:job:save')")
+    @PreAuthorize("@auth.hasAuthority('quartz:job:save')")
     @PostMapping
     public ResponseResult<Void> save(@Validated(value = SaveGroup.class) @RequestBody QuartzJobDto quartzJobDto) {
         if(!CronExpression.isValidExpression(quartzJobDto.getCronExpression())) {
@@ -70,7 +70,7 @@ public class QuartzJobController {
      */
     @Operation(summary = "更新quartz定时任务调度")
     @OperateLog(type = OperatedType.UPDATE)
-    @PreAuthorize("hasAuthority('quartz:job:update')")
+    @PreAuthorize("@auth.hasAuthority('quartz:job:update')")
     @PutMapping
     public ResponseResult<Void> update(@Validated(value = UpdateGroup.class) @RequestBody QuartzJobDto quartzJobDto) {
         if(!CronExpression.isValidExpression(quartzJobDto.getCronExpression())) {
@@ -92,7 +92,7 @@ public class QuartzJobController {
      */
     @Operation(summary = "删除quartz定时任务调度")
     @OperateLog(type = OperatedType.DELETE)
-    @PreAuthorize("hasAuthority('quartz:job:delete')")
+    @PreAuthorize("@auth.hasAuthority('quartz:job:delete')")
     @DeleteMapping
     public ResponseResult<Void> delete(@Validated @RequestBody IdsDto idsDto) {
         this.quartzJobService.delete(idsDto);
@@ -106,7 +106,7 @@ public class QuartzJobController {
      * @return 响应结果
      */
     @Operation(summary = "查询quartz定时任务调度详情")
-    @PreAuthorize("hasAuthority('quartz:job:info')")
+    @PreAuthorize("@auth.hasAuthority('quartz:job:info')")
     @GetMapping(path = "/{id}")
     public ResponseResult<QuartzJobVo> get(@Parameter(description = "quartz定时任务调度ID", required = true) @PathVariable Long id) {
         QuartzJob quartzJob = this.quartzJobService.getById(id);
@@ -120,7 +120,7 @@ public class QuartzJobController {
      * @return quartz定时任务调度分页列表
      */
     @Operation(summary = "quartz定时任务调度分页查询")
-    @PreAuthorize("hasAuthority('quartz:job:page')")
+    @PreAuthorize("@auth.hasAuthority('quartz:job:page')")
     @PostMapping(path = "/page")
     public ResponseResult<PageResult<QuartzJobVo>> page(@Validated @RequestBody QuartzJobPageDto quartzJobPageDto) {
         PageResult<QuartzJobVo> page = this.quartzJobService.page(quartzJobPageDto);
@@ -133,7 +133,7 @@ public class QuartzJobController {
      * @param quartzJobPageDto 查询条件
      */
     @Operation(summary = "quartz定时任务调度导出")
-    @PreAuthorize("hasAuthority('quartz:job:export')")
+    @PreAuthorize("@auth.hasAuthority('quartz:job:export')")
     @PostMapping(path = "/export")
     public void export(@Validated @RequestBody QuartzJobPageDto quartzJobPageDto) {
         this.quartzJobService.export(quartzJobPageDto);
@@ -147,7 +147,7 @@ public class QuartzJobController {
      */
     @Operation(summary = "quartz定时任务立即执行")
     @OperateLog(type = OperatedType.OTHER)
-    @PreAuthorize("hasAuthority('quartz:job:run')")
+    @PreAuthorize("@auth.hasAuthority('quartz:job:run')")
     @PutMapping(path = "/run")
     public ResponseResult<Void> run(@Validated(value = UpdateGroup.class) @RequestBody QuartzJobDto quartzJobDto) {
         this.quartzJobService.run(quartzJobDto);
@@ -162,7 +162,7 @@ public class QuartzJobController {
      */
     @Operation(summary = "修改quartz定时任务状态")
     @OperateLog(type = OperatedType.UPDATE)
-    @PreAuthorize("hasAuthority('quartz:job:update')")
+    @PreAuthorize("@auth.hasAuthority('quartz:job:update')")
     @PutMapping(path = "/status")
     public ResponseResult<Void> status(@Validated(value = UpdateGroup.class) @RequestBody QuartzJobDto quartzJobDto) {
         this.quartzJobService.changeStatus(quartzJobDto);

@@ -58,7 +58,7 @@ public class SysRoleController {
      */
     @Operation(summary = "保存系统角色")
     @OperateLog(type = OperatedType.INSERT)
-    @PreAuthorize("hasAuthority('system:role:save')")
+    @PreAuthorize("@auth.hasAuthority('system:role:save')")
     @PostMapping
     public ResponseResult<Void> save(@Validated(value = SaveGroup.class) @RequestBody SysRoleDto sysRoleDto) {
         this.sysRoleService.save(sysRoleDto);
@@ -73,7 +73,7 @@ public class SysRoleController {
      */
     @Operation(summary = "更新系统角色")
     @OperateLog(type = OperatedType.UPDATE)
-    @PreAuthorize("hasAuthority('system:role:update')")
+    @PreAuthorize("@auth.hasAuthority('system:role:update')")
     @PutMapping
     public ResponseResult<Void> update(@Validated(value = UpdateGroup.class) @RequestBody SysRoleDto sysRoleDto) {
         this.sysRoleService.update(sysRoleDto);
@@ -88,7 +88,7 @@ public class SysRoleController {
      */
     @Operation(summary = "删除系统角色")
     @OperateLog(type = OperatedType.DELETE)
-    @PreAuthorize("hasAuthority('system:role:delete')")
+    @PreAuthorize("@auth.hasAuthority('system:role:delete')")
     @DeleteMapping
     public ResponseResult<Void> delete(@Validated @RequestBody IdsDto idsDto) {
         this.sysRoleService.delete(idsDto);
@@ -102,7 +102,7 @@ public class SysRoleController {
      * @return 响应结果
      */
     @Operation(summary = "查询系统角色详情")
-    @PreAuthorize("hasAuthority('system:role:info')")
+    @PreAuthorize("@auth.hasAuthority('system:role:info')")
     @GetMapping(path = "/{id}")
     public ResponseResult<SysRoleVo> get(@Parameter(description = "系统角色ID", required = true) @PathVariable Long id) {
         SysRole sysRole = this.sysRoleService.getById(id);
@@ -127,7 +127,7 @@ public class SysRoleController {
      * @return 系统角色分页列表
      */
     @Operation(summary = "系统角色分页查询")
-    @PreAuthorize("hasAuthority('system:role:page')")
+    @PreAuthorize("@auth.hasAuthority('system:role:page')")
     @PostMapping(path = "/page")
     public ResponseResult<PageResult<SysRoleVo>> page(@Validated @RequestBody SysRolePageDto sysRolePageDto) {
         PageResult<SysRoleVo> page = this.sysRoleService.page(sysRolePageDto);
@@ -140,7 +140,7 @@ public class SysRoleController {
      * @param sysRolePageDto 查询条件
      */
     @Operation(summary = "系统角色导出")
-    @PreAuthorize("hasAuthority('system:role:export')")
+    @PreAuthorize("@auth.hasAuthority('system:role:export')")
     @PostMapping(path = "/export")
     public void export(@Validated @RequestBody SysRolePageDto sysRolePageDto) {
         this.sysRoleService.export(sysRolePageDto);
@@ -165,7 +165,7 @@ public class SysRoleController {
      * @return 系统角色菜单
      */
     @Operation(summary = "角色菜单")
-    @PreAuthorize("hasAuthority('system:role:menu')")
+    @PreAuthorize("@auth.hasAuthority('system:role:menu')")
     @GetMapping(path = "/menu")
     public ResponseResult<List<SysMenuVo>> menu() {
         LoginUser loginUser = LoginUserContext.currentUser();
@@ -181,7 +181,7 @@ public class SysRoleController {
      */
     @Operation(summary = "分配数据权限")
     @OperateLog(type = OperatedType.UPDATE)
-    @PreAuthorize("hasAuthority('system:role:update')")
+    @PreAuthorize("@auth.hasAuthority('system:role:update')")
     @PutMapping(path = "/assignDataScope")
     public ResponseResult<Void> assignDataScope(@Validated @RequestBody SysRoleDataScopeDto dataScopeDto) {
         this.sysRoleService.assignDataScope(dataScopeDto);
@@ -195,7 +195,7 @@ public class SysRoleController {
      * @return 系统用户分页列表
      */
     @Operation(summary = "角色分配用户的用户分页查询")
-    @PreAuthorize("hasAuthority('system:role:update')")
+    @PreAuthorize("@auth.hasAuthority('system:role:update')")
     @PostMapping(path = "/assignUser/page")
     public ResponseResult<PageResult<SysUserVo>> assignUserPage(@Validated @RequestBody SysAssignUserPageDto sysAssignUserPageDto) {
         PageResult<SysUserVo> page = this.sysUserService.assignUserPage(sysAssignUserPageDto);
@@ -211,7 +211,7 @@ public class SysRoleController {
      */
     @Operation(summary = "角色分配用户，分配给角色多个用户")
     @OperateLog(type = OperatedType.INSERT)
-    @PreAuthorize("hasAuthority('system:role:update')")
+    @PreAuthorize("@auth.hasAuthority('system:role:update')")
     @PostMapping(path = "/assignUser/{roleId}")
     public ResponseResult<Void> assignUserSave(@PathVariable Long roleId, @RequestBody List<Long> userIds) {
         this.sysUserRoleService.assignUserSave(roleId, userIds);
@@ -227,7 +227,7 @@ public class SysRoleController {
      */
     @Operation(summary = "删除分配给角色的用户")
     @OperateLog(type = OperatedType.DELETE)
-    @PreAuthorize("hasAuthority('system:role:update')")
+    @PreAuthorize("@auth.hasAuthority('system:role:update')")
     @DeleteMapping(path = "/assignUser/{roleId}")
     public ResponseResult<Void> assignUserDelete(@PathVariable Long roleId, @RequestBody List<Long> userIds) {
         this.sysUserRoleService.deleteByRoleIdAndUserIds(roleId, userIds);

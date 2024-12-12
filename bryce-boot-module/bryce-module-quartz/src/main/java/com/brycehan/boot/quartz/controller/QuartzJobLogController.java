@@ -40,7 +40,7 @@ public class QuartzJobLogController {
      */
     @Operation(summary = "删除quartz定时任务调度日志")
     @OperateLog(type = OperatedType.DELETE)
-    @PreAuthorize("hasAuthority('quartz:jobLog:delete')")
+    @PreAuthorize("@auth.hasAuthority('quartz:jobLog:delete')")
     @DeleteMapping
     public ResponseResult<Void> delete(@Validated @RequestBody IdsDto idsDto) {
         this.quartzJobLogService.delete(idsDto);
@@ -54,7 +54,7 @@ public class QuartzJobLogController {
      * @return 响应结果
      */
     @Operation(summary = "查询quartz定时任务调度日志详情")
-    @PreAuthorize("hasAuthority('quartz:jobLog:info')")
+    @PreAuthorize("@auth.hasAuthority('quartz:jobLog:info')")
     @GetMapping(path = "/{id}")
     public ResponseResult<QuartzJobLogVo> get(@Parameter(description = "quartz定时任务调度日志ID", required = true) @PathVariable Long id) {
         QuartzJobLog quartzJobLog = this.quartzJobLogService.getById(id);
@@ -68,7 +68,7 @@ public class QuartzJobLogController {
      * @return quartz定时任务调度日志分页列表
      */
     @Operation(summary = "quartz定时任务调度日志分页查询")
-    @PreAuthorize("hasAuthority('quartz:jobLog:page')")
+    @PreAuthorize("@auth.hasAuthority('quartz:jobLog:page')")
     @PostMapping(path = "/page")
     public ResponseResult<PageResult<QuartzJobLogVo>> page(@Validated @RequestBody QuartzJobLogPageDto quartzJobLogPageDto) {
         PageResult<QuartzJobLogVo> page = this.quartzJobLogService.page(quartzJobLogPageDto);
@@ -81,7 +81,7 @@ public class QuartzJobLogController {
      * @param quartzJobLogPageDto 查询条件
      */
     @Operation(summary = "quartz定时任务调度日志导出")
-    @PreAuthorize("hasAuthority('quartz:jobLog:export')")
+    @PreAuthorize("@auth.hasAuthority('quartz:jobLog:export')")
     @PostMapping(path = "/export")
     public void export(@Validated @RequestBody QuartzJobLogPageDto quartzJobLogPageDto) {
         this.quartzJobLogService.export(quartzJobLogPageDto);
@@ -94,7 +94,7 @@ public class QuartzJobLogController {
      */
     @Operation(summary = "清空quartz定时任务调度日志")
     @OperateLog(type = OperatedType.CLEAN_DATA)
-    @PreAuthorize("hasAuthority('quartz:jobLog:delete')")
+    @PreAuthorize("@auth.hasAuthority('quartz:jobLog:delete')")
     @DeleteMapping(path = "/clean")
     public ResponseResult<Void> clean() {
         this.quartzJobLogService.cleanJobLog();

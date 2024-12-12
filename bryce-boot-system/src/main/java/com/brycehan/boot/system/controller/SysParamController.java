@@ -44,7 +44,7 @@ public class SysParamController {
      */
     @Operation(summary = "保存系统参数")
     @OperateLog(type = OperatedType.INSERT)
-    @PreAuthorize("hasAuthority('system:param:save')")
+    @PreAuthorize("@auth.hasAuthority('system:param:save')")
     @PostMapping
     public ResponseResult<Void> save(@Validated(value = SaveGroup.class) @RequestBody SysParamDto sysParamDto) {
         this.sysParamService.save(sysParamDto);
@@ -59,7 +59,7 @@ public class SysParamController {
      */
     @Operation(summary = "更新系统参数")
     @OperateLog(type = OperatedType.UPDATE)
-    @PreAuthorize("hasAuthority('system:param:update')")
+    @PreAuthorize("@auth.hasAuthority('system:param:update')")
     @PutMapping
     public ResponseResult<Void> update(@Validated(value = UpdateGroup.class) @RequestBody SysParamDto sysParamDto) {
         this.sysParamService.update(sysParamDto);
@@ -74,7 +74,7 @@ public class SysParamController {
      */
     @Operation(summary = "删除系统参数")
     @OperateLog(type = OperatedType.DELETE)
-    @PreAuthorize("hasAuthority('system:param:delete')")
+    @PreAuthorize("@auth.hasAuthority('system:param:delete')")
     @DeleteMapping
     public ResponseResult<Void> delete(@Validated @RequestBody IdsDto idsDto) {
         this.sysParamService.delete(idsDto);
@@ -88,7 +88,7 @@ public class SysParamController {
      * @return 响应结果
      */
     @Operation(summary = "查询系统参数详情")
-    @PreAuthorize("hasAuthority('system:param:info')")
+    @PreAuthorize("@auth.hasAuthority('system:param:info')")
     @GetMapping(path = "/{id}")
     public ResponseResult<SysParamVo> get(@Parameter(description = "系统参数ID", required = true) @PathVariable Long id) {
         SysParam sysParam = this.sysParamService.getById(id);
@@ -102,7 +102,7 @@ public class SysParamController {
      * @return 系统参数分页列表
      */
     @Operation(summary = "系统参数分页查询")
-    @PreAuthorize("hasAuthority('system:param:page')")
+    @PreAuthorize("@auth.hasAuthority('system:param:page')")
     @PostMapping(path = "/page")
     public ResponseResult<PageResult<SysParamVo>> page(@Validated @RequestBody SysParamPageDto sysParamPageDto) {
         PageResult<SysParamVo> page = this.sysParamService.page(sysParamPageDto);
@@ -115,7 +115,7 @@ public class SysParamController {
      * @param sysParamPageDto 查询条件
      */
     @Operation(summary = "系统参数导出")
-    @PreAuthorize("hasAuthority('system:param:export')")
+    @PreAuthorize("@auth.hasAuthority('system:param:export')")
     @PostMapping(path = "/export")
     public void export(@Validated @RequestBody SysParamPageDto sysParamPageDto) {
         this.sysParamService.export(sysParamPageDto);

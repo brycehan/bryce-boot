@@ -45,7 +45,7 @@ public class SysOrgController {
      */
     @Operation(summary = "保存系统机构")
     @OperateLog(type = OperatedType.INSERT)
-    @PreAuthorize("hasAuthority('system:org:save')")
+    @PreAuthorize("@auth.hasAuthority('system:org:save')")
     @PostMapping
     public ResponseResult<Void> save(@Validated(value = SaveGroup.class) @RequestBody SysOrgDto sysOrgDto) {
         this.sysOrgService.save(sysOrgDto);
@@ -60,7 +60,7 @@ public class SysOrgController {
      */
     @Operation(summary = "更新系统机构")
     @OperateLog(type = OperatedType.UPDATE)
-    @PreAuthorize("hasAuthority('system:org:update')")
+    @PreAuthorize("@auth.hasAuthority('system:org:update')")
     @PutMapping
     public ResponseResult<Void> update(@Validated(value = UpdateGroup.class) @RequestBody SysOrgDto sysOrgDto) {
         this.sysOrgService.update(sysOrgDto);
@@ -75,7 +75,7 @@ public class SysOrgController {
      */
     @Operation(summary = "删除系统机构")
     @OperateLog(type = OperatedType.DELETE)
-    @PreAuthorize("hasAuthority('system:org:delete')")
+    @PreAuthorize("@auth.hasAuthority('system:org:delete')")
     @DeleteMapping
     public ResponseResult<Void> delete(@Validated @RequestBody IdsDto idsDto) {
         this.sysOrgService.delete(idsDto);
@@ -89,7 +89,7 @@ public class SysOrgController {
      * @return 响应结果
      */
     @Operation(summary = "查询系统机构详情")
-    @PreAuthorize("hasAuthority('system:org:info')")
+    @PreAuthorize("@auth.hasAuthority('system:org:info')")
     @GetMapping(path = "/{id}")
     public ResponseResult<SysOrgVo> get(@Parameter(description = "系统机构ID", required = true) @PathVariable Long id) {
         SysOrg sysOrg = this.sysOrgService.getById(id);
@@ -117,7 +117,7 @@ public class SysOrgController {
      * @return 系统机构分页列表
      */
     @Operation(summary = "系统机构分页查询")
-    @PreAuthorize("hasAuthority('system:org:page')")
+    @PreAuthorize("@auth.hasAuthority('system:org:page')")
     @PostMapping(path = "/page")
     public ResponseResult<PageResult<SysOrgVo>> page(@Validated @RequestBody SysOrgPageDto sysOrgPageDto) {
         PageResult<SysOrgVo> page = this.sysOrgService.page(sysOrgPageDto);

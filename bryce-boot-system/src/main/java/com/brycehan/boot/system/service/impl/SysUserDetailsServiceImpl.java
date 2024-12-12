@@ -24,6 +24,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * 系统用户详情服务实现
@@ -63,11 +64,14 @@ public class SysUserDetailsServiceImpl implements SysUserDetailsService {
         Set<Long> dataScopeSet = this.getDataScope(loginUser);
         loginUser.setDataScopeSet(dataScopeSet);
 
-        // 登录用户权限集合
-        Set<String> authoritySet = this.sysMenuService.findAuthority(loginUser);
-        // 用户角色编码列表
+        // 用户角色集合
         Set<String> roleCodeSet = this.sysRoleMapper.getRoleCodeByUserId(loginUser.getId());
-        roleCodeSet.forEach(roleCode -> authoritySet.add(DataConstants.ROLE_PREFIX + roleCode));
+        Set<String> roleSet = roleCodeSet.stream().map(roleCode -> DataConstants.ROLE_PREFIX + roleCode).collect(Collectors.toSet());
+        // 用户权限集合
+        Set<String> authoritySet = this.sysMenuService.findAuthority(loginUser);
+        authoritySet.addAll(roleSet);
+
+        loginUser.setRoleSet(roleSet);
         loginUser.setAuthoritySet(authoritySet);
 
         return loginUser;

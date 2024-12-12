@@ -47,7 +47,7 @@ public class SysDictTypeController {
      */
     @Operation(summary = "保存系统字典类型")
     @OperateLog(type = OperatedType.INSERT)
-    @PreAuthorize("hasAuthority('system:dictType:save')")
+    @PreAuthorize("@auth.hasAuthority('system:dictType:save')")
     @PostMapping
     public ResponseResult<Void> save(@Validated(value = SaveGroup.class) @RequestBody SysDictTypeDto sysDictTypeDto) {
         this.sysDictTypeService.save(sysDictTypeDto);
@@ -62,7 +62,7 @@ public class SysDictTypeController {
      */
     @Operation(summary = "更新系统字典类型")
     @OperateLog(type = OperatedType.UPDATE)
-    @PreAuthorize("hasAuthority('system:dictType:update')")
+    @PreAuthorize("@auth.hasAuthority('system:dictType:update')")
     @PutMapping
     public ResponseResult<Void> update(@Validated(value = UpdateGroup.class) @RequestBody SysDictTypeDto sysDictTypeDto) {
         this.sysDictTypeService.update(sysDictTypeDto);
@@ -77,7 +77,7 @@ public class SysDictTypeController {
      */
     @Operation(summary = "删除系统字典类型")
     @OperateLog(type = OperatedType.DELETE)
-    @PreAuthorize("hasAuthority('system:dictType:delete')")
+    @PreAuthorize("@auth.hasAuthority('system:dictType:delete')")
     @DeleteMapping
     public ResponseResult<Void> delete(@Validated @RequestBody IdsDto idsDto) {
         this.sysDictTypeService.delete(idsDto);
@@ -91,7 +91,7 @@ public class SysDictTypeController {
      * @return 响应结果
      */
     @Operation(summary = "查询系统字典类型详情")
-    @PreAuthorize("hasAuthority('system:dictType:info')")
+    @PreAuthorize("@auth.hasAuthority('system:dictType:info')")
     @GetMapping(path = "/{id}")
     public ResponseResult<SysDictTypeVo> get(@Parameter(description = "系统字典类型ID", required = true) @PathVariable Long id) {
         SysDictType sysDictType = this.sysDictTypeService.getById(id);
@@ -105,7 +105,7 @@ public class SysDictTypeController {
      * @return 系统字典类型分页列表
      */
     @Operation(summary = "系统字典类型分页查询")
-    @PreAuthorize("hasAuthority('system:dictType:page')")
+    @PreAuthorize("@auth.hasAuthority('system:dictType:page')")
     @PostMapping(path = "/page")
     public ResponseResult<PageResult<SysDictTypeVo>> page(@Validated @RequestBody SysDictTypePageDto sysDictTypePageDto) {
         PageResult<SysDictTypeVo> page = this.sysDictTypeService.page(sysDictTypePageDto);
@@ -118,7 +118,7 @@ public class SysDictTypeController {
      * @param sysDictTypePageDto 查询条件
      */
     @Operation(summary = "系统字典类型导出")
-    @PreAuthorize("hasAuthority('system:dictType:export')")
+    @PreAuthorize("@auth.hasAuthority('system:dictType:export')")
     @PostMapping(path = "/export")
     public void export(@Validated @RequestBody SysDictTypePageDto sysDictTypePageDto) {
         this.sysDictTypeService.export(sysDictTypePageDto);
