@@ -77,15 +77,6 @@ public class SysUserController {
         return ResponseResult.ok();
     }
 
-    @Operation(summary = "更新系统用户状态")
-    @OperateLog(type = OperatedType.UPDATE)
-    @PreAuthorize("@auth.hasAuthority('system:user:update')")
-    @PatchMapping(path = "/{id}/{status}")
-    public ResponseResult<Void> updateStatus(@PathVariable Long id, @PathVariable StatusType status) {
-        this.sysUserService.update(id, status);
-        return ResponseResult.ok();
-    }
-
     /**
      * 删除系统用户
      *
@@ -132,6 +123,22 @@ public class SysUserController {
     public ResponseResult<PageResult<SysUserVo>> page(@Validated @RequestBody SysUserPageDto sysUserPageDto) {
         PageResult<SysUserVo> page = this.sysUserService.page(sysUserPageDto);
         return ResponseResult.ok(page);
+    }
+
+    /**
+     * 更新系统用户状态
+     *
+     * @param id     系统用户ID
+     * @param status 系统用户状态
+     * @return 响应结果
+     */
+    @Operation(summary = "更新系统用户状态")
+    @OperateLog(type = OperatedType.UPDATE)
+    @PreAuthorize("@auth.hasAuthority('system:user:update')")
+    @PatchMapping(path = "/{id}/{status}")
+    public ResponseResult<Void> updateStatus(@PathVariable Long id, @PathVariable StatusType status) {
+        this.sysUserService.update(id, status);
+        return ResponseResult.ok();
     }
 
     /**

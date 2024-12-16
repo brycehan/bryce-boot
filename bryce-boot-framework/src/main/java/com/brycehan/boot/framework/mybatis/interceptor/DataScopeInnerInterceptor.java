@@ -46,7 +46,7 @@ public class DataScopeInnerInterceptor implements InnerInterceptor {
             return null;
         }
 
-        // 判断参数里是否有 DataScope 对象
+        // 判断参数里是否有 DataScopeType 对象
         if(parameter instanceof Map<?, ?> parameterMap) {
             for (Map.Entry<?, ?> entry : parameterMap.entrySet()) {
                 if(entry.getValue() != null && entry.getValue() instanceof DataScope) {

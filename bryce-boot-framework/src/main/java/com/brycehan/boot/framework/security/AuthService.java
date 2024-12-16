@@ -22,7 +22,8 @@ import java.util.Set;
 public class AuthService {
 
     /**
-     * 判断用户是否拥有某个权限
+     * 判断用户是否拥有某个权限<br>
+     * 注意：分页的只能配置一个权限，否则会导致分页数据权限失效
      *
      * @param authority 权限
      * @return true/false
@@ -36,7 +37,7 @@ public class AuthService {
         if (loginUser == null || CollUtil.isEmpty(loginUser.getAuthoritySet())) {
             return false;
         }
-
+        AuthContextHolder.setContext(authority);
         return hasAnyAuthority(loginUser.getAuthoritySet(), authority);
     }
 
@@ -55,7 +56,7 @@ public class AuthService {
         if (loginUser == null || CollUtil.isEmpty(loginUser.getAuthoritySet())) {
             return false;
         }
-
+        AuthContextHolder.setContext(authorities);
         return hasAnyAuthority(loginUser.getAuthoritySet(), authorities);
     }
 
@@ -105,7 +106,7 @@ public class AuthService {
      * @return true/false
      */
     private boolean hasAnyAuthority(Set<String> authoritySet, String... authorities) {
-        return authoritySet.contains(DataConstants.ROLE_SUPER_ADMIN) || Arrays.stream(authorities).anyMatch(authoritySet::contains);
+        return authoritySet.contains(DataConstants.ROLE_SUPER_ADMIN_CODE) || Arrays.stream(authorities).anyMatch(authoritySet::contains);
     }
 
 }

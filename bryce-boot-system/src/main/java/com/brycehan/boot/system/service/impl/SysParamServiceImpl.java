@@ -89,19 +89,11 @@ public class SysParamServiceImpl extends BaseServiceImpl<SysParamMapper, SysPara
 
     @Override
     public void delete(IdsDto idsDto) {
-        // 过滤无效参数
-        List<Long> ids = idsDto.getIds().stream()
-                .filter(Objects::nonNull)
-                .toList();
-        if (CollectionUtils.isEmpty(ids)) {
-            return;
-        }
-
         // 删除数据
-        this.baseMapper.deleteByIds(ids);
+        this.baseMapper.deleteByIds(idsDto.getIds());
 
         // 查询列表
-        List<SysParam> sysParams = this.baseMapper.selectByIds(ids);
+        List<SysParam> sysParams = this.baseMapper.selectByIds(idsDto.getIds());
 
         // 删除缓存
         List<String> list = sysParams.stream().map(SysParam::getParamKey).toList();

@@ -14,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @SuppressWarnings("unused")
 @RequiredArgsConstructor
-public enum DataScope implements EnumType {
+public enum DataScopeType implements EnumType {
 
     ALL(0, "全部数据"),
     ORG_AND_CHILDREN(1, "本机构及以下机构数据"),
@@ -40,10 +40,10 @@ public enum DataScope implements EnumType {
      * @param value 值
      * @return 枚举
      */
-    public static DataScope getByValue(Integer value) {
-        for (DataScope dataScope : DataScope.values()) {
-            if (dataScope.getValue().equals(value)) {
-                return dataScope;
+    public static DataScopeType getByValue(Integer value) {
+        for (DataScopeType dataScopeType : DataScopeType.values()) {
+            if (dataScopeType.getValue().equals(value)) {
+                return dataScopeType;
             }
         }
         return null;
@@ -55,10 +55,10 @@ public enum DataScope implements EnumType {
      * @param desc 描述
      * @return 枚举
      */
-    public static DataScope getByDesc(String desc) {
-        for (DataScope dataScope : DataScope.values()) {
-            if (dataScope.getDesc().equals(desc)) {
-                return dataScope;
+    public static DataScopeType getByDesc(String desc) {
+        for (DataScopeType dataScopeType : DataScopeType.values()) {
+            if (dataScopeType.getDesc().equals(desc)) {
+                return dataScopeType;
             }
         }
         return null;

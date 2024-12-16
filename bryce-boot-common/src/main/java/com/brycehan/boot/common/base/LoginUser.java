@@ -1,5 +1,6 @@
 package com.brycehan.boot.common.base;
 
+import com.brycehan.boot.common.entity.vo.RoleVo;
 import com.brycehan.boot.common.enums.GenderType;
 import com.brycehan.boot.common.enums.SourceClientType;
 import com.brycehan.boot.common.enums.StatusType;
@@ -12,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -54,8 +56,6 @@ public class LoginUser implements UserDetails {
     private String orgName;
 
     private StatusType status;
-
-    private boolean superAdmin;
 
     /**
      * 用户登录存储Key
@@ -128,10 +128,9 @@ public class LoginUser implements UserDetails {
     private boolean enabled = true;
 
     /**
-     * 数据权限范围集合
-     * <p>null：表示全部数据权限</p>
+     * 用户所在机构的下级机构集合（包含用户的所在机构）
      */
-    private Set<Long> dataScopeSet;
+    private Set<Long> SubOrgIds;
 
     /**
      * 拥有权限集合
@@ -140,6 +139,11 @@ public class LoginUser implements UserDetails {
 
     /**
      * 拥有角色集合
+     */
+    private Set<RoleVo> roles;
+
+    /**
+     * 拥有角色编码集合
      */
     private Set<String> roleSet;
 
@@ -171,4 +175,22 @@ public class LoginUser implements UserDetails {
         return this.enabled;
     }
 
+    /**
+     * 是否是超级管理员
+     *
+     * @return true 是超级管理员
+     */
+    public boolean isSuperAdmin() {
+        return LoginUser.isSuperAdmin(this);
+    }
+
+    /**
+     * 是否是超级管理员
+     *
+     * @param loginUser 登录用户
+     * @return true 是超级管理员
+     */
+    public static boolean isSuperAdmin(LoginUser loginUser) {
+        return Optional.ofNullable(loginUser).map(LoginUser::getId).map(id -> id == 1L).orElse(false);
+    }
 }

@@ -1,5 +1,6 @@
 package com.brycehan.boot.system.entity.convert;
 
+import com.brycehan.boot.common.entity.vo.RoleVo;
 import com.brycehan.boot.system.entity.dto.SysRoleDto;
 import com.brycehan.boot.system.entity.po.SysRole;
 import com.brycehan.boot.system.entity.vo.SysRoleVo;
@@ -8,6 +9,7 @@ import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * 系统角色转换器
@@ -25,5 +27,7 @@ public interface SysRoleConvert {
     SysRoleVo convert(SysRole sysRole);
 
     List<SysRoleVo> convert(List<SysRole> sysRoleList);
+
+    Set<RoleVo> convert(Set<SysRole> sysRoleList);
 
 }

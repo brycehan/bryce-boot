@@ -23,7 +23,7 @@
     <select id="getDataScopeOrgIds" resultType="Long">
         select bsrds.org_id
         from brc_sys_user_role bsur
-        left join brc_sys_role_data_scope bsrds on bsur.role_id = bsrds.role_id
+        inner join brc_sys_role_data_scope bsrds on bsur.role_id = bsrds.role_id
         where bsur.deleted is null
           and bsrds.deleted is null
           and bsur.user_id = #{userId}

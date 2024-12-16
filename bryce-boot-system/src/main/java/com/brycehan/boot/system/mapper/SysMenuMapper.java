@@ -25,6 +25,14 @@ public interface SysMenuMapper extends BryceBaseMapper<SysMenu> {
     Set<String> findAuthorityByUserId(Long userId);
 
     /**
+     * 根据角色ID查询菜单权限
+     *
+     * @param roleId 角色ID
+     * @return 菜单权限集合
+     */
+    Set<String> findAuthorityByRoleId(Long roleId);
+
+    /**
      * 查询菜单树列表
      *
      * @param userId 用户ID

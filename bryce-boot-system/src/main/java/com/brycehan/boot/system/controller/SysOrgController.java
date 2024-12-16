@@ -111,20 +111,6 @@ public class SysOrgController {
     }
 
     /**
-     * 系统机构分页查询
-     *
-     * @param sysOrgPageDto 查询条件
-     * @return 系统机构分页列表
-     */
-    @Operation(summary = "系统机构分页查询")
-    @PreAuthorize("@auth.hasAuthority('system:org:page')")
-    @PostMapping(path = "/page")
-    public ResponseResult<PageResult<SysOrgVo>> page(@Validated @RequestBody SysOrgPageDto sysOrgPageDto) {
-        PageResult<SysOrgVo> page = this.sysOrgService.page(sysOrgPageDto);
-        return ResponseResult.ok(page);
-    }
-
-    /**
      * 系统机构列表查询
      *
      * @param sysOrgDto 查询条件

@@ -3,13 +3,20 @@ package com.brycehan.boot.system.service.impl;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.ArrayUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.brycehan.boot.common.base.IdGenerator;
+import com.brycehan.boot.common.base.LoginUser;
+import com.brycehan.boot.common.base.LoginUserContext;
+import com.brycehan.boot.common.constant.DataConstants;
 import com.brycehan.boot.common.entity.PageResult;
 import com.brycehan.boot.common.entity.dto.IdsDto;
-import com.brycehan.boot.common.enums.DataScope;
+import com.brycehan.boot.common.enums.DataScopeType;
+import com.brycehan.boot.common.enums.StatusType;
 import com.brycehan.boot.common.enums.YesNoType;
 import com.brycehan.boot.common.util.ExcelUtils;
 import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
@@ -27,8 +34,10 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * 系统角色表服务实现类
@@ -53,7 +62,7 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
         sysRole.setId(IdGenerator.nextId());
 
         // 保存角色
-        sysRole.setDataScope(DataScope.SELF);
+        sysRole.setDataScope(DataScopeType.SELF);
         this.baseMapper.insert(sysRole);
 
         // 保存角色菜单关系
@@ -61,9 +70,11 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional
     public void update(SysRoleDto sysRoleDto) {
         SysRole sysRole = SysRoleConvert.INSTANCE.convert(sysRoleDto);
+        checkRoleAllowed(sysRole);
+        checkRoleDataScope(sysRole.getId());
 
         // 更新角色
         this.baseMapper.updateById(sysRole);
@@ -73,26 +84,29 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional
     public void delete(IdsDto idsDto) {
-        // 过滤无效参数
-        List<Long> ids = idsDto.getIds().stream()
-                .filter(Objects::nonNull).toList();
-        if (CollectionUtils.isEmpty(ids)) {
-            return;
+        for (Long id : idsDto.getIds()) {
+            checkRoleAllowed(new SysRole(id));
+            checkRoleDataScope(id);
+            if (sysUserRoleService.countUserRoleByRoleId(id) > 0) {
+                String roleName = lambdaQuery().select(SysRole::getName).eq(SysRole::getId, id).oneOpt()
+                        .map(SysRole::getName).orElse("");
+                throw new IllegalArgumentException(StrUtil.format("角色“{}”已分配用户，不允许删除", roleName));
+            }
         }
 
         // 删除角色
-        this.baseMapper.deleteByIds(ids);
+        this.baseMapper.deleteByIds(idsDto.getIds());
 
         // 删除用户角色关系
-        this.sysUserRoleService.deleteByRoleIds(ids);
+        this.sysUserRoleService.deleteByRoleIds(idsDto.getIds());
 
         // 删除角色菜单关系
-        this.sysRoleMenuService.deleteByRoleIds(ids);
+        this.sysRoleMenuService.deleteByRoleIds(idsDto.getIds());
 
         // 删除角色数据权限关系
-        this.sysRoleDataScopeService.deleteByRoleIds(ids);
+        this.sysRoleDataScopeService.deleteByRoleIds(idsDto.getIds());
     }
 
     @Override
@@ -115,10 +129,31 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
         wrapper.like(StringUtils.isNotEmpty(sysRolePageDto.getCode()), SysRole::getCode, sysRolePageDto.getCode());
         addTimeRangeCondition(wrapper, SysRole::getCreatedTime, sysRolePageDto.getCreatedTimeStart(), sysRolePageDto.getCreatedTimeEnd());
 
-        // 数据权限
+        // 数据权限过滤
         dataScopeWrapper(wrapper);
 
         return wrapper;
+    }
+
+    @Override
+    public void update(Long id, StatusType status) {
+        Assert.notNull(id, "角色ID不能为空");
+        Assert.notNull(status, "角色状态不能为空");
+
+        // 过滤无效的用户
+        Optional<SysRole> sysRole = lambdaQuery().select(SysRole::getId, SysRole::getStatus).eq(SysRole::getId, id).oneOpt();
+        if (sysRole.isEmpty()) {
+            return;
+        }
+
+        // 不允许操作超级管理员状态
+        checkRoleAllowed(sysRole.get());
+        checkRoleDataScope(id);
+
+        // 更新状态
+        LambdaUpdateWrapper<SysRole> updateWrapper = new LambdaUpdateWrapper<>();
+        updateWrapper.set(SysRole::getStatus, status).eq(SysRole::getId, id);
+        this.update(updateWrapper);
     }
 
     @Override
@@ -142,16 +177,45 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
         if (sysRole == null) {
             return;
         }
+        checkRoleAllowed(sysRole);
+        checkRoleDataScope(dataScopeDto.getId());
         // 更新角色
         sysRole.setDataScope(dataScopeDto.getDataScope());
         this.baseMapper.updateById(sysRole);
 
         // 更新角色数据范围关系
-        if (dataScopeDto.getDataScope() == DataScope.CUSTOM) {
+        if (dataScopeDto.getDataScope() == DataScopeType.CUSTOM) {
             this.sysRoleDataScopeService.saveOrUpdate(dataScopeDto.getId(), dataScopeDto.getOrgIds());
         } else {
             this.sysRoleDataScopeService.deleteByRoleIds(Collections.singletonList(dataScopeDto.getId()));
         }
+    }
+
+    @Override
+    public PageResult<SysRoleVo> assignRolePage(SysAssignRolePageDto sysAssignRolePageDto) {
+        // 指定用户已分配的角色ID列表
+        List<Long> roleIds = this.sysUserRoleService.getRoleIdsByUserId(sysAssignRolePageDto.getUserId());
+
+        LambdaQueryWrapper<SysRole> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.select(SysRole::getId, SysRole::getName, SysRole::getCode, SysRole::getCreatedTime);
+        queryWrapper.ne(SysRole::getId, DataConstants.ROLE_SUPER_ADMIN_ID);
+
+        if (CollUtil.isEmpty(roleIds) && sysAssignRolePageDto.getAssigned() == YesNoType.YES) {
+            return new PageResult<>(0, new ArrayList<>(0));
+        }
+
+        // 已分配/未分配 条件过滤
+        if (sysAssignRolePageDto.getAssigned() == YesNoType.YES) {
+            queryWrapper.in(CollUtil.isNotEmpty(roleIds), SysRole::getId, roleIds);
+        } else {
+            queryWrapper.notIn(CollUtil.isNotEmpty(roleIds), SysRole::getId, roleIds);
+            // 数据权限过滤
+            dataScopeWrapper(queryWrapper);
+        }
+
+        // 分页查询
+        IPage<SysRole> page = this.page(sysAssignRolePageDto.toPage(), queryWrapper);
+        return new PageResult<>(page.getTotal(), SysRoleConvert.INSTANCE.convert(page.getRecords()));
     }
 
     @Override
@@ -161,6 +225,44 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
                     .stream().map(SysRole::getName).toList();
         }
         return new ArrayList<>();
+    }
+
+    @Override
+    public Set<SysRole> getRoleByUserId(Long userId) {
+        return baseMapper.getRoleByUserId(userId);
+    }
+
+    @Override
+    public void checkRoleAllowed(SysRole sysRole) {
+        if (sysRole != null && sysRole.isSuperAdmin()) {
+            throw new RuntimeException("不允许操作超级管理员角色");
+        }
+    }
+
+    @Override
+    public void checkRoleDataScope(Long... roleIds) {
+        if (ArrayUtil.isEmpty(roleIds) || LoginUser.isSuperAdmin(LoginUserContext.currentUser())) {
+            return;
+        }
+
+        LambdaQueryWrapper<SysRole> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.select(SysRole::getId);
+        if (roleIds.length == 1) {
+            queryWrapper.eq(SysRole::getId, roleIds[0]);
+        } else {
+            queryWrapper.in(SysRole::getId, Arrays.asList(roleIds));
+        }
+        dataScopeWrapper(queryWrapper);
+        List<SysRole> sysRoles = baseMapper.selectList(queryWrapper);
+
+        if (CollUtil.isNotEmpty(sysRoles)) {
+            Set<Long> roleIdSet = sysRoles.stream().map(SysRole::getId).collect(Collectors.toSet());
+            for (Long roleId : roleIds) {
+                if (!roleIdSet.contains(roleId)) {
+                    throw new RuntimeException("没有权限访问角色数据");
+                }
+            }
+        }
     }
 
     @Override
@@ -174,29 +276,4 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
         // 修改时，同角色编码同ID为编码唯一
         return Objects.isNull(sysRole) || Objects.equals(sysRoleCodeDto.getId(), sysRole.getId());
     }
-
-    @Override
-    public PageResult<SysRoleVo> assignRolePage(SysAssignRolePageDto sysAssignRolePageDto) {
-        // 指定用户已分配的角色ID列表
-        List<Long> roleIds = this.sysUserRoleService.getRoleIdsByUserId(sysAssignRolePageDto.getUserId());
-
-        LambdaQueryWrapper<SysRole> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.select(SysRole::getId, SysRole::getName, SysRole::getCode, SysRole::getCreatedTime);
-
-        if (CollUtil.isEmpty(roleIds) && sysAssignRolePageDto.getAssigned() == YesNoType.YES) {
-            return new PageResult<>(0, new ArrayList<>(0));
-        }
-
-        // 已分配/未分配 条件过滤
-        if (sysAssignRolePageDto.getAssigned() == YesNoType.YES) {
-            queryWrapper.in(CollUtil.isNotEmpty(roleIds), SysRole::getId, roleIds);
-        } else {
-            queryWrapper.notIn(CollUtil.isNotEmpty(roleIds), SysRole::getId, roleIds);
-        }
-
-        // 分页查询
-        IPage<SysRole> page = this.page(sysAssignRolePageDto.toPage(), queryWrapper);
-        return new PageResult<>(page.getTotal(), SysRoleConvert.INSTANCE.convert(page.getRecords()));
-    }
-
 }

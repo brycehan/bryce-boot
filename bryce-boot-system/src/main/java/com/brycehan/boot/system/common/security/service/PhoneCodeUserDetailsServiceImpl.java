@@ -1,7 +1,6 @@
 package com.brycehan.boot.system.common.security.service;
 
 import com.brycehan.boot.framework.security.phone.PhoneCodeUserDetailsService;
-import com.brycehan.boot.system.entity.convert.SysUserConvert;
 import com.brycehan.boot.system.entity.po.SysUser;
 import com.brycehan.boot.system.mapper.SysUserMapper;
 import com.brycehan.boot.system.service.SysUserDetailsService;
@@ -33,6 +32,6 @@ public class PhoneCodeUserDetailsServiceImpl implements PhoneCodeUserDetailsServ
         }
 
         // 创建用户详情
-        return this.sysUserDetailsService.getUserDetails(SysUserConvert.INSTANCE.convertLoginUser(sysUser));
+        return this.sysUserDetailsService.getUserDetails(sysUser);
     }
 }

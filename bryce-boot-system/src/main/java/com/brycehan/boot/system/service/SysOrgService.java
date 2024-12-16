@@ -37,14 +37,6 @@ public interface SysOrgService extends BaseService<SysOrg> {
     void update(SysOrgDto sysOrgDto);
 
     /**
-     * 系统机构分页查询
-     *
-     * @param sysOrgPageDto 查询条件
-     * @return 分页信息
-     */
-    PageResult<SysOrgVo> page(SysOrgPageDto sysOrgPageDto);
-
-    /**
      * 列表查询
      *
      * @param sysOrgDto 查询参数

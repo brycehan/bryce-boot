@@ -68,18 +68,11 @@ public class SysPostServiceImpl extends BaseServiceImpl<SysPostMapper, SysPost> 
 
     @Override
     public void delete(IdsDto idsDto) {
-        // 过滤无效参数
-        List<Long> ids = idsDto.getIds().stream()
-                .filter(Objects::nonNull).toList();
-        if (CollectionUtils.isEmpty(ids)) {
-            return;
-        }
-
         // 删除岗位
-        this.baseMapper.deleteByIds(ids);
+        this.baseMapper.deleteByIds(idsDto.getIds());
 
         // 删除岗位用户关系
-        this.sysUserPostService.deleteByPostIds(ids);
+        this.sysUserPostService.deleteByPostIds(idsDto.getIds());
     }
 
     @Override

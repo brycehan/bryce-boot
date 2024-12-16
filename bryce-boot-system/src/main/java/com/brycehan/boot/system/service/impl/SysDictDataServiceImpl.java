@@ -79,7 +79,7 @@ public class SysDictDataServiceImpl extends BaseServiceImpl<SysDictDataMapper, S
         List<SysDictData> sysDictDataList = this.baseMapper.selectList(getWrapper(sysDictDataPageDto));
         List<SysDictDataVo> sysDictDataVoList = SysDictDataConvert.INSTANCE.convert(sysDictDataList);
         String today = DateUtil.format(new Date(), DatePattern.PURE_DATE_PATTERN);
-        ExcelUtils.export(SysDictDataVo.class, "系统字典数据", "系统字典数据", sysDictDataVoList);
+        ExcelUtils.export(SysDictDataVo.class, "系统字典数据" + today, "系统字典数据", sysDictDataVoList);
     }
 
 }

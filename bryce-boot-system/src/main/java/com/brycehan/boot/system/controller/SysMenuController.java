@@ -14,7 +14,9 @@ import com.brycehan.boot.system.entity.dto.SysMenuAuthorityDto;
 import com.brycehan.boot.system.entity.dto.SysMenuDto;
 import com.brycehan.boot.system.entity.dto.SysMenuPageDto;
 import com.brycehan.boot.system.entity.po.SysMenu;
+import com.brycehan.boot.system.entity.po.SysUser;
 import com.brycehan.boot.system.entity.vo.SysMenuVo;
+import com.brycehan.boot.system.service.SysAuthorityService;
 import com.brycehan.boot.system.service.SysMenuService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -41,6 +43,7 @@ import java.util.Set;
 public class SysMenuController {
 
     private final SysMenuService sysMenuService;
+    private final SysAuthorityService sysAuthorityService;
 
     /**
      * 保存系统菜单
@@ -164,7 +167,7 @@ public class SysMenuController {
     @Operation(summary = "获取用户权限标识", description = "用户权限标识集合")
     @GetMapping(path = "/authority")
     public ResponseResult<Set<String>> authority() {
-        Set<String> authoritySet = this.sysMenuService.findAuthority(LoginUserContext.currentUser());
+        Set<String> authoritySet = this.sysAuthorityService.findAuthority(SysUser.of(LoginUserContext.currentUser()), false);
         return ResponseResult.ok(authoritySet);
     }
 

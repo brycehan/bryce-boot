@@ -185,4 +185,10 @@ public class SysUserRoleServiceImpl extends BaseServiceImpl<SysUserRoleMapper, S
         return sysUserRoles.stream().map(SysUserRole::getUserId).toList();
     }
 
+    @Override
+    public int countUserRoleByRoleId(Long roleId) {
+        LambdaQueryWrapper<SysUserRole> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(SysUserRole::getRoleId, roleId);
+        return this.baseMapper.selectCount(queryWrapper).intValue();
+    }
 }

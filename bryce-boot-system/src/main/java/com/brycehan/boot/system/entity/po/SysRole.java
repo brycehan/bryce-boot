@@ -4,12 +4,15 @@ import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.brycehan.boot.common.entity.BaseEntity;
-import com.brycehan.boot.common.enums.DataScope;
+import com.brycehan.boot.common.enums.DataScopeType;
 import com.brycehan.boot.common.enums.StatusType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import java.io.Serial;
+import java.util.Optional;
+import java.util.Set;
 
 /**
  * 系统角色entity
@@ -18,6 +21,7 @@ import java.io.Serial;
  * @author Bryce Han
  */
 @Data
+@NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @TableName("brc_sys_role")
 public class SysRole extends BaseEntity {
@@ -38,7 +42,7 @@ public class SysRole extends BaseEntity {
     /**
      * 数据范围（0：全部数据，1：本机构及以下机构数据，2：本机构数据，3：本人数据，4：自定义数据）
      */
-    private DataScope dataScope;
+    private DataScopeType dataScope;
 
     /**
      * 显示顺序
@@ -61,4 +65,27 @@ public class SysRole extends BaseEntity {
     @TableField(fill = FieldFill.INSERT)
     private Long orgId;
 
+    /**
+     * 角色菜单权限
+     */
+    @TableField(exist = false)
+    private Set<String> authoritySet;
+
+    public SysRole(Long id) {
+        super.setId(id);
+    }
+
+    /**
+     * 是否为超级管理员
+     */
+    public boolean isSuperAdmin() {
+        return isSuperAdmin(this);
+    }
+
+    /**
+     * 是否为超级管理员
+     */
+    public static boolean isSuperAdmin(SysRole sysRole) {
+        return Optional.ofNullable(sysRole).map(SysRole::getId).map(id -> id == 1L).orElse(false);
+    }
 }

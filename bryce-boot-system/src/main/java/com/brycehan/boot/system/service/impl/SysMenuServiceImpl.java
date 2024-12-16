@@ -71,19 +71,11 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuMapper, SysMenu> 
 
     @Override
     public void delete(IdsDto idsDto) {
-        // 过滤无效参数
-        List<Long> ids = idsDto.getIds().stream()
-                .filter(Objects::nonNull)
-                .toList();
-        if (CollectionUtils.isEmpty(ids)) {
-            return;
-        }
-
         // 删除菜单
-        this.baseMapper.deleteByIds(ids);
+        this.baseMapper.deleteByIds(idsDto.getIds());
 
         // 删除角色菜单关系
-        this.sysRoleMenuService.deleteByMenuIds(ids);
+        this.sysRoleMenuService.deleteByMenuIds(idsDto.getIds());
     }
 
     @Override
@@ -148,9 +140,7 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuMapper, SysMenu> 
 
     @Override
     public Long getSubMenuCount(List<Long> parentIds) {
-        List<Long> realParentIds = parentIds.stream()
-                .filter(Objects::nonNull)
-                .toList();
+        List<Long> realParentIds = parentIds.stream().filter(Objects::nonNull).toList();
 
         if (CollectionUtils.isEmpty(realParentIds)) {
             return 0L;
@@ -160,20 +150,13 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuMapper, SysMenu> 
     }
 
     @Override
-    public Set<String> findAuthority(LoginUser loginUser) {
-        // 超级管理员，拥有最高权限
-        Set<String> authoritySet;
-        if (loginUser.isSuperAdmin()) {
-            LambdaQueryWrapper<SysMenu> wrapper = new LambdaQueryWrapper<>();
-            wrapper.select(SysMenu::getAuthority);
+    public Set<String> findAuthorityByUserId(Long userId) {
+        return this.baseMapper.findAuthorityByUserId(userId);
+    }
 
-            List<String> authortityList = this.listObjs(wrapper, Object::toString);
-            authoritySet = new HashSet<>(authortityList);
-        } else {
-            authoritySet = this.baseMapper.findAuthorityByUserId(loginUser.getId());
-        }
-
-        return authoritySet;
+    @Override
+    public Set<String> findAuthorityByRoleId(Long roleId) {
+        return baseMapper.findAuthorityByRoleId(roleId);
     }
 
     @Override

@@ -75,12 +75,20 @@ public interface SysMenuService extends BaseService<SysMenu> {
     Long getSubMenuCount(List<Long> parentIds);
 
     /**
-     * 查询用户权限集合
+     * 根据用户ID查询菜单权限
      *
-     * @param loginUser 登录用户
-     * @return 权限集合
+     * @param userId 用户ID
+     * @return 菜单权限集合
      */
-    Set<String> findAuthority(LoginUser loginUser);
+    Set<String> findAuthorityByUserId(Long userId);
+
+    /**
+     * 根据角色ID查询菜单权限
+     *
+     * @param roleId 角色ID
+     * @return 菜单权限集合
+     */
+    Set<String> findAuthorityByRoleId(Long roleId);
 
     /**
      * 校验菜单权限标识是否唯一

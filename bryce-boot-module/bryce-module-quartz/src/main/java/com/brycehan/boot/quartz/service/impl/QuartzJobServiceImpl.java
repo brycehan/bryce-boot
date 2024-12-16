@@ -21,7 +21,6 @@ import com.brycehan.boot.quartz.mapper.QuartzJobMapper;
 import com.brycehan.boot.quartz.service.QuartzJobService;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
@@ -83,13 +82,7 @@ public class QuartzJobServiceImpl extends BaseServiceImpl<QuartzJobMapper, Quart
     @Override
     @Transactional
     public void delete(IdsDto idsDto) {
-        // 过滤无效参数
-        List<Long> ids = idsDto.getIds().stream().filter(Objects::nonNull).toList();
-        if (CollectionUtils.isEmpty(ids)) {
-            return;
-        }
-
-        for (Long id: ids) {
+        for (Long id: idsDto.getIds()) {
             QuartzJob quartzJob = getById(id);
             if(removeById(id)) {
                 // 删除定时任务

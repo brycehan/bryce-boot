@@ -2,10 +2,11 @@ package com.brycehan.boot.system.entity.po;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.brycehan.boot.common.base.LoginUser;
+import com.brycehan.boot.common.entity.vo.RoleVo;
 import com.brycehan.boot.common.enums.GenderType;
 import com.brycehan.boot.common.entity.BaseEntity;
 import com.brycehan.boot.common.enums.StatusType;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.util.CollectionUtils;
@@ -13,6 +14,7 @@ import org.springframework.util.CollectionUtils;
 import java.io.Serial;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -91,11 +93,6 @@ public class SysUser extends BaseEntity {
     private Long orgId;
 
     /**
-     * 超级管理员
-     */
-    private Boolean superAdmin;
-
-    /**
      * 状态（0：停用，1：正常）
      */
     private StatusType status;
@@ -121,16 +118,20 @@ public class SysUser extends BaseEntity {
     private LocalDateTime lastLoginTime;
 
     /**
-     * 角色
+     * 拥有角色集合
      */
-    @Schema(description = "角色")
     @TableField(exist = false)
-    private Set<String> roles;
+    private Set<RoleVo> roles;
+
+    /**
+     * 拥有角色编码集合
+     */
+    @TableField(exist = false)
+    private Set<String> roleSet;
 
     /**
      * 权限
      */
-    @Schema(description = "权限")
     @TableField(exist = false)
     private Set<String> authoritySet;
 
@@ -141,7 +142,16 @@ public class SysUser extends BaseEntity {
      * @return 是否具有某个角色布尔值
      */
     public boolean hasRole(String roleKey) {
-        return !CollectionUtils.isEmpty(this.roles) && this.roles.contains(roleKey);
+        return !CollectionUtils.isEmpty(this.roleSet) && this.roleSet.contains(roleKey);
+    }
+
+    /**
+     * 是否是超级管理员
+     *
+     * @return 是否是超级管理员布尔值
+     */
+    public boolean isSuperAdmin() {
+        return isSuperAdmin(this);
     }
 
     /**
@@ -151,7 +161,21 @@ public class SysUser extends BaseEntity {
      * @return 是否是超级管理员布尔值
      */
     public static boolean isSuperAdmin(SysUser sysUser) {
-        return Boolean.TRUE.equals(sysUser.getSuperAdmin());
+        return sysUser != null && Objects.equals(sysUser.getId(), 1L);
     }
 
+    public static SysUser of(LoginUser loginUser) {
+        SysUser sysUser = new SysUser();
+        sysUser.setId(loginUser.getId());
+        sysUser.setUsername(loginUser.getUsername());
+        sysUser.setNickname(loginUser.getNickname());
+        sysUser.setAvatar(loginUser.getAvatar());
+        sysUser.setGender(loginUser.getGender());
+        sysUser.setPhone(loginUser.getPhone());
+        sysUser.setEmail(loginUser.getEmail());
+        sysUser.setStatus(loginUser.getStatus());
+        sysUser.setRoles(loginUser.getRoles());
+        sysUser.setAuthoritySet(loginUser.getAuthoritySet());
+        return sysUser;
+    }
 }

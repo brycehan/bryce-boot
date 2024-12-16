@@ -7,6 +7,7 @@ import com.brycehan.boot.common.entity.dto.IdsDto;
 import com.brycehan.boot.common.base.response.ResponseResult;
 import com.brycehan.boot.common.base.validator.SaveGroup;
 import com.brycehan.boot.common.base.validator.UpdateGroup;
+import com.brycehan.boot.common.enums.StatusType;
 import com.brycehan.boot.framework.operatelog.annotation.OperateLog;
 import com.brycehan.boot.framework.operatelog.annotation.OperatedType;
 import com.brycehan.boot.system.entity.convert.SysRoleConvert;
@@ -105,6 +106,7 @@ public class SysRoleController {
     @PreAuthorize("@auth.hasAuthority('system:role:info')")
     @GetMapping(path = "/{id}")
     public ResponseResult<SysRoleVo> get(@Parameter(description = "系统角色ID", required = true) @PathVariable Long id) {
+        sysRoleService.checkRoleDataScope(id);
         SysRole sysRole = this.sysRoleService.getById(id);
 
         SysRoleVo sysRoleVo = SysRoleConvert.INSTANCE.convert(sysRole);
@@ -132,6 +134,15 @@ public class SysRoleController {
     public ResponseResult<PageResult<SysRoleVo>> page(@Validated @RequestBody SysRolePageDto sysRolePageDto) {
         PageResult<SysRoleVo> page = this.sysRoleService.page(sysRolePageDto);
         return ResponseResult.ok(page);
+    }
+
+    @Operation(summary = "更改角色状态")
+    @OperateLog(type = OperatedType.UPDATE)
+    @PreAuthorize("@auth.hasAuthority('system:role:update')")
+    @PatchMapping(path = "/{id}/{status}")
+    public ResponseResult<Void> updateStatus(@PathVariable Long id, @PathVariable StatusType status) {
+        this.sysRoleService.update(id, status);
+        return ResponseResult.ok();
     }
 
     /**
@@ -214,6 +225,7 @@ public class SysRoleController {
     @PreAuthorize("@auth.hasAuthority('system:role:update')")
     @PostMapping(path = "/assignUser/{roleId}")
     public ResponseResult<Void> assignUserSave(@PathVariable Long roleId, @RequestBody List<Long> userIds) {
+        this.sysRoleService.checkRoleDataScope(roleId);
         this.sysUserRoleService.assignUserSave(roleId, userIds);
         return ResponseResult.ok();
     }
@@ -230,6 +242,7 @@ public class SysRoleController {
     @PreAuthorize("@auth.hasAuthority('system:role:update')")
     @DeleteMapping(path = "/assignUser/{roleId}")
     public ResponseResult<Void> assignUserDelete(@PathVariable Long roleId, @RequestBody List<Long> userIds) {
+        this.sysRoleService.checkRoleDataScope(roleId);
         this.sysUserRoleService.deleteByRoleIdAndUserIds(roleId, userIds);
         return ResponseResult.ok();
     }
