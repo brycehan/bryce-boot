@@ -423,7 +423,7 @@ comment on column brc_sys_role_menu.updated_time is '修改时间';
 create index idx_brc_sys_role_menu_role_id on brc_sys_role_menu (role_id);
 create index idx_brc_sys_role_menu_menu_id on brc_sys_role_menu (menu_id);
 
--- 9、系统角色数据范围表
+-- 9、系统角色机构关联表
 create table brc_sys_role_org
 (
     id              bigint not null primary key,
@@ -436,7 +436,7 @@ create table brc_sys_role_org
     updated_time    timestamp
 );
 
-comment on table brc_sys_role_org is '系统角色数据范围表';
+comment on table brc_sys_role_org is '系统角色机构关联表';
 comment on column brc_sys_role_org.id is 'ID';
 comment on column brc_sys_role_org.role_id is '角色ID';
 comment on column brc_sys_role_org.org_id is '机构ID';

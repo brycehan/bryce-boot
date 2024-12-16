@@ -8,7 +8,7 @@ import lombok.EqualsAndHashCode;
 import java.io.Serial;
 
 /**
- * 系统角色数据范围entity
+ * 系统角色机构entity
  *
  * @since 2023/09/15
  * @author Bryce Han

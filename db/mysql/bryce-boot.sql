@@ -313,7 +313,7 @@ create table brc_sys_role_org
     created_time    datetime null comment '创建时间',
     updated_user_id bigint   null comment '修改者ID',
     updated_time    datetime null comment '修改时间'
-) engine InnoDB comment '系统角色数据范围表';
+) engine InnoDB comment '系统角色机构关联表';
 
 -- 10、系统登录日志表
 create table brc_sys_login_log
