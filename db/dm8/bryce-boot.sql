@@ -153,7 +153,7 @@ comment on table brc_sys_role is '系统角色表';
 comment on column brc_sys_role.id is 'ID';
 comment on column brc_sys_role.name is '角色名称';
 comment on column brc_sys_role.code is '角色编码';
-comment on column brc_sys_role.data_scope is '数据范围（0：全部数据，1：本机构及以下机构数据，2：本机构数据，3：本人数据，4：自定义数据）';
+comment on column brc_sys_role.data_scope is '数据范围（0：全部数据，1：自定义数据，2：本机构及以下机构数据，3：本机构数据，4：本人数据）';
 comment on column brc_sys_role.sort is '显示顺序';
 comment on column brc_sys_role.status is '状态（0：停用，1：正常）';
 comment on column brc_sys_role.remark is '备注';

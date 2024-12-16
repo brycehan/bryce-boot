@@ -97,7 +97,7 @@ create table brc_sys_role
     id              bigint            primary key comment 'ID',
     name            varchar(50)       not null comment '角色名称',
     code            varchar(50)       not null comment '角色编码',
-    data_scope      tinyint           null comment '数据范围（0：全部数据，1：本机构及以下机构数据，2：本机构数据，3：本人数据，4：自定义数据）',
+    data_scope      tinyint           null comment '数据范围（0：全部数据，1：自定义数据，2：本机构及以下机构数据，3：本机构数据，4：本人数据）',
     sort            int     default 0 null comment '显示顺序',
     status          tinyint default 1 null comment '状态（0：停用，1：正常）',
     remark          varchar(500)      null comment '备注',

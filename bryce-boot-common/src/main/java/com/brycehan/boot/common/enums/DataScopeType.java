@@ -17,10 +17,11 @@ import lombok.RequiredArgsConstructor;
 public enum DataScopeType implements EnumType {
 
     ALL(0, "全部数据"),
-    ORG_AND_CHILDREN(1, "本机构及以下机构数据"),
-    ORG_ONLY(2, "本机构数据"),
-    SELF(3, "本人数据"),
-    CUSTOM(4, "自定义数据");
+    CUSTOM(1, "自定义数据"),
+    ORG_AND_CHILDREN(2, "本机构及以下机构数据"),
+    ORG_ONLY(3, "本机构数据"),
+    SELF(4, "本人数据"),
+    ;
 
     /**
      * 类型值
