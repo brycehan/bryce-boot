@@ -94,7 +94,7 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<M, 
                 if (CollUtil.isNotEmpty(roleIds)) {
                     sqlFilter.append(tableAlias).append(orgIdAlias);
                     sqlFilter.append(" in (");
-                    sqlFilter.append(StrUtil.format(" SELECT org_id FROM brc_sys_role_data_scope WHERE deleted is null and role_id in ({})", StrUtil.join(",", roleIds)));
+                    sqlFilter.append(StrUtil.format(" SELECT org_id FROM brc_sys_role_org WHERE deleted is null and role_id in ({})", StrUtil.join(",", roleIds)));
                     sqlFilter.append(" )");
                 }
             } else {
@@ -103,7 +103,7 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<M, 
                 dataScopeMap.get(DataScopeType.CUSTOM).stream().map(RoleVo::getId).findFirst().ifPresent(roleId -> {
                     sqlFilter.append(finalTableAlias).append(finalOrgIdAlias);
                     sqlFilter.append(" in (");
-                    sqlFilter.append(StrUtil.format(" SELECT org_id FROM brc_sys_role_data_scope WHERE deleted is null and role_id = {}", roleId));
+                    sqlFilter.append(StrUtil.format(" SELECT org_id FROM brc_sys_role_org WHERE deleted is null and role_id = {}", roleId));
                     sqlFilter.append(" )");
                 });
             }

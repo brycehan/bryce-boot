@@ -10,15 +10,15 @@ import lombok.EqualsAndHashCode;
 import java.util.List;
 
 /**
- * 系统角色Dto
+ * 系统角色机构Dto
  *
  * @since 2023/09/13
  * @author Bryce Han
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@Schema(description = "系统角色Dto")
-public class SysRoleDataScopeDto extends BaseDto {
+@Schema(description = "系统角色机构Dto")
+public class SysRoleOrgDto extends BaseDto {
 
     /**
      * ID

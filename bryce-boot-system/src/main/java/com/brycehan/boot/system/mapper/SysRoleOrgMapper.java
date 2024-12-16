@@ -1,7 +1,7 @@
 package com.brycehan.boot.system.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.brycehan.boot.system.entity.po.SysRoleDataScope;
+import com.brycehan.boot.system.entity.po.SysRoleOrg;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.List;
  * @author Bryce Han
  */
 @Mapper
-public interface SysRoleDataScopeMapper extends BaseMapper<SysRoleDataScope> {
+public interface SysRoleOrgMapper extends BaseMapper<SysRoleOrg> {
 
     /**
      * 获取用户的数据权限列表

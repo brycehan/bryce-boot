@@ -1,7 +1,7 @@
 package com.brycehan.boot.system.service;
 
 import com.brycehan.boot.framework.mybatis.service.BaseService;
-import com.brycehan.boot.system.entity.po.SysRoleDataScope;
+import com.brycehan.boot.system.entity.po.SysRoleOrg;
 
 import java.util.List;
 
@@ -11,7 +11,7 @@ import java.util.List;
  * @since 2023/09/15
  * @author Bryce Han
  */
-public interface SysRoleDataScopeService extends BaseService<SysRoleDataScope> {
+public interface SysRoleOrgService extends BaseService<SysRoleOrg> {
 
     /**
      * 保存或修改

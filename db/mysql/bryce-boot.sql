@@ -12,7 +12,7 @@ use bryce_boot;
     drop table if exists brc_sys_user_post;
     drop table if exists brc_sys_menu;
     drop table if exists brc_sys_role_menu;
-    drop table if exists brc_sys_role_data_scope;
+    drop table if exists brc_sys_role_org;
     drop table if exists brc_sys_login_log;
     drop table if exists brc_sys_operate_log;
     drop table if exists brc_sys_dict_type;
@@ -74,7 +74,6 @@ create table brc_sys_user
     profession         varchar(50)              null comment '职业',
     sort               int          default 0   null comment '显示顺序',
     org_id             bigint                   null comment '机构ID',
-    super_admin        tinyint                  null comment '是否超级管理员（0：否，1：是）',
     status             tinyint      default 1   null comment '状态（0：停用，1：正常）',
     remark             varchar(500)             null comment '备注',
     account_non_locked tinyint      default 1   null comment '账号锁定状态（0：锁定，1：正常）',
@@ -89,8 +88,8 @@ create table brc_sys_user
 ) engine InnoDB comment '系统用户表';
 
 -- 初始化-系统用户表数据
-INSERT INTO brc_sys_user (id, username, password, nickname, avatar, gender, type, phone, email, sort, org_id, super_admin, status, remark, account_non_locked, last_login_ip, last_login_time, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1, 'admin', '$2a$10$b8Yk.Z8wkNIqz2U9kZO/IOllidB4y56hU9dh3Xv7lPstItDFtqGp6', '超级管理员', null, 'M', 0, '15853155400', 'brycehan@126.com', 0, 103, 1, 1, '超级管理员', 1, '127.0.0.1', now(), null, 1, now(), 1, now());
-INSERT INTO brc_sys_user (id, username, password, nickname, avatar, gender, type, phone, email, sort, org_id, super_admin, status, remark, account_non_locked, last_login_ip, last_login_time, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (2, 'brycehan', '$2a$10$.sAp6xiSh2pXwkIyJTXSfOlXHQ.8mXGw6yfGfZLhV9VuPcQR3FLq2', '布莱斯', null, 'M', 0, '15853155402', 'brycehan@163.com', 0, 103, 0, 1, '项目经理', 1, '127.0.0.1', now(), null, 1, now(), 1, now());
+INSERT INTO brc_sys_user (id, username, password, nickname, avatar, gender, type, phone, email, sort, org_id, status, remark, account_non_locked, last_login_ip, last_login_time, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1, 'admin', '$2a$10$b8Yk.Z8wkNIqz2U9kZO/IOllidB4y56hU9dh3Xv7lPstItDFtqGp6', '超级管理员', null, 'M', 0, '15853155400', 'brycehan@126.com', 0, 103, 1, '超级管理员', 1, '127.0.0.1', now(), null, 1, now(), 1, now());
+INSERT INTO brc_sys_user (id, username, password, nickname, avatar, gender, type, phone, email, sort, org_id, status, remark, account_non_locked, last_login_ip, last_login_time, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (2, 'brycehan', '$2a$10$.sAp6xiSh2pXwkIyJTXSfOlXHQ.8mXGw6yfGfZLhV9VuPcQR3FLq2', '布莱斯', null, 'M', 0, '15853155402', 'brycehan@163.com', 0, 103, 1, '项目经理', 1, '127.0.0.1', now(), null, 1, now(), 1, now());
 
 -- 3、系统角色表
 create table brc_sys_role
@@ -114,7 +113,7 @@ create table brc_sys_role
 INSERT INTO brc_sys_role (id, name, code, data_scope, sort, status, remark, org_id, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1, '管理员', 'admin', 1, 0, 1, '管理员', null, null, 1, now(), 1, now());
 INSERT INTO brc_sys_role (id, name, code, data_scope, sort, status, remark, org_id, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (2, '默认角色', 'default', 1, 0, 1, '默认角色', null, null, 1, now(), 1, now());
 
--- 4、系统用户角色关系表
+-- 4、系统用户角色关联表
 create table brc_sys_user_role
 (
     id              bigint   primary key comment 'ID',
@@ -125,7 +124,7 @@ create table brc_sys_user_role
     created_time    datetime null comment '创建时间',
     updated_user_id bigint   null comment '修改者ID',
     updated_time    datetime null comment '修改时间'
-) engine InnoDB comment '系统用户角色关系表';
+) engine InnoDB comment '系统用户角色关联表';
 
 create index idx_user_id on brc_sys_user_role (user_id);
 create index idx_role_id on brc_sys_user_role (role_id);
@@ -154,7 +153,7 @@ INSERT INTO brc_sys_post (id, name, code, sort, status, remark, deleted, created
 INSERT INTO brc_sys_post (id, name, code, sort, status, remark, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (3, '人力资源', 'hr', 3, 1, null, null, 1, now(), 1, now());
 INSERT INTO brc_sys_post (id, name, code, sort, status, remark, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (4, '普通员工', 'user', 4, 1, null, null, 1, now(), 1, now());
 
--- 6、系统用户岗位关系表
+-- 6、系统用户岗位关联表
 create table brc_sys_user_post
 (
     id              bigint   primary key comment 'ID',
@@ -165,7 +164,7 @@ create table brc_sys_user_post
     created_time    datetime null comment '创建时间',
     updated_user_id bigint   null comment '修改者ID',
     updated_time    datetime null comment '修改时间'
-) engine InnoDB comment '系统用户岗位关系表';
+) engine InnoDB comment '系统用户岗位关联表';
 
 create index idx_user_id on brc_sys_user_post (user_id);
 create index idx_post_id on brc_sys_user_post (post_id);
@@ -287,7 +286,7 @@ INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_
 INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1422, '操作日志详情', 'B', 142, null, 'system:operateLog:info', '', 0, 4, null, 1, null, 1, now(), 1, now());
 INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1423, '操作日志导出', 'B', 142, null, 'system:operateLog:export', '', 0, 5, null, 1, null, 1, now(), 1, now());
 
--- 8、系统角色菜单关系表
+-- 8、系统角色菜单关联表
 create table brc_sys_role_menu
 (
     id              bigint   primary key comment 'ID',
@@ -298,13 +297,13 @@ create table brc_sys_role_menu
     created_time    datetime null comment '创建时间',
     updated_user_id bigint   null comment '修改者ID',
     updated_time    datetime null comment '修改时间'
-) engine InnoDB comment '系统角色菜单关系表';
+) engine InnoDB comment '系统角色菜单关联表';
 
 create index idx_role_id on brc_sys_role_menu (role_id);
 create index idx_menu_id on brc_sys_role_menu (menu_id);
 
--- 9、系统角色数据范围表
-create table brc_sys_role_data_scope
+-- 9、系统角色机构关联表
+create table brc_sys_role_org
 (
     id              bigint   primary key comment 'ID',
     role_id         bigint   not null comment '角色ID',

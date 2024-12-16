@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.brycehan.boot.system.mapper.SysRoleDataScopeMapper">
+<mapper namespace="com.brycehan.boot.system.mapper.SysRoleOrgMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.brycehan.boot.system.entity.po.SysRoleDataScope">
+    <resultMap id="BaseResultMap" type="com.brycehan.boot.system.entity.po.SysRoleOrg">
         <id column="id" property="id"/>
         <result column="role_id" property="roleId"/>
         <result column="org_id" property="orgId"/>
@@ -21,11 +21,11 @@
     </sql>
 
     <select id="getDataScopeOrgIds" resultType="Long">
-        select bsrds.org_id
-        from brc_sys_user_role bsur
-        inner join brc_sys_role_data_scope bsrds on bsur.role_id = bsrds.role_id
-        where bsur.deleted is null
-          and bsrds.deleted is null
-          and bsur.user_id = #{userId}
+        select sro.org_id
+        from brc_sys_user_role sur
+        inner join brc_sys_role_org sro on sur.role_id = sro.role_id
+        where sro.deleted is null
+          and sur.deleted is null
+          and sur.user_id = #{userId}
     </select>
 </mapper>

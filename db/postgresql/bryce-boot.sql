@@ -14,7 +14,7 @@
     drop table if exists brc_sys_user_post;
     drop table if exists brc_sys_menu;
     drop table if exists brc_sys_role_menu;
-    drop table if exists brc_sys_role_data_scope;
+    drop table if exists brc_sys_role_org;
     drop table if exists brc_sys_login_log;
     drop table if exists brc_sys_operate_log;
     drop table if exists brc_sys_dict_type;
@@ -94,7 +94,6 @@ create table brc_sys_user
     profession         varchar(50),
     sort               integer  default 0,
     org_id             bigint,
-    super_admin        smallint,
     status             smallint  default 1,
     remark             varchar(500),
     account_non_locked smallint  default 1,
@@ -122,7 +121,6 @@ comment on column brc_sys_user.birthday is '生日';
 comment on column brc_sys_user.profession is '职业';
 comment on column brc_sys_user.sort is '显示顺序';
 comment on column brc_sys_user.org_id is '机构ID';
-comment on column brc_sys_user.super_admin is '是否超级管理员（0：否，1：是）';
 comment on column brc_sys_user.status is '状态（0：停用，1：正常）';
 comment on column brc_sys_user.remark is '备注';
 comment on column brc_sys_user.account_non_locked is '账号锁定状态（0：锁定，1：正常）';
@@ -135,8 +133,8 @@ comment on column brc_sys_user.updated_user_id is '修改者ID';
 comment on column brc_sys_user.updated_time is '修改时间';
 
 -- 初始化-系统用户表数据
-INSERT INTO brc_sys_user (id, username, password, nickname, avatar, gender, type, phone, email, sort, org_id, super_admin, status, remark, account_non_locked, last_login_ip, last_login_time, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1, 'admin', '$2a$10$b8Yk.Z8wkNIqz2U9kZO/IOllidB4y56hU9dh3Xv7lPstItDFtqGp6', '超级管理员', null, 'M', 0, '15853155400', 'brycehan@126.com', 0, 103, 1, 1, '超级管理员', 1, '127.0.0.1', now(), null, 1, now(), 1, now());
-INSERT INTO brc_sys_user (id, username, password, nickname, avatar, gender, type, phone, email, sort, org_id, super_admin, status, remark, account_non_locked, last_login_ip, last_login_time, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (2, 'brycehan', '$2a$10$.sAp6xiSh2pXwkIyJTXSfOlXHQ.8mXGw6yfGfZLhV9VuPcQR3FLq2', '布莱斯', null, 'M', 0, '15853155402', 'brycehan@163.com', 0, 103, 0, 1, '项目经理', 1, '127.0.0.1', now(), null, 1, now(), 1, now());
+INSERT INTO brc_sys_user (id, username, password, nickname, avatar, gender, type, phone, email, sort, org_id, status, remark, account_non_locked, last_login_ip, last_login_time, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1, 'admin', '$2a$10$b8Yk.Z8wkNIqz2U9kZO/IOllidB4y56hU9dh3Xv7lPstItDFtqGp6', '超级管理员', null, 'M', 0, '15853155400', 'brycehan@126.com', 0, 103, 1, '超级管理员', 1, '127.0.0.1', now(), null, 1, now(), 1, now());
+INSERT INTO brc_sys_user (id, username, password, nickname, avatar, gender, type, phone, email, sort, org_id, status, remark, account_non_locked, last_login_ip, last_login_time, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (2, 'brycehan', '$2a$10$.sAp6xiSh2pXwkIyJTXSfOlXHQ.8mXGw6yfGfZLhV9VuPcQR3FLq2', '布莱斯', null, 'M', 0, '15853155402', 'brycehan@163.com', 0, 103, 1, '项目经理', 1, '127.0.0.1', now(), null, 1, now(), 1, now());
 
 -- 3、系统角色表
 create table brc_sys_role
@@ -175,7 +173,7 @@ comment on column brc_sys_role.updated_time is '修改时间';
 INSERT INTO brc_sys_role (id, name, code, data_scope, sort, status, remark, org_id, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1, '管理员', 'admin', 1, 0, 1, '管理员', null, null, 1, now(), 1, now());
 INSERT INTO brc_sys_role (id, name, code, data_scope, sort, status, remark, org_id, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (2, '默认角色', 'default', 1, 0, 1, '默认角色', null, null, 1, now(), 1, now());
 
--- 4、系统用户角色关系表
+-- 4、系统用户角色关联表
 create table brc_sys_user_role
 (
     id              bigint not null primary key,
@@ -188,7 +186,7 @@ create table brc_sys_user_role
     updated_time    timestamp
 );
 
-comment on table brc_sys_user_role is '系统用户角色关系表';
+comment on table brc_sys_user_role is '系统用户角色关联表';
 comment on column brc_sys_user_role.id is 'ID';
 comment on column brc_sys_user_role.user_id is '用户ID';
 comment on column brc_sys_user_role.role_id is '角色ID';
@@ -238,7 +236,7 @@ INSERT INTO brc_sys_post (id, name, code, sort, status, remark, deleted, created
 INSERT INTO brc_sys_post (id, name, code, sort, status, remark, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (3, '人力资源', 'hr', 3, 1, null, null, 1, now(), 1, now());
 INSERT INTO brc_sys_post (id, name, code, sort, status, remark, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (4, '普通员工', 'user', 4, 1, null, null, 1, now(), 1, now());
 
--- 6、系统用户岗位关系表
+-- 6、系统用户岗位关联表
 create table brc_sys_user_post
 (
     id              bigint not null primary key,
@@ -251,7 +249,7 @@ create table brc_sys_user_post
     updated_time    timestamp
 );
 
-comment on table brc_sys_user_post is '系统用户岗位关系表';
+comment on table brc_sys_user_post is '系统用户岗位关联表';
 comment on column brc_sys_user_post.id is 'ID';
 comment on column brc_sys_user_post.user_id is '用户ID';
 comment on column brc_sys_user_post.post_id is '岗位ID';
@@ -399,7 +397,7 @@ INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_
 INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1422, '操作日志详情', 'B', 142, null, 'system:operateLog:info', '', 0, 4, null, 1, null, 1, now(), 1, now());
 INSERT INTO brc_sys_menu (id, name, type, parent_id, url, authority, icon, open_style, sort, remark, status, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1423, '操作日志导出', 'B', 142, null, 'system:operateLog:export', '', 0, 5, null, 1, null, 1, now(), 1, now());
 
--- 8、系统角色菜单关系表
+-- 8、系统角色菜单关联表
 create table brc_sys_role_menu
 (
     id              bigint not null primary key,
@@ -412,7 +410,7 @@ create table brc_sys_role_menu
     updated_time    timestamp
 );
 
-comment on table brc_sys_role_menu is '系统角色菜单关系表';
+comment on table brc_sys_role_menu is '系统角色菜单关联表';
 comment on column brc_sys_role_menu.id is 'ID';
 comment on column brc_sys_role_menu.role_id is '角色ID';
 comment on column brc_sys_role_menu.menu_id is '菜单ID';
@@ -426,7 +424,7 @@ create index idx_brc_sys_role_menu_role_id on brc_sys_role_menu (role_id);
 create index idx_brc_sys_role_menu_menu_id on brc_sys_role_menu (menu_id);
 
 -- 9、系统角色数据范围表
-create table brc_sys_role_data_scope
+create table brc_sys_role_org
 (
     id              bigint not null primary key,
     role_id         bigint not null,
@@ -438,15 +436,15 @@ create table brc_sys_role_data_scope
     updated_time    timestamp
 );
 
-comment on table brc_sys_role_data_scope is '系统角色数据范围表';
-comment on column brc_sys_role_data_scope.id is 'ID';
-comment on column brc_sys_role_data_scope.role_id is '角色ID';
-comment on column brc_sys_role_data_scope.org_id is '机构ID';
-comment on column brc_sys_role_data_scope.deleted is '删除标识';
-comment on column brc_sys_role_data_scope.created_user_id is '创建者ID';
-comment on column brc_sys_role_data_scope.created_time is '创建时间';
-comment on column brc_sys_role_data_scope.updated_user_id is '修改者ID';
-comment on column brc_sys_role_data_scope.updated_time is '修改时间';
+comment on table brc_sys_role_org is '系统角色数据范围表';
+comment on column brc_sys_role_org.id is 'ID';
+comment on column brc_sys_role_org.role_id is '角色ID';
+comment on column brc_sys_role_org.org_id is '机构ID';
+comment on column brc_sys_role_org.deleted is '删除标识';
+comment on column brc_sys_role_org.created_user_id is '创建者ID';
+comment on column brc_sys_role_org.created_time is '创建时间';
+comment on column brc_sys_role_org.updated_user_id is '修改者ID';
+comment on column brc_sys_role_org.updated_time is '修改时间';
 
 -- 10、系统登录日志表
 create table brc_sys_login_log
