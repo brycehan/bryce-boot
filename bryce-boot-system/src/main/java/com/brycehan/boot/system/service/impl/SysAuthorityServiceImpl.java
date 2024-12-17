@@ -1,11 +1,8 @@
 package com.brycehan.boot.system.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.brycehan.boot.common.constant.DataConstants;
-import com.brycehan.boot.common.enums.StatusType;
 import com.brycehan.boot.system.entity.convert.SysRoleConvert;
-import com.brycehan.boot.system.entity.po.SysMenu;
 import com.brycehan.boot.system.entity.po.SysRole;
 import com.brycehan.boot.system.entity.po.SysUser;
 import com.brycehan.boot.system.service.SysAuthorityService;
@@ -15,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -35,17 +31,13 @@ public class SysAuthorityServiceImpl implements SysAuthorityService {
 
     @Override
     public Set<String> findAuthority(SysUser sysUser, boolean findRole) {
-        Set<String> authoritySet = new HashSet<>();
 
         // 超级管理员，拥有最高权限
         if (sysUser.isSuperAdmin()) {
-            LambdaQueryWrapper<SysMenu> queryWrapper = new LambdaQueryWrapper<>();
-            queryWrapper.select(SysMenu::getAuthority);
-            queryWrapper.eq(SysMenu::getStatus, StatusType.ENABLE);
-
-            List<String> authortityList = this.sysMenuService.listObjs(queryWrapper, Object::toString);
-            return new HashSet<>(authortityList);
+            return Set.of(DataConstants.ROLE_SUPER_ADMIN_CODE);
         }
+
+        Set<String> authoritySet = new HashSet<>();
 
         if (findRole) {
             Set<SysRole> roles = this.sysRoleService.getRoleByUserId(sysUser.getId());

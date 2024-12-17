@@ -61,7 +61,7 @@ public interface SysMenuService extends BaseService<SysMenu> {
      * 查询用户菜单列表
      *
      * @param loginUser 登录用户
-     * @param type      菜单类型
+     * @param type      菜单类型，空时是所有类型
      * @return 用户菜单列表
      */
     List<SysMenuVo> getMenuTreeList(LoginUser loginUser, String type);

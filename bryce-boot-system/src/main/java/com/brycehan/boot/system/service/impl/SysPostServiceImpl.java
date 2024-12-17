@@ -1,5 +1,6 @@
 package com.brycehan.boot.system.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
@@ -23,7 +24,6 @@ import com.brycehan.boot.system.service.SysPostService;
 import com.brycehan.boot.system.service.SysUserPostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
@@ -115,11 +115,14 @@ public class SysPostServiceImpl extends BaseServiceImpl<SysPostMapper, SysPost> 
 
     @Override
     public List<String> getPostNameList(List<Long> postIdList) {
-        if (CollectionUtils.isNotEmpty(postIdList)) {
-            return this.baseMapper.selectList(new LambdaQueryWrapper<SysPost>().in(SysPost::getId, postIdList))
-                    .stream().map(SysPost::getName).toList();
+        if (CollUtil.isEmpty(postIdList)) {
+            return List.of();
         }
-        return List.of();
+
+        LambdaQueryWrapper<SysPost> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.select(SysPost::getName);
+        queryWrapper.in(SysPost::getId, postIdList);
+        return this.baseMapper.selectList(queryWrapper).stream().map(SysPost::getName).toList();
     }
 
     @Override
