@@ -1,8 +1,10 @@
-package com.brycehan.boot.framework.mybatis.interceptor;
+package com.brycehan.boot.framework.mybatis;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.PluginUtils;
 import com.baomidou.mybatisplus.extension.plugins.inner.InnerInterceptor;
+import com.brycehan.boot.common.entity.BaseEntity;
+import com.brycehan.boot.common.entity.DataScope;
 import net.sf.jsqlparser.JSQLParserException;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.expression.StringValue;
@@ -46,8 +48,10 @@ public class DataScopeInnerInterceptor implements InnerInterceptor {
             return null;
         }
 
-        // 判断参数里是否有 DataScopeType 对象
-        if(parameter instanceof Map<?, ?> parameterMap) {
+        // 判断参数里是否有 DataScope 对象
+        if (parameter instanceof BaseEntity baseEntity) {
+            return baseEntity.getDataScope();
+        } else if(parameter instanceof Map<?, ?> parameterMap) {
             for (Map.Entry<?, ?> entry : parameterMap.entrySet()) {
                 if(entry.getValue() != null && entry.getValue() instanceof DataScope) {
                     return (DataScope) entry.getValue();

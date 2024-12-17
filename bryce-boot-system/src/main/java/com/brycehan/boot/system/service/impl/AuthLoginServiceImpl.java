@@ -14,7 +14,6 @@ import com.brycehan.boot.framework.security.JwtTokenProvider;
 import com.brycehan.boot.framework.security.phone.PhoneCodeAuthenticationToken;
 import com.brycehan.boot.system.entity.po.SysUser;
 import com.brycehan.boot.system.service.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;

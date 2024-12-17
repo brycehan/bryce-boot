@@ -7,7 +7,7 @@
         <id column="id" property="id"/>
         <result column="name" property="name"/>
         <result column="code" property="code"/>
-        <result column="data_scope" property="dataScope"/>
+        <result column="data_scope_type" property="dataScopeType"/>
         <result column="sort" property="sort"/>
         <result column="status" property="status"/>
         <result column="remark" property="remark"/>
@@ -21,14 +21,14 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, name, code, data_scope, sort,
-        status, remark, org_id,
-        deleted, created_user_id, created_time, updated_user_id, updated_time
+        id, name, code, data_scope_type, sort,
+        status, remark, org_id, deleted, created_user_id,
+        created_time, updated_user_id, updated_time
     </sql>
 
     <!-- 根据用户ID查询角色 -->
-    <select id="getRoleByUserId" resultType="SysRole">
-        select sr.id, sr.code, sr.data_scope
+    <select id="getRoleByUserId" resultType="com.brycehan.boot.system.entity.po.SysRole">
+        select sr.id, sr.code, sr.data_scope_type
         from brc_sys_role sr
         left join brc_sys_user_role sur on sr.id = sur.role_id
         where sr.deleted is null

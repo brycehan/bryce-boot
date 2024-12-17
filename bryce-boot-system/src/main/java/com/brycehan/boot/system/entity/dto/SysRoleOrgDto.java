@@ -32,7 +32,7 @@ public class SysRoleOrgDto extends BaseDto {
      */
     @Schema(description = "数据范围")
     @NotNull
-    private DataScopeType dataScope;
+    private DataScopeType dataScopeType;
 
     /**
      * 机构IDs

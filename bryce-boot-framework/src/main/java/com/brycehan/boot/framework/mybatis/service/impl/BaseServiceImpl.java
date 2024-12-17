@@ -8,9 +8,9 @@ import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.brycehan.boot.common.base.LoginUser;
 import com.brycehan.boot.common.base.LoginUserContext;
+import com.brycehan.boot.common.entity.DataScope;
 import com.brycehan.boot.common.entity.vo.RoleVo;
 import com.brycehan.boot.common.enums.DataScopeType;
-import com.brycehan.boot.framework.mybatis.interceptor.DataScope;
 import com.brycehan.boot.framework.mybatis.service.BaseService;
 import com.brycehan.boot.framework.security.AuthContextHolder;
 import lombok.extern.slf4j.Slf4j;
@@ -75,7 +75,7 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<M, 
 
         Map<DataScopeType, List<RoleVo>> dataScopeMap = loginUser.getRoles().stream()
                 .filter(role -> role.getAuthoritySet().contains(authority))
-                .collect(Collectors.groupingBy(RoleVo::getDataScope));
+                .collect(Collectors.groupingBy(RoleVo::getDataScopeType));
 
         Set<DataScopeType> dataScopes = dataScopeMap.keySet();
 

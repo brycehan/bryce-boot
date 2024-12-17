@@ -1,6 +1,5 @@
 package com.brycehan.boot.system.controller;
 
-import com.brycehan.boot.common.entity.PageResult;
 import com.brycehan.boot.common.entity.dto.IdsDto;
 import com.brycehan.boot.common.base.response.ResponseResult;
 import com.brycehan.boot.common.base.validator.SaveGroup;
@@ -9,7 +8,6 @@ import com.brycehan.boot.framework.operatelog.annotation.OperateLog;
 import com.brycehan.boot.framework.operatelog.annotation.OperatedType;
 import com.brycehan.boot.system.entity.convert.SysOrgConvert;
 import com.brycehan.boot.system.entity.dto.SysOrgDto;
-import com.brycehan.boot.system.entity.dto.SysOrgPageDto;
 import com.brycehan.boot.system.entity.po.SysOrg;
 import com.brycehan.boot.system.entity.vo.SysOrgVo;
 import com.brycehan.boot.system.service.SysOrgService;
@@ -117,7 +115,7 @@ public class SysOrgController {
      * @return 系统机构列表
      */
     @Operation(summary = "列表查询")
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("@auth.hasAuthority('system:org:list')")
     @PostMapping(path = "/list")
     public ResponseResult<List<SysOrgVo>> list(@Validated @RequestBody SysOrgDto sysOrgDto) {
         List<SysOrgVo> list = this.sysOrgService.list(sysOrgDto);
