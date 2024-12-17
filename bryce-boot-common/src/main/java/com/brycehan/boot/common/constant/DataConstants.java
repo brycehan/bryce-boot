@@ -27,9 +27,6 @@ public class DataConstants {
      */
     public static final int pageSize = 10;
 
-    /** 根ID */
-    public static final Long TREE_ROOT_ID = 0L;
-
     /** 数据权限范围 */
     public static final String DATA_SCOPE = "dataScope";
 
