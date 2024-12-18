@@ -5,6 +5,7 @@ import com.brycehan.boot.system.entity.po.SysOrg;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 系统机构Mapper接口
@@ -15,6 +16,12 @@ import java.util.List;
 @Mapper
 public interface SysOrgMapper extends BaseMapper<SysOrg> {
 
-    List<SysOrg> list(SysOrg sysOrg);
+    /**
+     * 机构列表
+     *
+     * @param params 参数
+     * @return 机构列表
+     */
+    List<SysOrg> list(Map<String, Object> params);
 
 }

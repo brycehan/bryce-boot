@@ -17,7 +17,6 @@
         <result column="profession" property="profession"/>
         <result column="sort" property="sort"/>
         <result column="org_id" property="orgId"/>
-        <result column="super_admin" property="superAdmin"/>
         <result column="status" property="status"/>
         <result column="remark" property="remark"/>
         <result column="account_non_locked" property="accountNonLocked"/>
@@ -40,37 +39,37 @@
     </sql>
 
     <select id="list" resultType="com.brycehan.boot.system.entity.po.SysUser">
-        select bsu.*
-        from brc_sys_user bsu
-        where bsu.deleted is null
+        select su.*
+        from brc_sys_user su
+        where su.deleted is null
         <if test="username != null and username.trim() != ''">
-            and bsu.username like concat('%', #{username}, '%')
+            and su.username like concat('%', #{username}, '%')
         </if>
         <if test="phone != null and phone.trim() != ''">
-            and bsu.phone like concat('%', #{phone}, '%')
+            and su.phone like concat('%', #{phone}, '%')
         </if>
         <if test="gender != null and gender.trim() != ''">
-            and bsu.gender = #{gender}
+            and su.gender = #{gender}
         </if>
         <if test="type != null">
-            and bsu.type = #{type}
+            and su.type = #{type}
         </if>
         <if test="orgId != null">
-            and bsu.org_id = #{orgId}
+            and su.org_id = #{orgId}
         </if>
         <if test="status != null">
-            and bsu.status = #{status}
+            and su.status = #{status}
         </if>
         <choose>
             <when test="createdTimeStart != null and createdTimeEnd != null">
-                and bsu.created_time <![CDATA[ >= ]]> #{createdTimeStart}
-                and bsu.created_time <![CDATA[ <= ]]> #{createdTimeEnd}
+                and su.created_time <![CDATA[ >= ]]> #{createdTimeStart}
+                and su.created_time <![CDATA[ <= ]]> #{createdTimeEnd}
             </when>
             <when test="createdTimeStart = null and createdTimeEnd != null">
-                and bsu.created_time <![CDATA[ <= ]]> #{createdTimeEnd}
+                and su.created_time <![CDATA[ <= ]]> #{createdTimeEnd}
             </when>
             <when test="createdTimeStart != null and createdTimeEnd = null">
-                and bsu.created_time <![CDATA[ >= ]]> #{createdTimeStart}
+                and su.created_time <![CDATA[ >= ]]> #{createdTimeStart}
             </when>
         </choose>
     </select>

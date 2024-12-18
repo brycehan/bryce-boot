@@ -14,6 +14,7 @@ import com.brycehan.boot.common.util.ExcelUtils;
 import com.brycehan.boot.framework.operatelog.annotation.OperateLog;
 import com.brycehan.boot.framework.operatelog.annotation.OperatedType;
 import com.brycehan.boot.system.entity.dto.*;
+import com.brycehan.boot.system.entity.po.SysUser;
 import com.brycehan.boot.system.entity.vo.SysRoleVo;
 import com.brycehan.boot.system.entity.vo.SysUserVo;
 import com.brycehan.boot.system.service.SysRoleService;
@@ -220,6 +221,8 @@ public class SysUserController {
     @PreAuthorize("@auth.hasAuthority('system:user:update')")
     @PostMapping(path = "/assignRole/{userId}")
     public ResponseResult<Void> assignRoleSave(@PathVariable Long userId, @RequestBody List<Long> roleIds) {
+        this.sysUserService.checkUserDataScope(SysUser.of(userId));
+        this.sysRoleService.checkRoleDataScope(roleIds.toArray(Long[]::new));
         this.sysUserRoleService.assignRoleSave(userId, roleIds);
         return ResponseResult.ok();
     }
@@ -236,6 +239,8 @@ public class SysUserController {
     @PreAuthorize("@auth.hasAuthority('system:user:update')")
     @DeleteMapping(path = "/assignRole/{userId}")
     public ResponseResult<Void> assignRoleDelete(@PathVariable Long userId, @RequestBody List<Long> roleIds) {
+        this.sysUserService.checkUserDataScope(SysUser.of(userId));
+        this.sysRoleService.checkRoleDataScope(roleIds.toArray(Long[]::new));
         this.sysUserRoleService.deleteByUserIdAndRoleIds(userId, roleIds);
         return ResponseResult.ok();
     }

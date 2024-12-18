@@ -8,7 +8,6 @@ import com.brycehan.boot.common.enums.DataScopeType;
 import com.brycehan.boot.common.enums.StatusType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 
 import java.io.Serial;
 import java.util.Optional;
@@ -21,7 +20,6 @@ import java.util.Set;
  * @author Bryce Han
  */
 @Data
-@NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @TableName("brc_sys_role")
 public class SysRole extends BaseEntity {
@@ -42,7 +40,7 @@ public class SysRole extends BaseEntity {
     /**
      * 数据范围（0：全部数据，1：自定义数据，2：本机构及以下机构数据，3：本机构数据，4：本人数据）
      */
-    private DataScopeType dataScopeType;
+    private DataScopeType dataScope;
 
     /**
      * 显示顺序
@@ -71,10 +69,6 @@ public class SysRole extends BaseEntity {
     @TableField(exist = false)
     private Set<String> authoritySet;
 
-    public SysRole(Long id) {
-        super.setId(id);
-    }
-
     /**
      * 是否为超级管理员
      */
@@ -87,5 +81,11 @@ public class SysRole extends BaseEntity {
      */
     public static boolean isSuperAdmin(SysRole sysRole) {
         return Optional.ofNullable(sysRole).map(SysRole::getId).map(id -> id == 1L).orElse(false);
+    }
+
+    public static SysRole of(Long id) {
+        SysRole sysRole = new SysRole();
+        sysRole.setId(id);
+        return sysRole;
     }
 }

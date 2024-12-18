@@ -54,10 +54,4 @@ public abstract class BaseEntity implements Serializable {
      */
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updatedTime;
-
-    /**
-     * 数据范围
-     */
-    @TableField(exist = false)
-    private DataScope dataScope;
 }

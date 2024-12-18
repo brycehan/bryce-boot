@@ -62,7 +62,7 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
         sysRole.setId(IdGenerator.nextId());
 
         // 保存角色
-        sysRole.setDataScopeType(DataScopeType.ALL);
+        sysRole.setDataScope(DataScopeType.ALL);
         this.baseMapper.insert(sysRole);
 
         // 保存角色菜单关系
@@ -87,7 +87,7 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
     @Transactional
     public void delete(IdsDto idsDto) {
         for (Long id : idsDto.getIds()) {
-            checkRoleAllowed(new SysRole(id));
+            checkRoleAllowed(SysRole.of(id));
             checkRoleDataScope(id);
             if (sysUserRoleService.countUserRoleByRoleId(id) > 0) {
                 String roleName = lambdaQuery().select(SysRole::getName).eq(SysRole::getId, id).oneOpt()
@@ -180,11 +180,11 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
         checkRoleAllowed(sysRole);
         checkRoleDataScope(sysRoleOrgDto.getId());
         // 更新角色
-        sysRole.setDataScopeType(sysRoleOrgDto.getDataScopeType());
+        sysRole.setDataScope(sysRoleOrgDto.getDataScope());
         this.baseMapper.updateById(sysRole);
 
         // 更新角色数据范围关系
-        if (sysRoleOrgDto.getDataScopeType() == DataScopeType.CUSTOM) {
+        if (sysRoleOrgDto.getDataScope() == DataScopeType.CUSTOM) {
             this.sysRoleOrgService.saveOrUpdate(sysRoleOrgDto.getId(), sysRoleOrgDto.getOrgIds());
         } else {
             this.sysRoleOrgService.deleteByRoleIds(Collections.singletonList(sysRoleOrgDto.getId()));

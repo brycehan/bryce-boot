@@ -137,7 +137,7 @@ create table brc_sys_role
     id              bigint      not null primary key,
     name            varchar(50) not null,
     code            varchar(50) not null,
-    data_scope_type smallint,
+    data_scope      smallint,
     sort            integer default 0,
     status          smallint default 1,
     remark          varchar(500),
@@ -153,7 +153,7 @@ comment on table brc_sys_role is '系统角色表';
 comment on column brc_sys_role.id is 'ID';
 comment on column brc_sys_role.name is '角色名称';
 comment on column brc_sys_role.code is '角色编码';
-comment on column brc_sys_role.data_scope_type is '数据范围（0：全部数据，1：自定义数据，2：本机构及以下机构数据，3：本机构数据，4：本人数据）';
+comment on column brc_sys_role.data_scope is '数据范围（0：全部数据，1：自定义数据，2：本机构及以下机构数据，3：本机构数据，4：本人数据）';
 comment on column brc_sys_role.sort is '显示顺序';
 comment on column brc_sys_role.status is '状态（0：停用，1：正常）';
 comment on column brc_sys_role.remark is '备注';
@@ -165,8 +165,8 @@ comment on column brc_sys_role.updated_user_id is '修改者ID';
 comment on column brc_sys_role.updated_time is '修改时间';
 
 -- 初始化-系统角色表数据
-INSERT INTO brc_sys_role (id, name, code, data_scope_type, sort, status, remark, org_id, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1, '管理员', 'admin', 1, 0, 1, '管理员', null, null, 1, now(), 1, now());
-INSERT INTO brc_sys_role (id, name, code, data_scope_type, sort, status, remark, org_id, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (2, '默认角色', 'default', 1, 0, 1, '默认角色', null, null, 1, now(), 1, now());
+INSERT INTO brc_sys_role (id, name, code, data_scope, sort, status, remark, org_id, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1, '管理员', 'admin', 1, 0, 1, '管理员', null, null, 1, now(), 1, now());
+INSERT INTO brc_sys_role (id, name, code, data_scope, sort, status, remark, org_id, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (2, '默认角色', 'default', 1, 0, 1, '默认角色', null, null, 1, now(), 1, now());
 
 -- 4、系统用户角色关联表
 create table brc_sys_user_role

@@ -8,7 +8,7 @@ import com.brycehan.boot.common.base.ServerException;
 import com.brycehan.boot.common.constant.ParamConstants;
 import com.brycehan.boot.common.enums.SmsType;
 import com.brycehan.boot.common.util.RegexUtils;
-import com.brycehan.boot.system.entity.vo.SysUserVo;
+import com.brycehan.boot.system.entity.po.SysUser;
 import com.brycehan.boot.system.service.AuthSmsService;
 import com.brycehan.boot.system.service.SysUserService;
 import lombok.RequiredArgsConstructor;
@@ -56,9 +56,9 @@ public class AuthSmsServiceImpl implements AuthSmsService {
             throw new ServerException("手机号码格式错误");
         }
 
-        SysUserVo sysUserVo = this.sysUserService.getByPhone(phone);
+        SysUser sysUser = this.sysUserService.getByPhone(phone);
         if (SmsType.LOGIN.equals(smsType)) {
-            if(sysUserVo == null) {
+            if(sysUser == null) {
                 throw new ServerException("手机号码未注册");
             }
         }

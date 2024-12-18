@@ -75,7 +75,7 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<M, 
 
         Map<DataScopeType, List<RoleVo>> dataScopeMap = loginUser.getRoles().stream()
                 .filter(role -> role.getAuthoritySet().contains(authority))
-                .collect(Collectors.groupingBy(RoleVo::getDataScopeType));
+                .collect(Collectors.groupingBy(RoleVo::getDataScope));
 
         Set<DataScopeType> dataScopes = dataScopeMap.keySet();
 

@@ -79,12 +79,20 @@ public interface SysUserService extends BaseService<SysUser> {
     String saveUsers(List<SysUserExcelDto> list, boolean isUpdateSupport);
 
     /**
+     * 根据账号查询用户
+     *
+     * @param username 账号
+     * @return 系统用户
+     */
+    SysUser getByUsername(String username);
+
+    /**
      * 根据手机号码查询用户
      *
      * @param phone 手机号码
      * @return 系统用户
      */
-    SysUserVo getByPhone(String phone);
+    SysUser getByPhone(String phone);
 
     /**
      * 分配/未分配 给角色的用户分页查询

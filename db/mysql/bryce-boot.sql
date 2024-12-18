@@ -97,7 +97,7 @@ create table brc_sys_role
     id              bigint            primary key comment 'ID',
     name            varchar(50)       not null comment '角色名称',
     code            varchar(50)       not null comment '角色编码',
-    data_scope_type tinyint           null comment '数据范围（0：全部数据，1：自定义数据，2：本机构及以下机构数据，3：本机构数据，4：本人数据）',
+    data_scope      tinyint           null comment '数据范围（0：全部数据，1：自定义数据，2：本机构及以下机构数据，3：本机构数据，4：本人数据）',
     sort            int     default 0 null comment '显示顺序',
     status          tinyint default 1 null comment '状态（0：停用，1：正常）',
     remark          varchar(500)      null comment '备注',
@@ -110,8 +110,8 @@ create table brc_sys_role
 ) engine InnoDB comment '系统角色表';
 
 -- 初始化-系统角色表数据
-INSERT INTO brc_sys_role (id, name, code, data_scope_type, sort, status, remark, org_id, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1, '管理员', 'admin', 0, 0, 1, '管理员', null, null, 1, now(), 1, now());
-INSERT INTO brc_sys_role (id, name, code, data_scope_type, sort, status, remark, org_id, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (2, '默认角色', 'default', 1, 0, 1, '默认角色', null, null, 1, now(), 1, now());
+INSERT INTO brc_sys_role (id, name, code, data_scope, sort, status, remark, org_id, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1, '管理员', 'admin', 0, 0, 1, '管理员', null, null, 1, now(), 1, now());
+INSERT INTO brc_sys_role (id, name, code, data_scope, sort, status, remark, org_id, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (2, '默认角色', 'default', 1, 0, 1, '默认角色', null, null, 1, now(), 1, now());
 
 -- 4、系统用户角色关联表
 create table brc_sys_user_role

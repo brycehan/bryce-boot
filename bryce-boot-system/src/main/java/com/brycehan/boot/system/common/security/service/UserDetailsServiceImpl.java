@@ -4,8 +4,8 @@ import com.brycehan.boot.api.system.SysUserApi;
 import com.brycehan.boot.common.base.LoginUser;
 import com.brycehan.boot.system.entity.convert.SysUserConvert;
 import com.brycehan.boot.system.entity.po.SysUser;
-import com.brycehan.boot.system.mapper.SysUserMapper;
 import com.brycehan.boot.system.service.SysUserDetailsService;
+import com.brycehan.boot.system.service.SysUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,7 +24,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService, SysUserApi {
 
-    private final SysUserMapper sysUserMapper;
+    private final SysUserService sysUserService;
 
     private final SysUserDetailsService sysUserDetailsService;
 
@@ -38,7 +38,7 @@ public class UserDetailsServiceImpl implements UserDetailsService, SysUserApi {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         // 查询用户
-        SysUser sysUser = sysUserMapper.getByUsername(username);
+        SysUser sysUser = sysUserService.getByUsername(username);
 
         if (sysUser == null) {
             log.debug("loadUserByUsername, 登录用户：{}不存在.", username);
@@ -58,7 +58,7 @@ public class UserDetailsServiceImpl implements UserDetailsService, SysUserApi {
     @Override
     public LoginUser loadUserById(Long id) {
         // 查询用户
-        SysUser sysUser = sysUserMapper.selectById(id);
+        SysUser sysUser = sysUserService.getById(id);
 
         if (sysUser == null) {
             log.debug("loadUserById, 登录用户：{}不存在.", id);

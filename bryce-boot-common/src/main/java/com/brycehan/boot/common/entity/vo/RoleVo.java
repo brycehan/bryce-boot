@@ -33,7 +33,7 @@ public class RoleVo {
      * 数据范围
      */
     @Schema(description = "数据范围")
-    private DataScopeType dataScopeType;
+    private DataScopeType dataScope;
 
     /**
      * 菜单权限集合

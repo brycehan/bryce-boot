@@ -13,6 +13,7 @@ import com.brycehan.boot.framework.operatelog.annotation.OperatedType;
 import com.brycehan.boot.system.entity.convert.SysRoleConvert;
 import com.brycehan.boot.system.entity.dto.*;
 import com.brycehan.boot.system.entity.po.SysRole;
+import com.brycehan.boot.system.entity.po.SysUser;
 import com.brycehan.boot.system.entity.vo.SysMenuVo;
 import com.brycehan.boot.system.entity.vo.SysRoleVo;
 import com.brycehan.boot.system.entity.vo.SysUserVo;
@@ -225,6 +226,10 @@ public class SysRoleController {
     @PreAuthorize("@auth.hasAuthority('system:role:update')")
     @PostMapping(path = "/assignUser/{roleId}")
     public ResponseResult<Void> assignUserSave(@PathVariable Long roleId, @RequestBody List<Long> userIds) {
+        userIds.forEach(userId -> {
+            this.sysUserService.checkUserAllowed(SysUser.of(userId));
+            this.sysUserService.checkUserDataScope(SysUser.of(userId));
+        });
         this.sysRoleService.checkRoleDataScope(roleId);
         this.sysUserRoleService.assignUserSave(roleId, userIds);
         return ResponseResult.ok();
@@ -242,6 +247,10 @@ public class SysRoleController {
     @PreAuthorize("@auth.hasAuthority('system:role:update')")
     @DeleteMapping(path = "/assignUser/{roleId}")
     public ResponseResult<Void> assignUserDelete(@PathVariable Long roleId, @RequestBody List<Long> userIds) {
+        userIds.forEach(userId -> {
+            this.sysUserService.checkUserAllowed(SysUser.of(userId));
+            this.sysUserService.checkUserDataScope(SysUser.of(userId));
+        });
         this.sysRoleService.checkRoleDataScope(roleId);
         this.sysUserRoleService.deleteByRoleIdAndUserIds(roleId, userIds);
         return ResponseResult.ok();
