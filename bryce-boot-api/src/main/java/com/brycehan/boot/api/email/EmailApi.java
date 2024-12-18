@@ -38,7 +38,7 @@ public interface EmailApi {
     /**
      * 发送验证码邮件
      *
-     * @param toEmail 收邮件参数
+     * @param toVerifyCodeEmailDto 收邮件参数
      * @param emailType 邮件类型
      */
     @Operation(summary = "发送验证码邮件")

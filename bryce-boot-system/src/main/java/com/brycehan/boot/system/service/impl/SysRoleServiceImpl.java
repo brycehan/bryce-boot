@@ -25,8 +25,8 @@ import com.brycehan.boot.system.entity.dto.*;
 import com.brycehan.boot.system.entity.po.SysRole;
 import com.brycehan.boot.system.entity.vo.SysRoleVo;
 import com.brycehan.boot.system.mapper.SysRoleMapper;
-import com.brycehan.boot.system.service.SysRoleOrgService;
 import com.brycehan.boot.system.service.SysRoleMenuService;
+import com.brycehan.boot.system.service.SysRoleOrgService;
 import com.brycehan.boot.system.service.SysRoleService;
 import com.brycehan.boot.system.service.SysUserRoleService;
 import lombok.RequiredArgsConstructor;
@@ -34,7 +34,6 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -137,17 +136,8 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
 
     @Override
     public void update(Long id, StatusType status) {
-        Assert.notNull(id, "角色ID不能为空");
-        Assert.notNull(status, "角色状态不能为空");
-
-        // 过滤无效的用户
-        Optional<SysRole> sysRole = lambdaQuery().select(SysRole::getId, SysRole::getStatus).eq(SysRole::getId, id).oneOpt();
-        if (sysRole.isEmpty()) {
-            return;
-        }
-
         // 不允许操作超级管理员状态
-        checkRoleAllowed(sysRole.get());
+        checkRoleAllowed(SysRole.of(id));
         checkRoleDataScope(id);
 
         // 更新状态

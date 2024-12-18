@@ -23,7 +23,7 @@ public class XssUtils {
      *
      * @param content 需要过滤的内容
      * @return 过滤后的内容
-     * @see  org.apache.commons.text.StringEscapeUtils#escapeHtml4(String) StringEscapeUtils.escapeHtml4(content) 或者用这个方法转换，而不用过滤
+     * see org.apache.commons.text.StringEscapeUtils#escapeHtml4(String) StringEscapeUtils.escapeHtml4(content) 或者用这个方法转换，而不用过滤
      */
     public static String filter(String content) {
         if(StrUtil.isBlank(content)) {

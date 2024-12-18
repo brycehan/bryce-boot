@@ -10,7 +10,8 @@
         <result column="request_uri" property="requestUri"/>
         <result column="request_method" property="requestMethod"/>
         <result column="request_param" property="requestParam"/>
-        <result column="result_message" property="resultMessage"/>
+        <result column="json_result" property="jsonResult"/>
+        <result column="error_message" property="errorMessage"/>
         <result column="operated_type" property="operatedType"/>
         <result column="operated_time" property="operatedTime"/>
         <result column="duration" property="duration"/>
@@ -18,18 +19,22 @@
         <result column="user_agent" property="userAgent"/>
         <result column="ip" property="ip"/>
         <result column="location" property="location"/>
+        <result column="source_client" property="sourceClient"/>
+        <result column="user_agent" property="userAgent"/>
         <result column="user_id" property="userId"/>
         <result column="username" property="username"/>
         <result column="org_id" property="orgId"/>
+        <result column="org_name" property="orgName"/>
         <result column="created_time" property="createdTime"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, name, module_name, request_uri, request_method,
-        request_param, result_message, operated_type, operated_time, duration, 
-        status, user_agent, ip, location, user_id, 
-        username, org_id, created_time
+        request_param, json_result, error_message, operated_type, operated_time,
+        duration, status, ip, location, source_client,
+        user_agent, user_id, username, org_id, org_name,
+        created_time
     </sql>
 
 </mapper>

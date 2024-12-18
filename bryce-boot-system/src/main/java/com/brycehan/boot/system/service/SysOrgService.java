@@ -1,10 +1,8 @@
 package com.brycehan.boot.system.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.brycehan.boot.common.entity.PageResult;
 import com.brycehan.boot.framework.mybatis.service.BaseService;
 import com.brycehan.boot.system.entity.dto.SysOrgDto;
-import com.brycehan.boot.system.entity.dto.SysOrgPageDto;
 import com.brycehan.boot.system.entity.po.SysOrg;
 import com.brycehan.boot.system.entity.vo.SysOrgVo;
 import org.springframework.util.CollectionUtils;

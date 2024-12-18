@@ -13,7 +13,7 @@ EXPOSE 8090
 ENTRYPOINT java \
 	-server \
 	-Dserver.port=8090 \
-	-Dspring.profiles.active=${spring_profiles_active:-prod} \
+	-Dspring.profiles.active=prod \
 	-Djava.security.egd=file:/dev/./urandom \
 	-Dfile.encoding=UTF-8 \
 	-Duser.timezone=${TZ} \

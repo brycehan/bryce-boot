@@ -11,6 +11,7 @@ import org.apache.ibatis.annotations.Mapper;
  * @since 2023/09/28
  * @author Bryce Han
  */
+@SuppressWarnings("all")
 @Mapper
 public interface SysParamMapper extends BryceBaseMapper<SysParam> {
 

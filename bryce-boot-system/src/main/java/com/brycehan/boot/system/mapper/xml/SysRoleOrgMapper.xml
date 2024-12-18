@@ -20,7 +20,7 @@
         created_user_id, created_time, updated_user_id, updated_time
     </sql>
 
-    <select id="getDataScopeOrgIds" resultType="Long">
+    <select id="getDataScopeOrgIds" resultType="java.lang.Long">
         select sro.org_id
         from brc_sys_user_role sur
         inner join brc_sys_role_org sro on sur.role_id = sro.role_id

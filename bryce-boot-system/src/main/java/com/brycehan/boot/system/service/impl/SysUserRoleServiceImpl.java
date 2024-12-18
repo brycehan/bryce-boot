@@ -10,11 +10,8 @@ import com.brycehan.boot.system.service.SysUserRoleService;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * 系统用户角色关系服务实现
@@ -60,14 +57,6 @@ public class SysUserRoleServiceImpl extends BaseServiceImpl<SysUserRoleMapper, S
     @Override
     @Transactional
     public void assignRoleSave(Long userId, List<Long> roleIds) {
-        Assert.notNull(userId, "用户ID不能为空");
-        Assert.notEmpty(roleIds, "角色IDs不能为空");
-        // 过滤无效参数
-        List<Long> ids = roleIds.stream().filter(Objects::nonNull).toList();
-        if (CollectionUtils.isEmpty(ids)) {
-            return;
-        }
-
         // 过滤已经添加的数据
         LambdaQueryWrapper<SysUserRole> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(SysUserRole::getUserId, userId);
@@ -83,22 +72,13 @@ public class SysUserRoleServiceImpl extends BaseServiceImpl<SysUserRoleMapper, S
                     userRole.setRoleId(roleId);
                     return userRole;
                 }).toList();
-
-        if (CollectionUtils.isNotEmpty(userRoleList)) {
-            // 批量新增
-            saveBatch(userRoleList);
-        }
+        // 批量新增
+        Optional.of(userRoleList).filter(CollectionUtils::isNotEmpty).ifPresent(this::saveBatch);
     }
 
     @Override
     @Transactional
     public void assignUserSave(Long roleId, List<Long> userIds) {
-        // 过滤无效参数
-        List<Long> ids = userIds.stream().filter(Objects::nonNull).toList();
-        if (CollectionUtils.isEmpty(ids)) {
-            return;
-        }
-
         // 过滤已经添加的数据
         LambdaQueryWrapper<SysUserRole> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(SysUserRole::getRoleId, roleId);
@@ -115,10 +95,8 @@ public class SysUserRoleServiceImpl extends BaseServiceImpl<SysUserRoleMapper, S
                     return userRole;
                 }).toList();
 
-        if (CollectionUtils.isNotEmpty(userRoleList)) {
-            // 批量新增
-            saveBatch(userRoleList);
-        }
+        // 批量新增
+        Optional.of(userRoleList).filter(CollUtil::isNotEmpty).ifPresent(this::saveBatch);
     }
 
     @Override
@@ -176,7 +154,7 @@ public class SysUserRoleServiceImpl extends BaseServiceImpl<SysUserRoleMapper, S
      */
     @Override
     public List<Long> getUserIdsByRoleId(Long roleId) {
-        LambdaQueryWrapper<SysUserRole> queryWrapper = new LambdaQueryWrapper<>();
+        var queryWrapper = new LambdaQueryWrapper<SysUserRole>();
         queryWrapper.select(SysUserRole::getUserId);
         queryWrapper.eq(SysUserRole::getRoleId, roleId);
 
