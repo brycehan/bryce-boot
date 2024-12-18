@@ -7,7 +7,6 @@ import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.brycehan.boot.common.base.IdGenerator;
-import com.brycehan.boot.common.base.VersionException;
 import com.brycehan.boot.common.entity.PageResult;
 import com.brycehan.boot.common.entity.dto.IdsDto;
 import com.brycehan.boot.common.enums.StatusType;
@@ -58,12 +57,7 @@ public class SysPostServiceImpl extends BaseServiceImpl<SysPostMapper, SysPost> 
 
     public void update(SysPostDto sysPostDto) {
         SysPost sysPost = SysPostConvert.INSTANCE.convert(sysPostDto);
-
-        // 更新
-        int updated = this.baseMapper.updateById(sysPost);
-        if (updated == 0) {
-            throw new VersionException();
-        }
+        this.baseMapper.updateById(sysPost);
     }
 
     @Override
