@@ -41,14 +41,6 @@ public interface SysRoleService extends BaseService<SysRole> {
     PageResult<SysRoleVo> page(SysRolePageDto sysRolePageDto);
 
     /**
-     * 更新角色状态
-     *
-     * @param id    角色ID
-     * @param status 状态
-     */
-    void update(Long id, StatusType status);
-
-    /**
      * 系统角色导出数据
      *
      * @param sysRolePageDto 系统角色查询条件
@@ -56,19 +48,12 @@ public interface SysRoleService extends BaseService<SysRole> {
     void export(SysRolePageDto sysRolePageDto);
 
     /**
-     * 角色列表查询
+     * 更新角色状态
      *
-     * @param sysRolePageDto 查询参数
-     * @return 角色列表
+     * @param id    角色ID
+     * @param status 状态
      */
-    List<SysRoleVo> list(SysRolePageDto sysRolePageDto);
-
-    /**
-     * 分配数据权限
-     *
-     * @param dataScopeDto 数据范围Dto
-     */
-    void assignDataScope(SysRoleOrgDto dataScopeDto);
+    void updateStatus(Long id, StatusType status);
 
     /**
      * 获取角色名称列表
@@ -85,6 +70,21 @@ public interface SysRoleService extends BaseService<SysRole> {
      * @return 角色集合
      */
     Set<SysRole> getRoleByUserId(Long userId);
+
+    /**
+     * 角色列表查询
+     *
+     * @param sysRolePageDto 查询参数
+     * @return 角色列表
+     */
+    List<SysRoleVo> list(SysRolePageDto sysRolePageDto);
+
+    /**
+     * 分配数据权限
+     *
+     * @param dataScopeDto 数据范围Dto
+     */
+    void assignDataScope(SysRoleOrgDto dataScopeDto);
 
     /**
      * 分配/未分配 给用户的角色分页查询

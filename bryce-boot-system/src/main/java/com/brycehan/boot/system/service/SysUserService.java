@@ -79,30 +79,6 @@ public interface SysUserService extends BaseService<SysUser> {
     String saveUsers(List<SysUserExcelDto> list, boolean isUpdateSupport);
 
     /**
-     * 根据账号查询用户
-     *
-     * @param username 账号
-     * @return 系统用户
-     */
-    SysUser getByUsername(String username);
-
-    /**
-     * 根据手机号码查询用户
-     *
-     * @param phone 手机号码
-     * @return 系统用户
-     */
-    SysUser getByPhone(String phone);
-
-    /**
-     * 分配/未分配 给角色的用户分页查询
-     *
-     * @param pageDto 查询条件
-     * @return 用户分页信息
-     */
-    PageResult<SysUserVo> assignUserPage(SysAssignUserPageDto pageDto);
-
-    /**
      * 注册用户
      *
      * @param sysUser 用户
@@ -110,42 +86,12 @@ public interface SysUserService extends BaseService<SysUser> {
     SysUser registerUser(SysUser sysUser);
 
     /**
-     * 校验用户账号是否唯一
+     * 更新系统用户状态
      *
-     * @param sysUsernameDto 用户账号Dto
-     * @return 结果，true唯一
+     * @param id 系统用户ID
+     * @param status 用户状态
      */
-    boolean checkUsernameUnique(SysUsernameDto sysUsernameDto);
-
-    /**
-     * 校验用户手机号码是否唯一
-     *
-     * @param sysUserPhoneDto 手机号码Dto
-     * @return 结果，true唯一
-     */
-    boolean checkPhoneUnique(SysUserPhoneDto sysUserPhoneDto);
-
-    /**
-     * 校验用户邮箱是否唯一
-     *
-     * @param sysUserEmailDto 用户邮箱Dto
-     * @return 结果，true唯一
-     */
-    boolean checkEmailUnique(SysUserEmailDto sysUserEmailDto);
-
-    /**
-     * 校验用户是否允许操作（admin放行，普通用户不能操作admin账号）
-     *
-     * @param sysUser 系统用户信息
-     */
-    void checkUserAllowed(SysUser sysUser);
-
-    /**
-     * 校验用户数据权限
-     *
-     * @param sysUser 系统用户信息
-     */
-    void checkUserDataScope(SysUser sysUser);
+    void updateStatus(Long id, StatusType status);
 
     /**
      * 更新个人信息
@@ -162,14 +108,6 @@ public interface SysUserService extends BaseService<SysUser> {
     String updateAvatar(MultipartFile file);
 
     /**
-     * 更新系统用户状态
-     *
-     * @param id 系统用户ID
-     * @param status 用户状态
-     */
-    void update(Long id, StatusType status);
-
-    /**
      * 更新密码
      *
      * @param passwordDto 系统用户密码Dto
@@ -182,6 +120,22 @@ public interface SysUserService extends BaseService<SysUser> {
      * @param sysResetPasswordDto 要重置的用户
      */
     void resetPassword(SysResetPasswordDto sysResetPasswordDto);
+
+    /**
+     * 根据账号查询用户
+     *
+     * @param username 账号
+     * @return 系统用户
+     */
+    SysUser getByUsername(String username);
+
+    /**
+     * 根据手机号码查询用户
+     *
+     * @param phone 手机号码
+     * @return 系统用户
+     */
+    SysUser getByPhone(String phone);
 
     /**
      * 获取用户信息
@@ -215,4 +169,49 @@ public interface SysUserService extends BaseService<SysUser> {
         return sysUserList.stream().collect(Collectors.toMap(SysUser::getId, SysUser::getUsername));
     }
 
+    /**
+     * 分配/未分配 给角色的用户分页查询
+     *
+     * @param pageDto 查询条件
+     * @return 用户分页信息
+     */
+    PageResult<SysUserVo> assignUserPage(SysAssignUserPageDto pageDto);
+
+    /**
+     * 校验用户是否允许操作（admin放行，普通用户不能操作admin账号）
+     *
+     * @param sysUser 系统用户信息
+     */
+    void checkUserAllowed(SysUser sysUser);
+
+    /**
+     * 校验用户数据权限
+     *
+     * @param sysUser 系统用户信息
+     */
+    void checkUserDataScope(SysUser sysUser);
+
+    /**
+     * 校验用户账号是否唯一
+     *
+     * @param sysUsernameDto 用户账号Dto
+     * @return 结果，true唯一
+     */
+    boolean checkUsernameUnique(SysUsernameDto sysUsernameDto);
+
+    /**
+     * 校验用户手机号码是否唯一
+     *
+     * @param sysUserPhoneDto 手机号码Dto
+     * @return 结果，true唯一
+     */
+    boolean checkPhoneUnique(SysUserPhoneDto sysUserPhoneDto);
+
+    /**
+     * 校验用户邮箱是否唯一
+     *
+     * @param sysUserEmailDto 用户邮箱Dto
+     * @return 结果，true唯一
+     */
+    boolean checkEmailUnique(SysUserEmailDto sysUserEmailDto);
 }

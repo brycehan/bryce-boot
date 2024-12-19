@@ -323,43 +323,6 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
     }
 
     @Override
-    public SysUser getByUsername(String username) {
-        return this.baseMapper.getByUsername(username);
-    }
-
-    @Override
-    public SysUser getByPhone(String phone) {
-        return this.baseMapper.getByPhone(phone);
-    }
-
-    @Override
-    public PageResult<SysUserVo> assignUserPage(SysAssignUserPageDto sysAssignUserPageDto) {
-        // 指定角色已分配的用户ID列表
-        List<Long> userIds = this.sysUserRoleService.getUserIdsByRoleId(sysAssignUserPageDto.getRoleId());
-
-        LambdaQueryWrapper<SysUser> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.select(SysUser::getId, SysUser::getUsername, SysUser::getNickname, SysUser::getPhone, SysUser::getStatus, SysUser::getCreatedTime);
-
-        if (CollUtil.isEmpty(userIds) && sysAssignUserPageDto.getAssigned() == YesNoType.YES) {
-            return new PageResult<>(0, new ArrayList<>(0));
-        }
-
-        // 已分配/未分配 条件过滤
-        if (sysAssignUserPageDto.getAssigned() == YesNoType.YES) {
-            queryWrapper.in(CollUtil.isNotEmpty(userIds), SysUser::getId, userIds);
-        } else {
-            queryWrapper.notIn(CollUtil.isNotEmpty(userIds), SysUser::getId, userIds);
-        }
-
-        // 数据权限过滤
-        dataScopeWrapper(queryWrapper);
-
-        // 分页查询
-        IPage<SysUser> page = this.page(sysAssignUserPageDto.toPage(), queryWrapper);
-        return new PageResult<>(page.getTotal(), SysUserConvert.INSTANCE.convert(page.getRecords()));
-    }
-
-    @Override
     @Transactional
     public SysUser registerUser(SysUser sysUser) {
         // 校验是否已注册
@@ -388,11 +351,14 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
     }
 
     @Override
-    public void resetPassword(SysResetPasswordDto sysResetPasswordDto) {
-        SysUser sysUser = this.getById(sysResetPasswordDto.getId());
+    public void updateStatus(Long id, StatusType status) {
+        SysUser sysUser = SysUser.of(id);
+
+        // 不允许操作超级管理员状态
         checkUserAllowed(sysUser);
         checkUserDataScope(sysUser);
-        sysUser.setPassword(passwordEncoder.encode(sysResetPasswordDto.getPassword()));
+
+        sysUser.setStatus(status);
         this.updateById(sysUser);
     }
 
@@ -451,18 +417,6 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
     }
 
     @Override
-    public void update(Long id, StatusType status) {
-        SysUser sysUser = SysUser.of(id);
-
-        // 不允许操作超级管理员状态
-        checkUserAllowed(sysUser);
-        checkUserDataScope(sysUser);
-
-        sysUser.setStatus(status);
-        this.updateById(sysUser);
-    }
-
-    @Override
     public void updatePassword(SysUserPasswordDto passwordDto) {
         LoginUser loginUser = LoginUserContext.currentUser();
         assert loginUser != null;
@@ -482,6 +436,25 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         if (!this.updateById(sysUser)) {
             throw new ServerException(UserResponseStatus.USER_PASSWORD_CHANGE_ERROR);
         }
+    }
+
+    @Override
+    public void resetPassword(SysResetPasswordDto sysResetPasswordDto) {
+        SysUser sysUser = this.getById(sysResetPasswordDto.getId());
+        checkUserAllowed(sysUser);
+        checkUserDataScope(sysUser);
+        sysUser.setPassword(passwordEncoder.encode(sysResetPasswordDto.getPassword()));
+        this.updateById(sysUser);
+    }
+
+    @Override
+    public SysUser getByUsername(String username) {
+        return this.baseMapper.getByUsername(username);
+    }
+
+    @Override
+    public SysUser getByPhone(String phone) {
+        return this.baseMapper.getByPhone(phone);
     }
 
     @Override
@@ -523,6 +496,33 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         }
 
         return sysUserInfoVo;
+    }
+
+    @Override
+    public PageResult<SysUserVo> assignUserPage(SysAssignUserPageDto sysAssignUserPageDto) {
+        // 指定角色已分配的用户ID列表
+        List<Long> userIds = this.sysUserRoleService.getUserIdsByRoleId(sysAssignUserPageDto.getRoleId());
+
+        LambdaQueryWrapper<SysUser> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.select(SysUser::getId, SysUser::getUsername, SysUser::getNickname, SysUser::getPhone, SysUser::getStatus, SysUser::getCreatedTime);
+
+        if (CollUtil.isEmpty(userIds) && sysAssignUserPageDto.getAssigned() == YesNoType.YES) {
+            return new PageResult<>(0, new ArrayList<>(0));
+        }
+
+        // 已分配/未分配 条件过滤
+        if (sysAssignUserPageDto.getAssigned() == YesNoType.YES) {
+            queryWrapper.in(CollUtil.isNotEmpty(userIds), SysUser::getId, userIds);
+        } else {
+            queryWrapper.notIn(CollUtil.isNotEmpty(userIds), SysUser::getId, userIds);
+        }
+
+        // 数据权限过滤
+        dataScopeWrapper(queryWrapper);
+
+        // 分页查询
+        IPage<SysUser> page = this.page(sysAssignUserPageDto.toPage(), queryWrapper);
+        return new PageResult<>(page.getTotal(), SysUserConvert.INSTANCE.convert(page.getRecords()));
     }
 
     @Override

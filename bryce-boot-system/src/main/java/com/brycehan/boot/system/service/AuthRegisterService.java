@@ -18,6 +18,13 @@ public interface AuthRegisterService {
     void register(RegisterDto registerDto);
 
     /**
+     * 获取注册开关
+     *
+     * @return 开启标识（true：开启，false：关闭）
+     */
+    boolean registerEnabled();
+
+    /**
      * 校验验证码
      *
      * @param key  唯一标识key
@@ -25,13 +32,6 @@ public interface AuthRegisterService {
      * @return 校验结果（true：正确，false：错误）
      */
     boolean validate(String key, String code);
-
-    /**
-     * 获取注册开关
-     *
-     * @return 开启标识（true：开启，false：关闭）
-     */
-    boolean registerEnabled();
 
     /**
      * 校验用户名是否可注册

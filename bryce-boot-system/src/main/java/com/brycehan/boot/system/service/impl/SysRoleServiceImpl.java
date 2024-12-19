@@ -135,7 +135,15 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
     }
 
     @Override
-    public void update(Long id, StatusType status) {
+    public void export(SysRolePageDto sysRolePageDto) {
+        List<SysRole> sysRoleList = this.baseMapper.selectList(getWrapper(sysRolePageDto));
+        List<SysRoleVo> sysRoleVoList = SysRoleConvert.INSTANCE.convert(sysRoleList);
+        String today = DateUtil.format(new Date(), DatePattern.PURE_DATE_PATTERN);
+        ExcelUtils.export(SysRoleVo.class, "角色数据_"+ today, "角色数据", sysRoleVoList);
+    }
+
+    @Override
+    public void updateStatus(Long id, StatusType status) {
         // 不允许操作超级管理员状态
         checkRoleAllowed(SysRole.of(id));
         checkRoleDataScope(id);
@@ -147,11 +155,17 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
     }
 
     @Override
-    public void export(SysRolePageDto sysRolePageDto) {
-        List<SysRole> sysRoleList = this.baseMapper.selectList(getWrapper(sysRolePageDto));
-        List<SysRoleVo> sysRoleVoList = SysRoleConvert.INSTANCE.convert(sysRoleList);
-        String today = DateUtil.format(new Date(), DatePattern.PURE_DATE_PATTERN);
-        ExcelUtils.export(SysRoleVo.class, "角色数据_"+ today, "角色数据", sysRoleVoList);
+    public List<String> getRoleNameList(List<Long> roleIdList) {
+        if (CollectionUtils.isNotEmpty(roleIdList)) {
+            return this.baseMapper.selectList(new LambdaQueryWrapper<SysRole>().in(SysRole::getId, roleIdList))
+                    .stream().map(SysRole::getName).toList();
+        }
+        return new ArrayList<>();
+    }
+
+    @Override
+    public Set<SysRole> getRoleByUserId(Long userId) {
+        return baseMapper.getRoleByUserId(userId);
     }
 
     @Override
@@ -206,20 +220,6 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
         // 分页查询
         IPage<SysRole> page = this.page(sysAssignRolePageDto.toPage(), queryWrapper);
         return new PageResult<>(page.getTotal(), SysRoleConvert.INSTANCE.convert(page.getRecords()));
-    }
-
-    @Override
-    public List<String> getRoleNameList(List<Long> roleIdList) {
-        if (CollectionUtils.isNotEmpty(roleIdList)) {
-            return this.baseMapper.selectList(new LambdaQueryWrapper<SysRole>().in(SysRole::getId, roleIdList))
-                    .stream().map(SysRole::getName).toList();
-        }
-        return new ArrayList<>();
-    }
-
-    @Override
-    public Set<SysRole> getRoleByUserId(Long userId) {
-        return baseMapper.getRoleByUserId(userId);
     }
 
     @Override

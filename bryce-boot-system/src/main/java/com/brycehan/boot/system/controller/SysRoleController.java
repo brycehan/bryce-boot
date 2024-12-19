@@ -144,7 +144,7 @@ public class SysRoleController {
     @PreAuthorize("@auth.hasAuthority('system:role:update')")
     @PatchMapping(path = "/{id}/{status}")
     public ResponseResult<Void> updateStatus(@PathVariable Long id, @PathVariable StatusType status) {
-        this.sysRoleService.update(id, status);
+        this.sysRoleService.updateStatus(id, status);
         return ResponseResult.ok();
     }
 

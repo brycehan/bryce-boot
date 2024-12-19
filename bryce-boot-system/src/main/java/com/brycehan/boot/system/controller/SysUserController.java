@@ -129,22 +129,6 @@ public class SysUserController {
     }
 
     /**
-     * 更新系统用户状态
-     *
-     * @param id     系统用户ID
-     * @param status 系统用户状态
-     * @return 响应结果
-     */
-    @Operation(summary = "更新系统用户状态")
-    @OperateLog(type = OperatedType.UPDATE)
-    @PreAuthorize("@auth.hasAuthority('system:user:update')")
-    @PatchMapping(path = "/{id}/{status}")
-    public ResponseResult<Void> updateStatus(@PathVariable Long id, @PathVariable StatusType status) {
-        this.sysUserService.update(id, status);
-        return ResponseResult.ok();
-    }
-
-    /**
      * 系统用户导出数据
      *
      * @param sysUserPageDto 查询条件
@@ -180,6 +164,22 @@ public class SysUserController {
     public ResponseResult<String> importByExcel(@RequestParam MultipartFile file, boolean isUpdateSupport) {
         String message = this.sysUserService.importByExcel(file, isUpdateSupport);
         return ResponseResult.ok(null, message);
+    }
+
+    /**
+     * 更新系统用户状态
+     *
+     * @param id     系统用户ID
+     * @param status 系统用户状态
+     * @return 响应结果
+     */
+    @Operation(summary = "更新系统用户状态")
+    @OperateLog(type = OperatedType.UPDATE)
+    @PreAuthorize("@auth.hasAuthority('system:user:update')")
+    @PatchMapping(path = "/{id}/{status}")
+    public ResponseResult<Void> updateStatus(@PathVariable Long id, @PathVariable StatusType status) {
+        this.sysUserService.updateStatus(id, status);
+        return ResponseResult.ok();
     }
 
     /**
