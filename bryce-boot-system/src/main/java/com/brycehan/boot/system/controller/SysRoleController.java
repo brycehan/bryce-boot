@@ -2,6 +2,7 @@ package com.brycehan.boot.system.controller;
 
 import com.brycehan.boot.common.base.LoginUser;
 import com.brycehan.boot.common.base.LoginUserContext;
+import com.brycehan.boot.common.base.validator.NotEmptyElements;
 import com.brycehan.boot.common.entity.PageResult;
 import com.brycehan.boot.common.entity.dto.IdsDto;
 import com.brycehan.boot.common.base.response.ResponseResult;
@@ -35,6 +36,7 @@ import java.util.List;
  * @author Bryce Han
  */
 @Tag(name = "系统角色")
+@Validated
 @RequestMapping("/system/role")
 @RestController
 @RequiredArgsConstructor
@@ -225,7 +227,7 @@ public class SysRoleController {
     @OperateLog(type = OperatedType.INSERT)
     @PreAuthorize("@auth.hasAuthority('system:role:update')")
     @PostMapping(path = "/assignUser/{roleId}")
-    public ResponseResult<Void> assignUserSave(@PathVariable Long roleId, @RequestBody List<Long> userIds) {
+    public ResponseResult<Void> assignUserSave(@PathVariable Long roleId, @RequestBody @NotEmptyElements List<Long> userIds) {
         userIds.forEach(userId -> {
             this.sysUserService.checkUserAllowed(SysUser.of(userId));
             this.sysUserService.checkUserDataScope(SysUser.of(userId));
@@ -246,7 +248,7 @@ public class SysRoleController {
     @OperateLog(type = OperatedType.DELETE)
     @PreAuthorize("@auth.hasAuthority('system:role:update')")
     @DeleteMapping(path = "/assignUser/{roleId}")
-    public ResponseResult<Void> assignUserDelete(@PathVariable Long roleId, @RequestBody List<Long> userIds) {
+    public ResponseResult<Void> assignUserDelete(@PathVariable Long roleId, @RequestBody @NotEmptyElements List<Long> userIds) {
         userIds.forEach(userId -> {
             this.sysUserService.checkUserAllowed(SysUser.of(userId));
             this.sysUserService.checkUserDataScope(SysUser.of(userId));

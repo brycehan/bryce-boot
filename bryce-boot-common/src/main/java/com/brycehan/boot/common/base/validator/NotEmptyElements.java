@@ -14,7 +14,7 @@ import java.lang.annotation.Target;
  * @author Bryce Han
  * @since 2023/5/31
  */
-@Target({ ElementType.FIELD })
+@Target({ ElementType.FIELD, ElementType.PARAMETER })
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = NotEmptyElementsValidator.class)
 public @interface NotEmptyElements {

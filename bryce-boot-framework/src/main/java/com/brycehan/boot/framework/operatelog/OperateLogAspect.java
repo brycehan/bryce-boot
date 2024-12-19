@@ -108,7 +108,6 @@ public class OperateLogAspect {
      * @param result 返回结果
      */
     private void handleLog(JoinPoint joinPoint, OperateLog operateLog, Exception ex, Object result) {
-
         // 校验@OperateLog的使用
         Annotation[] annotations = getClassAnnotations(joinPoint);
         if(Arrays.stream(annotations).noneMatch(annotation ->
@@ -275,6 +274,9 @@ public class OperateLogAspect {
      * @return true需要忽略，否则返回false
      */
     private static boolean ignoreParam(final Object param) {
+        if (param == null) {
+            return false;
+        }
         Class<?> clazz = param.getClass();
 
         // 处理数组

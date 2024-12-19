@@ -90,6 +90,7 @@ public class SysOrgController {
     @PreAuthorize("@auth.hasAuthority('system:org:info')")
     @GetMapping(path = "/{id}")
     public ResponseResult<SysOrgVo> get(@Parameter(description = "系统机构ID", required = true) @PathVariable Long id) {
+        sysOrgService.checkOrgDataScope(id);
         SysOrg sysOrg = this.sysOrgService.getById(id);
         if (sysOrg == null) {
             return ResponseResult.ok();
@@ -99,8 +100,8 @@ public class SysOrgController {
 
         // 获取上级机构名称
         if(sysOrg.getParentId() != 0) {
-            SysOrg parent = this.sysOrgService.getById(sysOrg.getParentId());
-            sysOrgVo.setParentName(parent.getName());
+            String parentName = this.sysOrgService.getOrgNameById(sysOrg.getParentId());
+            sysOrgVo.setParentName(parentName);
         } else {
             sysOrgVo.setParentName("主目类");
         }

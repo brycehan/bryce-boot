@@ -82,4 +82,10 @@ public interface SysOrgService extends BaseService<SysOrg> {
         return sysOrgList.stream().collect(Collectors.toMap(SysOrg::getId, SysOrg::getName));
     }
 
+    /**
+     * 校验机构是否有数据权限
+     *
+     * @param orgId 机构ID
+     */
+    void checkOrgDataScope(Long orgId);
 }
