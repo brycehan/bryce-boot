@@ -144,7 +144,7 @@ public class SysPostController {
     @Operation(summary = "校验岗位编码是否唯一（true：唯一，false：不唯一）")
     @GetMapping(path = "/checkCodeUnique")
     public ResponseResult<Boolean> checkCodeUnique(@Validated SysPostCodeDto sysPostCodeDto) {
-        boolean checked = this.sysPostService.checkCodeUnique(sysPostCodeDto);
+        boolean checked = this.sysPostService.checkPostCodeUnique(sysPostCodeDto);
         return ResponseResult.ok(checked);
     }
 

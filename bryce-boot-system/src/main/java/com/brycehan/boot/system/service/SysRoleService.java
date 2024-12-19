@@ -114,6 +114,6 @@ public interface SysRoleService extends BaseService<SysRole> {
      * @param sysRoleCodeDto 角色编码Dto
      * @return 是否唯一
      */
-    boolean checkCodeUnique(SysRoleCodeDto sysRoleCodeDto);
+    boolean checkRoleCodeUnique(SysRoleCodeDto sysRoleCodeDto);
 
 }

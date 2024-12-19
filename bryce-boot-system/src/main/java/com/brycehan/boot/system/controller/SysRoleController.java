@@ -267,7 +267,7 @@ public class SysRoleController {
     @Operation(summary = "校验角色编码是否唯一（true：唯一，false：不唯一）")
     @GetMapping(path = "/checkCodeUnique")
     public ResponseResult<Boolean> checkCodeUnique(@Validated SysRoleCodeDto sysRoleCodeDto) {
-        boolean checked = this.sysRoleService.checkCodeUnique(sysRoleCodeDto);
+        boolean checked = this.sysRoleService.checkRoleCodeUnique(sysRoleCodeDto);
         return ResponseResult.ok(checked);
     }
 

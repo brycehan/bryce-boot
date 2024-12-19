@@ -120,7 +120,7 @@ public class SysPostServiceImpl extends BaseServiceImpl<SysPostMapper, SysPost> 
     }
 
     @Override
-    public boolean checkCodeUnique(SysPostCodeDto sysPostCodeDto) {
+    public boolean checkPostCodeUnique(SysPostCodeDto sysPostCodeDto) {
         LambdaQueryWrapper<SysPost> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper
                 .select(SysPost::getCode, SysPost::getId)

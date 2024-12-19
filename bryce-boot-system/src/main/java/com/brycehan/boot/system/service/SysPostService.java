@@ -69,6 +69,6 @@ public interface SysPostService extends BaseService<SysPost> {
      * @param sysPostCodeDto 岗位编码Dto
      * @return 是否唯一
      */
-    boolean checkCodeUnique(SysPostCodeDto sysPostCodeDto);
+    boolean checkPostCodeUnique(SysPostCodeDto sysPostCodeDto);
 
 }

@@ -256,7 +256,7 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
     }
 
     @Override
-    public boolean checkCodeUnique(SysRoleCodeDto sysRoleCodeDto) {
+    public boolean checkRoleCodeUnique(SysRoleCodeDto sysRoleCodeDto) {
         LambdaQueryWrapper<SysRole> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper
                 .select(SysRole::getCode, SysRole::getId)
