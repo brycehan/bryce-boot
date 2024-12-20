@@ -1,6 +1,7 @@
 package com.brycehan.boot.system.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.convert.Convert;
 import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.ArrayUtil;
@@ -36,7 +37,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * 系统角色表服务实现类
@@ -242,15 +242,14 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
         } else {
             queryWrapper.in(SysRole::getId, Arrays.asList(roleIds));
         }
-        dataScopeWrapper(queryWrapper);
-        List<SysRole> sysRoles = baseMapper.selectList(queryWrapper);
 
-        if (CollUtil.isNotEmpty(sysRoles)) {
-            Set<Long> roleIdSet = sysRoles.stream().map(SysRole::getId).collect(Collectors.toSet());
-            for (Long roleId : roleIds) {
-                if (!roleIdSet.contains(roleId)) {
-                    throw new RuntimeException("没有权限访问角色数据");
-                }
+        // 数据权限过滤
+        dataScopeWrapper(queryWrapper);
+
+        List<Long> roleIdList = this.listObjs(queryWrapper, Convert::toLong);
+        for (Long roleId : roleIds) {
+            if (!roleIdList.contains(roleId)) {
+                throw new RuntimeException("没有权限访问角色数据");
             }
         }
     }
@@ -259,7 +258,7 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
     public boolean checkRoleCodeUnique(SysRoleCodeDto sysRoleCodeDto) {
         LambdaQueryWrapper<SysRole> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper
-                .select(SysRole::getCode, SysRole::getId)
+                .select(SysRole::getId)
                 .eq(SysRole::getCode, sysRoleCodeDto.getCode());
         SysRole sysRole = this.baseMapper.selectOne(queryWrapper, false);
 

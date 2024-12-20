@@ -92,21 +92,7 @@ public class SysOrgController {
     public ResponseResult<SysOrgVo> get(@Parameter(description = "系统机构ID", required = true) @PathVariable Long id) {
         sysOrgService.checkOrgDataScope(id);
         SysOrg sysOrg = this.sysOrgService.getById(id);
-        if (sysOrg == null) {
-            return ResponseResult.ok();
-        }
-
-        SysOrgVo sysOrgVo = SysOrgConvert.INSTANCE.convert(sysOrg);
-
-        // 获取上级机构名称
-        if(sysOrg.getParentId() != 0) {
-            String parentName = this.sysOrgService.getOrgNameById(sysOrg.getParentId());
-            sysOrgVo.setParentName(parentName);
-        } else {
-            sysOrgVo.setParentName("主目类");
-        }
-
-        return ResponseResult.ok(sysOrgVo);
+        return ResponseResult.ok(SysOrgConvert.INSTANCE.convert(sysOrg));
     }
 
     /**
