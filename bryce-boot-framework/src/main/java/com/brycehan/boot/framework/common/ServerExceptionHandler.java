@@ -9,10 +9,14 @@ import com.brycehan.boot.common.base.response.UserResponseStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.ElementKind;
+import jakarta.validation.Path;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.error.WxError;
 import me.chanjar.weixin.common.error.WxErrorException;
 import org.hibernate.validator.internal.engine.ConstraintViolationImpl;
+import org.hibernate.validator.internal.engine.path.NodeImpl;
+import org.hibernate.validator.internal.engine.path.PathImpl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.security.access.AccessDeniedException;
@@ -29,10 +33,11 @@ import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -152,6 +157,49 @@ public class ServerExceptionHandler {
     }
 
     /**
+     * 约束违反异常处理
+     *
+     * @param e 约束违反异常
+     * @return 响应结果
+     */
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseResult<Void> handleException(ConstraintViolationException e) {
+        String message = e.getConstraintViolations().stream()
+                .map(violation -> getFieldCNName(violation) + violation.getMessage())
+                .collect(Collectors.joining(","));
+        log.error("数据校验异常，{}", e.getMessage());
+        return ResponseResult.error(HttpResponseStatus.HTTP_BAD_REQUEST.code(), message);
+    }
+
+    /**
+     * 获取实体字段校验不通过异常字段的中文名
+     *
+     * @param violation 校验错误
+     * @return 字段中文名
+     */
+    private static String getFieldCNName(ConstraintViolation<?> violation) {
+        Class<?> rootBeanClass = violation.getRootBeanClass();
+        Path propertyPath = violation.getPropertyPath();
+        PathImpl pathImpl =(PathImpl) propertyPath;
+        NodeImpl leafNode = pathImpl.getLeafNode();
+        NodeImpl parentNode = leafNode.getParent();
+        if (leafNode.getKind() == ElementKind.PARAMETER && parentNode.getKind() == ElementKind.METHOD) {
+            // 校验失败的方法名称
+            String methodName = parentNode.getName();
+            // 校验失败的参数名称
+            String parameterName = leafNode.getName();
+            // 获取校验失败的方法
+            Method errorMethod = ReflectUtil.getMethod(rootBeanClass, methodName, parentNode.getParameterTypes().toArray(Class[]::new));
+            Parameter[] parameters = errorMethod.getParameters();
+            // 获取校验失败的参数的中文注释
+            return Arrays.stream(parameters).filter(parameter -> parameter.getName().equals(parameterName)).findFirst()
+                    .map(parameter -> parameter.getAnnotation(io.swagger.v3.oas.annotations.Parameter.class))
+                    .map(io.swagger.v3.oas.annotations.Parameter::description).orElse("");
+        }
+        return "";
+    }
+
+    /**
      * 内部认证服务异常处理
      *
      * @param e 内部认证服务异常
@@ -161,22 +209,6 @@ public class ServerExceptionHandler {
     public ResponseResult<Void> handleException(InternalAuthenticationServiceException e) {
         log.error("账号与密码不匹配，{}", e.getMessage());
         return ResponseResult.error(UserResponseStatus.USER_USERNAME_OR_PASSWORD_ERROR.code(), e.getMessage());
-    }
-
-    /**
-     * 约束违反异常处理
-     *
-     * @param e 约束违反异常
-     * @return 响应结果
-     */
-    @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseResult<Void> handleException(ConstraintViolationException e) {
-        Set<ConstraintViolation<?>> violations = e.getConstraintViolations();
-        String message = violations.stream()
-                .map(ConstraintViolation::getMessage)
-                .collect(Collectors.joining(","));
-        log.error("数据校验异常，{}", e.getMessage());
-        return ResponseResult.error(HttpResponseStatus.HTTP_BAD_REQUEST.code(), message);
     }
 
     /**

@@ -2,12 +2,12 @@ package com.brycehan.boot.system.controller;
 
 import com.brycehan.boot.common.base.LoginUser;
 import com.brycehan.boot.common.base.LoginUserContext;
-import com.brycehan.boot.common.base.validator.NotEmptyElements;
-import com.brycehan.boot.common.entity.PageResult;
-import com.brycehan.boot.common.entity.dto.IdsDto;
 import com.brycehan.boot.common.base.response.ResponseResult;
+import com.brycehan.boot.common.base.validator.NotEmptyElements;
 import com.brycehan.boot.common.base.validator.SaveGroup;
 import com.brycehan.boot.common.base.validator.UpdateGroup;
+import com.brycehan.boot.common.entity.PageResult;
+import com.brycehan.boot.common.entity.dto.IdsDto;
 import com.brycehan.boot.common.enums.StatusType;
 import com.brycehan.boot.framework.operatelog.annotation.OperateLog;
 import com.brycehan.boot.framework.operatelog.annotation.OperatedType;
@@ -227,7 +227,7 @@ public class SysRoleController {
     @OperateLog(type = OperatedType.INSERT)
     @PreAuthorize("@auth.hasAuthority('system:role:update')")
     @PostMapping(path = "/assignUser/{roleId}")
-    public ResponseResult<Void> assignUserSave(@PathVariable Long roleId, @RequestBody @NotEmptyElements List<Long> userIds) {
+    public ResponseResult<Void> assignUserSave(@PathVariable Long roleId, @RequestBody @Parameter(description = "用户ID集合") @NotEmptyElements List<Long> userIds) {
         userIds.forEach(userId -> {
             this.sysUserService.checkUserAllowed(SysUser.of(userId));
             this.sysUserService.checkUserDataScope(SysUser.of(userId));
@@ -248,7 +248,7 @@ public class SysRoleController {
     @OperateLog(type = OperatedType.DELETE)
     @PreAuthorize("@auth.hasAuthority('system:role:update')")
     @DeleteMapping(path = "/assignUser/{roleId}")
-    public ResponseResult<Void> assignUserDelete(@PathVariable Long roleId, @RequestBody @NotEmptyElements List<Long> userIds) {
+    public ResponseResult<Void> assignUserDelete(@PathVariable Long roleId, @RequestBody @Parameter(description = "用户ID集合") @NotEmptyElements List<Long> userIds) {
         userIds.forEach(userId -> {
             this.sysUserService.checkUserAllowed(SysUser.of(userId));
             this.sysUserService.checkUserDataScope(SysUser.of(userId));
