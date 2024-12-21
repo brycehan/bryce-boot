@@ -3,7 +3,6 @@ package com.brycehan.boot.system.entity.dto;
 import com.brycehan.boot.common.entity.BaseDto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -23,7 +22,7 @@ public class SysUserAvatarDto extends BaseDto {
      */
     @Schema(description = "头像地址")
     @NotEmpty
-    @Size(max = 200)
+    @Length(max = 200)
     private String avatar;
 
 }

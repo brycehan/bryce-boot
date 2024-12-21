@@ -3,9 +3,9 @@ package com.brycehan.boot.quartz.entity.dto;
 import com.brycehan.boot.common.entity.BasePageDto;
 import com.brycehan.boot.quartz.common.JobGroup;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.validator.constraints.Length;
 
 import java.io.Serial;
 
@@ -27,7 +27,7 @@ public class QuartzJobLogPageDto extends BasePageDto {
      * 任务名称
      */
     @Schema(description = "任务名称")
-    @Size(max = 50)
+    @Length(max = 50)
     private String jobName;
 
     /**

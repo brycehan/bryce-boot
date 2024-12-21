@@ -1,11 +1,10 @@
 package com.brycehan.boot.system.entity.dto;
 
-import com.brycehan.boot.common.entity.BaseDto;
-import com.brycehan.boot.common.enums.StatusType;
 import com.brycehan.boot.common.base.validator.SaveGroup;
 import com.brycehan.boot.common.base.validator.UpdateGroup;
+import com.brycehan.boot.common.entity.BaseDto;
+import com.brycehan.boot.common.enums.StatusType;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -30,14 +29,14 @@ public class SysDictDataDto extends BaseDto {
      * 字典标签
      */
     @Schema(description = "字典标签")
-    @Size(max = 100, groups = {SaveGroup.class, UpdateGroup.class})
+    @Length(max = 100, groups = {SaveGroup.class, UpdateGroup.class})
     private String dictLabel;
 
     /**
      * 字典值
      */
     @Schema(description = "字典值")
-    @Size(max = 100, groups = {SaveGroup.class, UpdateGroup.class})
+    @Length(max = 100, groups = {SaveGroup.class, UpdateGroup.class})
     private String dictValue;
 
     /**
@@ -50,7 +49,7 @@ public class SysDictDataDto extends BaseDto {
      * 标签属性
      */
     @Schema(description = "标签属性")
-    @Size(max = 100, groups = {SaveGroup.class, UpdateGroup.class})
+    @Length(max = 100, groups = {SaveGroup.class, UpdateGroup.class})
     private String labelClass;
 
     /**
@@ -69,7 +68,7 @@ public class SysDictDataDto extends BaseDto {
      * 备注
      */
     @Schema(description = "备注")
-    @Size(max = 500, groups = {SaveGroup.class, UpdateGroup.class})
+    @Length(max = 500, groups = {SaveGroup.class, UpdateGroup.class})
     private String remark;
 
 }

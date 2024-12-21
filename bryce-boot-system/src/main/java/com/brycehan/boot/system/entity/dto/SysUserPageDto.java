@@ -1,10 +1,9 @@
 package com.brycehan.boot.system.entity.dto;
 
-import com.brycehan.boot.common.enums.GenderType;
 import com.brycehan.boot.common.entity.BasePageDto;
+import com.brycehan.boot.common.enums.GenderType;
 import com.brycehan.boot.common.enums.StatusType;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -29,7 +28,7 @@ public class SysUserPageDto extends BasePageDto {
      * 账号
      */
     @Schema(description = "账号")
-    @Size(max = 50)
+    @Length(max = 50)
     private String username;
 
     /**
@@ -48,7 +47,7 @@ public class SysUserPageDto extends BasePageDto {
      * 手机号码
      */
     @Schema(description = "手机号码")
-    @Size(max = 20)
+    @Length(max = 20)
     private String phone;
 
     /**

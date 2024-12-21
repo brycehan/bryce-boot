@@ -3,9 +3,9 @@ package com.brycehan.boot.system.entity.dto;
 import com.brycehan.boot.common.entity.BasePageDto;
 import com.brycehan.boot.common.enums.ParamType;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.validator.constraints.Length;
 
 import java.io.Serial;
 import java.time.LocalDateTime;
@@ -28,14 +28,14 @@ public class SysParamPageDto extends BasePageDto {
      * 参数名称
      */
     @Schema(description = "参数名称")
-    @Size(max = 100)
+    @Length(max = 100)
     private String paramName;
 
     /**
      * 参数键名
      */
     @Schema(description = "参数键名")
-    @Size(max = 100)
+    @Length(max = 100)
     private String paramKey;
 
     /**

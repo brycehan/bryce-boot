@@ -1,12 +1,12 @@
 package com.brycehan.boot.common.entity.dto;
 
-import com.brycehan.boot.common.enums.GenderType;
 import com.brycehan.boot.common.entity.BaseDto;
+import com.brycehan.boot.common.enums.GenderType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.validator.constraints.Length;
 
 import java.time.LocalDate;
 
@@ -25,7 +25,7 @@ public class ProfileDto extends BaseDto {
      * 用户昵称
      */
     @NotNull
-    @Size(min = 2, max = 50)
+    @Length(min = 2, max = 50)
     @Schema(description = "用户昵称")
     private String nickname;
 
@@ -33,7 +33,7 @@ public class ProfileDto extends BaseDto {
      * 手机号码
      */
     @NotNull
-    @Size(max = 20)
+    @Length(max = 20)
     @Schema(description = "手机号码")
     private String phone;
 
@@ -41,7 +41,7 @@ public class ProfileDto extends BaseDto {
      * 邮箱
      */
     @NotNull
-    @Size(max = 50)
+    @Length(max = 50)
     @Schema(description = "邮箱")
     private String email;
 

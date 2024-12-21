@@ -1,13 +1,13 @@
 package com.brycehan.boot.system.entity.dto;
 
-import com.brycehan.boot.common.entity.BaseDto;
-import com.brycehan.boot.common.enums.ParamType;
 import com.brycehan.boot.common.base.validator.SaveGroup;
 import com.brycehan.boot.common.base.validator.UpdateGroup;
+import com.brycehan.boot.common.entity.BaseDto;
+import com.brycehan.boot.common.enums.ParamType;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.validator.constraints.Length;
 
 /**
  * 系统参数Dto
@@ -30,21 +30,21 @@ public class SysParamDto extends BaseDto {
      * 参数名称
      */
     @Schema(description = "参数名称")
-    @Size(max = 100, groups = {SaveGroup.class, UpdateGroup.class})
+    @Length(max = 100, groups = {SaveGroup.class, UpdateGroup.class})
     private String paramName;
 
     /**
      * 参数键名
      */
     @Schema(description = "参数键名")
-    @Size(max = 100, groups = {SaveGroup.class, UpdateGroup.class})
+    @Length(max = 100, groups = {SaveGroup.class, UpdateGroup.class})
     private String paramKey;
 
     /**
      * 参数值
      */
     @Schema(description = "参数值")
-    @Size(max = 65535, groups = {SaveGroup.class, UpdateGroup.class})
+    @Length(max = 65535, groups = {SaveGroup.class, UpdateGroup.class})
     private String paramValue;
 
     /**
@@ -57,7 +57,7 @@ public class SysParamDto extends BaseDto {
      * 备注
      */
     @Schema(description = "备注")
-    @Size(max = 500, groups = {SaveGroup.class, UpdateGroup.class})
+    @Length(max = 500, groups = {SaveGroup.class, UpdateGroup.class})
     private String remark;
 
 }

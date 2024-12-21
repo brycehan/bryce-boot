@@ -1,14 +1,14 @@
 package com.brycehan.boot.system.entity.dto;
 
+import com.brycehan.boot.common.base.validator.SaveGroup;
+import com.brycehan.boot.common.base.validator.UpdateGroup;
 import com.brycehan.boot.common.entity.BaseDto;
 import com.brycehan.boot.common.enums.NoticeType;
 import com.brycehan.boot.common.enums.StatusType;
-import com.brycehan.boot.common.base.validator.SaveGroup;
-import com.brycehan.boot.common.base.validator.UpdateGroup;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.validator.constraints.Length;
 
 /**
  * 系统通知公告Dto
@@ -31,7 +31,7 @@ public class SysNoticeDto extends BaseDto {
      * 标题
      */
     @Schema(description = "标题")
-    @Size(max = 50, groups = {SaveGroup.class, UpdateGroup.class})
+    @Length(max = 50, groups = {SaveGroup.class, UpdateGroup.class})
     private String title;
 
     /**
@@ -56,7 +56,7 @@ public class SysNoticeDto extends BaseDto {
      * 备注
      */
     @Schema(description = "备注")
-    @Size(max = 500, groups = {SaveGroup.class, UpdateGroup.class})
+    @Length(max = 500, groups = {SaveGroup.class, UpdateGroup.class})
     private String remark;
 
 }

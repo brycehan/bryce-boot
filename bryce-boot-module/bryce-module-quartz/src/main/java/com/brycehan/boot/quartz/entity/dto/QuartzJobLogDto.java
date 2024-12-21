@@ -1,16 +1,16 @@
 package com.brycehan.boot.quartz.entity.dto;
 
-import com.brycehan.boot.common.entity.BaseDto;
-import com.brycehan.boot.common.enums.OperateStatus;
 import com.brycehan.boot.common.base.validator.SaveGroup;
 import com.brycehan.boot.common.base.validator.UpdateGroup;
+import com.brycehan.boot.common.entity.BaseDto;
+import com.brycehan.boot.common.enums.OperateStatus;
 import com.brycehan.boot.quartz.common.JobGroup;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Null;
-import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.validator.constraints.Length;
 
 import java.time.LocalDateTime;
 
@@ -43,7 +43,7 @@ public class QuartzJobLogDto extends BaseDto {
      * 任务名称
      */
     @Schema(description = "任务名称")
-    @Size(max = 50, groups = {SaveGroup.class, UpdateGroup.class})
+    @Length(max = 50, groups = {SaveGroup.class, UpdateGroup.class})
     private String jobName;
 
     /**
@@ -56,21 +56,21 @@ public class QuartzJobLogDto extends BaseDto {
      * Spring Bean 名称
      */
     @Schema(description = "Spring Bean 名称")
-    @Size(max = 200, groups = {SaveGroup.class, UpdateGroup.class})
+    @Length(max = 200, groups = {SaveGroup.class, UpdateGroup.class})
     private String beanName;
 
     /**
      * 执行方法
      */
     @Schema(description = "执行方法")
-    @Size(max = 100, groups = {SaveGroup.class, UpdateGroup.class})
+    @Length(max = 100, groups = {SaveGroup.class, UpdateGroup.class})
     private String method;
 
     /**
      * 参数
      */
     @Schema(description = "参数")
-    @Size(max = 500, groups = {SaveGroup.class, UpdateGroup.class})
+    @Length(max = 500, groups = {SaveGroup.class, UpdateGroup.class})
     private String params;
 
     /**
@@ -89,7 +89,7 @@ public class QuartzJobLogDto extends BaseDto {
      * 异常信息
      */
     @Schema(description = "异常信息")
-    @Size(max = 3000, groups = {SaveGroup.class, UpdateGroup.class})
+    @Length(max = 3000, groups = {SaveGroup.class, UpdateGroup.class})
     private String errorInfo;
 
     /**

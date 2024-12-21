@@ -1,10 +1,10 @@
 package com.brycehan.boot.system.controller;
 
-import com.brycehan.boot.common.entity.PageResult;
-import com.brycehan.boot.common.entity.dto.IdsDto;
 import com.brycehan.boot.common.base.response.ResponseResult;
 import com.brycehan.boot.common.base.validator.SaveGroup;
 import com.brycehan.boot.common.base.validator.UpdateGroup;
+import com.brycehan.boot.common.entity.PageResult;
+import com.brycehan.boot.common.entity.dto.IdsDto;
 import com.brycehan.boot.framework.operatelog.annotation.OperateLog;
 import com.brycehan.boot.framework.operatelog.annotation.OperatedType;
 import com.brycehan.boot.system.entity.convert.SysDictTypeConvert;

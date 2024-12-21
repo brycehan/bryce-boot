@@ -1,14 +1,13 @@
 package com.brycehan.boot.system.entity.dto;
 
-import com.brycehan.boot.common.enums.GenderType;
-import com.brycehan.boot.common.entity.BaseDto;
-import com.brycehan.boot.common.enums.StatusType;
 import com.brycehan.boot.common.base.validator.SaveGroup;
 import com.brycehan.boot.common.base.validator.UpdateGroup;
+import com.brycehan.boot.common.entity.BaseDto;
+import com.brycehan.boot.common.enums.GenderType;
+import com.brycehan.boot.common.enums.StatusType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Length;
@@ -37,7 +36,7 @@ public class SysUserDto extends BaseDto {
      * 账号
      */
     @Schema(description = "账号")
-    @Size(max = 50, groups = {SaveGroup.class, UpdateGroup.class})
+    @Length(max = 50, groups = {SaveGroup.class, UpdateGroup.class})
     private String username;
 
     /**
@@ -53,14 +52,14 @@ public class SysUserDto extends BaseDto {
      * 姓名
      */
     @Schema(description = "姓名")
-    @Size(max = 50, groups = {SaveGroup.class, UpdateGroup.class})
+    @Length(max = 50, groups = {SaveGroup.class, UpdateGroup.class})
     private String nickname;
 
     /**
      * 头像地址
      */
     @Schema(description = "头像地址")
-    @Size(max = 100, groups = {SaveGroup.class, UpdateGroup.class})
+    @Length(max = 100, groups = {SaveGroup.class, UpdateGroup.class})
     private String avatar;
 
     /**
@@ -79,7 +78,7 @@ public class SysUserDto extends BaseDto {
      * 手机号码
      */
     @Schema(description = "手机号码")
-    @Size(max = 20, groups = {SaveGroup.class, UpdateGroup.class})
+    @Length(max = 20, groups = {SaveGroup.class, UpdateGroup.class})
     private String phone;
 
     /**
@@ -87,7 +86,7 @@ public class SysUserDto extends BaseDto {
      */
     @Schema(description = "邮箱")
     @Email
-    @Size(max = 50, groups = {SaveGroup.class, UpdateGroup.class})
+    @Length(max = 50, groups = {SaveGroup.class, UpdateGroup.class})
     private String email;
 
     /**
@@ -112,7 +111,7 @@ public class SysUserDto extends BaseDto {
      * 备注
      */
     @Schema(description = "备注")
-    @Size(max = 500, groups = {SaveGroup.class, UpdateGroup.class})
+    @Length(max = 500, groups = {SaveGroup.class, UpdateGroup.class})
     private String remark;
 
     /**
@@ -125,7 +124,7 @@ public class SysUserDto extends BaseDto {
      * 最后登录IP
      */
     @Schema(description = "最后登录IP")
-    @Size(max = 128, groups = {SaveGroup.class, UpdateGroup.class})
+    @Length(max = 128, groups = {SaveGroup.class, UpdateGroup.class})
     private String lastLoginIp;
 
     /**

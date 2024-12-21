@@ -3,9 +3,9 @@ package com.brycehan.boot.system.entity.dto;
 import com.brycehan.boot.common.entity.BasePageDto;
 import com.brycehan.boot.common.enums.OperateStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.validator.constraints.Length;
 
 import java.io.Serial;
 import java.time.LocalDateTime;
@@ -28,21 +28,21 @@ public class SysOperateLogPageDto extends BasePageDto {
      * 操作名称
      */
     @Schema(description = "操作名称")
-    @Size(max = 50)
+    @Length(max = 50)
     private String name;
 
     /**
      * 模块名
      */
     @Schema(description = "模块名")
-    @Size(max = 50)
+    @Length(max = 50)
     private String moduleName;
 
     /**
      * 请求URI
      */
     @Schema(description = "请求URI")
-    @Size(max = 2048)
+    @Length(max = 2048)
     private String requestUri;
 
     /**
@@ -55,7 +55,7 @@ public class SysOperateLogPageDto extends BasePageDto {
      * 操作人账号
      */
     @Schema(description = "操作人账号")
-    @Size(max = 50)
+    @Length(max = 50)
     private String username;
 
     /**

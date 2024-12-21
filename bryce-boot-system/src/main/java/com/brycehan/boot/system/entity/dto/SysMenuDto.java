@@ -1,16 +1,16 @@
 package com.brycehan.boot.system.entity.dto;
 
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.brycehan.boot.common.entity.BaseDto;
-import com.brycehan.boot.common.enums.StatusType;
 import com.brycehan.boot.common.base.validator.SaveGroup;
 import com.brycehan.boot.common.base.validator.UpdateGroup;
+import com.brycehan.boot.common.entity.BaseDto;
+import com.brycehan.boot.common.enums.StatusType;
 import com.brycehan.boot.common.enums.VisibleType;
 import com.brycehan.boot.system.common.MenuType;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.validator.constraints.Length;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +36,7 @@ public class SysMenuDto extends BaseDto {
      * 菜单名称
      */
     @Schema(description = "菜单名称")
-    @Size(max = 50, groups = {SaveGroup.class, UpdateGroup.class})
+    @Length(max = 50, groups = {SaveGroup.class, UpdateGroup.class})
     private String name;
 
     /**
@@ -55,21 +55,21 @@ public class SysMenuDto extends BaseDto {
      * 组件路径
      */
     @Schema(description = "组件路径")
-    @Size(max = 255, groups = {SaveGroup.class, UpdateGroup.class})
+    @Length(max = 255, groups = {SaveGroup.class, UpdateGroup.class})
     private String url;
 
     /**
      * 权限标识
      */
     @Schema(description = "权限标识")
-    @Size(max = 100, groups = {SaveGroup.class, UpdateGroup.class})
+    @Length(max = 100, groups = {SaveGroup.class, UpdateGroup.class})
     private String authority;
 
     /**
      * 菜单图标
      */
     @Schema(description = "菜单图标")
-    @Size(max = 100, groups = {SaveGroup.class, UpdateGroup.class})
+    @Length(max = 100, groups = {SaveGroup.class, UpdateGroup.class})
     private String icon;
 
     /**
@@ -88,7 +88,7 @@ public class SysMenuDto extends BaseDto {
      * 备注
      */
     @Schema(description = "备注")
-    @Size(max = 500, groups = {SaveGroup.class, UpdateGroup.class})
+    @Length(max = 500, groups = {SaveGroup.class, UpdateGroup.class})
     private String remark;
 
     /**

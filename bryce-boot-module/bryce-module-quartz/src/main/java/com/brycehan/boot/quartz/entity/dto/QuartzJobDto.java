@@ -1,15 +1,15 @@
 package com.brycehan.boot.quartz.entity.dto;
 
-import com.brycehan.boot.common.entity.BaseDto;
 import com.brycehan.boot.common.base.validator.SaveGroup;
 import com.brycehan.boot.common.base.validator.UpdateGroup;
+import com.brycehan.boot.common.entity.BaseDto;
 import com.brycehan.boot.common.enums.YesNoType;
 import com.brycehan.boot.quartz.common.JobGroup;
 import com.brycehan.boot.quartz.common.JobStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.validator.constraints.Length;
 
 /**
  * quartz定时任务调度Dto
@@ -32,7 +32,7 @@ public class QuartzJobDto extends BaseDto {
      * 任务名称
      */
     @Schema(description = "任务名称")
-    @Size(max = 50, groups = {SaveGroup.class, UpdateGroup.class})
+    @Length(max = 50, groups = {SaveGroup.class, UpdateGroup.class})
     private String jobName;
 
     /**
@@ -45,28 +45,28 @@ public class QuartzJobDto extends BaseDto {
      * Spring Bean 名称
      */
     @Schema(description = "Spring Bean 名称")
-    @Size(max = 200, groups = {SaveGroup.class, UpdateGroup.class})
+    @Length(max = 200, groups = {SaveGroup.class, UpdateGroup.class})
     private String beanName;
 
     /**
      * 执行方法
      */
     @Schema(description = "执行方法")
-    @Size(max = 100, groups = {SaveGroup.class, UpdateGroup.class})
+    @Length(max = 100, groups = {SaveGroup.class, UpdateGroup.class})
     private String method;
 
     /**
      * 参数
      */
     @Schema(description = "参数")
-    @Size(max = 2000, groups = {SaveGroup.class, UpdateGroup.class})
+    @Length(max = 2000, groups = {SaveGroup.class, UpdateGroup.class})
     private String params;
 
     /**
      * cron 表达式
      */
     @Schema(description = "cron 表达式")
-    @Size(max = 255, groups = {SaveGroup.class, UpdateGroup.class})
+    @Length(max = 255, groups = {SaveGroup.class, UpdateGroup.class})
     private String cronExpression;
 
     /**
@@ -91,7 +91,7 @@ public class QuartzJobDto extends BaseDto {
      * 备注
      */
     @Schema(description = "备注")
-    @Size(max = 500, groups = {SaveGroup.class, UpdateGroup.class})
+    @Length(max = 500, groups = {SaveGroup.class, UpdateGroup.class})
     private String remark;
 
 }

@@ -4,8 +4,8 @@ import cn.hutool.http.useragent.UserAgent;
 import cn.hutool.http.useragent.UserAgentUtil;
 import com.brycehan.boot.common.base.LoginUser;
 import com.brycehan.boot.common.base.ServerException;
-import com.brycehan.boot.common.enums.StatusType;
 import com.brycehan.boot.common.base.response.UserResponseStatus;
+import com.brycehan.boot.common.enums.StatusType;
 import com.brycehan.boot.common.util.IpUtils;
 import com.brycehan.boot.common.util.LocationUtils;
 import com.brycehan.boot.common.util.ServletUtils;
@@ -21,7 +21,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * 系统用户详情服务实现

@@ -3,9 +3,9 @@ package com.brycehan.boot.system.entity.dto;
 import com.brycehan.boot.common.entity.BasePageDto;
 import com.brycehan.boot.common.enums.OperateStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.validator.constraints.Length;
 
 import java.io.Serial;
 import java.time.LocalDateTime;
@@ -28,14 +28,14 @@ public class SysLoginLogPageDto extends BasePageDto {
      * 用户账号
      */
     @Schema(description = "用户账号")
-    @Size(max = 50)
+    @Length(max = 50)
     private String username;
 
     /**
      * 登录IP地址
      */
     @Schema(description = "登录IP地址")
-    @Size(max = 128)
+    @Length(max = 128)
     private String ip;
 
     /**

@@ -5,9 +5,9 @@ import com.brycehan.boot.common.enums.StatusType;
 import com.brycehan.boot.common.enums.VisibleType;
 import com.brycehan.boot.system.common.MenuType;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.validator.constraints.Length;
 
 import java.io.Serial;
 
@@ -29,7 +29,7 @@ public class SysMenuPageDto extends BasePageDto {
      * 菜单名称
      */
     @Schema(description = "菜单名称")
-    @Size(max = 50)
+    @Length(max = 50)
     private String name;
 
     /**

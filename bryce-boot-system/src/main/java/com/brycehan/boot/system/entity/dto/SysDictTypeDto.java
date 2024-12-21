@@ -1,13 +1,13 @@
 package com.brycehan.boot.system.entity.dto;
 
-import com.brycehan.boot.common.entity.BaseDto;
-import com.brycehan.boot.common.enums.StatusType;
 import com.brycehan.boot.common.base.validator.SaveGroup;
 import com.brycehan.boot.common.base.validator.UpdateGroup;
+import com.brycehan.boot.common.entity.BaseDto;
+import com.brycehan.boot.common.enums.StatusType;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.validator.constraints.Length;
 
 /**
  * 系统字典类型Dto
@@ -30,14 +30,14 @@ public class SysDictTypeDto extends BaseDto {
      * 字典名称
      */
     @Schema(description = "字典名称")
-    @Size(max = 100, groups = {SaveGroup.class, UpdateGroup.class})
+    @Length(max = 100, groups = {SaveGroup.class, UpdateGroup.class})
     private String dictName;
 
     /**
      * 字典类型
      */
     @Schema(description = "字典类型")
-    @Size(max = 100, groups = {SaveGroup.class, UpdateGroup.class})
+    @Length(max = 100, groups = {SaveGroup.class, UpdateGroup.class})
     private String dictType;
 
     /**
@@ -56,7 +56,7 @@ public class SysDictTypeDto extends BaseDto {
      * 备注
      */
     @Schema(description = "备注")
-    @Size(max = 500, groups = {SaveGroup.class, UpdateGroup.class})
+    @Length(max = 500, groups = {SaveGroup.class, UpdateGroup.class})
     private String remark;
 
 }

@@ -1,15 +1,15 @@
 package com.brycehan.boot.system.entity.dto;
 
-import com.brycehan.boot.common.enums.StatusType;
-import com.brycehan.boot.common.util.TreeNode;
 import com.brycehan.boot.common.base.validator.SaveGroup;
 import com.brycehan.boot.common.base.validator.UpdateGroup;
+import com.brycehan.boot.common.enums.StatusType;
+import com.brycehan.boot.common.util.TreeNode;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.validator.constraints.Length;
 
 import java.io.Serial;
 
@@ -32,42 +32,42 @@ public class SysOrgDto extends TreeNode<SysOrgDto> {
      */
     @Schema(description = "机构名称")
     @NotBlank(groups = {SaveGroup.class, UpdateGroup.class})
-    @Size(max = 100, groups = {SaveGroup.class, UpdateGroup.class})
+    @Length(max = 100, groups = {SaveGroup.class, UpdateGroup.class})
     private String name;
 
     /**
      * 机构编码
      */
     @Schema(description = "机构编码")
-    @Size(max = 30, groups = {SaveGroup.class, UpdateGroup.class})
+    @Length(max = 30, groups = {SaveGroup.class, UpdateGroup.class})
     private String code;
 
     /**
      * 祖级机构列表
      */
     @Schema(description = "祖级机构列表")
-    @Size(max = 255, groups = {SaveGroup.class, UpdateGroup.class})
+    @Length(max = 255, groups = {SaveGroup.class, UpdateGroup.class})
     private String ancestor;
 
     /**
      * 负责人
      */
     @Schema(description = "负责人")
-    @Size(max = 50, groups = {SaveGroup.class, UpdateGroup.class})
+    @Length(max = 50, groups = {SaveGroup.class, UpdateGroup.class})
     private String leader;
 
     /**
      * 联系电话
      */
     @Schema(description = "联系电话")
-    @Size(max = 20, groups = {SaveGroup.class, UpdateGroup.class})
+    @Length(max = 20, groups = {SaveGroup.class, UpdateGroup.class})
     private String contactNumber;
 
     /**
      * 邮箱
      */
     @Schema(description = "邮箱")
-    @Size(max = 50, groups = {SaveGroup.class, UpdateGroup.class})
+    @Length(max = 50, groups = {SaveGroup.class, UpdateGroup.class})
     private String email;
 
     /**
