@@ -3,6 +3,7 @@ package com.brycehan.boot.system.entity.po;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.brycehan.boot.common.entity.BaseEntity;
+import com.brycehan.boot.common.enums.VisibleType;
 import com.brycehan.boot.common.enums.StatusType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -31,7 +32,7 @@ public class SysMenu extends BaseEntity {
     private String name;
 
     /**
-     * 类型（M：菜单，B：按钮，I：接口）
+     * 类型（C：目录，M：菜单，B：按钮）
      */
     private String type;
 
@@ -71,7 +72,12 @@ public class SysMenu extends BaseEntity {
     private String remark;
 
     /**
-     * 状态（0：停用，1：正常）
+     * 可见性类型
+     */
+    private VisibleType visible;
+
+    /**
+     * 菜单状态（0：停用，1：正常）
      */
     private StatusType status;
 

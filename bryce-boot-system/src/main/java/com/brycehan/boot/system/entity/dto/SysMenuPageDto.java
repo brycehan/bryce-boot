@@ -2,6 +2,7 @@ package com.brycehan.boot.system.entity.dto;
 
 import com.brycehan.boot.common.entity.BasePageDto;
 import com.brycehan.boot.common.enums.StatusType;
+import com.brycehan.boot.common.enums.VisibleType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
@@ -31,11 +32,17 @@ public class SysMenuPageDto extends BasePageDto {
     private String name;
 
     /**
-     * 类型（M：菜单，B：按钮，I：接口）
+     * 类型（C：目录，M：菜单，B：按钮）
      */
-    @Schema(description = "类型（M：菜单，B：按钮，I：接口）")
+    @Schema(description = "类型（C：目录，M：菜单，B：按钮）")
     @Size(max = 1)
     private String type;
+
+    /**
+     * 可见性类型
+     */
+    @Schema(description = "可见性类型")
+    private VisibleType visible;
 
     /**
      * 状态（0：停用，1：正常）

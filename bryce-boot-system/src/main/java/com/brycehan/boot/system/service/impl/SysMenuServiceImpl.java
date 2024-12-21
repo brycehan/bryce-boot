@@ -2,6 +2,7 @@ package com.brycehan.boot.system.service.impl;
 
 import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.ArrayUtil;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -13,6 +14,7 @@ import com.brycehan.boot.common.enums.StatusType;
 import com.brycehan.boot.common.util.ExcelUtils;
 import com.brycehan.boot.common.util.TreeUtils;
 import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
+import com.brycehan.boot.system.common.MenuType;
 import com.brycehan.boot.system.entity.convert.SysMenuConvert;
 import com.brycehan.boot.system.entity.dto.SysMenuAuthorityDto;
 import com.brycehan.boot.system.entity.dto.SysMenuDto;
@@ -119,14 +121,14 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuMapper, SysMenu> 
     }
 
     @Override
-    public List<SysMenuVo> getMenuTreeList(LoginUser loginUser, String type) {
+    public List<SysMenuVo> getMenuTreeList(LoginUser loginUser, MenuType... type) {
         List<SysMenu> menuList;
 
         if (loginUser.isSuperAdmin()) {
             // 超级管理员菜单处理
             LambdaQueryWrapper<SysMenu> queryWrapper = new LambdaQueryWrapper<>();
             queryWrapper.eq(SysMenu::getStatus, StatusType.ENABLE.getValue());
-            queryWrapper.eq(StringUtils.isNotEmpty(type), SysMenu::getType, type);
+            queryWrapper.in(ArrayUtil.isNotEmpty(type), SysMenu::getType, List.of(type));
             queryWrapper.orderByAsc(Arrays.asList(SysMenu::getParentId, SysMenu::getSort));
 
             menuList = this.baseMapper.selectList(queryWrapper);

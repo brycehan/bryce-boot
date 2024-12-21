@@ -179,7 +179,7 @@ public class SysMenuController {
     @Operation(summary = "获取菜单列表")
     @GetMapping(path = "/nav")
     public ResponseResult<List<SysMenuVo>> nav() {
-        List<SysMenuVo> list = this.sysMenuService.getMenuTreeList(LoginUserContext.currentUser(), MenuType.MENU.getValue());
+        List<SysMenuVo> list = this.sysMenuService.getMenuTreeList(LoginUserContext.currentUser(), MenuType.CATALOG, MenuType.MENU);
         return ResponseResult.ok(list);
     }
 

@@ -3,6 +3,7 @@ package com.brycehan.boot.system.service;
 import com.brycehan.boot.common.base.LoginUser;
 import com.brycehan.boot.common.entity.PageResult;
 import com.brycehan.boot.framework.mybatis.service.BaseService;
+import com.brycehan.boot.system.common.MenuType;
 import com.brycehan.boot.system.entity.dto.SysMenuAuthorityDto;
 import com.brycehan.boot.system.entity.dto.SysMenuDto;
 import com.brycehan.boot.system.entity.dto.SysMenuPageDto;
@@ -64,7 +65,7 @@ public interface SysMenuService extends BaseService<SysMenu> {
      * @param type      菜单类型，空时是所有类型
      * @return 用户菜单列表
      */
-    List<SysMenuVo> getMenuTreeList(LoginUser loginUser, String type);
+    List<SysMenuVo> getMenuTreeList(LoginUser loginUser, MenuType... type);
 
     /**
      * 获取子菜单个数

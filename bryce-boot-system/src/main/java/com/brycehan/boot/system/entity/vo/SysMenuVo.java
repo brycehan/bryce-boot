@@ -1,6 +1,7 @@
 package com.brycehan.boot.system.entity.vo;
 
 import com.brycehan.boot.common.enums.StatusType;
+import com.brycehan.boot.common.enums.VisibleType;
 import com.brycehan.boot.common.util.TreeNode;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -35,9 +36,9 @@ public class SysMenuVo extends TreeNode<SysMenuVo> {
     private String parentName;
 
     /**
-     * 类型（M：菜单，B：按钮，I：接口）
+     * 类型（C：目录，M：菜单，B：按钮）
      */
-    @Schema(description = "类型（M：菜单，B：按钮，I：接口）")
+    @Schema(description = "类型（C：目录，M：菜单，B：按钮）")
     private String type;
 
     /**
@@ -75,6 +76,12 @@ public class SysMenuVo extends TreeNode<SysMenuVo> {
      */
     @Schema(description = "备注")
     private String remark;
+
+    /**
+     * 可见性类型
+     */
+    @Schema(description = "可见性类型")
+    private VisibleType visible;
 
     /**
      * 状态（0：停用，1：正常）

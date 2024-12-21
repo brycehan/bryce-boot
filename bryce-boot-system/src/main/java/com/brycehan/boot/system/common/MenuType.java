@@ -1,8 +1,10 @@
 package com.brycehan.boot.system.common;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
+import com.brycehan.boot.common.enums.EnumType;
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 /**
  * 菜单类型
@@ -11,11 +13,13 @@ import lombok.Getter;
  * @since 2023/11/23
  */
 @Getter
-public enum MenuType {
+@SuppressWarnings("unused")
+@RequiredArgsConstructor
+public enum MenuType  implements EnumType {
 
     MENU("M", "菜单"),
     BUTTON("B", "按钮"),
-    INTERFACE("I", "接口"),
+    CATALOG("C", "目录"),
     ;
 
     /**
@@ -30,9 +34,33 @@ public enum MenuType {
      */
     private final String desc;
 
-    MenuType(String value, String desc) {
-        this.value = value;
-        this.desc = desc;
+    /**
+     * 根据类型值获取类型
+     *
+     * @param value 类型值
+     * @return 类型
+     */
+    public static MenuType getByValue(String value) {
+        for (MenuType menuType : MenuType.values()) {
+            if (menuType.getValue().equals(value)) {
+                return menuType;
+            }
+        }
+        return null;
     }
 
+    /**
+     * 根据描述获取类型
+     *
+     * @param desc 描述
+     * @return 类型
+     */
+    public static MenuType getByDesc(String desc) {
+        for (MenuType menuType : MenuType.values()) {
+            if (menuType.getDesc().equals(desc)) {
+                return menuType;
+            }
+        }
+        return null;
+    }
 }

@@ -1,6 +1,7 @@
 package com.brycehan.boot.system.mapper;
 
 import com.brycehan.boot.framework.mybatis.BryceBaseMapper;
+import com.brycehan.boot.system.common.MenuType;
 import com.brycehan.boot.system.entity.po.SysMenu;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -39,5 +40,5 @@ public interface SysMenuMapper extends BryceBaseMapper<SysMenu> {
      * @param type   菜单类型
      * @return 菜单列表
      */
-    List<SysMenu> selectMenuTreeList(Long userId, String type);
+    List<SysMenu> selectMenuTreeList(Long userId, MenuType... type);
 }

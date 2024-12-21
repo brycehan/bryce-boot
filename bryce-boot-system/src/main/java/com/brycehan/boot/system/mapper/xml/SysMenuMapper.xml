@@ -66,8 +66,11 @@
         and srm.deleted is null
         and sur.deleted is null
         and sur.user_id = #{userId}
-        <if test="type != null and type !=''">
-            and sm.type = #{type}
+        <if test="type != null and type.size > 0">
+            and sm.type in
+            <foreach collection="type" item="item" separator="," open="(" close=")">
+                #{item}
+            </foreach>
         </if>
         order by sm.parent_id, sm.sort
     </select>
