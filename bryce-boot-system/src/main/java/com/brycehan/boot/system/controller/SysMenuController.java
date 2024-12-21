@@ -4,7 +4,6 @@ import com.brycehan.boot.common.base.LoginUserContext;
 import com.brycehan.boot.common.base.response.ResponseResult;
 import com.brycehan.boot.common.base.validator.SaveGroup;
 import com.brycehan.boot.common.base.validator.UpdateGroup;
-import com.brycehan.boot.common.entity.PageResult;
 import com.brycehan.boot.common.entity.dto.IdsDto;
 import com.brycehan.boot.framework.operatelog.annotation.OperateLog;
 import com.brycehan.boot.framework.operatelog.annotation.OperatedType;
@@ -112,20 +111,6 @@ public class SysMenuController {
     }
 
     /**
-     * 系统菜单分页查询
-     *
-     * @param sysMenuPageDto 查询条件
-     * @return 系统菜单分页列表
-     */
-    @Operation(summary = "系统菜单分页查询")
-    @PreAuthorize("@auth.hasAuthority('system:menu:page')")
-    @PostMapping(path = "/page")
-    public ResponseResult<PageResult<SysMenuVo>> page(@Validated @RequestBody SysMenuPageDto sysMenuPageDto) {
-        PageResult<SysMenuVo> page = this.sysMenuService.page(sysMenuPageDto);
-        return ResponseResult.ok(page);
-    }
-
-    /**
      * 系统菜单导出数据
      *
      * @param sysMenuPageDto 查询条件
@@ -144,7 +129,7 @@ public class SysMenuController {
      * @return 系统菜单列表
      */
     @Operation(summary = "列表查询")
-    @PreAuthorize("@auth.hasAuthority('system:menu:page')")
+    @PreAuthorize("@auth.hasAuthority('system:menu:list')")
     @PostMapping(path = "/list")
     public ResponseResult<List<SysMenuVo>> list(@Validated @RequestBody SysMenuDto sysMenuDto) {
         List<SysMenuVo> list = this.sysMenuService.list(sysMenuDto);
