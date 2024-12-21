@@ -108,15 +108,7 @@ public class SysMenuController {
     @GetMapping(path = "/{id}")
     public ResponseResult<SysMenuVo> get(@Parameter(description = "系统菜单ID", required = true) @PathVariable Long id) {
         SysMenu sysMenu = this.sysMenuService.getById(id);
-        SysMenuVo sysMenuVo = SysMenuConvert.INSTANCE.convert(sysMenu);
-
-        // 获取上级菜单名称
-        if (sysMenu.getParentId() != 0) {
-            SysMenu parent = this.sysMenuService.getById(sysMenu.getParentId());
-            sysMenuVo.setParentName(parent.getName());
-        }
-
-        return ResponseResult.ok(sysMenuVo);
+        return ResponseResult.ok(SysMenuConvert.INSTANCE.convert(sysMenu));
     }
 
     /**

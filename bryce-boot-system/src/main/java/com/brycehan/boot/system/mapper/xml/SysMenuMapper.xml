@@ -14,6 +14,7 @@
         <result column="open_style" property="openStyle"/>
         <result column="sort" property="sort"/>
         <result column="remark" property="remark"/>
+        <result column="visible" property="visible"/>
         <result column="status" property="status"/>
         <result column="deleted" property="deleted"/>
         <result column="created_user_id" property="createdUserId"/>
@@ -26,7 +27,7 @@
     <sql id="Base_Column_List">
         id, name, type, parent_id, url,
         authority, icon, open_style, sort, remark,
-        status, deleted, created_user_id, created_time,
+        visible, status, deleted, created_user_id, created_time,
         updated_user_id, updated_time
     </sql>
 
@@ -57,7 +58,8 @@
     <!-- 查询菜单树列表 -->
     <select id="selectMenuTreeList" resultType="com.brycehan.boot.system.entity.po.SysMenu">
         select distinct sm.id, sm.name, sm.type, sm.parent_id, sm.icon,
-        sm.url, sm.authority, sm.sort, sm.status, sm.created_time
+        sm.url, sm.authority, sm.sort, sm.visible, sm.status,
+        sm.created_time
         from brc_sys_menu sm
         left join brc_sys_role_menu srm on sm.id = srm.menu_id
         left join brc_sys_user_role sur on srm.role_id = sur.role_id

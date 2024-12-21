@@ -95,7 +95,7 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuMapper, SysMenu> 
     private Wrapper<SysMenu> getWrapper(SysMenuPageDto sysMenuPageDto) {
         LambdaQueryWrapper<SysMenu> wrapper = new LambdaQueryWrapper<>();
         wrapper.like(StringUtils.isNotBlank(sysMenuPageDto.getName()), SysMenu::getName, sysMenuPageDto.getName());
-        wrapper.eq(StringUtils.isNotBlank(sysMenuPageDto.getType()), SysMenu::getType, sysMenuPageDto.getType());
+        wrapper.eq(sysMenuPageDto.getType() != null, SysMenu::getType, sysMenuPageDto.getType());
         wrapper.eq(Objects.nonNull(sysMenuPageDto.getStatus()), SysMenu::getStatus, sysMenuPageDto.getStatus());
 
         return wrapper;
