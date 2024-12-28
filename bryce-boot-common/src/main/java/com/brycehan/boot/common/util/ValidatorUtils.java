@@ -57,6 +57,14 @@ public class ValidatorUtils {
                 try {
                     // 获取校验失败的字段Field
                     Field field = constraintViolation.getRootBeanClass().getDeclaredField(name);
+
+                    // 如果不是中文请求，直接返回字段名
+                    if (ServletUtils.nonZh()) {
+                        // 组装校验失败的信息
+                        messages.add(field + " " + constraintViolation.getMessage());
+                        continue;
+                    }
+
                     // 获取字段上的ExcelProperty注解
                     ExcelProperty annotation = field.getAnnotation(ExcelProperty.class);
                     String[] value = annotation.value();

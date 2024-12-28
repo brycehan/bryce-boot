@@ -3,6 +3,7 @@ package com.brycehan.boot.common.util;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.context.request.RequestAttributes;
@@ -47,6 +48,16 @@ public class ServletUtils {
      */
     public static HttpServletResponse getResponse() {
         return getRequestAttributes().getResponse();
+    }
+
+    /**
+     * 是否为中文请求
+     *
+     * @return 是否为中文请求
+     */
+    public static boolean nonZh() {
+        String language = getRequest().getHeader(HttpHeaders.ACCEPT_LANGUAGE);
+        return language == null || !language.contains("zh");
     }
 
     /**

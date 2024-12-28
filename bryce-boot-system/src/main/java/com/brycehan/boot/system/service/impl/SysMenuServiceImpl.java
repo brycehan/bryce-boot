@@ -1,5 +1,6 @@
 package com.brycehan.boot.system.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.ArrayUtil;
@@ -128,7 +129,7 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuMapper, SysMenu> 
             // 超级管理员菜单处理
             LambdaQueryWrapper<SysMenu> queryWrapper = new LambdaQueryWrapper<>();
             queryWrapper.eq(SysMenu::getStatus, StatusType.ENABLE.getValue());
-            queryWrapper.in(ArrayUtil.isNotEmpty(type), SysMenu::getType, List.of(type));
+            queryWrapper.in(ArrayUtil.length(type) > 0, SysMenu::getType, CollUtil.toList(type));
             queryWrapper.orderByAsc(Arrays.asList(SysMenu::getParentId, SysMenu::getSort));
 
             menuList = this.baseMapper.selectList(queryWrapper);

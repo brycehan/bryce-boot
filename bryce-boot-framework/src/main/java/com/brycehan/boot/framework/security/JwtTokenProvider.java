@@ -69,19 +69,17 @@ public class JwtTokenProvider {
     public String generateToken(LoginUser loginUser) {
         // 创建jwt令牌
         Map<String, Object> claims = new HashMap<>();
-        long expiredInSeconds;
+        long expiredInSeconds = tokenValidityInSeconds;
 
         switch (Objects.requireNonNull(loginUser.getSourceClientType())) {
-            case PC, H5 -> {
+            case PC, H5, UNKNOWN -> {
                 loginUser.setUserKey(TokenUtils.uuid());
                 claims.put(JwtConstants.USER_KEY, loginUser.getUserKey());
-                expiredInSeconds = tokenValidityInSeconds;
             }
-            case APP -> {
+            case APP, MINI_APP -> {
                 claims.put(JwtConstants.USER_DATA, JsonUtils.writeValueAsString(loginUser));
                 expiredInSeconds = appTokenValidityInDays * 24 * 3600;
             }
-            default -> throw new IllegalArgumentException("不支持的来源客户端");
         }
 
         return generateToken(claims, expiredInSeconds);
@@ -113,12 +111,9 @@ public class JwtTokenProvider {
      * @return 过期时间秒数
      */
     public long getExpiredInSeconds(LoginUser loginUser) {
-        long expiredInSeconds;
-
+        long expiredInSeconds = tokenValidityInSeconds;
         switch (Objects.requireNonNull(loginUser.getSourceClientType())) {
-            case PC, H5 -> expiredInSeconds = tokenValidityInSeconds;
-            case APP -> expiredInSeconds = appTokenValidityInDays * 24 * 3600;
-            default -> throw new IllegalArgumentException("不支持的来源客户端");
+            case APP, MINI_APP -> expiredInSeconds = appTokenValidityInDays * 24 * 3600;
         }
 
         return expiredInSeconds;
@@ -132,15 +127,15 @@ public class JwtTokenProvider {
         // 设置过期时间
         LocalDateTime expireTime = null;
         switch (Objects.requireNonNull(sourceClientType)) {
-            case PC, H5 -> expireTime = now.plusSeconds(this.tokenValidityInSeconds);
-            case APP -> expireTime = now.plusDays(this.appTokenValidityInDays);
+            case PC, H5, UNKNOWN -> expireTime = now.plusSeconds(this.tokenValidityInSeconds);
+            case APP, MINI_APP -> expireTime = now.plusDays(this.appTokenValidityInDays);
         }
         loginUser.setLoginTime(now);
         loginUser.setExpireTime(expireTime);
 
         String loginUserKey;
         switch (sourceClientType) {
-            case PC, H5 -> {
+            case PC, H5, UNKNOWN -> {
                 loginUserKey = JwtConstants.LOGIN_USER_KEY;
                 String cacheUserKey = loginUserKey.concat(":").concat(loginUser.getUserKey());
 

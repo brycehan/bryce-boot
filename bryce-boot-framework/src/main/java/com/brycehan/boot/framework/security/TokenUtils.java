@@ -49,7 +49,7 @@ public class TokenUtils {
     }
 
     /**
-     * 获取请求来源客户端
+     * 获取请求来源客户端，不存在时默认返回未知UNKNOWN
      *
      * @param request 请求request
      * @return 来源客户端
