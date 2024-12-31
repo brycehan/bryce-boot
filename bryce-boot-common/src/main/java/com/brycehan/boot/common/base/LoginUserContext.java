@@ -1,6 +1,10 @@
 package com.brycehan.boot.common.base;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
  * 登录用户上下文
@@ -17,7 +21,12 @@ public class LoginUserContext {
      * @return 当前登录用户
      */
     public static LoginUser currentUser() {
-        return LoginUserContextHolder.getContext();
+        try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            return (LoginUser) authentication.getPrincipal();
+        }catch (Exception ignored){
+        }
+        return null;
     }
 
     /**
@@ -49,4 +58,16 @@ public class LoginUserContext {
         return loginUser.getOrgId();
     }
 
+    /**
+     * 设置登录用户
+     *
+     * @param loginUser 登录用户
+     */
+    public static void setContext(LoginUser loginUser) {
+        Authentication authentication = new UsernamePasswordAuthenticationToken(loginUser, null, loginUser.getAuthorities());
+        // 新建 SecurityContext
+        SecurityContext context = SecurityContextHolder.createEmptyContext();
+        context.setAuthentication(authentication);
+        SecurityContextHolder.setContext(context);
+    }
 }

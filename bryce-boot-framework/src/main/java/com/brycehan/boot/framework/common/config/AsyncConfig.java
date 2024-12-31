@@ -7,6 +7,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.AsyncConfigurer;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import org.springframework.security.scheduling.DelegatingSecurityContextSchedulingTaskExecutor;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -20,7 +21,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 @Configuration
 @RequiredArgsConstructor
 @EnableConfigurationProperties(TaskExecutionProperties.class)
-public class AsyncExecutorConfig implements AsyncConfigurer {
+public class AsyncConfig implements AsyncConfigurer {
 
     private final TaskExecutionProperties taskExecutionProperties;
 
@@ -46,7 +47,7 @@ public class AsyncExecutorConfig implements AsyncConfigurer {
         taskExecutor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
         //执行初始化
         taskExecutor.initialize();
-        return TtlExecutors.getTtlExecutor(taskExecutor);
+        return TtlExecutors.getTtlExecutor(new DelegatingSecurityContextSchedulingTaskExecutor(taskExecutor));
     }
 
 }

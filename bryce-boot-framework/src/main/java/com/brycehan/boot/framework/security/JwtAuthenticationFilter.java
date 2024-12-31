@@ -5,7 +5,7 @@ import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.brycehan.boot.common.base.LoginUser;
-import com.brycehan.boot.common.base.LoginUserContextHolder;
+import com.brycehan.boot.common.base.LoginUserContext;
 import com.brycehan.boot.common.base.response.HttpResponseStatus;
 import com.brycehan.boot.common.base.response.ResponseResult;
 import com.brycehan.boot.common.util.JsonUtils;
@@ -83,9 +83,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         // 用户存在，自动刷新令牌
         this.jwtTokenProvider.autoRefreshToken(loginUser);
+
         // 设置认证信息
-        LoginUserContextHolder.setContext(loginUser);
-        log.info("将认证信息设置到安全上下文中，username：{}', uri: {}", loginUser.getUsername(), request.getRequestURI());
+        LoginUserContext.setContext(loginUser);
+        log.info("将认证信息设置到安全上下文中，username：{}", loginUser.getUsername());
 
         filterChain.doFilter(request, response);
     }

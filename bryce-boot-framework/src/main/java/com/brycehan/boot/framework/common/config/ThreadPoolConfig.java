@@ -9,6 +9,8 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.security.concurrent.DelegatingSecurityContextExecutorService;
+import org.springframework.security.concurrent.DelegatingSecurityContextScheduledExecutorService;
 
 import java.util.concurrent.*;
 
@@ -31,7 +33,7 @@ public class ThreadPoolConfig {
      */
     @Bean
     @Primary
-    public Executor executor(ThreadPoolProperties poolProperties) {
+    public ExecutorService executorService(ThreadPoolProperties poolProperties) {
         log.info("创建线程池：{}", poolProperties);
         ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(poolProperties.getCorePoolSize(),
                 poolProperties.getMaximumPoolSize(),
@@ -42,7 +44,7 @@ public class ThreadPoolConfig {
                 // 线程池对拒绝任务（无线程可用）的处理策略
                 // CallerRunsPolicy()由提交任务到线程池的线程来执行
                 new ThreadPoolExecutor.CallerRunsPolicy());
-        return TtlExecutors.getTtlExecutor(threadPoolExecutor);
+        return TtlExecutors.getTtlExecutorService(new DelegatingSecurityContextExecutorService(threadPoolExecutor));
     }
 
     /**
@@ -54,7 +56,7 @@ public class ThreadPoolConfig {
     @Bean
     public ScheduledExecutorService scheduledExecutorService(ThreadPoolProperties threadPoolProperties) {
         ScheduledThreadPoolExecutor scheduledThreadPoolExecutor = new ScheduledThreadPoolExecutor(threadPoolProperties.getCorePoolSize(),
-                new BasicThreadFactory.Builder().namingPattern("brc-sch-%d").daemon(true).build(),
+                new BasicThreadFactory.Builder().namingPattern("brc-schedule-%d").daemon(true).build(),
                 new ThreadPoolExecutor.CallerRunsPolicy()) {
             @Override
             protected void afterExecute(Runnable r, Throwable t) {
@@ -62,7 +64,8 @@ public class ThreadPoolConfig {
                 ThreadUtils.printException(r, t);
             }
         };
-        return TtlExecutors.getTtlScheduledExecutorService(scheduledThreadPoolExecutor);
+
+        return TtlExecutors.getTtlScheduledExecutorService(new DelegatingSecurityContextScheduledExecutorService(scheduledThreadPoolExecutor));
     }
 
 }
