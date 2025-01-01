@@ -2,7 +2,7 @@ spring: # spring 配置
   datasource: # 数据源配置
     dynamic:
       primary: master # 设置默认的数据源或者数据源组,默认值即为 master
-      p6spy: true
+      p6spy: false
       hikari: # Hikari 连接池全局配置
         connection-timeout: 30000 # 等待连接池分配连接的最大时长（毫秒），超过这个时长还没有可用的连接则发生 SQLException，默认：30秒
         minimum-idle: 5           # 最小空闲连接数
@@ -55,18 +55,13 @@ spring: # spring 配置
 
   # 任务配置
   task:
-    # 定时任务
-    scheduling:
-      thread-name-prefix: brc-schdl-
-      pool:
-        size: 5
-    execution:  # 异步任务
-      thread-name-prefix: brc-task-
+    # 异步任务
+    execution:
       pool:
         core-size: 5
         max-size: 10
         queue-capacity: 10
-        keep-alive: 60s
+        keep-alive: 5m
 
 # 日志配置
 logging:

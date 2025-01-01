@@ -6,7 +6,7 @@ bryce:
     # 版本
     version: @project.version@
     # 版权年份
-    copyright-year: 2023
+    copyright-year: 2025
     # 实例演示开关
     demo-enabled: true
 
@@ -27,7 +27,7 @@ bryce:
     # 最大线程数
     maximum-pool-size: 10
     # 存活时间（单位：秒）
-    keep-alive-time: 60
+    keep-alive-time: 300
     # 任务队列的任务数
     work-queue-size: 1000
 
