@@ -49,4 +49,9 @@ public class AccountLoginDto extends BaseDto {
     @Schema(description = "验证码")
     private String code;
 
+    /**
+     * 记住我
+     */
+    @Schema(description = "记住我")
+    private Boolean rememberMe = Boolean.FALSE;
 }

@@ -63,6 +63,16 @@ public class LoginUser implements UserDetails {
     private String userKey;
 
     /**
+     * 记住我
+     */
+    private Boolean rememberMe;
+
+    /**
+     * 来源客户端
+     */
+    private SourceClientType sourceClientType;
+
+    /**
      * 登录时间
      */
     private LocalDateTime loginTime;
@@ -71,11 +81,6 @@ public class LoginUser implements UserDetails {
      * 过期时间
      */
     private LocalDateTime expireTime;
-
-    /**
-     * 来源客户端
-     */
-    private SourceClientType sourceClientType;
 
     /**
      * 浏览器信息

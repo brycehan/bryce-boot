@@ -47,9 +47,9 @@ bryce:
       # 权限键
       authorities-key: auth
       #令牌有效期（默认2小时）
-      token-validity-in-seconds: 72000000
-      #App令牌有效期（默认31天）
-      app-token-validity-in-days: 31
+      default-token-validity: 2h
+      #App令牌有效期（默认30天）
+      app-token-validity: 30d
     # 忽略的URL
     ignore-urls:
       all:
