@@ -33,4 +33,9 @@ public class JwtConstants {
      */
     @SuppressWarnings("unused")
     public static final String LOGIN_OPEN_ID = "openid";
+
+    /**
+     * 默认密钥
+     */
+    public static final String secret = "UZCiSM60eRJMOFA9mbiy";
 }

@@ -1,8 +1,11 @@
 package com.brycehan.boot.framework.security.config;
 
+import com.brycehan.boot.common.constant.JwtConstants;
+import jakarta.annotation.PostConstruct;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.time.Duration;
@@ -14,6 +17,7 @@ import java.time.Duration;
  * @author Bryce Han
  */
 @Data
+@Slf4j
 @ConfigurationProperties(prefix = "bryce.auth")
 public class AuthProperties {
 
@@ -27,14 +31,24 @@ public class AuthProperties {
      */
     private IgnoreUrls ignoreUrls;
 
+    /**
+     * 初始化
+     */
+    @PostConstruct
+    public void init() {
+        if (JwtConstants.secret.equals(this.jwt.getSecret())) {
+            log.warn("认证配置 bryce.auth.secret 使用默认配置，请在生产环境配置，否则可能存在安全风险");
+        }
+    }
+
     @Getter
     @Setter
     public static class Jwt {
 
         /**
-         * 密钥（生产环境需要配置）
+         * 密钥
          */
-        private String secret = "UZCiSM60eRJMOFA9mbiy";
+        private String secret = JwtConstants.secret;
 
         /**
          * 授权key
