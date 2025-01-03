@@ -52,7 +52,6 @@ spring: # spring 配置
           max-wait: 6s
         shutdown-timeout: 1s
 
-
   # 任务配置
   task:
     # 异步任务

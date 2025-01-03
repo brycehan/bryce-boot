@@ -22,6 +22,7 @@ spring:
     servlet:
       # 启动时初始化 mvc servlet
       load-on-startup: 0
+
 # 服务器配置
 server:
   # 服务器 HTTP 端口

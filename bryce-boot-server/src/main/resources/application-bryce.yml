@@ -106,5 +106,7 @@ bryce:
 
   # 代码生成
   generator:
+    # 表前缀（类名不会包含表前缀）
     table-prefix: brc_
+    # 默认生成包名称，根据实际需要修改
     package-name: com.brycehan.boot
