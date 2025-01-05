@@ -10,8 +10,10 @@ import com.brycehan.boot.system.entity.vo.SysUserInfoVo;
 import com.brycehan.boot.system.service.SysUserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,6 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Slf4j
 @Tag(name = "用户个人中心")
 @RequestMapping(path = "/system/profile")
+@Validated
 @RestController
 @RequiredArgsConstructor
 public class SysProfileController {
@@ -67,8 +70,8 @@ public class SysProfileController {
      */
     @Operation(summary = "修改用户头像")
     @OperateLog(type = OperatedType.UPDATE)
-    @PostMapping(path = "/avatar")
-    public ResponseResult<String> updateAvatar(@RequestPart MultipartFile file) {
+    @PostMapping(path = "/avatar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseResult<String> updateAvatar(@NotNull MultipartFile file) {
         String avatar = this.sysUserService.updateAvatar(file);
         return ResponseResult.ok(avatar);
     }

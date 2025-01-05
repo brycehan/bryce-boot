@@ -19,6 +19,7 @@ import java.util.Date;
  * @author Bryce Han
  */
 public abstract class StorageService {
+
     public StorageProperties storageProperties;
 
     /**
@@ -63,15 +64,10 @@ public abstract class StorageService {
      * 根据文件名，生成路径
      *
      * @param fileName 文件名
-     * @param moduleName 模块名
      * @return 生成文件路径
      */
-    public String getPath( String fileName, String moduleName) {
-        return moduleName
-                .concat(File.separator)
-                .concat(getPath())
-                .concat(File.separator)
-                .concat(getNewFileName(fileName));
+    public String getPath( String fileName) {
+        return getPath().concat(File.separator).concat(getNewFileName(fileName));
     }
 
     public String getNewFileName(String fileName) {

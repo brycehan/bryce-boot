@@ -40,6 +40,12 @@
             <groupId>com.brycehan.boot</groupId>
             <artifactId>bryce-generator-boot-starter</artifactId>
         </dependency>
+        <!-- 开发工具 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional><!-- 表示依赖不会传递 -->
+        </dependency>
         <!-- 测试框架 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

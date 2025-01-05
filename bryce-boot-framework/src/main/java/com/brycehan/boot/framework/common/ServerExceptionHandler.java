@@ -30,6 +30,7 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
@@ -101,7 +102,10 @@ public class ServerExceptionHandler {
     @ExceptionHandler(MultipartException.class)
     public ResponseResult<Void> handleException(MultipartException e) {
         log.error("上传文件异常，{}", e.getMessage());
-        return ResponseResult.error(UploadResponseStatus.UPLOAD_EXCEED_MAX_SIZE, maxRequestSize);
+        if (e instanceof MaxUploadSizeExceededException) {
+            return ResponseResult.error(UploadResponseStatus.UPLOAD_EXCEED_MAX_SIZE, maxRequestSize);
+        }
+        return ResponseResult.error(e.getMessage());
     }
 
     /**

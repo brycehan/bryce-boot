@@ -30,13 +30,6 @@ public class SysAttachmentPageDto extends BasePageDto {
     private String name;
 
     /**
-     * 附件类型
-     */
-    @Schema(description = "附件类型")
-    @Length(max = 50)
-    private String type;
-
-    /**
      * 存储平台
      */
     @Schema(description = "存储平台")

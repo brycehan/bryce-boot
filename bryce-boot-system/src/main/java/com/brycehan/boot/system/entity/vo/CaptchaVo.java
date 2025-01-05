@@ -16,10 +16,10 @@ import java.io.Serializable;
 public class CaptchaVo implements Serializable {
 
     /**
-     * key
+     * 验证码对应的uuid
      */
-    @Schema(description = "key")
-    private String key;
+    @Schema(description = "uuid")
+    private String uuid;
 
     /**
      * image base64

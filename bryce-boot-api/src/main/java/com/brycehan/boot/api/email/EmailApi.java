@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 /**
  * 邮件Api
  *
@@ -33,7 +35,7 @@ public interface EmailApi {
      * @param file 附件
      */
     @PostMapping(path = "/sendHtmlEmail")
-    void sendHtmlEmail(@Validated @RequestBody ToMailDto toEmail, MultipartFile[] file);
+    void sendHtmlEmail(@Validated ToMailDto toEmail, List<MultipartFile> file);
 
     /**
      * 发送验证码邮件

@@ -38,17 +38,17 @@ public class AuthCaptchaServiceImpl implements AuthCaptchaService {
     @Override
     public CaptchaVo generate() {
         // 生成验证码 key
-        String key = TokenUtils.uuid();
+        String uuid = TokenUtils.uuid();
 
         // 生成验证码
         SpecCaptcha captcha = new SpecCaptcha(captchaProperties.getWidth(), captchaProperties.getHeight());
         captcha.setLen(captchaProperties.getLength());
         captcha.setCharType(Captcha.TYPE_DEFAULT);
 
-        String captchaKey = RedisKeys.getCaptchaKey(key);
+        String captchaKey = RedisKeys.getCaptchaKey(uuid);
         String captchaValue = captcha.text();
 
-        log.info("图片验证码key：{}, 值：{}", key, captchaValue);
+        log.debug("图片验证码uuid：{}, 值：{}", uuid, captchaValue);
 
         // 存储到 Redis
         this.stringRedisTemplate.opsForValue()
@@ -56,7 +56,7 @@ public class AuthCaptchaServiceImpl implements AuthCaptchaService {
 
         // 封装返回数据
         CaptchaVo captchaVo = new CaptchaVo();
-        captchaVo.setKey(key);
+        captchaVo.setUuid(uuid);
         captchaVo.setImage(captcha.toBase64());
 
         return captchaVo;

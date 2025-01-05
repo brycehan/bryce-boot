@@ -4,6 +4,8 @@ import cn.hutool.core.io.file.FileNameUtil;
 import cn.hutool.crypto.SecureUtil;
 import com.brycehan.boot.api.system.SysUploadFileApi;
 import com.brycehan.boot.api.system.vo.SysUploadFileVo;
+import com.brycehan.boot.common.util.FileUploadUtils;
+import com.brycehan.boot.common.util.MimeTypeUtils;
 import com.brycehan.boot.framework.storage.service.StorageService;
 import com.brycehan.boot.system.entity.dto.SysAttachmentDto;
 import lombok.RequiredArgsConstructor;
@@ -26,20 +28,28 @@ public class SysUploadFileApiService implements SysUploadFileApi {
     private final StorageService storageService;
 
     @Override
-    public SysUploadFileVo upload(MultipartFile file, String moduleName) {
+    public SysUploadFileVo upload(MultipartFile file) {
+        return this.upload(file, MimeTypeUtils.DEFAULT_ALLOWED_EXTENSION);
+    }
+
+    @Override
+    public SysUploadFileVo upload(MultipartFile file, String[] allowedExtensions) {
         // 是否为空
         if(file.isEmpty()) {
             return null;
         }
 
+        // 文件格式校验
+        FileUploadUtils.assertAllowed(file, allowedExtensions);
+
         SysUploadFileVo sysUploadFileVo = new SysUploadFileVo();
         try {
             // 上传路径
-            String path = this.storageService.getPath(file.getOriginalFilename(), moduleName);
-            // 上传信息
+            String path = this.storageService.getPath(file.getOriginalFilename());
             // 上传文件
             String url = this.storageService.upload(file.getInputStream(), path);
 
+            // 上传信息
             SysAttachmentDto attachmentDto = new SysAttachmentDto();
             attachmentDto.setUrl(url);
             attachmentDto.setName(file.getOriginalFilename());
@@ -47,7 +57,6 @@ public class SysUploadFileApiService implements SysUploadFileApi {
             attachmentDto.setSuffix(FileNameUtil.getSuffix(file.getOriginalFilename()));
             attachmentDto.setHash(SecureUtil.sha256(file.getInputStream()));
             attachmentDto.setPlatform(this.storageService.storageProperties.getConfig().getType().name());
-            attachmentDto.setType(moduleName);
 
             BeanUtils.copyProperties(attachmentDto, sysUploadFileVo);
 

@@ -24,7 +24,9 @@ import com.brycehan.boot.system.service.SysUserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -160,8 +162,8 @@ public class SysUserController {
     @Operation(summary = "导入用户")
     @OperateLog(type = OperatedType.IMPORT)
     @PreAuthorize("@auth.hasAuthority('system:user:import')")
-    @PostMapping(path = "/import")
-    public ResponseResult<String> importByExcel(@RequestParam MultipartFile file, boolean isUpdateSupport) {
+    @PostMapping(path = "/import", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseResult<String> importByExcel(@NotNull MultipartFile file, boolean isUpdateSupport) {
         String message = this.sysUserService.importByExcel(file, isUpdateSupport);
         return ResponseResult.ok(null, message);
     }

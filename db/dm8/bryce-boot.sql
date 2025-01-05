@@ -688,7 +688,6 @@ create table brc_sys_attachment
     name            varchar(100),
     url             varchar(255),
     size            bigint,
-    type            varchar(50),
     suffix          varchar(10),
     hash            varchar(255),
     platform        varchar(50),
@@ -704,7 +703,6 @@ comment on column brc_sys_attachment.id is 'ID';
 comment on column brc_sys_attachment.name is '附件名称';
 comment on column brc_sys_attachment.url is '附件地址';
 comment on column brc_sys_attachment.size is '附件大小（单位字节）';
-comment on column brc_sys_attachment.type is '附件类型';
 comment on column brc_sys_attachment.suffix is '附件名后缀';
 comment on column brc_sys_attachment.hash is '哈希码';
 comment on column brc_sys_attachment.platform is '存储平台';

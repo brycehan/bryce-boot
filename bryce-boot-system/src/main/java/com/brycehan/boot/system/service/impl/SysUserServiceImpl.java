@@ -23,6 +23,8 @@ import com.brycehan.boot.common.entity.dto.IdsDto;
 import com.brycehan.boot.common.enums.StatusType;
 import com.brycehan.boot.common.enums.YesNoType;
 import com.brycehan.boot.common.util.ExcelUtils;
+import com.brycehan.boot.common.util.FileUploadUtils;
+import com.brycehan.boot.common.util.MimeTypeUtils;
 import com.brycehan.boot.common.util.ValidatorUtils;
 import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
 import com.brycehan.boot.system.common.security.RefreshTokenEvent;
@@ -254,9 +256,12 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
 
     @Override
     public String importByExcel(MultipartFile file, boolean isUpdateSupport) {
-        if(file.isEmpty()) {
-            throw new RuntimeException("请选择需要上传的文件");
+        if (file.isEmpty()) {
+            throw new RuntimeException("请选择需要导入的用户数据文件");
         }
+        // 验证文件格式
+        FileUploadUtils.assertAllowed(file, MimeTypeUtils.EXCEL_EXTENSION);
+
         List<SysUserExcelDto> sysUserExcelDtoList = ExcelUtils.read(file, SysUserExcelDto.class);
         return saveUsers(sysUserExcelDtoList, isUpdateSupport);
     }
@@ -396,11 +401,19 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
 
     @Override
     public String updateAvatar(MultipartFile file) {
-        log.info("上传头像文件：{}", file.getOriginalFilename());
-        StorageVo storageVo = this.storageApi.upload(file, "avatar");
+        if (file.isEmpty()) {
+            throw new RuntimeException("用户头像不能为空");
+        }
+        if (log.isDebugEnabled()) {
+            log.debug("上传头像文件：{}", file.getOriginalFilename());
+        }
+        // 上传头像文件
+        StorageVo storageVo = this.storageApi.upload(file);
+
         if (storageVo == null || StringUtils.isEmpty(storageVo.getUrl())) {
             throw new ServerException(UserResponseStatus.USER_PROFILE_ALTER_AVATAR_ERROR);
         }
+
         SysUser sysUser = new SysUser();
         // 设置登录用户ID
         sysUser.setId(LoginUserContext.currentUserId());

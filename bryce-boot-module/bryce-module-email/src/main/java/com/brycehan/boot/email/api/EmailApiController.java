@@ -4,16 +4,20 @@ package com.brycehan.boot.email.api;
 import com.brycehan.boot.api.email.dto.ToMailDto;
 import com.brycehan.boot.api.email.dto.ToVerifyCodeEmailDto;
 import com.brycehan.boot.common.base.response.ResponseResult;
+import com.brycehan.boot.common.base.validator.NotEmptyElements;
 import com.brycehan.boot.common.enums.EmailType;
 import com.brycehan.boot.email.service.EmailService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 /**
  * 邮件Api
@@ -25,6 +29,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Tag(name = "邮件")
 @RequestMapping(path = "/api/email")
 @RestController
+@Validated
 @RequiredArgsConstructor
 public class EmailApiController {
 
@@ -52,7 +57,7 @@ public class EmailApiController {
      */
     @Operation(summary = "发送附件邮件")
     @PostMapping(path = "/sendHtmlEmail", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseResult<Void> sendHtmlEmail(@Validated ToMailDto toEmail, @RequestPart(required = false) MultipartFile[] file) {
+    public ResponseResult<Void> sendHtmlEmail(@Validated ToMailDto toEmail, @Size(max = 100) List<MultipartFile> file) {
         this.emailService.sendHtmlEmail(toEmail, file);
         return ResponseResult.ok();
     }

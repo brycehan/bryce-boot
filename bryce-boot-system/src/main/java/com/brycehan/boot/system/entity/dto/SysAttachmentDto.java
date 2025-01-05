@@ -46,13 +46,6 @@ public class SysAttachmentDto extends BaseDto {
     private Long size;
 
     /**
-     * 附件类型
-     */
-    @Schema(description = "附件类型")
-    @Length(max = 50, groups = {SaveGroup.class, UpdateGroup.class})
-    private String type;
-
-    /**
      * 附件名后缀
      */
     @Schema(description = "附件名后缀")

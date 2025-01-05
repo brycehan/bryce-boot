@@ -45,12 +45,6 @@ public class SysAttachmentVo implements Serializable {
     private Long size;
 
     /**
-     * 附件类型
-     */
-    @Schema(description = "附件类型")
-    private String type;
-
-    /**
      * 附件名后缀
      */
     @Schema(description = "附件名后缀")

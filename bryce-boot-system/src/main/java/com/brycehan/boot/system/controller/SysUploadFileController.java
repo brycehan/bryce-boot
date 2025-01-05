@@ -3,15 +3,18 @@ package com.brycehan.boot.system.controller;
 import com.brycehan.boot.api.system.SysUploadFileApi;
 import com.brycehan.boot.api.system.vo.SysUploadFileVo;
 import com.brycehan.boot.common.base.response.ResponseResult;
+import com.brycehan.boot.common.base.validator.NotEmptyElements;
 import com.brycehan.boot.framework.operatelog.annotation.OperateLog;
 import com.brycehan.boot.framework.operatelog.annotation.OperatedType;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
-import org.springframework.util.CollectionUtils;
+import org.springframework.http.MediaType;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,31 +31,40 @@ import java.util.concurrent.CopyOnWriteArrayList;
 @Tag(name = "上传文件")
 @RequestMapping("/storage/uploadFile")
 @RestController
+@Validated
 @RequiredArgsConstructor
 public class SysUploadFileController {
 
     private final SysUploadFileApi sysUploadFileApi;
 
     /**
-     * 保存上传文件
+     * 上传单个文件
      *
      * @param file 上传文件
      * @return 响应结果
      */
-    @Operation(summary = "上传文件")
+    @Operation(summary = "上传单个文件")
     @OperateLog(type = OperatedType.INSERT)
-    @PostMapping(path = "/list")
-    public ResponseResult<List<SysUploadFileVo>> uploadList(@RequestParam List<MultipartFile> file,
-                                                        @RequestParam(defaultValue = "system") String moduleName) {
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseResult<SysUploadFileVo> upload(@NotNull MultipartFile file) {
+        SysUploadFileVo sysUploadFileVo = this.sysUploadFileApi.upload(file);
+        return ResponseResult.ok(sysUploadFileVo);
+    }
 
-        if (CollectionUtils.isEmpty(file)) {
-            return ResponseResult.error("上传文件不能为空");
-        }
-
+    /**
+     * 上传多个文件
+     *
+     * @param file 上传文件
+     * @return 响应结果
+     */
+    @Operation(summary = "上传多个文件")
+    @OperateLog(type = OperatedType.INSERT)
+    @PostMapping(path = "/list", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseResult<List<SysUploadFileVo>> uploadList(@NotNull @NotEmptyElements @Size(min = 1, max = 9) List<MultipartFile> file) {
         List<SysUploadFileVo> uploadFileVoList = new CopyOnWriteArrayList<>();
 
-        file.parallelStream().forEach(fileItem -> {
-                SysUploadFileVo sysUploadFileVo = this.sysUploadFileApi.upload(fileItem, moduleName);
+        file.parallelStream().filter(f -> !f.isEmpty()).forEach(fileItem -> {
+                SysUploadFileVo sysUploadFileVo = this.sysUploadFileApi.upload(fileItem);
                 if (sysUploadFileVo != null) {
                     uploadFileVoList.add(sysUploadFileVo);
                 }
@@ -60,21 +72,5 @@ public class SysUploadFileController {
 
         return ResponseResult.ok(uploadFileVoList);
     }
-
-    /**
-     * 保存上传文件
-     *
-     * @param file 上传文件
-     * @return 响应结果
-     */
-    @Operation(summary = "上传文件")
-    @OperateLog(type = OperatedType.INSERT)
-    @PostMapping
-    public ResponseResult<SysUploadFileVo> upload(@RequestParam MultipartFile file,
-                                                        @RequestParam(defaultValue = "system") String moduleName) {
-        SysUploadFileVo sysUploadFileVo = this.sysUploadFileApi.upload(file, moduleName);
-        return ResponseResult.ok(sysUploadFileVo);
-    }
-
 }
 

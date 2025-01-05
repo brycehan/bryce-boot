@@ -484,7 +484,6 @@ create table brc_sys_attachment
     name            varchar(100) null comment '附件名称',
     url             varchar(255) null comment '附件地址',
     size            bigint       null comment '附件大小（单位字节）',
-    type            varchar(50)  null comment '附件类型',
     suffix          varchar(10)  null comment '附件名后缀',
     hash            varchar(255) null comment '哈希码',
     platform        varchar(50)  null comment '存储平台',
