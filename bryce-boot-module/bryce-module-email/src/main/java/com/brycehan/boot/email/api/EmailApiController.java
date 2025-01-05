@@ -4,7 +4,6 @@ package com.brycehan.boot.email.api;
 import com.brycehan.boot.api.email.dto.ToMailDto;
 import com.brycehan.boot.api.email.dto.ToVerifyCodeEmailDto;
 import com.brycehan.boot.common.base.response.ResponseResult;
-import com.brycehan.boot.common.base.validator.NotEmptyElements;
 import com.brycehan.boot.common.enums.EmailType;
 import com.brycehan.boot.email.service.EmailService;
 import io.swagger.v3.oas.annotations.Operation;

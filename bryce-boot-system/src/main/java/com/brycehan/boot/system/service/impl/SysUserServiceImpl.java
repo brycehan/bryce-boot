@@ -22,7 +22,7 @@ import com.brycehan.boot.common.entity.PageResult;
 import com.brycehan.boot.common.entity.dto.IdsDto;
 import com.brycehan.boot.common.enums.StatusType;
 import com.brycehan.boot.common.enums.YesNoType;
-import com.brycehan.boot.common.util.ExcelUtils;
+import com.brycehan.boot.common.util.excel.ExcelUtils;
 import com.brycehan.boot.common.util.FileUploadUtils;
 import com.brycehan.boot.common.util.MimeTypeUtils;
 import com.brycehan.boot.common.util.ValidatorUtils;

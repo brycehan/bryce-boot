@@ -41,6 +41,7 @@ public class StorageApiService implements StorageApi {
 
             // 上传信息
             storageVo = new StorageVo();
+            storageVo.setName(file.getOriginalFilename());
             storageVo.setUrl(url);
             storageVo.setSize(file.getSize());
         } catch (Exception e) {

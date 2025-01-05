@@ -14,10 +14,21 @@ import lombok.Data;
 @Tag(name = "存储 vo")
 public class StorageVo {
 
+    /**
+     * 文件名称
+     */
+    @Schema(description = "文件名称")
+    private String name;
+
+    /**
+     * URL
+     */
     @Schema(description = "URL")
     private String url;
 
+    /**
+     * 文件大小
+     */
     @Schema(description = "文件大小")
     private Long size;
-
 }

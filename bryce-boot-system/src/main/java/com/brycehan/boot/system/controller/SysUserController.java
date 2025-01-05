@@ -11,7 +11,7 @@ import com.brycehan.boot.common.base.validator.UpdateGroup;
 import com.brycehan.boot.common.entity.PageResult;
 import com.brycehan.boot.common.entity.dto.IdsDto;
 import com.brycehan.boot.common.enums.StatusType;
-import com.brycehan.boot.common.util.ExcelUtils;
+import com.brycehan.boot.common.util.excel.ExcelUtils;
 import com.brycehan.boot.framework.operatelog.annotation.OperateLog;
 import com.brycehan.boot.framework.operatelog.annotation.OperatedType;
 import com.brycehan.boot.system.entity.dto.*;

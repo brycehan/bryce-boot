@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.brycehan.boot.common.base.IdGenerator;
 import com.brycehan.boot.common.entity.PageResult;
-import com.brycehan.boot.common.util.ExcelUtils;
+import com.brycehan.boot.common.util.excel.ExcelUtils;
 import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
 import com.brycehan.boot.system.entity.convert.SysDictTypeConvert;
 import com.brycehan.boot.system.entity.dto.SysDictTypeCodeDto;
