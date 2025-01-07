@@ -4,6 +4,7 @@ import com.brycehan.boot.api.system.SysUploadFileApi;
 import com.brycehan.boot.api.system.vo.SysUploadFileVo;
 import com.brycehan.boot.common.base.response.ResponseResult;
 import com.brycehan.boot.common.base.validator.NotEmptyElements;
+import com.brycehan.boot.common.enums.AccessType;
 import com.brycehan.boot.framework.operatelog.annotation.OperateLog;
 import com.brycehan.boot.framework.operatelog.annotation.OperatedType;
 import io.swagger.v3.oas.annotations.Operation;
@@ -46,8 +47,8 @@ public class SysUploadFileController {
     @Operation(summary = "上传单个文件")
     @OperateLog(type = OperatedType.INSERT)
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseResult<SysUploadFileVo> upload(@NotNull MultipartFile file) {
-        SysUploadFileVo sysUploadFileVo = this.sysUploadFileApi.upload(file);
+    public ResponseResult<SysUploadFileVo> upload(@NotNull MultipartFile file, @NotNull AccessType accessType) {
+        SysUploadFileVo sysUploadFileVo = this.sysUploadFileApi.upload(file, accessType);
         return ResponseResult.ok(sysUploadFileVo);
     }
 
@@ -60,11 +61,11 @@ public class SysUploadFileController {
     @Operation(summary = "上传多个文件")
     @OperateLog(type = OperatedType.INSERT)
     @PostMapping(path = "/list", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseResult<List<SysUploadFileVo>> uploadList(@NotNull @NotEmptyElements @Size(min = 1, max = 9) List<MultipartFile> file) {
+    public ResponseResult<List<SysUploadFileVo>> uploadList(@NotNull @NotEmptyElements @Size(min = 1, max = 9) List<MultipartFile> file, @NotNull AccessType accessType) {
         List<SysUploadFileVo> uploadFileVoList = new CopyOnWriteArrayList<>();
 
         file.parallelStream().filter(f -> !f.isEmpty()).forEach(fileItem -> {
-                SysUploadFileVo sysUploadFileVo = this.sysUploadFileApi.upload(fileItem);
+                SysUploadFileVo sysUploadFileVo = this.sysUploadFileApi.upload(fileItem, accessType);
                 if (sysUploadFileVo != null) {
                     uploadFileVoList.add(sysUploadFileVo);
                 }

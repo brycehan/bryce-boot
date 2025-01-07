@@ -1,14 +1,12 @@
 package com.brycehan.boot.system.service.impl;
 
-import cn.hutool.core.date.DatePattern;
-import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.brycehan.boot.common.base.IdGenerator;
 import com.brycehan.boot.common.entity.PageResult;
-import com.brycehan.boot.common.util.excel.ExcelUtils;
 import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
+import com.brycehan.boot.framework.storage.service.StorageService;
 import com.brycehan.boot.system.entity.convert.SysAttachmentConvert;
 import com.brycehan.boot.system.entity.dto.SysAttachmentDto;
 import com.brycehan.boot.system.entity.dto.SysAttachmentPageDto;
@@ -20,9 +18,6 @@ import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
-
 /**
  * 系统附件服务实现
  *
@@ -32,6 +27,8 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class SysAttachmentServiceImpl extends BaseServiceImpl<SysAttachmentMapper, SysAttachment> implements SysAttachmentService {
+
+    private final StorageService storageService;
 
     /**
      * 添加系统附件
@@ -75,11 +72,11 @@ public class SysAttachmentServiceImpl extends BaseServiceImpl<SysAttachmentMappe
     }
 
     @Override
-    public void export(SysAttachmentPageDto sysAttachmentPageDto) {
-        List<SysAttachment> sysAttachmentList = this.baseMapper.selectList(getWrapper(sysAttachmentPageDto));
-        List<SysAttachmentVo> sysAttachmentVoList = SysAttachmentConvert.INSTANCE.convert(sysAttachmentList);
-        String today = DateUtil.format(new Date(), DatePattern.PURE_DATE_PATTERN);
-        ExcelUtils.export(SysAttachmentVo.class, "系统附件_".concat(today), "系统附件", sysAttachmentVoList);
+    public void download(Long id) {
+        SysAttachment sysAttachment = baseMapper.selectById(id);
+        if (sysAttachment != null) {
+            storageService.download(sysAttachment.getUrl(), sysAttachment.getName(), sysAttachment.getAccessType());
+        }
     }
 
 }

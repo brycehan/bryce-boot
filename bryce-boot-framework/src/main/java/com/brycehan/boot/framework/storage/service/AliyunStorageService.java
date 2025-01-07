@@ -2,6 +2,7 @@ package com.brycehan.boot.framework.storage.service;
 
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
+import com.brycehan.boot.common.enums.AccessType;
 import com.brycehan.boot.framework.storage.config.properties.AliyunStorageProperties;
 import com.brycehan.boot.framework.storage.config.properties.StorageProperties;
 
@@ -21,7 +22,7 @@ public class AliyunStorageService extends StorageService {
     }
 
     @Override
-    public String upload(InputStream data, String path) {
+    public String upload(InputStream data, String path, AccessType accessType) {
         AliyunStorageProperties aliyun = this.storageProperties.getAliyun();
         OSS client = new OSSClientBuilder().build(aliyun.getEndPoint(),
                 aliyun.getAccessKeyId(),
@@ -39,5 +40,10 @@ public class AliyunStorageService extends StorageService {
         return this.storageProperties.getConfig().getDomain()
                 .concat(File.separator)
                 .concat(path);
+    }
+
+    @Override
+    public void download(String url, String name, AccessType accessType) {
+
     }
 }

@@ -8,7 +8,7 @@
         <result column="name" property="name"/>
         <result column="url" property="url"/>
         <result column="size" property="size"/>
-        <result column="type" property="type"/>
+        <result column="access_type" property="accessType"/>
         <result column="suffix" property="suffix"/>
         <result column="hash" property="hash"/>
         <result column="platform" property="platform"/>
@@ -21,7 +21,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, name, url, size, type,
+        id, name, url, size, access_type,
         suffix, hash, platform, deleted,
         created_user_id, created_time, updated_user_id, updated_time
     </sql>

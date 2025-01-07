@@ -38,10 +38,9 @@ public interface SysAttachmentService extends BaseService<SysAttachment> {
     PageResult<SysAttachmentVo> page(SysAttachmentPageDto sysAttachmentPageDto);
 
     /**
-     * 系统附件导出数据
+     * 系统附件下载
      *
-     * @param sysAttachmentPageDto 系统附件查询条件
+     * @param id 系统附件ID
      */
-    void export(SysAttachmentPageDto sysAttachmentPageDto);
-
+    void download(Long id);
 }

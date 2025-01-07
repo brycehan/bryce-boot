@@ -1,5 +1,6 @@
 package com.brycehan.boot.framework.storage.service;
 
+import com.brycehan.boot.common.enums.AccessType;
 import com.brycehan.boot.framework.storage.config.properties.StorageProperties;
 import com.brycehan.boot.framework.storage.config.properties.TencentStorageProperties;
 import com.qcloud.cos.COSClient;
@@ -38,7 +39,7 @@ public class TencentStorageService extends StorageService {
     }
 
     @Override
-    public String upload(InputStream data, String path) {
+    public String upload(InputStream data, String path, AccessType accessType) {
         TencentStorageProperties tencent = this.storageProperties.getTencent();
         COSClient client = new COSClient(credentials, clientConfig);
         try {
@@ -61,5 +62,10 @@ public class TencentStorageService extends StorageService {
         return this.storageProperties.getConfig().getDomain()
                 .concat(File.separator)
                 .concat(path);
+    }
+
+    @Override
+    public void download(String url, String name, AccessType accessType) {
+
     }
 }

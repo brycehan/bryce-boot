@@ -1,5 +1,6 @@
 package com.brycehan.boot.framework.storage.service;
 
+import com.brycehan.boot.common.enums.AccessType;
 import com.brycehan.boot.framework.storage.config.properties.HuaweiStorageProperties;
 import com.brycehan.boot.framework.storage.config.properties.StorageProperties;
 import com.obs.services.ObsClient;
@@ -20,7 +21,7 @@ public class HuaweiStorageService extends StorageService {
     }
 
     @Override
-    public String upload(InputStream data, String path) {
+    public String upload(InputStream data, String path, AccessType accessType) {
         HuaweiStorageProperties huawei = this.storageProperties.getHuawei();
         ObsClient client = new ObsClient(huawei.getAccessKey(),
                 huawei.getSecretKey(),
@@ -35,5 +36,10 @@ public class HuaweiStorageService extends StorageService {
         return this.storageProperties.getConfig().getDomain()
                 .concat(File.separator)
                 .concat(path);
+    }
+
+    @Override
+    public void download(String url, String name, AccessType accessType) {
+
     }
 }

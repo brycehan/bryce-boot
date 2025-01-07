@@ -109,15 +109,14 @@ public class SysAttachmentController {
     }
 
     /**
-     * 系统附件导出数据
+     * 系统附件下载
      *
-     * @param sysAttachmentPageDto 查询条件
+     * @param id 附件ID
      */
-    @Operation(summary = "系统附件导出")
-    @PreAuthorize("@auth.hasAuthority('system:attachment:export')")
-    @PostMapping(path = "/export")
-    public void export(@Validated @RequestBody SysAttachmentPageDto sysAttachmentPageDto) {
-        this.sysAttachmentService.export(sysAttachmentPageDto);
+    @Operation(summary = "系统附件下载")
+    @PreAuthorize("@auth.hasAuthority('system:attachment:info')")
+    @GetMapping(path = "/secure/download/{id}")
+    public void download(@PathVariable Long id) {
+        this.sysAttachmentService.download(id);
     }
-
 }

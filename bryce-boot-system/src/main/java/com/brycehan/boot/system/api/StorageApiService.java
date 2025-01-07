@@ -2,6 +2,7 @@ package com.brycehan.boot.system.api;
 
 import com.brycehan.boot.api.system.StorageApi;
 import com.brycehan.boot.api.system.vo.StorageVo;
+import com.brycehan.boot.common.enums.AccessType;
 import com.brycehan.boot.framework.storage.service.StorageService;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +26,7 @@ public class StorageApiService implements StorageApi {
     private final StorageService storageService;
 
     @Override
-    public StorageVo upload(@NotNull MultipartFile file) {
+    public StorageVo upload(@NotNull MultipartFile file, @NotNull AccessType accessType) {
         // 是否为空
         if(file.isEmpty()) {
             return null;
@@ -37,7 +38,7 @@ public class StorageApiService implements StorageApi {
             // 上传路径
             String path = this.storageService.getPath(file.getOriginalFilename());
             // 上传文件
-            String url = this.storageService.upload(file.getInputStream(), path);
+            String url = this.storageService.upload(file.getInputStream(), path, accessType);
 
             // 上传信息
             storageVo = new StorageVo();

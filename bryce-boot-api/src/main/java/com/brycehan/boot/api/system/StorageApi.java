@@ -1,6 +1,7 @@
 package com.brycehan.boot.api.system;
 
 import com.brycehan.boot.api.system.vo.StorageVo;
+import com.brycehan.boot.common.enums.AccessType;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -17,5 +18,5 @@ public interface StorageApi {
      * @param file MultipartFile 文件
      * @return http资源地址
      */
-    StorageVo upload(MultipartFile file);
+    StorageVo upload(MultipartFile file, AccessType accessType);
 }

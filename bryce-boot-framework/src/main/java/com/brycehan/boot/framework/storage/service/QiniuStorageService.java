@@ -1,5 +1,6 @@
 package com.brycehan.boot.framework.storage.service;
 
+import com.brycehan.boot.common.enums.AccessType;
 import com.brycehan.boot.framework.storage.config.properties.QiniuStorageProperties;
 import com.brycehan.boot.framework.storage.config.properties.StorageProperties;
 import com.qiniu.http.Response;
@@ -34,7 +35,7 @@ public class QiniuStorageService extends StorageService {
     }
 
     @Override
-    public String upload(InputStream data, String path) {
+    public String upload(InputStream data, String path, AccessType accessType) {
         try {
             Response response = this.uploadManager.put(IOUtils.toByteArray(data), path, token);
             if(!response.isOK()) {
@@ -47,5 +48,10 @@ public class QiniuStorageService extends StorageService {
         return this.storageProperties.getConfig().getDomain()
                 .concat(File.separator)
                 .concat(path);
+    }
+
+    @Override
+    public void download(String url, String name, AccessType accessType) {
+
     }
 }

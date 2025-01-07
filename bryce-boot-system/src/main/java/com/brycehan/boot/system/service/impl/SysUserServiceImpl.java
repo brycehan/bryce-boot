@@ -20,6 +20,7 @@ import com.brycehan.boot.common.constant.DataConstants;
 import com.brycehan.boot.common.constant.ParamConstants;
 import com.brycehan.boot.common.entity.PageResult;
 import com.brycehan.boot.common.entity.dto.IdsDto;
+import com.brycehan.boot.common.enums.AccessType;
 import com.brycehan.boot.common.enums.StatusType;
 import com.brycehan.boot.common.enums.YesNoType;
 import com.brycehan.boot.common.util.excel.ExcelUtils;
@@ -408,7 +409,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
             log.debug("上传头像文件：{}", file.getOriginalFilename());
         }
         // 上传头像文件
-        StorageVo storageVo = this.storageApi.upload(file);
+        StorageVo storageVo = this.storageApi.upload(file, AccessType.PUBLIC);
 
         if (storageVo == null || StringUtils.isEmpty(storageVo.getUrl())) {
             throw new ServerException(UserResponseStatus.USER_PROFILE_ALTER_AVATAR_ERROR);

@@ -1,5 +1,6 @@
 package com.brycehan.boot.framework.storage.service;
 
+import com.brycehan.boot.common.enums.AccessType;
 import com.brycehan.boot.framework.storage.config.properties.MinioStorageProperties;
 import com.brycehan.boot.framework.storage.config.properties.StorageProperties;
 import io.minio.BucketExistsArgs;
@@ -34,7 +35,7 @@ public class MinioStorageService extends StorageService {
     }
 
     @Override
-    public String upload(InputStream data, String path) {
+    public String upload(InputStream data, String path, AccessType accessType) {
         MinioStorageProperties minio = this.storageProperties.getMinio();
         boolean bucketExists;
 
@@ -72,5 +73,10 @@ public class MinioStorageService extends StorageService {
                 .concat(minio.getBucketName())
                 .concat(File.separator)
                 .concat(path);
+    }
+
+    @Override
+    public void download(String url, String name, AccessType accessType) {
+
     }
 }

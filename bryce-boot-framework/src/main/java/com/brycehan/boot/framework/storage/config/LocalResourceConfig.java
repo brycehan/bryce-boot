@@ -37,7 +37,10 @@ public class LocalResourceConfig implements WebMvcConfigurer {
 
         // 本地文件访问路径映射
         registry.addResourceHandler(File.separator.concat(localStorageProperties.getUrl()).concat("/**"))
-                .addResourceLocations("file:".concat(localStorageProperties.getPath()).concat(File.separator));
+                .addResourceLocations(
+                        "file:".concat(localStorageProperties.getPath()).concat(File.separator)
+                        .concat(LocalStorageProperties.publicPrefix).concat(File.separator)
+                );
 
     }
 }

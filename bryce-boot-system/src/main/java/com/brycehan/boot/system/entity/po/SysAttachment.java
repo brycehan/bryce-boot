@@ -2,6 +2,7 @@ package com.brycehan.boot.system.entity.po;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.brycehan.boot.common.entity.BaseEntity;
+import com.brycehan.boot.common.enums.AccessType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -32,14 +33,19 @@ public class SysAttachment extends BaseEntity {
     private String url;
 
     /**
-     * 附件大小（单位字节）
-     */
-    private Long size;
-
-    /**
      * 附件名后缀
      */
     private String suffix;
+
+    /**
+     * 访问类型
+     */
+    private AccessType accessType;
+
+    /**
+     * 附件大小（单位字节）
+     */
+    private Long size;
 
     /**
      * 哈希码
