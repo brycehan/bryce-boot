@@ -39,7 +39,7 @@ public class HuaweiStorageService extends StorageService {
     }
 
     @Override
-    public void download(String url, String name, AccessType accessType) {
+    public void download(String path, String filename) {
 
     }
 }

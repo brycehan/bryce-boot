@@ -152,29 +152,33 @@ public class LoginUser implements UserDetails {
      */
     private Set<String> roleSet;
 
-    @Override
     @JsonIgnore
+    @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authoritySet.stream().filter(StringUtils::isNotBlank)
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toSet());
     }
 
+    @JsonIgnore
     @Override
     public boolean isAccountNonExpired() {
         return this.accountNonExpired;
     }
 
+    @JsonIgnore
     @Override
     public boolean isAccountNonLocked() {
         return this.accountNonLocked;
     }
 
+    @JsonIgnore
     @Override
     public boolean isCredentialsNonExpired() {
         return this.credentialsNonExpired;
     }
 
+    @JsonIgnore
     @Override
     public boolean isEnabled() {
         return this.enabled;
@@ -185,6 +189,7 @@ public class LoginUser implements UserDetails {
      *
      * @return true 是超级管理员
      */
+    @JsonIgnore
     public boolean isSuperAdmin() {
         return LoginUser.isSuperAdmin(this);
     }

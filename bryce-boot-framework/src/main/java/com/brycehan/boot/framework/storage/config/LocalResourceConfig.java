@@ -1,5 +1,7 @@
 package com.brycehan.boot.framework.storage.config;
 
+import cn.hutool.core.util.StrUtil;
+import com.brycehan.boot.common.enums.AccessType;
 import com.brycehan.boot.framework.storage.config.properties.LocalStorageProperties;
 import com.brycehan.boot.framework.storage.config.properties.StorageProperties;
 import lombok.RequiredArgsConstructor;
@@ -35,12 +37,24 @@ public class LocalResourceConfig implements WebMvcConfigurer {
             return;
         }
 
-        // 本地文件访问路径映射
-        registry.addResourceHandler(File.separator.concat(localStorageProperties.getUrl()).concat("/**"))
-                .addResourceLocations(
-                        "file:".concat(localStorageProperties.getPath()).concat(File.separator)
-                        .concat(LocalStorageProperties.publicPrefix).concat(File.separator)
-                );
+        // 获取公共文件URL访问前缀
+        String publicPrefix = storageProperties.getConfig().getPublicPrefix();
+        if (StrUtil.isNotEmpty(publicPrefix)) {
+            publicPrefix = "/".concat(publicPrefix);
+        } else {
+            publicPrefix = "";
+        }
 
+        // 获取公共文件file协议访问前缀
+        String accessPrefix = storageProperties.getConfig().getAccessPrefix(AccessType.PUBLIC);
+        if (StrUtil.isNotEmpty(accessPrefix)) {
+            accessPrefix = File.separator.concat(accessPrefix);
+        } else {
+            accessPrefix = File.separator;
+        }
+
+        // 本地文件访问路径映射
+        registry.addResourceHandler("/".concat(localStorageProperties.getPrefix()).concat(publicPrefix).concat("/**"))
+                .addResourceLocations("file:".concat(localStorageProperties.getDirectory()).concat(accessPrefix));
     }
 }

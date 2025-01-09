@@ -28,6 +28,11 @@ public class SysAttachment extends BaseEntity {
     private String name;
 
     /**
+     * 附件路径
+     */
+    private String path;
+
+    /**
      * 附件地址
      */
     private String url;

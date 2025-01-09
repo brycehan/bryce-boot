@@ -33,10 +33,9 @@ public class LocalStorageService extends StorageService {
     @Override
     public String upload(InputStream data, String path, AccessType accessType) {
 
-        LocalStorageProperties local = this.storageProperties.getLocal();
+        LocalStorageProperties local = storageProperties.getLocal();
         try {
-
-            File file = new File(local.getAccessPath(accessType).concat(path));
+            File file = new File(local.getAccessPath(path));
 
             // 没有目录，则自动创建目录
             File parent = file.getParentFile();
@@ -56,28 +55,20 @@ public class LocalStorageService extends StorageService {
         // 公共访问路径
         return this.storageProperties.getConfig().getDomain()
                 .concat(File.separator)
-                .concat(local.getUrl())
+                .concat(local.getPrefix())
                 .concat(File.separator)
                 .concat(path);
     }
 
     @Override
-    public void download(String url, String filename, AccessType accessType) {
+    public void download(String path, String filename) {
         HttpServletResponse response = ServletUtils.getResponse();
-        String urlPath;
-        LocalStorageProperties local = this.storageProperties.getLocal();
-        if (accessType == AccessType.SECURE) { // 安全访问
-            urlPath = local.getAccessPath(accessType).concat(url);
-        } else { // 公共访问
-            String path = StrUtil.subAfter(url, local.getUrl().concat("/"), false);
-            urlPath = local.getAccessPath(accessType).concat(path);
-        }
-
-        File file = new File(urlPath);
+        LocalStorageProperties local = storageProperties.getLocal();
+        File file = new File(local.getAccessPath(path));
 
         // 获取文件名
         if (StrUtil.isBlank(filename)) {
-            filename = StrUtil.subAfter(url, "/", true).split("_")[0];
+            filename = StrUtil.subAfter(path, "/", true).split("_")[0];
             if (StrUtil.isBlank(filename)) {
                 filename = "download";
             }

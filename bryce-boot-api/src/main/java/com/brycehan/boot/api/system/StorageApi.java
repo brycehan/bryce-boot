@@ -2,6 +2,7 @@ package com.brycehan.boot.api.system;
 
 import com.brycehan.boot.api.system.vo.StorageVo;
 import com.brycehan.boot.common.enums.AccessType;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -18,5 +19,14 @@ public interface StorageApi {
      * @param file MultipartFile 文件
      * @return http资源地址
      */
-    StorageVo upload(MultipartFile file, AccessType accessType);
+    StorageVo upload(@NotNull MultipartFile file, @NotNull AccessType accessType);
+
+    /**
+     * 文件上传
+     *
+     * @param file              MultipartFile 文件
+     * @param allowedExtensions 允许上传的文件后缀
+     * @return http资源地址
+     */
+    StorageVo upload(@NotNull MultipartFile file, @NotNull AccessType accessType, String[] allowedExtensions);
 }

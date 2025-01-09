@@ -1,7 +1,7 @@
 package com.brycehan.boot.system.controller;
 
-import com.brycehan.boot.api.system.SysUploadFileApi;
-import com.brycehan.boot.api.system.vo.SysUploadFileVo;
+import com.brycehan.boot.api.system.StorageApi;
+import com.brycehan.boot.api.system.vo.StorageVo;
 import com.brycehan.boot.common.base.response.ResponseResult;
 import com.brycehan.boot.common.base.validator.NotEmptyElements;
 import com.brycehan.boot.common.enums.AccessType;
@@ -26,8 +26,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 /**
  * 上传文件API
  *
- * @since 2022/7/15
  * @author Bryce Han
+ * @since 2022/7/15
  */
 @Tag(name = "上传文件")
 @RequestMapping("/storage/uploadFile")
@@ -36,7 +36,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 @RequiredArgsConstructor
 public class SysUploadFileController {
 
-    private final SysUploadFileApi sysUploadFileApi;
+    private final StorageApi storageApi;
 
     /**
      * 上传单个文件
@@ -47,9 +47,9 @@ public class SysUploadFileController {
     @Operation(summary = "上传单个文件")
     @OperateLog(type = OperatedType.INSERT)
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseResult<SysUploadFileVo> upload(@NotNull MultipartFile file, @NotNull AccessType accessType) {
-        SysUploadFileVo sysUploadFileVo = this.sysUploadFileApi.upload(file, accessType);
-        return ResponseResult.ok(sysUploadFileVo);
+    public ResponseResult<StorageVo> upload(@NotNull MultipartFile file, @NotNull AccessType accessType) {
+        StorageVo storageVo = this.storageApi.upload(file, accessType);
+        return ResponseResult.ok(storageVo);
     }
 
     /**
@@ -61,17 +61,17 @@ public class SysUploadFileController {
     @Operation(summary = "上传多个文件")
     @OperateLog(type = OperatedType.INSERT)
     @PostMapping(path = "/list", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseResult<List<SysUploadFileVo>> uploadList(@NotNull @NotEmptyElements @Size(min = 1, max = 9) List<MultipartFile> file, @NotNull AccessType accessType) {
-        List<SysUploadFileVo> uploadFileVoList = new CopyOnWriteArrayList<>();
+    public ResponseResult<List<StorageVo>> upload(@NotNull @NotEmptyElements @Size(min = 1, max = 9) List<MultipartFile> file, @NotNull AccessType accessType) {
+        List<StorageVo> storageVoList = new CopyOnWriteArrayList<>();
 
         file.parallelStream().filter(f -> !f.isEmpty()).forEach(fileItem -> {
-                SysUploadFileVo sysUploadFileVo = this.sysUploadFileApi.upload(fileItem, accessType);
-                if (sysUploadFileVo != null) {
-                    uploadFileVoList.add(sysUploadFileVo);
-                }
+            StorageVo storageVo = this.storageApi.upload(fileItem, accessType);
+            if (storageVo != null) {
+                storageVoList.add(storageVo);
+            }
         });
 
-        return ResponseResult.ok(uploadFileVoList);
+        return ResponseResult.ok(storageVoList);
     }
 }
 

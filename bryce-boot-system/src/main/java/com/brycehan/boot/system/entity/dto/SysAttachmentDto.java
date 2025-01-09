@@ -34,6 +34,12 @@ public class SysAttachmentDto extends BaseDto {
     private String name;
 
     /**
+     * 附件路径
+     */
+    @Schema(description = "附件路径")
+    @Length(max = 255, groups = {SaveGroup.class, UpdateGroup.class})
+    private String path;
+    /**
      * 附件地址
      */
     @Schema(description = "附件地址")

@@ -75,7 +75,7 @@ public class SysAttachmentServiceImpl extends BaseServiceImpl<SysAttachmentMappe
     public void download(Long id) {
         SysAttachment sysAttachment = baseMapper.selectById(id);
         if (sysAttachment != null) {
-            storageService.download(sysAttachment.getUrl(), sysAttachment.getName(), sysAttachment.getAccessType());
+            storageService.download(sysAttachment.getPath(), sysAttachment.getName());
         }
     }
 

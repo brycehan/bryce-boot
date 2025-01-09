@@ -689,6 +689,7 @@ create table brc_sys_attachment
 (
     id              bigint not null primary key,
     name            varchar(100),
+    path            varchar(255),
     url             varchar(255),
     size            bigint,
     access_type     smallint,
@@ -705,6 +706,7 @@ create table brc_sys_attachment
 comment on table brc_sys_attachment is '系统附件表';
 comment on column brc_sys_attachment.id is 'ID';
 comment on column brc_sys_attachment.name is '附件名称';
+comment on column brc_sys_attachment.path is '附件路径';
 comment on column brc_sys_attachment.url is '附件地址';
 comment on column brc_sys_attachment.size is '附件大小（单位字节）';
 comment on column brc_sys_attachment.access_type is '访问类型（0: 公共，1: 安全）';

@@ -34,6 +34,11 @@ public class SysAttachmentVo implements Serializable {
     private String name;
 
     /**
+     * 附件路径
+     */
+    @Schema(description = "附件路径")
+    private String path;
+    /**
      * 附件地址
      */
     @Schema(description = "附件地址")

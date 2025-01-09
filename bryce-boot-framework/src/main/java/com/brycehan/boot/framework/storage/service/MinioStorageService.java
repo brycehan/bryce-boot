@@ -1,17 +1,22 @@
 package com.brycehan.boot.framework.storage.service;
 
+import cn.hutool.core.io.IoUtil;
 import com.brycehan.boot.common.enums.AccessType;
+import com.brycehan.boot.common.util.ServletUtils;
 import com.brycehan.boot.framework.storage.config.properties.MinioStorageProperties;
 import com.brycehan.boot.framework.storage.config.properties.StorageProperties;
-import io.minio.BucketExistsArgs;
-import io.minio.MakeBucketArgs;
-import io.minio.MinioClient;
-import io.minio.PutObjectArgs;
+import io.minio.*;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.MediaTypeFactory;
 
 import java.io.File;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 
 /**
@@ -20,6 +25,7 @@ import java.util.Optional;
  * @since 2023/10/2
  * @author Bryce Han
  */
+@Slf4j
 public class MinioStorageService extends StorageService {
 
     private final MinioClient minioClient;
@@ -76,7 +82,36 @@ public class MinioStorageService extends StorageService {
     }
 
     @Override
-    public void download(String url, String name, AccessType accessType) {
+    public void download(String path, String filename) {
+        MinioStorageProperties minio = this.storageProperties.getMinio();
+        HttpServletResponse response = ServletUtils.getResponse();
 
+        try {// 获取对象
+            GetObjectResponse object = minioClient.getObject(
+                    GetObjectArgs.builder()
+                            .bucket(minio.getBucketName())
+                            .object(path)
+                            .build());
+            // 获取对象的元数据
+            StatObjectResponse statObjectResponse = minioClient.statObject(
+                    StatObjectArgs.builder()
+                            .bucket(minio.getBucketName())
+                            .object(path)
+                            .build());
+
+            try (InputStream inputStream = object;
+                 OutputStream outputStream = response.getOutputStream()) {
+                String filenameEncoded = URLEncoder.encode(filename, StandardCharsets.UTF_8).replaceAll("\\+", "%20");
+                response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);
+                response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename*=utf-8''" + filenameEncoded);
+                response.addHeader(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, HttpHeaders.CONTENT_DISPOSITION);
+                response.setContentLength((int) statObjectResponse.size());
+                IoUtil.copy(inputStream, outputStream, 1024 * 1024);
+            } catch (Exception e) {
+                log.error("下载文件出错：{}", e.getMessage());
+            }
+        } catch (Exception e) {
+            log.error("MinIO连接出错：{}", e.getMessage());
+        }
     }
 }

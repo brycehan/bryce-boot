@@ -485,6 +485,7 @@ create table brc_sys_attachment
 (
     id              bigint       primary key comment 'ID',
     name            varchar(100) null comment '附件名称',
+    path            varchar(255) null comment '附件路径',
     url             varchar(255) null comment '附件地址',
     size            bigint       null comment '附件大小（单位字节）',
     access_type     tinyint      null comment '访问类型（0: 公共，1: 安全）',

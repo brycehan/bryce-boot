@@ -1,8 +1,12 @@
 package com.brycehan.boot.system.api;
 
+import cn.hutool.core.io.file.FileNameUtil;
+import cn.hutool.crypto.SecureUtil;
 import com.brycehan.boot.api.system.StorageApi;
 import com.brycehan.boot.api.system.vo.StorageVo;
 import com.brycehan.boot.common.enums.AccessType;
+import com.brycehan.boot.common.util.FileUploadUtils;
+import com.brycehan.boot.common.util.MimeTypeUtils;
 import com.brycehan.boot.framework.storage.service.StorageService;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
@@ -27,27 +31,39 @@ public class StorageApiService implements StorageApi {
 
     @Override
     public StorageVo upload(@NotNull MultipartFile file, @NotNull AccessType accessType) {
+        return this.upload(file, accessType, MimeTypeUtils.DEFAULT_ALLOWED_EXTENSION);
+    }
+
+    @Override
+    public StorageVo upload(@NotNull MultipartFile file, @NotNull AccessType accessType, String[] allowedExtensions) {
         // 是否为空
-        if(file.isEmpty()) {
+        if (file.isEmpty()) {
             return null;
         }
 
-        StorageVo storageVo;
+        // 文件格式校验
+        FileUploadUtils.assertAllowed(file, allowedExtensions);
 
+        StorageVo storageVo;
         try {
             // 上传路径
-            String path = this.storageService.getPath(file.getOriginalFilename());
+            String path = this.storageService.getPath(file.getOriginalFilename(), accessType);
             // 上传文件
             String url = this.storageService.upload(file.getInputStream(), path, accessType);
 
             // 上传信息
             storageVo = new StorageVo();
             storageVo.setName(file.getOriginalFilename());
+            storageVo.setPath(path);
             storageVo.setUrl(url);
+            storageVo.setSuffix(FileNameUtil.getSuffix(file.getOriginalFilename()));
             storageVo.setSize(file.getSize());
+            storageVo.setAccessType(accessType);
+            storageVo.setHash(SecureUtil.sha256(file.getInputStream()));
+            storageVo.setPlatform(this.storageService.storageProperties.getConfig().getType().name());
         } catch (Exception e) {
             log.error("上传文件失败", e);
-            throw new RuntimeException("上传文件失败");
+            return null;
         }
 
         return storageVo;
