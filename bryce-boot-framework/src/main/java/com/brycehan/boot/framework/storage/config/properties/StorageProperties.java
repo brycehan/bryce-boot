@@ -63,9 +63,9 @@ public class StorageProperties {
     public static class Config {
 
         /**
-         * 访问域名
+         * 访问端点
          */
-        private String domain;
+        private String endpoint;
 
         /**
          * 存储类型

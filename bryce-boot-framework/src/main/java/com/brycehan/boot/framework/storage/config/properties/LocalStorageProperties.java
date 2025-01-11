@@ -14,15 +14,25 @@ import java.io.File;
 @Data
 @ConfigurationProperties(prefix = "bryce.storage.local")
 public class LocalStorageProperties {
+
     /**
-     * 本地存储路径
+     * 本地存储目录
      */
     private String directory;
 
     /**
      * 资源起始路径
      */
-    private String prefix = "attachment";
+    private String prefix = "storage";
+
+    /**
+     * 获取访问路径前缀
+     *
+     * @return 访问路径前缀
+     */
+    public final String getAccessPrefix() {
+        return directory.concat(File.separator).concat(prefix);
+    }
 
     /**
      * 根据存储路径获取访问路径
@@ -31,6 +41,6 @@ public class LocalStorageProperties {
      * @return 保存路径
      */
     public final String getAccessPath(String path) {
-        return directory.concat(File.separator).concat(path);
+        return getAccessPrefix().concat(File.separator).concat(path);
     }
 }

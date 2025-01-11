@@ -50,14 +50,12 @@ public class LocalStorageService extends StorageService {
 
         // 安全访问的相对路径
         if (accessType == AccessType.SECURE) {
-            return path;
+            return "";
         }
         // 公共访问路径
-        return this.storageProperties.getConfig().getDomain()
-                .concat(File.separator)
-                .concat(local.getPrefix())
-                .concat(File.separator)
-                .concat(path);
+        return this.storageProperties.getConfig().getEndpoint()
+                .concat("/").concat(local.getPrefix())
+                .concat("/").concat(path);
     }
 
     @Override
@@ -74,20 +72,21 @@ public class LocalStorageService extends StorageService {
             }
         }
 
-        if (file.exists()) {
-            try (InputStream inputStream = Files.newInputStream(file.toPath());
-                 OutputStream outputStream = response.getOutputStream()) {
-                String filenameEncoded = URLEncoder.encode(filename, StandardCharsets.UTF_8).replaceAll("\\+", "%20");
-                response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);
-                response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename*=utf-8''" + filenameEncoded);
-                response.addHeader(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, HttpHeaders.CONTENT_DISPOSITION);
-                response.setContentLength((int) file.length());
-                IoUtil.copy(inputStream, outputStream, 1024 * 1024);
-            } catch (IOException e) {
-                throw new RuntimeException("下载文件失败：", e);
-            }
-        } else {
+        if (!file.exists()) {
             throw new RuntimeException("文件不存在");
+        }
+
+        // 将文件输出到Response
+        try (InputStream inputStream = Files.newInputStream(file.toPath());
+             OutputStream outputStream = response.getOutputStream()) {
+            String filenameEncoded = URLEncoder.encode(filename, StandardCharsets.UTF_8).replaceAll("\\+", "%20");
+            response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);
+            response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename*=utf-8''" + filenameEncoded);
+            response.addHeader(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, HttpHeaders.CONTENT_DISPOSITION);
+            response.setContentLength((int) file.length());
+            IoUtil.copy(inputStream, outputStream, 1024 * 1024);
+        } catch (IOException e) {
+            throw new RuntimeException("下载文件失败：", e);
         }
     }
 }

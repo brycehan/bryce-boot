@@ -13,6 +13,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "bryce.storage.qiniu")
 public class QiniuStorageProperties {
 
+    private String domain;
+
     private String accessKey;
 
     private String secretKey;

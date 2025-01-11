@@ -13,7 +13,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "bryce.storage.minio")
 public class MinioStorageProperties {
 
-    private String endPoint;
+    private String endpoint;
 
     private String accessKey;
 

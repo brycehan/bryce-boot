@@ -11,8 +11,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.MediaTypeFactory;
+import org.springframework.util.Assert;
 
-import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URLEncoder;
@@ -35,7 +35,7 @@ public class MinioStorageService extends StorageService {
 
         MinioStorageProperties minio = storageProperties.getMinio();
         this.minioClient = MinioClient.builder()
-                .endpoint(minio.getEndPoint())
+                .endpoint(minio.getEndpoint())
                 .credentials(minio.getAccessKey(), minio.getSecretKey())
                 .build();
     }
@@ -46,10 +46,11 @@ public class MinioStorageService extends StorageService {
         boolean bucketExists;
 
         try {
-            // 如果bucketName不存在，则创建
+            // 查询bucketName是否存在
             bucketExists = this.minioClient.bucketExists(BucketExistsArgs.builder()
                     .bucket(minio.getBucketName())
                     .build());
+            // 如果bucketName不存在，则创建
             if(!bucketExists) {
                 this.minioClient.makeBucket(MakeBucketArgs.builder()
                         .bucket(minio.getBucketName())
@@ -62,7 +63,8 @@ public class MinioStorageService extends StorageService {
                 contentType = mediaType.get().toString();
             }
 
-            this.minioClient.putObject(
+            // 上传文件
+            minioClient.putObject(
                     PutObjectArgs.builder()
                             .bucket(minio.getBucketName())
                             .contentType(contentType)
@@ -74,11 +76,9 @@ public class MinioStorageService extends StorageService {
             throw new RuntimeException("上传文件失败：", e);
         }
 
-        return minio.getEndPoint()
-                .concat(File.separator)
-                .concat(minio.getBucketName())
-                .concat(File.separator)
-                .concat(path);
+        return minio.getEndpoint()
+                .concat("/").concat(minio.getBucketName())
+                .concat("/").concat(path);
     }
 
     @Override
@@ -86,32 +86,37 @@ public class MinioStorageService extends StorageService {
         MinioStorageProperties minio = this.storageProperties.getMinio();
         HttpServletResponse response = ServletUtils.getResponse();
 
+        GetObjectResponse object = null;
+        StatObjectResponse statObjectResponse = null;
         try {// 获取对象
-            GetObjectResponse object = minioClient.getObject(
+            object = minioClient.getObject(
                     GetObjectArgs.builder()
                             .bucket(minio.getBucketName())
                             .object(path)
                             .build());
             // 获取对象的元数据
-            StatObjectResponse statObjectResponse = minioClient.statObject(
+            statObjectResponse = minioClient.statObject(
                     StatObjectArgs.builder()
                             .bucket(minio.getBucketName())
                             .object(path)
                             .build());
-
-            try (InputStream inputStream = object;
-                 OutputStream outputStream = response.getOutputStream()) {
-                String filenameEncoded = URLEncoder.encode(filename, StandardCharsets.UTF_8).replaceAll("\\+", "%20");
-                response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);
-                response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename*=utf-8''" + filenameEncoded);
-                response.addHeader(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, HttpHeaders.CONTENT_DISPOSITION);
-                response.setContentLength((int) statObjectResponse.size());
-                IoUtil.copy(inputStream, outputStream, 1024 * 1024);
-            } catch (Exception e) {
-                log.error("下载文件出错：{}", e.getMessage());
-            }
         } catch (Exception e) {
-            log.error("MinIO连接出错：{}", e.getMessage());
+            log.error("MinIO 连接出错：{}", e.getMessage());
+        }
+
+        Assert.notNull(object, "MinIO对象为空");
+        Assert.notNull(statObjectResponse, "MinIO对象为空");
+        // 将文件输出到Response
+        try (InputStream inputStream = object;
+             OutputStream outputStream = response.getOutputStream()) {
+            String filenameEncoded = URLEncoder.encode(filename, StandardCharsets.UTF_8).replaceAll("\\+", "%20");
+            response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);
+            response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename*=utf-8''" + filenameEncoded);
+            response.addHeader(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, HttpHeaders.CONTENT_DISPOSITION);
+            response.setContentLength((int) statObjectResponse.size());
+            IoUtil.copy(inputStream, outputStream, 1024 * 1024);
+        } catch (Exception e) {
+            log.error("下载文件出错：{}", e.getMessage());
         }
     }
 }

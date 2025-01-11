@@ -1,7 +1,6 @@
 package com.brycehan.boot.framework.storage.config;
 
 import cn.hutool.core.util.StrUtil;
-import com.brycehan.boot.common.enums.AccessType;
 import com.brycehan.boot.framework.storage.config.properties.LocalStorageProperties;
 import com.brycehan.boot.framework.storage.config.properties.StorageProperties;
 import lombok.RequiredArgsConstructor;
@@ -37,24 +36,23 @@ public class LocalResourceConfig implements WebMvcConfigurer {
             return;
         }
 
-        // 获取公共文件URL访问前缀
-        String publicPrefix = storageProperties.getConfig().getPublicPrefix();
-        if (StrUtil.isNotEmpty(publicPrefix)) {
-            publicPrefix = "/".concat(publicPrefix);
-        } else {
-            publicPrefix = "";
-        }
+        // 公共文件URL访问前缀
+        String urlPublicPrefix;
+        // 公共文件file协议访问前缀
+        String accessPublicPrefix;
 
-        // 获取公共文件file协议访问前缀
-        String accessPrefix = storageProperties.getConfig().getAccessPrefix(AccessType.PUBLIC);
-        if (StrUtil.isNotEmpty(accessPrefix)) {
-            accessPrefix = File.separator.concat(accessPrefix);
+        String publicPrefix = storageProperties.getConfig().getPublicPrefix();
+        // 获取公共文件访问前缀
+        if (StrUtil.isNotEmpty(publicPrefix)) {
+            urlPublicPrefix = "/".concat(publicPrefix);
+            accessPublicPrefix = File.separator.concat(publicPrefix).concat(File.separator);
         } else {
-            accessPrefix = File.separator;
+            urlPublicPrefix = "";
+            accessPublicPrefix = File.separator;
         }
 
         // 本地文件访问路径映射
-        registry.addResourceHandler("/".concat(localStorageProperties.getPrefix()).concat(publicPrefix).concat("/**"))
-                .addResourceLocations("file:".concat(localStorageProperties.getDirectory()).concat(accessPrefix));
+        registry.addResourceHandler("/".concat(localStorageProperties.getPrefix()).concat(urlPublicPrefix).concat("/**"))
+                .addResourceLocations("file:".concat(localStorageProperties.getAccessPrefix()).concat(accessPublicPrefix));
     }
 }

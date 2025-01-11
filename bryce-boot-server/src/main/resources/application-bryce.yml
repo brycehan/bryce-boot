@@ -62,10 +62,10 @@ bryce:
         - /v3/api-docs/**
         - /webjars/**
         - /favicon.ico
-        - /attachment/**
+        - /auth/logout
         - /auth/captcha/**
         - /auth/sms/**
-        - /auth/logout
+        - /storage/public/**
       post:
         - /auth/loginByAccount
         - /auth/loginByPhone
@@ -92,17 +92,17 @@ bryce:
     enabled: true
     config:
       # 存储类型 local|minio|aliyun|tencent|qiniu|huawei
-      type: local
-      domain: http://localhost:${server.port}
+      type: minio
+      endpoint: http://localhost:${server.port}
     local:
-      # 路径 System.getProperty("user.home") + projectName + "/attachment";
-      directory: ${user.home}/bryce-boot/attachment
+      # 路径 System.getProperty("user.home") + projectName;
+      directory: ${user.home}/bryce-boot
     # minio 配置
     minio:
       endpoint: http://127.0.0.1:9000
       access-key: sVlpKIiyRXfNVosAqd1M
       secret-key: O0ArhGUegmt03hjEpt8mFLhwSoSxBDUCA2umsIuk
-      bucketName: bryce-boot
+      bucket-name: bryce-boot
 
   # 代码生成
   generator:
