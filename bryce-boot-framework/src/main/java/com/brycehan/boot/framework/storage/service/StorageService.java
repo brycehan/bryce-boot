@@ -4,6 +4,7 @@ import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.file.FileNameUtil;
 import com.brycehan.boot.common.enums.AccessType;
+import com.brycehan.boot.framework.storage.config.StorageType;
 import com.brycehan.boot.framework.storage.config.properties.StorageProperties;
 
 import java.io.ByteArrayInputStream;
@@ -20,7 +21,7 @@ import java.util.Date;
  */
 public abstract class StorageService {
 
-    public StorageProperties storageProperties;
+    protected StorageProperties storageProperties;
 
     /**
      * 文件上传
@@ -89,6 +90,15 @@ public abstract class StorageService {
                 .concat(String.valueOf(time))
                 .concat(".")
                 .concat(suffix);
+    }
+
+    /**
+     * 获取当前存储类型
+     *
+     * @return 当前存储类型
+     */
+    public StorageType getStorageType() {
+        return storageProperties.getConfig().getType();
     }
 
     /**

@@ -47,9 +47,9 @@ public class StorageApiService implements StorageApi {
         StorageVo storageVo;
         try {
             // 上传路径
-            String path = this.storageService.getPath(file.getOriginalFilename(), accessType);
+            String path = storageService.getPath(file.getOriginalFilename(), accessType);
             // 上传文件
-            String url = this.storageService.upload(file.getInputStream(), path, accessType);
+            String url = storageService.upload(file.getInputStream(), path, accessType);
 
             // 上传信息
             storageVo = new StorageVo();
@@ -60,7 +60,7 @@ public class StorageApiService implements StorageApi {
             storageVo.setSize(file.getSize());
             storageVo.setAccessType(accessType);
             storageVo.setHash(SecureUtil.sha256(file.getInputStream()));
-            storageVo.setPlatform(this.storageService.storageProperties.getConfig().getType().name());
+            storageVo.setPlatform(storageService.getStorageType().name());
         } catch (Exception e) {
             log.error("上传文件失败", e);
             return null;
