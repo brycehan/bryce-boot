@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.time.LocalTime;
 import java.util.Date;
+import java.util.Optional;
 
 /**
  * 存储服务
@@ -93,12 +94,14 @@ public abstract class StorageService {
     }
 
     /**
-     * 获取当前存储类型
+     * 获取当前存储平台
      *
      * @return 当前存储类型
      */
-    public StorageType getStorageType() {
-        return storageProperties.getConfig().getType();
+    public String getPlatform() {
+        return Optional.ofNullable(storageProperties.getConfig())
+                .map(StorageProperties.Config::getType)
+                .map(StorageType::name).orElseThrow(() -> new RuntimeException("请开启存储配置"));
     }
 
     /**

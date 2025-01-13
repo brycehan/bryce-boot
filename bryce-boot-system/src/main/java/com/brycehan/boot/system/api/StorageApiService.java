@@ -60,7 +60,7 @@ public class StorageApiService implements StorageApi {
             storageVo.setSize(file.getSize());
             storageVo.setAccessType(accessType);
             storageVo.setHash(SecureUtil.sha256(file.getInputStream()));
-            storageVo.setPlatform(storageService.getStorageType().name());
+            storageVo.setPlatform(storageService.getPlatform());
         } catch (Exception e) {
             log.error("上传文件失败", e);
             return null;
