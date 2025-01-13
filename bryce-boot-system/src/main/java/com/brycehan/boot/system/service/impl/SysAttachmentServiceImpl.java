@@ -3,10 +3,10 @@ package com.brycehan.boot.system.service.impl;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.brycehan.boot.api.system.StorageApi;
 import com.brycehan.boot.common.base.IdGenerator;
 import com.brycehan.boot.common.entity.PageResult;
 import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
-import com.brycehan.boot.framework.storage.service.StorageService;
 import com.brycehan.boot.system.entity.convert.SysAttachmentConvert;
 import com.brycehan.boot.system.entity.dto.SysAttachmentDto;
 import com.brycehan.boot.system.entity.dto.SysAttachmentPageDto;
@@ -28,7 +28,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class SysAttachmentServiceImpl extends BaseServiceImpl<SysAttachmentMapper, SysAttachment> implements SysAttachmentService {
 
-    private final StorageService storageService;
+    private final StorageApi storageApi;
 
     /**
      * 添加系统附件
@@ -75,7 +75,7 @@ public class SysAttachmentServiceImpl extends BaseServiceImpl<SysAttachmentMappe
     public void download(Long id) {
         SysAttachment sysAttachment = baseMapper.selectById(id);
         if (sysAttachment != null) {
-            storageService.download(sysAttachment.getPath(), sysAttachment.getName());
+            storageApi.download(sysAttachment.getPath(), sysAttachment.getName());
         }
     }
 

@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 /**
  * 存储服务 Api 实现
  *
@@ -31,11 +33,11 @@ public class StorageApiService implements StorageApi {
 
     @Override
     public StorageVo upload(@NotNull MultipartFile file, @NotNull AccessType accessType) {
-        return this.upload(file, accessType, MimeTypeUtils.DEFAULT_ALLOWED_EXTENSION);
+        return upload(file, accessType, MimeTypeUtils.DEFAULT_ALLOWED_EXTENSION);
     }
 
     @Override
-    public StorageVo upload(@NotNull MultipartFile file, @NotNull AccessType accessType, String[] allowedExtensions) {
+    public StorageVo upload(@NotNull MultipartFile file, @NotNull AccessType accessType, @NotNull List<String> allowedExtensions) {
         // 是否为空
         if (file.isEmpty()) {
             return null;
@@ -67,5 +69,10 @@ public class StorageApiService implements StorageApi {
         }
 
         return storageVo;
+    }
+
+    @Override
+    public void download(String url, String filename) {
+        storageService.download(url, filename);
     }
 }

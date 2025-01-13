@@ -1,5 +1,7 @@
 package com.brycehan.boot.common.util;
 
+import java.util.List;
+
 /**
  * MIME类型工具类
  *
@@ -15,18 +17,18 @@ public class MimeTypeUtils {
     public static final String IMAGE_BMP = "image/bmp";
     public static final String IMAGE_GIF = "image/gif";
     // 图片文件后缀
-    public static final String[] IMAGE_EXTENSION = {"jpg", "jpeg", "png", "bmp", "gif"};
+    public static final List<String> IMAGE_EXTENSION = List.of("jpg", "jpeg", "png", "bmp", "gif");
     // Excel文件后缀
-    public static final String[] EXCEL_EXTENSION = {"xlsx", "xls", "csv"};
+    public static final List<String> EXCEL_EXTENSION = List.of("xlsx", "xls", "csv");
     // Flash文件后缀
-    public static final String[] FLASH_EXTENSION = {"swf", "flv"};
+    public static final List<String> FLASH_EXTENSION = List.of("swf", "flv");
     // 媒体文件后缀
-    public static final String[] MEDIA_EXTENSION = {"swf", "flv", "mp3", "wav", "wma", "wmv", "mid", "avi", "mpg", "asf", "rm", "mp4", "avi", "rmvb"};
+    public static final List<String> MEDIA_EXTENSION = List.of("swf", "flv", "mp3", "wav", "wma", "wmv", "mid", "avi", "mpg", "asf", "rm", "mp4", "avi", "rmvb");
     // 视频文件后缀
-    public static final String[] VIDEO_EXTENSION = {"mp4", "avi", "rmvb"};
+    public static final List<String> VIDEO_EXTENSION =  List.of("mp4", "avi", "rmvb");
 
     // 允许上传的文件后缀
-    public static final String[] DEFAULT_ALLOWED_EXTENSION = {
+    public static final List<String> DEFAULT_ALLOWED_EXTENSION = List.of(
             // 图片
             "jpg", "jpeg", "png", "bmp", "gif",
             // word、excel、powerpoint、pdf
@@ -35,7 +37,7 @@ public class MimeTypeUtils {
             "rar", "zip", "gz", "bz2",
             // 视频格式
             "mp4", "avi", "rmvb"
-    };
+    );
 
     /**
      * 根据文件内容类型获取文件后缀

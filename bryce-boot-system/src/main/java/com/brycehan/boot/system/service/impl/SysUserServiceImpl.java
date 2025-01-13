@@ -408,8 +408,9 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         if (log.isDebugEnabled()) {
             log.debug("上传头像文件：{}", file.getOriginalFilename());
         }
+
         // 上传头像文件
-        StorageVo storageVo = this.storageApi.upload(file, AccessType.PUBLIC, MimeTypeUtils.IMAGE_EXTENSION);
+        StorageVo storageVo = storageApi.upload(file, AccessType.PUBLIC, MimeTypeUtils.IMAGE_EXTENSION);
 
         if (storageVo == null || StringUtils.isEmpty(storageVo.getUrl())) {
             throw new ServerException(UserResponseStatus.USER_PROFILE_ALTER_AVATAR_ERROR);
