@@ -64,7 +64,7 @@ public abstract class BasePageDto implements Serializable {
      * @return 分页对象
      */
     public  <T> IPage<T> toPage() {
-        Page<T> page = new Page<>(this.current, this.size);
+        Page<T> page = new Page<>(current, size);
         log.debug("ServiceImpl.getPage 参数：{}", this);
 
         List<OrderItem> orderItems = new ArrayList<>();

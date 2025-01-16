@@ -46,7 +46,7 @@ public class SysOrgController {
     @PreAuthorize("@auth.hasAuthority('system:org:save')")
     @PostMapping
     public ResponseResult<Void> save(@Validated(value = SaveGroup.class) @RequestBody SysOrgDto sysOrgDto) {
-        this.sysOrgService.save(sysOrgDto);
+        sysOrgService.save(sysOrgDto);
         return ResponseResult.ok();
     }
 
@@ -61,7 +61,7 @@ public class SysOrgController {
     @PreAuthorize("@auth.hasAuthority('system:org:update')")
     @PutMapping
     public ResponseResult<Void> update(@Validated(value = UpdateGroup.class) @RequestBody SysOrgDto sysOrgDto) {
-        this.sysOrgService.update(sysOrgDto);
+        sysOrgService.update(sysOrgDto);
         return ResponseResult.ok();
     }
 
@@ -76,7 +76,7 @@ public class SysOrgController {
     @PreAuthorize("@auth.hasAuthority('system:org:delete')")
     @DeleteMapping
     public ResponseResult<Void> delete(@Validated @RequestBody IdsDto idsDto) {
-        this.sysOrgService.delete(idsDto);
+        sysOrgService.delete(idsDto);
         return ResponseResult.ok();
     }
 
@@ -91,7 +91,7 @@ public class SysOrgController {
     @GetMapping(path = "/{id}")
     public ResponseResult<SysOrgVo> get(@Parameter(description = "系统机构ID", required = true) @PathVariable Long id) {
         sysOrgService.checkOrgDataScope(id);
-        SysOrg sysOrg = this.sysOrgService.getById(id);
+        SysOrg sysOrg = sysOrgService.getById(id);
         return ResponseResult.ok(SysOrgConvert.INSTANCE.convert(sysOrg));
     }
 
@@ -105,7 +105,7 @@ public class SysOrgController {
     @PreAuthorize("@auth.hasAuthority('system:org:list')")
     @PostMapping(path = "/list")
     public ResponseResult<List<SysOrgVo>> list(@Validated @RequestBody SysOrgDto sysOrgDto) {
-        List<SysOrgVo> list = this.sysOrgService.list(sysOrgDto);
+        List<SysOrgVo> list = sysOrgService.list(sysOrgDto);
         return ResponseResult.ok(list);
     }
 

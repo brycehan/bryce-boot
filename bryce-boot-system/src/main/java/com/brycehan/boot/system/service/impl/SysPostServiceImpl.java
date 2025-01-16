@@ -66,7 +66,7 @@ public class SysPostServiceImpl extends BaseServiceImpl<SysPostMapper, SysPost> 
         baseMapper.deleteByIds(idsDto.getIds());
 
         // 删除岗位用户关系
-        this.sysUserPostService.deleteByPostIds(idsDto.getIds());
+        sysUserPostService.deleteByPostIds(idsDto.getIds());
     }
 
     @Override

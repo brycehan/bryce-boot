@@ -19,7 +19,7 @@ public interface BaseService<T> extends IService<T> {
      */
     @Transactional
     default void delete(IdsDto idsDto) {
-        this.getBaseMapper().deleteByIds(idsDto.getIds());
+        getBaseMapper().deleteByIds(idsDto.getIds());
     }
 
 }

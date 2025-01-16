@@ -65,7 +65,7 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
         baseMapper.insert(sysRole);
 
         // 保存角色菜单关系
-        this.sysRoleMenuService.saveOrUpdate(sysRole.getId(), sysRoleDto.getMenuIds());
+        sysRoleMenuService.saveOrUpdate(sysRole.getId(), sysRoleDto.getMenuIds());
     }
 
     @Override
@@ -79,7 +79,7 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
         baseMapper.updateById(sysRole);
 
         // 更新角色菜单关系
-        this.sysRoleMenuService.saveOrUpdate(sysRoleDto.getId(), sysRoleDto.getMenuIds());
+        sysRoleMenuService.saveOrUpdate(sysRoleDto.getId(), sysRoleDto.getMenuIds());
     }
 
     @Override
@@ -99,13 +99,13 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
         baseMapper.deleteByIds(idsDto.getIds());
 
         // 删除用户角色关系
-        this.sysUserRoleService.deleteByRoleIds(idsDto.getIds());
+        sysUserRoleService.deleteByRoleIds(idsDto.getIds());
 
         // 删除角色菜单关系
-        this.sysRoleMenuService.deleteByRoleIds(idsDto.getIds());
+        sysRoleMenuService.deleteByRoleIds(idsDto.getIds());
 
         // 删除角色数据权限关系
-        this.sysRoleOrgService.deleteByRoleIds(idsDto.getIds());
+        sysRoleOrgService.deleteByRoleIds(idsDto.getIds());
     }
 
     @Override
@@ -151,7 +151,7 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
         // 更新状态
         LambdaUpdateWrapper<SysRole> updateWrapper = new LambdaUpdateWrapper<>();
         updateWrapper.set(SysRole::getStatus, status).eq(SysRole::getId, id);
-        this.update(updateWrapper);
+        update(updateWrapper);
     }
 
     @Override
@@ -189,16 +189,16 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
 
         // 更新角色数据范围关系
         if (sysRoleOrgDto.getDataScope() == DataScopeType.CUSTOM) {
-            this.sysRoleOrgService.saveOrUpdate(sysRoleOrgDto.getId(), sysRoleOrgDto.getOrgIds());
+            sysRoleOrgService.saveOrUpdate(sysRoleOrgDto.getId(), sysRoleOrgDto.getOrgIds());
         } else {
-            this.sysRoleOrgService.deleteByRoleIds(Collections.singletonList(sysRoleOrgDto.getId()));
+            sysRoleOrgService.deleteByRoleIds(Collections.singletonList(sysRoleOrgDto.getId()));
         }
     }
 
     @Override
     public PageResult<SysRoleVo> assignRolePage(SysAssignRolePageDto sysAssignRolePageDto) {
         // 指定用户已分配的角色ID列表
-        List<Long> roleIds = this.sysUserRoleService.getRoleIdsByUserId(sysAssignRolePageDto.getUserId());
+        List<Long> roleIds = sysUserRoleService.getRoleIdsByUserId(sysAssignRolePageDto.getUserId());
 
         LambdaQueryWrapper<SysRole> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.select(SysRole::getId, SysRole::getName, SysRole::getCode, SysRole::getCreatedTime);

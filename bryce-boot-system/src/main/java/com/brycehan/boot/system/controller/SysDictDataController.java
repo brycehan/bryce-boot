@@ -46,7 +46,7 @@ public class SysDictDataController {
     @PreAuthorize("@auth.hasAuthority('system:dictData:save')")
     @PostMapping
     public ResponseResult<Void> save(@Validated(value = SaveGroup.class) @RequestBody SysDictDataDto sysDictDataDto) {
-        this.sysDictDataService.save(sysDictDataDto);
+        sysDictDataService.save(sysDictDataDto);
         return ResponseResult.ok();
     }
 
@@ -61,7 +61,7 @@ public class SysDictDataController {
     @PreAuthorize("@auth.hasAuthority('system:dictData:update')")
     @PutMapping
     public ResponseResult<Void> update(@Validated(value = UpdateGroup.class) @RequestBody SysDictDataDto sysDictDataDto) {
-        this.sysDictDataService.update(sysDictDataDto);
+        sysDictDataService.update(sysDictDataDto);
         return ResponseResult.ok();
     }
 
@@ -76,7 +76,7 @@ public class SysDictDataController {
     @PreAuthorize("@auth.hasAuthority('system:dictData:delete')")
     @DeleteMapping
     public ResponseResult<Void> delete(@Validated @RequestBody IdsDto idsDto) {
-        this.sysDictDataService.delete(idsDto);
+        sysDictDataService.delete(idsDto);
         return ResponseResult.ok();
     }
 
@@ -90,7 +90,7 @@ public class SysDictDataController {
     @PreAuthorize("@auth.hasAuthority('system:dictData:info')")
     @GetMapping(path = "/{id}")
     public ResponseResult<SysDictDataVo> get(@Parameter(description = "系统字典数据ID", required = true) @PathVariable Long id) {
-        SysDictData sysDictData = this.sysDictDataService.getById(id);
+        SysDictData sysDictData = sysDictDataService.getById(id);
         return ResponseResult.ok(SysDictDataConvert.INSTANCE.convert(sysDictData));
     }
 
@@ -104,7 +104,7 @@ public class SysDictDataController {
     @PreAuthorize("@auth.hasAuthority('system:dictData:page')")
     @PostMapping(path = "/page")
     public ResponseResult<PageResult<SysDictDataVo>> page(@Validated @RequestBody SysDictDataPageDto sysDictDataPageDto) {
-        PageResult<SysDictDataVo> page = this.sysDictDataService.page(sysDictDataPageDto);
+        PageResult<SysDictDataVo> page = sysDictDataService.page(sysDictDataPageDto);
         return ResponseResult.ok(page);
     }
 
@@ -117,7 +117,7 @@ public class SysDictDataController {
     @PreAuthorize("@auth.hasAuthority('system:dictData:export')")
     @PostMapping(path = "/export")
     public void export(@Validated @RequestBody SysDictDataPageDto sysDictDataPageDto) {
-        this.sysDictDataService.export(sysDictDataPageDto);
+        sysDictDataService.export(sysDictDataPageDto);
     }
 
 }

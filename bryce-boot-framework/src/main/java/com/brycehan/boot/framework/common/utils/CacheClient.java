@@ -103,7 +103,7 @@ public class CacheClient {
 
         // 已过期，需要缓存重建
         String lockKey = LOCK_KEY + entityType.getSimpleName() + ":" + id;
-        RLock lock = this.redissonClient.getLock(lockKey);
+        RLock lock = redissonClient.getLock(lockKey);
         if (lock.tryLock()) {
             CACHE_REBUILD_EXECUTOR.submit(() -> {
                 try {
@@ -111,7 +111,7 @@ public class CacheClient {
                     // 查询数据库
                     E newEntity = dbFunction.apply(id);
                     // 重建缓存
-                    this.setWithLogicalExpire(key, newEntity, timeout, unit);
+                    setWithLogicalExpire(key, newEntity, timeout, unit);
                 } catch (Exception e) {
                     log.error("缓存重建异常：{}", e.getMessage());
                 } finally {
@@ -156,7 +156,7 @@ public class CacheClient {
         // 需要缓存重建
         String lockKey = LOCK_KEY + entityType.getSimpleName() + ":" + id;
         E entity;
-        RLock lock = this.redissonClient.getLock(lockKey);
+        RLock lock = redissonClient.getLock(lockKey);
         try {
             // 获取互斥锁
             if (!lock.tryLock()) {

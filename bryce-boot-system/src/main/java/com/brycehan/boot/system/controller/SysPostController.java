@@ -49,7 +49,7 @@ public class SysPostController {
     @PreAuthorize("@auth.hasAuthority('system:post:save')")
     @PostMapping
     public ResponseResult<Void> save(@Validated(value = SaveGroup.class) @RequestBody SysPostDto sysPostDto) {
-        this.sysPostService.save(sysPostDto);
+        sysPostService.save(sysPostDto);
         return ResponseResult.ok();
     }
 
@@ -64,7 +64,7 @@ public class SysPostController {
     @PreAuthorize("@auth.hasAuthority('system:post:update')")
     @PutMapping
     public ResponseResult<Void> update(@Validated(value = UpdateGroup.class) @RequestBody SysPostDto sysPostDto) {
-        this.sysPostService.update(sysPostDto);
+        sysPostService.update(sysPostDto);
         return ResponseResult.ok();
     }
 
@@ -79,7 +79,7 @@ public class SysPostController {
     @PreAuthorize("@auth.hasAuthority('system:post:delete')")
     @DeleteMapping
     public ResponseResult<Void> delete(@Validated @RequestBody IdsDto idsDto) {
-        this.sysPostService.delete(idsDto);
+        sysPostService.delete(idsDto);
         return ResponseResult.ok();
     }
 
@@ -93,7 +93,7 @@ public class SysPostController {
     @PreAuthorize("@auth.hasAuthority('system:post:info')")
     @GetMapping(path = "/{id}")
     public ResponseResult<SysPostVo> get(@Parameter(description = "系统岗位ID", required = true) @PathVariable Long id) {
-        SysPost sysPost = this.sysPostService.getById(id);
+        SysPost sysPost = sysPostService.getById(id);
         return ResponseResult.ok(SysPostConvert.INSTANCE.convert(sysPost));
     }
 
@@ -107,7 +107,7 @@ public class SysPostController {
     @PreAuthorize("@auth.hasAuthority('system:post:page')")
     @PostMapping(path = "/page")
     public ResponseResult<PageResult<SysPostVo>> page(@Validated @RequestBody SysPostPageDto sysPostPageDto) {
-        PageResult<SysPostVo> page = this.sysPostService.page(sysPostPageDto);
+        PageResult<SysPostVo> page = sysPostService.page(sysPostPageDto);
         return ResponseResult.ok(page);
     }
 
@@ -120,7 +120,7 @@ public class SysPostController {
     @PreAuthorize("@auth.hasAuthority('system:post:export')")
     @PostMapping(path = "/export")
     public void export(@Validated @RequestBody SysPostPageDto sysPostPageDto) {
-        this.sysPostService.export(sysPostPageDto);
+        sysPostService.export(sysPostPageDto);
     }
 
     /**
@@ -131,7 +131,7 @@ public class SysPostController {
     @Operation(summary = "查询系统岗位列表")
     @GetMapping(path = "/list")
     public ResponseResult<List<SysPostVo>> list() {
-        List<SysPostVo> list = this.sysPostService.list(new SysPostPageDto());
+        List<SysPostVo> list = sysPostService.list(new SysPostPageDto());
         return ResponseResult.ok(list);
     }
 
@@ -144,7 +144,7 @@ public class SysPostController {
     @Operation(summary = "校验岗位编码是否唯一（true：唯一，false：不唯一）")
     @GetMapping(path = "/checkCodeUnique")
     public ResponseResult<Boolean> checkCodeUnique(@Validated SysPostCodeDto sysPostCodeDto) {
-        boolean checked = this.sysPostService.checkPostCodeUnique(sysPostCodeDto);
+        boolean checked = sysPostService.checkPostCodeUnique(sysPostCodeDto);
         return ResponseResult.ok(checked);
     }
 

@@ -105,9 +105,9 @@ public class EmailServiceImpl implements EmailService, EmailApi {
         context.setVariable("companyName", DataConstants.COMPANY_NAME);
 
         toEmailDto.setSubject(DataConstants.COMPANY_EMAIL_VERIFY_CODE_SUBJECT + toVerifyCodeEmailDto.getVerifyCode());
-        toEmailDto.setContent(this.templateEngine.process(TemplateIds.VERIFY_CODE, context));
+        toEmailDto.setContent(templateEngine.process(TemplateIds.VERIFY_CODE, context));
 
-        this.sendHtmlEmail(toEmailDto, null);
+        sendHtmlEmail(toEmailDto, null);
     }
 
     /**

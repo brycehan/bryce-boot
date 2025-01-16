@@ -163,25 +163,25 @@ public class LoginUser implements UserDetails {
     @JsonIgnore
     @Override
     public boolean isAccountNonExpired() {
-        return this.accountNonExpired;
+        return accountNonExpired;
     }
 
     @JsonIgnore
     @Override
     public boolean isAccountNonLocked() {
-        return this.accountNonLocked;
+        return accountNonLocked;
     }
 
     @JsonIgnore
     @Override
     public boolean isCredentialsNonExpired() {
-        return this.credentialsNonExpired;
+        return credentialsNonExpired;
     }
 
     @JsonIgnore
     @Override
     public boolean isEnabled() {
-        return this.enabled;
+        return enabled;
     }
 
     /**

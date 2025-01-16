@@ -63,7 +63,7 @@ public class SysUserController {
     @PreAuthorize("@auth.hasAuthority('system:user:save')")
     @PostMapping
     public ResponseResult<Void> save(@Validated(value = SaveGroup.class) @RequestBody SysUserDto sysUserDto) {
-        this.sysUserService.save(sysUserDto);
+        sysUserService.save(sysUserDto);
         return ResponseResult.ok();
     }
 
@@ -78,7 +78,7 @@ public class SysUserController {
     @PreAuthorize("@auth.hasAuthority('system:user:update')")
     @PutMapping
     public ResponseResult<Void> update(@Validated(value = UpdateGroup.class) @RequestBody SysUserDto sysUserDto) {
-        this.sysUserService.update(sysUserDto);
+        sysUserService.update(sysUserDto);
         return ResponseResult.ok();
     }
 
@@ -97,7 +97,7 @@ public class SysUserController {
             throw new RuntimeException("当前用户不能删除");
         }
 
-        this.sysUserService.delete(idsDto);
+        sysUserService.delete(idsDto);
 
         return ResponseResult.ok();
     }
@@ -112,7 +112,7 @@ public class SysUserController {
     @PreAuthorize("@auth.hasAuthority('system:user:info')")
     @GetMapping(path = "/{id}")
     public ResponseResult<SysUserVo> get(@Parameter(description = "系统用户ID", required = true) @PathVariable Long id) {
-        SysUserVo sysUserVo = this.sysUserService.get(id);
+        SysUserVo sysUserVo = sysUserService.get(id);
         return ResponseResult.ok(sysUserVo);
     }
 
@@ -126,7 +126,7 @@ public class SysUserController {
     @PreAuthorize("@auth.hasAuthority('system:user:page')")
     @PostMapping(path = "/page")
     public ResponseResult<PageResult<SysUserVo>> page(@Validated @RequestBody SysUserPageDto sysUserPageDto) {
-        PageResult<SysUserVo> page = this.sysUserService.page(sysUserPageDto);
+        PageResult<SysUserVo> page = sysUserService.page(sysUserPageDto);
         return ResponseResult.ok(page);
     }
 
@@ -139,7 +139,7 @@ public class SysUserController {
     @PreAuthorize("@auth.hasAuthority('system:user:export')")
     @PostMapping(path = "/export")
     public void export(@Validated @RequestBody SysUserPageDto sysUserPageDto) {
-        this.sysUserService.export(sysUserPageDto);
+        sysUserService.export(sysUserPageDto);
     }
 
     /**
@@ -164,7 +164,7 @@ public class SysUserController {
     @PreAuthorize("@auth.hasAuthority('system:user:import')")
     @PostMapping(path = "/import", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseResult<String> importByExcel(@NotNull MultipartFile file, boolean isUpdateSupport) {
-        String message = this.sysUserService.importByExcel(file, isUpdateSupport);
+        String message = sysUserService.importByExcel(file, isUpdateSupport);
         return ResponseResult.ok(null, message);
     }
 
@@ -180,7 +180,7 @@ public class SysUserController {
     @PreAuthorize("@auth.hasAuthority('system:user:update')")
     @PatchMapping(path = "/{id}/{status}")
     public ResponseResult<Void> updateStatus(@PathVariable Long id, @PathVariable StatusType status) {
-        this.sysUserService.updateStatus(id, status);
+        sysUserService.updateStatus(id, status);
         return ResponseResult.ok();
     }
 
@@ -195,7 +195,7 @@ public class SysUserController {
     @PreAuthorize("@auth.hasAuthority('system:user:resetPassword')")
     @PatchMapping(path = "/resetPassword")
     public ResponseResult<Void> resetPassword(@Validated @RequestBody SysResetPasswordDto sysResetPasswordDto) {
-        this.sysUserService.resetPassword(sysResetPasswordDto);
+        sysUserService.resetPassword(sysResetPasswordDto);
         return ResponseResult.ok();
     }
 
@@ -209,7 +209,7 @@ public class SysUserController {
     @PreAuthorize("@auth.hasAuthority('system:user:update')")
     @PostMapping(path = "/assignRole/page")
     public ResponseResult<PageResult<SysRoleVo>> assignRolePage(@Validated @RequestBody SysAssignRolePageDto sysAssignRolePageDto) {
-        PageResult<SysRoleVo> page = this.sysRoleService.assignRolePage(sysAssignRolePageDto);
+        PageResult<SysRoleVo> page = sysRoleService.assignRolePage(sysAssignRolePageDto);
         return ResponseResult.ok(page);
     }
 
@@ -225,10 +225,10 @@ public class SysUserController {
     @PreAuthorize("@auth.hasAuthority('system:user:update')")
     @PostMapping(path = "/assignRole/{userId}")
     public ResponseResult<Void> assignRoleSave(@PathVariable Long userId, @RequestBody @Parameter(description = "角色ID集合") @NotEmptyElements List<Long> roleIds) {
-        this.sysUserService.checkUserAllowed(SysUser.of(userId));
-        this.sysUserService.checkUserDataScope(SysUser.of(userId));
-        this.sysRoleService.checkRoleDataScope(roleIds.toArray(Long[]::new));
-        this.sysUserRoleService.assignRoleSave(userId, roleIds);
+        sysUserService.checkUserAllowed(SysUser.of(userId));
+        sysUserService.checkUserDataScope(SysUser.of(userId));
+        sysRoleService.checkRoleDataScope(roleIds.toArray(Long[]::new));
+        sysUserRoleService.assignRoleSave(userId, roleIds);
         return ResponseResult.ok();
     }
 
@@ -244,10 +244,10 @@ public class SysUserController {
     @PreAuthorize("@auth.hasAuthority('system:user:update')")
     @DeleteMapping(path = "/assignRole/{userId}")
     public ResponseResult<Void> assignRoleDelete(@PathVariable Long userId, @RequestBody @Parameter(description = "角色ID集合") @NotEmptyElements List<Long> roleIds) {
-        this.sysUserService.checkUserAllowed(SysUser.of(userId));
-        this.sysUserService.checkUserDataScope(SysUser.of(userId));
-        this.sysRoleService.checkRoleDataScope(roleIds.toArray(Long[]::new));
-        this.sysUserRoleService.deleteByUserIdAndRoleIds(userId, roleIds);
+        sysUserService.checkUserAllowed(SysUser.of(userId));
+        sysUserService.checkUserDataScope(SysUser.of(userId));
+        sysRoleService.checkRoleDataScope(roleIds.toArray(Long[]::new));
+        sysUserRoleService.deleteByUserIdAndRoleIds(userId, roleIds);
         return ResponseResult.ok();
     }
 
@@ -262,7 +262,7 @@ public class SysUserController {
     public ResponseResult<Boolean> checkUsernameUnique(@PathVariable String username) {
         SysUsernameDto sysUsernameDto = new SysUsernameDto();
         sysUsernameDto.setUsername(username);
-        boolean checked = this.sysUserService.checkUsernameUnique(sysUsernameDto);
+        boolean checked = sysUserService.checkUsernameUnique(sysUsernameDto);
         return ResponseResult.ok(checked);
     }
 
@@ -275,7 +275,7 @@ public class SysUserController {
     @Operation(summary = "校验手机号码是否可注册（true：可以注册，false：不可以）")
     @GetMapping(path = "/checkPhoneUnique")
     public ResponseResult<Boolean> checkPhoneUnique(@Validated SysUserPhoneDto sysUserPhoneDto) {
-        boolean checked = this.sysUserService.checkPhoneUnique(sysUserPhoneDto);
+        boolean checked = sysUserService.checkPhoneUnique(sysUserPhoneDto);
         return ResponseResult.ok(checked);
     }
 
@@ -288,7 +288,7 @@ public class SysUserController {
     @Operation(summary = "校验用户邮箱是否可注册（true：可以注册，false：不可以）")
     @GetMapping(path = "/checkEmailUnique")
     public ResponseResult<Boolean> checkEmailUnique(@Validated SysUserEmailDto sysUserEmailDto) {
-        boolean checked = this.sysUserService.checkEmailUnique(sysUserEmailDto);
+        boolean checked = sysUserService.checkEmailUnique(sysUserEmailDto);
         return ResponseResult.ok(checked);
     }
 

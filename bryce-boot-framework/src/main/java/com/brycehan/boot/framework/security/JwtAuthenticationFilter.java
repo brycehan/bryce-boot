@@ -71,7 +71,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         // 获取登录用户
         if(StringUtils.isNotEmpty(userKey)) {
-            loginUser = this.jwtTokenProvider.loadLoginUser(userKey);
+            loginUser = jwtTokenProvider.loadLoginUser(userKey);
         } else if (StringUtils.isNotEmpty(userData)) {
             loginUser = JsonUtils.readValue(URLDecoder.decode(userData, StandardCharsets.UTF_8), LoginUser.class);
         }
@@ -82,7 +82,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         // 用户存在，自动刷新令牌
-        this.jwtTokenProvider.autoRefreshToken(loginUser);
+        jwtTokenProvider.autoRefreshToken(loginUser);
 
         // 设置认证信息
         LoginUserContext.setContext(loginUser);

@@ -37,7 +37,7 @@ public class AuthenticationListener {
         // 用户信息
         LoginUser loginUser = (LoginUser) event.getAuthentication().getPrincipal();
         // 记录登录日志
-        this.sysLoginLogService.save(loginUser.getUsername(), OperateStatus.SUCCESS, LoginStatus.LOGIN_SUCCESS);
+        sysLoginLogService.save(loginUser.getUsername(), OperateStatus.SUCCESS, LoginStatus.LOGIN_SUCCESS);
         // 更新用户登录信息
         this.authLoginService.updateLoginInfo(loginUser);
     }

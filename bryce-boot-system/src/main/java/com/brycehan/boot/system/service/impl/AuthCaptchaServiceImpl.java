@@ -51,7 +51,7 @@ public class AuthCaptchaServiceImpl implements AuthCaptchaService {
         log.debug("图片验证码uuid：{}, 值：{}", uuid, captchaValue);
 
         // 存储到 Redis
-        this.stringRedisTemplate.opsForValue()
+        stringRedisTemplate.opsForValue()
                 .set(captchaKey, captchaValue, captchaProperties.getExpiration(), TimeUnit.MINUTES);
 
         // 封装返回数据
@@ -75,14 +75,14 @@ public class AuthCaptchaServiceImpl implements AuthCaptchaService {
 
         // 获取缓存验证码
         String captchaKey = RedisKeys.getCaptchaKey(key);
-        String captchaValue = this.stringRedisTemplate.opsForValue()
+        String captchaValue = stringRedisTemplate.opsForValue()
                 .get(captchaKey);
 
         // 校验
         boolean validated = code.equalsIgnoreCase(captchaValue);
         if (validated) {
             // 删除验证码
-            this.stringRedisTemplate.delete(captchaKey);
+            stringRedisTemplate.delete(captchaKey);
         }
 
         return validated;
@@ -95,10 +95,10 @@ public class AuthCaptchaServiceImpl implements AuthCaptchaService {
         }
 
         if (CaptchaType.LOGIN.equals(captchaType)) {
-            return this.sysParamService.getBoolean(ParamConstants.SYSTEM_LOGIN_CAPTCHA_ENABLED);
+            return sysParamService.getBoolean(ParamConstants.SYSTEM_LOGIN_CAPTCHA_ENABLED);
         }
         if (CaptchaType.REGISTER.equals(captchaType)) {
-            return this.sysParamService.getBoolean(ParamConstants.SYSTEM_REGISTER_CAPTCHA_ENABLED);
+            return sysParamService.getBoolean(ParamConstants.SYSTEM_REGISTER_CAPTCHA_ENABLED);
         }
 
         return false;

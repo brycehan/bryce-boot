@@ -44,7 +44,7 @@ public class SysProfileController {
     @GetMapping
     public ResponseResult<SysUserInfoVo> getUserInfo() {
         Long userId = LoginUserContext.currentUserId();
-        SysUserInfoVo sysUserInfoVo = this.sysUserService.getUserInfo(userId);
+        SysUserInfoVo sysUserInfoVo = sysUserService.getUserInfo(userId);
         return ResponseResult.ok(sysUserInfoVo);
     }
 
@@ -58,7 +58,7 @@ public class SysProfileController {
     @OperateLog(type = OperatedType.UPDATE)
     @PutMapping
     public ResponseResult<Void> updateUserInfo(@RequestBody SysUserInfoDto sysUserInfoDto) {
-        this.sysUserService.updateUserInfo(sysUserInfoDto);
+        sysUserService.updateUserInfo(sysUserInfoDto);
         return ResponseResult.ok();
     }
 
@@ -72,7 +72,7 @@ public class SysProfileController {
     @OperateLog(type = OperatedType.UPDATE)
     @PostMapping(path = "/avatar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseResult<String> updateAvatar(@NotNull MultipartFile file) {
-        String avatar = this.sysUserService.updateAvatar(file);
+        String avatar = sysUserService.updateAvatar(file);
         return ResponseResult.ok(avatar);
     }
 
@@ -86,7 +86,7 @@ public class SysProfileController {
     @OperateLog(type = OperatedType.UPDATE)
     @PutMapping(path = "/password")
     public ResponseResult<Void> updatePassword(@Validated @RequestBody SysUserPasswordDto sysUserPasswordDto) {
-        this.sysUserService.updatePassword(sysUserPasswordDto);
+        sysUserService.updatePassword(sysUserPasswordDto);
         return ResponseResult.ok();
     }
 

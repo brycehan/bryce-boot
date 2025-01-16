@@ -45,7 +45,7 @@ public class RefreshTokenListener {
         loginUser.setGender(sysUser.getGender());
         loginUser.setAvatar(sysUser.getAvatar());
 
-        this.jwtTokenProvider.doRefreshToken(loginUser);
+        jwtTokenProvider.doRefreshToken(loginUser);
     }
 
 }

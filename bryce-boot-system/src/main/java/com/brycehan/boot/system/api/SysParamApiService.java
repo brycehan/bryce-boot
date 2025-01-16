@@ -31,7 +31,7 @@ public class SysParamApiService implements SysParamApi {
         SysParam sysParam = new SysParam();
         BeanUtils.copyProperties(sysParamDto, sysParam);
         sysParam.setId(IdGenerator.nextId());
-        this.sysParamService.save(sysParam);
+        sysParamService.save(sysParam);
     }
 
     @Override

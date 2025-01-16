@@ -38,9 +38,9 @@ public class AuthRegisterController {
     @PostMapping
     public ResponseResult<Void> register(@Parameter(description = "注册参数", required = true) @Validated @RequestBody RegisterDto registerDto) {
         // 查询注册开关
-        if (this.authRegisterService.registerEnabled()) {
+        if (authRegisterService.registerEnabled()) {
             // 注册
-            this.authRegisterService.register(registerDto);
+            authRegisterService.register(registerDto);
             return ResponseResult.ok();
         }
 
@@ -55,7 +55,7 @@ public class AuthRegisterController {
     @Operation(summary = "获取注册开关")
     @GetMapping(path = "/enabled")
     public ResponseResult<Boolean> registerEnabled() {
-        boolean captchaEnabled = this.authRegisterService.registerEnabled();
+        boolean captchaEnabled = authRegisterService.registerEnabled();
         return ResponseResult.ok(captchaEnabled);
     }
 
@@ -67,7 +67,7 @@ public class AuthRegisterController {
     @Operation(summary = "校验用户账号是否可注册（true：可以注册，false：不可以）")
     @GetMapping(path = "/checkUnique/{username}")
     public ResponseResult<Boolean> checkUsernameUnique(@PathVariable String username) {
-        boolean checked = this.authRegisterService.checkUsernameUnique(username);
+        boolean checked = authRegisterService.checkUsernameUnique(username);
         return ResponseResult.ok(checked);
     }
 

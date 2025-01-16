@@ -65,7 +65,7 @@ public class SysRoleController {
     @PreAuthorize("@auth.hasAuthority('system:role:save')")
     @PostMapping
     public ResponseResult<Void> save(@Validated(value = SaveGroup.class) @RequestBody SysRoleDto sysRoleDto) {
-        this.sysRoleService.save(sysRoleDto);
+        sysRoleService.save(sysRoleDto);
         return ResponseResult.ok();
     }
 
@@ -80,7 +80,7 @@ public class SysRoleController {
     @PreAuthorize("@auth.hasAuthority('system:role:update')")
     @PutMapping
     public ResponseResult<Void> update(@Validated(value = UpdateGroup.class) @RequestBody SysRoleDto sysRoleDto) {
-        this.sysRoleService.update(sysRoleDto);
+        sysRoleService.update(sysRoleDto);
         return ResponseResult.ok();
     }
 
@@ -95,7 +95,7 @@ public class SysRoleController {
     @PreAuthorize("@auth.hasAuthority('system:role:delete')")
     @DeleteMapping
     public ResponseResult<Void> delete(@Validated @RequestBody IdsDto idsDto) {
-        this.sysRoleService.delete(idsDto);
+        sysRoleService.delete(idsDto);
         return ResponseResult.ok();
     }
 
@@ -110,16 +110,16 @@ public class SysRoleController {
     @GetMapping(path = "/{id}")
     public ResponseResult<SysRoleVo> get(@Parameter(description = "系统角色ID", required = true) @PathVariable Long id) {
         sysRoleService.checkRoleDataScope(id);
-        SysRole sysRole = this.sysRoleService.getById(id);
+        SysRole sysRole = sysRoleService.getById(id);
 
         SysRoleVo sysRoleVo = SysRoleConvert.INSTANCE.convert(sysRole);
 
         // 查询角色对应的菜单
-        List<Long> menuIds = this.sysRoleMenuService.getMenuIdsByRoleId(id);
+        List<Long> menuIds = sysRoleMenuService.getMenuIdsByRoleId(id);
         sysRoleVo.setMenuIds(menuIds);
 
         // 查询角色对应的数据权限
-        List<Long> orgIds = this.sysRoleOrgService.getOrgIdsByRoleId(id);
+        List<Long> orgIds = sysRoleOrgService.getOrgIdsByRoleId(id);
         sysRoleVo.setOrgIds(orgIds);
 
         return ResponseResult.ok(sysRoleVo);
@@ -135,7 +135,7 @@ public class SysRoleController {
     @PreAuthorize("@auth.hasAuthority('system:role:page')")
     @PostMapping(path = "/page")
     public ResponseResult<PageResult<SysRoleVo>> page(@Validated @RequestBody SysRolePageDto sysRolePageDto) {
-        PageResult<SysRoleVo> page = this.sysRoleService.page(sysRolePageDto);
+        PageResult<SysRoleVo> page = sysRoleService.page(sysRolePageDto);
         return ResponseResult.ok(page);
     }
 
@@ -144,7 +144,7 @@ public class SysRoleController {
     @PreAuthorize("@auth.hasAuthority('system:role:update')")
     @PatchMapping(path = "/{id}/{status}")
     public ResponseResult<Void> updateStatus(@PathVariable Long id, @PathVariable StatusType status) {
-        this.sysRoleService.updateStatus(id, status);
+        sysRoleService.updateStatus(id, status);
         return ResponseResult.ok();
     }
 
@@ -157,7 +157,7 @@ public class SysRoleController {
     @PreAuthorize("@auth.hasAuthority('system:role:export')")
     @PostMapping(path = "/export")
     public void export(@Validated @RequestBody SysRolePageDto sysRolePageDto) {
-        this.sysRoleService.export(sysRolePageDto);
+        sysRoleService.export(sysRolePageDto);
     }
 
     /**
@@ -169,7 +169,7 @@ public class SysRoleController {
     @PreAuthorize("isAuthenticated()")
     @GetMapping(path = "/list")
     public ResponseResult<List<SysRoleVo>> list() {
-        List<SysRoleVo> list = this.sysRoleService.list(new SysRolePageDto());
+        List<SysRoleVo> list = sysRoleService.list(new SysRolePageDto());
         return ResponseResult.ok(list);
     }
 
@@ -183,7 +183,7 @@ public class SysRoleController {
     @GetMapping(path = "/menu")
     public ResponseResult<List<SysMenuVo>> menu() {
         LoginUser loginUser = LoginUserContext.currentUser();
-        List<SysMenuVo> list = this.sysMenuService.getMenuTreeList(loginUser, null);
+        List<SysMenuVo> list = sysMenuService.getMenuTreeList(loginUser, null);
         return ResponseResult.ok(list);
     }
 
@@ -198,7 +198,7 @@ public class SysRoleController {
     @PreAuthorize("@auth.hasAuthority('system:role:update')")
     @PutMapping(path = "/assignDataScope")
     public ResponseResult<Void> assignDataScope(@Validated @RequestBody SysRoleOrgDto dataScopeDto) {
-        this.sysRoleService.assignDataScope(dataScopeDto);
+        sysRoleService.assignDataScope(dataScopeDto);
         return ResponseResult.ok();
     }
 
@@ -212,7 +212,7 @@ public class SysRoleController {
     @PreAuthorize("@auth.hasAuthority('system:role:update')")
     @PostMapping(path = "/assignUser/page")
     public ResponseResult<PageResult<SysUserVo>> assignUserPage(@Validated @RequestBody SysAssignUserPageDto sysAssignUserPageDto) {
-        PageResult<SysUserVo> page = this.sysUserService.assignUserPage(sysAssignUserPageDto);
+        PageResult<SysUserVo> page = sysUserService.assignUserPage(sysAssignUserPageDto);
         return ResponseResult.ok(page);
     }
 
@@ -229,11 +229,11 @@ public class SysRoleController {
     @PostMapping(path = "/assignUser/{roleId}")
     public ResponseResult<Void> assignUserSave(@PathVariable Long roleId, @RequestBody @Parameter(description = "用户ID集合") @NotEmptyElements List<Long> userIds) {
         userIds.forEach(userId -> {
-            this.sysUserService.checkUserAllowed(SysUser.of(userId));
-            this.sysUserService.checkUserDataScope(SysUser.of(userId));
+            sysUserService.checkUserAllowed(SysUser.of(userId));
+            sysUserService.checkUserDataScope(SysUser.of(userId));
         });
-        this.sysRoleService.checkRoleDataScope(roleId);
-        this.sysUserRoleService.assignUserSave(roleId, userIds);
+        sysRoleService.checkRoleDataScope(roleId);
+        sysUserRoleService.assignUserSave(roleId, userIds);
         return ResponseResult.ok();
     }
 
@@ -250,11 +250,11 @@ public class SysRoleController {
     @DeleteMapping(path = "/assignUser/{roleId}")
     public ResponseResult<Void> assignUserDelete(@PathVariable Long roleId, @RequestBody @Parameter(description = "用户ID集合") @NotEmptyElements List<Long> userIds) {
         userIds.forEach(userId -> {
-            this.sysUserService.checkUserAllowed(SysUser.of(userId));
-            this.sysUserService.checkUserDataScope(SysUser.of(userId));
+            sysUserService.checkUserAllowed(SysUser.of(userId));
+            sysUserService.checkUserDataScope(SysUser.of(userId));
         });
-        this.sysRoleService.checkRoleDataScope(roleId);
-        this.sysUserRoleService.deleteByRoleIdAndUserIds(roleId, userIds);
+        sysRoleService.checkRoleDataScope(roleId);
+        sysUserRoleService.deleteByRoleIdAndUserIds(roleId, userIds);
         return ResponseResult.ok();
     }
 
@@ -267,7 +267,7 @@ public class SysRoleController {
     @Operation(summary = "校验角色编码是否唯一（true：唯一，false：不唯一）")
     @GetMapping(path = "/checkCodeUnique")
     public ResponseResult<Boolean> checkCodeUnique(@Validated SysRoleCodeDto sysRoleCodeDto) {
-        boolean checked = this.sysRoleService.checkRoleCodeUnique(sysRoleCodeDto);
+        boolean checked = sysRoleService.checkRoleCodeUnique(sysRoleCodeDto);
         return ResponseResult.ok(checked);
     }
 

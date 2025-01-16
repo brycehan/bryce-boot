@@ -56,7 +56,7 @@ public class AuthSmsServiceImpl implements AuthSmsService {
             throw new ServerException("手机号码格式错误");
         }
 
-        SysUser sysUser = this.sysUserService.getByPhone(phone);
+        SysUser sysUser = sysUserService.getByPhone(phone);
         if (SmsType.LOGIN.equals(smsType)) {
             if(sysUser == null) {
                 throw new ServerException("手机号码未注册");
@@ -64,7 +64,7 @@ public class AuthSmsServiceImpl implements AuthSmsService {
         }
 
         String smsCodeKey = RedisKeys.getSmsCodeKey(phone, smsType);
-        String smsCodeValue = this.stringRedisTemplate.opsForValue()
+        String smsCodeValue = stringRedisTemplate.opsForValue()
                 .get(smsCodeKey);
 
         // 生成6位验证码
@@ -76,7 +76,7 @@ public class AuthSmsServiceImpl implements AuthSmsService {
         params.put("code", smsCodeValue);
 
         // 发送短信
-        Boolean send = this.smsApi.send(phone, smsType, params);
+        Boolean send = smsApi.send(phone, smsType, params);
         if (!send) {
             throw new ServerException("短信发送失败");
         }
@@ -84,7 +84,7 @@ public class AuthSmsServiceImpl implements AuthSmsService {
         log.debug("短信验证码手机号码：{}, 值：{}", phone, smsCodeValue);
 
         // 存储到 Redis
-        this.stringRedisTemplate.opsForValue()
+        stringRedisTemplate.opsForValue()
                 .set(smsCodeKey, smsCodeValue, SMS_CODE_TTL, TimeUnit.MINUTES);
     }
 
@@ -101,14 +101,14 @@ public class AuthSmsServiceImpl implements AuthSmsService {
 
         // 获取缓存验证码
         String smsCodeKey = RedisKeys.getSmsCodeKey(phone, smsType);
-        String smsCodeValue = this.stringRedisTemplate.opsForValue()
+        String smsCodeValue = stringRedisTemplate.opsForValue()
                 .get(smsCodeKey);
 
         // 校验
         boolean validated = code.equalsIgnoreCase(smsCodeValue);
         if (validated) {
             // 删除验证码
-            this.stringRedisTemplate.delete(smsCodeKey);
+            stringRedisTemplate.delete(smsCodeKey);
         }
 
         return validated;
@@ -116,7 +116,7 @@ public class AuthSmsServiceImpl implements AuthSmsService {
 
     @Override
     public boolean smsEnabled() {
-        return this.sysParamApi.getBoolean(ParamConstants.SYSTEM_SMS_ENABLED);
+        return sysParamApi.getBoolean(ParamConstants.SYSTEM_SMS_ENABLED);
     }
 
     @Override
@@ -125,9 +125,9 @@ public class AuthSmsServiceImpl implements AuthSmsService {
             return false;
         }
         if (SmsType.LOGIN.equals(smsType)) {
-            return this.sysParamApi.getBoolean(ParamConstants.SYSTEM_LOGIN_SMS_ENABLED);
+            return sysParamApi.getBoolean(ParamConstants.SYSTEM_LOGIN_SMS_ENABLED);
         } else if (SmsType.REGISTER.equals(smsType)) {
-            return this.sysParamApi.getBoolean(ParamConstants.SYSTEM_REGISTER_SMS_ENABLED);
+            return sysParamApi.getBoolean(ParamConstants.SYSTEM_REGISTER_SMS_ENABLED);
         }
 
         return false;

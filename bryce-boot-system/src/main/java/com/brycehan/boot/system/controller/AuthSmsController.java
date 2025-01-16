@@ -34,7 +34,7 @@ public class AuthSmsController {
     @Operation(summary = "生成登录验证码")
     @GetMapping(path = "/login/code")
     public ResponseResult<?> sendLoginCode(String phone) {
-        this.authSmsService.sendCode(phone, SmsType.LOGIN);
+        authSmsService.sendCode(phone, SmsType.LOGIN);
         return ResponseResult.ok();
     }
 
@@ -46,7 +46,7 @@ public class AuthSmsController {
     @Operation(summary = "生成注册验证码")
     @GetMapping(path = "/register/code")
     public ResponseResult<?> sendRegisterCode(String phone) {
-        this.authSmsService.sendCode(phone, SmsType.REGISTER);
+        authSmsService.sendCode(phone, SmsType.REGISTER);
         return ResponseResult.ok();
     }
 
@@ -58,7 +58,7 @@ public class AuthSmsController {
     @Operation(summary = "是否开启短信功能")
     @GetMapping(path = "/enabled")
     public ResponseResult<Boolean> enabled() {
-        boolean smsEnabled = this.authSmsService.smsEnabled();
+        boolean smsEnabled = authSmsService.smsEnabled();
         return ResponseResult.ok(smsEnabled);
     }
 

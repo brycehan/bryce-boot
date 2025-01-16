@@ -26,6 +26,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 
@@ -55,7 +56,7 @@ public class SysMenuController {
     @PreAuthorize("@auth.hasAuthority('system:menu:save')")
     @PostMapping
     public ResponseResult<Void> save(@Validated(value = SaveGroup.class) @RequestBody SysMenuDto sysMenuDto) {
-        this.sysMenuService.save(sysMenuDto);
+        sysMenuService.save(sysMenuDto);
         return ResponseResult.ok();
     }
 
@@ -70,7 +71,7 @@ public class SysMenuController {
     @PreAuthorize("@auth.hasAuthority('system:menu:update')")
     @PutMapping
     public ResponseResult<Void> update(@Validated(value = UpdateGroup.class) @RequestBody SysMenuDto sysMenuDto) {
-        this.sysMenuService.update(sysMenuDto);
+        sysMenuService.update(sysMenuDto);
         return ResponseResult.ok();
     }
 
@@ -86,12 +87,12 @@ public class SysMenuController {
     @DeleteMapping
     public ResponseResult<Void> delete(@Validated @RequestBody IdsDto idsDto) {
         // 判断是否有子菜单或按钮
-        Long count = this.sysMenuService.getSubMenuCount(idsDto.getIds());
+        Long count = sysMenuService.getSubMenuCount(idsDto.getIds());
         if (count > 0) {
             return ResponseResult.warn("存在子菜单,不允许删除");
         }
 
-        this.sysMenuService.delete(idsDto);
+        sysMenuService.delete(idsDto);
 
         return ResponseResult.ok();
     }
@@ -106,7 +107,7 @@ public class SysMenuController {
     @PreAuthorize("@auth.hasAuthority('system:menu:info')")
     @GetMapping(path = "/{id}")
     public ResponseResult<SysMenuVo> get(@Parameter(description = "系统菜单ID", required = true) @PathVariable Long id) {
-        SysMenu sysMenu = this.sysMenuService.getById(id);
+        SysMenu sysMenu = sysMenuService.getById(id);
         return ResponseResult.ok(SysMenuConvert.INSTANCE.convert(sysMenu));
     }
 
@@ -119,7 +120,7 @@ public class SysMenuController {
     @PreAuthorize("@auth.hasAuthority('system:menu:export')")
     @PostMapping(path = "/export")
     public void export(@Validated @RequestBody SysMenuPageDto sysMenuPageDto) {
-        this.sysMenuService.export(sysMenuPageDto);
+        sysMenuService.export(sysMenuPageDto);
     }
 
     /**
@@ -132,7 +133,7 @@ public class SysMenuController {
     @PreAuthorize("@auth.hasAuthority('system:menu:list')")
     @PostMapping(path = "/list")
     public ResponseResult<List<SysMenuVo>> list(@Validated @RequestBody SysMenuDto sysMenuDto) {
-        List<SysMenuVo> list = this.sysMenuService.list(sysMenuDto);
+        List<SysMenuVo> list = sysMenuService.list(sysMenuDto);
         return ResponseResult.ok(list);
     }
 
@@ -144,7 +145,7 @@ public class SysMenuController {
     @Operation(summary = "获取用户权限标识", description = "用户权限标识集合")
     @GetMapping(path = "/authority")
     public ResponseResult<Set<String>> authority() {
-        Set<String> authoritySet = this.sysAuthorityService.findAuthority(SysUser.of(LoginUserContext.currentUser()), false);
+        Set<String> authoritySet = sysAuthorityService.findAuthority(SysUser.of(Objects.requireNonNull(LoginUserContext.currentUser())), false);
         return ResponseResult.ok(authoritySet);
     }
 
@@ -156,7 +157,7 @@ public class SysMenuController {
     @Operation(summary = "获取菜单列表")
     @GetMapping(path = "/nav")
     public ResponseResult<List<SysMenuVo>> nav() {
-        List<SysMenuVo> list = this.sysMenuService.getMenuTreeList(LoginUserContext.currentUser(), MenuType.CATALOG, MenuType.MENU);
+        List<SysMenuVo> list = sysMenuService.getMenuTreeList(LoginUserContext.currentUser(), MenuType.CATALOG, MenuType.MENU);
         return ResponseResult.ok(list);
     }
 
@@ -169,7 +170,7 @@ public class SysMenuController {
     @Operation(summary = "校验权限标识是否唯一（true：唯一，false：不唯一）")
     @GetMapping(path = "/checkAuthorityUnique")
     public ResponseResult<Boolean> checkAuthorityUnique(@Validated SysMenuAuthorityDto sysMenuAuthorityDto) {
-        boolean checked = this.sysMenuService.checkAuthorityUnique(sysMenuAuthorityDto);
+        boolean checked = sysMenuService.checkAuthorityUnique(sysMenuAuthorityDto);
         return ResponseResult.ok(checked);
     }
 

@@ -78,7 +78,7 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuMapper, SysMenu> 
         baseMapper.deleteByIds(idsDto.getIds());
 
         // 删除角色菜单关系
-        this.sysRoleMenuService.deleteByMenuIds(idsDto.getIds());
+        sysRoleMenuService.deleteByMenuIds(idsDto.getIds());
     }
 
     @Override

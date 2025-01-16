@@ -43,7 +43,7 @@ public class EmailApiController {
     @Operation(summary = "发送简单邮件")
     @PostMapping(path = "/sendSimpleEmail")
     public ResponseResult<Void> sendSimpleEmail(@Validated @RequestBody ToMailDto toEmail) {
-        this.emailService.sendSimpleEmail(toEmail);
+        emailService.sendSimpleEmail(toEmail);
         return ResponseResult.ok();
     }
 
@@ -57,7 +57,7 @@ public class EmailApiController {
     @Operation(summary = "发送附件邮件")
     @PostMapping(path = "/sendHtmlEmail", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseResult<Void> sendHtmlEmail(@Validated ToMailDto toEmail, @Size(max = 100) List<MultipartFile> file) {
-        this.emailService.sendHtmlEmail(toEmail, file);
+        emailService.sendHtmlEmail(toEmail, file);
         return ResponseResult.ok();
     }
 
@@ -71,7 +71,7 @@ public class EmailApiController {
     @Operation(summary = "发送验证码邮件")
     @PostMapping(path = "/sendValidateCode/{emailType}")
     public ResponseResult<Boolean> send(@Validated @RequestBody ToVerifyCodeEmailDto toVerifyCodeEmailDto, @PathVariable EmailType emailType) {
-        this.emailService.send(toVerifyCodeEmailDto, emailType);
+        emailService.send(toVerifyCodeEmailDto, emailType);
         return ResponseResult.ok(Boolean.TRUE);
     }
 

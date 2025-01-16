@@ -50,7 +50,7 @@ public class SysDictTypeController {
     @PreAuthorize("@auth.hasAuthority('system:dictType:save')")
     @PostMapping
     public ResponseResult<Void> save(@Validated(value = SaveGroup.class) @RequestBody SysDictTypeDto sysDictTypeDto) {
-        this.sysDictTypeService.save(sysDictTypeDto);
+        sysDictTypeService.save(sysDictTypeDto);
         return ResponseResult.ok();
     }
 

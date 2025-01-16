@@ -45,7 +45,7 @@ public class SysAreaCodeController {
     @PreAuthorize("@auth.hasAuthority('system:areaCode:update')")
     @PutMapping
     public ResponseResult<Void> update(@Validated(value = UpdateGroup.class) @RequestBody SysAreaCodeDto sysAreaCodeDto) {
-        this.sysAreaCodeService.update(sysAreaCodeDto);
+        sysAreaCodeService.update(sysAreaCodeDto);
         return ResponseResult.ok();
     }
 
@@ -60,7 +60,7 @@ public class SysAreaCodeController {
     @PreAuthorize("@auth.hasAuthority('system:areaCode:delete')")
     @DeleteMapping
     public ResponseResult<Void> delete(@Validated @RequestBody IdsDto idsDto) {
-        this.sysAreaCodeService.delete(idsDto);
+        sysAreaCodeService.delete(idsDto);
         return ResponseResult.ok();
     }
 
@@ -74,7 +74,7 @@ public class SysAreaCodeController {
     @PreAuthorize("@auth.hasAuthority('system:areaCode:info')")
     @GetMapping(path = "/{id}")
     public ResponseResult<SysAreaCodeVo> get(@Parameter(description = "地区编码ID", required = true) @PathVariable Long id) {
-        SysAreaCode sysAreaCode = this.sysAreaCodeService.getById(id);
+        SysAreaCode sysAreaCode = sysAreaCodeService.getById(id);
         return ResponseResult.ok(SysAreaCodeConvert.INSTANCE.convert(sysAreaCode));
     }
 
@@ -88,7 +88,7 @@ public class SysAreaCodeController {
     @PreAuthorize("@auth.hasAuthority('system:areaCode:page')")
     @PostMapping(path = "/page")
     public ResponseResult<PageResult<SysAreaCodeVo>> page(@Validated @RequestBody SysAreaCodePageDto sysAreaCodePageDto) {
-        PageResult<SysAreaCodeVo> page = this.sysAreaCodeService.page(sysAreaCodePageDto);
+        PageResult<SysAreaCodeVo> page = sysAreaCodeService.page(sysAreaCodePageDto);
         return ResponseResult.ok(page);
     }
 
@@ -101,7 +101,7 @@ public class SysAreaCodeController {
     @PreAuthorize("@auth.hasAuthority('system:areaCode:export')")
     @PostMapping(path = "/export")
     public void export(@Validated @RequestBody SysAreaCodePageDto sysAreaCodePageDto) {
-        this.sysAreaCodeService.export(sysAreaCodePageDto);
+        sysAreaCodeService.export(sysAreaCodePageDto);
     }
 
 }

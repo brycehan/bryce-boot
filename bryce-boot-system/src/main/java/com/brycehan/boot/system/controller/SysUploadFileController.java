@@ -48,7 +48,7 @@ public class SysUploadFileController {
     @OperateLog(type = OperatedType.INSERT)
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseResult<StorageVo> upload(@NotNull MultipartFile file, @NotNull AccessType accessType) {
-        StorageVo storageVo = this.storageApi.upload(file, accessType);
+        StorageVo storageVo = storageApi.upload(file, accessType);
         return ResponseResult.ok(storageVo);
     }
 
@@ -65,7 +65,7 @@ public class SysUploadFileController {
         List<StorageVo> storageVoList = new CopyOnWriteArrayList<>();
 
         file.parallelStream().filter(f -> !f.isEmpty()).forEach(fileItem -> {
-            StorageVo storageVo = this.storageApi.upload(fileItem, accessType);
+            StorageVo storageVo = storageApi.upload(fileItem, accessType);
             if (storageVo != null) {
                 storageVoList.add(storageVo);
             }

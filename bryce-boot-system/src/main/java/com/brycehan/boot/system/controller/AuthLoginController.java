@@ -88,7 +88,7 @@ public class AuthLoginController {
     @Operation(summary = "退出登录")
     @GetMapping(path = "/logout")
     public ResponseResult<Void> logout() {
-        this.authLoginService.logout(LoginUserContext.currentUser());
+        authLoginService.logout(LoginUserContext.currentUser());
         return ResponseResult.ok();
     }
 
