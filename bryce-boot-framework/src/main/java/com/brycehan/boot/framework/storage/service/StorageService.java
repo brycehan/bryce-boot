@@ -2,14 +2,22 @@ package com.brycehan.boot.framework.storage.service;
 
 import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.io.file.FileNameUtil;
+import com.brycehan.boot.common.base.ServerException;
 import com.brycehan.boot.common.enums.AccessType;
 import com.brycehan.boot.framework.storage.config.StorageType;
 import com.brycehan.boot.framework.storage.config.properties.StorageProperties;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalTime;
 import java.util.Date;
 import java.util.Optional;
@@ -111,4 +119,36 @@ public abstract class StorageService {
      * @param filename 文件名
      */
     public abstract void download(String path, String filename);
+
+    /**
+     * 设置响应头
+     *
+     * @param response 响应
+     * @param filename 文件名
+     * @param contentLength 文件长度
+     */
+    public static void setResponseHeaders(HttpServletResponse response, String filename, int contentLength) {
+        String filenameEncoded = URLEncoder.encode(filename, StandardCharsets.UTF_8).replaceAll("\\+", "%20");
+        // 设置响应头
+        response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename*=utf-8''" + filenameEncoded);
+        response.addHeader(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, HttpHeaders.CONTENT_DISPOSITION);
+        response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);
+        response.setContentLength(contentLength);
+    }
+
+    /**
+     * 将文件输出到Response
+     *
+     * @param inputStream 文件流
+     * @param response 响应
+     */
+    public static void writeToResponse(InputStream inputStream, HttpServletResponse response) {
+        try(OutputStream outputStream = response.getOutputStream()) {
+            IoUtil.copy(inputStream, outputStream, 10240);
+        } catch (Exception e) {
+            throw new ServerException("写文件出错：", e);
+        } finally {
+            IoUtil.close(inputStream);
+        }
+    }
 }

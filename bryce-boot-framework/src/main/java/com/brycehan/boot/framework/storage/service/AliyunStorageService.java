@@ -1,6 +1,5 @@
 package com.brycehan.boot.framework.storage.service;
 
-import cn.hutool.core.io.IoUtil;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
 import com.aliyun.oss.model.GetObjectRequest;
@@ -11,14 +10,8 @@ import com.brycehan.boot.framework.storage.config.properties.AliyunStorageProper
 import com.brycehan.boot.framework.storage.config.properties.StorageProperties;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.util.Assert;
 
 import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 
 /**
  * 本地存储服务
@@ -69,18 +62,14 @@ public class AliyunStorageService extends StorageService {
             log.error("Aliyun OSS 连接出错：{}", e.getMessage());
         }
 
-        Assert.notNull(object, "下载文件不存在");
-        // 将文件输出到Response
-        try(InputStream inputStream = object.getObjectContent();
-                OutputStream outputStream = response.getOutputStream()) {
-            String filenameEncoded = URLEncoder.encode(filename, StandardCharsets.UTF_8).replaceAll("\\+", "%20");
-            response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);
-            response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename*=utf-8''" + filenameEncoded);
-            response.addHeader(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, HttpHeaders.CONTENT_DISPOSITION);
-            response.setContentLength((int) object.getResponse().getContentLength());
-            IoUtil.copy(inputStream, outputStream, 1024 * 1024);
-        } catch (Exception e) {
-            log.error("下载文件出错：{}", e.getMessage());
+        if (object == null) {
+            throw new RuntimeException("下载文件不存在");
         }
+        
+        // 设置响应头
+        setResponseHeaders(response, filename, (int) object.getResponse().getContentLength());
+
+        // 将文件输出到Response
+        writeToResponse(object.getObjectContent(), response);
     }
 }

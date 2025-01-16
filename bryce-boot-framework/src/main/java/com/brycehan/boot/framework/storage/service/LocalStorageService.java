@@ -7,15 +7,11 @@ import com.brycehan.boot.common.util.ServletUtils;
 import com.brycehan.boot.framework.storage.config.properties.LocalStorageProperties;
 import com.brycehan.boot.framework.storage.config.properties.StorageProperties;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 
 /**
@@ -76,15 +72,13 @@ public class LocalStorageService extends StorageService {
             throw new RuntimeException("文件不存在");
         }
 
+        // 设置响应头
+        setResponseHeaders(response, filename, (int) file.length());
+
         // 将文件输出到Response
         try (InputStream inputStream = Files.newInputStream(file.toPath());
              OutputStream outputStream = response.getOutputStream()) {
-            String filenameEncoded = URLEncoder.encode(filename, StandardCharsets.UTF_8).replaceAll("\\+", "%20");
-            response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);
-            response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename*=utf-8''" + filenameEncoded);
-            response.addHeader(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, HttpHeaders.CONTENT_DISPOSITION);
-            response.setContentLength((int) file.length());
-            IoUtil.copy(inputStream, outputStream, 1024 * 1024);
+            IoUtil.copy(inputStream, outputStream, 10240);
         } catch (IOException e) {
             throw new RuntimeException("下载文件失败：", e);
         }

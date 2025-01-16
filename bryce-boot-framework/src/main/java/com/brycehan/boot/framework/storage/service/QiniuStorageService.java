@@ -1,6 +1,5 @@
 package com.brycehan.boot.framework.storage.service;
 
-import cn.hutool.core.io.IoUtil;
 import com.brycehan.boot.common.enums.AccessType;
 import com.brycehan.boot.common.util.ServletUtils;
 import com.brycehan.boot.framework.storage.config.properties.QiniuStorageProperties;
@@ -14,13 +13,11 @@ import com.qiniu.util.Auth;
 import com.qiniu.util.IOUtils;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.util.Assert;
+import org.springframework.web.client.RestClient;
 
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
@@ -36,6 +33,7 @@ public class QiniuStorageService extends StorageService {
     private final UploadManager uploadManager;
     private final Auth auth;
     private final String token;
+    private final RestClient restClient = RestClient.builder().build();
 
     public QiniuStorageService(StorageProperties storageProperties) {
         this.storageProperties = storageProperties;
@@ -66,30 +64,36 @@ public class QiniuStorageService extends StorageService {
         QiniuStorageProperties qiniu = storageProperties.getQiniu();
         HttpServletResponse response = ServletUtils.getResponse();
 
-        // 下载链接
-        URL url = null;
+        // 下载文件的字节数组
+        byte[] body = null;
+
         try {// 获取下载链接
             String encodedPath = URLEncoder.encode(path, StandardCharsets.UTF_8).replaceAll("\\+", "%20");
             DownloadUrl downloadUrl = new DownloadUrl(qiniu.getDomain(), true, encodedPath);
             // 带有效期1小时
             long expireInSeconds = 3600;//1小时，可以自定义链接过期时间
             long deadline = System.currentTimeMillis()/1000 + expireInSeconds;
-            // 生成下载链接，并创建URL对象
-            url = new URL(downloadUrl.buildURL(auth, deadline));
+            // 生成下载链接
+            String url = downloadUrl.buildURL(auth, deadline);
+            body = restClient.get()
+                    .uri(url)
+                    .accept(MediaType.APPLICATION_OCTET_STREAM)
+                    .retrieve()
+                    .body(byte[].class);
         }catch (Exception e) {
             log.error("QINIU Obs 连接出错：{}", e.getMessage());
         }
 
-        Assert.notNull(url, "下载文件不存在");
+        if (body == null) {
+            throw new RuntimeException("下载文件不存在");
+        }
+
+        // 设置响应头
+        setResponseHeaders(response, filename, body.length);
+
         // 将文件输出到Response
-        try(InputStream inputStream = url.openStream();
-            OutputStream outputStream = response.getOutputStream()) {
-            String filenameEncoded = URLEncoder.encode(filename, StandardCharsets.UTF_8).replaceAll("\\+", "%20");
-            response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);
-            response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename*=utf-8''" + filenameEncoded);
-            response.addHeader(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, HttpHeaders.CONTENT_DISPOSITION);
-            long length = IoUtil.copy(inputStream, outputStream, 1024 * 1024);
-            response.setContentLength((int) length);
+        try(OutputStream outputStream = response.getOutputStream()) {
+            outputStream.write(body);
         } catch (Exception e) {
             log.error("下载文件出错：{}", e.getMessage());
         }

@@ -1,6 +1,5 @@
 package com.brycehan.boot.framework.storage.service;
 
-import cn.hutool.core.io.IoUtil;
 import com.brycehan.boot.common.enums.AccessType;
 import com.brycehan.boot.common.util.ServletUtils;
 import com.brycehan.boot.framework.storage.config.properties.MinioStorageProperties;
@@ -8,15 +7,11 @@ import com.brycehan.boot.framework.storage.config.properties.StorageProperties;
 import io.minio.*;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.MediaTypeFactory;
 import org.springframework.util.Assert;
 
 import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 
 /**
@@ -106,17 +101,11 @@ public class MinioStorageService extends StorageService {
 
         Assert.notNull(object, "MinIO对象为空");
         Assert.notNull(statObjectResponse, "MinIO对象为空");
+
+        // 设置响应头
+        setResponseHeaders(response, filename, (int) statObjectResponse.size());
+
         // 将文件输出到Response
-        try (InputStream inputStream = object;
-             OutputStream outputStream = response.getOutputStream()) {
-            String filenameEncoded = URLEncoder.encode(filename, StandardCharsets.UTF_8).replaceAll("\\+", "%20");
-            response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);
-            response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename*=utf-8''" + filenameEncoded);
-            response.addHeader(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, HttpHeaders.CONTENT_DISPOSITION);
-            response.setContentLength((int) statObjectResponse.size());
-            IoUtil.copy(inputStream, outputStream, 1024 * 1024);
-        } catch (Exception e) {
-            log.error("下载文件出错：{}", e.getMessage());
-        }
+        writeToResponse(object, response);
     }
 }
