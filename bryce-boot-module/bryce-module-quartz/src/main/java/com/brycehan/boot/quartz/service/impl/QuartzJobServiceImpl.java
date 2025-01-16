@@ -51,7 +51,7 @@ public class QuartzJobServiceImpl extends BaseServiceImpl<QuartzJobMapper, Quart
     @PostConstruct
     public void init() throws SchedulerException {
         scheduler.clear();
-        List<QuartzJob> quartzJobs = this.baseMapper.selectList(null);
+        List<QuartzJob> quartzJobs = baseMapper.selectList(null);
 
         for (QuartzJob quartzJob : quartzJobs) {
             QuartzUtils.createScheduleJob(scheduler, quartzJob);
@@ -63,7 +63,7 @@ public class QuartzJobServiceImpl extends BaseServiceImpl<QuartzJobMapper, Quart
         QuartzJob quartzJob = QuartzJobConvert.INSTANCE.convert(quartzJobDto);
         quartzJob.setId(IdGenerator.nextId());
 
-        if(this.baseMapper.insert(quartzJob) > 0) {
+        if(baseMapper.insert(quartzJob) > 0) {
             QuartzUtils.createScheduleJob(scheduler, quartzJob);
         }
     }
@@ -73,7 +73,7 @@ public class QuartzJobServiceImpl extends BaseServiceImpl<QuartzJobMapper, Quart
         QuartzJob quartzJob = QuartzJobConvert.INSTANCE.convert(quartzJobDto);
 
         // 更新定时任务
-        if (this.baseMapper.updateById(quartzJob) > 0) {
+        if (baseMapper.updateById(quartzJob) > 0) {
             QuartzJob entity = getById(quartzJobDto.getId());
             QuartzUtils.updateSchedulerJob(scheduler, entity);
         }
@@ -93,7 +93,7 @@ public class QuartzJobServiceImpl extends BaseServiceImpl<QuartzJobMapper, Quart
 
     @Override
     public PageResult<QuartzJobVo> page(QuartzJobPageDto quartzJobPageDto) {
-        IPage<QuartzJob> page = this.baseMapper.selectPage(quartzJobPageDto.toPage(), getWrapper(quartzJobPageDto));
+        IPage<QuartzJob> page = baseMapper.selectPage(quartzJobPageDto.toPage(), getWrapper(quartzJobPageDto));
         return new PageResult<>(page.getTotal(), QuartzJobConvert.INSTANCE.convert(page.getRecords()));
     }
 
@@ -115,7 +115,7 @@ public class QuartzJobServiceImpl extends BaseServiceImpl<QuartzJobMapper, Quart
 
     @Override
     public void export(QuartzJobPageDto quartzJobPageDto) {
-        List<QuartzJob> quartzJobList = this.baseMapper.selectList(getWrapper(quartzJobPageDto));
+        List<QuartzJob> quartzJobList = baseMapper.selectList(getWrapper(quartzJobPageDto));
         List<QuartzJobVo> quartzJobVoList = QuartzJobConvert.INSTANCE.convert(quartzJobList);
         String today = DateUtil.format(new Date(), DatePattern.PURE_DATE_PATTERN);
         ExcelUtils.export(QuartzJobVo.class, "定时任务_".concat(today), "定时任务", quartzJobVoList);

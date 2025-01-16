@@ -61,7 +61,7 @@ public class SysRoleOrgServiceImpl extends BaseServiceImpl<SysRoleOrgMapper, Sys
         LambdaQueryWrapper<SysRoleOrg> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(SysRoleOrg::getRoleId, roleId);
 
-        List<SysRoleOrg> sysUserRoles = this.baseMapper.selectList(queryWrapper);
+        List<SysRoleOrg> sysUserRoles = baseMapper.selectList(queryWrapper);
 
         return sysUserRoles.stream().map(SysRoleOrg::getOrgId)
                 .toList();
@@ -69,7 +69,7 @@ public class SysRoleOrgServiceImpl extends BaseServiceImpl<SysRoleOrgMapper, Sys
 
     @Override
     public void deleteByRoleIds(List<Long> roleIds) {
-        this.baseMapper.delete(new LambdaQueryWrapper<SysRoleOrg>().in(SysRoleOrg::getRoleId, roleIds));
+        baseMapper.delete(new LambdaQueryWrapper<SysRoleOrg>().in(SysRoleOrg::getRoleId, roleIds));
     }
 
 }

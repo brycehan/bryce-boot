@@ -50,7 +50,7 @@ public class SysDictTypeServiceImpl extends BaseServiceImpl<SysDictTypeMapper, S
     public void save(SysDictTypeDto sysDictTypeDto) {
         SysDictType sysDictType = SysDictTypeConvert.INSTANCE.convert(sysDictTypeDto);
         sysDictType.setId(IdGenerator.nextId());
-        this.baseMapper.insert(sysDictType);
+        baseMapper.insert(sysDictType);
     }
 
     /**
@@ -60,12 +60,12 @@ public class SysDictTypeServiceImpl extends BaseServiceImpl<SysDictTypeMapper, S
      */
     public void update(SysDictTypeDto sysDictTypeDto) {
         SysDictType sysDictType = SysDictTypeConvert.INSTANCE.convert(sysDictTypeDto);
-        this.baseMapper.updateById(sysDictType);
+        baseMapper.updateById(sysDictType);
     }
 
     @Override
     public PageResult<SysDictTypeVo> page(SysDictTypePageDto sysDictTypePageDto) {
-        IPage<SysDictType> page = this.baseMapper.selectPage(sysDictTypePageDto.toPage(), getWrapper(sysDictTypePageDto));
+        IPage<SysDictType> page = baseMapper.selectPage(sysDictTypePageDto.toPage(), getWrapper(sysDictTypePageDto));
         return new PageResult<>(page.getTotal(), SysDictTypeConvert.INSTANCE.convert(page.getRecords()));
     }
 
@@ -87,7 +87,7 @@ public class SysDictTypeServiceImpl extends BaseServiceImpl<SysDictTypeMapper, S
 
     @Override
     public void export(SysDictTypePageDto sysDictTypePageDto) {
-        List<SysDictType> sysDictTypeList = this.baseMapper.selectList(getWrapper(sysDictTypePageDto));
+        List<SysDictType> sysDictTypeList = baseMapper.selectList(getWrapper(sysDictTypePageDto));
         List<SysDictTypeVo> sysDictTypeVoList = SysDictTypeConvert.INSTANCE.convert(sysDictTypeList);
         String today = DateUtil.format(new Date(), DatePattern.PURE_DATE_PATTERN);
         ExcelUtils.export(SysDictTypeVo.class, "字典类型_" + today, "字典类型", sysDictTypeVoList);
@@ -96,7 +96,7 @@ public class SysDictTypeServiceImpl extends BaseServiceImpl<SysDictTypeMapper, S
     @Override
     public List<SysDictVo> dictList() {
         // 全部字典类型列表
-        List<SysDictType> typeList = this.baseMapper.selectList(Wrappers.emptyWrapper());
+        List<SysDictType> typeList = baseMapper.selectList(Wrappers.emptyWrapper());
         // 全部字典数据列表
         List<SysDictData> dataList = this.sysDictDataService.list(new LambdaQueryWrapper<SysDictData>()
                 .orderByAsc(SysDictData::getSort));
@@ -124,7 +124,7 @@ public class SysDictTypeServiceImpl extends BaseServiceImpl<SysDictTypeMapper, S
         queryWrapper
                 .select(SysDictType::getDictType, SysDictType::getId)
                 .eq(SysDictType::getDictType, sysDictTypeCodeDto.getDictType());
-        SysDictType sysDictType = this.baseMapper.selectOne(queryWrapper, false);
+        SysDictType sysDictType = baseMapper.selectOne(queryWrapper, false);
 
         // 修改时，同字典类型编码同ID为编码唯一
         return Objects.isNull(sysDictType) || Objects.equals(sysDictTypeCodeDto.getId(), sysDictType.getId());

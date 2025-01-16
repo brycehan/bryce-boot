@@ -45,7 +45,7 @@ public class SysOrgServiceImpl extends BaseServiceImpl<SysOrgMapper, SysOrg> imp
     public void save(SysOrgDto sysOrgDto) {
         SysOrg sysOrg = SysOrgConvert.INSTANCE.convert(sysOrgDto);
         sysOrg.setId(IdGenerator.nextId());
-        this.baseMapper.insert(sysOrg);
+        baseMapper.insert(sysOrg);
     }
 
     @Override
@@ -64,7 +64,7 @@ public class SysOrgServiceImpl extends BaseServiceImpl<SysOrgMapper, SysOrg> imp
             throw new RuntimeException("上级机构不能为下级");
         }
 
-        this.baseMapper.updateById(sysOrg);
+        baseMapper.updateById(sysOrg);
     }
 
     @Override
@@ -84,7 +84,7 @@ public class SysOrgServiceImpl extends BaseServiceImpl<SysOrgMapper, SysOrg> imp
         }
 
         // 删除
-        this.baseMapper.deleteByIds(idsDto.getIds());
+        baseMapper.deleteByIds(idsDto.getIds());
     }
 
     @Override
@@ -94,7 +94,7 @@ public class SysOrgServiceImpl extends BaseServiceImpl<SysOrgMapper, SysOrg> imp
         params.put(DataConstants.DATA_SCOPE, getDataScope("so", "id"));
 
         // 机构列表
-        List<SysOrg> sysOrgList = this.baseMapper.list(params);
+        List<SysOrg> sysOrgList = baseMapper.list(params);
         return TreeUtils.build(SysOrgConvert.INSTANCE.convert(sysOrgList));
     }
 
@@ -104,7 +104,7 @@ public class SysOrgServiceImpl extends BaseServiceImpl<SysOrgMapper, SysOrg> imp
         queryWrapper.select(SysOrg::getId, SysOrg::getParentId);
 
         // 所有机构的id、parentId列表
-        List<SysOrg> orgList = this.baseMapper.selectList(queryWrapper);
+        List<SysOrg> orgList = baseMapper.selectList(queryWrapper);
 
         // 递归查询所有子机构IDs
         List<Long> subIds = new ArrayList<>();
@@ -138,7 +138,7 @@ public class SysOrgServiceImpl extends BaseServiceImpl<SysOrgMapper, SysOrg> imp
             LambdaQueryWrapper<SysOrg> queryWrapper = new LambdaQueryWrapper<>();
             queryWrapper.select(SysOrg::getName);
             queryWrapper.eq(SysOrg::getId, orgId);
-            SysOrg sysOrg = this.baseMapper.selectOne(queryWrapper, false);
+            SysOrg sysOrg = baseMapper.selectOne(queryWrapper, false);
             if (sysOrg != null) {
                 return sysOrg.getName();
             }

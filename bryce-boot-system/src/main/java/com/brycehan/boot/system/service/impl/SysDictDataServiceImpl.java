@@ -41,7 +41,7 @@ public class SysDictDataServiceImpl extends BaseServiceImpl<SysDictDataMapper, S
     public void save(SysDictDataDto sysDictDataDto) {
         SysDictData sysDictData = SysDictDataConvert.INSTANCE.convert(sysDictDataDto);
         sysDictData.setId(IdGenerator.nextId());
-        this.baseMapper.insert(sysDictData);
+        baseMapper.insert(sysDictData);
     }
 
     /**
@@ -51,12 +51,12 @@ public class SysDictDataServiceImpl extends BaseServiceImpl<SysDictDataMapper, S
      */
     public void update(SysDictDataDto sysDictDataDto) {
         SysDictData sysDictData = SysDictDataConvert.INSTANCE.convert(sysDictDataDto);
-        this.baseMapper.updateById(sysDictData);
+        baseMapper.updateById(sysDictData);
     }
 
     @Override
     public PageResult<SysDictDataVo> page(SysDictDataPageDto sysDictDataPageDto) {
-        IPage<SysDictData> page = this.baseMapper.selectPage(sysDictDataPageDto.toPage(), getWrapper(sysDictDataPageDto));
+        IPage<SysDictData> page = baseMapper.selectPage(sysDictDataPageDto.toPage(), getWrapper(sysDictDataPageDto));
         return new PageResult<>(page.getTotal(), SysDictDataConvert.INSTANCE.convert(page.getRecords()));
     }
 
@@ -76,7 +76,7 @@ public class SysDictDataServiceImpl extends BaseServiceImpl<SysDictDataMapper, S
 
     @Override
     public void export(SysDictDataPageDto sysDictDataPageDto) {
-        List<SysDictData> sysDictDataList = this.baseMapper.selectList(getWrapper(sysDictDataPageDto));
+        List<SysDictData> sysDictDataList = baseMapper.selectList(getWrapper(sysDictDataPageDto));
         List<SysDictDataVo> sysDictDataVoList = SysDictDataConvert.INSTANCE.convert(sysDictDataList);
         String today = DateUtil.format(new Date(), DatePattern.PURE_DATE_PATTERN);
         ExcelUtils.export(SysDictDataVo.class, "系统字典数据" + today, "系统字典数据", sysDictDataVoList);

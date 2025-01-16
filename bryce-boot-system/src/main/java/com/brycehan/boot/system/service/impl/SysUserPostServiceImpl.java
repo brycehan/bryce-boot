@@ -67,7 +67,7 @@ public class SysUserPostServiceImpl extends BaseServiceImpl<SysUserPostMapper, S
         LambdaQueryWrapper<SysUserPost> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(SysUserPost::getUserId, userId);
 
-        List<SysUserPost> sysUserPosts = this.baseMapper.selectList(queryWrapper);
+        List<SysUserPost> sysUserPosts = baseMapper.selectList(queryWrapper);
 
         return sysUserPosts.stream().map(SysUserPost::getPostId)
                 .toList();
@@ -75,12 +75,12 @@ public class SysUserPostServiceImpl extends BaseServiceImpl<SysUserPostMapper, S
 
     @Override
     public void deleteByUserIds(List<Long> userIds) {
-        this.baseMapper.delete(new LambdaQueryWrapper<SysUserPost>().in(SysUserPost::getUserId, userIds));
+        baseMapper.delete(new LambdaQueryWrapper<SysUserPost>().in(SysUserPost::getUserId, userIds));
     }
 
     @Override
     public void deleteByPostIds(List<Long> postIds) {
-        this.baseMapper.delete(new LambdaQueryWrapper<SysUserPost>().in(SysUserPost::getPostId, postIds));
+        baseMapper.delete(new LambdaQueryWrapper<SysUserPost>().in(SysUserPost::getPostId, postIds));
     }
 
 }

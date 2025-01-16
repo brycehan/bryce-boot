@@ -63,7 +63,7 @@ public class SysUserRoleServiceImpl extends BaseServiceImpl<SysUserRoleMapper, S
         LambdaQueryWrapper<SysUserRole> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(SysUserRole::getUserId, userId);
         queryWrapper.in(SysUserRole::getRoleId, roleIds);
-        List<SysUserRole> dbUserRoles = this.baseMapper.selectList(queryWrapper);
+        List<SysUserRole> dbUserRoles = baseMapper.selectList(queryWrapper);
 
         List<SysUserRole> userRoleList = roleIds.stream()
                 .filter(roleId -> dbUserRoles.stream().noneMatch(sysUserRole -> sysUserRole.getRoleId().equals(roleId)))
@@ -85,7 +85,7 @@ public class SysUserRoleServiceImpl extends BaseServiceImpl<SysUserRoleMapper, S
         LambdaQueryWrapper<SysUserRole> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(SysUserRole::getRoleId, roleId);
         queryWrapper.in(SysUserRole::getUserId, userIds);
-        List<SysUserRole> dbUserRoles = this.baseMapper.selectList(queryWrapper);
+        List<SysUserRole> dbUserRoles = baseMapper.selectList(queryWrapper);
 
         List<SysUserRole> userRoleList = userIds.stream()
                 .filter(userId -> dbUserRoles.stream().noneMatch(sysUserRole -> sysUserRole.getUserId().equals(userId)))
@@ -103,12 +103,12 @@ public class SysUserRoleServiceImpl extends BaseServiceImpl<SysUserRoleMapper, S
 
     @Override
     public void deleteByRoleIds(List<Long> roleIds) {
-        this.baseMapper.delete(new LambdaQueryWrapper<SysUserRole>().in(SysUserRole::getRoleId, roleIds));
+        baseMapper.delete(new LambdaQueryWrapper<SysUserRole>().in(SysUserRole::getRoleId, roleIds));
     }
 
     @Override
     public void deleteByUserIds(List<Long> userIds) {
-        this.baseMapper.delete(new LambdaQueryWrapper<SysUserRole>().in(SysUserRole::getUserId, userIds));
+        baseMapper.delete(new LambdaQueryWrapper<SysUserRole>().in(SysUserRole::getUserId, userIds));
     }
 
     @Override
@@ -141,7 +141,7 @@ public class SysUserRoleServiceImpl extends BaseServiceImpl<SysUserRoleMapper, S
         queryWrapper.select(SysUserRole::getRoleId);
         queryWrapper.eq(SysUserRole::getUserId, userId);
 
-        List<SysUserRole> sysUserRoles = this.baseMapper.selectList(queryWrapper);
+        List<SysUserRole> sysUserRoles = baseMapper.selectList(queryWrapper);
 
         return sysUserRoles.stream().map(SysUserRole::getRoleId).toList();
     }
@@ -158,7 +158,7 @@ public class SysUserRoleServiceImpl extends BaseServiceImpl<SysUserRoleMapper, S
         queryWrapper.select(SysUserRole::getUserId);
         queryWrapper.eq(SysUserRole::getRoleId, roleId);
 
-        List<SysUserRole> sysUserRoles = this.baseMapper.selectList(queryWrapper);
+        List<SysUserRole> sysUserRoles = baseMapper.selectList(queryWrapper);
 
         return sysUserRoles.stream().map(SysUserRole::getUserId).toList();
     }
@@ -167,6 +167,6 @@ public class SysUserRoleServiceImpl extends BaseServiceImpl<SysUserRoleMapper, S
     public int countUserRoleByRoleId(Long roleId) {
         LambdaQueryWrapper<SysUserRole> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(SysUserRole::getRoleId, roleId);
-        return this.baseMapper.selectCount(queryWrapper).intValue();
+        return baseMapper.selectCount(queryWrapper).intValue();
     }
 }

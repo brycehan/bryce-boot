@@ -91,13 +91,13 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         sysRoleService.checkRoleDataScope(sysUserDto.getRoleIds().toArray(Long[]::new));
         sysOrgService.checkOrgDataScope(sysUserDto.getOrgId());
         // 判断用户名是否存在
-        SysUser user = this.baseMapper.getByUsername(sysUserDto.getUsername());
+        SysUser user = baseMapper.getByUsername(sysUserDto.getUsername());
         if (user != null) {
             throw new RuntimeException("账号已经存在");
         }
 
         // 判断手机号是否存在
-        user = this.baseMapper.getByPhone(sysUserDto.getPhone());
+        user = baseMapper.getByPhone(sysUserDto.getPhone());
         if (user != null) {
             throw new RuntimeException("手机号已经存在");
         }
@@ -108,7 +108,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         sysUser.setId(IdGenerator.nextId());
 
         // 保存用户
-        this.baseMapper.insert(sysUser);
+        baseMapper.insert(sysUser);
 
         // 保存用户角色关系
         this.sysUserRoleService.saveOrUpdate(sysUser.getId(), sysUserDto.getRoleIds());
@@ -128,7 +128,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
 
         // 判断手机号是否存在
         if (StrUtil.isNotBlank(sysUserDto.getPhone())) {
-            SysUser user = this.baseMapper.getByPhone(sysUserDto.getPhone());
+            SysUser user = baseMapper.getByPhone(sysUserDto.getPhone());
             if (user != null && !user.getId().equals(sysUserDto.getId())) {
                 throw new RuntimeException("手机号已经存在");
             }
@@ -142,7 +142,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         }
 
         // 更新用户
-        this.baseMapper.updateById(sysUser);
+        baseMapper.updateById(sysUser);
 
         // 机构为空时，清空机构ID
         if (sysUser.getOrgId() == null) {
@@ -175,7 +175,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         this.sysUserPostService.deleteByUserIds(idsDto.getIds());
 
         // 删除用户
-        this.baseMapper.deleteByIds(idsDto.getIds());
+        baseMapper.deleteByIds(idsDto.getIds());
     }
 
     @Override
@@ -208,7 +208,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         params.put(DataConstants.PAGE, page);
 
         // 数据列表
-        List<SysUser> list = this.baseMapper.list(params);
+        List<SysUser> list = baseMapper.list(params);
         List<SysUserVo> sysUserVoList = SysUserConvert.INSTANCE.convert(list);
 
         // 处理机构名称
@@ -249,7 +249,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
 
     @Override
     public void export(SysUserPageDto sysUserPageDto) {
-        List<SysUser> sysUserList = this.baseMapper.selectList(getWrapper(sysUserPageDto));
+        List<SysUser> sysUserList = baseMapper.selectList(getWrapper(sysUserPageDto));
         List<SysUserVo> sysUserVoList = SysUserConvert.INSTANCE.convert(sysUserList);
         String today = DateUtil.format(new Date(), DatePattern.PURE_DATE_PATTERN);
         ExcelUtils.export(SysUserVo.class, "系统用户_".concat(today), "系统用户", sysUserVoList);
@@ -297,7 +297,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
                     sysOrgService.checkOrgDataScope(sysUser.getOrgId());
                     sysUser.setId(IdGenerator.nextId());
                     sysUser.setPassword(encodedPassword);
-                    this.baseMapper.insert(sysUser);
+                    baseMapper.insert(sysUser);
                     successNum++;
                     sucessMessage.append("<br/>").append(successNum).append("、账号 ").append(username).append(" 导入成功");
                 } else if (isUpdateSupport) {
@@ -306,7 +306,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
                     checkUserAllowed(sysUser);
                     checkUserDataScope(sysUser);
                     sysOrgService.checkOrgDataScope(sysUser.getOrgId());
-                    this.baseMapper.updateById(sysUser);
+                    baseMapper.updateById(sysUser);
                     successNum++;
                     sucessMessage.append("<br/>").append(successNum).append("、账号 ").append(username).append(" 更新成功");
                 } else {
@@ -332,7 +332,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
     @Transactional
     public SysUser registerUser(SysUser sysUser) {
         // 校验是否已注册
-        SysUser user = this.baseMapper.getByUsername(sysUser.getUsername());
+        SysUser user = baseMapper.getByUsername(sysUser.getUsername());
         if (user != null) {
             throw new ServerException(UserResponseStatus.USER_REGISTER_EXISTS, sysUser.getUsername());
         }
@@ -348,7 +348,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         this.sysUserRoleService.save(sysUserRole);
 
         // 保存用户
-        int result = this.baseMapper.insert(sysUser);
+        int result = baseMapper.insert(sysUser);
         if (result == 1) {
             return sysUser;
         } else {
@@ -376,7 +376,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
 
         // 校验手机号码
         if (StringUtils.isNotEmpty(sysUser.getPhone())) {
-            SysUser user = this.baseMapper.getByPhone(sysUser.getPhone());
+            SysUser user = baseMapper.getByPhone(sysUser.getPhone());
             if (Objects.nonNull(user) && !user.getId().equals(sysUser.getId())) {
                 throw new ServerException(UserResponseStatus.USER_PROFILE_PHONE_EXISTS, sysUser.getPhone());
             }
@@ -384,7 +384,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
 
         // 校验邮箱
         if (StringUtils.isNotEmpty(sysUser.getEmail())) {
-            SysUser user = this.baseMapper.getByEmail(sysUser.getEmail());
+            SysUser user = baseMapper.getByEmail(sysUser.getEmail());
             if (Objects.nonNull(user) && !user.getId().equals(sysUser.getId())) {
                 throw new ServerException(UserResponseStatus.USER_PROFILE_EMAIL_EXISTS, sysUser.getPhone());
             }
@@ -392,7 +392,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
 
         // 更新并更新用户登录信息
         if (this.updateById(sysUser)) {
-            SysUser user = this.baseMapper.selectById(sysUser.getId());
+            SysUser user = baseMapper.selectById(sysUser.getId());
             this.applicationEventPublisher.publishEvent(new RefreshTokenEvent(user));
             return;
         }
@@ -423,7 +423,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
 
         // 更新并更新用户登录信息
         if (this.updateById(sysUser)) {
-            SysUser user = this.baseMapper.selectById(sysUser.getId());
+            SysUser user = baseMapper.selectById(sysUser.getId());
             this.applicationEventPublisher.publishEvent(new RefreshTokenEvent(user));
             return storageVo.getUrl();
         }
@@ -435,7 +435,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
     public void updatePassword(SysUserPasswordDto passwordDto) {
         LoginUser loginUser = LoginUserContext.currentUser();
         assert loginUser != null;
-        SysUser sysUser = this.baseMapper.selectById(loginUser.getId());
+        SysUser sysUser = baseMapper.selectById(loginUser.getId());
 
         // 校验密码
         if (!this.passwordEncoder.matches(passwordDto.getPassword(), sysUser.getPassword())) {
@@ -464,12 +464,12 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
 
     @Override
     public SysUser getByUsername(String username) {
-        return this.baseMapper.getByUsername(username);
+        return baseMapper.getByUsername(username);
     }
 
     @Override
     public SysUser getByPhone(String phone) {
-        return this.baseMapper.getByPhone(phone);
+        return baseMapper.getByPhone(phone);
     }
 
     @Override
@@ -478,7 +478,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
             return null;
         }
 
-        SysUser sysUser = this.baseMapper.selectById(userId);
+        SysUser sysUser = baseMapper.selectById(userId);
         SysUserInfoVo sysUserInfoVo = BeanUtil.copyProperties(sysUser, SysUserInfoVo.class);
 
         // 机构名称
@@ -571,7 +571,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         queryWrapper
                 .select(SysUser::getUsername, SysUser::getId)
                 .eq(SysUser::getUsername, sysUsernameDto.getUsername());
-        SysUser sysUser = this.baseMapper.selectOne(queryWrapper, false);
+        SysUser sysUser = baseMapper.selectOne(queryWrapper, false);
 
         // 修改时，同手机号同ID为手机号唯一
         return Objects.isNull(sysUser) || Objects.equals(sysUsernameDto.getId(), sysUser.getId());
@@ -583,7 +583,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         queryWrapper
                 .select(SysUser::getPhone, SysUser::getId)
                 .eq(SysUser::getPhone, sysUserPhoneDto.getPhone());
-        SysUser sysUser = this.baseMapper.selectOne(queryWrapper, false);
+        SysUser sysUser = baseMapper.selectOne(queryWrapper, false);
 
         // 修改时，同手机号同ID为手机号唯一
         return Objects.isNull(sysUser) || Objects.equals(sysUserPhoneDto.getId(), sysUser.getId());
@@ -595,7 +595,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         queryWrapper
                 .select(SysUser::getEmail, SysUser::getId)
                 .eq(SysUser::getEmail, sysUserEmailDto.getEmail());
-        SysUser sysUser = this.baseMapper.selectOne(queryWrapper, false);
+        SysUser sysUser = baseMapper.selectOne(queryWrapper, false);
 
         // 修改时，同邮箱同ID为邮箱唯一
         return Objects.isNull(sysUser) || Objects.equals(sysUserEmailDto.getId(), sysUser.getId());

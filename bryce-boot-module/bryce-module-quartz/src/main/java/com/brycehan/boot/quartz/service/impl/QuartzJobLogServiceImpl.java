@@ -33,7 +33,7 @@ public class QuartzJobLogServiceImpl extends BaseServiceImpl<QuartzJobLogMapper,
 
     @Override
     public PageResult<QuartzJobLogVo> page(QuartzJobLogPageDto quartzJobLogPageDto) {
-        IPage<QuartzJobLog> page = this.baseMapper.selectPage(quartzJobLogPageDto.toPage(), getWrapper(quartzJobLogPageDto));
+        IPage<QuartzJobLog> page = baseMapper.selectPage(quartzJobLogPageDto.toPage(), getWrapper(quartzJobLogPageDto));
         return new PageResult<>(page.getTotal(), QuartzJobLogConvert.INSTANCE.convert(page.getRecords()));
     }
 
@@ -52,7 +52,7 @@ public class QuartzJobLogServiceImpl extends BaseServiceImpl<QuartzJobLogMapper,
 
     @Override
     public void export(QuartzJobLogPageDto quartzJobLogPageDto) {
-        List<QuartzJobLog> quartzJobLogList = this.baseMapper.selectList(getWrapper(quartzJobLogPageDto));
+        List<QuartzJobLog> quartzJobLogList = baseMapper.selectList(getWrapper(quartzJobLogPageDto));
         List<QuartzJobLogVo> quartzJobLogVoList = QuartzJobLogConvert.INSTANCE.convert(quartzJobLogList);
         String today = DateUtil.format(new Date(), DatePattern.PURE_DATE_PATTERN);
         ExcelUtils.export(QuartzJobLogVo.class, "任务调度日志_".concat(today), "任务调度日志", quartzJobLogVoList);
@@ -60,7 +60,7 @@ public class QuartzJobLogServiceImpl extends BaseServiceImpl<QuartzJobLogMapper,
 
     @Override
     public void cleanJobLog() {
-        this.baseMapper.cleanJobLog();
+        baseMapper.cleanJobLog();
     }
 
 }

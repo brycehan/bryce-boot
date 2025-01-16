@@ -52,18 +52,18 @@ public class SysPostServiceImpl extends BaseServiceImpl<SysPostMapper, SysPost> 
     public void save(SysPostDto sysPostDto) {
         SysPost sysPost = SysPostConvert.INSTANCE.convert(sysPostDto);
         sysPost.setId(IdGenerator.nextId());
-        this.baseMapper.insert(sysPost);
+        baseMapper.insert(sysPost);
     }
 
     public void update(SysPostDto sysPostDto) {
         SysPost sysPost = SysPostConvert.INSTANCE.convert(sysPostDto);
-        this.baseMapper.updateById(sysPost);
+        baseMapper.updateById(sysPost);
     }
 
     @Override
     public void delete(IdsDto idsDto) {
         // 删除岗位
-        this.baseMapper.deleteByIds(idsDto.getIds());
+        baseMapper.deleteByIds(idsDto.getIds());
 
         // 删除岗位用户关系
         this.sysUserPostService.deleteByPostIds(idsDto.getIds());
@@ -71,7 +71,7 @@ public class SysPostServiceImpl extends BaseServiceImpl<SysPostMapper, SysPost> 
 
     @Override
     public PageResult<SysPostVo> page(SysPostPageDto sysPostPageDto) {
-        IPage<SysPost> page = this.baseMapper.selectPage(sysPostPageDto.toPage(), getWrapper(sysPostPageDto));
+        IPage<SysPost> page = baseMapper.selectPage(sysPostPageDto.toPage(), getWrapper(sysPostPageDto));
         return new PageResult<>(page.getTotal(), SysPostConvert.INSTANCE.convert(page.getRecords()));
     }
 
@@ -92,7 +92,7 @@ public class SysPostServiceImpl extends BaseServiceImpl<SysPostMapper, SysPost> 
 
     @Override
     public void export(SysPostPageDto sysPostPageDto) {
-        List<SysPost> sysPostList = this.baseMapper.selectList(getWrapper(sysPostPageDto));
+        List<SysPost> sysPostList = baseMapper.selectList(getWrapper(sysPostPageDto));
         List<SysPostVo> sysPostVoList = SysPostConvert.INSTANCE.convert(sysPostList);
         String today = DateUtil.format(new Date(), DatePattern.PURE_DATE_PATTERN);
         ExcelUtils.export(SysPostVo.class, "岗位数据_".concat(today), "岗位数据", sysPostVoList);
@@ -102,7 +102,7 @@ public class SysPostServiceImpl extends BaseServiceImpl<SysPostMapper, SysPost> 
     public List<SysPostVo> list(SysPostPageDto sysPostPageDto) {
         // 正常岗位列表
         sysPostPageDto.setStatus(StatusType.ENABLE);
-        List<SysPost> sysPostList = this.baseMapper.selectList(getWrapper(sysPostPageDto));
+        List<SysPost> sysPostList = baseMapper.selectList(getWrapper(sysPostPageDto));
 
         return SysPostConvert.INSTANCE.convert(sysPostList);
     }
@@ -116,7 +116,7 @@ public class SysPostServiceImpl extends BaseServiceImpl<SysPostMapper, SysPost> 
         LambdaQueryWrapper<SysPost> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.select(SysPost::getName);
         queryWrapper.in(SysPost::getId, postIdList);
-        return this.baseMapper.selectList(queryWrapper).stream().map(SysPost::getName).toList();
+        return baseMapper.selectList(queryWrapper).stream().map(SysPost::getName).toList();
     }
 
     @Override
@@ -125,7 +125,7 @@ public class SysPostServiceImpl extends BaseServiceImpl<SysPostMapper, SysPost> 
         queryWrapper
                 .select(SysPost::getCode, SysPost::getId)
                 .eq(SysPost::getCode, sysPostCodeDto.getCode());
-        SysPost sysPost = this.baseMapper.selectOne(queryWrapper, false);
+        SysPost sysPost = baseMapper.selectOne(queryWrapper, false);
 
         // 修改时，同岗位编码同ID为编码唯一
         return Objects.isNull(sysPost) || Objects.equals(sysPostCodeDto.getId(), sysPost.getId());

@@ -44,7 +44,7 @@ public class SysNoticeServiceImpl extends BaseServiceImpl<SysNoticeMapper, SysNo
     public void save(SysNoticeDto sysNoticeDto) {
         SysNotice sysNotice = SysNoticeConvert.INSTANCE.convert(sysNoticeDto);
         sysNotice.setId(IdGenerator.nextId());
-        this.baseMapper.insert(sysNotice);
+        baseMapper.insert(sysNotice);
     }
 
     /**
@@ -54,7 +54,7 @@ public class SysNoticeServiceImpl extends BaseServiceImpl<SysNoticeMapper, SysNo
      */
     public void update(SysNoticeDto sysNoticeDto) {
         SysNotice sysNotice = SysNoticeConvert.INSTANCE.convert(sysNoticeDto);
-        this.baseMapper.updateById(sysNotice);
+        baseMapper.updateById(sysNotice);
     }
 
     @Override
@@ -86,7 +86,7 @@ public class SysNoticeServiceImpl extends BaseServiceImpl<SysNoticeMapper, SysNo
         }
 
         // 分页查询
-        IPage<SysNotice> page = this.baseMapper.selectPage(sysNoticePageDto.toPage(), wrapper);
+        IPage<SysNotice> page = baseMapper.selectPage(sysNoticePageDto.toPage(), wrapper);
         List<SysNoticeVo> sysNoticeVoList = SysNoticeConvert.INSTANCE.convert(page.getRecords());
 
         // 处理创建用户名称
@@ -113,7 +113,7 @@ public class SysNoticeServiceImpl extends BaseServiceImpl<SysNoticeMapper, SysNo
 
     @Override
     public void export(SysNoticePageDto sysNoticePageDto) {
-        List<SysNotice> sysNoticeList = this.baseMapper.selectList(getWrapper(sysNoticePageDto));
+        List<SysNotice> sysNoticeList = baseMapper.selectList(getWrapper(sysNoticePageDto));
         List<SysNoticeVo> sysNoticeVoList = SysNoticeConvert.INSTANCE.convert(sysNoticeList);
         String today = DateUtil.format(new Date(), DatePattern.PURE_DATE_PATTERN);
         ExcelUtils.export(SysNoticeVo.class, "系统通知公告_".concat(today), "系统通知公告", sysNoticeVoList);

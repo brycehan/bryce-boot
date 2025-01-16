@@ -62,7 +62,7 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
 
         // 保存角色
         sysRole.setDataScope(DataScopeType.ALL);
-        this.baseMapper.insert(sysRole);
+        baseMapper.insert(sysRole);
 
         // 保存角色菜单关系
         this.sysRoleMenuService.saveOrUpdate(sysRole.getId(), sysRoleDto.getMenuIds());
@@ -76,7 +76,7 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
         checkRoleDataScope(sysRole.getId());
 
         // 更新角色
-        this.baseMapper.updateById(sysRole);
+        baseMapper.updateById(sysRole);
 
         // 更新角色菜单关系
         this.sysRoleMenuService.saveOrUpdate(sysRoleDto.getId(), sysRoleDto.getMenuIds());
@@ -96,7 +96,7 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
         }
 
         // 删除角色
-        this.baseMapper.deleteByIds(idsDto.getIds());
+        baseMapper.deleteByIds(idsDto.getIds());
 
         // 删除用户角色关系
         this.sysUserRoleService.deleteByRoleIds(idsDto.getIds());
@@ -110,7 +110,7 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
 
     @Override
     public PageResult<SysRoleVo> page(SysRolePageDto sysRolePageDto) {
-        IPage<SysRole> page = this.baseMapper.selectPage(sysRolePageDto.toPage(), getWrapper(sysRolePageDto));
+        IPage<SysRole> page = baseMapper.selectPage(sysRolePageDto.toPage(), getWrapper(sysRolePageDto));
         return new PageResult<>(page.getTotal(), SysRoleConvert.INSTANCE.convert(page.getRecords()));
     }
 
@@ -136,7 +136,7 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
 
     @Override
     public void export(SysRolePageDto sysRolePageDto) {
-        List<SysRole> sysRoleList = this.baseMapper.selectList(getWrapper(sysRolePageDto));
+        List<SysRole> sysRoleList = baseMapper.selectList(getWrapper(sysRolePageDto));
         List<SysRoleVo> sysRoleVoList = SysRoleConvert.INSTANCE.convert(sysRoleList);
         String today = DateUtil.format(new Date(), DatePattern.PURE_DATE_PATTERN);
         ExcelUtils.export(SysRoleVo.class, "角色数据_"+ today, "角色数据", sysRoleVoList);
@@ -157,7 +157,7 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
     @Override
     public List<String> getRoleNameList(List<Long> roleIdList) {
         if (CollectionUtils.isNotEmpty(roleIdList)) {
-            return this.baseMapper.selectList(new LambdaQueryWrapper<SysRole>().in(SysRole::getId, roleIdList))
+            return baseMapper.selectList(new LambdaQueryWrapper<SysRole>().in(SysRole::getId, roleIdList))
                     .stream().map(SysRole::getName).toList();
         }
         return new ArrayList<>();
@@ -170,14 +170,14 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
 
     @Override
     public List<SysRoleVo> list(SysRolePageDto sysRolePageDto) {
-        List<SysRole> sysRoleList = this.baseMapper.selectList(getWrapper(sysRolePageDto));
+        List<SysRole> sysRoleList = baseMapper.selectList(getWrapper(sysRolePageDto));
         return SysRoleConvert.INSTANCE.convert(sysRoleList);
     }
 
     @Override
     @Transactional
     public void assignDataScope(SysRoleOrgDto sysRoleOrgDto) {
-        SysRole sysRole = this.baseMapper.selectById(sysRoleOrgDto.getId());
+        SysRole sysRole = baseMapper.selectById(sysRoleOrgDto.getId());
         if (sysRole == null) {
             return;
         }
@@ -185,7 +185,7 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
         checkRoleDataScope(sysRoleOrgDto.getId());
         // 更新角色
         sysRole.setDataScope(sysRoleOrgDto.getDataScope());
-        this.baseMapper.updateById(sysRole);
+        baseMapper.updateById(sysRole);
 
         // 更新角色数据范围关系
         if (sysRoleOrgDto.getDataScope() == DataScopeType.CUSTOM) {
@@ -260,7 +260,7 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
         queryWrapper
                 .select(SysRole::getId)
                 .eq(SysRole::getCode, sysRoleCodeDto.getCode());
-        SysRole sysRole = this.baseMapper.selectOne(queryWrapper, false);
+        SysRole sysRole = baseMapper.selectOne(queryWrapper, false);
 
         // 修改时，同角色编码同ID为编码唯一
         return Objects.isNull(sysRole) || Objects.equals(sysRoleCodeDto.getId(), sysRole.getId());

@@ -61,7 +61,7 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRo
         LambdaQueryWrapper<SysRoleMenu> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(SysRoleMenu::getRoleId, roleId);
 
-        List<SysRoleMenu> sysRoleMenus = this.baseMapper.selectList(queryWrapper);
+        List<SysRoleMenu> sysRoleMenus = baseMapper.selectList(queryWrapper);
 
         return sysRoleMenus.stream().map(SysRoleMenu::getMenuId)
                 .toList();
@@ -69,12 +69,12 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRo
 
     @Override
     public void deleteByRoleIds(List<Long> roleIds) {
-        this.baseMapper.delete(new LambdaQueryWrapper<SysRoleMenu>().in(SysRoleMenu::getRoleId, roleIds));
+        baseMapper.delete(new LambdaQueryWrapper<SysRoleMenu>().in(SysRoleMenu::getRoleId, roleIds));
     }
 
     @Override
     public void deleteByMenuIds(List<Long> menuIds) {
-        this.baseMapper.delete(new LambdaQueryWrapper<SysRoleMenu>().in(SysRoleMenu::getMenuId, menuIds));
+        baseMapper.delete(new LambdaQueryWrapper<SysRoleMenu>().in(SysRoleMenu::getMenuId, menuIds));
     }
 
 }

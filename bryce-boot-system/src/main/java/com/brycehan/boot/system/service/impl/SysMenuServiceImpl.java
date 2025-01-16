@@ -52,7 +52,7 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuMapper, SysMenu> 
     public void save(SysMenuDto sysMenuDto) {
         SysMenu sysMenu = SysMenuConvert.INSTANCE.convert(sysMenuDto);
         sysMenu.setId(IdGenerator.nextId());
-        this.baseMapper.insert(sysMenu);
+        baseMapper.insert(sysMenu);
     }
 
     /**
@@ -69,13 +69,13 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuMapper, SysMenu> 
         }
 
         // 更新菜单
-        this.baseMapper.updateById(sysMenu);
+        baseMapper.updateById(sysMenu);
     }
 
     @Override
     public void delete(IdsDto idsDto) {
         // 删除菜单
-        this.baseMapper.deleteByIds(idsDto.getIds());
+        baseMapper.deleteByIds(idsDto.getIds());
 
         // 删除角色菜单关系
         this.sysRoleMenuService.deleteByMenuIds(idsDto.getIds());
@@ -83,7 +83,7 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuMapper, SysMenu> 
 
     @Override
     public PageResult<SysMenuVo> page(SysMenuPageDto sysMenuPageDto) {
-        IPage<SysMenu> page = this.baseMapper.selectPage(sysMenuPageDto.toPage(), getWrapper(sysMenuPageDto));
+        IPage<SysMenu> page = baseMapper.selectPage(sysMenuPageDto.toPage(), getWrapper(sysMenuPageDto));
         return new PageResult<>(page.getTotal(), SysMenuConvert.INSTANCE.convert(page.getRecords()));
     }
 
@@ -104,7 +104,7 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuMapper, SysMenu> 
 
     @Override
     public void export(SysMenuPageDto sysMenuPageDto) {
-        List<SysMenu> sysMenuList = this.baseMapper.selectList(getWrapper(sysMenuPageDto));
+        List<SysMenu> sysMenuList = baseMapper.selectList(getWrapper(sysMenuPageDto));
         List<SysMenuVo> sysMenuVoList = SysMenuConvert.INSTANCE.convert(sysMenuList);
         String today = DateUtil.format(new Date(), DatePattern.PURE_DATE_PATTERN);
         ExcelUtils.export(SysMenuVo.class, "系统菜单_" + today, "系统菜单", sysMenuVoList);
@@ -116,7 +116,7 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuMapper, SysMenu> 
         queryWrapper.like(StringUtils.isNotBlank(sysMenuDto.getName()), SysMenu::getName, sysMenuDto.getName());
         queryWrapper.eq(Objects.nonNull(sysMenuDto.getStatus()), SysMenu::getStatus, sysMenuDto.getStatus());
         queryWrapper.orderByAsc(SysMenu::getSort);
-        List<SysMenu> list = this.baseMapper.selectList(queryWrapper);
+        List<SysMenu> list = baseMapper.selectList(queryWrapper);
 
         return TreeUtils.build(SysMenuConvert.INSTANCE.convert(list), 0L);
     }
@@ -132,10 +132,10 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuMapper, SysMenu> 
             queryWrapper.in(ArrayUtil.length(type) > 0, SysMenu::getType, CollUtil.toList(type));
             queryWrapper.orderByAsc(Arrays.asList(SysMenu::getParentId, SysMenu::getSort));
 
-            menuList = this.baseMapper.selectList(queryWrapper);
+            menuList = baseMapper.selectList(queryWrapper);
         } else {
             // 普通用户菜单处理
-            menuList = this.baseMapper.selectMenuTreeList(loginUser.getId(), type);
+            menuList = baseMapper.selectMenuTreeList(loginUser.getId(), type);
         }
 
         return TreeUtils.build(SysMenuConvert.INSTANCE.convert(menuList));
@@ -154,7 +154,7 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuMapper, SysMenu> 
 
     @Override
     public Set<String> findAuthorityByUserId(Long userId) {
-        return this.baseMapper.findAuthorityByUserId(userId);
+        return baseMapper.findAuthorityByUserId(userId);
     }
 
     @Override
@@ -168,7 +168,7 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuMapper, SysMenu> 
         queryWrapper
                 .select(SysMenu::getAuthority, SysMenu::getId)
                 .eq(SysMenu::getAuthority, sysMenuAuthorityDto.getAuthority());
-        SysMenu sysMenu = this.baseMapper.selectOne(queryWrapper, false);
+        SysMenu sysMenu = baseMapper.selectOne(queryWrapper, false);
 
         // 修改时，同权限标识同ID为标识唯一
         return Objects.isNull(sysMenu) || Objects.equals(sysMenuAuthorityDto.getId(), sysMenu.getId());

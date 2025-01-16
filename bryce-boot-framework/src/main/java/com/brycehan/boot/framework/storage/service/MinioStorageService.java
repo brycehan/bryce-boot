@@ -99,8 +99,8 @@ public class MinioStorageService extends StorageService {
             log.error("MinIO 连接出错：{}", e.getMessage());
         }
 
-        Assert.notNull(object, "MinIO对象为空");
-        Assert.notNull(statObjectResponse, "MinIO对象为空");
+        Assert.notNull(object, "文件不存在");
+        Assert.notNull(statObjectResponse, "文件不存在");
 
         // 设置响应头
         setResponseHeaders(response, filename, (int) statObjectResponse.size());

@@ -45,7 +45,7 @@ public class SysLoginLogServiceImpl extends BaseServiceImpl<SysLoginLogMapper, S
     public void save(SysLoginLogDto sysLoginLogDto) {
         SysLoginLog sysLoginLog = SysLoginLogConvert.INSTANCE.convert(sysLoginLogDto);
         sysLoginLog.setId(IdGenerator.nextId());
-        this.baseMapper.insert(sysLoginLog);
+        baseMapper.insert(sysLoginLog);
     }
 
     /**
@@ -55,12 +55,12 @@ public class SysLoginLogServiceImpl extends BaseServiceImpl<SysLoginLogMapper, S
      */
     public void update(SysLoginLogDto sysLoginLogDto) {
         SysLoginLog sysLoginLog = SysLoginLogConvert.INSTANCE.convert(sysLoginLogDto);
-        this.baseMapper.updateById(sysLoginLog);
+        baseMapper.updateById(sysLoginLog);
     }
 
     @Override
     public PageResult<SysLoginLogVo> page(SysLoginLogPageDto sysLoginLogPageDto) {
-        IPage<SysLoginLog> page = this.baseMapper.selectPage(sysLoginLogPageDto.toPage(), getWrapper(sysLoginLogPageDto));
+        IPage<SysLoginLog> page = baseMapper.selectPage(sysLoginLogPageDto.toPage(), getWrapper(sysLoginLogPageDto));
         return new PageResult<>(page.getTotal(), SysLoginLogConvert.INSTANCE.convert(page.getRecords()));
     }
 
@@ -82,7 +82,7 @@ public class SysLoginLogServiceImpl extends BaseServiceImpl<SysLoginLogMapper, S
 
     @Override
     public void export(SysLoginLogPageDto sysLoginLogPageDto) {
-        List<SysLoginLog> sysLoginLogList = this.baseMapper.selectList(getWrapper(sysLoginLogPageDto));
+        List<SysLoginLog> sysLoginLogList = baseMapper.selectList(getWrapper(sysLoginLogPageDto));
         List<SysLoginLogVo> sysLoginLogVoList = SysLoginLogConvert.INSTANCE.convert(sysLoginLogList);
         String today = DateUtil.format(new Date(), DatePattern.PURE_DATE_PATTERN);
         ExcelUtils.export(SysLoginLogVo.class, "系统登录日志_".concat(today), "系统登录日志", sysLoginLogVoList);
@@ -110,12 +110,12 @@ public class SysLoginLogServiceImpl extends BaseServiceImpl<SysLoginLogMapper, S
         loginLog.setCreatedTime(LocalDateTime.now());
 
         // 保存数据
-        this.baseMapper.insert(loginLog);
+        baseMapper.insert(loginLog);
     }
 
     @Override
     public void cleanLoginLog() {
-        this.baseMapper.cleanLoginLog();
+        baseMapper.cleanLoginLog();
     }
 
 }
