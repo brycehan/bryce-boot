@@ -47,7 +47,7 @@ public class AuthPasswordRetryServiceImpl implements AuthPasswordRetryService {
         redisTemplate.opsForValue().set(
                 getPasswordErrorCountCacheKey(username),
                 ++retryCount,
-                this.lockDurationMinutes,
+                lockDurationMinutes,
                 TimeUnit.MINUTES
         );
     }

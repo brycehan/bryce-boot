@@ -126,7 +126,7 @@ public class SysOrgServiceImpl extends BaseServiceImpl<SysOrgMapper, SysOrg> imp
     private void getTree(Long id, List<SysOrg> orgList, List<Long> subIds) {
         for (SysOrg sysOrg : orgList) {
             if (sysOrg.getParentId().equals(id)) {
-                this.getTree(sysOrg.getId(), orgList, subIds);
+                getTree(sysOrg.getId(), orgList, subIds);
                 subIds.add(sysOrg.getId());
             }
         }

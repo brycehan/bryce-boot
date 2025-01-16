@@ -67,11 +67,11 @@ public abstract class BasePageDto implements Serializable {
         Page<T> page = new Page<>(current, size);
         log.debug("ServiceImpl.getPage 参数：{}", this);
 
-        List<OrderItem> orderItems = new ArrayList<>();
+        List<OrderItem> orderItemList = new ArrayList<>();
         // 处理排序参数
-        if (CollUtil.isNotEmpty(this.orderItems)) {
+        if (CollUtil.isNotEmpty(orderItems)) {
             // 过滤无效排序参数
-            List<OrderItemDto> itemDtoList = this.orderItems.stream()
+            List<OrderItemDto> itemDtoList = orderItems.stream()
                     .filter(orderItem -> hasEntityField(this.getClass(), orderItem.getColumn()))
                     .toList();
 
@@ -80,25 +80,25 @@ public abstract class BasePageDto implements Serializable {
             if (CollUtil.isNotEmpty(itemDtoList)) {
                 // 驼峰转下划线命名
                 itemDtoList.forEach(orderItem -> orderItem.setColumn(NamingCase.toUnderlineCase(orderItem.getColumn())));
-                orderItems.addAll(OrderItemConvert.INSTANCE.convert(itemDtoList));
+                orderItemList.addAll(OrderItemConvert.INSTANCE.convert(itemDtoList));
             }
         }
 
         // 无参数时，若有sort字段，默认按sort排序升序
-        if (CollUtil.isEmpty(orderItems) && hasEntityField(this.getClass(), DataConstants.DEFAULT_SORT_COLUMN)) {
+        if (CollUtil.isEmpty(orderItemList) && hasEntityField(this.getClass(), DataConstants.DEFAULT_SORT_COLUMN)) {
             OrderItem orderItem = new OrderItem();
             orderItem.setColumn(DataConstants.DEFAULT_SORT_COLUMN);
             orderItem.setAsc(DataConstants.DEFAULT_SORT_IS_ASC);
 
-            orderItems.add(orderItem);
+            orderItemList.add(orderItem);
         }
 
         // 默认按id降序排序
-        if (CollUtil.isEmpty(orderItems)) {
-            orderItems.add(OrderItem.desc("id"));
+        if (CollUtil.isEmpty(orderItemList)) {
+            orderItemList.add(OrderItem.desc("id"));
         }
 
-        page.addOrder(orderItems);
+        page.addOrder(orderItemList);
 
         return page;
     }

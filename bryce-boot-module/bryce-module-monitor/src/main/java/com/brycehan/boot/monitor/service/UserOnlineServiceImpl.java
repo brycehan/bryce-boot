@@ -35,7 +35,7 @@ public class UserOnlineServiceImpl implements UserOnlineService {
     public PageResult<UserOnlineVo> pageByUsernameAndLoginIp(UserOnlinePageDto userOnlinePageDto) {
         // 获取登录用户的全部 key
         String patternKeys = CacheConstants.LOGIN_USER_KEY + "*";
-        Set<String> keys = this.redisTemplate.keys(patternKeys);
+        Set<String> keys = redisTemplate.keys(patternKeys);
 
         if (keys == null) {
             return new PageResult<>(0, new ArrayList<>(0));
@@ -45,7 +45,7 @@ public class UserOnlineServiceImpl implements UserOnlineService {
 
         // 处理搜索过滤条件
         for (String key : keys) {
-            LoginUser loginUser = this.redisTemplate.opsForValue().get(key);
+            LoginUser loginUser = redisTemplate.opsForValue().get(key);
             String username = userOnlinePageDto.getUsername();
             String loginIp = userOnlinePageDto.getLoginIp();
             if (StringUtils.hasText(username) && StringUtils.hasText(loginIp)) {
@@ -126,7 +126,7 @@ public class UserOnlineServiceImpl implements UserOnlineService {
     public PageResult<UserOnlineVo> page(UserOnlinePageDto userOnlinePageDto) {
         // 获取登录用户的全部 key
         String patternKeys = CacheConstants.LOGIN_USER_KEY + "*";
-        Set<String> keys = this.redisTemplate.keys(patternKeys);
+        Set<String> keys = redisTemplate.keys(patternKeys);
 
         if (keys == null) {
             return new PageResult<>(0, new ArrayList<>(0));
@@ -138,7 +138,7 @@ public class UserOnlineServiceImpl implements UserOnlineService {
         // 分页数据
         List<UserOnlineVo> list = new ArrayList<>();
         keyList.forEach(key -> {
-            LoginUser loginUser = this.redisTemplate.opsForValue().get(key);
+            LoginUser loginUser = redisTemplate.opsForValue().get(key);
             if(loginUser != null) {
                 list.add(UserOnlineConvert.INSTANCE.convert(loginUser));
             }
@@ -156,7 +156,7 @@ public class UserOnlineServiceImpl implements UserOnlineService {
     public void deleteLoginUser(String userKey) {
         if(StringUtils.hasText(userKey)) {
             // 删除用户信息
-            this.jwtTokenProvider.deleteLoginUser(userKey);
+            jwtTokenProvider.deleteLoginUser(userKey);
         }
     }
 

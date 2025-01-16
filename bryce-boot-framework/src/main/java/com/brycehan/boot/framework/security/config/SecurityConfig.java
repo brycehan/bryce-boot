@@ -113,9 +113,9 @@ public class SecurityConfig {
         http
                 // 授权请求
                 .authorizeHttpRequests(registry -> registry
-                        .requestMatchers(this.authProperties.getIgnoreUrls().getAll()).permitAll()
-                        .requestMatchers(HttpMethod.GET, this.authProperties.getIgnoreUrls().getGet()).permitAll()
-                        .requestMatchers(HttpMethod.POST, this.authProperties.getIgnoreUrls().getPost()).permitAll()
+                        .requestMatchers(authProperties.getIgnoreUrls().getAll()).permitAll()
+                        .requestMatchers(HttpMethod.GET, authProperties.getIgnoreUrls().getGet()).permitAll()
+                        .requestMatchers(HttpMethod.POST, authProperties.getIgnoreUrls().getPost()).permitAll()
                         .requestMatchers(HttpMethod.OPTIONS).permitAll()
                         // 除上面外的所有请求全部需要鉴权认证
                         .anyRequest().authenticated())

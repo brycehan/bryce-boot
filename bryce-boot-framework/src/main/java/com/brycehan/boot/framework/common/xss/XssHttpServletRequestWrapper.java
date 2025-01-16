@@ -36,7 +36,7 @@ public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
     @Override
     public ServletInputStream getInputStream() throws IOException {
         // 如果是 json 数据，则不处理
-        if(StrUtil.startWithIgnoreCase(this.getContentType(), MediaType.APPLICATION_JSON_VALUE)) {
+        if(StrUtil.startWithIgnoreCase(getContentType(), MediaType.APPLICATION_JSON_VALUE)) {
             return super.getInputStream();
         }
 

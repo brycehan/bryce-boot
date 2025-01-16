@@ -53,7 +53,7 @@ public class ExcelDataListener<T> extends AnalysisEventListener<T> {
      */
     @Override
     public void doAfterAllAnalysed(AnalysisContext context) {
-        callback.doAfterAllAnalysed(this.list);
+        callback.doAfterAllAnalysed(list);
     }
 
 }

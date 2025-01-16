@@ -24,7 +24,7 @@ public class HuaweiStorageService extends StorageService {
 
     public HuaweiStorageService(StorageProperties storageProperties) {
         this.storageProperties = storageProperties;
-        HuaweiStorageProperties huawei = this.storageProperties.getHuawei();
+        HuaweiStorageProperties huawei = storageProperties.getHuawei();
         // 初始化obsClient实例
         obsClient = new ObsClient(huawei.getAccessKey(),
                 huawei.getSecretKey(),

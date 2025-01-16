@@ -83,7 +83,7 @@ public class Server implements Serializable {
             disk.setFree(DataSizeUtil.format(fs.getFreeSpace()));
             disk.setUsed(DataSizeUtil.format(used));
             disk.setUsage(NumberUtil.formatPercent(NumberUtil.div(used, fs.getTotalSpace()), 2));
-            this.disks.add(disk);
+            disks.add(disk);
         }
     }
 }

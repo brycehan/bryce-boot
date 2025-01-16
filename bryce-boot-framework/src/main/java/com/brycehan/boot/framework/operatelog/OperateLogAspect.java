@@ -157,7 +157,7 @@ public class OperateLogAspect {
         operateLogDto.setOperatedTime(LocalDateTime.now());
 
         // 保存操作日志
-        this.operateLogService.save(operateLogDto);
+        operateLogService.save(operateLogDto);
     }
 
 

@@ -49,7 +49,7 @@ public class LocalStorageService extends StorageService {
             return "";
         }
         // 公共访问路径
-        return this.storageProperties.getConfig().getEndpoint()
+        return storageProperties.getConfig().getEndpoint()
                 .concat("/").concat(local.getPrefix())
                 .concat("/").concat(path);
     }

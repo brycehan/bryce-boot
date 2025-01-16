@@ -41,7 +41,7 @@ public class SmsServiceImpl implements SmsService {
 
         // 判断是否超过发送次数
         String smsTodayCountKey = RedisKeys.getSmsTodayCountKey(phone);
-        Integer smsTodayCount = this.redisTemplate.opsForValue().get(smsTodayCountKey);
+        Integer smsTodayCount = redisTemplate.opsForValue().get(smsTodayCountKey);
         if (smsTodayCount != null && smsTodayCount >= numberTextMessagesSentPerDay) {
             throw new ServerException("短信发送次数超过限制，请明天再试");
         }
@@ -53,7 +53,7 @@ public class SmsServiceImpl implements SmsService {
         if (smsTodayCount == null) {
             smsTodayCount = 0;
         }
-        this.redisTemplate.opsForValue().set(smsTodayCountKey, ++smsTodayCount, 24, TimeUnit.HOURS);
+        redisTemplate.opsForValue().set(smsTodayCountKey, ++smsTodayCount, 24, TimeUnit.HOURS);
 
         return smsResponse.isSuccess();
     }

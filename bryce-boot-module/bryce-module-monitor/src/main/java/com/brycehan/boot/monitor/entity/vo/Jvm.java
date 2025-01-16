@@ -90,21 +90,21 @@ public class Jvm implements Serializable {
     private List<String> inputArguments;
 
     public Jvm() {
-        this.setMax(DataSizeUtil.format(SystemUtil.getMaxMemory()));
-        this.setTotal(DataSizeUtil.format(SystemUtil.getTotalMemory()));
-        this.setFree(DataSizeUtil.format(SystemUtil.getFreeMemory()));
-        this.setUsed(DataSizeUtil.format(SystemUtil.getTotalMemory() - SystemUtil.getFreeMemory()));
-        this.setUsage(NumberUtil.formatPercent(NumberUtil.div(
+        setMax(DataSizeUtil.format(SystemUtil.getMaxMemory()));
+        setTotal(DataSizeUtil.format(SystemUtil.getTotalMemory()));
+        setFree(DataSizeUtil.format(SystemUtil.getFreeMemory()));
+        setUsed(DataSizeUtil.format(SystemUtil.getTotalMemory() - SystemUtil.getFreeMemory()));
+        setUsage(NumberUtil.formatPercent(NumberUtil.div(
                 SystemUtil.getTotalMemory() - SystemUtil.getFreeMemory(), SystemUtil.getTotalMemory(), 4), 2));
-        this.setName(SystemUtil.getRuntimeMXBean().getVmName());
-        this.setVersion(SystemUtil.getJavaInfo().getVersion());
-        this.setVendor(SystemUtil.getJavaInfo().getVendor());
-        this.setHome(SystemUtil.getJavaRuntimeInfo().getHomeDir());
-        this.setUserDir(SystemUtil.getUserInfo().getCurrentDir());
+        setName(SystemUtil.getRuntimeMXBean().getVmName());
+        setVersion(SystemUtil.getJavaInfo().getVersion());
+        setVendor(SystemUtil.getJavaInfo().getVendor());
+        setHome(SystemUtil.getJavaRuntimeInfo().getHomeDir());
+        setUserDir(SystemUtil.getUserInfo().getCurrentDir());
         Date startedTime = new Date(SystemUtil.getRuntimeMXBean().getStartTime());
-        this.setStartedTime(DateUtil.formatDateTime(startedTime));
-        this.setRunTime(DateUtil.formatBetween(startedTime, new Date(), BetweenFormatter.Level.SECOND));
-        this.setInputArguments(SystemUtil.getRuntimeMXBean().getInputArguments());
+        setStartedTime(DateUtil.formatDateTime(startedTime));
+        setRunTime(DateUtil.formatBetween(startedTime, new Date(), BetweenFormatter.Level.SECOND));
+        setInputArguments(SystemUtil.getRuntimeMXBean().getInputArguments());
     }
 
 }

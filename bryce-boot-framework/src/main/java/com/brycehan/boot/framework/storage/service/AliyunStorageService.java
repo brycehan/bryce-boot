@@ -26,7 +26,7 @@ public class AliyunStorageService extends StorageService {
 
     public AliyunStorageService(StorageProperties storageProperties) {
         this.storageProperties = storageProperties;
-        AliyunStorageProperties aliyun = this.storageProperties.getAliyun();
+        AliyunStorageProperties aliyun = storageProperties.getAliyun();
         // 初始化OSSClient实例。
         ossClient = new OSSClientBuilder().build(aliyun.getEndPoint(),
                 aliyun.getAccessKeyId(),

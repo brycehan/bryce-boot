@@ -46,9 +46,9 @@ public class Mem implements Serializable {
 
         long used = globalMemory.getTotal() - globalMemory.getAvailable();
 
-        this.setTotal(DataSizeUtil.format(globalMemory.getTotal()));
-        this.setFree(DataSizeUtil.format(globalMemory.getAvailable()));
-        this.setUsed(DataSizeUtil.format(used));
-        this.setUsage(NumberUtil.formatPercent(NumberUtil.div(used, globalMemory.getTotal()), 2));
+        setTotal(DataSizeUtil.format(globalMemory.getTotal()));
+        setFree(DataSizeUtil.format(globalMemory.getAvailable()));
+        setUsed(DataSizeUtil.format(used));
+        setUsage(NumberUtil.formatPercent(NumberUtil.div(used, globalMemory.getTotal()), 2));
     }
 }

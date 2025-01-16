@@ -44,11 +44,11 @@ public class AuthSmsServiceImpl implements AuthSmsService {
     @Override
     public void sendCode(String phone, SmsType smsType) {
 
-        if (!this.smsEnabled()) {
+        if (!smsEnabled()) {
             throw new RuntimeException("短信功能未开启");
         }
 
-        if (!this.smsEnabled(smsType)) {
+        if (!smsEnabled(smsType)) {
             throw new RuntimeException(smsType.getDesc() + "短信功能未开启");
         }
 

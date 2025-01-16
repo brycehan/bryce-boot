@@ -62,7 +62,7 @@ public class Cpu implements Serializable {
             // 获取 CPU 相关信息，默认间隔1秒
             CpuInfo cpuInfo = OshiUtil.getCpuInfo();
             BeanUtils.copyProperties(cpuInfo, this);
-            this.setCpuModel(cpuInfo.getCpuModel().split("\n")[0]);
+            setCpuModel(cpuInfo.getCpuModel().split("\n")[0]);
         }catch (Exception e) {
             log.error("获取 CPU 信息失败：{}", e.getMessage());
         }

@@ -38,7 +38,7 @@ public class AuthRegisterServiceImpl implements AuthRegisterService {
     @Override
     public void register(RegisterDto registerDto) {
         // 验证码开关
-        boolean validated = this.validate(registerDto.getKey(), registerDto.getCode());
+        boolean validated = validate(registerDto.getKey(), registerDto.getCode());
         if (!validated) {
             throw new RuntimeException("验证码错误");
         }
@@ -50,7 +50,7 @@ public class AuthRegisterServiceImpl implements AuthRegisterService {
         sysUser = sysUserService.registerUser(sysUser);
 
         log.info("注册成功，用户名：{}", registerDto.getUsername());
-        this.applicationEventPublisher.publishEvent(new RegisterSuccessEvent(sysUser));
+        applicationEventPublisher.publishEvent(new RegisterSuccessEvent(sysUser));
     }
 
     @Override
@@ -60,7 +60,7 @@ public class AuthRegisterServiceImpl implements AuthRegisterService {
 
     @Override
     public boolean validate(String key, String code) {
-        return this.authCaptchaService.validate(key, code, CaptchaType.REGISTER);
+        return authCaptchaService.validate(key, code, CaptchaType.REGISTER);
     }
 
     @Override

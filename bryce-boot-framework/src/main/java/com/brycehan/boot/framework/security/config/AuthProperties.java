@@ -36,7 +36,7 @@ public class AuthProperties {
      */
     @PostConstruct
     public void init() {
-        if (JwtConstants.secret.equals(this.jwt.getSecret())) {
+        if (JwtConstants.secret.equals(jwt.getSecret())) {
             log.warn("认证配置 bryce.auth.secret 使用默认配置，请在生产环境配置，否则可能存在安全风险");
         }
     }

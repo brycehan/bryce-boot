@@ -25,7 +25,7 @@ public class JacksonEnumConverter implements GenericConverter {
 
     public JacksonEnumConverter(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
-        this.convertiblePairs = Set.of(
+        convertiblePairs = Set.of(
                 new ConvertiblePair(String.class, Enum.class),
                 new ConvertiblePair(Enum.class, String.class)
         );

@@ -38,17 +38,17 @@ public class PhoneCodeAuthenticationToken extends AbstractAuthenticationToken {
 
     @Override
     public Object getCredentials() {
-        return this.code;
+        return code;
     }
 
     @Override
     public Object getPrincipal() {
-        return this.principal;
+        return principal;
     }
 
     @Override
     public void eraseCredentials() {
         super.eraseCredentials();
-        this.code = null;
+        code = null;
     }
 }

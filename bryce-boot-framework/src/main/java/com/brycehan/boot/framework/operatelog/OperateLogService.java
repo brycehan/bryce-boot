@@ -21,7 +21,7 @@ public class OperateLogService {
     @Async
     public void save(OperateLogDto operateLogDto){
         // 保存到Redis队列
-        this.redisTemplate.opsForList()
+        redisTemplate.opsForList()
                 .leftPush(CacheConstants.SYSTEM_OPERATE_LOG_KEY, operateLogDto);
     }
 }
