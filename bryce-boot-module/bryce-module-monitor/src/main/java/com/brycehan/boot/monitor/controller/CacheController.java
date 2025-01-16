@@ -42,16 +42,16 @@ public class CacheController {
         Map<String, Object> result = new HashMap<>();
 
         // 1、获取Redis详情
-        Properties info = (Properties) this.redisTemplate.execute((RedisCallback<?>) RedisServerCommands::info);
+        Properties info = (Properties) redisTemplate.execute((RedisCallback<?>) RedisServerCommands::info);
         result.put("info", info);
 
         // 2、获取Key的数量
-        Long dbSize = (Long) this.redisTemplate.execute((RedisCallback<?>) RedisServerCommands::dbSize);
+        Long dbSize = (Long) redisTemplate.execute((RedisCallback<?>) RedisServerCommands::dbSize);
         result.put("keyCount", dbSize);
 
         // 3、获取命令调用量
         List<Map<String, Object>> list = new ArrayList<>();
-        Properties commandStats = (Properties) this.redisTemplate.execute((RedisCallback<?>)
+        Properties commandStats = (Properties) redisTemplate.execute((RedisCallback<?>)
                 connection -> connection.serverCommands().info("commandStats"));
         if(MapUtil.isNotEmpty(commandStats)) {
             commandStats.stringPropertyNames().forEach(key -> {

@@ -42,7 +42,7 @@ public class SysRoleOrgServiceImpl extends BaseServiceImpl<SysRoleOrgMapper, Sys
             }).toList();
 
             // 批量新增
-            this.saveBatch(list);
+            saveBatch(list);
         }
 
         // 需要删除的机构IDs
@@ -52,7 +52,7 @@ public class SysRoleOrgServiceImpl extends BaseServiceImpl<SysRoleOrgMapper, Sys
             queryWrapper.eq(SysRoleOrg::getRoleId, roleId);
             queryWrapper.in(SysRoleOrg::getOrgId, deleteOrgIds);
 
-            this.remove(queryWrapper);
+            remove(queryWrapper);
         }
     }
 

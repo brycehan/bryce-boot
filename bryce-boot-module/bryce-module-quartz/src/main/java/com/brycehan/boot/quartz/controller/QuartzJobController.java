@@ -57,7 +57,7 @@ public class QuartzJobController {
 
         // 检查 Bean 的合法性
         checkBean(quartzJobDto.getBeanName());
-        this.quartzJobService.save(quartzJobDto);
+        quartzJobService.save(quartzJobDto);
 
         return ResponseResult.ok();
     }
@@ -79,7 +79,7 @@ public class QuartzJobController {
 
         // 检查 Bean 的合法性
         checkBean(quartzJobDto.getBeanName());
-        this.quartzJobService.update(quartzJobDto);
+        quartzJobService.update(quartzJobDto);
 
         return ResponseResult.ok();
     }
@@ -95,7 +95,7 @@ public class QuartzJobController {
     @PreAuthorize("@auth.hasAuthority('quartz:job:delete')")
     @DeleteMapping
     public ResponseResult<Void> delete(@Validated @RequestBody IdsDto idsDto) {
-        this.quartzJobService.delete(idsDto);
+        quartzJobService.delete(idsDto);
         return ResponseResult.ok();
     }
 
@@ -109,7 +109,7 @@ public class QuartzJobController {
     @PreAuthorize("@auth.hasAuthority('quartz:job:info')")
     @GetMapping(path = "/{id}")
     public ResponseResult<QuartzJobVo> get(@Parameter(description = "quartz定时任务调度ID", required = true) @PathVariable Long id) {
-        QuartzJob quartzJob = this.quartzJobService.getById(id);
+        QuartzJob quartzJob = quartzJobService.getById(id);
         return ResponseResult.ok(QuartzJobConvert.INSTANCE.convert(quartzJob));
     }
 
@@ -123,7 +123,7 @@ public class QuartzJobController {
     @PreAuthorize("@auth.hasAuthority('quartz:job:page')")
     @PostMapping(path = "/page")
     public ResponseResult<PageResult<QuartzJobVo>> page(@Validated @RequestBody QuartzJobPageDto quartzJobPageDto) {
-        PageResult<QuartzJobVo> page = this.quartzJobService.page(quartzJobPageDto);
+        PageResult<QuartzJobVo> page = quartzJobService.page(quartzJobPageDto);
         return ResponseResult.ok(page);
     }
 
@@ -136,7 +136,7 @@ public class QuartzJobController {
     @PreAuthorize("@auth.hasAuthority('quartz:job:export')")
     @PostMapping(path = "/export")
     public void export(@Validated @RequestBody QuartzJobPageDto quartzJobPageDto) {
-        this.quartzJobService.export(quartzJobPageDto);
+        quartzJobService.export(quartzJobPageDto);
     }
 
     /**
@@ -150,7 +150,7 @@ public class QuartzJobController {
     @PreAuthorize("@auth.hasAuthority('quartz:job:run')")
     @PutMapping(path = "/run")
     public ResponseResult<Void> run(@Validated(value = UpdateGroup.class) @RequestBody QuartzJobDto quartzJobDto) {
-        this.quartzJobService.run(quartzJobDto);
+        quartzJobService.run(quartzJobDto);
         return ResponseResult.ok();
     }
 
@@ -165,7 +165,7 @@ public class QuartzJobController {
     @PreAuthorize("@auth.hasAuthority('quartz:job:update')")
     @PutMapping(path = "/status")
     public ResponseResult<Void> status(@Validated(value = UpdateGroup.class) @RequestBody QuartzJobDto quartzJobDto) {
-        this.quartzJobService.changeStatus(quartzJobDto);
+        quartzJobService.changeStatus(quartzJobDto);
         return ResponseResult.ok();
     }
 

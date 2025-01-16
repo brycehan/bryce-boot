@@ -64,7 +64,7 @@ public class SysOperateLogServiceImpl extends BaseServiceImpl<SysOperateLogMappe
 
     @Override
     public SysOperateLogVo get(Long id) {
-        SysOperateLog sysOperateLog = this.getById(id);
+        SysOperateLog sysOperateLog = getById(id);
         SysOperateLogVo sysOperateLogVo = SysOperateLogConvert.INSTANCE.convert(sysOperateLog);
 
         // 机构名称
@@ -126,7 +126,7 @@ public class SysOperateLogServiceImpl extends BaseServiceImpl<SysOperateLogMappe
             LocalDateTime now = LocalDateTime.now();
             // 每次插入1000条
             for (int i = 0; i < 1000; i++) {
-                OperateLogDto operateLogDto = this.redisTemplate.opsForList()
+                OperateLogDto operateLogDto = redisTemplate.opsForList()
                         .rightPop(CacheConstants.SYSTEM_OPERATE_LOG_KEY);
                 if (operateLogDto == null) {
                     break;
@@ -140,7 +140,7 @@ public class SysOperateLogServiceImpl extends BaseServiceImpl<SysOperateLogMappe
             }
 
             if (CollectionUtils.isNotEmpty(sysOperateLogList)) {
-                this.saveBatch(sysOperateLogList);
+                saveBatch(sysOperateLogList);
             }
         }, 10, 10, TimeUnit.SECONDS);
     }

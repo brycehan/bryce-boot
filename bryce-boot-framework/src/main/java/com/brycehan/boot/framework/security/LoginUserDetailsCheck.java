@@ -34,14 +34,14 @@ public class LoginUserDetailsCheck implements UserDetailsChecker {
         log.debug(JsonUtils.writeValueAsString(toCheck));
 
         // 超过密码错误最大次数锁定账户
-        Integer retryCount = this.redisTemplate.opsForValue()
+        Integer retryCount = redisTemplate.opsForValue()
                 .get(getPasswordErrorCountCacheKey(toCheck.getUsername()));
 
         if (retryCount == null) {
             retryCount = 0;
         }
         if (retryCount >= maxRetryCount) {
-            throw new ServerException(UserResponseStatus.USER_PASSWORD_RETRY_LIMIT_EXCEEDED, retryCount.toString(), this.lockDurationMinutes.toString());
+            throw new ServerException(UserResponseStatus.USER_PASSWORD_RETRY_LIMIT_EXCEEDED, retryCount.toString(), lockDurationMinutes.toString());
         }
     }
 

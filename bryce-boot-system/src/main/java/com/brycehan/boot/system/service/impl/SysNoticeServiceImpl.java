@@ -59,7 +59,7 @@ public class SysNoticeServiceImpl extends BaseServiceImpl<SysNoticeMapper, SysNo
 
     @Override
     public SysNoticeVo get(Long id) {
-        SysNotice sysNotice = this.getById(id);
+        SysNotice sysNotice = getById(id);
         SysNoticeVo sysNoticeVo = SysNoticeConvert.INSTANCE.convert(sysNotice);
         // 处理创建用户名称
         Map<Long, String> usernames = sysUserService.getUsernamesByIds(List.of(sysNoticeVo.getCreatedUserId()));

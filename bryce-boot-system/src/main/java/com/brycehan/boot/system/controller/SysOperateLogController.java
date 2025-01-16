@@ -41,7 +41,7 @@ public class SysOperateLogController {
     @PreAuthorize("@auth.hasAuthority('system:operateLog:delete')")
     @DeleteMapping
     public ResponseResult<Void> delete(@Validated @RequestBody IdsDto idsDto) {
-        this.sysOperateLogService.delete(idsDto);
+        sysOperateLogService.delete(idsDto);
         return ResponseResult.ok();
     }
 
@@ -55,7 +55,7 @@ public class SysOperateLogController {
     @PreAuthorize("@auth.hasAuthority('system:operateLog:info')")
     @GetMapping(path = "/{id}")
     public ResponseResult<SysOperateLogVo> get(@Parameter(description = "系统操作日志ID", required = true) @PathVariable Long id) {
-        SysOperateLogVo sysOperateLogVo = this.sysOperateLogService.get(id);
+        SysOperateLogVo sysOperateLogVo = sysOperateLogService.get(id);
         return ResponseResult.ok(sysOperateLogVo);
     }
 
@@ -69,7 +69,7 @@ public class SysOperateLogController {
     @PreAuthorize("@auth.hasAuthority('system:operateLog:page')")
     @PostMapping(path = "/page")
     public ResponseResult<PageResult<SysOperateLogVo>> page(@Validated @RequestBody SysOperateLogPageDto sysOperateLogPageDto) {
-        PageResult<SysOperateLogVo> page = this.sysOperateLogService.page(sysOperateLogPageDto);
+        PageResult<SysOperateLogVo> page = sysOperateLogService.page(sysOperateLogPageDto);
         return ResponseResult.ok(page);
     }
 
@@ -82,7 +82,7 @@ public class SysOperateLogController {
     @PreAuthorize("@auth.hasAuthority('system:operateLog:export')")
     @PostMapping(path = "/export")
     public void export(@Validated @RequestBody SysOperateLogPageDto sysOperateLogPageDto) {
-        this.sysOperateLogService.export(sysOperateLogPageDto);
+        sysOperateLogService.export(sysOperateLogPageDto);
     }
 
     /**
@@ -95,7 +95,7 @@ public class SysOperateLogController {
     @PreAuthorize("@auth.hasAuthority('system:operateLog:delete')")
     @DeleteMapping(path = "/clean")
     public ResponseResult<Void> clean() {
-        this.sysOperateLogService.cleanOperateLog();
+        sysOperateLogService.cleanOperateLog();
         return ResponseResult.ok();
     }
 

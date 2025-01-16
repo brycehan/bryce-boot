@@ -290,7 +290,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
                 LambdaQueryWrapper<SysUser> queryWrapper = new LambdaQueryWrapper<>();
                 queryWrapper.select(SysUser::getId);
                 queryWrapper.eq(SysUser::getUsername, sysUser.getUsername());
-                SysUser user = this.getOne(queryWrapper, false);
+                SysUser user = getOne(queryWrapper, false);
                 // 系统不存在用户时
                 if (user == null) {
                     ValidatorUtils.validate(validator, sysUserExcelDto);

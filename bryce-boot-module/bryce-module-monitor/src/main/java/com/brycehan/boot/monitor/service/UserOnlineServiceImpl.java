@@ -64,7 +64,7 @@ public class UserOnlineServiceImpl implements UserOnlineService {
         List<UserOnlineVo> userOnlineVoList = ListUtil.page(userOnlinePageDto.getCurrent() - 1, userOnlinePageDto.getSize(), list);
 
         // 分页数据，处理机构名称
-        Map<Long, String> orgNames = this.sysOrgService.getOrgNamesByIds(userOnlineVoList.stream().map(UserOnlineVo::getOrgId).toList());
+        Map<Long, String> orgNames = sysOrgService.getOrgNamesByIds(userOnlineVoList.stream().map(UserOnlineVo::getOrgId).toList());
         userOnlineVoList.forEach(onlineUserVo -> onlineUserVo.setOrgName(orgNames.get(onlineUserVo.getOrgId())));
 
         return new PageResult<>(userOnlineVoList.size(), userOnlineVoList);
@@ -146,7 +146,7 @@ public class UserOnlineServiceImpl implements UserOnlineService {
         list.sort(Comparator.comparing(UserOnlineVo::getLoginTime).reversed());
 
         // 处理机构名称
-        Map<Long, String> orgNames = this.sysOrgService.getOrgNamesByIds(list.stream().map(UserOnlineVo::getOrgId).toList());
+        Map<Long, String> orgNames = sysOrgService.getOrgNamesByIds(list.stream().map(UserOnlineVo::getOrgId).toList());
         list.forEach(onlineUserVo -> onlineUserVo.setOrgName(orgNames.get(onlineUserVo.getOrgId())));
 
         return new PageResult<>(keys.size(), list);

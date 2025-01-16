@@ -218,7 +218,7 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
         }
 
         // 分页查询
-        IPage<SysRole> page = this.page(sysAssignRolePageDto.toPage(), queryWrapper);
+        IPage<SysRole> page = page(sysAssignRolePageDto.toPage(), queryWrapper);
         return new PageResult<>(page.getTotal(), SysRoleConvert.INSTANCE.convert(page.getRecords()));
     }
 
@@ -246,7 +246,7 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
         // 数据权限过滤
         dataScopeWrapper(queryWrapper);
 
-        List<Long> roleIdList = this.listObjs(queryWrapper, Convert::toLong);
+        List<Long> roleIdList = listObjs(queryWrapper, Convert::toLong);
         for (Long roleId : roleIds) {
             if (!roleIdList.contains(roleId)) {
                 throw new RuntimeException("没有权限访问角色数据");

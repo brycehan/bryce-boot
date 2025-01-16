@@ -65,7 +65,7 @@ public class SysDictTypeController {
     @PreAuthorize("@auth.hasAuthority('system:dictType:update')")
     @PutMapping
     public ResponseResult<Void> update(@Validated(value = UpdateGroup.class) @RequestBody SysDictTypeDto sysDictTypeDto) {
-        this.sysDictTypeService.update(sysDictTypeDto);
+        sysDictTypeService.update(sysDictTypeDto);
         return ResponseResult.ok();
     }
 
@@ -80,7 +80,7 @@ public class SysDictTypeController {
     @PreAuthorize("@auth.hasAuthority('system:dictType:delete')")
     @DeleteMapping
     public ResponseResult<Void> delete(@Validated @RequestBody IdsDto idsDto) {
-        this.sysDictTypeService.delete(idsDto);
+        sysDictTypeService.delete(idsDto);
         return ResponseResult.ok();
     }
 
@@ -94,7 +94,7 @@ public class SysDictTypeController {
     @PreAuthorize("@auth.hasAuthority('system:dictType:info')")
     @GetMapping(path = "/{id}")
     public ResponseResult<SysDictTypeVo> get(@Parameter(description = "系统字典类型ID", required = true) @PathVariable Long id) {
-        SysDictType sysDictType = this.sysDictTypeService.getById(id);
+        SysDictType sysDictType = sysDictTypeService.getById(id);
         return ResponseResult.ok(SysDictTypeConvert.INSTANCE.convert(sysDictType));
     }
 
@@ -108,7 +108,7 @@ public class SysDictTypeController {
     @PreAuthorize("@auth.hasAuthority('system:dictType:page')")
     @PostMapping(path = "/page")
     public ResponseResult<PageResult<SysDictTypeVo>> page(@Validated @RequestBody SysDictTypePageDto sysDictTypePageDto) {
-        PageResult<SysDictTypeVo> page = this.sysDictTypeService.page(sysDictTypePageDto);
+        PageResult<SysDictTypeVo> page = sysDictTypeService.page(sysDictTypePageDto);
         return ResponseResult.ok(page);
     }
 
@@ -121,7 +121,7 @@ public class SysDictTypeController {
     @PreAuthorize("@auth.hasAuthority('system:dictType:export')")
     @PostMapping(path = "/export")
     public void export(@Validated @RequestBody SysDictTypePageDto sysDictTypePageDto) {
-        this.sysDictTypeService.export(sysDictTypePageDto);
+        sysDictTypeService.export(sysDictTypePageDto);
     }
 
     /**
@@ -132,7 +132,7 @@ public class SysDictTypeController {
     @Operation(summary = "全部字典数据")
     @GetMapping(path = "/dictList")
     public ResponseResult<List<SysDictVo>> dictList() {
-        List<SysDictVo> dictVoList = this.sysDictTypeService.dictList();
+        List<SysDictVo> dictVoList = sysDictTypeService.dictList();
         return ResponseResult.ok(dictVoList);
     }
 
@@ -145,7 +145,7 @@ public class SysDictTypeController {
     @Operation(summary = "校验字典类型编码是否唯一（true：唯一，false：不唯一）")
     @GetMapping(path = "/checkDictTypeCodeUnique")
     public ResponseResult<Boolean> checkDictTypeCodeUnique(@Validated SysDictTypeCodeDto sysDictTypeCodeDto) {
-        boolean checked = this.sysDictTypeService.checkDictTypeCodeUnique(sysDictTypeCodeDto);
+        boolean checked = sysDictTypeService.checkDictTypeCodeUnique(sysDictTypeCodeDto);
         return ResponseResult.ok(checked);
     }
 

@@ -47,7 +47,7 @@ public class AuthRegisterServiceImpl implements AuthRegisterService {
         SysUser sysUser = new SysUser();
         BeanUtils.copyProperties(registerDto, sysUser);
 
-        sysUser = this.sysUserService.registerUser(sysUser);
+        sysUser = sysUserService.registerUser(sysUser);
 
         log.info("注册成功，用户名：{}", registerDto.getUsername());
         this.applicationEventPublisher.publishEvent(new RegisterSuccessEvent(sysUser));
@@ -55,7 +55,7 @@ public class AuthRegisterServiceImpl implements AuthRegisterService {
 
     @Override
     public boolean registerEnabled() {
-        return this.sysParamService.getBoolean(ParamConstants.SYSTEM_REGISTER_ENABLED);
+        return sysParamService.getBoolean(ParamConstants.SYSTEM_REGISTER_ENABLED);
     }
 
     @Override
@@ -67,7 +67,7 @@ public class AuthRegisterServiceImpl implements AuthRegisterService {
     public boolean checkUsernameUnique(String username) {
         SysUsernameDto sysUsernameDto = new SysUsernameDto();
         sysUsernameDto.setUsername(username);
-        return this.sysUserService.checkUsernameUnique(sysUsernameDto);
+        return sysUserService.checkUsernameUnique(sysUsernameDto);
     }
 
 }

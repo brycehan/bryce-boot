@@ -47,7 +47,7 @@ public class SysParamController {
     @PreAuthorize("@auth.hasAuthority('system:param:save')")
     @PostMapping
     public ResponseResult<Void> save(@Validated(value = SaveGroup.class) @RequestBody SysParamDto sysParamDto) {
-        this.sysParamService.save(sysParamDto);
+        sysParamService.save(sysParamDto);
         return ResponseResult.ok();
     }
 
@@ -62,7 +62,7 @@ public class SysParamController {
     @PreAuthorize("@auth.hasAuthority('system:param:update')")
     @PutMapping
     public ResponseResult<Void> update(@Validated(value = UpdateGroup.class) @RequestBody SysParamDto sysParamDto) {
-        this.sysParamService.update(sysParamDto);
+        sysParamService.update(sysParamDto);
         return ResponseResult.ok();
     }
 
@@ -77,7 +77,7 @@ public class SysParamController {
     @PreAuthorize("@auth.hasAuthority('system:param:delete')")
     @DeleteMapping
     public ResponseResult<Void> delete(@Validated @RequestBody IdsDto idsDto) {
-        this.sysParamService.delete(idsDto);
+        sysParamService.delete(idsDto);
         return ResponseResult.ok();
     }
 
@@ -91,7 +91,7 @@ public class SysParamController {
     @PreAuthorize("@auth.hasAuthority('system:param:info')")
     @GetMapping(path = "/{id}")
     public ResponseResult<SysParamVo> get(@Parameter(description = "系统参数ID", required = true) @PathVariable Long id) {
-        SysParam sysParam = this.sysParamService.getById(id);
+        SysParam sysParam = sysParamService.getById(id);
         return ResponseResult.ok(SysParamConvert.INSTANCE.convert(sysParam));
     }
 
@@ -105,7 +105,7 @@ public class SysParamController {
     @PreAuthorize("@auth.hasAuthority('system:param:page')")
     @PostMapping(path = "/page")
     public ResponseResult<PageResult<SysParamVo>> page(@Validated @RequestBody SysParamPageDto sysParamPageDto) {
-        PageResult<SysParamVo> page = this.sysParamService.page(sysParamPageDto);
+        PageResult<SysParamVo> page = sysParamService.page(sysParamPageDto);
         return ResponseResult.ok(page);
     }
 
@@ -118,7 +118,7 @@ public class SysParamController {
     @PreAuthorize("@auth.hasAuthority('system:param:export')")
     @PostMapping(path = "/export")
     public void export(@Validated @RequestBody SysParamPageDto sysParamPageDto) {
-        this.sysParamService.export(sysParamPageDto);
+        sysParamService.export(sysParamPageDto);
     }
 
     /**
@@ -130,7 +130,7 @@ public class SysParamController {
     @Operation(summary = "获取系统参数值")
     @GetMapping(path = "/get/{paramKey}")
     public ResponseResult<String> getValueByParamKey(@Parameter(description = "参数键", required = true) @PathVariable String paramKey) {
-        String paramValue = this.sysParamService.getString(paramKey);
+        String paramValue = sysParamService.getString(paramKey);
         return ResponseResult.ok(paramValue);
     }
 
@@ -143,7 +143,7 @@ public class SysParamController {
     @Operation(summary = "校验系统参数键名是否唯一（true：唯一，false：不唯一）")
     @GetMapping(path = "/checkParamKeyUnique")
     public ResponseResult<Boolean> checkParamKeyUnique(@Validated SysParamKeyDto sysParamKeyDto) {
-        boolean checked = this.sysParamService.checkParamKeyUnique(sysParamKeyDto);
+        boolean checked = sysParamService.checkParamKeyUnique(sysParamKeyDto);
         return ResponseResult.ok(checked);
     }
 

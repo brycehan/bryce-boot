@@ -98,7 +98,7 @@ public class SysDictTypeServiceImpl extends BaseServiceImpl<SysDictTypeMapper, S
         // 全部字典类型列表
         List<SysDictType> typeList = baseMapper.selectList(Wrappers.emptyWrapper());
         // 全部字典数据列表
-        List<SysDictData> dataList = this.sysDictDataService.list(new LambdaQueryWrapper<SysDictData>()
+        List<SysDictData> dataList = sysDictDataService.list(new LambdaQueryWrapper<SysDictData>()
                 .orderByAsc(SysDictData::getSort));
 
         // 全部字典列表

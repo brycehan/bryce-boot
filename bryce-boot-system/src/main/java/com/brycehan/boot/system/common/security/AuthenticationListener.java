@@ -39,7 +39,7 @@ public class AuthenticationListener {
         // 记录登录日志
         sysLoginLogService.save(loginUser.getUsername(), OperateStatus.SUCCESS, LoginStatus.LOGIN_SUCCESS);
         // 更新用户登录信息
-        this.authLoginService.updateLoginInfo(loginUser);
+        authLoginService.updateLoginInfo(loginUser);
     }
 
     /**
@@ -53,7 +53,7 @@ public class AuthenticationListener {
         // 用户名
         String username = (String) authenticationFailureEvent.getAuthentication().getPrincipal();
         // 记录登录日志
-        this.sysLoginLogService.save(username, OperateStatus.FAIL, LoginStatus.ACCOUNT_FAIL);
+        sysLoginLogService.save(username, OperateStatus.FAIL, LoginStatus.ACCOUNT_FAIL);
     }
 
 }

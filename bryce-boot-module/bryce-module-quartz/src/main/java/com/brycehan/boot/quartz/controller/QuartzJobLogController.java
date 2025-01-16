@@ -43,7 +43,7 @@ public class QuartzJobLogController {
     @PreAuthorize("@auth.hasAuthority('quartz:jobLog:delete')")
     @DeleteMapping
     public ResponseResult<Void> delete(@Validated @RequestBody IdsDto idsDto) {
-        this.quartzJobLogService.delete(idsDto);
+        quartzJobLogService.delete(idsDto);
         return ResponseResult.ok();
     }
 
@@ -57,7 +57,7 @@ public class QuartzJobLogController {
     @PreAuthorize("@auth.hasAuthority('quartz:jobLog:info')")
     @GetMapping(path = "/{id}")
     public ResponseResult<QuartzJobLogVo> get(@Parameter(description = "quartz定时任务调度日志ID", required = true) @PathVariable Long id) {
-        QuartzJobLog quartzJobLog = this.quartzJobLogService.getById(id);
+        QuartzJobLog quartzJobLog = quartzJobLogService.getById(id);
         return ResponseResult.ok(QuartzJobLogConvert.INSTANCE.convert(quartzJobLog));
     }
 
@@ -71,7 +71,7 @@ public class QuartzJobLogController {
     @PreAuthorize("@auth.hasAuthority('quartz:jobLog:page')")
     @PostMapping(path = "/page")
     public ResponseResult<PageResult<QuartzJobLogVo>> page(@Validated @RequestBody QuartzJobLogPageDto quartzJobLogPageDto) {
-        PageResult<QuartzJobLogVo> page = this.quartzJobLogService.page(quartzJobLogPageDto);
+        PageResult<QuartzJobLogVo> page = quartzJobLogService.page(quartzJobLogPageDto);
         return ResponseResult.ok(page);
     }
 
@@ -84,7 +84,7 @@ public class QuartzJobLogController {
     @PreAuthorize("@auth.hasAuthority('quartz:jobLog:export')")
     @PostMapping(path = "/export")
     public void export(@Validated @RequestBody QuartzJobLogPageDto quartzJobLogPageDto) {
-        this.quartzJobLogService.export(quartzJobLogPageDto);
+        quartzJobLogService.export(quartzJobLogPageDto);
     }
 
     /**
@@ -97,7 +97,7 @@ public class QuartzJobLogController {
     @PreAuthorize("@auth.hasAuthority('quartz:jobLog:delete')")
     @DeleteMapping(path = "/clean")
     public ResponseResult<Void> clean() {
-        this.quartzJobLogService.cleanJobLog();
+        quartzJobLogService.cleanJobLog();
         return ResponseResult.ok();
     }
 

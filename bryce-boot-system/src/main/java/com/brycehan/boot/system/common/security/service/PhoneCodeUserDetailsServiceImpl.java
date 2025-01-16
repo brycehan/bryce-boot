@@ -26,12 +26,12 @@ public class PhoneCodeUserDetailsServiceImpl implements PhoneCodeUserDetailsServ
     @Override
     public UserDetails loadUserByPhone(String phone) throws UsernameNotFoundException {
         // 查询用户
-        SysUser sysUser = this.sysUserService.getByPhone(phone);
+        SysUser sysUser = sysUserService.getByPhone(phone);
         if (sysUser == null) {
             throw new UsernameNotFoundException("手机号或验证码错误");
         }
 
         // 创建用户详情
-        return this.sysUserDetailsService.getUserDetails(sysUser);
+        return sysUserDetailsService.getUserDetails(sysUser);
     }
 }

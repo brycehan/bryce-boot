@@ -37,13 +37,13 @@ public class PhoneCodeAuthenticationProvider implements AuthenticationProvider, 
 
     @Override
     public void afterPropertiesSet() {
-        Assert.notNull(this.phoneCodeUserDetailsService, "phoneCodeUserDetailsService must not be null");
-        Assert.notNull(this.phoneCodeValidateService, "phoneCodeValidateService must not be null");
+        Assert.notNull(phoneCodeUserDetailsService, "phoneCodeUserDetailsService must not be null");
+        Assert.notNull(phoneCodeValidateService, "phoneCodeValidateService must not be null");
     }
 
     @Override
     public void setMessageSource(@NotNull MessageSource messageSource) {
-        this.messages = new MessageSourceAccessor(messageSource);
+        messages = new MessageSourceAccessor(messageSource);
     }
 
     @Override
@@ -56,26 +56,26 @@ public class PhoneCodeAuthenticationProvider implements AuthenticationProvider, 
         String code = (String) authenticationToken.getCredentials();
 
         try {
-            UserDetails userDetails = this.phoneCodeUserDetailsService.loadUserByPhone(phone);
+            UserDetails userDetails = phoneCodeUserDetailsService.loadUserByPhone(phone);
             if(userDetails == null) {
                 throw new BadCredentialsException("Bad credentials");
             }
 
             // 短信验证码校验
-            if(this.phoneCodeValidateService.validate(phone, code)) {
+            if(phoneCodeValidateService.validate(phone, code)) {
                 return createSuccessAuthentication(authentication, userDetails);
             } else {
                 throw new BadCredentialsException("手机验证码错误");
             }
         } catch (UsernameNotFoundException e) {
-            throw new BadCredentialsException(this.messages
+            throw new BadCredentialsException(messages
                     .getMessage("PhoneCodeAuthenticationProvider.badCredentials", "Bad credentials"));
         }
     }
 
     private Authentication createSuccessAuthentication(Authentication authentication, UserDetails userDetails) {
         PhoneCodeAuthenticationToken authenticationToken = new PhoneCodeAuthenticationToken(userDetails, null,
-                this.authoritiesMapper.mapAuthorities(userDetails.getAuthorities()));
+                authoritiesMapper.mapAuthorities(userDetails.getAuthorities()));
         authenticationToken.setDetails(authentication.getDetails());
 
         return authenticationToken;

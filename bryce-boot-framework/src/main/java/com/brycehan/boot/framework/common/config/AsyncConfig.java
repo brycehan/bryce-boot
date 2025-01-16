@@ -33,7 +33,7 @@ public class AsyncConfig implements AsyncConfigurer {
     @Override
     public Executor getAsyncExecutor() {
         ThreadPoolTaskExecutor taskExecutor = new ThreadPoolTaskExecutor();
-        TaskExecutionProperties.Pool pool = this.taskExecutionProperties.getPool();
+        TaskExecutionProperties.Pool pool = taskExecutionProperties.getPool();
         // 配置核心线程数
         taskExecutor.setCorePoolSize(pool.getCoreSize());
         // 配置最大线程数

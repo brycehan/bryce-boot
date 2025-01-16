@@ -41,7 +41,7 @@ public class TencentStorageService extends StorageService {
 
     @Override
     public String upload(InputStream data, String path, AccessType accessType) {
-        TencentStorageProperties tencent = this.storageProperties.getTencent();
+        TencentStorageProperties tencent = storageProperties.getTencent();
         COSClient client = new COSClient(credentials, clientConfig);
         try {
             ObjectMetadata metadata = new ObjectMetadata();
@@ -60,7 +60,7 @@ public class TencentStorageService extends StorageService {
             client.shutdown();
         }
 
-        return this.storageProperties.getConfig().getEndpoint().concat("/").concat(path);
+        return storageProperties.getConfig().getEndpoint().concat("/").concat(path);
     }
 
     @Override

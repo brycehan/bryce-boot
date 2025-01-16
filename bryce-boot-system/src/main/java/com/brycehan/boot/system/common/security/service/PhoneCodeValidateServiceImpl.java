@@ -20,7 +20,7 @@ public class PhoneCodeValidateServiceImpl implements PhoneCodeValidateService {
 
     @Override
     public boolean validate(String phone, String code) {
-        return this.authSmsService.validate(phone, code, SmsType.LOGIN);
+        return authSmsService.validate(phone, code, SmsType.LOGIN);
     }
 
 }

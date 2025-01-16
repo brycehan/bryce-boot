@@ -72,7 +72,7 @@ public class SysOrgServiceImpl extends BaseServiceImpl<SysOrgMapper, SysOrg> imp
     public void delete(IdsDto idsDto) {
         idsDto.getIds().forEach(this::checkOrgDataScope);
         // 判断是否有子机构
-        long orgCount = this.count(new LambdaQueryWrapper<SysOrg>().in(SysOrg::getParentId, idsDto.getIds()));
+        long orgCount = count(new LambdaQueryWrapper<SysOrg>().in(SysOrg::getParentId, idsDto.getIds()));
         if (orgCount > 0) {
             throw new ServerException(SystemResponseStatus.ORG_EXIST_CHILDREN_CANNOT_BE_DELETED);
         }
@@ -108,7 +108,7 @@ public class SysOrgServiceImpl extends BaseServiceImpl<SysOrgMapper, SysOrg> imp
 
         // 递归查询所有子机构IDs
         List<Long> subIds = new ArrayList<>();
-        this.getTree(id, orgList, subIds);
+        getTree(id, orgList, subIds);
 
         // 本机构也添加进去
         subIds.add(id);

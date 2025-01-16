@@ -55,10 +55,10 @@ public class DesensitizedSerializer extends JsonSerializer<String> implements Co
         if (beanProperty != null) {
             Desensitized desensitized = beanProperty.getAnnotation(Desensitized.class);
             if (desensitized != null) {
-                this.type = desensitized.type();
-                this.frontLength = desensitized.frontLength();
-                this.endLength = desensitized.endLength();
-                this.useMasking = useMasking();
+                type = desensitized.type();
+                frontLength = desensitized.frontLength();
+                endLength = desensitized.endLength();
+                useMasking = useMasking();
            }
         }
         return this;

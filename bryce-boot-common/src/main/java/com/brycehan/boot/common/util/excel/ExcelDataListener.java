@@ -38,7 +38,7 @@ public class ExcelDataListener<T> extends AnalysisEventListener<T> {
     public void invoke(T data, AnalysisContext context) {
         list.add(data);
         if(list.size() == 500) {
-            this.callback.doSaveBatch(list);
+            callback.doSaveBatch(list);
             list.clear();
         }
     }
@@ -53,7 +53,7 @@ public class ExcelDataListener<T> extends AnalysisEventListener<T> {
      */
     @Override
     public void doAfterAllAnalysed(AnalysisContext context) {
-        this.callback.doAfterAllAnalysed(this.list);
+        callback.doAfterAllAnalysed(this.list);
     }
 
 }

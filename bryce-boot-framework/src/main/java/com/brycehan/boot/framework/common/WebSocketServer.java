@@ -89,7 +89,7 @@ public class WebSocketServer {
      * @throws IOException 异常
      */
     private void sendMessage(String message) throws IOException {
-        this.session.getBasicRemote().sendText(message);
+        session.getBasicRemote().sendText(message);
     }
 
     /**

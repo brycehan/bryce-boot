@@ -40,7 +40,7 @@ public class SysAuthorityServiceImpl implements SysAuthorityService {
         Set<String> authoritySet = new HashSet<>();
 
         if (findRole) {
-            Set<SysRole> roles = this.sysRoleService.getRoleByUserId(sysUser.getId());
+            Set<SysRole> roles = sysRoleService.getRoleByUserId(sysUser.getId());
             // 获取角色的菜单权限
             if (CollUtil.isNotEmpty(roles)) {
                 for (SysRole role : roles) {
@@ -55,7 +55,7 @@ public class SysAuthorityServiceImpl implements SysAuthorityService {
             Set<String> roleSet = roles.stream().map(role -> DataConstants.ROLE_PREFIX + role.getCode()).collect(Collectors.toSet());
             authoritySet.addAll(roleSet);
         } else {
-            authoritySet = this.sysMenuService.findAuthorityByUserId(sysUser.getId());
+            authoritySet = sysMenuService.findAuthorityByUserId(sysUser.getId());
         }
 
         return authoritySet;

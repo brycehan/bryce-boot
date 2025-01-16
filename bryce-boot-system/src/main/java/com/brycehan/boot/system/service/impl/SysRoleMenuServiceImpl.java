@@ -42,7 +42,7 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRo
             }).toList();
 
             // 批量新增
-            this.saveBatch(list);
+            saveBatch(list);
         }
 
         // 需要删除的菜单IDs
@@ -52,7 +52,7 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRo
             queryWrapper.eq(SysRoleMenu::getRoleId, roleId);
             queryWrapper.in(SysRoleMenu::getMenuId, deleteMenuIds);
 
-            this.remove(queryWrapper);
+            remove(queryWrapper);
         }
     }
 

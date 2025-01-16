@@ -16,11 +16,11 @@ import org.apache.ibatis.annotations.Mapper;
 public interface SysParamMapper extends BryceBaseMapper<SysParam> {
 
     default boolean exists(String paramKey) {
-        return this.exists(new LambdaQueryWrapper<SysParam>().eq(SysParam::getParamKey, paramKey));
+        return exists(new LambdaQueryWrapper<SysParam>().eq(SysParam::getParamKey, paramKey));
     }
 
     default SysParam selectOne(String paramKey) {
-        return this.selectOne(new LambdaQueryWrapper<SysParam>().eq(SysParam::getParamKey, paramKey), false);
+        return selectOne(new LambdaQueryWrapper<SysParam>().eq(SysParam::getParamKey, paramKey), false);
     }
 
 }

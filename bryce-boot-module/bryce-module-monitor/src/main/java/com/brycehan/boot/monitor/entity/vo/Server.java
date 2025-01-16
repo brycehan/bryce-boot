@@ -59,11 +59,11 @@ public class Server implements Serializable {
     private List<Disk> disks = new LinkedList<>();
 
     public Server() {
-        this.cpu = new Cpu();
-        this.mem = new Mem();
-        this.jvm = new Jvm();
-        this.sys = new Sys();
-        this.initDisks();
+        cpu = new Cpu();
+        mem = new Mem();
+        jvm = new Jvm();
+        sys = new Sys();
+        initDisks();
         log.debug("服务器信息 {}", this);
     }
 

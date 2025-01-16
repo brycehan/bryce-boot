@@ -44,7 +44,7 @@ public class SysNoticeController {
     @PreAuthorize("@auth.hasAuthority('system:notice:save')")
     @PostMapping
     public ResponseResult<Void> save(@Validated(value = SaveGroup.class) @RequestBody SysNoticeDto sysNoticeDto) {
-        this.sysNoticeService.save(sysNoticeDto);
+        sysNoticeService.save(sysNoticeDto);
         return ResponseResult.ok();
     }
 
@@ -59,7 +59,7 @@ public class SysNoticeController {
     @PreAuthorize("@auth.hasAuthority('system:notice:update')")
     @PutMapping
     public ResponseResult<Void> update(@Validated(value = UpdateGroup.class) @RequestBody SysNoticeDto sysNoticeDto) {
-        this.sysNoticeService.update(sysNoticeDto);
+        sysNoticeService.update(sysNoticeDto);
         return ResponseResult.ok();
     }
 
@@ -74,7 +74,7 @@ public class SysNoticeController {
     @PreAuthorize("@auth.hasAuthority('system:notice:delete')")
     @DeleteMapping
     public ResponseResult<Void> delete(@Validated @RequestBody IdsDto idsDto) {
-        this.sysNoticeService.delete(idsDto);
+        sysNoticeService.delete(idsDto);
         return ResponseResult.ok();
     }
 
@@ -88,7 +88,7 @@ public class SysNoticeController {
     @PreAuthorize("@auth.hasAuthority('system:notice:info')")
     @GetMapping(path = "/{id}")
     public ResponseResult<SysNoticeVo> get(@Parameter(description = "系统通知公告ID", required = true) @PathVariable Long id) {
-        SysNoticeVo sysNoticeVo = this.sysNoticeService.get(id);
+        SysNoticeVo sysNoticeVo = sysNoticeService.get(id);
         return ResponseResult.ok(sysNoticeVo);
     }
 
@@ -102,7 +102,7 @@ public class SysNoticeController {
     @PreAuthorize("@auth.hasAuthority('system:notice:page')")
     @PostMapping(path = "/page")
     public ResponseResult<PageResult<SysNoticeVo>> page(@Validated @RequestBody SysNoticePageDto sysNoticePageDto) {
-        PageResult<SysNoticeVo> page = this.sysNoticeService.page(sysNoticePageDto);
+        PageResult<SysNoticeVo> page = sysNoticeService.page(sysNoticePageDto);
         return ResponseResult.ok(page);
     }
 
@@ -115,7 +115,7 @@ public class SysNoticeController {
     @PreAuthorize("@auth.hasAuthority('system:notice:export')")
     @PostMapping(path = "/export")
     public void export(@Validated @RequestBody SysNoticePageDto sysNoticePageDto) {
-        this.sysNoticeService.export(sysNoticePageDto);
+        sysNoticeService.export(sysNoticePageDto);
     }
 
 }

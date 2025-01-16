@@ -42,7 +42,7 @@ public class SysUserPostServiceImpl extends BaseServiceImpl<SysUserPostMapper, S
             }).toList();
 
             // 批量新增
-            this.saveBatch(list);
+            saveBatch(list);
         }
 
         // 需要删除的岗位IDs
@@ -52,7 +52,7 @@ public class SysUserPostServiceImpl extends BaseServiceImpl<SysUserPostMapper, S
             queryWrapper.eq(SysUserPost::getUserId, userId);
             queryWrapper.in(SysUserPost::getPostId, deletePostIds);
 
-            this.remove(queryWrapper);
+            remove(queryWrapper);
         }
     }
 

@@ -43,7 +43,7 @@ public class SysParamApiService implements SysParamApi {
             LambdaQueryWrapper<SysParam> queryWrapper = new LambdaQueryWrapper<>();
             queryWrapper.select(SysParam::getId);
             queryWrapper.eq(SysParam::getParamKey, sysParam.getParamKey());
-            SysParam param = this.sysParamService.getOne(queryWrapper, false);
+            SysParam param = sysParamService.getOne(queryWrapper, false);
             if (param != null) {
                 sysParam.setId(param.getId());
             }
@@ -53,19 +53,19 @@ public class SysParamApiService implements SysParamApi {
             return;
         }
 
-        this.sysParamService.updateById(sysParam);
+        sysParamService.updateById(sysParam);
     }
 
     @Override
     public Boolean exists(String paramKey) {
-        return this.sysParamService.exists(paramKey);
+        return sysParamService.exists(paramKey);
     }
 
     @Override
     public SysParamVo getByParamKey(String paramKey) {
         LambdaQueryWrapper<SysParam> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(SysParam::getParamKey, paramKey);
-        SysParam sysParam = this.sysParamService.getOne(queryWrapper, false);
+        SysParam sysParam = sysParamService.getOne(queryWrapper, false);
 
         SysParamVo sysParamVo = new SysParamVo();
         BeanUtils.copyProperties(sysParam, sysParamVo);
@@ -75,12 +75,12 @@ public class SysParamApiService implements SysParamApi {
 
     @Override
     public String getString(String paramKey) {
-        return this.sysParamService.getString(paramKey);
+        return sysParamService.getString(paramKey);
     }
 
     @Override
     public Boolean getBoolean(String paramKey) {
-        return this.sysParamService.getBoolean(paramKey);
+        return sysParamService.getBoolean(paramKey);
     }
 
 }

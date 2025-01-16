@@ -53,10 +53,10 @@ public class AuthLoginServiceImpl implements AuthLoginService {
     public LoginVo loginByAccount(AccountLoginDto accountLoginDto) {
         log.debug("loginByAccount，账号认证");
         // 校验验证码
-        boolean validated = this.authCaptchaService.validate(accountLoginDto.getKey(), accountLoginDto.getCode(), CaptchaType.LOGIN);
+        boolean validated = authCaptchaService.validate(accountLoginDto.getKey(), accountLoginDto.getCode(), CaptchaType.LOGIN);
         if (!validated) {
             // 保存登录日志
-            this.sysLoginLogService.save(accountLoginDto.getUsername(), OperateStatus.FAIL, LoginStatus.CAPTCHA_FAIL);
+            sysLoginLogService.save(accountLoginDto.getUsername(), OperateStatus.FAIL, LoginStatus.CAPTCHA_FAIL);
             throw new RuntimeException("验证码错误");
         }
 
@@ -66,17 +66,17 @@ public class AuthLoginServiceImpl implements AuthLoginService {
         Authentication authentication;
         try {
             // 设置需要认证的用户信息
-            authentication = this.authenticationManager.authenticate(
+            authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(accountLoginDto.getUsername(), accountLoginDto.getPassword()));
         } catch (AuthenticationException e) {
             log.info("loginByAccount，认证失败，{}", e.getMessage());
             // 添加密码错误重试缓存
-            this.authPasswordRetryService.retryCount(accountLoginDto.getUsername());
+            authPasswordRetryService.retryCount(accountLoginDto.getUsername());
             throw new RuntimeException("用户名或密码错误");
         }
 
         // 清除密码错误重试缓存
-        this.authPasswordRetryService.deleteCount(accountLoginDto.getUsername());
+        authPasswordRetryService.deleteCount(accountLoginDto.getUsername());
 
         return loadLoginVo(authentication);
     }
@@ -90,7 +90,7 @@ public class AuthLoginServiceImpl implements AuthLoginService {
         try {
             // 设置需要认证的用户信息
             PhoneCodeAuthenticationToken authenticationToken = new PhoneCodeAuthenticationToken(phoneLoginDto.getPhone(), phoneLoginDto.getCode());
-            authentication = this.authenticationManager.authenticate(authenticationToken);
+            authentication = authenticationManager.authenticate(authenticationToken);
         } catch (AuthenticationException e) {
             log.info("loginByPhone，认证失败，{}", e.getMessage());
             throw new RuntimeException("手机号或验证码错误");
@@ -101,7 +101,7 @@ public class AuthLoginServiceImpl implements AuthLoginService {
 
     @Override
     public void refreshToken() {
-        this.jwtTokenProvider.doRefreshToken(LoginUserContext.currentUser());
+        jwtTokenProvider.doRefreshToken(LoginUserContext.currentUser());
     }
 
     /**
@@ -114,10 +114,10 @@ public class AuthLoginServiceImpl implements AuthLoginService {
         LoginUser loginUser = (LoginUser) authentication.getPrincipal();
 
         // 生成 jwt
-        String token = this.jwtTokenProvider.generateToken(loginUser);
+        String token = jwtTokenProvider.generateToken(loginUser);
 
         // 缓存 loginUser
-        this.jwtTokenProvider.cache(loginUser);
+        jwtTokenProvider.cache(loginUser);
 
         // 封装 LoginVo
         LoginVo loginVo = new LoginVo();
@@ -138,7 +138,7 @@ public class AuthLoginServiceImpl implements AuthLoginService {
         LambdaUpdateWrapper<SysUser> updateWrapper = new LambdaUpdateWrapper<>();
         updateWrapper.eq(SysUser::getUsername, loginUser.getUsername());
 
-        this.sysUserService.update(sysUser, updateWrapper);
+        sysUserService.update(sysUser, updateWrapper);
     }
 
     @Override
@@ -149,11 +149,11 @@ public class AuthLoginServiceImpl implements AuthLoginService {
 
         if (StringUtils.isNotEmpty(loginUser.getUserKey())) {
             // 删除登录用户缓存记录
-            this.jwtTokenProvider.deleteLoginUser(loginUser.getUserKey());
+            jwtTokenProvider.deleteLoginUser(loginUser.getUserKey());
         }
 
         // 记录用户退出日志
-        this.sysLoginLogService.save(loginUser.getUsername(), OperateStatus.SUCCESS, LoginStatus.LOGOUT_SUCCESS);
+        sysLoginLogService.save(loginUser.getUsername(), OperateStatus.SUCCESS, LoginStatus.LOGOUT_SUCCESS);
     }
 
 }

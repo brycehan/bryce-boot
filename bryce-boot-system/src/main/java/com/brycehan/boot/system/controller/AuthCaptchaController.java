@@ -36,7 +36,7 @@ public class AuthCaptchaController {
     @Operation(summary = "生成验证码")
     @GetMapping(path = "/generate")
     public ResponseResult<CaptchaVo> generate() {
-        CaptchaVo captchaVo = this.authCaptchaService.generate();
+        CaptchaVo captchaVo = authCaptchaService.generate();
         return ResponseResult.ok(captchaVo);
     }
 
@@ -48,7 +48,7 @@ public class AuthCaptchaController {
     @Operation(summary = "是否开启登录/注册验证码")
     @GetMapping(path = "/{captchaType}/enabled")
     public ResponseResult<Boolean> enabled(@PathVariable CaptchaType captchaType) {
-        boolean enabled = this.authCaptchaService.captchaEnabled(captchaType);
+        boolean enabled = authCaptchaService.captchaEnabled(captchaType);
         return ResponseResult.ok(enabled);
     }
 

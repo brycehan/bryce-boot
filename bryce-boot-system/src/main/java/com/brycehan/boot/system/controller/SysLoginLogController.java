@@ -43,7 +43,7 @@ public class SysLoginLogController {
     @PreAuthorize("@auth.hasAuthority('system:loginLog:delete')")
     @DeleteMapping
     public ResponseResult<Void> delete(@Validated @RequestBody IdsDto idsDto) {
-        this.sysLoginLogService.delete(idsDto);
+        sysLoginLogService.delete(idsDto);
         return ResponseResult.ok();
     }
 
@@ -57,7 +57,7 @@ public class SysLoginLogController {
     @PreAuthorize("@auth.hasAuthority('system:loginLog:info')")
     @GetMapping(path = "/{id}")
     public ResponseResult<SysLoginLogVo> get(@Parameter(description = "系统登录日志ID", required = true) @PathVariable Long id) {
-        SysLoginLog sysLoginLog = this.sysLoginLogService.getById(id);
+        SysLoginLog sysLoginLog = sysLoginLogService.getById(id);
         return ResponseResult.ok(SysLoginLogConvert.INSTANCE.convert(sysLoginLog));
     }
 
@@ -71,7 +71,7 @@ public class SysLoginLogController {
     @PreAuthorize("@auth.hasAuthority('system:loginLog:page')")
     @PostMapping(path = "/page")
     public ResponseResult<PageResult<SysLoginLogVo>> page(@Validated @RequestBody SysLoginLogPageDto sysLoginLogPageDto) {
-        PageResult<SysLoginLogVo> page = this.sysLoginLogService.page(sysLoginLogPageDto);
+        PageResult<SysLoginLogVo> page = sysLoginLogService.page(sysLoginLogPageDto);
         return ResponseResult.ok(page);
     }
 
@@ -84,7 +84,7 @@ public class SysLoginLogController {
     @PreAuthorize("@auth.hasAuthority('system:loginLog:export')")
     @PostMapping(path = "/export")
     public void export(@Validated @RequestBody SysLoginLogPageDto sysLoginLogPageDto) {
-        this.sysLoginLogService.export(sysLoginLogPageDto);
+        sysLoginLogService.export(sysLoginLogPageDto);
     }
 
     /**
@@ -97,7 +97,7 @@ public class SysLoginLogController {
     @PreAuthorize("@auth.hasAuthority('system:loginLog:delete')")
     @DeleteMapping(path = "/clean")
     public ResponseResult<Void> clean() {
-        this.sysLoginLogService.cleanLoginLog();
+        sysLoginLogService.cleanLoginLog();
         return ResponseResult.ok();
     }
 

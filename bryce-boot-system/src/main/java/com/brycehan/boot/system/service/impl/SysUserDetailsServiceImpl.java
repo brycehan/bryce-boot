@@ -51,7 +51,7 @@ public class SysUserDetailsServiceImpl implements SysUserDetailsService {
         LoginUser loginUser = SysUserConvert.INSTANCE.convertLoginUser(sysUser);
 
         // 预处理登录用户
-        this.prepare(loginUser);
+        prepare(loginUser);
 
         // 用户权限集合
         Set<String> authoritySet = sysAuthorityService.findAuthority(sysUser, true);

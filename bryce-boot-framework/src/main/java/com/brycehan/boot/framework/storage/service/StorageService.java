@@ -42,7 +42,7 @@ public abstract class StorageService {
      */
     @SuppressWarnings("unused")
     public String upload(byte[] data, String path, AccessType accessType) {
-        return this.upload(new ByteArrayInputStream(data), path, accessType);
+        return upload(new ByteArrayInputStream(data), path, accessType);
     }
 
     /**

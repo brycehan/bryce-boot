@@ -46,7 +46,7 @@ public class UserDetailsServiceImpl implements UserDetailsService, SysUserApi {
         }
 
         // 创建用户详情
-        return this.sysUserDetailsService.getUserDetails(sysUser);
+        return sysUserDetailsService.getUserDetails(sysUser);
     }
 
     /**

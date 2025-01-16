@@ -45,10 +45,10 @@ public class Sys implements Serializable {
     private String computerIp;
 
     public Sys() {
-        this.setOsName(SystemUtil.getOsInfo().getName());
-        this.setOsArch(SystemUtil.getOsInfo().getArch());
-        this.setOsVersion(SystemUtil.getOsInfo().getVersion());
-        this.setComputerName(OshiUtil.getOs().getNetworkParams().getHostName());
-        this.setComputerIp(SystemUtil.getHostInfo().getAddress());
+        setOsName(SystemUtil.getOsInfo().getName());
+        setOsArch(SystemUtil.getOsInfo().getArch());
+        setOsVersion(SystemUtil.getOsInfo().getVersion());
+        setComputerName(OshiUtil.getOs().getNetworkParams().getHostName());
+        setComputerIp(SystemUtil.getHostInfo().getAddress());
     }
 }

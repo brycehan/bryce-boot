@@ -174,7 +174,7 @@ public class CacheClient {
             }
 
             // 存在，写入Redis
-            this.set(key, entity, timeout, unit);
+            set(key, entity, timeout, unit);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         } finally {
