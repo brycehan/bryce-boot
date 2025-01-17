@@ -14,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @SuppressWarnings("unused")
 @RequiredArgsConstructor
-public enum YesNoType implements EnumType {
+public enum YesNoType {
 
     YES("Y", "是"),
     NO("N", "否");
@@ -29,6 +29,7 @@ public enum YesNoType implements EnumType {
     /**
      * 描述
      */
+    @DescValue
     private final String desc;
 
     /**
@@ -37,7 +38,7 @@ public enum YesNoType implements EnumType {
      * @param value 值
      * @return 枚举类型
      */
-    public static YesNoType getByValue(String value) {
+    public static YesNoType of(String value) {
         for (YesNoType type : values()) {
             if (type.getValue().equals(value)) {
                 return type;

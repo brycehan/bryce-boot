@@ -8,13 +8,13 @@ import lombok.RequiredArgsConstructor;
 /**
  * 通知状态
  *
- * @since 2022/11/21
  * @author Bryce Han
+ * @since 2022/11/21
  */
 @Getter
 @SuppressWarnings("unused")
 @RequiredArgsConstructor
-public enum NoticeStatus implements EnumType {
+public enum NoticeStatus {
 
     OFF(0, "关闭"),
     ON(1, "正常"),
@@ -30,6 +30,7 @@ public enum NoticeStatus implements EnumType {
     /**
      * 描述
      */
+    @DescValue
     private final String desc;
 
     /**
@@ -38,7 +39,7 @@ public enum NoticeStatus implements EnumType {
      * @param value 值
      * @return 枚举
      */
-    public static NoticeStatus getByValue(Integer value) {
+    public static NoticeStatus of(Integer value) {
         for (NoticeStatus status : values()) {
             if (status.getValue().equals(value)) {
                 return status;

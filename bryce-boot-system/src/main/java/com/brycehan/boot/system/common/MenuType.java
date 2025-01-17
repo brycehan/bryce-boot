@@ -1,7 +1,7 @@
 package com.brycehan.boot.system.common;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
-import com.brycehan.boot.common.enums.EnumType;
+import com.brycehan.boot.common.enums.DescValue;
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @SuppressWarnings("unused")
 @RequiredArgsConstructor
-public enum MenuType  implements EnumType {
+public enum MenuType {
 
     MENU("M", "菜单"),
     BUTTON("B", "按钮"),
@@ -32,6 +32,7 @@ public enum MenuType  implements EnumType {
     /**
      * 描述
      */
+    @DescValue
     private final String desc;
 
     /**
@@ -40,7 +41,7 @@ public enum MenuType  implements EnumType {
      * @param value 类型值
      * @return 类型
      */
-    public static MenuType getByValue(String value) {
+    public static MenuType of(String value) {
         for (MenuType menuType : MenuType.values()) {
             if (menuType.getValue().equals(value)) {
                 return menuType;

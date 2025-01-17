@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @SuppressWarnings("unused")
 @RequiredArgsConstructor
-public enum EmailType implements EnumType {
+public enum EmailType {
 
     LOGIN("login", "登录"),
     REGISTER("register", "注册账号");
@@ -27,6 +27,7 @@ public enum EmailType implements EnumType {
     /**
      * 描述
      */
+    @DescValue
     private final String desc;
 
     /**
@@ -35,7 +36,7 @@ public enum EmailType implements EnumType {
      * @param value 值
      * @return 枚举
      */
-    public static EmailType getByValue(String value) {
+    public static EmailType of(String value) {
         for (EmailType emailType : EmailType.values()) {
             if (emailType.getValue().equals(value)) {
                 return emailType;

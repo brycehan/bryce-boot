@@ -61,7 +61,7 @@ public class TokenUtils {
             return SourceClientType.UNKNOWN;
         }
 
-        SourceClientType sourceClientType = SourceClientType.getByValue(sourceClient);
+        SourceClientType sourceClientType = SourceClientType.of(sourceClient);
         return Objects.requireNonNullElse(sourceClientType, SourceClientType.UNKNOWN);
     }
 

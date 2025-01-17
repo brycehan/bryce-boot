@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @SuppressWarnings("unused")
 @RequiredArgsConstructor
-public enum CaptchaType implements EnumType {
+public enum CaptchaType {
 
     LOGIN("login", "登录"),
     REGISTER("register", "注册");
@@ -27,6 +27,7 @@ public enum CaptchaType implements EnumType {
     /**
      * 描述
      */
+    @DescValue
     private final String desc;
 
     /**
@@ -35,7 +36,7 @@ public enum CaptchaType implements EnumType {
      * @param value 值
      * @return 枚举
      */
-    public static CaptchaType getByValue(String value) {
+    public static CaptchaType of(String value) {
         for (CaptchaType captchaType : values()) {
             if (captchaType.getValue().equals(value)) {
                 return captchaType;

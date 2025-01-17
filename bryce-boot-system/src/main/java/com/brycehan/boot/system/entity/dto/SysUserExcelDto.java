@@ -5,7 +5,7 @@ import com.alibaba.excel.annotation.ExcelProperty;
 import com.alibaba.excel.annotation.write.style.ColumnWidth;
 import com.alibaba.excel.annotation.write.style.ContentStyle;
 import com.alibaba.excel.enums.poi.HorizontalAlignmentEnum;
-import com.brycehan.boot.common.enums.EnumTypeDescConverter;
+import com.brycehan.boot.common.enums.EnumDescConverter;
 import com.brycehan.boot.common.enums.GenderType;
 import com.brycehan.boot.common.enums.StatusType;
 import jakarta.validation.constraints.Email;
@@ -80,7 +80,7 @@ public class SysUserExcelDto implements Serializable {
      * 性别
      */
     @NotNull
-    @ExcelProperty(value = "性别", converter = EnumTypeDescConverter.class)
+    @ExcelProperty(value = "性别", converter = EnumDescConverter.class)
     @ColumnWidth(14)
     private GenderType gender;
 
@@ -88,7 +88,7 @@ public class SysUserExcelDto implements Serializable {
      * 状态
      */
     @NotNull
-    @ExcelProperty(value = "账号状态", converter = EnumTypeDescConverter.class)
+    @ExcelProperty(value = "账号状态", converter = EnumDescConverter.class)
     @ColumnWidth(14)
     private StatusType status;
 

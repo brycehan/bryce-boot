@@ -6,7 +6,7 @@ import com.alibaba.excel.annotation.format.NumberFormat;
 import com.alibaba.excel.annotation.write.style.ColumnWidth;
 import com.alibaba.excel.annotation.write.style.ContentStyle;
 import com.alibaba.excel.enums.poi.HorizontalAlignmentEnum;
-import com.brycehan.boot.common.enums.EnumTypeDescConverter;
+import com.brycehan.boot.common.enums.EnumDescConverter;
 import com.brycehan.boot.common.enums.ParamType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -68,7 +68,7 @@ public class SysParamVo implements Serializable {
      */
     @Schema(description = "参数类型（0：内置，0：应用）")
     @ColumnWidth(20)
-    @ExcelProperty(value = "参数类型", converter = EnumTypeDescConverter.class)
+    @ExcelProperty(value = "参数类型", converter = EnumDescConverter.class)
     private ParamType paramType;
 
     /**

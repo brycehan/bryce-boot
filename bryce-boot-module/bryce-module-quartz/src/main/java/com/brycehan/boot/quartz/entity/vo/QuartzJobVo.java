@@ -5,7 +5,7 @@ import com.alibaba.excel.annotation.ExcelProperty;
 import com.alibaba.excel.annotation.write.style.ColumnWidth;
 import com.alibaba.excel.annotation.write.style.ContentStyle;
 import com.alibaba.excel.enums.poi.HorizontalAlignmentEnum;
-import com.brycehan.boot.common.enums.EnumTypeDescConverter;
+import com.brycehan.boot.common.enums.EnumDescConverter;
 import com.brycehan.boot.common.enums.YesNoType;
 import com.brycehan.boot.quartz.common.JobGroup;
 import com.brycehan.boot.quartz.common.JobStatus;
@@ -50,7 +50,7 @@ public class QuartzJobVo implements Serializable {
      */
     @Schema(description = "任务组名")
     @ColumnWidth(20)
-    @ExcelProperty(value = "任务组名", converter = EnumTypeDescConverter.class  )
+    @ExcelProperty(value = "任务组名", converter = EnumDescConverter.class  )
     private JobGroup jobGroup;
 
     /**
@@ -90,7 +90,7 @@ public class QuartzJobVo implements Serializable {
      */
     @Schema(description = "是否并发执行（N：否，Y：是）")
     @ColumnWidth(20)
-    @ExcelProperty(value = "并发执行", converter = EnumTypeDescConverter.class)
+    @ExcelProperty(value = "并发执行", converter = EnumDescConverter.class)
     private YesNoType concurrent;
 
     /**
@@ -104,7 +104,7 @@ public class QuartzJobVo implements Serializable {
      */
     @Schema(description = "状态（0：停用，1：正常）")
     @ColumnWidth(14)
-    @ExcelProperty(value = "状态", converter = EnumTypeDescConverter.class)
+    @ExcelProperty(value = "状态", converter = EnumDescConverter.class)
     private JobStatus status;
 
     /**

@@ -67,6 +67,9 @@ public class Server implements Serializable {
         log.debug("服务器信息 {}", this);
     }
 
+    /**
+     * 初始化磁盘信息
+     */
     private void initDisks() {
         SystemInfo systemInfo = new SystemInfo();
         FileSystem fileSystem = systemInfo.getOperatingSystem().getFileSystem();

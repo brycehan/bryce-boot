@@ -6,7 +6,7 @@ import com.alibaba.excel.annotation.format.NumberFormat;
 import com.alibaba.excel.annotation.write.style.ColumnWidth;
 import com.alibaba.excel.annotation.write.style.ContentStyle;
 import com.alibaba.excel.enums.poi.HorizontalAlignmentEnum;
-import com.brycehan.boot.common.enums.EnumTypeDescConverter;
+import com.brycehan.boot.common.enums.EnumDescConverter;
 import com.brycehan.boot.common.enums.OperateStatus;
 import com.brycehan.boot.common.enums.SourceClientType;
 import com.brycehan.boot.framework.operatelog.annotation.OperatedType;
@@ -102,7 +102,7 @@ public class SysOperateLogVo implements Serializable {
      */
     @Schema(description = "操作类型")
     @ColumnWidth(15)
-    @ExcelProperty(value = "操作类型", index = 3, converter = EnumTypeDescConverter.class)
+    @ExcelProperty(value = "操作类型", index = 3, converter = EnumDescConverter.class)
     private OperatedType operatedType;
 
     /**
@@ -127,7 +127,7 @@ public class SysOperateLogVo implements Serializable {
      */
     @Schema(description = "操作状态（0：失败，1：成功）")
     @ColumnWidth(10)
-    @ExcelProperty(value = "状态", index = 13, converter = EnumTypeDescConverter.class)
+    @ExcelProperty(value = "状态", index = 13, converter = EnumDescConverter.class)
     private OperateStatus status;
 
     /**
@@ -150,7 +150,7 @@ public class SysOperateLogVo implements Serializable {
      * 来源客户端
      */
     @ColumnWidth(15)
-    @ExcelProperty(value = "来源客户端", converter = EnumTypeDescConverter.class, index = 9)
+    @ExcelProperty(value = "来源客户端", converter = EnumDescConverter.class, index = 9)
     private SourceClientType sourceClient;
 
     /**

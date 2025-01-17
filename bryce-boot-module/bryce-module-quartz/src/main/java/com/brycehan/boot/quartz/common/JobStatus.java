@@ -1,7 +1,7 @@
 package com.brycehan.boot.quartz.common;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
-import com.brycehan.boot.common.enums.EnumType;
+import com.brycehan.boot.common.enums.DescValue;
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 @SuppressWarnings("unused")
-public enum JobStatus implements EnumType {
+public enum JobStatus {
 
     PAUSE(0, "暂停"),
     NORMAL(1, "正常");
@@ -30,6 +30,7 @@ public enum JobStatus implements EnumType {
     /**
      * 描述
      */
+    @DescValue
     private final String desc;
 
     public static JobStatus getByDesc(String desc) {

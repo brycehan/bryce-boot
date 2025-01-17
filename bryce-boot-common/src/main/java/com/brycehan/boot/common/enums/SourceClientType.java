@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @SuppressWarnings("unused")
 @RequiredArgsConstructor
-public enum SourceClientType implements EnumType {
+public enum SourceClientType {
 
     PC("pc", "PC"),
     H5("h5", "H5"),
@@ -31,6 +31,7 @@ public enum SourceClientType implements EnumType {
     /**
      * 描述
      */
+    @DescValue
     private final String desc;
 
     /**
@@ -39,7 +40,7 @@ public enum SourceClientType implements EnumType {
      * @param value 值
      * @return 枚举
      */
-    public static SourceClientType getByValue(String value) {
+    public static SourceClientType of(String value) {
         for (SourceClientType sourceClientType : values()) {
             if (sourceClientType.value.equals(value)) {
                 return sourceClientType;

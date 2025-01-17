@@ -8,13 +8,13 @@ import lombok.RequiredArgsConstructor;
 /**
  * 登录状态
  *
- * @since 2023/9/25
  * @author Bryce Han
+ * @since 2023/9/25
  */
 @Getter
 @SuppressWarnings("unused")
 @RequiredArgsConstructor
-public enum LoginStatus implements EnumType {
+public enum LoginStatus {
 
     LOGIN_SUCCESS(0, "登录成功"),
     LOGOUT_SUCCESS(1, "退出成功"),
@@ -31,6 +31,7 @@ public enum LoginStatus implements EnumType {
     /**
      * 描述
      */
+    @DescValue
     private final String desc;
 
     /**
@@ -39,7 +40,7 @@ public enum LoginStatus implements EnumType {
      * @param value 值
      * @return 枚举
      */
-    public static LoginStatus getByValue(Integer value) {
+    public static LoginStatus of(Integer value) {
         for (LoginStatus loginStatus : LoginStatus.values()) {
             if (loginStatus.getValue().equals(value)) {
                 return loginStatus;

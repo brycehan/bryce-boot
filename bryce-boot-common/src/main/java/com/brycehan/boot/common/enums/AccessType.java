@@ -8,13 +8,13 @@ import lombok.RequiredArgsConstructor;
 /**
  * 访问类型
  *
- * @since 2022/5/9
  * @author Bryce Han
+ * @since 2022/5/9
  */
 @Getter
 @SuppressWarnings("unused")
 @RequiredArgsConstructor
-public enum AccessType implements EnumType {
+public enum AccessType {
 
     PUBLIC(0, "公共"),
     SECURE(1, "安全");
@@ -29,6 +29,7 @@ public enum AccessType implements EnumType {
     /**
      * 描述
      */
+    @DescValue
     private final String desc;
 
     /**
@@ -37,7 +38,7 @@ public enum AccessType implements EnumType {
      * @param value 值
      * @return 枚举
      */
-    public static AccessType getByValue(Integer value) {
+    public static AccessType of(Integer value) {
         for (AccessType statusType : AccessType.values()) {
             if (statusType.getValue().equals(value)) {
                 return statusType;

@@ -70,7 +70,9 @@ public class ExcelUtils {
             sheetName = "Sheet1";
         }
         try {
-            EasyExcel.write(file, head).sheet(sheetName).doWrite(data);
+            EasyExcel.write(file, head)
+                    .sheet(sheetName)
+                    .doWrite(data);
         }catch (Exception e){
             throw new RuntimeException(e);
         }
@@ -100,7 +102,11 @@ public class ExcelUtils {
      */
     public static <T> List<T> read(MultipartFile file, Class<T> head, Integer headRowNumber, Integer sheetNo) {
         try {
-            return EasyExcel.read(file.getInputStream()).head(head).headRowNumber(headRowNumber).sheet(sheetNo).doReadSync();
+            return EasyExcel.read(file.getInputStream())
+                    .head(head)
+                    .headRowNumber(headRowNumber)
+                    .sheet(sheetNo)
+                    .doReadSync();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -116,7 +122,9 @@ public class ExcelUtils {
      */
     public static <T> void read(MultipartFile file, Class<T> head, ExcelFinishCallback<T> callback) {
         try {
-            EasyExcel.read(file.getInputStream(), head, new ExcelDataListener<>(callback)).sheet().doRead();
+            EasyExcel.read(file.getInputStream(), head, new ExcelDataListener<>(callback))
+                    .sheet()
+                    .doRead();
         } catch (IOException e) {
             log.error(e.getLocalizedMessage());
         }
@@ -131,7 +139,9 @@ public class ExcelUtils {
      * @param <T> 数据类型
      */
     public static <T> void read(File file, Class<T> head, ExcelFinishCallback<T> callback) {
-        EasyExcel.read(file, head, new ExcelDataListener<>(callback)).sheet().doRead();
+        EasyExcel.read(file, head, new ExcelDataListener<>(callback))
+                .sheet()
+                .doRead();
     }
 
 }

@@ -5,7 +5,7 @@ import com.alibaba.excel.annotation.ExcelProperty;
 import com.alibaba.excel.annotation.write.style.ColumnWidth;
 import com.alibaba.excel.annotation.write.style.ContentStyle;
 import com.alibaba.excel.enums.poi.HorizontalAlignmentEnum;
-import com.brycehan.boot.common.enums.EnumTypeDescConverter;
+import com.brycehan.boot.common.enums.EnumDescConverter;
 import com.brycehan.boot.common.enums.LoginStatus;
 import com.brycehan.boot.common.enums.OperateStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -48,7 +48,7 @@ public class SysLoginLogVo implements Serializable {
      * 操作信息
      */
     @ColumnWidth(14)
-    @ExcelProperty(value = "操作信息", index = 2, converter = EnumTypeDescConverter.class)
+    @ExcelProperty(value = "操作信息", index = 2, converter = EnumDescConverter.class)
     @Schema(description = "操作信息")
     private LoginStatus info;
 
@@ -95,7 +95,7 @@ public class SysLoginLogVo implements Serializable {
      */
     @Schema(description = "状态（0：失败，1：成功）")
     @ColumnWidth(14)
-    @ExcelProperty(value = "操作状态", index = 1, converter = EnumTypeDescConverter.class)
+    @ExcelProperty(value = "操作状态", index = 1, converter = EnumDescConverter.class)
     private OperateStatus status;
 
     /**

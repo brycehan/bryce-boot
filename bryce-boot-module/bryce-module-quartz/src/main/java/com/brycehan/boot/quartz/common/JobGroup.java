@@ -1,7 +1,7 @@
 package com.brycehan.boot.quartz.common;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
-import com.brycehan.boot.common.enums.EnumType;
+import com.brycehan.boot.common.enums.DescValue;
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 @SuppressWarnings("unused")
-public enum JobGroup implements EnumType {
+public enum JobGroup {
 
     SYSTEM("system", "系统"),
     APP("app", "应用");
@@ -30,6 +30,7 @@ public enum JobGroup implements EnumType {
     /**
      * 描述
      */
+    @DescValue
     private final String desc;
 
     /**

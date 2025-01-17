@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @SuppressWarnings("unused")
 @RequiredArgsConstructor
-public enum SmsType implements EnumType {
+public enum SmsType {
 
     LOGIN("login", "登录"),
     REGISTER("register", "注册");
@@ -27,6 +27,7 @@ public enum SmsType implements EnumType {
     /**
      * 描述
      */
+    @DescValue
     private final String desc;
 
     /**
@@ -35,7 +36,7 @@ public enum SmsType implements EnumType {
      * @param value 值
      * @return 枚举
      */
-    public static SmsType getByValue(String value) {
+    public static SmsType of(String value) {
         for (SmsType smsType : SmsType.values()) {
             if (smsType.getValue().equals(value)) {
                 return smsType;

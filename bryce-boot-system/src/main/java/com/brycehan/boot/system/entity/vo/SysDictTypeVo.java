@@ -6,7 +6,7 @@ import com.alibaba.excel.annotation.format.NumberFormat;
 import com.alibaba.excel.annotation.write.style.ColumnWidth;
 import com.alibaba.excel.annotation.write.style.ContentStyle;
 import com.alibaba.excel.enums.poi.HorizontalAlignmentEnum;
-import com.brycehan.boot.common.enums.EnumTypeDescConverter;
+import com.brycehan.boot.common.enums.EnumDescConverter;
 import com.brycehan.boot.common.enums.StatusType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -66,7 +66,7 @@ public class SysDictTypeVo implements Serializable {
      */
     @Schema(description = "状态（0：停用，1：正常）")
     @ColumnWidth(14)
-    @ExcelProperty(value = "状态", converter = EnumTypeDescConverter.class)
+    @ExcelProperty(value = "状态", converter = EnumDescConverter.class)
     private StatusType status;
 
     /**

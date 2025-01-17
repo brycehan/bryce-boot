@@ -8,13 +8,13 @@ import lombok.RequiredArgsConstructor;
 /**
  * 可见性类型
  *
- * @since 2022/5/9
  * @author Bryce Han
+ * @since 2022/5/9
  */
 @Getter
 @SuppressWarnings("unused")
 @RequiredArgsConstructor
-public enum VisibleType implements EnumType {
+public enum VisibleType {
 
     SHOW(1, "显示"),
     HIDE(0, "隐藏");
@@ -29,6 +29,7 @@ public enum VisibleType implements EnumType {
     /**
      * 描述
      */
+    @DescValue
     private final String desc;
 
     /**
@@ -37,7 +38,7 @@ public enum VisibleType implements EnumType {
      * @param value 值
      * @return 枚举
      */
-    public static VisibleType getByValue(Integer value) {
+    public static VisibleType of(Integer value) {
         for (VisibleType statusType : VisibleType.values()) {
             if (statusType.getValue().equals(value)) {
                 return statusType;

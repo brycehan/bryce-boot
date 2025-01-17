@@ -8,13 +8,13 @@ import lombok.RequiredArgsConstructor;
 /**
  * 通知类型
  *
- * @since 2022/11/21
  * @author Bryce Han
+ * @since 2022/11/21
  */
 @Getter
 @SuppressWarnings("unused")
 @RequiredArgsConstructor
-public enum NoticeType implements EnumType {
+public enum NoticeType {
 
     NOTICE(0, "通知"),
     ANNOUNCE(1, "公告"),
@@ -30,6 +30,7 @@ public enum NoticeType implements EnumType {
     /**
      * 描述
      */
+    @DescValue
     private final String desc;
 
     /**
@@ -38,7 +39,7 @@ public enum NoticeType implements EnumType {
      * @param value 值
      * @return 枚举
      */
-    public static NoticeType getByValue(Integer value) {
+    public static NoticeType of(Integer value) {
         for (NoticeType noticeType : NoticeType.values()) {
             if (noticeType.getValue().equals(value)) {
                 return noticeType;

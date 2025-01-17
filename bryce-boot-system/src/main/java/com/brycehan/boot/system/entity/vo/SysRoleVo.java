@@ -6,7 +6,7 @@ import com.alibaba.excel.annotation.write.style.ColumnWidth;
 import com.alibaba.excel.annotation.write.style.ContentStyle;
 import com.alibaba.excel.enums.poi.HorizontalAlignmentEnum;
 import com.brycehan.boot.common.enums.DataScopeType;
-import com.brycehan.boot.common.enums.EnumTypeDescConverter;
+import com.brycehan.boot.common.enums.EnumDescConverter;
 import com.brycehan.boot.common.enums.StatusType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -58,7 +58,7 @@ public class SysRoleVo implements Serializable {
      */
     @Schema(description = "数据范围（0：全部数据，1：自定义数据，2：本机构及以下机构数据，3：本机构数据，4：本人数据）")
     @ColumnWidth(20)
-    @ExcelProperty(value = "数据范围", converter = EnumTypeDescConverter.class)
+    @ExcelProperty(value = "数据范围", converter = EnumDescConverter.class)
     private DataScopeType dataScope;
 
     /**
@@ -74,7 +74,7 @@ public class SysRoleVo implements Serializable {
      */
     @Schema(description = "状态（0：停用，1：正常）")
     @ColumnWidth(14)
-    @ExcelProperty(value = "状态", converter = EnumTypeDescConverter.class)
+    @ExcelProperty(value = "状态", converter = EnumDescConverter.class)
     private StatusType status;
 
     /**
