@@ -34,7 +34,7 @@ public class MimeTypeUtils {
             // word、excel、powerpoint、pdf
             "docx", "doc", "xlsx", "xls", "ppt", "pptx", "pdf", "html", "htm", "xml", "txt", "csv",
             // 压缩文件
-            "rar", "zip", "gz", "bz2",
+            "rar", "zip", "tar.gz", "gz", "bz2",
             // 视频格式
             "mp4", "avi", "rmvb"
     );

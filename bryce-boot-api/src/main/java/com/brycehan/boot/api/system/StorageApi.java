@@ -31,7 +31,7 @@ public interface StorageApi {
      * @param allowedExtensions 允许上传的文件后缀
      * @return http资源地址
      */
-    StorageVo upload(@NotNull MultipartFile file, @NotNull AccessType accessType, List<String> allowedExtensions);
+    StorageVo upload(@NotNull MultipartFile file, @NotNull AccessType accessType, @NotNull List<String> allowedExtensions);
 
     /**
      * 下载文件
