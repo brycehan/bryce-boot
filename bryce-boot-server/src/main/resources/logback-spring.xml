@@ -39,11 +39,15 @@
     </springProfile>
     
     <springProfile name="test | prod">
+        <!-- INFO 日志输入到文件 -->
         <appender name="INFO_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
             <!-- 此日志文档只记录 info 级别的 -->
             <filter class="ch.qos.logback.classic.filter.LevelFilter">
+                <!-- 过滤的级别 -->
                 <level>info</level>
+                <!-- 匹配时的操作：接收（记录） -->
                 <onMatch>ACCEPT</onMatch>
+                <!-- 不匹配时的操作：拒绝（不记录） -->
                 <onMismatch>DENY</onMismatch>
             </filter>
             <!-- 日志文档输出格式 -->
@@ -53,21 +57,30 @@
             </encoder>
             <!-- 正在记录的日志文档的路径及文档名 -->
             <file>${logging.file.path}/info.log</file>
-            <!-- 滚动策略 -->
+            <!-- 滚动策略，基于文件大小和时间创建日志文件 -->
             <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+                <!-- 日志文件名格式 -->
                 <fileNamePattern>${logging.file.path}/info-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+                <!-- 启动时是否清空日志文件 -->
                 <cleanHistoryOnStart>false</cleanHistoryOnStart>
+                <!-- 最大文件大小，默认100M -->
                 <maxFileSize>${LOGBACK_ROLLINGPOLICY_MAX_FILE_SIZE:-100MB}</maxFileSize>
+                <!-- 总大小容量，默认10GB -->
                 <totalSizeCap>${LOGBACK_ROLLINGPOLICY_TOTAL_SIZE_CAP:-10GB}</totalSizeCap>
+                <!-- 日志最大的历史 默认60天 -->
                 <maxHistory>${LOGBACK_ROLLINGPOLICY_MAX_HISTORY:-60}</maxHistory>
             </rollingPolicy>
         </appender>
         
+        <!-- WARN 日志输入到文件 -->
         <appender name="WARN_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
             <!-- 此日志文档只记录 warn 级别的 -->
             <filter class="ch.qos.logback.classic.filter.LevelFilter">
+                <!-- 过滤的级别 -->
                 <level>warn</level>
+                <!-- 匹配时的操作：接收（记录） -->
                 <onMatch>ACCEPT</onMatch>
+                <!-- 不匹配时的操作：拒绝（不记录） -->
                 <onMismatch>DENY</onMismatch>
             </filter>
             <!-- 日志文档输出格式 -->
@@ -79,19 +92,28 @@
             <file>${logging.file.path}/warn.log</file>
             <!-- 滚动策略 -->
             <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+                <!-- 日志文件名格式 -->
                 <fileNamePattern>${logging.file.path}/warn-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+                <!-- 启动时是否清空日志文件 -->
                 <cleanHistoryOnStart>false</cleanHistoryOnStart>
+                <!-- 最大文件大小，默认100M -->
                 <maxFileSize>${LOGBACK_ROLLINGPOLICY_MAX_FILE_SIZE:-100MB}</maxFileSize>
+                <!-- 总大小容量，默认10GB -->
                 <totalSizeCap>${LOGBACK_ROLLINGPOLICY_TOTAL_SIZE_CAP:-10GB}</totalSizeCap>
+                <!-- 日志最大的历史 默认60天 -->
                 <maxHistory>${LOGBACK_ROLLINGPOLICY_MAX_HISTORY:-60}</maxHistory>
             </rollingPolicy>
         </appender>
         
+        <!-- ERROR 日志输入到文件 -->
         <appender name="ERROR_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
             <!-- 此日志文档只记录 error 级别的 -->
             <filter class="ch.qos.logback.classic.filter.LevelFilter">
+                <!-- 过滤的级别 -->
                 <level>error</level>
+                <!-- 匹配时的操作：接收（记录） -->
                 <onMatch>ACCEPT</onMatch>
+                <!-- 不匹配时的操作：拒绝（不记录） -->
                 <onMismatch>DENY</onMismatch>
             </filter>
             <!-- 日志文档输出格式 -->
@@ -103,10 +125,15 @@
             <file>${logging.file.path}/error.log</file>
             <!-- 滚动策略 -->
             <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+                <!-- 日志文件名格式 -->
                 <fileNamePattern>${logging.file.path}/error-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+                <!-- 启动时是否清空日志文件 -->
                 <cleanHistoryOnStart>false</cleanHistoryOnStart>
+                <!-- 最大文件大小，默认100M -->
                 <maxFileSize>${LOGBACK_ROLLINGPOLICY_MAX_FILE_SIZE:-100MB}</maxFileSize>
+                <!-- 总大小容量，默认10GB -->
                 <totalSizeCap>${LOGBACK_ROLLINGPOLICY_TOTAL_SIZE_CAP:-10GB}</totalSizeCap>
+                <!-- 日志最大的历史 默认60天 -->
                 <maxHistory>${LOGBACK_ROLLINGPOLICY_MAX_HISTORY:-60}</maxHistory>
             </rollingPolicy>
         </appender>
