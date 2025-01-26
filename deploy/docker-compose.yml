@@ -1,9 +1,11 @@
+# 项目名称
+name: bryce-boot
 # 服务
 services:
   # mysql 服务
   bryce-mysql:
     container_name: bryce-mysql
-    image:  public.ecr.aws/docker/library/mysql:8.0.31
+    image:  public.ecr.aws/docker/library/mysql:8.0.33
     build:
       context: ./mysql
     ports:
