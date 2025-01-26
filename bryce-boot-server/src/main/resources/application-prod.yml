@@ -3,11 +3,13 @@ spring:
   # 数据源配置
   datasource:
     dynamic:
-      primary: master # 设置默认的数据源或者数据源组,默认值即为 master
-      hikari: # Hikari 连接池全局配置
+      # 设置默认的数据源或者数据源组,默认值即为 master
+      primary: master
+      # Hikari 连接池全局配置
+      hikari:
         connection-timeout: 30000 # 等待连接池分配连接的最大时长（毫秒），超过这个时长还没有可用的连接则发生 SQLException，默认：30秒
         minimum-idle: 20           # 最小空闲连接数
-        maximum-pool-size: 100     # 最大连接数
+        maximum-pool-size: 500     # 最大连接数
         idle-timeout: 600000      # 连接超时的最大时长（毫秒），超时则被释放（retired），默认：10 分钟
         max-lifetime: 1800000     # 连接的生命时长（毫秒），超时而且没被使用则被释放（retired），默认：30分钟
         connection-test-query: select 1
@@ -38,30 +40,32 @@ spring:
       port: 6379
       # 数据库索引
       database: 0
+#      username: myuser
+#      password: 123321
       # 连接超时时长
-      connect-timeout: 6s
+      connect-timeout: 5s
       lettuce:
         pool:
+          # 连接池最大连接数（使用负值表示没有限制）
           max-active: 100
+          # 连接池中的最大空闲连接
           max-idle: 50
+          # 连接池中的最小空闲连接
           min-idle: 10
-          max-wait: 6s
+          # 连接池最大阻塞等待时间（使用负值表示没有限制）
+          max-wait: 5s
+        # 关闭超时
+        shutdown-timeout: 1s
 
   # 任务配置
   task:
-    # 定时任务
-    scheduling:
-      thread-name-prefix: bryce-scheduling-
-      pool:
-        size: 100
     # 异步任务
     execution:
-      thread-name-prefix: bryce-task-
       pool:
         core-size: 100
         max-size: 200
-        queue-capacity: 200
-        keep-alive: 60s
+        queue-capacity: 500
+        keep-alive: 5m
 
 # 服务器配置
 server:
@@ -77,18 +81,18 @@ bryce:
   storage:
     enabled: true
     config:
-      # 存储类型 local|aliyun|tencent|qiniu|huawei|minio
+      # 存储类型 local|minio|aliyun|tencent|qiniu|huawei
       type: local
-      domain: http://localhost:${server.port}
+      endpoint: http://localhost:${server.port}
     local:
-      # 路径 System.getProperty("user.home") + projectName + "/attachment";
-      path: attachment
+      # 路径 System.getProperty("user.home") + projectName;
+      directory: ${user.home}/bryce-boot
     # minio 配置
-#    minio:
-#      endpoint: http://127.0.0.1:9000
-#      access-key: sVlpKIiyRXfNVosAqd1M
-#      secret-key: O0ArhGUegmt03hjEpt8mFLhwSoSxBDUCA2umsIuk
-#      bucketName: bryce-boot
+    minio:
+      endpoint: http://127.0.0.1:9000
+      access-key: sVlpKIiyRXfNVosAqd1M
+      secret-key: O0ArhGUegmt03hjEpt8mFLhwSoSxBDUCA2umsIuk
+      bucket-name: bryce-boot
 
 ## 接口配置
 #springdoc:

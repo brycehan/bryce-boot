@@ -1,6 +1,6 @@
 -- 创建数据库
-create database if not exists bryce_boot default character set utf8mb4 collate utf8mb4_0900_ai_ci;
-use bryce_boot;
+-- create database if not exists bryce_boot default character set utf8mb4 collate utf8mb4_0900_ai_ci;
+-- use bryce_boot;
 
 /*
     -- 删除表

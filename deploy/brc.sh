@@ -66,7 +66,7 @@ case $1 in
      echo "-------------------- bryce-boot $2 日志 --------------------"
     tail -n 75 logs/"$2".log
   elif [ -n "$2" ]; then
-    echo "Usage: brc.sh log [info|warn|error]"
+    echo "Usage: sh brc.sh log [info|warn|error]"
   else
     echo "-------------------- bryce-boot info 日志 --------------------"
     tail -n 75 logs/info.log
@@ -74,8 +74,18 @@ case $1 in
 };;
 
 "help") {
-  echo "Usage: brc.sh [start|stop|restart|status|log]"
+  echo "Usage: sh brc.sh [start|stop|restart|status|log|copy|remove]"
   echo "       brc.sh log [info|warn|error]"
+};;
+
+"copy") {
+  echo "-------------------- 复制 bryce-boot-server jar包 --------------------"
+  cp ../bryce-boot-server/target/bryce-boot-server-0.0.1-SNAPSHOT.jar ./server/jar/
+};;
+
+"remove") {
+  echo "-------------------- 删除 bryce-boot-server jar包 --------------------"
+  rm -f ./server/jar/*
 };;
 
 esac

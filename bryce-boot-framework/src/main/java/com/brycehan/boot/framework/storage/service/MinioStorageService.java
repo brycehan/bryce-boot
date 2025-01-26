@@ -33,16 +33,10 @@ public class MinioStorageService extends StorageService {
                 .endpoint(minio.getEndpoint())
                 .credentials(minio.getAccessKey(), minio.getSecretKey())
                 .build();
-    }
-
-    @Override
-    public String upload(InputStream data, String path, AccessType accessType) {
-        MinioStorageProperties minio = storageProperties.getMinio();
-        boolean bucketExists;
 
         try {
             // 查询bucketName是否存在
-            bucketExists = minioClient.bucketExists(BucketExistsArgs.builder()
+            boolean bucketExists = minioClient.bucketExists(BucketExistsArgs.builder()
                     .bucket(minio.getBucketName())
                     .build());
             // 如果bucketName不存在，则创建
@@ -51,7 +45,16 @@ public class MinioStorageService extends StorageService {
                         .bucket(minio.getBucketName())
                         .build());
             }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
+    @Override
+    public String upload(InputStream data, String path, AccessType accessType) {
+        MinioStorageProperties minio = storageProperties.getMinio();
+
+        try {
             String contentType = MediaType.APPLICATION_OCTET_STREAM_VALUE;
             Optional<MediaType> mediaType = MediaTypeFactory.getMediaType(path);
             if(mediaType.isPresent()) {

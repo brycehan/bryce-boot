@@ -1,0 +1,55 @@
+# 服务
+services:
+  # mysql 服务
+  bryce-mysql:
+    container_name: bryce-mysql
+    image:  public.ecr.aws/docker/library/mysql:8.0.31
+    build:
+      context: ./mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - boot
+    volumes:
+      - ./mysql/conf:/etc/mysql/conf.d
+#      - ./mysql/data:/var/lib/mysql
+      - ../db/mysql:/docker-entrypoint-initdb.d
+    environment:
+      - MYSQL_DATABASE=bryce_boot
+      - MYSQL_ROOT_PASSWORD=root
+    restart: unless-stopped
+  # redis 服务
+  bryce-redis:
+    container_name: bryce-redis
+    image: public.ecr.aws/docker/library/redis:7.2.7
+    build:
+      context: ./redis
+    ports:
+      - "6379:6379"
+    networks:
+      - boot
+    volumes:
+      - ./redis/conf/redis.conf:/opt/redis.conf
+#      - ./redis/data:/data
+    command:
+      - /opt/redis.conf
+    restart: unless-stopped
+  # boot-server 服务
+  bryce-boot-server:
+    container_name: bryce-boot-server
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - "8090:8090"
+    networks:
+      - boot
+    depends_on:
+      - bryce-redis
+      - bryce-mysql
+    restart: unless-stopped
+
+# 网络
+networks:
+  boot:
+    driver: bridge
