@@ -24,6 +24,6 @@ ENTRYPOINT java \
 	-Dfile.encoding=UTF-8 \
 	-Duser.timezone=${TZ} \
 	-Dserver.port=8090 \
-	-Dspring.profiles.active=dev \
+	-Dspring.profiles.active=prod \
 	-jar \
 	/app.jar

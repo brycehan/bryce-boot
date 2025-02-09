@@ -36,3 +36,5 @@ build/
 logs/
 *.log
 qodana.yaml
+docker/mysql/db/*.sql
+docker/server/jar/*.jar

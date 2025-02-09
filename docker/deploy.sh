@@ -79,13 +79,17 @@ case $1 in
 };;
 
 "copy") {
+  echo "-------------------- 复制 bryce-boot-server sql --------------------"
+  cp ../db/mysql/*.sql ./mysql/db/
   echo "-------------------- 复制 bryce-boot-server jar包 --------------------"
-  cp ../bryce-boot-server/target/bryce-boot-server-0.0.1-SNAPSHOT.jar ./server/jar/
+  cp ../bryce-boot-server/target/bryce-boot-server-*.jar ./server/jar/
 };;
 
 "remove") {
+  echo "-------------------- 删除 bryce-boot-server sql --------------------"
+  rm -f ./mysql/db/*.sql
   echo "-------------------- 删除 bryce-boot-server jar包 --------------------"
-  rm -f ./server/jar/*
+  rm -f ./server/jar/bryce-boot-server-*.jar
 };;
 
 esac

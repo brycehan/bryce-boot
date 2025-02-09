@@ -17,7 +17,7 @@ spring:
         master:
           # MySQL 8.0
           driver-class-name: com.mysql.cj.jdbc.Driver
-          url: jdbc:mysql://mysql:3306/bryce_boot?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&nullDatabaseMeansCurrent=true&useServerPrepStmts=true&cachePrepStmts=true
+          url: jdbc:mysql://boot-mysql:3306/bryce_boot?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&nullDatabaseMeansCurrent=true&useServerPrepStmts=true&cachePrepStmts=true
           username: root
           password: root
           # postgresql
@@ -35,7 +35,7 @@ spring:
     # Spring Data Redis 配置
     redis:
       # 主机
-      host: redis
+      host: boot-redis
       # 端口，默认为6379
       port: 6379
       # 数据库索引
@@ -76,6 +76,7 @@ server:
       max: 1000
       min-spare: 200
 
+# 项目自定义配置
 bryce:
   # 存储配置
   storage:
@@ -94,7 +95,6 @@ bryce:
       secret-key: O0ArhGUegmt03hjEpt8mFLhwSoSxBDUCA2umsIuk
       bucket-name: bryce-boot
 
-## 接口配置
-#springdoc:
-#  api-docs:
-#    enabled: false
+# 接口文档
+knife4j:
+  enable: false

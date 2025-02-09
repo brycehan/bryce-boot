@@ -183,7 +183,7 @@ public class SysRoleController {
     @GetMapping(path = "/menu")
     public ResponseResult<List<SysMenuVo>> menu() {
         LoginUser loginUser = LoginUserContext.currentUser();
-        List<SysMenuVo> list = sysMenuService.getMenuTreeList(loginUser, null);
+        List<SysMenuVo> list = sysMenuService.getMenuTreeList(loginUser);
         return ResponseResult.ok(list);
     }
 
