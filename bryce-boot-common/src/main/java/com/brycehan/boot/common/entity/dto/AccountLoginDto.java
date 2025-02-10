@@ -36,11 +36,11 @@ public class AccountLoginDto extends BaseDto {
     private String password;
 
     /**
-     * key
+     * uuid
      */
     @Length(max = 36)
-    @Schema(description = "key")
-    private String key;
+    @Schema(description = "uuid")
+    private String uuid;
 
     /**
      * 验证码
