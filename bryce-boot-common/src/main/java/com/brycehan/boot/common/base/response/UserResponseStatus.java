@@ -40,7 +40,7 @@ public enum UserResponseStatus implements ResponseStatus {
 
     USER_PASSWORD_NOT_VALID(1312, "6-30个字符"),
 
-    USER_PASSWORD_RETRY_LIMIT_EXCEEDED(1313, "密码输入错误{}次，帐户锁定{}分钟"),
+    USER_PASSWORD_RETRY_LIMIT_EXCEEDED(1313, "密码输入错误{}次，帐户锁定{}"),
 
     USER_PASSWORD_NOT_MATCH(1314, "原密码错误"),
 

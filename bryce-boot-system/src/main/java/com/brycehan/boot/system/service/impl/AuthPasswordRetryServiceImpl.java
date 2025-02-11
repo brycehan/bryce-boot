@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -21,8 +22,8 @@ public class AuthPasswordRetryServiceImpl implements AuthPasswordRetryService {
 
     private final RedisTemplate<String, Integer> redisTemplate;
 
-    @Value(value = "${bryce.user.password.lock-duration-minutes}")
-    private Integer lockDurationMinutes;
+    @Value(value = "${bryce.user.password.lock-duration}")
+    private Duration lockDuration;
 
     /**
      * 获取登录账户密码错误次数缓存键
@@ -47,7 +48,7 @@ public class AuthPasswordRetryServiceImpl implements AuthPasswordRetryService {
         redisTemplate.opsForValue().set(
                 getPasswordErrorCountCacheKey(username),
                 ++retryCount,
-                lockDurationMinutes,
+                lockDuration.toMinutes(),
                 TimeUnit.MINUTES
         );
     }

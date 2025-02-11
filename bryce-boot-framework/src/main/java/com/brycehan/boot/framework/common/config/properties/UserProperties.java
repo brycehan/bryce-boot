@@ -6,6 +6,8 @@ import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
+import java.time.Duration;
+
 /**
  * 用户属性
  *
@@ -40,7 +42,7 @@ public class UserProperties {
         /**
          * 密码锁定间隔（默认10分钟）
          */
-        private int lockDurationMinutes = 10;
+        private Duration lockDuration = Duration.ofMinutes(10);
     }
 
 }

@@ -1,5 +1,7 @@
 package com.brycehan.boot.framework.security;
 
+import cn.hutool.core.date.BetweenFormatter;
+import cn.hutool.core.date.DateUtil;
 import com.brycehan.boot.common.base.ServerException;
 import com.brycehan.boot.common.base.response.UserResponseStatus;
 import com.brycehan.boot.common.constant.CacheConstants;
@@ -11,6 +13,8 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsChecker;
 import org.springframework.stereotype.Component;
+
+import java.time.Duration;
 
 /**
  * @since 2023/10/9
@@ -26,8 +30,8 @@ public class LoginUserDetailsCheck implements UserDetailsChecker {
     @Value(value = "${bryce.user.password.max-retry-count}")
     private Integer maxRetryCount;
 
-    @Value(value = "${bryce.user.password.lock-duration-minutes}")
-    private Integer lockDurationMinutes;
+    @Value(value = "${bryce.user.password.lock-duration}")
+    private Duration lockDuration;
 
     @Override
     public void check(UserDetails toCheck) {
@@ -41,7 +45,7 @@ public class LoginUserDetailsCheck implements UserDetailsChecker {
             retryCount = 0;
         }
         if (retryCount >= maxRetryCount) {
-            throw new ServerException(UserResponseStatus.USER_PASSWORD_RETRY_LIMIT_EXCEEDED, retryCount.toString(), lockDurationMinutes.toString());
+            throw new ServerException(UserResponseStatus.USER_PASSWORD_RETRY_LIMIT_EXCEEDED, retryCount.toString(), DateUtil.formatBetween(lockDuration.toMillis(), BetweenFormatter.Level.MINUTE));
         }
     }
 

@@ -23,19 +23,22 @@ public class CorsConfig {
      * @return CorsFilter
      */
     public CorsFilter corsFilter(){
-        final CorsConfiguration corsConfiguration = new CorsConfiguration();
-        corsConfiguration.setAllowCredentials(true);
+        final CorsConfiguration config = new CorsConfiguration();
         // 设置访问源地址
-        corsConfiguration.addAllowedOriginPattern("*");
+        config.addAllowedOriginPattern("*");
         // 设置访问源请求头
-        corsConfiguration.addAllowedHeader("*");
+        config.addAllowedHeader("*");
         // 设置访问源请求方法
-        corsConfiguration.addAllowedMethod("*");
+        config.addAllowedMethod("*");
+        // 设置允许凭证共享
+        config.setAllowCredentials(true);
         // 预检请求的缓存时间7200秒
-        corsConfiguration.setMaxAge(7200L);
+        config.setMaxAge(7200L);
+
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         // 添加映射路径，拦截一切请求
-        source.registerCorsConfiguration("/**", corsConfiguration);
+        source.registerCorsConfiguration("/**", config);
+
         return new CorsFilter(source);
     }
 
