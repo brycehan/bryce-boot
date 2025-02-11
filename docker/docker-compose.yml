@@ -9,29 +9,46 @@ services:
     image:  public.ecr.aws/docker/library/mysql:8.0.33
     ports:
       - "3306:3306"
-    networks:
-      - boot
+    environment:
+      - MYSQL_DATABASE=bryce_boot
+      - MYSQL_ROOT_PASSWORD=root
     volumes:
       - ./mysql:/etc/mysql/conf.d
       - ./mysql/db:/docker-entrypoint-initdb.d
       - mysql-data:/var/lib/mysql
-    environment:
-      - MYSQL_DATABASE=bryce_boot
-      - MYSQL_ROOT_PASSWORD=root
     restart: unless-stopped
+    networks:
+      - boot
   # redis 服务
   boot-redis:
     container_name: boot-redis
     image: public.ecr.aws/docker/library/redis:7.2.7
     ports:
       - "6379:6379"
-    networks:
-      - boot
     volumes:
       - ./redis/redis.conf:/opt/redis.conf
       - redis-data:/data
     command:
       - /opt/redis.conf
+    restart: unless-stopped
+    networks:
+      - boot
+  # minio 服务
+  boot-minio:
+    container_name: boot-minio
+    image: minio/minio:RELEASE.2025-02-07T23-21-09Z
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      - MINIO_ACCESS_KEY=admin
+      - MINIO_SECRET_KEY=admin123
+    volumes:
+      - minio-data:/data
+      - minio-config:/root/.minio
+    command: server /data --console-address ":9001"
+    networks:
+      - cloud
     restart: unless-stopped
   # server 服务
   boot-server:
@@ -41,17 +58,19 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8090:8090"
+    restart: unless-stopped
     networks:
       - boot
     depends_on:
       - boot-redis
       - boot-mysql
-    restart: unless-stopped
 
 # 存储卷
 volumes:
   mysql-data: {}
   redis-data: {}
+  minio-data: { }
+  minio-config: { }
 
 # 网络
 networks:
