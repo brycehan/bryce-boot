@@ -4,6 +4,8 @@ import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+import java.time.Duration;
+
 /**
  * 验证码属性
  *
@@ -18,20 +20,25 @@ public class CaptchaProperties {
     /**
      * 验证码宽度
      */
-    private int width = 235;
+    private int width = 150;
 
     /**
      * 验证码高度
      */
-    private int height = 30;
+    private int height = 40;
 
     /**
-     * 验证码内容长度
+     * 字体大小
      */
-    private int length = 5;
+    private int fontSize = 27;
 
     /**
-     * 验证码有效期（单位：分钟）
+     * 验证码内容长度（算术验证码的length表示是几位数运算）
      */
-    private Long expiration = 5L;
+    private int length = 2;
+
+    /**
+     * 验证码有效期
+     */
+    private Duration expiration = Duration.ofMinutes(5);
 }

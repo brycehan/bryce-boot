@@ -34,6 +34,8 @@
         <knife4j.version>4.5.0</knife4j.version>
         <!-- 验证码组件 -->
         <captcha.version>1.6.2</captcha.version>
+        <!-- 验证码组件算法类型时需要 -->
+        <nashorn-core.version>15.6</nashorn-core.version>
         <!-- Redis -->
         <redisson.version>3.24.3</redisson.version>
         <!-- ID 生成 -->
@@ -177,10 +179,17 @@
                 <artifactId>redisson</artifactId>
                 <version>${redisson.version}</version>
             </dependency>
+            <!-- 验证码组件 -->
             <dependency>
                 <groupId>com.github.whvcse</groupId>
                 <artifactId>easy-captcha</artifactId>
                 <version>${captcha.version}</version>
+            </dependency>
+            <!-- 验证码组件算法类型时需要 -->
+            <dependency>
+                <groupId>org.openjdk.nashorn</groupId>
+                <artifactId>nashorn-core</artifactId>
+                <version>${nashorn-core.version}</version>
             </dependency>
             <!-- ID生成器 -->
             <dependency>

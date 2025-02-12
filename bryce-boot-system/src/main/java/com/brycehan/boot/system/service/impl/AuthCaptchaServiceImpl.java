@@ -4,12 +4,13 @@ import cn.hutool.core.util.StrUtil;
 import com.brycehan.boot.common.base.RedisKeys;
 import com.brycehan.boot.common.constant.ParamConstants;
 import com.brycehan.boot.common.enums.CaptchaType;
+import com.brycehan.boot.framework.common.ArithmeticCaptchaPlus;
 import com.brycehan.boot.framework.common.config.properties.CaptchaProperties;
 import com.brycehan.boot.framework.security.TokenUtils;
 import com.brycehan.boot.system.entity.vo.CaptchaVo;
 import com.brycehan.boot.system.service.AuthCaptchaService;
 import com.brycehan.boot.system.service.SysParamService;
-import com.wf.captcha.SpecCaptcha;
+import com.wf.captcha.ArithmeticCaptcha;
 import com.wf.captcha.base.Captcha;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -41,9 +42,12 @@ public class AuthCaptchaServiceImpl implements AuthCaptchaService {
         String uuid = TokenUtils.uuid();
 
         // 生成验证码
-        SpecCaptcha captcha = new SpecCaptcha(captchaProperties.getWidth(), captchaProperties.getHeight());
+        ArithmeticCaptcha captcha = new ArithmeticCaptchaPlus(captchaProperties.getWidth(), captchaProperties.getHeight());
         captcha.setLen(captchaProperties.getLength());
-        captcha.setCharType(Captcha.TYPE_DEFAULT);
+        try {
+            captcha.setFont(Captcha.FONT_2, captchaProperties.getFontSize());
+        } catch (Exception ignored) {
+        }
 
         String captchaKey = RedisKeys.getCaptchaKey(uuid);
         String captchaValue = captcha.text();
@@ -52,7 +56,7 @@ public class AuthCaptchaServiceImpl implements AuthCaptchaService {
 
         // 存储到 Redis
         stringRedisTemplate.opsForValue()
-                .set(captchaKey, captchaValue, captchaProperties.getExpiration(), TimeUnit.MINUTES);
+                .set(captchaKey, captchaValue, captchaProperties.getExpiration().toMinutes(), TimeUnit.MINUTES);
 
         // 封装返回数据
         CaptchaVo captchaVo = new CaptchaVo();

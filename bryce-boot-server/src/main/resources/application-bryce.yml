@@ -33,10 +33,11 @@ bryce:
 
   # 验证码配置
   captcha:
-    width: 235
-    height: 30
-    length: 5
-    expiration: 10
+    width: 300
+    height: 80
+    font-size: 54
+    length: 2
+    expiration: 5m
 
   # 权限过滤
   auth:
@@ -100,8 +101,8 @@ bryce:
     # minio 配置
     minio:
       endpoint: http://127.0.0.1:9000
-      access-key: sVlpKIiyRXfNVosAqd1M
-      secret-key: O0ArhGUegmt03hjEpt8mFLhwSoSxBDUCA2umsIuk
+      access-key: pybhzHB3EZBGIGQGQ3eh
+      secret-key: Ljk81lhOK2ykR4BiGEQfOxer4OXStdUpyiMdtyxX
       bucket-name: bryce-boot
 
   # 代码生成
