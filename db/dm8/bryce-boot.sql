@@ -128,8 +128,8 @@ comment on column brc_sys_user.updated_user_id is '修改者ID';
 comment on column brc_sys_user.updated_time is '修改时间';
 
 -- 初始化-系统用户表数据
-INSERT INTO brc_sys_user (id, username, password, nickname, avatar, gender, type, phone, email, sort, org_id, status, remark, account_non_locked, last_login_ip, last_login_time, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1, 'admin', '$2a$10$b8Yk.Z8wkNIqz2U9kZO/IOllidB4y56hU9dh3Xv7lPstItDFtqGp6', '超级管理员', null, 'M', 0, '15853155400', 'brycehan@126.com', 0, 103, 1, '超级管理员', 1, '127.0.0.1', now(), null, 1, now(), 1, now());
-INSERT INTO brc_sys_user (id, username, password, nickname, avatar, gender, type, phone, email, sort, org_id, status, remark, account_non_locked, last_login_ip, last_login_time, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (2, 'brycehan', '$2a$10$.sAp6xiSh2pXwkIyJTXSfOlXHQ.8mXGw6yfGfZLhV9VuPcQR3FLq2', '布莱斯', null, 'M', 0, '15853155402', 'brycehan@163.com', 0, 103, 1, '项目经理', 1, '127.0.0.1', now(), null, 1, now(), 1, now());
+INSERT INTO brc_sys_user (id, username, password, nickname, avatar, gender, type, phone, email, sort, org_id, status, remark, account_non_locked, last_login_ip, last_login_time, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1, 'admin', '$2a$10$b8Yk.Z8wkNIqz2U9kZO/IOllidB4y56hU9dh3Xv7lPstItDFtqGp6', '超级管理员', null, 'M', 0, '15800006666', 'brycehan@126.com', 0, 103, 1, '超级管理员', 1, '127.0.0.1', now(), null, 1, now(), 1, now());
+INSERT INTO brc_sys_user (id, username, password, nickname, avatar, gender, type, phone, email, sort, org_id, status, remark, account_non_locked, last_login_ip, last_login_time, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (2, 'brycehan', '$2a$10$.sAp6xiSh2pXwkIyJTXSfOlXHQ.8mXGw6yfGfZLhV9VuPcQR3FLq2', '布莱斯', null, 'M', 0, '15800008888', 'brycehan@163.com', 0, 103, 1, '项目经理', 1, '127.0.0.1', now(), null, 1, now(), 1, now());
 
 -- 3、系统角色表
 create table brc_sys_role
