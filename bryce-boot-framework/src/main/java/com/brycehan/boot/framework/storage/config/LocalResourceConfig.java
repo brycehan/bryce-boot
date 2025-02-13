@@ -31,11 +31,6 @@ public class LocalResourceConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(@NonNull ResourceHandlerRegistry registry) {
-        // 如果不是本地存储，则返回
-        if(storageProperties.getConfig().getType() != StorageType.LOCAL) {
-            return;
-        }
-
         // 公共文件URL访问前缀
         String urlPublicPrefix;
         // 公共文件file协议访问前缀

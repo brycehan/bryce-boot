@@ -66,7 +66,7 @@ case $1 in
      echo "-------------------- bryce-boot $2 日志 --------------------"
     tail -n 75 logs/"$2".log
   elif [ -n "$2" ]; then
-    echo "Usage: sh brc.sh log [info|warn|error]"
+    echo "Usage: sh deploy.sh log [info|warn|error]"
   else
     echo "-------------------- bryce-boot info 日志 --------------------"
     tail -n 75 logs/info.log
@@ -74,8 +74,8 @@ case $1 in
 };;
 
 "help") {
-  echo "Usage: sh brc.sh [start|stop|restart|status|log|copy|remove]"
-  echo "       brc.sh log [info|warn|error]"
+  echo "Usage: sh deploy.sh [start|stop|restart|status|log|copy|remove]"
+  echo "       deploy.sh log [info|warn|error]"
 };;
 
 "copy") {

@@ -39,7 +39,7 @@ bryce-boot
 ├── docker                  // 容器模块
 ├── docs                    // 文档
 ├── images                  // 图片
-├──pom.xml                  // 公共依赖
+├── pom.xml                  // 公共依赖
 ~~~
 
 ## 内置功能
