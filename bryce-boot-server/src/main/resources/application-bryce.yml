@@ -93,7 +93,7 @@ bryce:
     enabled: true
     config:
       # 存储类型 local|minio|aliyun|tencent|qiniu|huawei
-      type: minio
+      type: local
       endpoint: http://localhost:${server.port}
     local:
       # 路径 System.getProperty("user.home") + projectName;

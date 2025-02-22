@@ -90,7 +90,7 @@
                 <artifactId>bryce-boot-framework</artifactId>
                 <version>${project.version}</version>
             </dependency>
-            <!-- api 模块 -->
+            <!-- API 模块 -->
             <dependency>
                 <groupId>com.brycehan.boot</groupId>
                 <artifactId>bryce-boot-api</artifactId>

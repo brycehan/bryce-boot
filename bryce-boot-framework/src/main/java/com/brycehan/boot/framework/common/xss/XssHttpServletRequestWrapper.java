@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletRequestWrapper;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.http.MediaType;
+import org.springframework.web.util.ContentCachingRequestWrapper;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -23,6 +24,8 @@ import java.util.Map;
  */
 public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
 
+    ContentCachingRequestWrapper requestWrapper;
+
     /**
      * Constructs a request object wrapping the given request.
      *
@@ -31,6 +34,7 @@ public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
      */
     public XssHttpServletRequestWrapper(HttpServletRequest request) {
         super(request);
+        requestWrapper = new ContentCachingRequestWrapper(request);
     }
 
     @Override
@@ -41,7 +45,7 @@ public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
         }
 
         // 读取内容，进行 xss 过滤
-        String content = IoUtil.readUtf8(super.getInputStream());
+        String content = IoUtil.readUtf8(requestWrapper.getInputStream());
         content = XssUtils.filter(content);
 
         // 返回新的 ServletInputStream
