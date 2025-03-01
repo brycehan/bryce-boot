@@ -16,7 +16,7 @@ import lombok.experimental.Accessors;
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 public enum SmsResponseStatus implements ResponseStatus {
 
-    SMS_SEND_FAIL(1100, "短信发送失败");
+    SMS_SEND_FAIL(1200, "短信发送失败");
 
     /**
      * 状态编码

@@ -58,16 +58,21 @@ public class ServerException extends RuntimeException {
         this.message = message;
     }
 
-    public ServerException(ResponseStatus responseStatus) {
-        super(responseStatus.message());
-        code = responseStatus.code();
-        message = responseStatus.message();
-    }
-
     public ServerException(ResponseStatus responseStatus, Object... params) {
         super(StrUtil.format(responseStatus.message(), params));
         code = responseStatus.code();
         message = StrUtil.format(responseStatus.message(), params);
+    }
+
+    /**
+     * 构造异常
+     *
+     * @param responseStatus 响应状态
+     * @param params         参数
+     * @return 异常
+     */
+    public static ServerException of(ResponseStatus responseStatus, Object... params) {
+        return new ServerException(responseStatus, params);
     }
 
     @Override
