@@ -56,6 +56,14 @@ public interface SysUserService extends BaseService<SysUser> {
     PageResult<SysUserVo> page(SysUserPageDto sysUserPageDto);
 
     /**
+     * 系统用户列表查询
+     *
+     * @param sysUserPageDto 查询条件
+     * @return 用户列表
+     */
+    List<SysUserVo> list(SysUserPageDto sysUserPageDto);
+
+    /**
      * 系统用户导出数据
      *
      * @param sysUserPageDto 系统用户查询条件

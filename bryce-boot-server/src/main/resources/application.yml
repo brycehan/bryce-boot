@@ -4,7 +4,7 @@ spring:
     # 应用名称
     name: bryce-boot
   profiles:
-    include: bryce
+    include: bryce,bpm
     # 环境 dev|prod
     active: dev
   # Jackson 配置

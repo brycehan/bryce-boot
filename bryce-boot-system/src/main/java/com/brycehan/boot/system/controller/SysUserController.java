@@ -131,6 +131,19 @@ public class SysUserController {
     }
 
     /**
+     * 系统用户列表查询
+     *
+     * @param sysUserPageDto 查询条件
+     * @return 系统用户列表
+     */
+    @Operation(summary = "系统用户列表查询")
+    @PostMapping(path = "/list")
+    public ResponseResult<List<SysUserVo>> list(@RequestBody SysUserPageDto sysUserPageDto) {
+        List<SysUserVo> list = sysUserService.list(sysUserPageDto);
+        return ResponseResult.ok(list);
+    }
+
+    /**
      * 系统用户导出数据
      *
      * @param sysUserPageDto 查询条件

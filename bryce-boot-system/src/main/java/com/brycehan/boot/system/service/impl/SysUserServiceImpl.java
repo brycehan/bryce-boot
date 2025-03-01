@@ -218,6 +218,18 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         return new PageResult<>(page.getTotal(), sysUserVoList);
     }
 
+    @Override
+    public List<SysUserVo> list(SysUserPageDto sysUserPageDto) {
+        List<SysUser> sysUserList = baseMapper.selectList(getWrapper(sysUserPageDto));
+        return SysUserConvert.INSTANCE.convert(sysUserList);
+    }
+
+    /**
+     * 封装查询参数
+     *
+     * @param sysUserPageDto 系统用户分页dto
+     * @return 查询参数
+     */
     private Map<String, Object> getParams(SysUserPageDto sysUserPageDto) {
         Map<String, Object> params = BeanUtil.beanToMap(sysUserPageDto, false, false);
         // 数据权限过滤

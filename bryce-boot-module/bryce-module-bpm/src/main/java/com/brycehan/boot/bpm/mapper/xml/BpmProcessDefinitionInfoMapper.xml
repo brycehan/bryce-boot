@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.brycehan.boot.bpm.mapper.BpmProcessDefinitionInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.brycehan.boot.bpm.entity.po.BpmProcessDefinitionInfo">
+        <id column="id" property="id" />
+        <result column="process_definition_id" property="processDefinitionId" />
+        <result column="model_id" property="modelId" />
+        <result column="model_type" property="modelType" />
+        <result column="icon" property="icon" />
+        <result column="description" property="description" />
+        <result column="form_type" property="formType" />
+        <result column="form_id" property="formId" />
+        <result column="form_conf" property="formConf" />
+        <result column="form_fields" property="formFields" />
+        <result column="form_custom_create_path" property="formCustomCreatePath" />
+        <result column="form_custom_view_path" property="formCustomViewPath" />
+        <result column="simple_model" property="simpleModel" />
+        <result column="visible" property="visible" />
+        <result column="sort" property="sort" />
+        <result column="start_user_ids" property="startUserIds" />
+        <result column="manager_user_ids" property="managerUserIds" />
+        <result column="allow_cancel_running_process" property="allowCancelRunningProcess" />
+        <result column="process_id_rule" property="processIdRule" />
+        <result column="auto_approval_type" property="autoApprovalType" />
+        <result column="title_setting" property="titleSetting" />
+        <result column="summary_setting" property="summarySetting" />
+        <result column="deleted" property="deleted" />
+        <result column="created_user_id" property="createdUserId" />
+        <result column="created_time" property="createdTime" />
+        <result column="updated_user_id" property="updatedUserId" />
+        <result column="updated_time" property="updatedTime" />
+        <result column="tenant_id" property="tenantId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, process_definition_id, model_id, model_type, icon, 
+        description, form_type, form_id, form_conf, form_fields, 
+        form_custom_create_path, form_custom_view_path, simple_model, visible, sort, 
+        start_user_ids, manager_user_ids, allow_cancel_running_process, process_id_rule, auto_approval_type, 
+        title_setting, summary_setting, deleted, created_user_id, created_time, 
+        updated_user_id, updated_time, tenant_id
+    </sql>
+
+</mapper>
