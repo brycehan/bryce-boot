@@ -1,28 +1,28 @@
 package com.brycehan.boot.bpm.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateUtil;
-import java.util.Date;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.brycehan.boot.common.entity.PageResult;
-import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
-import com.brycehan.boot.common.util.excel.ExcelUtils;
-import com.brycehan.boot.common.base.IdGenerator;
 import com.brycehan.boot.bpm.entity.convert.BpmCategoryConvert;
 import com.brycehan.boot.bpm.entity.dto.BpmCategoryDto;
 import com.brycehan.boot.bpm.entity.dto.BpmCategoryPageDto;
 import com.brycehan.boot.bpm.entity.po.BpmCategory;
 import com.brycehan.boot.bpm.entity.vo.BpmCategoryVo;
-import com.brycehan.boot.bpm.service.BpmCategoryService;
 import com.brycehan.boot.bpm.mapper.BpmCategoryMapper;
-import org.apache.commons.lang3.StringUtils;
-import java.util.Objects;
-import org.springframework.stereotype.Service;
+import com.brycehan.boot.bpm.service.BpmCategoryService;
+import com.brycehan.boot.common.base.IdGenerator;
+import com.brycehan.boot.common.entity.PageResult;
+import com.brycehan.boot.common.util.excel.ExcelUtils;
+import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
 import lombok.RequiredArgsConstructor;
-
-import java.util.List;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Service;
+
+import java.util.*;
+import java.util.stream.Collectors;
 
 
 /**
@@ -89,6 +89,20 @@ public class BpmCategoryServiceImpl extends BaseServiceImpl<BpmCategoryMapper, B
         List<BpmCategoryVo> bpmCategoryVoList = BpmCategoryConvert.INSTANCE.convert(bpmCategoryList);
         String today = DateUtil.format(new Date(), DatePattern.PURE_DATE_PATTERN);
         ExcelUtils.export(BpmCategoryVo.class, "流程分类_".concat(today), "流程分类", bpmCategoryVoList);
+    }
+
+    @Override
+    public Map<Long, String> getCategoryNameMap(List<Long> categoryIds) {
+        if (CollUtil.isEmpty(CollUtil.newHashSet(categoryIds))) {
+            return Map.of();
+        }
+
+        LambdaQueryWrapper<BpmCategory> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.select(BpmCategory::getId, BpmCategory::getName);
+        queryWrapper.in(BpmCategory::getId, categoryIds);
+
+        List<BpmCategory> categories = baseMapper.selectList(queryWrapper);
+        return categories.stream().collect(Collectors.toMap(BpmCategory::getId, BpmCategory::getName));
     }
 
 }

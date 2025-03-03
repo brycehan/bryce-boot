@@ -7,6 +7,7 @@ import lombok.Data;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * 表单定义Vo
@@ -49,7 +50,7 @@ public class BpmFormVo implements Serializable {
      * 表单项的数组
      */
     @Schema(description = "表单项的数组")
-    private String fields;
+    private List<String> fields;
 
     /**
      * 备注

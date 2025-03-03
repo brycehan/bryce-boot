@@ -8,7 +8,7 @@
         <result column="name" property="name" />
         <result column="status" property="status" />
         <result column="conf" property="conf" />
-        <result column="fields" property="fields"/>
+        <result column="fields" property="fields" typeHandler="com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler"/>
         <result column="remark" property="remark" />
         <result column="deleted" property="deleted" />
         <result column="created_user_id" property="createdUserId" />

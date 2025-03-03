@@ -1,18 +1,26 @@
 package com.brycehan.boot.bpm.controller;
 
 import com.brycehan.boot.bpm.entity.dto.BpmModelDto;
+import com.brycehan.boot.bpm.entity.dto.BpmModelPageDto;
+import com.brycehan.boot.bpm.entity.vo.BpmModelVo;
 import com.brycehan.boot.bpm.service.BpmModelService;
 import com.brycehan.boot.common.base.response.ResponseResult;
+import com.brycehan.boot.common.base.validator.NotEmptyElements;
 import com.brycehan.boot.common.base.validator.SaveGroup;
 import com.brycehan.boot.common.base.validator.UpdateGroup;
+import com.brycehan.boot.common.entity.PageResult;
 import com.brycehan.boot.framework.operatelog.annotation.OperateLog;
 import com.brycehan.boot.framework.operatelog.annotation.OperatedType;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 流程模型API
@@ -58,4 +66,60 @@ public class BpmModelController {
         return ResponseResult.ok();
     }
 
+    /**
+     * 删除模型
+     *
+     * @param ids ID列表
+     * @return 响应结果
+     */
+    @Operation(summary = "删除模型")
+    @OperateLog(type = OperatedType.DELETE)
+    @PreAuthorize("@auth.hasAuthority('bpm:model:delete')")
+    @DeleteMapping
+    public ResponseResult<Void> delete(@NotEmptyElements @Size(min = 1, max = 10) @RequestBody List<String> ids) {
+        bpmModelService.delete(ids);
+        return ResponseResult.ok();
+    }
+
+    /**
+     * 查询模型详情
+     *
+     * @param id 模型ID
+     * @return 响应结果
+     */
+    @Operation(summary = "查询模型详情")
+    @PreAuthorize("@auth.hasAuthority('bpm:model:info')")
+    @GetMapping(path = "/{id}")
+    public ResponseResult<BpmModelVo> get(@PathVariable String id) {
+        BpmModelVo bpmModelVo = bpmModelService.getById(id);
+        return ResponseResult.ok(bpmModelVo);
+    }
+
+    /**
+     * 流程模型分页查询
+     *
+     * @param bpmModelPageDto 查询条件
+     * @return 流程模型分页列表
+     */
+    @Operation(summary = "流程模型分页列表")
+    @PreAuthorize("@auth.hasAuthority('bpm:model:page')")
+    @PostMapping(path = "/page")
+    public ResponseResult<PageResult<BpmModelVo>> page(@Validated @RequestBody BpmModelPageDto bpmModelPageDto) {
+        PageResult<BpmModelVo> page = bpmModelService.page(bpmModelPageDto);
+        return ResponseResult.ok(page);
+    }
+
+    /**
+     * 部署流程模型
+     *
+     * @param id 模型ID
+     * @return 结果
+     */
+    @Operation(summary = "部署流程模型")
+    @PreAuthorize("@auth.hasAuthority('bpm:model:deploy')")
+    @GetMapping(path = "/deploy")
+    public ResponseResult<?> page(@NotEmpty String id) {
+        bpmModelService.deploy(id);
+        return ResponseResult.ok();
+    }
 }

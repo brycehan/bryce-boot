@@ -8,6 +8,7 @@ import com.brycehan.boot.bpm.entity.po.BpmCategory;
 import com.brycehan.boot.bpm.entity.vo.BpmCategoryVo;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 流程分类服务
@@ -54,4 +55,11 @@ public interface BpmCategoryService extends BaseService<BpmCategory> {
      */
     void export(BpmCategoryPageDto bpmCategoryPageDto);
 
+    /**
+     * 获取流程分类名称Map
+     *
+     * @param categoryIds 流程分类ID集合
+     * @return 流程分类名称Map
+     */
+    Map<Long, String> getCategoryNameMap(List<Long> categoryIds);
 }

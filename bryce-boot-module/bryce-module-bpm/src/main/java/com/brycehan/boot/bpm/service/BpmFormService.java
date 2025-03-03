@@ -1,13 +1,14 @@
 package com.brycehan.boot.bpm.service;
 
-import com.brycehan.boot.framework.mybatis.service.BaseService;
-import com.brycehan.boot.common.entity.PageResult;
 import com.brycehan.boot.bpm.entity.dto.BpmFormDto;
 import com.brycehan.boot.bpm.entity.dto.BpmFormPageDto;
 import com.brycehan.boot.bpm.entity.po.BpmForm;
 import com.brycehan.boot.bpm.entity.vo.BpmFormVo;
+import com.brycehan.boot.common.entity.PageResult;
+import com.brycehan.boot.framework.mybatis.service.BaseService;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 表单定义服务
@@ -54,4 +55,11 @@ public interface BpmFormService extends BaseService<BpmForm> {
      */
     void export(BpmFormPageDto bpmFormPageDto);
 
+    /**
+     * 根据表单ID集合获取表单名称Map
+     *
+     * @param formIds 表单ID集合
+     * @return 表单名称Map
+     */
+    Map<Long, String> getFormNameMap(List<Long> formIds);
 }

@@ -1,14 +1,8 @@
-package com.brycehan.boot.bpm.entity.dto;
+package com.brycehan.boot.bpm.entity.vo;
 
-import com.brycehan.boot.common.enums.StatusType;
 import com.brycehan.boot.common.enums.VisibleType;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import org.hibernate.validator.constraints.URL;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -28,9 +22,8 @@ import java.util.List;
  * @since 2025/02/24
  */
 @Data
-@EqualsAndHashCode(callSuper = false)
-@Schema(description = "流程模型Dto")
-public class BpmModelMetaInfoDto implements Serializable {
+@Schema(description = "流程模型元信息 Vo")
+public class BpmModelMetaInfoVo implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -39,8 +32,6 @@ public class BpmModelMetaInfoDto implements Serializable {
      * 流程图标
      */
     @Schema(description = "流程图标", example = "https://www.brycehan.com/bryce.jpg")
-    @NotEmpty
-    @URL(message = "格式不正确")
     private String icon;
 
     /**
@@ -53,14 +44,12 @@ public class BpmModelMetaInfoDto implements Serializable {
      * 流程类型
      */
     @Schema(description = "流程类型")
-    @NotNull
     private Integer type;
 
     /**
      * 表单类型
      */
     @Schema(description = "表单类型")
-    @NotNull
     private Integer formType;
 
     /**
@@ -85,7 +74,6 @@ public class BpmModelMetaInfoDto implements Serializable {
      * 是否可见
      */
     @Schema(description = "是否可见")
-    @NotNull
     private VisibleType visible;
 
     /**
@@ -97,8 +85,7 @@ public class BpmModelMetaInfoDto implements Serializable {
     /**
      * 可管理用户编号数组
      */
-    @Schema(description = "可管理用户编号数组", requiredMode = Schema.RequiredMode.REQUIRED)
-    @NotEmpty
+    @Schema(description = "可管理用户编号数组")
     private List<Long> managerUserIds;
 
     /**
@@ -141,12 +128,10 @@ public class BpmModelMetaInfoDto implements Serializable {
      * 流程 ID 规则
      */
     @Data
-    @Valid
     @Schema(description = "流程 ID 规则")
     public static class ProcessIdRule {
 
         @Schema(description = "是否启用", example = "false")
-        @NotNull
         private Boolean enable;
 
         @Schema(description = "前缀", example = "XX")
@@ -159,21 +144,17 @@ public class BpmModelMetaInfoDto implements Serializable {
         private String postfix;
 
         @Schema(description = "序列长度", example = "5")
-        @NotNull
         private Integer length;
-
     }
 
     /**
      * 标题设置
      */
     @Data
-    @Valid
     @Schema(description = "标题设置")
     public static class TitleSetting {
 
         @Schema(description = "是否自定义", example = "false")
-        @NotNull
         private Boolean enable;
 
         @Schema(description = "标题", example = "流程标题")
@@ -184,16 +165,13 @@ public class BpmModelMetaInfoDto implements Serializable {
      * 摘要设置
      */
     @Data
-    @Valid
     @Schema(description = "摘要设置")
     public static class SummarySetting {
 
         @Schema(description = "是否自定义", example = "false")
-        @NotNull
         private Boolean enable;
 
         @Schema(description = "摘要字段数组", example = "[]")
         private List<String> summary;
     }
-
 }

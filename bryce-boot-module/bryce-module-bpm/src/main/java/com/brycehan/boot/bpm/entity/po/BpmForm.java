@@ -1,10 +1,15 @@
 package com.brycehan.boot.bpm.entity.po;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import com.brycehan.boot.common.entity.BaseEntity;
 import com.brycehan.boot.common.enums.StatusType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 /**
  * 表单定义entity
@@ -14,7 +19,8 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("brc_bpm_form")
+@NoArgsConstructor
+@TableName(value = "brc_bpm_form", autoResultMap = true)
 public class BpmForm extends BaseEntity {
 
     /**
@@ -35,7 +41,8 @@ public class BpmForm extends BaseEntity {
     /**
      * 表单项的数组
      */
-    private String fields;
+    @TableField(typeHandler = JacksonTypeHandler.class)
+    private List<String> fields;
 
     /**
      * 备注

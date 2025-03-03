@@ -11,6 +11,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Length;
 
+import java.util.List;
+
 /**
  * 表单定义Dto
  *
@@ -54,8 +56,7 @@ public class BpmFormDto extends BaseDto {
      * 表单项的数组
      */
     @Schema(description = "表单项的数组")
-    @Length(max = 5000, groups = {SaveGroup.class, UpdateGroup.class})
-    private String fields;
+    private List<String> fields;
 
     /**
      * 备注

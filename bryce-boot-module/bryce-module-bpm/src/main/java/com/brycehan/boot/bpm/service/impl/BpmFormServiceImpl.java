@@ -1,5 +1,6 @@
 package com.brycehan.boot.bpm.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -20,9 +21,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
 
 
 /**
@@ -91,6 +91,20 @@ public class BpmFormServiceImpl extends BaseServiceImpl<BpmFormMapper, BpmForm> 
         List<BpmFormVo> bpmFormVoList = BpmFormConvert.INSTANCE.convert(bpmFormList);
         String today = DateUtil.format(new Date(), DatePattern.PURE_DATE_PATTERN);
         ExcelUtils.export(BpmFormVo.class, "表单定义_".concat(today), "表单定义", bpmFormVoList);
+    }
+
+    @Override
+    public Map<Long, String> getFormNameMap(List<Long> formIds) {
+        if (CollUtil.isEmpty(CollUtil.newHashSet(formIds))) {
+            return Map.of();
+        }
+
+        LambdaQueryWrapper<BpmForm> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.in(BpmForm::getId, formIds);
+
+        List<BpmForm> bpmFormList = baseMapper.selectList(queryWrapper);
+
+        return bpmFormList.stream().collect(Collectors.toMap(BpmForm::getId, BpmForm::getName));
     }
 
 }
