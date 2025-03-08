@@ -76,7 +76,7 @@ public class BpmModelServiceImpl implements BpmModelService {
                 .modelKey(bpmModelDto.getKey())
                 .singleResult();
         if (model != null) {
-            throw ServerException.of(BpmResponseStatus.BPM_MODEL_KEY_EXISTS, bpmModelDto.getKey());
+            throw ServerException.of(BpmResponseStatus.MODEL_KEY_EXISTS, bpmModelDto.getKey());
         }
 
         // 创建 Model 对象
@@ -238,6 +238,18 @@ public class BpmModelServiceImpl implements BpmModelService {
 
         // 校验任务分配规则是否配置
 
+        // 获取仿钉钉流程设计器模型数据
+        String simpleModelJson = getSimpleModelJson(id);
+
+        // 部署流程
+        ProcessDefinition processDefinition = bpmProcessDefinitionService.deploy(model, metaInfo, bpmnXml, simpleModelJson, bpmForm);
+
+        // 将旧的流程定义进行挂起。也就是说，只有最新部署的流程定义，才可以发起任务
+        bpmProcessDefinitionService.updateProcessDefinitionSuspended(model.getDeploymentId());
+
+        // 更新模型的 deploymentId, 进行关联
+        model.setDeploymentId(processDefinition.getDeploymentId());
+        repositoryService.saveModel(model);
     }
 
     /**
@@ -248,22 +260,22 @@ public class BpmModelServiceImpl implements BpmModelService {
      */
     private BpmForm validateFormConfig(BpmModelMetaInfoVo metaInfo) {
         if (metaInfo == null || metaInfo.getFormType() == null) {
-            throw ServerException.of(BpmResponseStatus.BPM_MODEL_FORM_NOT_CONFIG);
+            throw ServerException.of(BpmResponseStatus.MODEL_FORM_NOT_CONFIG);
         }
 
         // 校验表单是否存在
         if (BpmFormType.NORMAL.getValue().equals(metaInfo.getFormType())) {
             if (metaInfo.getFormId() == null) {
-                throw ServerException.of(BpmResponseStatus.BPM_MODEL_FORM_NOT_CONFIG);
+                throw ServerException.of(BpmResponseStatus.MODEL_FORM_NOT_CONFIG);
             }
             BpmForm bpmForm = bpmFormService.getById(metaInfo.getFormId());
             if (bpmForm == null) {
-                throw ServerException.of(BpmResponseStatus.BPM_MODEL_FORM_NOT_EXIST, metaInfo.getFormId());
+                throw ServerException.of(BpmResponseStatus.MODEL_FORM_NOT_EXIST, metaInfo.getFormId());
             }
             return bpmForm;
         } else {
             if (StrUtil.isEmpty(metaInfo.getFormCustomCreatePath()) || StrUtil.isEmpty(metaInfo.getFormCustomViewPath())) {
-                throw ServerException.of(BpmResponseStatus.BPM_MODEL_FORM_NOT_CONFIG);
+                throw ServerException.of(BpmResponseStatus.MODEL_FORM_NOT_CONFIG);
             }
             return null;
         }
@@ -291,7 +303,7 @@ public class BpmModelServiceImpl implements BpmModelService {
         Model model = validateModelExist(modelId);
         BpmModelMetaInfoDto metaInfo = BpmModelConvert.INSTANCE.parseMetaInfoDto(model);
         if (metaInfo == null || !CollUtil.contains(metaInfo.getManagerUserIds(), userId)) {
-            throw ServerException.of(BpmResponseStatus.BPM_MODEL_UPDATE_NOT_MANAGER, modelId);
+            throw ServerException.of(BpmResponseStatus.MODEL_UPDATE_NOT_MANAGER, modelId);
         }
         return model;
     }
@@ -305,7 +317,7 @@ public class BpmModelServiceImpl implements BpmModelService {
     private Model validateModelExist(String modelId) {
         Model model = repositoryService.getModel(modelId);
         if (model == null) {
-            throw ServerException.of(BpmResponseStatus.BPM_MODEL_NOT_EXISTS, modelId);
+            throw ServerException.of(BpmResponseStatus.MODEL_NOT_EXISTS, modelId);
         }
         return model;
     }
@@ -313,20 +325,20 @@ public class BpmModelServiceImpl implements BpmModelService {
     private void validateBpmnXml(byte[] bpmnXml) {
         BpmnModel bpmnModel = BpmnModelUtils.getBpmnModel(bpmnXml);
         if (bpmnModel == null) {
-            throw ServerException.of(BpmResponseStatus.BPM_MODEL_NOT_EXISTS);
+            throw ServerException.of(BpmResponseStatus.MODEL_NOT_EXISTS);
         }
 
         // 没有 StartEvent
         StartEvent startEvent = BpmnModelUtils.getStartEvent(bpmnModel);
         if (startEvent == null) {
-            throw ServerException.of(BpmResponseStatus.BPM_MODEL_START_EVENT_NOT_EXISTS);
+            throw ServerException.of(BpmResponseStatus.MODEL_START_EVENT_NOT_EXISTS);
         }
 
         // 校验 UserTask 的 name 属性是否配置
         List<UserTask> userTasks = BpmnModelUtils.getFlowElementsOfType(bpmnModel, UserTask.class);
         userTasks.forEach(userTask -> {
             if (StrUtil.isBlank(userTask.getName())) {
-                throw ServerException.of(BpmResponseStatus.BPM_MODEL_USER_TASK_NAME_NOT_EXISTS, userTask.getId());
+                throw ServerException.of(BpmResponseStatus.MODEL_USER_TASK_NAME_NOT_EXISTS, userTask.getId());
             }
         });
     }

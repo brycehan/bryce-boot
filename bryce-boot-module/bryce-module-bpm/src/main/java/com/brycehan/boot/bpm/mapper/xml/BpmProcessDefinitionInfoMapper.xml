@@ -13,7 +13,7 @@
         <result column="form_type" property="formType" />
         <result column="form_id" property="formId" />
         <result column="form_conf" property="formConf" />
-        <result column="form_fields" property="formFields" />
+        <result column="form_fields" property="formFields" typeHandler="com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler"/>
         <result column="form_custom_create_path" property="formCustomCreatePath" />
         <result column="form_custom_view_path" property="formCustomViewPath" />
         <result column="simple_model" property="simpleModel" />
@@ -22,10 +22,10 @@
         <result column="start_user_ids" property="startUserIds" />
         <result column="manager_user_ids" property="managerUserIds" />
         <result column="allow_cancel_running_process" property="allowCancelRunningProcess" />
-        <result column="process_id_rule" property="processIdRule" />
+        <result column="process_id_rule" property="processIdRule" typeHandler="com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler"/>
         <result column="auto_approval_type" property="autoApprovalType" />
-        <result column="title_setting" property="titleSetting" />
-        <result column="summary_setting" property="summarySetting" />
+        <result column="title_setting" property="titleSetting" typeHandler="com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler"/>
+        <result column="summary_setting" property="summarySetting" typeHandler="com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler"/>
         <result column="deleted" property="deleted" />
         <result column="created_user_id" property="createdUserId" />
         <result column="created_time" property="createdTime" />

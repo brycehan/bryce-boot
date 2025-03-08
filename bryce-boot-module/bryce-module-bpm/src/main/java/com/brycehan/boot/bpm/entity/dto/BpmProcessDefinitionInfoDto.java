@@ -1,14 +1,19 @@
 package com.brycehan.boot.bpm.entity.dto;
 
+import com.brycehan.boot.bpm.entity.vo.BpmModelMetaInfoVo;
 import com.brycehan.boot.common.entity.BaseDto;
 import com.brycehan.boot.common.base.validator.SaveGroup;
 import com.brycehan.boot.common.base.validator.UpdateGroup;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Size;
 import org.hibernate.validator.constraints.Length;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Null;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.util.List;
 
 /**
  * 流程定义信息Dto
@@ -87,8 +92,8 @@ public class BpmProcessDefinitionInfoDto extends BaseDto {
      * 表单项的数组
      */
     @Schema(description = "表单项的数组")
-    @Length(max = 65535, groups = {SaveGroup.class, UpdateGroup.class})
-    private String formFields;
+    @Size(max = 500, groups = {SaveGroup.class, UpdateGroup.class})
+    private List<String> formFields;
 
     /**
      * 自定义表单的提交路径
@@ -147,8 +152,8 @@ public class BpmProcessDefinitionInfoDto extends BaseDto {
      * 流程编号规则
      */
     @Schema(description = "流程编号规则")
-    @Length(max = 65535, groups = {SaveGroup.class, UpdateGroup.class})
-    private String processIdRule;
+    @Valid
+    private BpmModelMetaInfoDto.ProcessIdRule processIdRule;
 
     /**
      * 自动审批类型
@@ -160,15 +165,15 @@ public class BpmProcessDefinitionInfoDto extends BaseDto {
      * 标题设置
      */
     @Schema(description = "标题设置")
-    @Length(max = 200, groups = {SaveGroup.class, UpdateGroup.class})
-    private String titleSetting;
+    @Valid
+    private BpmModelMetaInfoDto.TitleSetting titleSetting;
 
     /**
      * 摘要设置
      */
     @Schema(description = "摘要设置")
-    @Length(max = 300, groups = {SaveGroup.class, UpdateGroup.class})
-    private String summarySetting;
+    @Valid
+    private BpmModelMetaInfoDto.SummarySetting summarySetting;
 
     /**
      * 租户编号

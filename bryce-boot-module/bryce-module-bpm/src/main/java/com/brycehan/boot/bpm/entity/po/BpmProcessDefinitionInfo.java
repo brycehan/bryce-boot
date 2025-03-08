@@ -1,9 +1,15 @@
 package com.brycehan.boot.bpm.entity.po;
 
-import com.baomidou.mybatisplus.annotation.*;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
+import com.brycehan.boot.bpm.entity.vo.BpmModelMetaInfoVo;
+import com.brycehan.boot.common.entity.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import com.brycehan.boot.common.entity.BaseEntity;
+import lombok.experimental.Accessors;
+
+import java.util.List;
 
 /**
  * 流程定义信息entity
@@ -12,8 +18,9 @@ import com.brycehan.boot.common.entity.BaseEntity;
  * @since 2025/02/24
  */
 @Data
+@Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
-@TableName("brc_bpm_process_definition_info")
+@TableName(value = "brc_bpm_process_definition_info", autoResultMap = true)
 public class BpmProcessDefinitionInfo extends BaseEntity {
 
     /**
@@ -59,7 +66,8 @@ public class BpmProcessDefinitionInfo extends BaseEntity {
     /**
      * 表单项的数组
      */
-    private String formFields;
+    @TableField(typeHandler = JacksonTypeHandler.class)
+    private List<String> formFields;
 
     /**
      * 自定义表单的提交路径
@@ -104,7 +112,8 @@ public class BpmProcessDefinitionInfo extends BaseEntity {
     /**
      * 流程编号规则
      */
-    private String processIdRule;
+    @TableField(typeHandler = JacksonTypeHandler.class)
+    private BpmModelMetaInfoVo.ProcessIdRule processIdRule;
 
     /**
      * 自动审批类型
@@ -114,16 +123,17 @@ public class BpmProcessDefinitionInfo extends BaseEntity {
     /**
      * 标题设置
      */
-    private String titleSetting;
+    @TableField(typeHandler = JacksonTypeHandler.class)
+    private BpmModelMetaInfoVo.TitleSetting titleSetting;
 
     /**
      * 摘要设置
      */
-    private String summarySetting;
+    @TableField(typeHandler = JacksonTypeHandler.class)
+    private BpmModelMetaInfoVo.SummarySetting summarySetting;
 
     /**
      * 租户编号
      */
     private Long tenantId;
-
 }

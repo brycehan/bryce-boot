@@ -117,8 +117,8 @@ public class BpmModelController {
      */
     @Operation(summary = "部署流程模型")
     @PreAuthorize("@auth.hasAuthority('bpm:model:deploy')")
-    @GetMapping(path = "/deploy")
-    public ResponseResult<?> page(@NotEmpty String id) {
+    @PostMapping(path = "/deploy")
+    public ResponseResult<?> deploy(@NotEmpty String id) {
         bpmModelService.deploy(id);
         return ResponseResult.ok();
     }

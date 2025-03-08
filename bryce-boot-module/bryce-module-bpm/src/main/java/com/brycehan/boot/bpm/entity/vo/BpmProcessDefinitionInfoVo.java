@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 
 import java.io.Serializable;
 import java.io.Serial;
+import java.util.List;
 
 /**
  * 流程定义信息Vo
@@ -78,7 +79,7 @@ public class BpmProcessDefinitionInfoVo implements Serializable {
      * 表单项的数组
      */
     @Schema(description = "表单项的数组")
-    private String formFields;
+    private List<String> formFields;
 
     /**
      * 自定义表单的提交路径
@@ -132,7 +133,7 @@ public class BpmProcessDefinitionInfoVo implements Serializable {
      * 流程编号规则
      */
     @Schema(description = "流程编号规则")
-    private String processIdRule;
+    private BpmModelMetaInfoVo.ProcessIdRule processIdRule;
 
     /**
      * 自动审批类型
@@ -144,13 +145,13 @@ public class BpmProcessDefinitionInfoVo implements Serializable {
      * 标题设置
      */
     @Schema(description = "标题设置")
-    private String titleSetting;
+    private BpmModelMetaInfoVo.TitleSetting titleSetting;
 
     /**
      * 摘要设置
      */
     @Schema(description = "摘要设置")
-    private String summarySetting;
+    private BpmModelMetaInfoVo.SummarySetting summarySetting;
 
     /**
      * 创建时间

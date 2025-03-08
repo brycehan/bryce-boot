@@ -25,7 +25,7 @@ import java.io.IOException;
 @Component
 @SuppressWarnings("NullableProblems")
 @RequiredArgsConstructor
-public class BpmAuthenticationFilter extends OncePerRequestFilter implements Ordered  {
+public class FlowableAuthenticationFilter extends OncePerRequestFilter implements Ordered  {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {

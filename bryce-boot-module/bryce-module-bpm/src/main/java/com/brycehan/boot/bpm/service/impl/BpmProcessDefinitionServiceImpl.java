@@ -1,11 +1,21 @@
 package com.brycehan.boot.bpm.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.StrUtil;
+import com.brycehan.boot.bpm.common.BpmnModelConstants;
+import com.brycehan.boot.bpm.entity.po.BpmForm;
+import com.brycehan.boot.bpm.entity.po.BpmProcessDefinitionInfo;
+import com.brycehan.boot.bpm.entity.vo.BpmModelMetaInfoVo;
+import com.brycehan.boot.bpm.service.BpmProcessDefinitionInfoService;
 import com.brycehan.boot.bpm.service.BpmProcessDefinitionService;
+import com.brycehan.boot.common.base.ServerException;
+import com.brycehan.boot.common.base.response.BpmResponseStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.flowable.engine.RepositoryService;
 import org.flowable.engine.repository.Deployment;
+import org.flowable.engine.repository.Model;
 import org.flowable.engine.repository.ProcessDefinition;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +37,7 @@ import java.util.stream.Collectors;
 public class BpmProcessDefinitionServiceImpl implements BpmProcessDefinitionService {
 
     private final RepositoryService repositoryService;
+    private final BpmProcessDefinitionInfoService bpmProcessDefinitionInfoService;
 
     @Override
     public List<Deployment> getDeployments(List<String> deploymentIds) {
@@ -57,7 +68,61 @@ public class BpmProcessDefinitionServiceImpl implements BpmProcessDefinitionServ
     }
 
     @Override
+    public ProcessDefinition deploy(Model model, BpmModelMetaInfoVo metaInfo, byte[] bpmnXml, String simpleModelJson, BpmForm bpmForm) {
+        // 部署流程
+        Deployment deployment = repositoryService.createDeployment()
+                .name(model.getName()).key(model.getKey()).category(model.getCategory())
+                .addBytes(model.getKey() + BpmnModelConstants.BPMN_FILE_EXTENSION, bpmnXml)
+                .disableSchemaValidation() // 禁用XML Schema 校验，因为有自定义的属性
+                .deploy();
+
+        // 设置流程定义的分类
+        ProcessDefinition processDefinition = repositoryService.createProcessDefinitionQuery().deploymentId(deployment.getId()).singleResult();
+        repositoryService.setProcessDefinitionCategory(processDefinition.getId(), model.getCategory());
+
+        // 注意 1，ProcessDefinition 的 key 和 name 是通过 BPMN 中的 <bpmn2:process /> 的 id 和 name 决定
+        // 注意 2，目前该项目的设计上，需要保证 Model、Deployment、ProcessDefinition 使用相同的 key，保证关联性。
+        // 否则，会导致 ProcessDefinition 的分页无法查询到。
+        if (!processDefinition.getKey().equals(model.getKey())) {
+            throw ServerException.of(BpmResponseStatus.PROCESS_DEFINITION_KEY_NOT_MATCH);
+        }
+        if (!processDefinition.getName().equals(model.getName())) {
+            throw ServerException.of(BpmResponseStatus.PROCESS_DEFINITION_NAME_NOT_MATCH);
+        }
+
+        // 插入扩展表
+        BpmProcessDefinitionInfo bpmProcessDefinitionInfo = BeanUtil.toBean(metaInfo, BpmProcessDefinitionInfo.class);
+        bpmProcessDefinitionInfo.setModelId(model.getId());
+        bpmProcessDefinitionInfo.setProcessDefinitionId(processDefinition.getId());
+        bpmProcessDefinitionInfo.setModelType(metaInfo.getType().toString());
+        bpmProcessDefinitionInfo.setSimpleModel(simpleModelJson);
+
+        if (bpmForm != null) {
+            bpmProcessDefinitionInfo.setFormConf(bpmForm.getConf());
+            bpmProcessDefinitionInfo.setFormFields(bpmForm.getFields());
+        }
+
+        bpmProcessDefinitionInfoService.save(bpmProcessDefinitionInfo);
+
+        return processDefinition;
+    }
+
+    @Override
     public void updateProcessDefinitionStatus(String id, boolean status) {
         repositoryService.activateProcessDefinitionById(id, status, new Date());
+    }
+
+    @Override
+    public void updateProcessDefinitionSuspended(String deploymentId) {
+        if (StrUtil.isEmpty(deploymentId)) {
+            return;
+        }
+
+        ProcessDefinition processDefinition = getProcessDefinitionByDeploymentId(deploymentId);
+        if (processDefinition == null) {
+            return;
+        }
+
+        updateProcessDefinitionStatus(processDefinition.getId(), true);
     }
 }
