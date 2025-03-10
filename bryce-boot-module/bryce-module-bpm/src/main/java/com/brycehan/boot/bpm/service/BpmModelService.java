@@ -86,4 +86,12 @@ public interface BpmModelService {
      * @param id 模型ID
      */
     void deploy(@NotEmpty String id);
+
+    /**
+     * 更新流程定义状态
+     *
+     * @param id   模型ID
+     * @param state 状态
+     */
+    void updateState(String id, Integer state);
 }

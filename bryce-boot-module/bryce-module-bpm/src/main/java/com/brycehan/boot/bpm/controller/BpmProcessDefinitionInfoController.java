@@ -36,36 +36,6 @@ public class BpmProcessDefinitionInfoController {
     private final BpmProcessDefinitionInfoService bpmProcessDefinitionInfoService;
 
     /**
-     * 保存流程定义信息
-     *
-     * @param bpmProcessDefinitionInfoDto 流程定义信息Dto
-     * @return 响应结果
-     */
-    @Operation(summary = "保存流程定义信息")
-    @OperateLog(type = OperatedType.INSERT)
-    @PreAuthorize("@auth.hasAuthority('bpm:processDefinitionInfo:save')")
-    @PostMapping
-    public ResponseResult<Void> save(@Validated(value = SaveGroup.class) @RequestBody BpmProcessDefinitionInfoDto bpmProcessDefinitionInfoDto) {
-        bpmProcessDefinitionInfoService.save(bpmProcessDefinitionInfoDto);
-        return ResponseResult.ok();
-    }
-
-    /**
-     * 更新流程定义信息
-     *
-     * @param bpmProcessDefinitionInfoDto 流程定义信息Dto
-     * @return 响应结果
-     */
-    @Operation(summary = "更新流程定义信息")
-    @OperateLog(type = OperatedType.UPDATE)
-    @PreAuthorize("@auth.hasAuthority('bpm:processDefinitionInfo:update')")
-    @PutMapping
-    public ResponseResult<Void> update(@Validated(value = UpdateGroup.class) @RequestBody BpmProcessDefinitionInfoDto bpmProcessDefinitionInfoDto) {
-        bpmProcessDefinitionInfoService.update(bpmProcessDefinitionInfoDto);
-        return ResponseResult.ok();
-    }
-
-    /**
      * 删除流程定义信息
      *
      * @param idsDto ID列表Dto

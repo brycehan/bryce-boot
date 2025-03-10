@@ -122,4 +122,19 @@ public class BpmModelController {
         bpmModelService.deploy(id);
         return ResponseResult.ok();
     }
+
+
+    /**
+     * 修改模型的状态，实际是更新对应的部署的流程定义的状态
+     *
+     * @param id 模型ID
+     * @return 结果
+     */
+    @Operation(summary = "修改模型的状态")
+    @PreAuthorize("@auth.hasAuthority('bpm:model:update')")
+    @PatchMapping(path = "/{id}/{state}")
+    public ResponseResult<?> updateState(@PathVariable String id, @PathVariable Integer state) {
+        bpmModelService.updateState(id, state);
+        return ResponseResult.ok();
+    }
 }

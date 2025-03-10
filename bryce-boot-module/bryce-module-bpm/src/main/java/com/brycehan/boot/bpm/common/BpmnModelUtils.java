@@ -2,6 +2,7 @@ package com.brycehan.boot.bpm.common;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ArrayUtil;
+import cn.hutool.core.util.StrUtil;
 import org.flowable.bpmn.converter.BpmnXMLConverter;
 import org.flowable.bpmn.model.*;
 import org.flowable.bpmn.model.Process;
@@ -32,6 +33,21 @@ public class BpmnModelUtils {
         BpmnXMLConverter bpmnXMLConverter = new BpmnXMLConverter();
         // 补充说明：由于在 Flowable 中自定义了属性，所以 validateSchema 传递 false
         return bpmnXMLConverter.convertToBpmnModel(new BytesStreamSource(bpmnBytes), true, true);
+    }
+
+    /**
+     * 获取BpmnModel
+     *
+     * @param bpmnModel bpmn模型
+     * @return BpmnModel
+     */
+    public static String getBpmnModel(BpmnModel bpmnModel) {
+        if (bpmnModel == null) {
+            return null;
+        }
+
+        BpmnXMLConverter bpmnXMLConverter = new BpmnXMLConverter();
+        return StrUtil.utf8Str(bpmnXMLConverter.convertToXML(bpmnModel));
     }
 
     /**

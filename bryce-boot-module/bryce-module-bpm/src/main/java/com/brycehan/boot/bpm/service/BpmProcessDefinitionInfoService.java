@@ -7,6 +7,9 @@ import com.brycehan.boot.bpm.entity.dto.BpmProcessDefinitionInfoPageDto;
 import com.brycehan.boot.bpm.entity.po.BpmProcessDefinitionInfo;
 import com.brycehan.boot.bpm.entity.vo.BpmProcessDefinitionInfoVo;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * 流程定义信息服务
  *
@@ -14,20 +17,6 @@ import com.brycehan.boot.bpm.entity.vo.BpmProcessDefinitionInfoVo;
  * @since 2025/02/24
  */
 public interface BpmProcessDefinitionInfoService extends BaseService<BpmProcessDefinitionInfo> {
-
-    /**
-     * 添加流程定义信息
-     *
-     * @param bpmProcessDefinitionInfoDto 流程定义信息Dto
-     */
-    void save(BpmProcessDefinitionInfoDto bpmProcessDefinitionInfoDto);
-
-    /**
-     * 更新流程定义信息
-     *
-     * @param bpmProcessDefinitionInfoDto 流程定义信息Dto
-     */
-    void update(BpmProcessDefinitionInfoDto bpmProcessDefinitionInfoDto);
 
     /**
      * 流程定义信息分页查询
@@ -44,4 +33,11 @@ public interface BpmProcessDefinitionInfoService extends BaseService<BpmProcessD
      */
     void export(BpmProcessDefinitionInfoPageDto bpmProcessDefinitionInfoPageDto);
 
+    /**
+     * 获取流程定义信息Map
+     *
+     * @param processDefinitionIds 流程定义编号列表
+     * @return 流程定义信息
+     */
+    Map<String, BpmProcessDefinitionInfo> getProcessDefinitionInfoMap(List<String> processDefinitionIds);
 }

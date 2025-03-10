@@ -1,27 +1,28 @@
 package com.brycehan.boot.bpm.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateUtil;
-import java.util.Date;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.brycehan.boot.common.entity.PageResult;
-import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
-import com.brycehan.boot.common.util.excel.ExcelUtils;
-import com.brycehan.boot.common.base.IdGenerator;
 import com.brycehan.boot.bpm.entity.convert.BpmProcessDefinitionInfoConvert;
-import com.brycehan.boot.bpm.entity.dto.BpmProcessDefinitionInfoDto;
 import com.brycehan.boot.bpm.entity.dto.BpmProcessDefinitionInfoPageDto;
 import com.brycehan.boot.bpm.entity.po.BpmProcessDefinitionInfo;
 import com.brycehan.boot.bpm.entity.vo.BpmProcessDefinitionInfoVo;
-import com.brycehan.boot.bpm.service.BpmProcessDefinitionInfoService;
 import com.brycehan.boot.bpm.mapper.BpmProcessDefinitionInfoMapper;
-import java.util.Objects;
-import org.springframework.stereotype.Service;
+import com.brycehan.boot.bpm.service.BpmProcessDefinitionInfoService;
+import com.brycehan.boot.common.entity.PageResult;
+import com.brycehan.boot.common.util.excel.ExcelUtils;
+import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
 import lombok.RequiredArgsConstructor;
-
-import java.util.List;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 
 /**
@@ -34,27 +35,6 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @RequiredArgsConstructor
 public class BpmProcessDefinitionInfoServiceImpl extends BaseServiceImpl<BpmProcessDefinitionInfoMapper, BpmProcessDefinitionInfo> implements BpmProcessDefinitionInfoService {
-
-    /**
-     * 添加流程定义信息
-     *
-     * @param bpmProcessDefinitionInfoDto 流程定义信息Dto
-     */
-    public void save(BpmProcessDefinitionInfoDto bpmProcessDefinitionInfoDto) {
-        BpmProcessDefinitionInfo bpmProcessDefinitionInfo = BpmProcessDefinitionInfoConvert.INSTANCE.convert(bpmProcessDefinitionInfoDto);
-        bpmProcessDefinitionInfo.setId(IdGenerator.nextId());
-        baseMapper.insert(bpmProcessDefinitionInfo);
-    }
-
-    /**
-     * 更新流程定义信息
-     *
-     * @param bpmProcessDefinitionInfoDto 流程定义信息Dto
-     */
-    public void update(BpmProcessDefinitionInfoDto bpmProcessDefinitionInfoDto) {
-        BpmProcessDefinitionInfo bpmProcessDefinitionInfo = BpmProcessDefinitionInfoConvert.INSTANCE.convert(bpmProcessDefinitionInfoDto);
-        baseMapper.updateById(bpmProcessDefinitionInfo);
-    }
 
     @Override
     public PageResult<BpmProcessDefinitionInfoVo> page(BpmProcessDefinitionInfoPageDto bpmProcessDefinitionInfoPageDto) {
@@ -82,4 +62,15 @@ public class BpmProcessDefinitionInfoServiceImpl extends BaseServiceImpl<BpmProc
         ExcelUtils.export(BpmProcessDefinitionInfoVo.class, "流程定义信息_".concat(today), "流程定义信息", bpmProcessDefinitionInfoVoList);
     }
 
+    @Override
+    public Map<String, BpmProcessDefinitionInfo> getProcessDefinitionInfoMap(List<String> processDefinitionIds) {
+        if (CollUtil.isEmpty(processDefinitionIds)) {
+            return Map.of();
+        }
+
+        LambdaQueryWrapper<BpmProcessDefinitionInfo> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.in(BpmProcessDefinitionInfo::getProcessDefinitionId, processDefinitionIds);
+        List<BpmProcessDefinitionInfo> bpmProcessDefinitionInfos = baseMapper.selectList(queryWrapper);
+        return bpmProcessDefinitionInfos.stream().collect(Collectors.toMap(BpmProcessDefinitionInfo::getProcessDefinitionId, bpmProcessDefinitionInfo -> bpmProcessDefinitionInfo));
+    }
 }

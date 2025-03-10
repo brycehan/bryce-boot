@@ -1,7 +1,10 @@
 package com.brycehan.boot.bpm.service;
 
+import com.brycehan.boot.bpm.entity.dto.BpmProcessDefinitionPageDto;
 import com.brycehan.boot.bpm.entity.po.BpmForm;
 import com.brycehan.boot.bpm.entity.vo.BpmModelMetaInfoVo;
+import com.brycehan.boot.bpm.entity.vo.BpmProcessDefinitionVo;
+import com.brycehan.boot.common.entity.PageResult;
 import org.flowable.engine.repository.Deployment;
 import org.flowable.engine.repository.Model;
 import org.flowable.engine.repository.ProcessDefinition;
@@ -70,4 +73,21 @@ public interface BpmProcessDefinitionService {
      * @param deploymentId 流程部署id
      */
     void updateProcessDefinitionSuspended(String deploymentId);
+
+    /**
+     * 获取流程定义
+     *
+     * @param id 流程定义id
+     * @return 流程定义
+     */
+    BpmProcessDefinitionVo getById(String id);
+
+    /**
+     * 流程定义分页查询
+     *
+     * @param bpmProcessDefinitionPageDto 流程定义分页查询参数
+     * @return 流程定义分页查询结果
+     */
+    PageResult<BpmProcessDefinitionVo> page(BpmProcessDefinitionPageDto bpmProcessDefinitionPageDto);
+
 }

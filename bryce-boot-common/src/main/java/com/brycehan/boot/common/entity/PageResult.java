@@ -18,8 +18,11 @@ import java.util.List;
 @AllArgsConstructor
 @Schema(description = "分页结果数据")
 public class PageResult<T> implements Serializable {
+
     @Serial
     private static final long serialVersionUID = 1L;
+
+    private static final PageResult<?> EMPTY = new PageResult<>(0, List.of());
 
     /**
      * 总条数
@@ -33,4 +36,21 @@ public class PageResult<T> implements Serializable {
     @Schema(description = "列表数据")
     private List<T> list;
 
+    @SuppressWarnings("unchecked")
+    public static <T> PageResult<T> empty() {
+        return (PageResult<T>) EMPTY;
+    }
+
+    /**
+     * 构造方法
+     *
+     * @param total 总条数
+     * @param list  列表数据
+     */
+    public static <T> PageResult<T> of(long total, List<T> list) {
+        if (total == 0) {
+            return empty();
+        }
+        return new PageResult<>(total, list);
+    }
 }

@@ -123,4 +123,12 @@ public abstract class BasePageDto implements Serializable {
         }
     }
 
+    /**
+     * 获取偏移量
+     *
+     * @return 偏移量
+     */
+    public int getOffset() {
+        return (current - 1) * size;
+    }
 }

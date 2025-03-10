@@ -252,6 +252,19 @@ public class BpmModelServiceImpl implements BpmModelService {
         repositoryService.saveModel(model);
     }
 
+    @Override
+    public void updateState(String id, Integer state) {
+        // 校验模型是否存在
+        Model model = validateModelExist(id);
+        // 校验流程定义是否存在
+        ProcessDefinition processDefinition = bpmProcessDefinitionService.getProcessDefinitionByDeploymentId(model.getDeploymentId());
+        if (processDefinition == null) {
+            throw ServerException.of(BpmResponseStatus.PROCESS_DEFINITION_NOT_EXIST, model.getDeploymentId());
+        }
+        // 更新流程定义状态
+        bpmProcessDefinitionService.updateProcessDefinitionStatus(processDefinition.getId(), state == 1);
+    }
+
     /**
      * 校验表单是否已经配置
      *

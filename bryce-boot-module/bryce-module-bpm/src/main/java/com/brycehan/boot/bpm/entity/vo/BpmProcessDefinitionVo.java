@@ -25,7 +25,7 @@ public class BpmProcessDefinitionVo implements Serializable {
      * 编号
      */
     @Schema(description = "编号")
-    private Long id;
+    private String id;
 
     /**
      * 版本

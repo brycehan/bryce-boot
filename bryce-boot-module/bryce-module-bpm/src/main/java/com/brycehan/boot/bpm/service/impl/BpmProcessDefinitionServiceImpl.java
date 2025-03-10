@@ -4,19 +4,29 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.brycehan.boot.bpm.common.BpmnModelConstants;
+import com.brycehan.boot.bpm.common.BpmnModelUtils;
+import com.brycehan.boot.bpm.entity.convert.BpmProcessDefinitionConvert;
+import com.brycehan.boot.bpm.entity.dto.BpmProcessDefinitionPageDto;
 import com.brycehan.boot.bpm.entity.po.BpmForm;
 import com.brycehan.boot.bpm.entity.po.BpmProcessDefinitionInfo;
 import com.brycehan.boot.bpm.entity.vo.BpmModelMetaInfoVo;
+import com.brycehan.boot.bpm.entity.vo.BpmProcessDefinitionVo;
+import com.brycehan.boot.bpm.service.BpmCategoryService;
+import com.brycehan.boot.bpm.service.BpmFormService;
 import com.brycehan.boot.bpm.service.BpmProcessDefinitionInfoService;
 import com.brycehan.boot.bpm.service.BpmProcessDefinitionService;
+import com.brycehan.boot.common.base.IdGenerator;
 import com.brycehan.boot.common.base.ServerException;
 import com.brycehan.boot.common.base.response.BpmResponseStatus;
+import com.brycehan.boot.common.entity.PageResult;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.flowable.bpmn.model.BpmnModel;
 import org.flowable.engine.RepositoryService;
 import org.flowable.engine.repository.Deployment;
 import org.flowable.engine.repository.Model;
 import org.flowable.engine.repository.ProcessDefinition;
+import org.flowable.engine.repository.ProcessDefinitionQuery;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -38,6 +48,8 @@ public class BpmProcessDefinitionServiceImpl implements BpmProcessDefinitionServ
 
     private final RepositoryService repositoryService;
     private final BpmProcessDefinitionInfoService bpmProcessDefinitionInfoService;
+    private final BpmCategoryService bpmCategoryService;
+    private final BpmFormService bpmFormService;
 
     @Override
     public List<Deployment> getDeployments(List<String> deploymentIds) {
@@ -92,6 +104,7 @@ public class BpmProcessDefinitionServiceImpl implements BpmProcessDefinitionServ
 
         // 插入扩展表
         BpmProcessDefinitionInfo bpmProcessDefinitionInfo = BeanUtil.toBean(metaInfo, BpmProcessDefinitionInfo.class);
+        bpmProcessDefinitionInfo.setId(IdGenerator.nextId());
         bpmProcessDefinitionInfo.setModelId(model.getId());
         bpmProcessDefinitionInfo.setProcessDefinitionId(processDefinition.getId());
         bpmProcessDefinitionInfo.setModelType(metaInfo.getType().toString());
@@ -109,7 +122,13 @@ public class BpmProcessDefinitionServiceImpl implements BpmProcessDefinitionServ
 
     @Override
     public void updateProcessDefinitionStatus(String id, boolean status) {
-        repositoryService.activateProcessDefinitionById(id, status, new Date());
+        if (status) {
+            repositoryService.activateProcessDefinitionById(id, false, new Date());
+        } else {
+            // suspendProcessInstances = false，进行中的任务，不进行挂起。
+            // 原因：只要新的流程不允许发起即可，老流程继续可以执行。
+            repositoryService.suspendProcessDefinitionById(id, false, new Date());
+        }
     }
 
     @Override
@@ -124,5 +143,54 @@ public class BpmProcessDefinitionServiceImpl implements BpmProcessDefinitionServ
         }
 
         updateProcessDefinitionStatus(processDefinition.getId(), true);
+    }
+
+    @Override
+    public BpmProcessDefinitionVo getById(String id) {
+        ProcessDefinition processDefinition = repositoryService.createProcessDefinitionQuery()
+                .processDefinitionId(id).singleResult();
+
+       if (processDefinition == null) {
+           return null;
+       }
+
+        BpmnModel bpmnModel = repositoryService.getBpmnModel(processDefinition.getId());
+        String bpmnXml = BpmnModelUtils.getBpmnModel(bpmnModel);
+        BpmProcessDefinitionVo bpmProcessDefinitionVo = new BpmProcessDefinitionVo();
+        bpmProcessDefinitionVo.setBpmnXml(bpmnXml);
+        return bpmProcessDefinitionVo;
+    }
+
+    @Override
+    public PageResult<BpmProcessDefinitionVo> page(BpmProcessDefinitionPageDto bpmProcessDefinitionPageDto) {
+        ProcessDefinitionQuery processDefinitionQuery = repositoryService.createProcessDefinitionQuery();
+        if (StrUtil.isNotBlank(bpmProcessDefinitionPageDto.getKey())) {
+            processDefinitionQuery.processDefinitionKeyLike(bpmProcessDefinitionPageDto.getKey());
+        }
+        long count = processDefinitionQuery.count();
+        if (count == 0) {
+            return PageResult.empty();
+        }
+
+        List<ProcessDefinition> processDefinitions = processDefinitionQuery
+                .orderByProcessDefinitionVersion().desc()
+                .listPage(bpmProcessDefinitionPageDto.getOffset(), bpmProcessDefinitionPageDto.getSize());
+
+        // 获取分类信息
+        Map<Long, String> categoryNameMap = bpmCategoryService.getCategoryNameMap(processDefinitions.stream()
+                .map(ProcessDefinition::getCategory)
+                .map(Long::parseLong)
+                .toList());
+
+        // 获取部署信息
+        Map<String, Deployment> deploymentMap = getDeploymentMap(processDefinitions.stream().map(ProcessDefinition::getDeploymentId).toList());
+
+        // 获取流程定义信息
+        Map<String, BpmProcessDefinitionInfo> processDefinitionInfoMap = bpmProcessDefinitionInfoService.getProcessDefinitionInfoMap(processDefinitions.stream().map(ProcessDefinition::getId).toList());
+
+        // 获取表单信息
+        Map<Long, String> formNameMap = bpmFormService.getFormNameMap(processDefinitionInfoMap.values().stream().map(BpmProcessDefinitionInfo::getFormId).toList());
+
+        return PageResult.of(count, BpmProcessDefinitionConvert.INSTANCE.convert(processDefinitions, categoryNameMap, processDefinitionInfoMap, formNameMap, deploymentMap));
     }
 }

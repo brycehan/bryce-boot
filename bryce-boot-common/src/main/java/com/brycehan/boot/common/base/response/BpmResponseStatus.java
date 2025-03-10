@@ -36,6 +36,8 @@ public enum BpmResponseStatus implements ResponseStatus {
 
     PROCESS_DEFINITION_NAME_NOT_MATCH(11_02_02, "流程定义的名称期望是[{}]，当前是[{}]，请修改 BPMN 流程图"),
 
+    PROCESS_DEFINITION_NOT_EXIST(11_02_03, "流程定义不存在"),
+
     ;
 
     /**
