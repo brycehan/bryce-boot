@@ -1,10 +1,7 @@
-package com.brycehan.boot.bpm.common.candidate;
+package com.brycehan.boot.api.system.vo;
 
-import com.alibaba.excel.annotation.ExcelIgnoreUnannotated;
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.alibaba.excel.annotation.write.style.ColumnWidth;
-import com.alibaba.excel.annotation.write.style.ContentStyle;
-import com.alibaba.excel.enums.poi.HorizontalAlignmentEnum;
 import com.brycehan.boot.common.enums.GenderType;
 import com.brycehan.boot.common.enums.StatusType;
 import io.swagger.v3.oas.annotations.media.Schema;

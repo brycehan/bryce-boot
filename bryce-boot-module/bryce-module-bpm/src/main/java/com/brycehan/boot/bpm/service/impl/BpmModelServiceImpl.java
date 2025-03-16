@@ -118,12 +118,8 @@ public class BpmModelServiceImpl implements BpmModelService {
 
             // 删除模型
             repositoryService.deleteModel(id);
-
             // 禁用流程定义
-            if (model.getDeploymentId() != null) {
-                ProcessDefinition processDefinition = bpmProcessDefinitionService.getProcessDefinitionByDeploymentId(model.getDeploymentId());
-                bpmProcessDefinitionService.updateProcessDefinitionStatus(processDefinition.getId(), true);
-            }
+            bpmProcessDefinitionService.updateProcessDefinitionSuspended(model.getDeploymentId());
         }
     }
 
@@ -344,14 +340,14 @@ public class BpmModelServiceImpl implements BpmModelService {
         // 没有 StartEvent
         StartEvent startEvent = BpmnModelUtils.getStartEvent(bpmnModel);
         if (startEvent == null) {
-            throw ServerException.of(BpmResponseStatus.MODEL_START_EVENT_NOT_EXISTS);
+            throw ServerException.of(BpmResponseStatus.MODEL_BPMN_START_EVENT_NOT_EXISTS);
         }
 
         // 校验 UserTask 的 name 属性是否配置
         List<UserTask> userTasks = BpmnModelUtils.getFlowElementsOfType(bpmnModel, UserTask.class);
         userTasks.forEach(userTask -> {
             if (StrUtil.isBlank(userTask.getName())) {
-                throw ServerException.of(BpmResponseStatus.MODEL_USER_TASK_NAME_NOT_EXISTS, userTask.getId());
+                throw ServerException.of(BpmResponseStatus.MODEL_BPMN_USER_TASK_NAME_NOT_EXISTS, userTask.getId());
             }
         });
     }

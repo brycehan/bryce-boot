@@ -7,6 +7,7 @@ import com.brycehan.boot.bpm.entity.dto.BpmUserGroupPageDto;
 import com.brycehan.boot.bpm.entity.po.BpmUserGroup;
 import com.brycehan.boot.bpm.entity.vo.BpmUserGroupVo;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -52,4 +53,15 @@ public interface BpmUserGroupService extends BaseService<BpmUserGroup> {
      * @param bpmUserGroupPageDto 用户组查询条件
      */
     List<BpmUserGroup> simpleList(BpmUserGroupPageDto bpmUserGroupPageDto);
+
+    /**
+     * 校验用户组们是否有效。如下情况，视为无效：
+     * <br/>
+     * 1. 用户组编号不存在
+     * <br/>
+     * 2. 用户组被禁用
+     *
+     * @param groupIds 用户组编号数组
+     */
+    void validUserGroups(Collection<Long> groupIds);
 }

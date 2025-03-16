@@ -73,4 +73,11 @@ public class BpmProcessDefinitionInfoServiceImpl extends BaseServiceImpl<BpmProc
         List<BpmProcessDefinitionInfo> bpmProcessDefinitionInfos = baseMapper.selectList(queryWrapper);
         return bpmProcessDefinitionInfos.stream().collect(Collectors.toMap(BpmProcessDefinitionInfo::getProcessDefinitionId, bpmProcessDefinitionInfo -> bpmProcessDefinitionInfo));
     }
+
+    @Override
+    public BpmProcessDefinitionInfo getProcessDefinitionInfo(String processDefinitionId) {
+        LambdaQueryWrapper<BpmProcessDefinitionInfo> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(BpmProcessDefinitionInfo::getProcessDefinitionId, processDefinitionId);
+        return baseMapper.selectOne(queryWrapper, false);
+    }
 }

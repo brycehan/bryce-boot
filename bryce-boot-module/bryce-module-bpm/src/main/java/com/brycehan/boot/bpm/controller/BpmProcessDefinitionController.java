@@ -1,20 +1,18 @@
 package com.brycehan.boot.bpm.controller;
 
-import com.brycehan.boot.bpm.entity.convert.BpmProcessDefinitionInfoConvert;
 import com.brycehan.boot.bpm.entity.dto.BpmProcessDefinitionPageDto;
-import com.brycehan.boot.bpm.entity.po.BpmProcessDefinitionInfo;
-import com.brycehan.boot.bpm.entity.vo.BpmProcessDefinitionInfoVo;
 import com.brycehan.boot.bpm.entity.vo.BpmProcessDefinitionVo;
 import com.brycehan.boot.bpm.service.BpmProcessDefinitionService;
 import com.brycehan.boot.common.base.response.ResponseResult;
 import com.brycehan.boot.common.entity.PageResult;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 流程定义API
@@ -56,6 +54,20 @@ public class BpmProcessDefinitionController {
     public ResponseResult<PageResult<BpmProcessDefinitionVo>> page(@Validated @RequestBody BpmProcessDefinitionPageDto bpmProcessDefinitionPageDto) {
         PageResult<BpmProcessDefinitionVo> page = bpmProcessDefinitionService.page(bpmProcessDefinitionPageDto);
         return ResponseResult.ok(page);
+    }
+
+    /**
+     * 流程定义列表查询
+     *
+     * @param bpmProcessDefinitionPageDto 查询条件
+     * @return 流程定义分页列表
+     */
+    @Operation(summary = "流程定义列表查询")
+    @PreAuthorize("@auth.hasAuthority('bpm:process-definition:list')")
+    @PostMapping(path = "/list")
+    public ResponseResult<List<BpmProcessDefinitionVo>> list(@Validated @RequestBody BpmProcessDefinitionPageDto bpmProcessDefinitionPageDto) {
+        List<BpmProcessDefinitionVo> list = bpmProcessDefinitionService.list(bpmProcessDefinitionPageDto);
+        return ResponseResult.ok(list);
     }
 
 }

@@ -107,7 +107,7 @@ public class BpmProcessDefinitionServiceImpl implements BpmProcessDefinitionServ
         bpmProcessDefinitionInfo.setId(IdGenerator.nextId());
         bpmProcessDefinitionInfo.setModelId(model.getId());
         bpmProcessDefinitionInfo.setProcessDefinitionId(processDefinition.getId());
-        bpmProcessDefinitionInfo.setModelType(metaInfo.getType().toString());
+        bpmProcessDefinitionInfo.setModelType(metaInfo.getType());
         bpmProcessDefinitionInfo.setSimpleModel(simpleModelJson);
 
         if (bpmForm != null) {
@@ -142,7 +142,7 @@ public class BpmProcessDefinitionServiceImpl implements BpmProcessDefinitionServ
             return;
         }
 
-        updateProcessDefinitionStatus(processDefinition.getId(), true);
+        updateProcessDefinitionStatus(processDefinition.getId(), false);
     }
 
     @Override
@@ -155,7 +155,7 @@ public class BpmProcessDefinitionServiceImpl implements BpmProcessDefinitionServ
        }
 
         BpmnModel bpmnModel = repositoryService.getBpmnModel(processDefinition.getId());
-        String bpmnXml = BpmnModelUtils.getBpmnModel(bpmnModel);
+        String bpmnXml = BpmnModelUtils.getBpmnXml(bpmnModel);
         BpmProcessDefinitionVo bpmProcessDefinitionVo = new BpmProcessDefinitionVo();
         bpmProcessDefinitionVo.setBpmnXml(bpmnXml);
         return bpmProcessDefinitionVo;
@@ -192,5 +192,39 @@ public class BpmProcessDefinitionServiceImpl implements BpmProcessDefinitionServ
         Map<Long, String> formNameMap = bpmFormService.getFormNameMap(processDefinitionInfoMap.values().stream().map(BpmProcessDefinitionInfo::getFormId).toList());
 
         return PageResult.of(count, BpmProcessDefinitionConvert.INSTANCE.convert(processDefinitions, categoryNameMap, processDefinitionInfoMap, formNameMap, deploymentMap));
+    }
+
+    @Override
+    public List<BpmProcessDefinitionVo> list(BpmProcessDefinitionPageDto bpmProcessDefinitionPageDto) {
+        ProcessDefinitionQuery processDefinitionQuery = repositoryService.createProcessDefinitionQuery()
+                .latestVersion()
+                .active();
+        if (StrUtil.isNotBlank(bpmProcessDefinitionPageDto.getCategory())) {
+            processDefinitionQuery.processDefinitionCategory(bpmProcessDefinitionPageDto.getCategory());
+        }
+        long count = processDefinitionQuery.count();
+        if (count == 0) {
+            return List.of();
+        }
+
+        List<ProcessDefinition> processDefinitions = processDefinitionQuery
+                .orderByProcessDefinitionCategory().asc().list();
+
+        // 获取分类信息
+        Map<Long, String> categoryNameMap = bpmCategoryService.getCategoryNameMap(processDefinitions.stream()
+                .map(ProcessDefinition::getCategory)
+                .map(Long::parseLong)
+                .toList());
+
+        // 获取部署信息
+        Map<String, Deployment> deploymentMap = getDeploymentMap(processDefinitions.stream().map(ProcessDefinition::getDeploymentId).toList());
+
+        // 获取流程定义信息
+        Map<String, BpmProcessDefinitionInfo> processDefinitionInfoMap = bpmProcessDefinitionInfoService.getProcessDefinitionInfoMap(processDefinitions.stream().map(ProcessDefinition::getId).toList());
+
+        // 获取表单信息
+        Map<Long, String> formNameMap = bpmFormService.getFormNameMap(processDefinitionInfoMap.values().stream().map(BpmProcessDefinitionInfo::getFormId).toList());
+
+        return BpmProcessDefinitionConvert.INSTANCE.convert(processDefinitions, categoryNameMap, processDefinitionInfoMap, formNameMap, deploymentMap);
     }
 }

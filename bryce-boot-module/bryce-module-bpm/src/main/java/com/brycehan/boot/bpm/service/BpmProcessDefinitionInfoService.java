@@ -2,7 +2,6 @@ package com.brycehan.boot.bpm.service;
 
 import com.brycehan.boot.framework.mybatis.service.BaseService;
 import com.brycehan.boot.common.entity.PageResult;
-import com.brycehan.boot.bpm.entity.dto.BpmProcessDefinitionInfoDto;
 import com.brycehan.boot.bpm.entity.dto.BpmProcessDefinitionInfoPageDto;
 import com.brycehan.boot.bpm.entity.po.BpmProcessDefinitionInfo;
 import com.brycehan.boot.bpm.entity.vo.BpmProcessDefinitionInfoVo;
@@ -40,4 +39,12 @@ public interface BpmProcessDefinitionInfoService extends BaseService<BpmProcessD
      * @return 流程定义信息
      */
     Map<String, BpmProcessDefinitionInfo> getProcessDefinitionInfoMap(List<String> processDefinitionIds);
+
+    /**
+     * 获取流程定义信息
+     *
+     * @param processDefinitionId 流程定义信息ID
+     * @return 流程定义信息
+     */
+    BpmProcessDefinitionInfo getProcessDefinitionInfo(String processDefinitionId);
 }

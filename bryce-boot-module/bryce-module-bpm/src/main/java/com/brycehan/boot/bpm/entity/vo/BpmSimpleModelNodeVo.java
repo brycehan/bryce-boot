@@ -1,10 +1,12 @@
 package com.brycehan.boot.bpm.entity.vo;
 
+import cn.hutool.core.lang.Pair;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.URL;
 
 import java.io.Serial;
@@ -18,6 +20,7 @@ import java.util.Map;
  * @author Bryce Han
  * @since 2025/3/2
  */
+@Accessors(chain = true)
 @Data
 @Schema(description = "仿钉钉流程设计模型节点 Vo")
 public class BpmSimpleModelNodeVo implements Serializable {
@@ -567,7 +570,7 @@ public class BpmSimpleModelNodeVo implements Serializable {
              * value：接口返回的字段名
              */
             @Schema(description = "请求返回处理设置", example = "[]")
-            private Map<String, String> response;
+            private List<Pair<String, String>> response;
 
         }
 

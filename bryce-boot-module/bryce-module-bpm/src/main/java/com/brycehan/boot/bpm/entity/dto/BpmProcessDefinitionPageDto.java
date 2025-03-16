@@ -22,4 +22,9 @@ public class BpmProcessDefinitionPageDto extends BasePageDto {
     @Schema(description = "流程标识")
     private String key;
 
+    /**
+     * 流程分类ID
+     */
+    @Schema(description = "流程分类ID")
+    private String category;
 }

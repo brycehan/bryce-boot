@@ -36,7 +36,7 @@ public class BpmProcessDefinitionInfo extends BaseEntity {
     /**
      * 流程模型的类型
      */
-    private String modelType;
+    private Integer modelType;
 
     /**
      * 图标
@@ -97,12 +97,14 @@ public class BpmProcessDefinitionInfo extends BaseEntity {
     /**
      * 可发起人
      */
-    private String startUserIds;
+    @TableField(typeHandler = JacksonTypeHandler.class)
+    private List<Long> startUserIds;
 
     /**
      * 可处理人
      */
-    private String managerUserIds;
+    @TableField(typeHandler = JacksonTypeHandler.class)
+    private List<Long> managerUserIds;
 
     /**
      * 允许取消正在运行的流程

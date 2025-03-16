@@ -34,7 +34,7 @@ public class BpmUserGroup extends BaseEntity {
      * 成员编号数组
      */
     @TableField(typeHandler = JacksonTypeHandler.class)
-    private List<String> userIds;
+    private List<Long> userIds;
 
     /**
      * 状态（0：停用，1：正常）

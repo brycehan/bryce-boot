@@ -1,11 +1,20 @@
 package com.brycehan.boot.bpm.entity.convert;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.date.LocalDateTimeUtil;
+import com.brycehan.boot.bpm.common.BpmnModelUtils;
+import com.brycehan.boot.bpm.entity.po.BpmCategory;
+import com.brycehan.boot.bpm.entity.po.BpmForm;
 import com.brycehan.boot.bpm.entity.po.BpmProcessDefinitionInfo;
 import com.brycehan.boot.bpm.entity.vo.BpmProcessDefinitionVo;
+import org.flowable.bpmn.model.BpmnModel;
+import org.flowable.common.engine.impl.db.SuspensionState;
 import org.flowable.engine.repository.Deployment;
 import org.flowable.engine.repository.ProcessDefinition;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
@@ -67,4 +76,37 @@ public interface BpmProcessDefinitionConvert {
         return bpmProcessDefinitionVos;
     }
 
+    default BpmProcessDefinitionVo buildProcessDefinition(ProcessDefinition definition,
+                                                              Deployment deployment,
+                                                              BpmProcessDefinitionInfo processDefinitionInfo,
+                                                              BpmForm form,
+                                                              BpmCategory category,
+                                                              BpmnModel bpmnModel) {
+        BpmProcessDefinitionVo respVO = BeanUtil.toBean(definition, BpmProcessDefinitionVo.class);
+        respVO.setSuspensionState(definition.isSuspended() ? SuspensionState.SUSPENDED.getStateCode() : SuspensionState.ACTIVE.getStateCode());
+        // Deployment
+        if (deployment != null) {
+            respVO.setDeploymentTime(LocalDateTimeUtil.of(deployment.getDeploymentTime()));
+        }
+        // BpmProcessDefinitionInfoDO
+        if (processDefinitionInfo != null) {
+            copyTo(processDefinitionInfo, respVO);
+            // Form
+            if (form != null) {
+                respVO.setFormName(form.getName());
+            }
+        }
+        // Category
+        if (category != null) {
+            respVO.setCategoryName(category.getName());
+        }
+        // BpmnModel
+        if (bpmnModel != null) {
+            respVO.setBpmnXml(BpmnModelUtils.getBpmnXml(bpmnModel));
+        }
+        return respVO;
+    }
+
+    @Mapping(source = "from.id", target = "to.id", ignore = true)
+    void copyTo(BpmProcessDefinitionInfo from, @MappingTarget BpmProcessDefinitionVo to);
 }

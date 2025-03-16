@@ -4,6 +4,7 @@ import com.brycehan.boot.bpm.entity.dto.BpmUserGroupDto;
 import com.brycehan.boot.bpm.entity.po.BpmUserGroup;
 import com.brycehan.boot.bpm.entity.vo.BpmUserGroupVo;
 import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 import java.util.List;
 
@@ -13,7 +14,7 @@ import java.util.List;
  * @author Bryce Han
  * @since 2025/03/08
  */
-@Mapper
+@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface BpmUserGroupConvert {
 
     BpmUserGroupConvert INSTANCE = Mappers.getMapper(BpmUserGroupConvert.class);

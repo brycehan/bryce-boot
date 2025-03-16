@@ -553,6 +553,17 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
     }
 
     @Override
+    public List<SysUser> getUserListByOrgIds(Collection<Long> orgIds) {
+        if (CollUtil.isEmpty(orgIds)) {
+            return  List.of();
+        }
+
+        LambdaQueryWrapper<SysUser> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.in(SysUser::getOrgId, orgIds);
+        return baseMapper.selectList(queryWrapper);
+    }
+
+    @Override
     public void checkUserAllowed(SysUser sysUser) {
         if (sysUser == null) {
             return;

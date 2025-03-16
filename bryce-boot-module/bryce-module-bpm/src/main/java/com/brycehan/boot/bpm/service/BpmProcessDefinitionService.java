@@ -90,4 +90,11 @@ public interface BpmProcessDefinitionService {
      */
     PageResult<BpmProcessDefinitionVo> page(BpmProcessDefinitionPageDto bpmProcessDefinitionPageDto);
 
+    /**
+     * 流程定义列表查询
+     *
+     * @param bpmProcessDefinitionPageDto 流程定义分页查询参数
+     * @return 流程定义分页查询结果
+     */
+    List<BpmProcessDefinitionVo> list(BpmProcessDefinitionPageDto bpmProcessDefinitionPageDto);
 }

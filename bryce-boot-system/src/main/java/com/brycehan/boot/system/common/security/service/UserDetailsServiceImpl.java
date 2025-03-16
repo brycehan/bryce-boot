@@ -1,5 +1,6 @@
 package com.brycehan.boot.system.common.security.service;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.brycehan.boot.api.system.SysUserApi;
 import com.brycehan.boot.common.base.LoginUser;
 import com.brycehan.boot.system.entity.convert.SysUserConvert;
@@ -67,5 +68,15 @@ public class UserDetailsServiceImpl implements UserDetailsService, SysUserApi {
 
         // 创建用户详情
         return SysUserConvert.INSTANCE.convertLoginUser(sysUser);
+    }
+
+    @Override
+    public String getUserPhoneById(Long userId) {
+        LambdaQueryWrapper<SysUser> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper
+                .select(SysUser::getPhone)
+                .eq(SysUser::getId, userId);
+        SysUser sysUser = sysUserService.getOne(queryWrapper);
+        return sysUser.getPhone();
     }
 }

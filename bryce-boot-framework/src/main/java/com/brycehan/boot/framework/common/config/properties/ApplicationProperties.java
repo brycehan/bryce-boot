@@ -35,4 +35,9 @@ public class ApplicationProperties {
      */
     private boolean demoEnabled;
 
+    /**
+     * 服务端点
+     */
+    private String endpoint = "http://localhost:8090";
+
 }

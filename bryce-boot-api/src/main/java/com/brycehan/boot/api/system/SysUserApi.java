@@ -14,9 +14,16 @@ public interface SysUserApi {
     /**
      * 获取登录对象
      *
-     * @param id 用户ID
+     * @param userId 用户ID
      * @return 登录对象
      */
-    LoginUser loadUserById(@RequestParam Long id);
+    LoginUser loadUserById(@RequestParam Long userId);
 
+    /**
+     * 获取用户手机号
+     *
+     * @param userId 用户ID
+     * @return 手机号
+     */
+    String getUserPhoneById(@RequestParam Long userId);
 }

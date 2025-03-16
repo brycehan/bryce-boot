@@ -11,6 +11,7 @@ import com.brycehan.boot.system.entity.vo.SysUserVo;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -184,6 +185,14 @@ public interface SysUserService extends BaseService<SysUser> {
      * @return 用户分页信息
      */
     PageResult<SysUserVo> assignUserPage(SysAssignUserPageDto pageDto);
+
+    /**
+     * 获得指定部门的用户数组
+     *
+     * @param orgIds 部门数组
+     * @return 用户数组
+     */
+    List<SysUser> getUserListByOrgIds(Collection<Long> orgIds);
 
     /**
      * 校验用户是否允许操作（admin放行，普通用户不能操作admin账号）

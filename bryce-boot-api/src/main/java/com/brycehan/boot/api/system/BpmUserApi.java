@@ -1,12 +1,16 @@
-package com.brycehan.boot.bpm.common.candidate;
+package com.brycehan.boot.api.system;
 
+import com.brycehan.boot.api.system.vo.BpmUserVo;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
- * BPM 用户 API
+ * 系统用户Api
  *
+ * @since 2024/4/7
  * @author Bryce Han
- * @since 2025/3/4
  */
 public interface BpmUserApi {
 
@@ -43,6 +47,17 @@ public interface BpmUserApi {
     List<BpmUserVo> getUsersByPostIds(List<Long> postIds);
 
     /**
+     * 获得用户 Map
+     *
+     * @param userIds 用户编号数组
+     * @return 用户 Map
+     */
+    default Map<Long, BpmUserVo> getUserMap(List<Long> userIds) {
+        List<BpmUserVo> users = getUsers(userIds);
+        return users.stream().collect(Collectors.toMap(BpmUserVo::getId, Function.identity()));
+    }
+
+    /**
      * 验证用户是否有效（用户编号不存在/用户被停用）
      *
      * @param userId 用户ID
@@ -57,4 +72,5 @@ public interface BpmUserApi {
      * @param userIds 用户ID列表
      */
     void validateUsers(List<Long> userIds);
+
 }

@@ -1,11 +1,19 @@
 package com.brycehan.boot.bpm.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateUtil;
-import java.util.Date;
+
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.brycehan.boot.common.base.ServerException;
+import com.brycehan.boot.common.base.response.BpmResponseStatus;
 import com.brycehan.boot.common.entity.PageResult;
+import com.brycehan.boot.common.enums.StatusType;
 import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
 import com.brycehan.boot.common.util.excel.ExcelUtils;
 import com.brycehan.boot.common.base.IdGenerator;
@@ -17,11 +25,9 @@ import com.brycehan.boot.bpm.entity.vo.BpmUserGroupVo;
 import com.brycehan.boot.bpm.service.BpmUserGroupService;
 import com.brycehan.boot.bpm.mapper.BpmUserGroupMapper;
 import org.apache.commons.lang3.StringUtils;
-import java.util.Objects;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 
-import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 
 
@@ -93,6 +99,26 @@ public class BpmUserGroupServiceImpl extends BaseServiceImpl<BpmUserGroupMapper,
         LambdaQueryWrapper<BpmUserGroup> queryWrapper = getWrapper(bpmUserGroupPageDto);
         queryWrapper.select(BpmUserGroup::getId, BpmUserGroup::getName);
         return baseMapper.selectList(queryWrapper);
+    }
+
+    @Override
+    public void validUserGroups(Collection<Long> groupIds) {
+        if (CollUtil.isEmpty(groupIds)) {
+            return;
+        }
+        // 获得用户组信息
+        List<BpmUserGroup> userGroups = baseMapper.selectByIds(groupIds);
+        Map<Long, BpmUserGroup> userGroupMap = userGroups.stream().collect(Collectors.toMap(BpmUserGroup::getId, Function.identity()));
+        // 校验
+        groupIds.forEach(groupId -> {
+            BpmUserGroup userGroup = userGroupMap.get(groupId);
+            if (userGroup == null) {
+                throw ServerException.of(BpmResponseStatus.USER_GROUP_NOT_EXISTS);
+            }
+            if (!StatusType.ENABLE.equals(userGroup.getStatus())) {
+                throw ServerException.of(BpmResponseStatus.USER_GROUP_IS_DISABLE, userGroup.getName());
+            }
+        });
     }
 
 }
