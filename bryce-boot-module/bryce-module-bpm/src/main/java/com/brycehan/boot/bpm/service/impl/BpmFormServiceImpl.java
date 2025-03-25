@@ -22,6 +22,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 
@@ -100,11 +101,26 @@ public class BpmFormServiceImpl extends BaseServiceImpl<BpmFormMapper, BpmForm> 
         }
 
         LambdaQueryWrapper<BpmForm> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.select(BpmForm::getId, BpmForm::getName);
         queryWrapper.in(BpmForm::getId, formIds);
 
         List<BpmForm> bpmFormList = baseMapper.selectList(queryWrapper);
 
         return bpmFormList.stream().collect(Collectors.toMap(BpmForm::getId, BpmForm::getName));
+    }
+
+    @Override
+    public Map<Long, BpmForm> getFormMap(List<Long> formIds) {
+        if (CollUtil.isEmpty(CollUtil.newHashSet(formIds))) {
+            return Map.of();
+        }
+
+        LambdaQueryWrapper<BpmForm> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.in(BpmForm::getId, formIds);
+
+        List<BpmForm> bpmFormList = baseMapper.selectList(queryWrapper);
+
+        return bpmFormList.stream().collect(Collectors.toMap(BpmForm::getId, Function.identity()));
     }
 
 }

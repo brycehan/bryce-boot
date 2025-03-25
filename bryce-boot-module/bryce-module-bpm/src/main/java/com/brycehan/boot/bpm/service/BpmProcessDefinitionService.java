@@ -11,6 +11,9 @@ import org.flowable.engine.repository.ProcessDefinition;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * 流程定义服务
@@ -47,6 +50,29 @@ public interface BpmProcessDefinitionService {
      * @param deploymentIds 流程部署ids
      */
     List<ProcessDefinition> getProcessDefinitionsByDeploymentIds(List<String> deploymentIds);
+
+    /**
+     * 获取流程定义
+     *
+     * @param processDefinitionId 流程定义id
+     */
+    ProcessDefinition getProcessDefinition(String processDefinitionId);
+
+    /**
+     * 获取流程定义列表
+     *
+     * @param processDefinitionIds 流程定义ids
+     */
+    List<ProcessDefinition> getProcessDefinitions(List<String> processDefinitionIds);
+
+    /**
+     * 获取流程定义 Map
+     *
+     * @param processDefinitionIds 流程定义ids
+     */
+    default Map<String, ProcessDefinition> getProcessDefinitionMap(List<String> processDefinitionIds) {
+        return getProcessDefinitions(processDefinitionIds).stream().collect(Collectors.toMap(ProcessDefinition::getId, Function.identity()));
+    }
 
     /**
      * 部署流程定义

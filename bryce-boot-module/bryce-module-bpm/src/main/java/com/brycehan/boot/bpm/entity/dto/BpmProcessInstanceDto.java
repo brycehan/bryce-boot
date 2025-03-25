@@ -29,7 +29,6 @@ public class BpmProcessInstanceDto extends BaseDto {
     /**
      * 流程定义的标识
      */
-    @NotEmpty
     private String processDefinitionKey;
 
     /**
@@ -44,7 +43,6 @@ public class BpmProcessInstanceDto extends BaseDto {
      * 例如说，请假申请的编号。通过它，可以查询到对应的实例
      */
     @Schema(description = "业务的唯一标识")
-    @NotEmpty
     private String businessKey;
 
     /**

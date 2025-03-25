@@ -115,13 +115,13 @@ public class BpmProcessDefinitionInfoVo implements Serializable {
      * 可发起人
      */
     @Schema(description = "可发起人")
-    private String startUserIds;
+    private List<Long> startUserIds;
 
     /**
      * 可处理人
      */
     @Schema(description = "可处理人")
-    private String managerUserIds;
+    private List<Long> managerUserIds;
 
     /**
      * 允许取消正在运行的流程

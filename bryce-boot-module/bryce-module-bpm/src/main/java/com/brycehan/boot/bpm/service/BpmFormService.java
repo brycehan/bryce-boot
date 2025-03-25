@@ -62,4 +62,12 @@ public interface BpmFormService extends BaseService<BpmForm> {
      * @return 表单名称Map
      */
     Map<Long, String> getFormNameMap(List<Long> formIds);
+
+    /**
+     * 根据表单ID集合获取表单Map
+     *
+     * @param formIds 表单ID集合
+     * @return 表单Map
+     */
+    Map<Long, BpmForm> getFormMap(List<Long> formIds);
 }

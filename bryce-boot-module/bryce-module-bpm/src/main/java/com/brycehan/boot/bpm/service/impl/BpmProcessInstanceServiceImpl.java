@@ -6,6 +6,7 @@ import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.ArrayUtil;
+import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.brycehan.boot.api.system.BpmDeptApi;
@@ -27,6 +28,7 @@ import com.brycehan.boot.bpm.entity.dto.BpmProcessInstancePageDto;
 import com.brycehan.boot.bpm.entity.po.BpmProcessDefinitionInfo;
 import com.brycehan.boot.bpm.entity.vo.*;
 import com.brycehan.boot.bpm.service.*;
+import com.brycehan.boot.common.base.LoginUserContext;
 import com.brycehan.boot.common.base.ServerException;
 import com.brycehan.boot.common.base.response.BpmResponseStatus;
 import com.brycehan.boot.common.entity.PageResult;
@@ -45,6 +47,7 @@ import org.flowable.engine.history.HistoricProcessInstanceQuery;
 import org.flowable.engine.repository.ProcessDefinition;
 import org.flowable.engine.runtime.ProcessInstance;
 import org.flowable.engine.runtime.ProcessInstanceBuilder;
+import org.flowable.task.api.Task;
 import org.flowable.task.api.history.HistoricTaskInstance;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -74,17 +77,16 @@ public class BpmProcessInstanceServiceImpl implements BpmProcessInstanceService 
     private final BpmProcessDefinitionService bpmProcessDefinitionService;
     private final BpmProcessIdRedisDao bpmProcessIdRedisDao;
     private final RepositoryService repositoryService;
-    private final RuntimeService runtimeService;
-    private final HistoryService historyService;
     private final BpmMessageService bpmMessageService;
     private final BpmProcessInstanceEventPublisher processInstanceEventPublisher;
+    private final BpmTaskCandidateInvoker taskCandidateInvoker;
+    private final BpmCategoryService bpmCategoryService;
+    private final RuntimeService runtimeService;
+    private final HistoryService historyService;
 
     @Resource
     @Lazy
     private final BpmTaskService bpmTaskService;
-
-    @Resource
-    private BpmTaskCandidateInvoker taskCandidateInvoker;
 
     @Resource
     @Lazy
@@ -165,7 +167,7 @@ public class BpmProcessInstanceServiceImpl implements BpmProcessInstanceService 
     private void validateStartUserSelectAssignees(ProcessDefinition processDefinition, Map<String, List<Long>> startUserSelectAssignees) {
         // 1. 获得发起人自选审批人的 UserTask/ServiceTask 列表
         BpmnModel bpmnModel = repositoryService.getBpmnModel(processDefinition.getId());
-        List<Task> tasks = BpmTaskCandidateStartUserSelectStrategy.getStartUserSelectTaskList(bpmnModel);
+        List<org.flowable.bpmn.model.Task> tasks = BpmTaskCandidateStartUserSelectStrategy.getStartUserSelectTaskList(bpmnModel);
         if (CollUtil.isEmpty(tasks)) {
             return;
         }
@@ -210,6 +212,24 @@ public class BpmProcessInstanceServiceImpl implements BpmProcessInstanceService 
     }
 
     @Override
+    public BpmProcessInstanceVo getById(String processInstanceId) {
+        HistoricProcessInstance historicProcessInstance = getHistoricProcessInstance(processInstanceId);
+        if (historicProcessInstance == null) {
+            return null;
+        }
+
+        // 拼接返回
+        ProcessDefinition processDefinition = bpmProcessDefinitionService.getProcessDefinition(processInstanceId);
+        BpmProcessDefinitionInfo processDefinitionInfo = bpmProcessDefinitionInfoService.getProcessDefinitionInfo(historicProcessInstance.getProcessDefinitionId());
+        BpmUserVo startUser = bpmUserApi.getUser(NumberUtil.parseLong(historicProcessInstance.getStartUserId(), null));
+        BpmDeptVo dept = null;
+        if (startUser != null && startUser.getOrgId() != null) {
+            dept = bpmDeptApi.getDept(startUser.getOrgId());
+        }
+        return BpmProcessInstanceConvert.INSTANCE.buildProcessInstance(historicProcessInstance, processDefinition, processDefinitionInfo, startUser, dept);
+    }
+
+    @Override
     public List<HistoricProcessInstance> getHistoricProcessInstances(Set<String> processInstanceIds) {
         return historyService.createHistoricProcessInstanceQuery()
                 .processInstanceIds(Set.copyOf(processInstanceIds))
@@ -229,6 +249,9 @@ public class BpmProcessInstanceServiceImpl implements BpmProcessInstanceService 
         } else if (pageDto.getStartUserId() != null) { // 【管理流程】菜单时，才会传递该字段
             processInstanceQuery.startedBy(String.valueOf(pageDto.getStartUserId()));
         }
+        if (ObjectUtil.isNotEmpty(pageDto.getId())) {
+            processInstanceQuery.processInstanceId(pageDto.getId());
+        }
         if (StrUtil.isNotEmpty(pageDto.getName())) {
             processInstanceQuery.processInstanceNameLike("%" + pageDto.getName() + "%");
         }
@@ -242,13 +265,13 @@ public class BpmProcessInstanceServiceImpl implements BpmProcessInstanceService 
             processInstanceQuery.variableValueEquals(BpmnVariableConstants.PROCESS_INSTANCE_VARIABLE_STATUS,
                     pageDto.getStatus());
         }
-        if (ArrayUtil.isNotEmpty(pageDto.getCreateTime())) {
-            processInstanceQuery.startedAfter(new DateTime(pageDto.getCreateTime()[0]));
-            processInstanceQuery.startedBefore(new DateTime(pageDto.getCreateTime()[1]));
+        if (pageDto.getCreateTimeStart() != null && pageDto.getCreateTimeEnd() != null) {
+            processInstanceQuery.startedAfter(new DateTime(pageDto.getCreateTimeStart()));
+            processInstanceQuery.startedBefore(new DateTime(pageDto.getCreateTimeEnd()));
         }
-        if (ArrayUtil.isNotEmpty(pageDto.getEndTime())) {
-            processInstanceQuery.finishedAfter(new DateTime(pageDto.getEndTime()[0]));
-            processInstanceQuery.finishedBefore(new DateTime(pageDto.getEndTime()[1]));
+        if (pageDto.getEndTimeStart() != null && pageDto.getEndTimeEnd() != null) {
+            processInstanceQuery.finishedAfter(new DateTime(pageDto.getEndTimeStart()));
+            processInstanceQuery.finishedBefore(new DateTime(pageDto.getEndTimeEnd()));
         }
         // 表单字段查询
         Map<String, Object> formFieldsParams = JsonUtils.readValue(pageDto.getFormFieldsParams(), Map.class);
@@ -363,7 +386,10 @@ public class BpmProcessInstanceServiceImpl implements BpmProcessInstanceService 
                                                         BpmTaskVo todoTask) {
         // 1. 获取所有需要读取用户信息的 userIds
         List<BpmApprovalDetailVo.ActivityNode> approveNodes = Stream.of(endApprovalNodeInfos, runningApprovalNodeInfos, simulateApprovalNodeInfos)
-                .filter(Objects::nonNull).flatMap(Collection::stream).toList();
+                .filter(Objects::nonNull)
+                .flatMap(Collection::stream)
+                .filter(Objects::nonNull)
+                .toList();
         Set<Long> userIds = BpmProcessInstanceConvert.INSTANCE.parseUserIds(processInstance, approveNodes, todoTask);
         Map<Long, BpmUserVo> userMap = bpmUserApi.getUserMap(List.copyOf(userIds));
         Map<Long, BpmDeptVo> deptMap = bpmDeptApi.getDeptMap(userMap.values().stream().map(BpmUserVo::getOrgId).collect(Collectors.toSet()));
@@ -404,7 +430,7 @@ public class BpmProcessInstanceServiceImpl implements BpmProcessInstanceService 
                 return null;
             }
             return activityNode;
-        }).toList();
+        }).collect(Collectors.toList());
 
         // 遍历 activities，只处理已结束的 StartEvent、EndEvent
         List<HistoricActivityInstance> endActivities = activities.stream().filter(activity -> activity.getEndTime() != null
@@ -764,5 +790,60 @@ public class BpmProcessInstanceServiceImpl implements BpmProcessInstanceService 
     @Override
     public void updateProcessInstanceVariables(String id, Map<String, Object> variables) {
         runtimeService.setVariables(id, variables);
+    }
+
+    @Override
+    public PageResult<BpmProcessInstanceVo> managerPage(BpmProcessInstancePageDto bpmProcessInstancePageDto) {
+        PageResult<HistoricProcessInstance> processInstancePage = getProcessInstancePage(null, bpmProcessInstancePageDto);
+        if (CollUtil.isEmpty(processInstancePage.getList())) {
+            return PageResult.empty();
+        }
+
+        List<HistoricProcessInstance> historicProcessInstances = processInstancePage.getList();
+
+        // 拼接返回
+        List<String> processInstanceIds = historicProcessInstances.stream().map(HistoricProcessInstance::getId).toList();
+        Map<String, List<Task>> taskMap = bpmTaskService.getTaskMapByProcessInstanceIds(processInstanceIds);
+
+        List<String> processDefinitionIds = historicProcessInstances.stream().map(HistoricProcessInstance::getProcessDefinitionId).toList();
+        Map<String, ProcessDefinition> processDefinitionMap = bpmProcessDefinitionService.getProcessDefinitionMap(processDefinitionIds);
+
+        List<Long> categoryIds = processDefinitionMap.values().stream().map(ProcessDefinition::getCategory).map(Long::parseLong).toList();
+        Map<Long, String> categoryNameMap = bpmCategoryService.getCategoryNameMap(categoryIds);
+
+        // 发起人信息
+        List<Long> userIds = processInstancePage.getList().stream().map(HistoricProcessInstance::getStartUserId).map(userId -> NumberUtil.parseLong(userId, null)).filter(Objects::nonNull).toList();
+        Map<Long, BpmUserVo> userMap = bpmUserApi.getUserMap(userIds);
+
+        List<Long> orgIds = userMap.values().stream().map(BpmUserVo::getOrgId).toList();
+        Map<Long, BpmDeptVo> deptMap = bpmDeptApi.getDeptMap(orgIds);
+
+        Map<String, BpmProcessDefinitionInfo> processDefinitionInfoMap = bpmProcessDefinitionInfoService.getProcessDefinitionInfoMap(processDefinitionIds);
+        return PageResult.of(processInstancePage.getTotal(), BpmProcessInstanceConvert.INSTANCE.buildProcessInstances(historicProcessInstances,
+                processDefinitionMap, categoryNameMap, taskMap, userMap, deptMap, processDefinitionInfoMap));
+    }
+
+    @Override
+    public PageResult<BpmProcessInstanceVo> myPage(BpmProcessInstancePageDto bpmProcessInstancePageDto) {
+        PageResult<HistoricProcessInstance> processInstancePage = getProcessInstancePage(LoginUserContext.currentUserId(), bpmProcessInstancePageDto);
+        if (CollUtil.isEmpty(processInstancePage.getList())) {
+            return PageResult.empty();
+        }
+
+        List<HistoricProcessInstance> historicProcessInstances = processInstancePage.getList();
+
+        // 拼接返回
+        List<String> processInstanceIds = historicProcessInstances.stream().map(HistoricProcessInstance::getId).toList();
+        Map<String, List<Task>> taskMap = bpmTaskService.getTaskMapByProcessInstanceIds(processInstanceIds);
+
+        List<String> processDefinitionIds = historicProcessInstances.stream().map(HistoricProcessInstance::getProcessDefinitionId).toList();
+        Map<String, ProcessDefinition> processDefinitionMap = bpmProcessDefinitionService.getProcessDefinitionMap(processDefinitionIds);
+
+        List<Long> categoryIds = processDefinitionMap.values().stream().map(ProcessDefinition::getCategory).map(Long::parseLong).toList();
+        Map<Long, String> categoryNameMap = bpmCategoryService.getCategoryNameMap(categoryIds);
+
+        Map<String, BpmProcessDefinitionInfo> processDefinitionInfoMap = bpmProcessDefinitionInfoService.getProcessDefinitionInfoMap(processDefinitionIds);
+        return PageResult.of(processInstancePage.getTotal(), BpmProcessInstanceConvert.INSTANCE.buildProcessInstances(historicProcessInstances,
+                processDefinitionMap, categoryNameMap, taskMap, null, null, processDefinitionInfoMap));
     }
 }

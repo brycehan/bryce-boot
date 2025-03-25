@@ -62,6 +62,7 @@ public interface BpmProcessDefinitionConvert {
                 bpmProcessDefinitionVo.setFormConf(bpmProcessDefinitionInfo.getFormConf());
                 bpmProcessDefinitionVo.setFormFields(bpmProcessDefinitionInfo.getFormFields());
                 // 模型信息
+                bpmProcessDefinitionVo.setModelType(bpmProcessDefinitionInfo.getModelType());
                 bpmProcessDefinitionVo.setDescription(bpmProcessDefinitionInfo.getDescription());
             }
 

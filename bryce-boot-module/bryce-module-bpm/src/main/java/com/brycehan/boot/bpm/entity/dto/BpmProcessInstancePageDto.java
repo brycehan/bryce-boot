@@ -18,6 +18,9 @@ import java.time.LocalDateTime;
 @Schema(description = "流程实例分页 Dto")
 public class BpmProcessInstancePageDto extends BasePageDto {
 
+    @Schema(description = "流程实例编号")
+    private String id;
+
     @Schema(description = "流程名称")
     private String name;
 
@@ -30,11 +33,23 @@ public class BpmProcessInstancePageDto extends BasePageDto {
     @Schema(description = "流程分类", example = "1")
     private String category;
 
-    @Schema(description = "创建时间")
-    private LocalDateTime[] createTime;
+    /**
+     * 创建时间开始
+     */
+    @Schema(description = "创建时间开始")
+    private LocalDateTime createTimeStart;
 
-    @Schema(description = "结束时间")
-    private LocalDateTime[] endTime;
+    /**
+     * 创建时间结束
+     */
+    @Schema(description = "创建时间结束")
+    private LocalDateTime createTimeEnd;
+
+    @Schema(description = "结束时间开始")
+    private LocalDateTime endTimeStart;
+
+    @Schema(description = "结束时间结束")
+    private LocalDateTime endTimeEnd;
 
     @Schema(description = "发起用户编号", example = "1024")
     private Long startUserId; // 注意，只有在【流程实例】菜单，才使用该参数

@@ -32,6 +32,7 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 
@@ -77,6 +78,16 @@ public class BpmProcessDefinitionServiceImpl implements BpmProcessDefinitionServ
         }
 
         return repositoryService.createProcessDefinitionQuery().deploymentIds(CollUtil.newHashSet(deploymentIds)).list();
+    }
+
+    @Override
+    public ProcessDefinition getProcessDefinition(String processDefinitionId) {
+        return repositoryService.createProcessDefinitionQuery().processDefinitionId(processDefinitionId).singleResult();
+    }
+
+    @Override
+    public List<ProcessDefinition> getProcessDefinitions(List<String> processDefinitionIds) {
+        return repositoryService.createProcessDefinitionQuery().processDefinitionIds(Set.copyOf(processDefinitionIds)).list();
     }
 
     @Override

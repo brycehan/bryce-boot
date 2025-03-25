@@ -1,6 +1,7 @@
 package com.brycehan.boot.bpm.service;
 
 import cn.hutool.core.collection.CollUtil;
+import com.brycehan.boot.bpm.common.type.BpmUserTaskTimeoutHandlerTypeEnum;
 import com.brycehan.boot.bpm.entity.dto.*;
 import com.brycehan.boot.bpm.entity.vo.BpmTaskVo;
 import com.brycehan.boot.common.entity.PageResult;
@@ -269,7 +270,7 @@ public interface BpmTaskService {
      *
      * @param processInstanceId 流程示例编号
      * @param taskDefineKey     任务 Key
-     * @param handlerType       处理类型，参见 {@link BpmUserTaskTimeoutHandlerTypeEnum}
+     * @param handlerType       处理类型，参见 {@link BpmUserTaskTimeoutHandlerTypeEnum }
      */
     void processTaskTimeout(String processInstanceId, String taskDefineKey, Integer handlerType);
 

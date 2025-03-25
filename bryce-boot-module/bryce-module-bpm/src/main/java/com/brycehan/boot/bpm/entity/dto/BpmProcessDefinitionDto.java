@@ -131,15 +131,15 @@ public class BpmProcessDefinitionDto extends BaseDto {
      * 可发起人
      */
     @Schema(description = "可发起人")
-    @Length(max = 65535, groups = {SaveGroup.class, UpdateGroup.class})
-    private String startUserIds;
+    @Size(max = 65535, groups = {SaveGroup.class, UpdateGroup.class})
+    private List<Long> startUserIds;
 
     /**
      * 可处理人
      */
     @Schema(description = "可处理人")
-    @Length(max = 65535, groups = {SaveGroup.class, UpdateGroup.class})
-    private String managerUserIds;
+    @Size(max = 65535, groups = {SaveGroup.class, UpdateGroup.class})
+    private List<Long> managerUserIds;
 
     /**
      * 允许取消正在运行的流程

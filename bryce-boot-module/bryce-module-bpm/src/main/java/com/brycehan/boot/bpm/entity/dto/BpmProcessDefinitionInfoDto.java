@@ -1,6 +1,5 @@
 package com.brycehan.boot.bpm.entity.dto;
 
-import com.brycehan.boot.bpm.entity.vo.BpmModelMetaInfoVo;
 import com.brycehan.boot.common.entity.BaseDto;
 import com.brycehan.boot.common.base.validator.SaveGroup;
 import com.brycehan.boot.common.base.validator.UpdateGroup;
@@ -132,15 +131,15 @@ public class BpmProcessDefinitionInfoDto extends BaseDto {
      * 可发起人
      */
     @Schema(description = "可发起人")
-    @Length(max = 65535, groups = {SaveGroup.class, UpdateGroup.class})
-    private String startUserIds;
+    @Size(max = 65535, groups = {SaveGroup.class, UpdateGroup.class})
+    private List<Long> startUserIds;
 
     /**
      * 可处理人
      */
     @Schema(description = "可处理人")
-    @Length(max = 65535, groups = {SaveGroup.class, UpdateGroup.class})
-    private String managerUserIds;
+    @Size(max = 65535, groups = {SaveGroup.class, UpdateGroup.class})
+    private List<Long> managerUserIds;
 
     /**
      * 允许取消正在运行的流程

@@ -129,9 +129,9 @@ public class BpmUserGroupController {
      */
     @Operation(summary = "用户组列表")
     @GetMapping(path = "/simple-list")
-    public List<BpmUserGroupVo> simpleList(@Validated BpmUserGroupPageDto bpmUserGroupPageDto) {
+    public ResponseResult<List<BpmUserGroupVo>> simpleList(@Validated BpmUserGroupPageDto bpmUserGroupPageDto) {
         List<BpmUserGroup> bpmUserGroups = bpmUserGroupService.simpleList(bpmUserGroupPageDto);
-        return BpmUserGroupConvert.INSTANCE.convert(bpmUserGroups);
+        return ResponseResult.ok(BpmUserGroupConvert.INSTANCE.convert(bpmUserGroups));
     }
 
 }

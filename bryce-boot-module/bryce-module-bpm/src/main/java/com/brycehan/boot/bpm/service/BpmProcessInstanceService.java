@@ -7,6 +7,7 @@ import com.brycehan.boot.bpm.entity.dto.BpmProcessInstanceDto;
 import com.brycehan.boot.bpm.entity.dto.BpmProcessInstancePageDto;
 import com.brycehan.boot.bpm.entity.vo.BpmApprovalDetailVo;
 import com.brycehan.boot.bpm.entity.vo.BpmProcessInstanceBpmnModelViewVo;
+import com.brycehan.boot.bpm.entity.vo.BpmProcessInstanceVo;
 import com.brycehan.boot.common.entity.PageResult;
 import jakarta.validation.Valid;
 import org.flowable.engine.history.HistoricProcessInstance;
@@ -51,6 +52,14 @@ public interface BpmProcessInstanceService {
      * @return 历史的流程实例
      */
     HistoricProcessInstance getHistoricProcessInstance(String processInstanceId);
+
+    /**
+     * 获得流程实例
+     *
+     * @param processInstanceId 流程实例的编号
+     * @return 流程实例
+     */
+    BpmProcessInstanceVo getById(String processInstanceId);
 
     /**
      * 获取审批详情。
@@ -164,4 +173,21 @@ public interface BpmProcessInstanceService {
      * @param variables 流程变量
      */
     void updateProcessInstanceVariables(String id, Map<String, Object> variables);
+
+    /**
+     * 管理员分页查询流程实例
+     *
+     * @param bpmProcessInstancePageDto 分页请求
+     * @return 流程实例分页
+     */
+    PageResult<BpmProcessInstanceVo> managerPage(BpmProcessInstancePageDto bpmProcessInstancePageDto);
+
+    /**
+     * 我的分页查询流程实例
+     *
+     * @param bpmProcessInstancePageDto 分页请求
+     * @return 流程实例分页
+     */
+    PageResult<BpmProcessInstanceVo> myPage(BpmProcessInstancePageDto bpmProcessInstancePageDto);
+
 }

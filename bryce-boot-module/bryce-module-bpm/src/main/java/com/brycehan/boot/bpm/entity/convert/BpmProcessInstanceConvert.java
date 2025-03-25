@@ -11,10 +11,8 @@ import com.brycehan.boot.bpm.common.BpmnModelUtils;
 import com.brycehan.boot.bpm.common.FlowableUtils;
 import com.brycehan.boot.bpm.entity.dto.BpmMessageSendWhenProcessInstanceApproveDto;
 import com.brycehan.boot.bpm.entity.dto.BpmMessageSendWhenProcessInstanceRejectDto;
-import com.brycehan.boot.bpm.entity.po.BpmCategory;
 import com.brycehan.boot.bpm.entity.po.BpmProcessDefinitionInfo;
 import com.brycehan.boot.bpm.entity.vo.*;
-import com.brycehan.boot.common.entity.PageResult;
 import org.flowable.bpmn.model.BpmnModel;
 import org.flowable.engine.history.HistoricProcessInstance;
 import org.flowable.engine.repository.ProcessDefinition;
@@ -41,32 +39,30 @@ public interface BpmProcessInstanceConvert {
 
     BpmProcessInstanceConvert INSTANCE = Mappers.getMapper(BpmProcessInstanceConvert.class);
 
-    default PageResult<BpmProcessInstanceVo> buildProcessInstancePage(PageResult<HistoricProcessInstance> pageResult,
-                                                                      Map<String, ProcessDefinition> processDefinitionMap,
-                                                                      Map<String, BpmCategory> categoryMap,
-                                                                      Map<String, List<Task>> taskMap,
-                                                                      Map<Long, BpmUserVo> userMap,
-                                                                      Map<Long, BpmDeptVo> deptMap,
-                                                                      Map<String, BpmProcessDefinitionInfo> processDefinitionInfoMap) {
-        PageResult<BpmProcessInstanceVo> vpPageResult = new PageResult<>(pageResult.getTotal(), BeanUtil.copyToList(pageResult.getList(), BpmProcessInstanceVo.class));
-        for (int i = 0; i < pageResult.getList().size(); i++) {
-            BpmProcessInstanceVo bpmProcessInstanceVo = vpPageResult.getList().get(i);
-            bpmProcessInstanceVo.setStatus(FlowableUtils.getProcessInstanceStatus(pageResult.getList().get(i)));
+    default List<BpmProcessInstanceVo> buildProcessInstances(List<HistoricProcessInstance> historicProcessInstances,
+                                                             Map<String, ProcessDefinition> processDefinitionMap,
+                                                             Map<Long, String> categoryNameMap,
+                                                             Map<String, List<Task>> taskMap,
+                                                             Map<Long, BpmUserVo> userMap,
+                                                             Map<Long, BpmDeptVo> deptMap,
+                                                             Map<String, BpmProcessDefinitionInfo> processDefinitionInfoMap) {
+        List<BpmProcessInstanceVo> bpmProcessInstanceVoList = BeanUtil.copyToList(historicProcessInstances, BpmProcessInstanceVo.class);
+        for (int i = 0; i < bpmProcessInstanceVoList.size(); i++) {
+            BpmProcessInstanceVo bpmProcessInstanceVo = bpmProcessInstanceVoList.get(i);
+            bpmProcessInstanceVo.setStatus(FlowableUtils.getProcessInstanceStatus(historicProcessInstances.get(i)));
 
             ProcessDefinition processDefinition = processDefinitionMap.get(bpmProcessInstanceVo.getProcessDefinitionId());
             if (processDefinition != null) {
                 bpmProcessInstanceVo.setCategory(processDefinition.getCategory())
                         .setProcessDefinition(BeanUtil.toBean(processDefinition, BpmProcessDefinitionVo.class));
             }
-            BpmCategory bpmCategory = categoryMap.get(bpmProcessInstanceVo.getCategory());
-            if (bpmCategory != null) {
-                bpmProcessInstanceVo.setCategoryName(bpmCategory.getName());
-            }
+            String categoryName = categoryNameMap.get(NumberUtil.parseLong(bpmProcessInstanceVo.getCategory(), null));
+            Optional.ofNullable(categoryName).ifPresent(bpmProcessInstanceVo::setCategoryName);
 
             bpmProcessInstanceVo.setTasks(BeanUtil.copyToList(taskMap.get(bpmProcessInstanceVo.getId()), BpmProcessInstanceVo.Task.class));
             // user
             if (userMap != null) {
-                BpmUserVo startUser = userMap.get(NumberUtil.parseLong(pageResult.getList().get(i).getStartUserId(), null));
+                BpmUserVo startUser = userMap.get(NumberUtil.parseLong(historicProcessInstances.get(i).getStartUserId(), null));
                 if (startUser != null) {
                     bpmProcessInstanceVo.setStartUser(BeanUtil.toBean(startUser, UserSimpleBaseVo.class));
                     BpmDeptVo bpmDeptVo = deptMap.get(startUser.getOrgId());
@@ -77,11 +73,11 @@ public interface BpmProcessInstanceConvert {
             }
             // 摘要
             bpmProcessInstanceVo.setSummary(FlowableUtils.getSummary(processDefinitionInfoMap.get(bpmProcessInstanceVo.getProcessDefinitionId()),
-                    pageResult.getList().get(i).getProcessVariables()));
+                    historicProcessInstances.get(i).getProcessVariables()));
             // 表单
-            bpmProcessInstanceVo.setFormVariables(pageResult.getList().get(i).getProcessVariables());
+            bpmProcessInstanceVo.setFormVariables(historicProcessInstances.get(i).getProcessVariables());
         }
-        return vpPageResult;
+        return bpmProcessInstanceVoList;
     }
 
     default BpmProcessInstanceVo buildProcessInstance(HistoricProcessInstance processInstance,
@@ -98,9 +94,7 @@ public interface BpmProcessInstanceConvert {
         // user
         if (startUser != null) {
             bpmProcessInstanceVo.setStartUser(BeanUtil.toBean(startUser, UserSimpleBaseVo.class));
-            if (dept != null) {
-                bpmProcessInstanceVo.getStartUser().setDeptName(dept.getName());
-            }
+            Optional.ofNullable(dept).ifPresent(bpmDeptVo -> bpmProcessInstanceVo.getStartUser().setDeptName(bpmDeptVo.getName()));
         }
         return bpmProcessInstanceVo;
     }
@@ -226,7 +220,7 @@ public interface BpmProcessInstanceConvert {
                 CollUtil.addAll(userIds, todoTask.getChildren().stream().map(BpmTaskVo::getOwner).collect(Collectors.toSet()));
             }
         }
-        return userIds;
+        return userIds.stream().filter(Objects::nonNull).collect(Collectors.toSet());
     }
 
     default Set<Long> parseUserIds02(HistoricProcessInstance processInstance,
