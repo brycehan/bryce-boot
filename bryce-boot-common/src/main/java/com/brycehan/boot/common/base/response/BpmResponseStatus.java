@@ -66,7 +66,7 @@ public enum BpmResponseStatus implements ResponseStatus {
 
     // 用户组
     USER_GROUP_NOT_EXISTS(11_06_01, "用户组不存在"),
-    USER_GROUP_IS_DISABLE(11_06_02, "名字为[{}]的用户组已被禁用"),
+    USER_GROUP_IS_DISABLE(11_06_02, "名称为[{}]的用户组已被禁用"),
 
     // 流程监听器
     PROCESS_LISTENER_NOT_EXISTS(11_07_00, "流程监听器不存在"),

@@ -29,7 +29,7 @@ public class BpmTaskVo implements Serializable {
     @Schema(description = "任务编号")
     private String id;
 
-    @Schema(description = "任务名字")
+    @Schema(description = "任务名称")
     private String name;
 
     @Schema(description = "创建时间")
@@ -53,7 +53,7 @@ public class BpmTaskVo implements Serializable {
     /**
      * 负责人的用户信息
      */
-    private UserSimpleBaseVo ownerUser;
+    private BpmUserSimpleBaseVo ownerUser;
 
     @Schema(description = "任务分配人编号")
     @JsonIgnore // 不返回，只是方便后续读取，赋值给 assigneeUser
@@ -61,7 +61,7 @@ public class BpmTaskVo implements Serializable {
     /**
      * 审核的用户信息
      */
-    private UserSimpleBaseVo assigneeUser;
+    private BpmUserSimpleBaseVo assigneeUser;
 
     @Schema(description = "任务定义的标识")
     private String taskDefinitionKey;
@@ -80,7 +80,7 @@ public class BpmTaskVo implements Serializable {
 
     @Schema(description = "表单编号", example = "1024")
     private Long formId;
-    @Schema(description = "表单名字", example = "请假表单")
+    @Schema(description = "表单名称", example = "请假表单")
     private String formName;
     @Schema(description = "表单的配置，JSON 字符串")
     private String formConf;
@@ -119,7 +119,7 @@ public class BpmTaskVo implements Serializable {
         /**
          * 发起人的用户信息
          */
-        private UserSimpleBaseVo startUser;
+        private BpmUserSimpleBaseVo startUser;
 
     }
 

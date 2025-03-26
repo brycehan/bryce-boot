@@ -12,7 +12,7 @@ import com.brycehan.boot.bpm.entity.dto.BpmMessageSendWhenTaskCreatedDto;
 import com.brycehan.boot.bpm.entity.po.BpmForm;
 import com.brycehan.boot.bpm.entity.po.BpmProcessDefinitionInfo;
 import com.brycehan.boot.bpm.entity.vo.BpmTaskVo;
-import com.brycehan.boot.bpm.entity.vo.UserSimpleBaseVo;
+import com.brycehan.boot.bpm.entity.vo.BpmUserSimpleBaseVo;
 import org.flowable.engine.history.HistoricProcessInstance;
 import org.flowable.engine.runtime.ProcessInstance;
 import org.flowable.task.api.Task;
@@ -21,10 +21,7 @@ import org.flowable.task.service.impl.persistence.entity.TaskEntityImpl;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * Bpm 任务 Convert
@@ -49,7 +46,7 @@ public interface BpmTaskConvert {
             }
             taskVO.setProcessInstance(BeanUtil.toBean(processInstance, BpmTaskVo.ProcessInstance.class));
             BpmUserVo startUser = userMap.get(NumberUtil.parseLong(processInstance.getStartUserId(), null));
-            taskVO.getProcessInstance().setStartUser(BeanUtil.toBean(startUser, UserSimpleBaseVo.class));
+            taskVO.getProcessInstance().setStartUser(BeanUtil.toBean(startUser, BpmUserSimpleBaseVo.class));
             // 摘要
             taskVO.getProcessInstance().setSummary(FlowableUtils.getSummary(processDefinitionInfoMap.get(processInstance.getProcessDefinitionId()),
                     processInstance.getProcessVariables()));
@@ -68,18 +65,20 @@ public interface BpmTaskConvert {
             // 用户信息
             BpmUserVo assignUser = userMap.get(NumberUtil.parseLong(task.getAssignee(), null));
             if (assignUser != null) {
-                taskVO.setAssigneeUser(BeanUtil.toBean(assignUser, UserSimpleBaseVo.class));
-                BpmDeptVo bpmDeptVo = deptMap.get(assignUser.getOrgId());
-                if (bpmDeptVo != null) {
-                    taskVO.getAssigneeUser().setDeptName(bpmDeptVo.getName());
-                }
+                taskVO.setAssigneeUser(BeanUtil.toBean(assignUser, BpmUserSimpleBaseVo.class));
+                Optional.ofNullable(deptMap).map(map -> map.get(assignUser.getOrgId()))
+                        .ifPresent(bpmDeptVo -> taskVO.getAssigneeUser().setDeptName(bpmDeptVo.getName()));
+//                BpmDeptVo bpmDeptVo = deptMap.get(assignUser.getOrgId());
+//                if (bpmDeptVo != null) {
+//                    taskVO.getAssigneeUser().setDeptName(bpmDeptVo.getName());
+//                }
             }
             // 流程实例
             HistoricProcessInstance processInstance = processInstanceMap.get(taskVO.getProcessInstanceId());
             if (processInstance != null) {
                 BpmUserVo startUser = userMap.get(NumberUtil.parseLong(processInstance.getStartUserId(), null));
                 taskVO.setProcessInstance(BeanUtil.toBean(processInstance, BpmTaskVo.ProcessInstance.class));
-                taskVO.getProcessInstance().setStartUser(BeanUtil.toBean(startUser, UserSimpleBaseVo.class));
+                taskVO.getProcessInstance().setStartUser(BeanUtil.toBean(startUser, BpmUserSimpleBaseVo.class));
                 // 摘要
                 taskVO.getProcessInstance().setSummary(FlowableUtils.getSummary(processDefinitionInfoMap.get(processInstance.getProcessDefinitionId()),
                         processInstance.getProcessVariables()));
@@ -122,7 +121,7 @@ public interface BpmTaskConvert {
             if (taskVO != null) {
                 BpmUserVo assignUser = userMap.get(NumberUtil.parseLong(task.getAssignee(), null));
                 if (assignUser != null) {
-                    taskVO.setAssigneeUser(BeanUtil.toBean(assignUser, UserSimpleBaseVo.class));
+                    taskVO.setAssigneeUser(BeanUtil.toBean(assignUser, BpmUserSimpleBaseVo.class));
                     BpmDeptVo dept = deptMap.get(assignUser.getOrgId());
                     if (dept != null) {
                         taskVO.getAssigneeUser().setDeptName(dept.getName());
@@ -130,7 +129,7 @@ public interface BpmTaskConvert {
                 }
                 BpmUserVo ownerUser = userMap.get(NumberUtil.parseLong(task.getOwner(), null));
                 if (ownerUser != null) {
-                    taskVO.setOwnerUser(BeanUtil.toBean(ownerUser, UserSimpleBaseVo.class));
+                    taskVO.setOwnerUser(BeanUtil.toBean(ownerUser, BpmUserSimpleBaseVo.class));
                     BpmDeptVo bpmDeptVo = deptMap.get(ownerUser.getOrgId());
                     if (bpmDeptVo != null) {
                         taskVO.getOwnerUser().setDeptName(bpmDeptVo.getName());
@@ -172,7 +171,7 @@ public interface BpmTaskConvert {
                                 Map<Long, BpmDeptVo> deptMap) {
         BpmUserVo ownerUser = userMap.get(NumberUtil.parseLong(taskOwner, null));
         if (ownerUser != null) {
-            task.setOwnerUser(BeanUtil.toBean(ownerUser, UserSimpleBaseVo.class));
+            task.setOwnerUser(BeanUtil.toBean(ownerUser, BpmUserSimpleBaseVo.class));
             BpmDeptVo bpmDeptVo = deptMap.get(ownerUser.getOrgId());
             if (bpmDeptVo != null) {
                 task.getOwnerUser().setDeptName(bpmDeptVo.getName());
@@ -201,7 +200,7 @@ public interface BpmTaskConvert {
                                    Map<Long, BpmDeptVo> deptMap) {
         BpmUserVo assignUser = userMap.get(NumberUtil.parseLong(taskAssignee, null));
         if (assignUser != null) {
-            task.setAssigneeUser(BeanUtil.toBean(assignUser, UserSimpleBaseVo.class));
+            task.setAssigneeUser(BeanUtil.toBean(assignUser, BpmUserSimpleBaseVo.class));
             BpmDeptVo bpmDeptVo = deptMap.get(assignUser.getOrgId());
             if (bpmDeptVo != null) {
                 task.getAssigneeUser().setDeptName(bpmDeptVo.getName());

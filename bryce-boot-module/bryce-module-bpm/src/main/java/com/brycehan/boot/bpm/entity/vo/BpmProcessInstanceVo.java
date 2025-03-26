@@ -60,7 +60,7 @@ public class BpmProcessInstanceVo implements Serializable {
     /**
      * 发起流程的用户
      */
-    private UserSimpleBaseVo startUser;
+    private BpmUserSimpleBaseVo startUser;
 
     @Schema(description = "流程定义的编号")
     private String processDefinitionId;

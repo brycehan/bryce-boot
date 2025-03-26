@@ -83,6 +83,12 @@ public class BpmUserVo implements Serializable {
     private Long orgId;
 
     /**
+     * 部门名称
+     */
+    @Schema(description = "部门名称", example = "研发部")
+    private String deptName;
+
+    /**
      * 状态（0：停用，1：正常）
      */
     @Schema(description = "状态（0：停用，1：正常）")

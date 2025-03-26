@@ -27,12 +27,12 @@ public enum BpmCommentTypeEnum {
 
     /**
      * 操作类型
-     *
+     * <br>
      * 由于 BPM Comment 类型为 String，所以这里就不使用 Integer
      */
     private final String value;
     /**
-     * 操作名字
+     * 操作名称
      */
     private final String name;
     /**

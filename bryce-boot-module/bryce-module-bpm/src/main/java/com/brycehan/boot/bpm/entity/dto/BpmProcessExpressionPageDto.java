@@ -5,37 +5,32 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Length;
+import com.brycehan.boot.common.enums.StatusType;
 import java.time.LocalDateTime;
 
 /**
- * 流程抄送 PageDto
+ * 流程表达式 PageDto
  *
  * @author Bryce Han
  * @since 2025/03/25
  */
 @Data
-@Schema(description = "流程抄送PageDto")
+@Schema(description = "流程表达式PageDto")
 @EqualsAndHashCode(callSuper = true)
-public class BpmProcessInstanceCopyPageDto extends BasePageDto {
-
-    /**
-     * ID
-     */
-    @Schema(description = "ID")
-    private Long id;
-
-    /**
-     * 用户编号（被抄送的用户编号）
-     */
-    @Schema(description = "用户编号（被抄送的用户编号）")
-    private Long userId;
+public class BpmProcessExpressionPageDto extends BasePageDto {
 
     /**
      * 流程实例的名称
      */
     @Schema(description = "流程实例的名称")
     @Length(max = 64)
-    private String processInstanceName;
+    private String name;
+
+    /**
+     * 流程实例的状态
+     */
+    @Schema(description = "流程实例的状态")
+    private StatusType status;
 
     /**
      * 创建时间开始

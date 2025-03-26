@@ -26,6 +26,7 @@ import org.flowable.engine.runtime.ProcessInstance;
 import org.flowable.task.api.Task;
 import org.flowable.task.api.history.HistoricTaskInstance;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -58,8 +59,8 @@ public class BpmTaskController {
 
     @GetMapping("todo-page")
     @Operation(summary = "获取 Todo 待办任务分页")
-    @PreAuthorize("@auth.hasAuthority('bpm:task:query')")
-    public ResponseResult<PageResult<BpmTaskVo>> getTaskTodoPage(@Valid BpmTaskPageDto pageVO) {
+    @PreAuthorize("@auth.hasAuthority('bpm:task:todo-page')")
+    public ResponseResult<PageResult<BpmTaskVo>> getTaskTodoPage(@Validated BpmTaskPageDto pageVO) {
         PageResult<Task> pageResult = taskService.getTaskTodoPage(LoginUserContext.currentUserId(), pageVO);
         if (CollUtil.isEmpty(pageResult.getList())) {
             return ResponseResult.ok(PageResult.empty());
@@ -78,8 +79,8 @@ public class BpmTaskController {
 
     @GetMapping("done-page")
     @Operation(summary = "获取 Done 已办任务分页")
-    @PreAuthorize("@auth.hasAuthority('bpm:task:query')")
-    public ResponseResult<PageResult<BpmTaskVo>> getTaskDonePage(@Valid BpmTaskPageDto pageVO) {
+    @PreAuthorize("@auth.hasAuthority('bpm:task:done-page')")
+    public ResponseResult<PageResult<BpmTaskVo>> getTaskDonePage(@Validated BpmTaskPageDto pageVO) {
         PageResult<HistoricTaskInstance> pageResult = taskService.getTaskDonePage(LoginUserContext.currentUserId(), pageVO);
         if (CollUtil.isEmpty(pageResult.getList())) {
             return ResponseResult.ok(PageResult.empty());
@@ -96,10 +97,16 @@ public class BpmTaskController {
         return ResponseResult.ok(PageResult.of(pageResult.getTotal(), bpmTaskVoList));
     }
 
-    @GetMapping("manager-page")
+    /**
+     * 获取全部任务的分页
+     *
+     * @param pageVO 请求参数
+     * @return 响应结果
+     */
+    @PostMapping("manager-page")
     @Operation(summary = "获取全部任务的分页", description = "用于【流程任务】菜单")
-    @PreAuthorize("@auth.hasAuthority('bpm:task:mananger-query')")
-    public ResponseResult<PageResult<BpmTaskVo>> getTaskManagerPage(@Valid BpmTaskPageDto pageVO) {
+    @PreAuthorize("@auth.hasAuthority('bpm:task:mananger-page')")
+    public ResponseResult<PageResult<BpmTaskVo>> getTaskManagerPage(@RequestBody@Validated BpmTaskPageDto pageVO) {
         PageResult<HistoricTaskInstance> pageResult = taskService.getTaskPage(LoginUserContext.currentUserId(), pageVO);
         if (CollUtil.isEmpty(pageResult.getList())) {
             return ResponseResult.ok(PageResult.empty());

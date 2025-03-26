@@ -19,7 +19,7 @@ import java.util.List;
  * 处理触发器任务 {@link JavaDelegate} 的实现类
  * <p>
  * 目前只有 Simple 设计器【触发器节点】使用
- * <p>
+ *
  * @since 2025/3/14
  * @author Bryce Han
  */

@@ -27,7 +27,7 @@ public class BpmMessageSendWhenProcessInstanceApproveDto implements Serializable
     @NotEmpty
     private String processInstanceId;
     /**
-     * 流程实例的名字
+     * 流程实例的名称
      */
     @NotEmpty
     private String processInstanceName;

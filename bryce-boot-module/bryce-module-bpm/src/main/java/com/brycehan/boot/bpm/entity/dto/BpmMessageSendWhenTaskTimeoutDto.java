@@ -24,10 +24,10 @@ public class BpmMessageSendWhenTaskTimeoutDto {
     @Schema(description = "流程实例的编号")
     private String processInstanceId;
     /**
-     * 流程实例的名字
+     * 流程实例的名称
      */
     @NotEmpty
-    @Schema(description = "流程实例的名字")
+    @Schema(description = "流程实例的名称")
     private String processInstanceName;
 
     /**
@@ -37,10 +37,10 @@ public class BpmMessageSendWhenTaskTimeoutDto {
     @Schema(description = "流程任务的编号")
     private String taskId;
     /**
-     * 流程任务的名字
+     * 流程任务的名称
      */
     @NotEmpty
-    @Schema(description = "流程任务的名字")
+    @Schema(description = "流程任务的名称")
     private String taskName;
 
     /**

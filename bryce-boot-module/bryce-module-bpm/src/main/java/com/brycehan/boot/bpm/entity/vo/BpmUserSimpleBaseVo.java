@@ -14,7 +14,7 @@ import java.io.Serializable;
  */
 @Schema(description = "用户精简信息 Vo")
 @Data
-public class UserSimpleBaseVo implements Serializable {
+public class BpmUserSimpleBaseVo implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;

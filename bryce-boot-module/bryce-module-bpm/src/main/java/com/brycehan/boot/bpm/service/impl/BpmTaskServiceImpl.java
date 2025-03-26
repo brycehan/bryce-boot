@@ -75,9 +75,10 @@ public class BpmTaskServiceImpl implements BpmTaskService {
     private BpmProcessInstanceService bpmProcessInstanceService;
     @Resource
     private BpmProcessDefinitionService bpmProcessDefinitionService;
+    @Resource
     private BpmProcessDefinitionInfoService bpmProcessDefinitionInfoService;
-//    @Resource
-//    private BpmProcessInstanceCopyService bpmProcessInstanceCopyService;
+    @Resource
+    private BpmProcessInstanceCopyService bpmProcessInstanceCopyService;
     @Resource
     private BpmModelService bpmModelService;
     @Resource
@@ -90,7 +91,7 @@ public class BpmTaskServiceImpl implements BpmTaskService {
     @Resource
     private BpmDeptApi bpmDeptApi;
 
-    // ========== Query 查询相关方法 ==========
+    // Query 查询相关方法
 
     @Override
     public PageResult<Task> getTaskTodoPage(Long userId, BpmTaskPageDto bpmTaskPageDto) {
@@ -105,9 +106,9 @@ public class BpmTaskServiceImpl implements BpmTaskService {
         if (StrUtil.isNotEmpty(bpmTaskPageDto.getCategory())) {
             taskQuery.taskCategory(bpmTaskPageDto.getCategory());
         }
-        if (ArrayUtil.isNotEmpty(bpmTaskPageDto.getCreateTime())) {
-            taskQuery.taskCreatedAfter(new DateTime(bpmTaskPageDto.getCreateTime()[0]));
-            taskQuery.taskCreatedBefore(new DateTime(bpmTaskPageDto.getCreateTime()[1]));
+        if (bpmTaskPageDto.getCreateTimeStart() != null && bpmTaskPageDto.getCreateTimeEnd() != null) {
+            taskQuery.taskCreatedAfter(new DateTime(bpmTaskPageDto.getCreateTimeStart()));
+            taskQuery.taskCreatedBefore(new DateTime(bpmTaskPageDto.getCreateTimeEnd()));
         }
         long count = taskQuery.count();
         if (count == 0) {
@@ -173,9 +174,9 @@ public class BpmTaskServiceImpl implements BpmTaskService {
         if (StrUtil.isNotBlank(bpmTaskPageDto.getName())) {
             taskQuery.taskNameLike("%" + bpmTaskPageDto.getName() + "%");
         }
-        if (ArrayUtil.isNotEmpty(bpmTaskPageDto.getCreateTime())) {
-            taskQuery.taskCreatedAfter(new DateTime(bpmTaskPageDto.getCreateTime()[0]));
-            taskQuery.taskCreatedBefore(new DateTime(bpmTaskPageDto.getCreateTime()[1]));
+        if (bpmTaskPageDto.getCreateTimeStart() != null && bpmTaskPageDto.getCreateTimeEnd() != null) {
+            taskQuery.taskCreatedAfter(new DateTime(bpmTaskPageDto.getCreateTimeStart()));
+            taskQuery.taskCreatedBefore(new DateTime(bpmTaskPageDto.getCreateTimeEnd()));
         }
         // 执行查询
         long count = taskQuery.count();
@@ -198,9 +199,9 @@ public class BpmTaskServiceImpl implements BpmTaskService {
         if (StrUtil.isNotEmpty(bpmTaskPageDto.getCategory())) {
             taskQuery.taskCategory(bpmTaskPageDto.getCategory());
         }
-        if (ArrayUtil.isNotEmpty(bpmTaskPageDto.getCreateTime())) {
-            taskQuery.taskCreatedAfter(new DateTime(bpmTaskPageDto.getCreateTime()[0]));
-            taskQuery.taskCreatedBefore(new DateTime(bpmTaskPageDto.getCreateTime()[1]));
+        if (bpmTaskPageDto.getCreateTimeStart() != null && bpmTaskPageDto.getCreateTimeEnd() != null) {
+            taskQuery.taskCreatedAfter(new DateTime(bpmTaskPageDto.getCreateTimeStart()));
+            taskQuery.taskCreatedBefore(new DateTime(bpmTaskPageDto.getCreateTimeEnd()));
         }
         // 执行查询
         long count = taskQuery.count();
@@ -1012,7 +1013,7 @@ public class BpmTaskServiceImpl implements BpmTaskService {
 
     @Override
     public void copyTask(Long userId, BpmTaskCopyDto reqVO) {
-//        bpmProcessInstanceCopyService.createProcessInstanceCopy(reqVO.getCopyUserIds(), reqVO.getReason(), reqVO.getId());
+        bpmProcessInstanceCopyService.createProcessInstanceCopy(reqVO.getCopyUserIds(), reqVO.getReason(), reqVO.getId());
     }
 
     /**
@@ -1036,7 +1037,7 @@ public class BpmTaskServiceImpl implements BpmTaskService {
         return task;
     }
 
-    // ========== Event 事件相关方法 ==========
+    // Event 事件相关方法
 
     @Override
     public void processTaskCreated(Task task) {

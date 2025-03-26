@@ -390,6 +390,11 @@ INSERT INTO brc_sys_dict_type (id, dict_name, dict_type, sort, status, remark, d
 INSERT INTO brc_sys_dict_type (id, dict_name, dict_type, sort, status, remark, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (12, '访问类型', 'sys_access_type', 0, 1, '访问类型列表', null, 1, now(), 1, now());
 INSERT INTO brc_sys_dict_type (id, dict_name, dict_type, sort, status, remark, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (13, '任务分组', 'quartz_job_group', 0, 1, '任务分组列表', null, 1, now(), 1, now());
 INSERT INTO brc_sys_dict_type (id, dict_name, dict_type, sort, status, remark, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (14, '任务状态', 'quartz_job_status', 0, 1, '任务状态列表', null, 1, now(), 1, now());
+INSERT INTO brc_sys_dict_type (id, dict_name, dict_type, sort, status, remark, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (15, 'BPM 流程模型类型', 'bpm_model_type', 0, 1, 'BPM 流程模型类型列表', null, 1, now(), 1, now());
+INSERT INTO brc_sys_dict_type (id, dict_name, dict_type, sort, status, remark, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (16, 'BPM 流程表单类型', 'bpm_form_type', 0, 1, 'BPM 流程表单类型列表', null, 1, now(), 1, now());
+INSERT INTO brc_sys_dict_type (id, dict_name, dict_type, sort, status, remark, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (17, 'BPM 监听器类型', 'bpm_process_listener_type', 0, 1, 'BPM 监听器类型列表', null, 1, now(), 1, now());
+INSERT INTO brc_sys_dict_type (id, dict_name, dict_type, sort, status, remark, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (18, 'BPM 监听器值类型', 'bpm_process_listener_value_type', 0, 1, 'BPM 监听器值类型列表', null, 1, now(), 1, now());
+INSERT INTO brc_sys_dict_type (id, dict_name, dict_type, sort, status, remark, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (19, 'OA 请假类型', 'oa_leave_type', 0, 1, 'OA 请假类型列表', null, 1, now(), 1, now());
 
 -- 13、系统字典数据表
 create table brc_sys_dict_data
@@ -453,6 +458,15 @@ INSERT INTO brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_c
 INSERT INTO brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, sort, status, remark, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (132, '应用', 'app', 13, 'success', 2, 1, null, null, 1, now(), 1, now());
 INSERT INTO brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, sort, status, remark, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (141, '正常', '1', 14, 'primary', 1, 1, null, null, 1, now(), 1, now());
 INSERT INTO brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, sort, status, remark, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (142, '暂停', '0', 14, 'danger', 2, 1, null, null, 1, now(), 1, now());
+INSERT INTO brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, sort, status, remark, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (150, 'BPMN 设计器', '0', 15, 'primary', 1, 1, null, null, 1, now(), 1, now());
+INSERT INTO brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, sort, status, remark, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (151, 'SIMPLE 设计器', '1', 15, 'success', 2, 1, null, null, 1, now(), 1, now());
+INSERT INTO brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, sort, status, remark, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (160, '流程表单', '0', 16, 'primary', 1, 1, null, null, 1, now(), 1, now());
+INSERT INTO brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, sort, status, remark, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (161, '业务表单', '1', 16, 'success', 2, 1, null, null, 1, now(), 1, now());
+INSERT INTO brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, sort, status, remark, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (170, '执行监听器', 'execution', 17, 'primary', 1, 1, null, null, 1, now(), 1, now());
+INSERT INTO brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, sort, status, remark, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (171, '任务监听器', 'task', 17, 'success', 2, 1, null, null, 1, now(), 1, now());
+INSERT INTO brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, sort, status, remark, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (180, 'Java 类', 'class', 18, 'primary', 1, 1, null, null, 1, now(), 1, now());
+INSERT INTO brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, sort, status, remark, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (180, '表达式', 'expression', 18, 'success', 2, 1, null, null, 1, now(), 1, now());
+INSERT INTO brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, sort, status, remark, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (180, '代理表达式', 'delegateExpression', 18, 'info', 3, 1, null, null, 1, now(), 1, now());
 
 -- 14、系统参数表
 create table brc_sys_param

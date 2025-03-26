@@ -31,10 +31,10 @@ public class BpmMessageSendWhenProcessInstanceRejectDto implements Serializable 
     private String processInstanceId;
 
     /**
-     * 流程实例的名字
+     * 流程实例的名称
      */
     @NotEmpty
-    @Schema(description = "流程实例的名字")
+    @Schema(description = "流程实例的名称")
     private String processInstanceName;
 
     /**

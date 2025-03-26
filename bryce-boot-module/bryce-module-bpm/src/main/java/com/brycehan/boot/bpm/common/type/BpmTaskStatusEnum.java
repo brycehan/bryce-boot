@@ -43,7 +43,7 @@ public enum BpmTaskStatusEnum {
      */
     private final Integer status;
     /**
-     * 名字
+     * 名称
      */
     private final String name;
 

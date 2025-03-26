@@ -64,7 +64,7 @@ public interface BpmProcessInstanceConvert {
             if (userMap != null) {
                 BpmUserVo startUser = userMap.get(NumberUtil.parseLong(historicProcessInstances.get(i).getStartUserId(), null));
                 if (startUser != null) {
-                    bpmProcessInstanceVo.setStartUser(BeanUtil.toBean(startUser, UserSimpleBaseVo.class));
+                    bpmProcessInstanceVo.setStartUser(BeanUtil.toBean(startUser, BpmUserSimpleBaseVo.class));
                     BpmDeptVo bpmDeptVo = deptMap.get(startUser.getOrgId());
                     if (bpmDeptVo != null) {
                         bpmProcessInstanceVo.getStartUser().setDeptName(bpmDeptVo.getName());
@@ -93,7 +93,7 @@ public interface BpmProcessInstanceConvert {
         copyTo(processDefinitionInfo, bpmProcessInstanceVo.getProcessDefinition());
         // user
         if (startUser != null) {
-            bpmProcessInstanceVo.setStartUser(BeanUtil.toBean(startUser, UserSimpleBaseVo.class));
+            bpmProcessInstanceVo.setStartUser(BeanUtil.toBean(startUser, BpmUserSimpleBaseVo.class));
             Optional.ofNullable(dept).ifPresent(bpmDeptVo -> bpmProcessInstanceVo.getStartUser().setDeptName(bpmDeptVo.getName()));
         }
         return bpmProcessInstanceVo;
@@ -160,9 +160,9 @@ public interface BpmProcessInstanceConvert {
         return bpmProcessInstanceBpmnModelViewVo;
     }
 
-    default UserSimpleBaseVo buildUser(String userIdStr,
-                                       Map<Long, BpmUserVo> userMap,
-                                       Map<Long, BpmDeptVo> deptMap) {
+    default BpmUserSimpleBaseVo buildUser(String userIdStr,
+                                          Map<Long, BpmUserVo> userMap,
+                                          Map<Long, BpmDeptVo> deptMap) {
         if (StrUtil.isEmpty(userIdStr)) {
             return null;
         }
@@ -170,9 +170,9 @@ public interface BpmProcessInstanceConvert {
         return buildUser(userId, userMap, deptMap);
     }
 
-    default UserSimpleBaseVo buildUser(Long userId,
-                                       Map<Long, BpmUserVo> userMap,
-                                       Map<Long, BpmDeptVo> deptMap) {
+    default BpmUserSimpleBaseVo buildUser(Long userId,
+                                          Map<Long, BpmUserVo> userMap,
+                                          Map<Long, BpmDeptVo> deptMap) {
         if (userId == null) {
             return null;
         }
@@ -180,7 +180,7 @@ public interface BpmProcessInstanceConvert {
         if (user == null) {
             return null;
         }
-        UserSimpleBaseVo userVO = BeanUtil.toBean(user, UserSimpleBaseVo.class);
+        BpmUserSimpleBaseVo userVO = BeanUtil.toBean(user, BpmUserSimpleBaseVo.class);
         BpmDeptVo dept = user.getOrgId() != null ? deptMap.get(user.getOrgId()) : null;
         if (dept != null) {
             userVO.setDeptName(dept.getName());
@@ -265,7 +265,7 @@ public interface BpmProcessInstanceConvert {
                 });
             }
 
-            List<UserSimpleBaseVo> candidateUsers = new ArrayList<>();
+            List<BpmUserSimpleBaseVo> candidateUsers = new ArrayList<>();
             if (CollUtil.isNotEmpty(approveNode.getCandidateUserIds())) {
                 candidateUsers = approveNode.getCandidateUserIds().stream().map(userId -> buildUser(userId, userMap, deptMap)).filter(Objects::nonNull).toList();
             }

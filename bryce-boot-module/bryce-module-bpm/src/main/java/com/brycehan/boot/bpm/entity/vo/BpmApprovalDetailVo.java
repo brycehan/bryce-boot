@@ -75,7 +75,7 @@ public class BpmApprovalDetailVo {
         private List<Long> candidateUserIds;
 
         @Schema(description = "候选人用户列表")
-        private List<UserSimpleBaseVo> candidateUsers; // 只包含未生成 ApprovalTaskInfo 的用户列表
+        private List<BpmUserSimpleBaseVo> candidateUsers; // 只包含未生成 ApprovalTaskInfo 的用户列表
 
     }
 
@@ -92,14 +92,14 @@ public class BpmApprovalDetailVo {
         private Long owner;
 
         @Schema(description = "任务所属人", example = "1024")
-        private UserSimpleBaseVo ownerUser;
+        private BpmUserSimpleBaseVo ownerUser;
 
         @Schema(description = "任务分配人编号")
         @JsonIgnore // 不返回，只是方便后续读取，赋值给 assigneeUser
         private Long assignee;
 
         @Schema(description = "任务分配人", example = "2048")
-        private UserSimpleBaseVo assigneeUser;
+        private BpmUserSimpleBaseVo assigneeUser;
 
         @Schema(description = "任务状态")
         private Integer status;  // 参见 BpmTaskStatusEnum 枚举
