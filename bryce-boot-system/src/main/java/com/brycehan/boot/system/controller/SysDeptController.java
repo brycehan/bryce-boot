@@ -6,11 +6,11 @@ import com.brycehan.boot.common.base.validator.UpdateGroup;
 import com.brycehan.boot.common.entity.dto.IdsDto;
 import com.brycehan.boot.framework.operatelog.annotation.OperateLog;
 import com.brycehan.boot.framework.operatelog.annotation.OperatedType;
-import com.brycehan.boot.system.entity.convert.SysOrgConvert;
-import com.brycehan.boot.system.entity.dto.SysOrgDto;
-import com.brycehan.boot.system.entity.po.SysOrg;
-import com.brycehan.boot.system.entity.vo.SysOrgVo;
-import com.brycehan.boot.system.service.SysOrgService;
+import com.brycehan.boot.system.entity.convert.SysDeptConvert;
+import com.brycehan.boot.system.entity.dto.SysDeptDto;
+import com.brycehan.boot.system.entity.po.SysDept;
+import com.brycehan.boot.system.entity.vo.SysDeptVo;
+import com.brycehan.boot.system.service.SysDeptService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -22,90 +22,90 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * 系统机构API
+ * 系统部门 API
  *
  * @since 2023/08/31
  * @author Bryce Han
  */
-@Tag(name = "系统机构")
-@RequestMapping("/system/org")
+@Tag(name = "系统部门")
+@RequestMapping("/system/dept")
 @RestController
 @RequiredArgsConstructor
-public class SysOrgController {
+public class SysDeptController {
 
-    private final SysOrgService sysOrgService;
+    private final SysDeptService sysDeptService;
 
     /**
-     * 保存系统机构
+     * 保存系统部门
      *
-     * @param sysOrgDto 系统机构Dto
+     * @param sysDeptDto 系统部门Dto
      * @return 响应结果
      */
-    @Operation(summary = "保存系统机构")
+    @Operation(summary = "保存系统部门")
     @OperateLog(type = OperatedType.INSERT)
     @PreAuthorize("@auth.hasAuthority('system:org:save')")
     @PostMapping
-    public ResponseResult<Void> save(@Validated(value = SaveGroup.class) @RequestBody SysOrgDto sysOrgDto) {
-        sysOrgService.save(sysOrgDto);
+    public ResponseResult<Void> save(@Validated(value = SaveGroup.class) @RequestBody SysDeptDto sysDeptDto) {
+        sysDeptService.save(sysDeptDto);
         return ResponseResult.ok();
     }
 
     /**
-     * 更新系统机构
+     * 更新系统部门
      *
-     * @param sysOrgDto 系统机构Dto
+     * @param sysDeptDto 系统部门Dto
      * @return 响应结果
      */
-    @Operation(summary = "更新系统机构")
+    @Operation(summary = "更新系统部门")
     @OperateLog(type = OperatedType.UPDATE)
     @PreAuthorize("@auth.hasAuthority('system:org:update')")
     @PutMapping
-    public ResponseResult<Void> update(@Validated(value = UpdateGroup.class) @RequestBody SysOrgDto sysOrgDto) {
-        sysOrgService.update(sysOrgDto);
+    public ResponseResult<Void> update(@Validated(value = UpdateGroup.class) @RequestBody SysDeptDto sysDeptDto) {
+        sysDeptService.update(sysDeptDto);
         return ResponseResult.ok();
     }
 
     /**
-     * 删除系统机构
+     * 删除系统部门
      *
-     * @param idsDto 系统机构删除Dto
+     * @param idsDto 系统部门删除Dto
      * @return 响应结果
      */
-    @Operation(summary = "删除系统机构")
+    @Operation(summary = "删除系统部门")
     @OperateLog(type = OperatedType.DELETE)
     @PreAuthorize("@auth.hasAuthority('system:org:delete')")
     @DeleteMapping
     public ResponseResult<Void> delete(@Validated @RequestBody IdsDto idsDto) {
-        sysOrgService.delete(idsDto);
+        sysDeptService.delete(idsDto);
         return ResponseResult.ok();
     }
 
     /**
-     * 查询系统机构详情
+     * 查询系统部门详情
      *
-     * @param id 系统机构ID
+     * @param id 系统部门ID
      * @return 响应结果
      */
-    @Operation(summary = "查询系统机构详情")
+    @Operation(summary = "查询系统部门详情")
     @PreAuthorize("@auth.hasAuthority('system:org:info')")
     @GetMapping(path = "/{id}")
-    public ResponseResult<SysOrgVo> get(@Parameter(description = "系统机构ID", required = true) @PathVariable Long id) {
-        sysOrgService.checkOrgDataScope(id);
-        SysOrg sysOrg = sysOrgService.getById(id);
-        return ResponseResult.ok(SysOrgConvert.INSTANCE.convert(sysOrg));
+    public ResponseResult<SysDeptVo> get(@Parameter(description = "系统部门ID", required = true) @PathVariable Long id) {
+        sysDeptService.checkOrgDataScope(id);
+        SysDept sysDept = sysDeptService.getById(id);
+        return ResponseResult.ok(SysDeptConvert.INSTANCE.convert(sysDept));
     }
 
     /**
-     * 系统机构列表查询
+     * 系统部门列表查询
      *
-     * @param sysOrgDto 查询条件
-     * @return 系统机构列表
+     * @param sysDeptDto 查询条件
+     * @return 系统部门列表
      */
     @Operation(summary = "列表查询")
     @PreAuthorize("@auth.hasAuthority('system:org:list')")
     @PostMapping(path = "/list")
-    public ResponseResult<List<SysOrgVo>> list(@Validated @RequestBody SysOrgDto sysOrgDto) {
-        List<SysOrgVo> list = sysOrgService.list(sysOrgDto);
+    public ResponseResult<List<SysDeptVo>> list(@Validated @RequestBody SysDeptDto sysDeptDto) {
+        List<SysDeptVo> list = sysDeptService.list(sysDeptDto);
         return ResponseResult.ok(list);
     }
 

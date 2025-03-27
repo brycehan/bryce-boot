@@ -53,8 +53,8 @@ public class BpmUserApiService implements BpmUserApi {
     }
 
     @Override
-    public List<BpmUserVo> getUsersByOrgIds(List<Long> orgIds) {
-        List<SysUser> sysUsers = sysUserService.getUserListByOrgIds(orgIds);
+    public List<BpmUserVo> getUsersByDeptIds(List<Long> deptIds) {
+        List<SysUser> sysUsers = sysUserService.getUserListByDeptIds(deptIds);
         return BeanUtil.copyToList(sysUsers, BpmUserVo.class);
     }
 

@@ -18,8 +18,8 @@ public enum DataScopeType {
 
     ALL(0, "全部数据"),
     CUSTOM(1, "自定义数据"),
-    ORG_AND_CHILDREN(2, "本机构及以下机构数据"),
-    ORG_ONLY(3, "本机构数据"),
+    ORG_AND_CHILDREN(2, "本部门及以下部门数据"),
+    ORG_ONLY(3, "本部门数据"),
     SELF(4, "本人数据"),
     ;
 

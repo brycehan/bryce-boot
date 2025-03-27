@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.brycehan.boot.system.mapper.SysOrgMapper">
+<mapper namespace="com.brycehan.boot.system.mapper.SysDeptMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.brycehan.boot.system.entity.po.SysOrg">
+    <resultMap id="BaseResultMap" type="com.brycehan.boot.system.entity.po.SysDept">
         <id column="id" property="id"/>
         <result column="name" property="name"/>
         <result column="code" property="code"/>
@@ -29,12 +29,12 @@
         updated_user_id, updated_time
     </sql>
 
-    <select id="list" resultType="com.brycehan.boot.system.entity.po.SysOrg">
+    <select id="list" resultType="com.brycehan.boot.system.entity.po.SysDept">
         select so.id, so.name, so.code, so.parent_id, so.ancestor,
         so.leader, so.contact_number, so.email, so.sort, so.status,
         so.deleted, so.created_user_id, so.created_time,
         so.updated_user_id, so.updated_time
-        from brc_sys_org so
+        from brc_sys_dept so
         where so.deleted is null
         <if test="name != null and name != ''">
             and so.name like concat('%', #{params.name}, '%')

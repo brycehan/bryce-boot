@@ -54,9 +54,9 @@ public class SysRoleVo implements Serializable {
     private String code;
 
     /**
-     * 数据范围（0：全部数据，1：自定义数据，2：本机构及以下机构数据，3：本机构数据，4：本人数据）
+     * 数据范围（0：全部数据，1：自定义数据，2：本部门及以下部门数据，3：本部门数据，4：本人数据）
      */
-    @Schema(description = "数据范围（0：全部数据，1：自定义数据，2：本机构及以下机构数据，3：本机构数据，4：本人数据）")
+    @Schema(description = "数据范围（0：全部数据，1：自定义数据，2：本部门及以下部门数据，3：本部门数据，4：本人数据）")
     @ColumnWidth(20)
     @ExcelProperty(value = "数据范围", converter = EnumDescConverter.class)
     private DataScopeType dataScope;
@@ -84,10 +84,10 @@ public class SysRoleVo implements Serializable {
     private String remark;
 
     /**
-     * 机构ID
+     * 部门ID
      */
-    @Schema(description = "机构ID")
-    private Long orgId;
+    @Schema(description = "部门ID")
+    private Long deptId;
 
     /**
      * 创建时间
@@ -96,10 +96,10 @@ public class SysRoleVo implements Serializable {
     private LocalDateTime createdTime;
 
     /**
-     * 机构IDs
+     * 部门IDs
      */
-    @Schema(description = "机构IDs")
-    private List<Long> orgIds;
+    @Schema(description = "部门IDs")
+    private List<Long> deptIds;
 
     /**
      * 菜单IDs

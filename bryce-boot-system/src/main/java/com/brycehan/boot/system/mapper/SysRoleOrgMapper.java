@@ -21,6 +21,6 @@ public interface SysRoleOrgMapper extends BaseMapper<SysRoleOrg> {
      * @param userId 用户ID
      * @return 数据权限列表
      */
-    List<Long> getDataScopeOrgIds(Long userId);
+    List<Long> getDataScopeDeptIds(Long userId);
 
 }

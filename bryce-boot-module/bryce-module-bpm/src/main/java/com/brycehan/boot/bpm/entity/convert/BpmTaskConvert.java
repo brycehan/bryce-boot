@@ -66,9 +66,9 @@ public interface BpmTaskConvert {
             BpmUserVo assignUser = userMap.get(NumberUtil.parseLong(task.getAssignee(), null));
             if (assignUser != null) {
                 taskVO.setAssigneeUser(BeanUtil.toBean(assignUser, BpmUserSimpleBaseVo.class));
-                Optional.ofNullable(deptMap).map(map -> map.get(assignUser.getOrgId()))
+                Optional.ofNullable(deptMap).map(map -> map.get(assignUser.getDeptId()))
                         .ifPresent(bpmDeptVo -> taskVO.getAssigneeUser().setDeptName(bpmDeptVo.getName()));
-//                BpmDeptVo bpmDeptVo = deptMap.get(assignUser.getOrgId());
+//                BpmDeptVo bpmDeptVo = deptMap.get(assignUser.getDeptId());
 //                if (bpmDeptVo != null) {
 //                    taskVO.getAssigneeUser().setDeptName(bpmDeptVo.getName());
 //                }
@@ -122,7 +122,7 @@ public interface BpmTaskConvert {
                 BpmUserVo assignUser = userMap.get(NumberUtil.parseLong(task.getAssignee(), null));
                 if (assignUser != null) {
                     taskVO.setAssigneeUser(BeanUtil.toBean(assignUser, BpmUserSimpleBaseVo.class));
-                    BpmDeptVo dept = deptMap.get(assignUser.getOrgId());
+                    BpmDeptVo dept = deptMap.get(assignUser.getDeptId());
                     if (dept != null) {
                         taskVO.getAssigneeUser().setDeptName(dept.getName());
                     }
@@ -130,7 +130,7 @@ public interface BpmTaskConvert {
                 BpmUserVo ownerUser = userMap.get(NumberUtil.parseLong(task.getOwner(), null));
                 if (ownerUser != null) {
                     taskVO.setOwnerUser(BeanUtil.toBean(ownerUser, BpmUserSimpleBaseVo.class));
-                    BpmDeptVo bpmDeptVo = deptMap.get(ownerUser.getOrgId());
+                    BpmDeptVo bpmDeptVo = deptMap.get(ownerUser.getDeptId());
                     if (bpmDeptVo != null) {
                         taskVO.getOwnerUser().setDeptName(bpmDeptVo.getName());
                     }
@@ -172,7 +172,7 @@ public interface BpmTaskConvert {
         BpmUserVo ownerUser = userMap.get(NumberUtil.parseLong(taskOwner, null));
         if (ownerUser != null) {
             task.setOwnerUser(BeanUtil.toBean(ownerUser, BpmUserSimpleBaseVo.class));
-            BpmDeptVo bpmDeptVo = deptMap.get(ownerUser.getOrgId());
+            BpmDeptVo bpmDeptVo = deptMap.get(ownerUser.getDeptId());
             if (bpmDeptVo != null) {
                 task.getOwnerUser().setDeptName(bpmDeptVo.getName());
             }
@@ -201,7 +201,7 @@ public interface BpmTaskConvert {
         BpmUserVo assignUser = userMap.get(NumberUtil.parseLong(taskAssignee, null));
         if (assignUser != null) {
             task.setAssigneeUser(BeanUtil.toBean(assignUser, BpmUserSimpleBaseVo.class));
-            BpmDeptVo bpmDeptVo = deptMap.get(assignUser.getOrgId());
+            BpmDeptVo bpmDeptVo = deptMap.get(assignUser.getDeptId());
             if (bpmDeptVo != null) {
                 task.getAssigneeUser().setDeptName(bpmDeptVo.getName());
             }

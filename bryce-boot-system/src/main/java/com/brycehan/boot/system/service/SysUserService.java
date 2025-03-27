@@ -7,6 +7,7 @@ import com.brycehan.boot.framework.mybatis.service.BaseService;
 import com.brycehan.boot.system.entity.dto.*;
 import com.brycehan.boot.system.entity.po.SysUser;
 import com.brycehan.boot.system.entity.vo.SysUserInfoVo;
+import com.brycehan.boot.system.entity.vo.SysUserSimpleVo;
 import com.brycehan.boot.system.entity.vo.SysUserVo;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -63,6 +64,14 @@ public interface SysUserService extends BaseService<SysUser> {
      * @return 用户列表
      */
     List<SysUserVo> list(SysUserPageDto sysUserPageDto);
+
+    /**
+     * 系统用户简单列表查询
+     *
+     * @param sysUserDto 查询条件
+     * @return 用户列表
+     */
+    List<SysUserSimpleVo> simpleList(SysUserDto sysUserDto);
 
     /**
      * 系统用户导出数据
@@ -189,10 +198,10 @@ public interface SysUserService extends BaseService<SysUser> {
     /**
      * 获得指定部门的用户数组
      *
-     * @param orgIds 部门数组
+     * @param deptIds 部门数组
      * @return 用户数组
      */
-    List<SysUser> getUserListByOrgIds(Collection<Long> orgIds);
+    List<SysUser> getUserListByDeptIds(Collection<Long> deptIds);
 
     /**
      * 校验用户是否允许操作（admin放行，普通用户不能操作admin账号）
@@ -231,4 +240,5 @@ public interface SysUserService extends BaseService<SysUser> {
      * @return 结果，true唯一
      */
     boolean checkEmailUnique(SysUserEmailDto sysUserEmailDto);
+
 }

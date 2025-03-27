@@ -119,8 +119,8 @@ public class SysRoleController {
         sysRoleVo.setMenuIds(menuIds);
 
         // 查询角色对应的数据权限
-        List<Long> orgIds = sysRoleOrgService.getOrgIdsByRoleId(id);
-        sysRoleVo.setOrgIds(orgIds);
+        List<Long> deptIds = sysRoleOrgService.getDeptIdsByRoleId(id);
+        sysRoleVo.setDeptIds(deptIds);
 
         return ResponseResult.ok(sysRoleVo);
     }

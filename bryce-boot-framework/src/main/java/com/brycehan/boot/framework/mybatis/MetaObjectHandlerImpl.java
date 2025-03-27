@@ -21,8 +21,8 @@ public class MetaObjectHandlerImpl implements MetaObjectHandler {
         if (loginUser != null) {
             // 创建者ID
             strictInsertFill(metaObject, "createdUserId", Long.class, loginUser.getId());
-            // 创建者所属机构
-            strictInsertFill(metaObject, "orgId", Long.class, loginUser.getOrgId());
+            // 创建者所属部门
+            strictInsertFill(metaObject, "deptId", Long.class, loginUser.getDeptId());
             // 更新者ID
             strictInsertFill(metaObject, "updatedUserId", Long.class, loginUser.getId());
         }

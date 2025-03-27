@@ -10,35 +10,35 @@ import java.io.Serial;
 import java.time.LocalDateTime;
 
 /**
- * 系统机构Vo
+ * 系统部门Vo
  *
  * @since 2023/08/31
  * @author Bryce Han
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@Schema(description = "系统机构Vo")
-public class SysOrgVo extends TreeNode<SysOrgVo> {
+@Schema(description = "系统部门Vo")
+public class SysDeptVo extends TreeNode<SysDeptVo> {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
     /**
-     * 机构名称
+     * 部门名称
      */
-    @Schema(description = "机构名称")
+    @Schema(description = "部门名称")
     private String name;
 
     /**
-     * 机构编码
+     * 部门编码
      */
-    @Schema(description = "机构编码")
+    @Schema(description = "部门编码")
     private String code;
 
     /**
-     * 上级机构名称
+     * 上级部门名称
      */
-    @Schema(description = "上级机构名称")
+    @Schema(description = "上级部门名称")
     private String parentName;
 
     /**

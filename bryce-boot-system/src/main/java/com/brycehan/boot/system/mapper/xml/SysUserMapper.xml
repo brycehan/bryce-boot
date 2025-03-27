@@ -16,7 +16,7 @@
         <result column="birthday" property="birthday"/>
         <result column="profession" property="profession"/>
         <result column="sort" property="sort"/>
-        <result column="org_id" property="orgId"/>
+        <result column="dept_id" property="deptId"/>
         <result column="status" property="status"/>
         <result column="remark" property="remark"/>
         <result column="account_non_locked" property="accountNonLocked"/>
@@ -33,7 +33,7 @@
     <sql id="Base_Column_List">
         id, username, password, nickname, avatar,
         gender, type, phone, email,birthday, profession,
-        sort, org_id, super_admin, status, remark,
+        sort, dept_id, super_admin, status, remark,
         account_non_locked, last_login_ip, last_login_time,
         deleted, created_user_id, created_time, updated_user_id, updated_time
     </sql>
@@ -54,8 +54,8 @@
         <if test="type != null">
             and su.type = #{type}
         </if>
-        <if test="orgId != null">
-            and su.org_id = #{orgId}
+        <if test="deptId != null">
+            and su.dept_id = #{deptId}
         </if>
         <if test="status != null">
             and su.status = #{status}

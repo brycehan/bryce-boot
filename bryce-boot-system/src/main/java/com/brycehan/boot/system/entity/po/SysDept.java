@@ -9,36 +9,36 @@ import lombok.EqualsAndHashCode;
 import java.io.Serial;
 
 /**
- * 系统机构entity
+ * 系统部门 entity
  *
  * @since 2023/08/31
  * @author Bryce Han
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("brc_sys_org")
-public class SysOrg extends BaseEntity {
+@TableName("brc_sys_dept")
+public class SysDept extends BaseEntity {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
     /**
-     * 机构名称
+     * 部门名称
      */
     private String name;
 
     /**
-     * 机构编码
+     * 部门编码
      */
     private String code;
 
     /**
-     * 父机构ID
+     * 父部门ID
      */
     private Long parentId;
 
     /**
-     * 祖级机构列表
+     * 祖级部门列表
      */
     private String ancestor;
 

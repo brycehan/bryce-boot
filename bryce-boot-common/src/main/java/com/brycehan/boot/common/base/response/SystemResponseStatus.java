@@ -18,8 +18,8 @@ import lombok.experimental.Accessors;
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 public enum SystemResponseStatus implements ResponseStatus {
 
-    ORG_EXIST_CHILDREN_CANNOT_BE_DELETED(6_01, "存在下级机构,不允许删除"),
-    ORG_EXIST_USER_CANNOT_BE_DELETED(6_02, "机构存在用户，不允许删除"),
+    ORG_EXIST_CHILDREN_CANNOT_BE_DELETED(6_01, "存在下级部门,不允许删除"),
+    ORG_EXIST_USER_CANNOT_BE_DELETED(6_02, "部门存在用户，不允许删除"),
     ORG_NOT_FOUND(6_01, "当前部门不存在"),
     ORG_NOT_ENABLE(6_02, "部门[{}]不处于开启状态，不允许选择"),
     ;

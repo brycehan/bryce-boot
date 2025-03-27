@@ -6,6 +6,7 @@ import com.brycehan.boot.system.entity.dto.SysUserDto;
 import com.brycehan.boot.system.entity.dto.SysUserExcelDto;
 import com.brycehan.boot.system.entity.dto.SysUserInfoDto;
 import com.brycehan.boot.system.entity.po.SysUser;
+import com.brycehan.boot.system.entity.vo.SysUserSimpleVo;
 import com.brycehan.boot.system.entity.vo.SysUserVo;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
@@ -35,6 +36,8 @@ public interface SysUserConvert {
     SysUserVo convert(LoginUser loginUser);
 
     List<SysUserVo> convert(List<SysUser> sysUserList);
+
+    List<SysUserSimpleVo> convertSimple(List<SysUser> sysUserList);
 
     LoginUser convertLoginUser(SysUser sysUser);
 

@@ -86,10 +86,10 @@ public abstract class AbstractBpmTaskCandidateDeptLeaderStrategy implements BpmT
      */
     protected BpmDeptVo getStartUserDept(Long startUserId) {
         BpmUserVo startUser = bpmUserApi.getUser(startUserId);
-        if (startUser.getOrgId() == null) { // 找不到部门
+        if (startUser.getDeptId() == null) { // 找不到部门
             return null;
         }
-        return bpmDeptApi.getDept(startUser.getOrgId());
+        return bpmDeptApi.getDept(startUser.getDeptId());
     }
 
 }

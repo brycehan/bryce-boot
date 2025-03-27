@@ -77,10 +77,10 @@ public class BpmUserVo implements Serializable {
     private String email;
 
     /**
-     * 机构ID
+     * 部门ID
      */
-    @Schema(description = "机构ID")
-    private Long orgId;
+    @Schema(description = "部门ID")
+    private Long deptId;
 
     /**
      * 部门名称

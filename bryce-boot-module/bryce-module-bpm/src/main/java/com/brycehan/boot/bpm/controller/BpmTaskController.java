@@ -120,7 +120,7 @@ public class BpmTaskController {
         userIds.addAll(pageResult.getList().stream().map(task -> NumberUtil.parseLong(task.getOwner(), null)).collect(Collectors.toSet()));
         Map<Long, BpmUserVo> userMap = adminUserApi.getUserMap(userIds.stream().filter(Objects::nonNull).toList());
         Map<Long, BpmDeptVo> deptMap = deptApi.getDeptMap(
-                userMap.values().stream().map(BpmUserVo::getOrgId).toList());
+                userMap.values().stream().map(BpmUserVo::getDeptId).toList());
         List<String> processDefinitionIds = pageResult.getList().stream().map(HistoricTaskInstance::getProcessDefinitionId).toList();
         Map<String, BpmProcessDefinitionInfo> processDefinitionInfoMap = bpmProcessDefinitionInfoService.getProcessDefinitionInfoMap(processDefinitionIds);
         List<BpmTaskVo> bpmTaskVoList = BpmTaskConvert.INSTANCE.buildTaskPage(pageResult.getList(), processInstanceMap, userMap, deptMap, processDefinitionInfoMap);
@@ -146,7 +146,7 @@ public class BpmTaskController {
 
         Map<Long, BpmUserVo> userMap = adminUserApi.getUserMap(userIds);
         Map<Long, BpmDeptVo> deptMap = deptApi.getDeptMap(
-                userMap.values().stream().map(BpmUserVo::getOrgId).toList());
+                userMap.values().stream().map(BpmUserVo::getDeptId).toList());
         // 获得 Form Map
         List<Long> formIds = taskList.stream().map(task -> NumberUtil.parseLong(task.getFormKey(), null)).toList();
         Map<Long, BpmForm> formMap = formService.getFormMap(formIds);
@@ -243,8 +243,8 @@ public class BpmTaskController {
                 .filter(Objects::nonNull)
                 .toList();
         Map<Long, BpmUserVo> userMap = adminUserApi.getUserMap(userIds);
-        List<Long> orgIds = userMap.values().stream().map(BpmUserVo::getOrgId).toList();
-        Map<Long, BpmDeptVo> deptMap = deptApi.getDeptMap(orgIds);
+        List<Long> deptIds = userMap.values().stream().map(BpmUserVo::getDeptId).toList();
+        Map<Long, BpmDeptVo> deptMap = deptApi.getDeptMap(deptIds);
         List<BpmTaskVo> bpmTaskVoList = BpmTaskConvert.INSTANCE.buildTaskListByParentTaskId(taskList, userMap, deptMap);
         return ResponseResult.ok(bpmTaskVoList);
     }

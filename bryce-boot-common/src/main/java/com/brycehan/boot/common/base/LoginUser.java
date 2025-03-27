@@ -51,7 +51,7 @@ public class LoginUser implements UserDetails {
 
     private String phone;
 
-    private Long orgId;
+    private Long deptId;
 
     private String orgName;
 
@@ -133,9 +133,9 @@ public class LoginUser implements UserDetails {
     private boolean enabled = true;
 
     /**
-     * 用户所在机构的下级机构集合（包含用户的所在机构）
+     * 用户所在部门的下级部门集合（包含用户的所在部门）
      */
-    private Set<Long> SubOrgIds;
+    private Set<Long> SubDeptIds;
 
     /**
      * 拥有权限集合

@@ -148,15 +148,15 @@ public class SysOperateLogDto extends BaseDto {
     private String username;
 
     /**
-     * 机构ID
+     * 部门ID
      */
-    @Schema(description = "机构ID")
-    private Long orgId;
+    @Schema(description = "部门ID")
+    private Long deptId;
 
     /**
-     * 机构名称
+     * 部门名称
      */
-    @Schema(description = "机构名称")
+    @Schema(description = "部门名称")
     private String orgName;
 
     /**

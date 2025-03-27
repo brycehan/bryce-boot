@@ -112,12 +112,12 @@ public class OperateLogDto extends BaseDto {
     private String username;
 
     /**
-     * 机构ID
+     * 部门ID
      */
-    private Long orgId;
+    private Long deptId;
 
     /**
-     * 机构名称
+     * 部门名称
      */
     private String orgName;
 

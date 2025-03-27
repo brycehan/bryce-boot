@@ -31,9 +31,11 @@ import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
 import com.brycehan.boot.system.common.security.RefreshTokenEvent;
 import com.brycehan.boot.system.entity.convert.SysUserConvert;
 import com.brycehan.boot.system.entity.dto.*;
+import com.brycehan.boot.system.entity.po.SysDept;
 import com.brycehan.boot.system.entity.po.SysUser;
 import com.brycehan.boot.system.entity.po.SysUserRole;
 import com.brycehan.boot.system.entity.vo.SysUserInfoVo;
+import com.brycehan.boot.system.entity.vo.SysUserSimpleVo;
 import com.brycehan.boot.system.entity.vo.SysUserVo;
 import com.brycehan.boot.system.mapper.SysUserMapper;
 import com.brycehan.boot.system.service.*;
@@ -51,6 +53,7 @@ import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
+import java.util.stream.Collectors;
 
 /**
  * 系统用户服务实现
@@ -71,7 +74,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
 
     private final ApplicationEventPublisher applicationEventPublisher;
 
-    private final SysOrgService sysOrgService;
+    private final SysDeptService sysDeptService;
 
     private final SysPostService sysPostService;
 
@@ -89,7 +92,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
     @Transactional
     public void save(SysUserDto sysUserDto) {
         sysRoleService.checkRoleDataScope(sysUserDto.getRoleIds().toArray(Long[]::new));
-        sysOrgService.checkOrgDataScope(sysUserDto.getOrgId());
+        sysDeptService.checkOrgDataScope(sysUserDto.getDeptId());
         // 判断用户名是否存在
         SysUser user = baseMapper.getByUsername(sysUserDto.getUsername());
         if (user != null) {
@@ -124,7 +127,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         checkUserAllowed(sysUser);
         checkUserDataScope(sysUser);
         sysRoleService.checkRoleDataScope(sysUserDto.getRoleIds().toArray(Long[]::new));
-        sysOrgService.checkOrgDataScope(sysUserDto.getOrgId());
+        sysDeptService.checkOrgDataScope(sysUserDto.getDeptId());
 
         // 判断手机号是否存在
         if (StrUtil.isNotBlank(sysUserDto.getPhone())) {
@@ -144,10 +147,10 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         // 更新用户
         baseMapper.updateById(sysUser);
 
-        // 机构为空时，清空机构ID
-        if (sysUser.getOrgId() == null) {
+        // 部门为空时，清空部门ID
+        if (sysUser.getDeptId() == null) {
             LambdaUpdateWrapper<SysUser> updateWrapper = new LambdaUpdateWrapper<>();
-            updateWrapper.set(SysUser::getOrgId, null);
+            updateWrapper.set(SysUser::getDeptId, null);
             updateWrapper.eq(SysUser::getId, sysUser.getId());
             update(updateWrapper);
         }
@@ -184,8 +187,8 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         SysUser sysUser = getById(id);
         SysUserVo sysUserVo = SysUserConvert.INSTANCE.convert(sysUser);
 
-        // 机构名称
-        sysUserVo.setOrgName(sysOrgService.getOrgNameById(sysUser.getOrgId()));
+        // 部门名称
+        sysUserVo.setOrgName(sysDeptService.getOrgNameById(sysUser.getDeptId()));
 
         // 用户角色Ids
         List<Long> roleIds = sysUserRoleService.getRoleIdsByUserId(id);
@@ -211,9 +214,9 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         List<SysUser> list = baseMapper.list(params);
         List<SysUserVo> sysUserVoList = SysUserConvert.INSTANCE.convert(list);
 
-        // 处理机构名称
-        Map<Long, String> orgNames = sysOrgService.getOrgNamesByIds(list.stream().map(SysUser::getOrgId).toList());
-        sysUserVoList.forEach(sysUserVo -> sysUserVo.setOrgName(orgNames.get(sysUserVo.getOrgId())));
+        // 处理部门名称
+        Map<Long, String> orgNames = sysDeptService.getOrgNamesByIds(list.stream().map(SysUser::getDeptId).toList());
+        sysUserVoList.forEach(sysUserVo -> sysUserVo.setOrgName(orgNames.get(sysUserVo.getDeptId())));
 
         return new PageResult<>(page.getTotal(), sysUserVoList);
     }
@@ -222,6 +225,33 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
     public List<SysUserVo> list(SysUserPageDto sysUserPageDto) {
         List<SysUser> sysUserList = baseMapper.selectList(getWrapper(sysUserPageDto));
         return SysUserConvert.INSTANCE.convert(sysUserList);
+    }
+
+    @Override
+    public List<SysUserSimpleVo> simpleList(SysUserDto sysUserDto) {
+        // 构建查询条件
+        LambdaQueryWrapper<SysUser> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.select(SysUser::getId, SysUser::getUsername, SysUser::getNickname, SysUser::getAvatar);
+        queryWrapper.eq(Objects.nonNull(sysUserDto.getStatus()), SysUser::getStatus, sysUserDto.getStatus());
+
+        // 查询用户列表
+        List<SysUser> sysUserList = baseMapper.selectList(queryWrapper);
+        List<SysUserSimpleVo> userSimpleVoList = SysUserConvert.INSTANCE.convertSimple(sysUserList);
+
+        if (CollUtil.isEmpty(sysUserList)) {
+            return userSimpleVoList;
+        }
+
+        // 查询部门名称
+        LambdaQueryWrapper<SysDept> orgQueryWrapper = new LambdaQueryWrapper<>();
+        orgQueryWrapper.select(SysDept::getId, SysDept::getName);
+        orgQueryWrapper.in(SysDept::getId, sysUserList.stream().map(SysUser::getDeptId).toList());
+
+        List<SysDept> sysDepts = sysDeptService.list(orgQueryWrapper);
+        Map<Long, String> orgNames = sysDepts.stream().collect(Collectors.toMap(SysDept::getId, SysDept::getName));
+        userSimpleVoList.forEach(sysUser -> sysUser.setDeptName(orgNames.get(sysUser.getDeptId())));
+
+        return userSimpleVoList;
     }
 
     /**
@@ -249,7 +279,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         wrapper.like(StringUtils.isNotEmpty(sysUserPageDto.getPhone()), SysUser::getPhone, sysUserPageDto.getPhone());
         wrapper.eq(sysUserPageDto.getGender() != null, SysUser::getGender, sysUserPageDto.getGender());
         wrapper.eq(Objects.nonNull(sysUserPageDto.getType()), SysUser::getType, sysUserPageDto.getType());
-        wrapper.eq(Objects.nonNull(sysUserPageDto.getOrgId()), SysUser::getOrgId, sysUserPageDto.getOrgId());
+        wrapper.eq(Objects.nonNull(sysUserPageDto.getDeptId()), SysUser::getDeptId, sysUserPageDto.getDeptId());
         wrapper.eq(Objects.nonNull(sysUserPageDto.getStatus()), SysUser::getStatus, sysUserPageDto.getStatus());
         addTimeRangeCondition(wrapper, SysUser::getCreatedTime, sysUserPageDto.getCreatedTimeStart(), sysUserPageDto.getCreatedTimeEnd());
 
@@ -306,7 +336,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
                 // 系统不存在用户时
                 if (user == null) {
                     ValidatorUtils.validate(validator, sysUserExcelDto);
-                    sysOrgService.checkOrgDataScope(sysUser.getOrgId());
+                    sysDeptService.checkOrgDataScope(sysUser.getDeptId());
                     sysUser.setId(IdGenerator.nextId());
                     sysUser.setPassword(encodedPassword);
                     baseMapper.insert(sysUser);
@@ -317,7 +347,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
                     sysUser.setId(user.getId());
                     checkUserAllowed(sysUser);
                     checkUserDataScope(sysUser);
-                    sysOrgService.checkOrgDataScope(sysUser.getOrgId());
+                    sysDeptService.checkOrgDataScope(sysUser.getDeptId());
                     baseMapper.updateById(sysUser);
                     successNum++;
                     sucessMessage.append("<br/>").append(successNum).append("、账号 ").append(username).append(" 更新成功");
@@ -493,9 +523,9 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         SysUser sysUser = baseMapper.selectById(userId);
         SysUserInfoVo sysUserInfoVo = BeanUtil.copyProperties(sysUser, SysUserInfoVo.class);
 
-        // 机构名称
+        // 部门名称
         CompletableFuture<String> orgNameFuture = CompletableFuture
-                .supplyAsync(() -> sysOrgService.getOrgNameById(sysUser.getOrgId()), executor);
+                .supplyAsync(() -> sysDeptService.getOrgNameById(sysUser.getDeptId()), executor);
 
         // 用户岗位名称列表
         CompletableFuture<String> postNameListFuture = CompletableFuture.supplyAsync(() -> {
@@ -553,13 +583,13 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
     }
 
     @Override
-    public List<SysUser> getUserListByOrgIds(Collection<Long> orgIds) {
-        if (CollUtil.isEmpty(orgIds)) {
+    public List<SysUser> getUserListByDeptIds(Collection<Long> deptIds) {
+        if (CollUtil.isEmpty(deptIds)) {
             return  List.of();
         }
 
         LambdaQueryWrapper<SysUser> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.in(SysUser::getOrgId, orgIds);
+        queryWrapper.in(SysUser::getDeptId, deptIds);
         return baseMapper.selectList(queryWrapper);
     }
 

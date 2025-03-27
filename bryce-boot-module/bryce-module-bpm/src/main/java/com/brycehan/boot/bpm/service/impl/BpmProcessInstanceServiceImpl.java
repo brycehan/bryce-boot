@@ -223,8 +223,8 @@ public class BpmProcessInstanceServiceImpl implements BpmProcessInstanceService 
         BpmProcessDefinitionInfo processDefinitionInfo = bpmProcessDefinitionInfoService.getProcessDefinitionInfo(historicProcessInstance.getProcessDefinitionId());
         BpmUserVo startUser = bpmUserApi.getUser(NumberUtil.parseLong(historicProcessInstance.getStartUserId(), null));
         BpmDeptVo dept = null;
-        if (startUser != null && startUser.getOrgId() != null) {
-            dept = bpmDeptApi.getDept(startUser.getOrgId());
+        if (startUser != null && startUser.getDeptId() != null) {
+            dept = bpmDeptApi.getDept(startUser.getDeptId());
         }
         return BpmProcessInstanceConvert.INSTANCE.buildProcessInstance(historicProcessInstance, processDefinition, processDefinitionInfo, startUser, dept);
     }
@@ -392,7 +392,7 @@ public class BpmProcessInstanceServiceImpl implements BpmProcessInstanceService 
                 .toList();
         Set<Long> userIds = BpmProcessInstanceConvert.INSTANCE.parseUserIds(processInstance, approveNodes, todoTask);
         Map<Long, BpmUserVo> userMap = bpmUserApi.getUserMap(List.copyOf(userIds));
-        Map<Long, BpmDeptVo> deptMap = bpmDeptApi.getDeptMap(userMap.values().stream().map(BpmUserVo::getOrgId).collect(Collectors.toSet()));
+        Map<Long, BpmDeptVo> deptMap = bpmDeptApi.getDeptMap(userMap.values().stream().map(BpmUserVo::getDeptId).collect(Collectors.toSet()));
 
         // 2. 表单权限
         String taskId = reqVO.getTaskId() == null && todoTask != null ? todoTask.getId() : reqVO.getTaskId();
@@ -688,7 +688,7 @@ public class BpmProcessInstanceServiceImpl implements BpmProcessInstanceService 
         // 2.2 拼接基础信息
         Set<Long> userIds = BpmProcessInstanceConvert.INSTANCE.parseUserIds02(processInstance, tasks);
         Map<Long, BpmUserVo> userMap = bpmUserApi.getUserMap(List.copyOf(userIds));
-        Map<Long, BpmDeptVo> deptMap = bpmDeptApi.getDeptMap(userMap.values().stream().map(BpmUserVo::getOrgId).collect(Collectors.toSet()));
+        Map<Long, BpmDeptVo> deptMap = bpmDeptApi.getDeptMap(userMap.values().stream().map(BpmUserVo::getDeptId).collect(Collectors.toSet()));
         return BpmProcessInstanceConvert.INSTANCE.buildProcessInstanceBpmnModelView(processInstance, tasks, bpmnModel,
                 simpleModel,
                 unfinishedTaskActivityIds, finishedTaskActivityIds, finishedSequenceFlowActivityIds,
@@ -815,8 +815,8 @@ public class BpmProcessInstanceServiceImpl implements BpmProcessInstanceService 
         List<Long> userIds = processInstancePage.getList().stream().map(HistoricProcessInstance::getStartUserId).map(userId -> NumberUtil.parseLong(userId, null)).filter(Objects::nonNull).toList();
         Map<Long, BpmUserVo> userMap = bpmUserApi.getUserMap(userIds);
 
-        List<Long> orgIds = userMap.values().stream().map(BpmUserVo::getOrgId).toList();
-        Map<Long, BpmDeptVo> deptMap = bpmDeptApi.getDeptMap(orgIds);
+        List<Long> deptIds = userMap.values().stream().map(BpmUserVo::getDeptId).toList();
+        Map<Long, BpmDeptVo> deptMap = bpmDeptApi.getDeptMap(deptIds);
 
         Map<String, BpmProcessDefinitionInfo> processDefinitionInfoMap = bpmProcessDefinitionInfoService.getProcessDefinitionInfoMap(processDefinitionIds);
         return PageResult.of(processInstancePage.getTotal(), BpmProcessInstanceConvert.INSTANCE.buildProcessInstances(historicProcessInstances,

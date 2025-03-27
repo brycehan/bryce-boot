@@ -8,8 +8,8 @@ import com.brycehan.boot.api.system.vo.BpmDeptVo;
 import com.brycehan.boot.common.base.ServerException;
 import com.brycehan.boot.common.base.response.SystemResponseStatus;
 import com.brycehan.boot.common.enums.StatusType;
-import com.brycehan.boot.system.entity.po.SysOrg;
-import com.brycehan.boot.system.service.SysOrgService;
+import com.brycehan.boot.system.entity.po.SysDept;
+import com.brycehan.boot.system.service.SysDeptService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 系统机构部门 Api 实现
+ * 系统部门部门 Api 实现
  *
  * @author Bryce Han
  * @since 2023/11/16
@@ -29,12 +29,12 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class BpmDeptApiService implements BpmDeptApi {
 
-    private final SysOrgService sysOrgService;
+    private final SysDeptService sysDeptService;
 
     @Override
     public BpmDeptVo getDept(Long id) {
-        SysOrg sysOrg = sysOrgService.getById(id);
-        return BeanUtil.copyProperties(sysOrg, BpmDeptVo.class);
+        SysDept sysDept = sysDeptService.getById(id);
+        return BeanUtil.copyProperties(sysDept, BpmDeptVo.class);
     }
 
     @Override
@@ -42,8 +42,8 @@ public class BpmDeptApiService implements BpmDeptApi {
         if (CollUtil.isEmpty(ids)) {
             return List.of();
         }
-        List<SysOrg> sysOrgList = sysOrgService.listByIds(ids);
-        return BeanUtil.copyToList(sysOrgList, BpmDeptVo.class);
+        List<SysDept> sysDeptList = sysDeptService.listByIds(ids);
+        return BeanUtil.copyToList(sysDeptList, BpmDeptVo.class);
     }
 
     @Override
@@ -67,13 +67,13 @@ public class BpmDeptApiService implements BpmDeptApi {
 
     @Override
     public List<BpmDeptDto> getChildDeptList(Long id) {
-        List<Long> subOrgIds = sysOrgService.getSubOrgIds(id);
+        List<Long> subDeptIds = sysDeptService.getSubDeptIds(id);
 
-        if (CollUtil.isEmpty(subOrgIds)) {
+        if (CollUtil.isEmpty(subDeptIds)) {
             return List.of();
         }
 
-        List<SysOrg> sysOrgList = sysOrgService.listByIds(subOrgIds);
-        return BeanUtil.copyToList(sysOrgList, BpmDeptDto.class);
+        List<SysDept> sysDeptList = sysDeptService.listByIds(subDeptIds);
+        return BeanUtil.copyToList(sysDeptList, BpmDeptDto.class);
     }
 }

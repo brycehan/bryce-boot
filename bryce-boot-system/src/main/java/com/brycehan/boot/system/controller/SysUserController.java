@@ -17,6 +17,7 @@ import com.brycehan.boot.framework.operatelog.annotation.OperatedType;
 import com.brycehan.boot.system.entity.dto.*;
 import com.brycehan.boot.system.entity.po.SysUser;
 import com.brycehan.boot.system.entity.vo.SysRoleVo;
+import com.brycehan.boot.system.entity.vo.SysUserSimpleVo;
 import com.brycehan.boot.system.entity.vo.SysUserVo;
 import com.brycehan.boot.system.service.SysRoleService;
 import com.brycehan.boot.system.service.SysUserRoleService;
@@ -140,6 +141,19 @@ public class SysUserController {
     @PostMapping(path = "/list")
     public ResponseResult<List<SysUserVo>> list(@RequestBody SysUserPageDto sysUserPageDto) {
         List<SysUserVo> list = sysUserService.list(sysUserPageDto);
+        return ResponseResult.ok(list);
+    }
+
+    /**
+     * 系统用户列表查询
+     *
+     * @param sysUserDto 查询条件
+     * @return 系统用户列表
+     */
+    @Operation(summary = "系统用户简单列表查询")
+    @PostMapping(path = "/simple-list")
+    public ResponseResult<List<SysUserSimpleVo>> simpleList(@RequestBody SysUserDto sysUserDto) {
+        List<SysUserSimpleVo> list = sysUserService.simpleList(sysUserDto);
         return ResponseResult.ok(list);
     }
 

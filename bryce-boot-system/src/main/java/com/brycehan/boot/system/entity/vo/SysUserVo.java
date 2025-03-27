@@ -108,16 +108,16 @@ public class SysUserVo implements Serializable {
     private Integer sort;
 
     /**
-     * 机构ID
+     * 部门ID
      */
-    @ExcelProperty(value = "机构ID")
-    @Schema(description = "机构ID")
-    private Long orgId;
+    @ExcelProperty(value = "部门ID")
+    @Schema(description = "部门ID")
+    private Long deptId;
 
     /**
-     * 机构名称
+     * 部门名称
      */
-    @Schema(description = "机构名称")
+    @Schema(description = "部门名称")
     private String orgName;
 
     /**

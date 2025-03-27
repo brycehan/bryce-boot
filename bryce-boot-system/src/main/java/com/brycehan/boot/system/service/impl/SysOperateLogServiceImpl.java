@@ -19,7 +19,7 @@ import com.brycehan.boot.system.entity.po.SysOperateLog;
 import com.brycehan.boot.system.entity.vo.SysOperateLogVo;
 import com.brycehan.boot.system.mapper.SysOperateLogMapper;
 import com.brycehan.boot.system.service.SysOperateLogService;
-import com.brycehan.boot.system.service.SysOrgService;
+import com.brycehan.boot.system.service.SysDeptService;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
@@ -49,7 +49,7 @@ import java.util.concurrent.TimeUnit;
 public class SysOperateLogServiceImpl extends BaseServiceImpl<SysOperateLogMapper, SysOperateLog> implements SysOperateLogService {
 
     private final RedisTemplate<String, OperateLogDto> redisTemplate;
-    private final SysOrgService sysOrgService;
+    private final SysDeptService sysDeptService;
 
     public void save(SysOperateLogDto sysOperateLogDto) {
         SysOperateLog sysOperateLog = SysOperateLogConvert.INSTANCE.convert(sysOperateLogDto);
@@ -67,8 +67,8 @@ public class SysOperateLogServiceImpl extends BaseServiceImpl<SysOperateLogMappe
         SysOperateLog sysOperateLog = getById(id);
         SysOperateLogVo sysOperateLogVo = SysOperateLogConvert.INSTANCE.convert(sysOperateLog);
 
-        // 机构名称
-        String orgName = sysOrgService.getOrgNameById(sysOperateLogVo.getOrgId());
+        // 部门名称
+        String orgName = sysDeptService.getOrgNameById(sysOperateLogVo.getDeptId());
         sysOperateLogVo.setOrgName(orgName);
 
         return sysOperateLogVo;
@@ -102,7 +102,7 @@ public class SysOperateLogServiceImpl extends BaseServiceImpl<SysOperateLogMappe
     private Wrapper<SysOperateLog> getWrapper(SysOperateLogPageDto sysOperateLogPageDto) {
         LambdaQueryWrapper<SysOperateLog> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(Objects.nonNull(sysOperateLogPageDto.getStatus()), SysOperateLog::getStatus, sysOperateLogPageDto.getStatus());
-        wrapper.eq(Objects.nonNull(sysOperateLogPageDto.getOrgId()), SysOperateLog::getOrgId, sysOperateLogPageDto.getOrgId());
+        wrapper.eq(Objects.nonNull(sysOperateLogPageDto.getDeptId()), SysOperateLog::getDeptId, sysOperateLogPageDto.getDeptId());
         wrapper.like(StringUtils.isNotEmpty(sysOperateLogPageDto.getName()), SysOperateLog::getName, sysOperateLogPageDto.getName());
         wrapper.like(StringUtils.isNotEmpty(sysOperateLogPageDto.getModuleName()), SysOperateLog::getModuleName, sysOperateLogPageDto.getModuleName());
         wrapper.like(StringUtils.isNotEmpty(sysOperateLogPageDto.getRequestUri()), SysOperateLog::getRequestUri, sysOperateLogPageDto.getRequestUri());

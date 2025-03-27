@@ -10,14 +10,14 @@ import lombok.EqualsAndHashCode;
 import java.util.List;
 
 /**
- * 系统角色机构Dto
+ * 系统角色部门Dto
  *
  * @since 2023/09/13
  * @author Bryce Han
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@Schema(description = "系统角色机构Dto")
+@Schema(description = "系统角色部门Dto")
 public class SysRoleOrgDto extends BaseDto {
 
     /**
@@ -35,9 +35,9 @@ public class SysRoleOrgDto extends BaseDto {
     private DataScopeType dataScope;
 
     /**
-     * 机构IDs
+     * 部门IDs
      */
-    @Schema(description = "机构IDs")
-    private List<Long> orgIds;
+    @Schema(description = "部门IDs")
+    private List<Long> deptIds;
 
 }

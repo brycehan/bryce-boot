@@ -31,12 +31,12 @@ public interface BpmUserApi {
     List<BpmUserVo> getUsers(List<Long> userIds);
 
     /**
-     * 根据机构ID列表获取用户信息
+     * 根据部门ID列表获取用户信息
      *
-     * @param orgIds 机构ID列表
+     * @param deptIds 部门ID列表
      * @return 用户信息列表
      */
-    List<BpmUserVo> getUsersByOrgIds(List<Long> orgIds);
+    List<BpmUserVo> getUsersByDeptIds(List<Long> deptIds);
 
     /**
      * 根据岗位ID列表获取用户信息

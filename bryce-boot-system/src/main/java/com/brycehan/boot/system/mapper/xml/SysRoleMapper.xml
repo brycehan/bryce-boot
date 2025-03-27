@@ -11,7 +11,7 @@
         <result column="sort" property="sort"/>
         <result column="status" property="status"/>
         <result column="remark" property="remark"/>
-        <result column="org_id" property="orgId"/>
+        <result column="dept_id" property="deptId"/>
         <result column="deleted" property="deleted"/>
         <result column="created_user_id" property="createdUserId"/>
         <result column="created_time" property="createdTime"/>
@@ -22,7 +22,7 @@
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, name, code, data_scope, sort,
-        status, remark, org_id, deleted, created_user_id,
+        status, remark, dept_id, deleted, created_user_id,
         created_time, updated_user_id, updated_time
     </sql>
 

@@ -44,10 +44,10 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<M, 
      * 原生SQL数据权限
      *
      * @param tableAlias 表别名，多表关联时，需要填写表别名
-     * @param orgIdAlias 机构ID别名，默认org_id
+     * @param deptIdAlias 部门ID别名，默认dept_id
      * @return 数据权限
      */
-    protected DataScope getDataScope(String tableAlias, String orgIdAlias) {
+    protected DataScope getDataScope(String tableAlias, String deptIdAlias) {
         LoginUser loginUser = LoginUserContext.currentUser();
 
         // 如果没有登录或者是超级管理员，则不进行数据过滤
@@ -70,9 +70,9 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<M, 
         if(StrUtil.isNotBlank(tableAlias)) {
             tableAlias += ".";
         }
-        // 获取机构的别名
-        if(StrUtil.isBlank(orgIdAlias)) {
-            orgIdAlias = "org_id";
+        // 获取部门的别名
+        if(StrUtil.isBlank(deptIdAlias)) {
+            deptIdAlias = "dept_id";
         }
 
         Map<DataScopeType, List<RoleVo>> dataScopeMap = loginUser.getRoles().stream()
@@ -94,38 +94,38 @@ public class BaseServiceImpl<M extends BaseMapper<T>, T> extends ServiceImpl<M, 
             if (dataScopeMap.get(DataScopeType.CUSTOM).size() > 1) {
                 Set<Long> roleIds = dataScopeMap.get(DataScopeType.CUSTOM).stream().map(RoleVo::getId).collect(Collectors.toSet());
                 if (CollUtil.isNotEmpty(roleIds)) {
-                    sqlFilter.append(tableAlias).append(orgIdAlias);
+                    sqlFilter.append(tableAlias).append(deptIdAlias);
                     sqlFilter.append(" in (");
-                    sqlFilter.append(StrUtil.format(" SELECT org_id FROM brc_sys_role_org WHERE deleted is null and role_id in ({})", StrUtil.join(",", roleIds)));
+                    sqlFilter.append(StrUtil.format(" SELECT dept_id FROM brc_sys_role_org WHERE deleted is null and role_id in ({})", StrUtil.join(",", roleIds)));
                     sqlFilter.append(" )");
                 }
             } else {
                 String finalTableAlias = tableAlias;
-                String finalOrgIdAlias = orgIdAlias;
+                String finalDeptIdAlias = deptIdAlias;
                 dataScopeMap.get(DataScopeType.CUSTOM).stream().map(RoleVo::getId).findFirst().ifPresent(roleId -> {
-                    sqlFilter.append(finalTableAlias).append(finalOrgIdAlias);
+                    sqlFilter.append(finalTableAlias).append(finalDeptIdAlias);
                     sqlFilter.append(" in (");
-                    sqlFilter.append(StrUtil.format(" SELECT org_id FROM brc_sys_role_org WHERE deleted is null and role_id = {}", roleId));
+                    sqlFilter.append(StrUtil.format(" SELECT dept_id FROM brc_sys_role_org WHERE deleted is null and role_id = {}", roleId));
                     sqlFilter.append(" )");
                 });
             }
         }
 
-        // 本机构及下级机构数据
+        // 本部门及下级部门数据
         if (dataScopes.contains(DataScopeType.ORG_AND_CHILDREN)) {
             if (!sqlFilter.isEmpty()) {
                 sqlFilter.append(" or ");
             }
-            sqlFilter.append(tableAlias).append(orgIdAlias);
+            sqlFilter.append(tableAlias).append(deptIdAlias);
             sqlFilter.append(" in (");
-            sqlFilter.append(StrUtil.format(" SELECT org_id FROM brc_sys_org WHERE deleted is null and status = 1 and org_id in ({})", StrUtil.join(",", loginUser.getSubOrgIds())));
+            sqlFilter.append(StrUtil.format(" SELECT dept_id FROM brc_sys_dept WHERE deleted is null and status = 1 and dept_id in ({})", StrUtil.join(",", loginUser.getSubDeptIds())));
             sqlFilter.append(" )");
-        } else if (dataScopes.contains(DataScopeType.ORG_ONLY)) { // 本机构数据
+        } else if (dataScopes.contains(DataScopeType.ORG_ONLY)) { // 本部门数据
             if (!sqlFilter.isEmpty()) {
                 sqlFilter.append(" or ");
             }
-            sqlFilter.append(tableAlias).append(orgIdAlias);
-            sqlFilter.append(" = ").append(loginUser.getOrgId());
+            sqlFilter.append(tableAlias).append(deptIdAlias);
+            sqlFilter.append(" = ").append(loginUser.getDeptId());
         }
 
         // 查询本人数据

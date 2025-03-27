@@ -32,12 +32,12 @@ public class SysUserExcelDto implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 机构ID
+     * 部门ID
      */
     @NotNull
     @ExcelProperty(value = "部门编号")
     @ColumnWidth(20)
-    private Long orgId;
+    private Long deptId;
 
     /**
      * 账号

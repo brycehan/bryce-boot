@@ -14,38 +14,38 @@ import org.hibernate.validator.constraints.Length;
 import java.io.Serial;
 
 /**
- * 系统机构Dto
+ * 系统部门 Dto
  *
  * @since 2023/08/31
  * @author Bryce Han
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@Schema(description = "系统机构Dto")
-public class SysOrgDto extends TreeNode<SysOrgDto> {
+@Schema(description = "系统部门 Dto")
+public class SysDeptDto extends TreeNode<SysDeptDto> {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
     /**
-     * 机构名称
+     * 部门名称
      */
-    @Schema(description = "机构名称")
+    @Schema(description = "部门名称")
     @NotBlank(groups = {SaveGroup.class, UpdateGroup.class})
     @Length(max = 100, groups = {SaveGroup.class, UpdateGroup.class})
     private String name;
 
     /**
-     * 机构编码
+     * 部门编码
      */
-    @Schema(description = "机构编码")
+    @Schema(description = "部门编码")
     @Length(max = 30, groups = {SaveGroup.class, UpdateGroup.class})
     private String code;
 
     /**
-     * 祖级机构列表
+     * 祖级部门列表
      */
-    @Schema(description = "祖级机构列表")
+    @Schema(description = "祖级部门列表")
     @Length(max = 255, groups = {SaveGroup.class, UpdateGroup.class})
     private String ancestor;
 

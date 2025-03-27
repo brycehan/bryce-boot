@@ -26,17 +26,17 @@ public class SysRoleOrgServiceImpl extends BaseServiceImpl<SysRoleOrgMapper, Sys
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void saveOrUpdate(Long roleId, List<Long> orgIds) {
-        // 数据库角色对应机构IDs
-        List<Long> dbOrgIds = getOrgIdsByRoleId(roleId);
+    public void saveOrUpdate(Long roleId, List<Long> deptIds) {
+        // 数据库角色对应部门IDs
+        List<Long> dbDeptIds = getDeptIdsByRoleId(roleId);
 
-        // 需要新增的机构IDs
-        Collection<Long> insertOrgIds = CollUtil.subtract(orgIds, dbOrgIds);
-        if (CollUtil.isNotEmpty(insertOrgIds)) {
-            List<SysRoleOrg> list = insertOrgIds.stream().map(orgId -> {
+        // 需要新增的部门IDs
+        Collection<Long> insertDeptIds = CollUtil.subtract(deptIds, dbDeptIds);
+        if (CollUtil.isNotEmpty(insertDeptIds)) {
+            List<SysRoleOrg> list = insertDeptIds.stream().map(deptId -> {
                 SysRoleOrg dataScope = new SysRoleOrg();
                 dataScope.setId(IdGenerator.nextId());
-                dataScope.setOrgId(orgId);
+                dataScope.setDeptId(deptId);
                 dataScope.setRoleId(roleId);
                 return dataScope;
             }).toList();
@@ -45,25 +45,25 @@ public class SysRoleOrgServiceImpl extends BaseServiceImpl<SysRoleOrgMapper, Sys
             saveBatch(list);
         }
 
-        // 需要删除的机构IDs
-        Collection<Long> deleteOrgIds = CollUtil.subtract(dbOrgIds, orgIds);
-        if (CollUtil.isNotEmpty(deleteOrgIds)) {
+        // 需要删除的部门IDs
+        Collection<Long> deleteDeptIds = CollUtil.subtract(dbDeptIds, deptIds);
+        if (CollUtil.isNotEmpty(deleteDeptIds)) {
             LambdaQueryWrapper<SysRoleOrg> queryWrapper = new LambdaQueryWrapper<>();
             queryWrapper.eq(SysRoleOrg::getRoleId, roleId);
-            queryWrapper.in(SysRoleOrg::getOrgId, deleteOrgIds);
+            queryWrapper.in(SysRoleOrg::getDeptId, deleteDeptIds);
 
             remove(queryWrapper);
         }
     }
 
     @Override
-    public List<Long> getOrgIdsByRoleId(Long roleId) {
+    public List<Long> getDeptIdsByRoleId(Long roleId) {
         LambdaQueryWrapper<SysRoleOrg> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(SysRoleOrg::getRoleId, roleId);
 
         List<SysRoleOrg> sysUserRoles = baseMapper.selectList(queryWrapper);
 
-        return sysUserRoles.stream().map(SysRoleOrg::getOrgId)
+        return sysUserRoles.stream().map(SysRoleOrg::getDeptId)
                 .toList();
     }
 

@@ -65,7 +65,7 @@ public interface BpmProcessInstanceConvert {
                 BpmUserVo startUser = userMap.get(NumberUtil.parseLong(historicProcessInstances.get(i).getStartUserId(), null));
                 if (startUser != null) {
                     bpmProcessInstanceVo.setStartUser(BeanUtil.toBean(startUser, BpmUserSimpleBaseVo.class));
-                    BpmDeptVo bpmDeptVo = deptMap.get(startUser.getOrgId());
+                    BpmDeptVo bpmDeptVo = deptMap.get(startUser.getDeptId());
                     if (bpmDeptVo != null) {
                         bpmProcessInstanceVo.getStartUser().setDeptName(bpmDeptVo.getName());
                     }
@@ -181,7 +181,7 @@ public interface BpmProcessInstanceConvert {
             return null;
         }
         BpmUserSimpleBaseVo userVO = BeanUtil.toBean(user, BpmUserSimpleBaseVo.class);
-        BpmDeptVo dept = user.getOrgId() != null ? deptMap.get(user.getOrgId()) : null;
+        BpmDeptVo dept = user.getDeptId() != null ? deptMap.get(user.getDeptId()) : null;
         if (dept != null) {
             userVO.setDeptName(dept.getName());
         }
@@ -248,7 +248,7 @@ public interface BpmProcessInstanceConvert {
         BpmProcessInstanceVo processInstanceResp = null;
         if (processInstance != null) {
             BpmUserVo startUser = userMap.get(NumberUtil.parseLong(processInstance.getStartUserId(), null));
-            BpmDeptVo dept = startUser != null ? deptMap.get(startUser.getOrgId()) : null;
+            BpmDeptVo dept = startUser != null ? deptMap.get(startUser.getDeptId()) : null;
             processInstanceResp = buildProcessInstance(processInstance, null, null, startUser, dept);
         }
 

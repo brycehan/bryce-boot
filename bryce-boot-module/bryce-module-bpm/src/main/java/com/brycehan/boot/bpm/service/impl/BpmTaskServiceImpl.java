@@ -1222,8 +1222,8 @@ public class BpmTaskServiceImpl implements BpmTaskService {
                                 BpmUserTaskAssignStartUserHandlerTypeEnum.TRANSFER_DEPT_LEADER.getValue())) {
                             BpmUserVo startUser = bpmUserApi.getUser(Long.valueOf(processInstance.getStartUserId()));
                             Assert.notNull(startUser, "提交人({})信息为空", processInstance.getStartUserId());
-                            BpmDeptVo dept = startUser.getOrgId() != null ? bpmDeptApi.getDept(startUser.getOrgId()) : null;
-                            Assert.notNull(dept, "提交人({})部门({})信息为空", processInstance.getStartUserId(), startUser.getOrgId());
+                            BpmDeptVo dept = startUser.getDeptId() != null ? bpmDeptApi.getDept(startUser.getDeptId()) : null;
+                            Assert.notNull(dept, "提交人({})部门({})信息为空", processInstance.getStartUserId(), startUser.getDeptId());
                             // 找不到部门负责人的情况下，自动审批通过
                             // noinspection DataFlowIssue
                             if (dept.getLeaderUserId() == null) {

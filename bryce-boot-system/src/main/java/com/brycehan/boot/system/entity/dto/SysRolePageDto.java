@@ -45,10 +45,10 @@ public class SysRolePageDto extends BasePageDto {
     private StatusType status;
 
     /**
-     * 机构ID
+     * 部门ID
      */
-    @Schema(description = "机构ID")
-    private Long orgId;
+    @Schema(description = "部门ID")
+    private Long deptId;
 
     /**
      * 创建时间开始

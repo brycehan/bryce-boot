@@ -13,7 +13,7 @@ import com.brycehan.boot.framework.security.TokenUtils;
 import com.brycehan.boot.system.entity.convert.SysUserConvert;
 import com.brycehan.boot.system.entity.po.SysUser;
 import com.brycehan.boot.system.service.SysAuthorityService;
-import com.brycehan.boot.system.service.SysOrgService;
+import com.brycehan.boot.system.service.SysDeptService;
 import com.brycehan.boot.system.service.SysUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -38,7 +38,7 @@ public class SysUserDetailsServiceImpl implements SysUserDetailsService {
 
     private final SysAuthorityService sysAuthorityService;
 
-    private final SysOrgService sysOrgService;
+    private final SysDeptService sysDeptService;
 
     @Override
     public UserDetails getUserDetails(SysUser sysUser) {
@@ -88,11 +88,11 @@ public class SysUserDetailsServiceImpl implements SysUserDetailsService {
         loginUser.setLoginIp(ip);
         loginUser.setLoginLocation(loginLocation);
 
-        // 机构名称
-        loginUser.setOrgName(sysOrgService.getOrgNameById(loginUser.getOrgId()));
-        // 用户所有机构的下级机构集合
-        List<Long> subOrgIds = sysOrgService.getSubOrgIds(loginUser.getOrgId());
-        loginUser.setSubOrgIds(new HashSet<>(subOrgIds));
+        // 部门名称
+        loginUser.setOrgName(sysDeptService.getOrgNameById(loginUser.getDeptId()));
+        // 用户所有部门的下级部门集合
+        List<Long> subDeptIds = sysDeptService.getSubDeptIds(loginUser.getDeptId());
+        loginUser.setSubDeptIds(new HashSet<>(subDeptIds));
     }
 
 }
