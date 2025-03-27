@@ -12,7 +12,7 @@
     drop table if exists brc_sys_user_post;
     drop table if exists brc_sys_menu;
     drop table if exists brc_sys_role_menu;
-    drop table if exists brc_sys_role_org;
+    drop table if exists brc_sys_role_dept;
     drop table if exists brc_sys_login_log;
     drop table if exists brc_sys_operate_log;
     drop table if exists brc_sys_dict_type;
@@ -304,7 +304,7 @@ create index idx_role_id on brc_sys_role_menu (role_id);
 create index idx_menu_id on brc_sys_role_menu (menu_id);
 
 -- 9、系统角色部门关联表
-create table brc_sys_role_org
+create table brc_sys_role_dept
 (
     id              bigint   primary key comment 'ID',
     role_id         bigint   not null comment '角色ID',
@@ -354,7 +354,7 @@ create table brc_sys_operate_log
     user_id        bigint        null comment '操作人ID',
     username       varchar(50)   null comment '操作账号',
     dept_id         bigint        null comment '部门ID',
-    org_name       varchar(50)   null comment '部门名称',
+    dept_name       varchar(50)   null comment '部门名称',
     created_time   datetime      null comment '创建时间'
 ) engine InnoDB comment '系统操作日志表';
 

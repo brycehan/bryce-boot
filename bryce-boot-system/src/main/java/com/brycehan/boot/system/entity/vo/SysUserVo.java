@@ -118,7 +118,7 @@ public class SysUserVo implements Serializable {
      * 部门名称
      */
     @Schema(description = "部门名称")
-    private String orgName;
+    private String deptName;
 
     /**
      * 是否是超级管理员

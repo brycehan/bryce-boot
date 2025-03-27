@@ -27,7 +27,7 @@ import com.brycehan.boot.system.entity.po.SysRole;
 import com.brycehan.boot.system.entity.vo.SysRoleVo;
 import com.brycehan.boot.system.mapper.SysRoleMapper;
 import com.brycehan.boot.system.service.SysRoleMenuService;
-import com.brycehan.boot.system.service.SysRoleOrgService;
+import com.brycehan.boot.system.service.SysRoleDeptService;
 import com.brycehan.boot.system.service.SysRoleService;
 import com.brycehan.boot.system.service.SysUserRoleService;
 import lombok.RequiredArgsConstructor;
@@ -52,7 +52,7 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
 
     private final SysRoleMenuService sysRoleMenuService;
 
-    private final SysRoleOrgService sysRoleOrgService;
+    private final SysRoleDeptService sysRoleDeptService;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -105,7 +105,7 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
         sysRoleMenuService.deleteByRoleIds(idsDto.getIds());
 
         // 删除角色数据权限关系
-        sysRoleOrgService.deleteByRoleIds(idsDto.getIds());
+        sysRoleDeptService.deleteByRoleIds(idsDto.getIds());
     }
 
     @Override
@@ -176,22 +176,22 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
 
     @Override
     @Transactional
-    public void assignDataScope(SysRoleOrgDto sysRoleOrgDto) {
-        SysRole sysRole = baseMapper.selectById(sysRoleOrgDto.getId());
+    public void assignDataScope(SysRoleDeptDto sysRoleDeptDto) {
+        SysRole sysRole = baseMapper.selectById(sysRoleDeptDto.getId());
         if (sysRole == null) {
             return;
         }
         checkRoleAllowed(sysRole);
-        checkRoleDataScope(sysRoleOrgDto.getId());
+        checkRoleDataScope(sysRoleDeptDto.getId());
         // 更新角色
-        sysRole.setDataScope(sysRoleOrgDto.getDataScope());
+        sysRole.setDataScope(sysRoleDeptDto.getDataScope());
         baseMapper.updateById(sysRole);
 
         // 更新角色数据范围关系
-        if (sysRoleOrgDto.getDataScope() == DataScopeType.CUSTOM) {
-            sysRoleOrgService.saveOrUpdate(sysRoleOrgDto.getId(), sysRoleOrgDto.getDeptIds());
+        if (sysRoleDeptDto.getDataScope() == DataScopeType.CUSTOM) {
+            sysRoleDeptService.saveOrUpdate(sysRoleDeptDto.getId(), sysRoleDeptDto.getDeptIds());
         } else {
-            sysRoleOrgService.deleteByRoleIds(Collections.singletonList(sysRoleOrgDto.getId()));
+            sysRoleDeptService.deleteByRoleIds(Collections.singletonList(sysRoleDeptDto.getId()));
         }
     }
 

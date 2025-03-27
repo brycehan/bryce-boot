@@ -124,7 +124,7 @@ public class SysOperateLog implements Serializable {
     /**
      * 部门名称
      */
-    private String orgName;
+    private String deptName;
 
     /**
      * 创建时间

@@ -50,7 +50,7 @@ public class SysDeptServiceImpl extends BaseServiceImpl<SysDeptMapper, SysDept> 
 
     @Override
     public void update(SysDeptDto sysDeptDto) {
-        checkOrgDataScope(sysDeptDto.getId());
+        checkDeptDataScope(sysDeptDto.getId());
         SysDept sysDept = SysDeptConvert.INSTANCE.convert(sysDeptDto);
 
         // 上级部门不能为自身
@@ -70,7 +70,7 @@ public class SysDeptServiceImpl extends BaseServiceImpl<SysDeptMapper, SysDept> 
     @Override
     @Transactional
     public void delete(IdsDto idsDto) {
-        idsDto.getIds().forEach(this::checkOrgDataScope);
+        idsDto.getIds().forEach(this::checkDeptDataScope);
         // 判断是否有子部门
         long orgCount = count(new LambdaQueryWrapper<SysDept>().in(SysDept::getParentId, idsDto.getIds()));
         if (orgCount > 0) {
@@ -91,7 +91,7 @@ public class SysDeptServiceImpl extends BaseServiceImpl<SysDeptMapper, SysDept> 
     public List<SysDeptVo> list(SysDeptDto sysDeptDto) {
         Map<String, Object> params = BeanUtil.beanToMap(sysDeptDto, false, false);
         // 数据权限过滤
-        params.put(DataConstants.DATA_SCOPE, getDataScope("so", "id"));
+        params.put(DataConstants.DATA_SCOPE, getDataScope("sd", "id"));
 
         // 部门列表
         List<SysDept> sysDeptList = baseMapper.list(params);
@@ -133,7 +133,7 @@ public class SysDeptServiceImpl extends BaseServiceImpl<SysDeptMapper, SysDept> 
     }
 
     @Override
-    public String getOrgNameById(Long deptId) {
+    public String getDeptNameById(Long deptId) {
         if (deptId != null) {
             LambdaQueryWrapper<SysDept> queryWrapper = new LambdaQueryWrapper<>();
             queryWrapper.select(SysDept::getName);
@@ -147,7 +147,7 @@ public class SysDeptServiceImpl extends BaseServiceImpl<SysDeptMapper, SysDept> 
     }
 
     @Override
-    public void checkOrgDataScope(Long deptId) {
+    public void checkDeptDataScope(Long deptId) {
         if (deptId == null || LoginUser.isSuperAdmin(LoginUserContext.currentUser())) {
             return;
         }

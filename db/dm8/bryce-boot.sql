@@ -9,7 +9,7 @@ create schema if not exists bryce_boot;
     drop table if exists brc_sys_user_post;
     drop table if exists brc_sys_menu;
     drop table if exists brc_sys_role_menu;
-    drop table if exists brc_sys_role_org;
+    drop table if exists brc_sys_role_dept;
     drop table if exists brc_sys_login_log;
     drop table if exists brc_sys_operate_log;
     drop table if exists brc_sys_dict_type;
@@ -421,7 +421,7 @@ create index idx_brc_sys_role_menu_role_id on brc_sys_role_menu (role_id);
 create index idx_brc_sys_role_menu_menu_id on brc_sys_role_menu (menu_id);
 
 -- 9、系统角色部门关联表
-create table brc_sys_role_org
+create table brc_sys_role_dept
 (
     id              bigint not null primary key,
     role_id         bigint not null,
@@ -433,15 +433,15 @@ create table brc_sys_role_org
     updated_time    datetime
 );
 
-comment on table brc_sys_role_org is '系统角色部门关联表';
-comment on column brc_sys_role_org.id is 'ID';
-comment on column brc_sys_role_org.role_id is '角色ID';
-comment on column brc_sys_role_org.dept_id is '部门ID';
-comment on column brc_sys_role_org.deleted is '删除标识';
-comment on column brc_sys_role_org.created_user_id is '创建者ID';
-comment on column brc_sys_role_org.created_time is '创建时间';
-comment on column brc_sys_role_org.updated_user_id is '修改者ID';
-comment on column brc_sys_role_org.updated_time is '修改时间';
+comment on table brc_sys_role_dept is '系统角色部门关联表';
+comment on column brc_sys_role_dept.id is 'ID';
+comment on column brc_sys_role_dept.role_id is '角色ID';
+comment on column brc_sys_role_dept.dept_id is '部门ID';
+comment on column brc_sys_role_dept.deleted is '删除标识';
+comment on column brc_sys_role_dept.created_user_id is '创建者ID';
+comment on column brc_sys_role_dept.created_time is '创建时间';
+comment on column brc_sys_role_dept.updated_user_id is '修改者ID';
+comment on column brc_sys_role_dept.updated_time is '修改时间';
 
 -- 10、系统登录日志表
 create table brc_sys_login_log
@@ -494,7 +494,7 @@ create table brc_sys_operate_log
     user_id        bigint,
     username       varchar(50),
     dept_id         bigint,
-    org_name       varchar(50),
+    dept_name       varchar(50),
     created_time   datetime
 );
 
@@ -518,7 +518,7 @@ comment on column brc_sys_operate_log.user_agent is 'User Agent';
 comment on column brc_sys_operate_log.user_id is '操作人ID';
 comment on column brc_sys_operate_log.username is '操作账号';
 comment on column brc_sys_operate_log.dept_id is '部门ID';
-comment on column brc_sys_operate_log.org_name is '部门名称';
+comment on column brc_sys_operate_log.dept_name is '部门名称';
 comment on column brc_sys_operate_log.created_time is '创建时间';
 
 -- 12、系统字典类型表

@@ -185,7 +185,7 @@ public class SysOperateLogVo implements Serializable {
     @Schema(description = "部门名称")
     @ColumnWidth(20)
     @ExcelProperty(value = "部门名称", index = 8)
-    private String orgName;
+    private String deptName;
 
     /**
      * 创建时间

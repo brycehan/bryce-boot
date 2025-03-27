@@ -67,7 +67,7 @@ public class UserOnlineVo implements Serializable {
      * 部门名称
      */
     @Schema(description = "部门名称")
-    private String orgName;
+    private String deptName;
 
     /**
      * 用户登录存储Key

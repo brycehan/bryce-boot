@@ -15,8 +15,8 @@ import java.io.Serial;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("brc_sys_role_org")
-public class SysRoleOrg extends BaseEntity {
+@TableName("brc_sys_role_dept")
+public class SysRoleDept extends BaseEntity {
 
     @Serial
     private static final long serialVersionUID = 1L;

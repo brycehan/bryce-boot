@@ -56,7 +56,7 @@ public interface SysDeptService extends BaseService<SysDept> {
      * @param deptId 部门ID
      * @return 部门名称
      */
-    String getOrgNameById(Long deptId);
+    String getDeptNameById(Long deptId);
 
     /**
      * 根据部门ID列表，获取部门名称列表
@@ -64,7 +64,7 @@ public interface SysDeptService extends BaseService<SysDept> {
      * @param deptIds 部门ID列表
      * @return 部门ID部门名称列表map
      */
-    default Map<Long, String> getOrgNamesByIds(List<Long> deptIds) {
+    default Map<Long, String> getDeptNamesByIds(List<Long> deptIds) {
         if (CollectionUtils.isEmpty(deptIds)) {
             return new HashMap<>();
         }
@@ -87,5 +87,5 @@ public interface SysDeptService extends BaseService<SysDept> {
      *
      * @param deptId 部门ID
      */
-    void checkOrgDataScope(Long deptId);
+    void checkDeptDataScope(Long deptId);
 }

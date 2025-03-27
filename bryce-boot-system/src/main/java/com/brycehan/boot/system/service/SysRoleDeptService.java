@@ -1,7 +1,7 @@
 package com.brycehan.boot.system.service;
 
 import com.brycehan.boot.framework.mybatis.service.BaseService;
-import com.brycehan.boot.system.entity.po.SysRoleOrg;
+import com.brycehan.boot.system.entity.po.SysRoleDept;
 
 import java.util.List;
 
@@ -11,7 +11,7 @@ import java.util.List;
  * @since 2023/09/15
  * @author Bryce Han
  */
-public interface SysRoleOrgService extends BaseService<SysRoleOrg> {
+public interface SysRoleDeptService extends BaseService<SysRoleDept> {
 
     /**
      * 保存或修改

@@ -89,7 +89,7 @@ public class SysUserDetailsServiceImpl implements SysUserDetailsService {
         loginUser.setLoginLocation(loginLocation);
 
         // 部门名称
-        loginUser.setOrgName(sysDeptService.getOrgNameById(loginUser.getDeptId()));
+        loginUser.setDeptName(sysDeptService.getDeptNameById(loginUser.getDeptId()));
         // 用户所有部门的下级部门集合
         List<Long> subDeptIds = sysDeptService.getSubDeptIds(loginUser.getDeptId());
         loginUser.setSubDeptIds(new HashSet<>(subDeptIds));

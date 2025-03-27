@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.brycehan.boot.system.mapper.SysRoleOrgMapper">
+<mapper namespace="com.brycehan.boot.system.mapper.SysRoleDeptMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.brycehan.boot.system.entity.po.SysRoleOrg">
+    <resultMap id="BaseResultMap" type="com.brycehan.boot.system.entity.po.SysRoleDept">
         <id column="id" property="id"/>
         <result column="role_id" property="roleId"/>
         <result column="dept_id" property="deptId"/>
@@ -23,7 +23,7 @@
     <select id="getDataScopeDeptIds" resultType="java.lang.Long">
         select sro.dept_id
         from brc_sys_user_role sur
-        inner join brc_sys_role_org sro on sur.role_id = sro.role_id
+        inner join brc_sys_role_dept sro on sur.role_id = sro.role_id
         where sro.deleted is null
           and sur.deleted is null
           and sur.user_id = #{userId}

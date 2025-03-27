@@ -48,7 +48,7 @@ public class SysUserInfoVo implements Serializable {
      * 部门名称
      */
     @Schema(description = "部门名称")
-    private String orgName;
+    private String deptName;
 
     /**
      * 创建时间

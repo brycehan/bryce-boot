@@ -4,9 +4,9 @@ import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.brycehan.boot.common.base.IdGenerator;
 import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
-import com.brycehan.boot.system.entity.po.SysRoleOrg;
-import com.brycehan.boot.system.mapper.SysRoleOrgMapper;
-import com.brycehan.boot.system.service.SysRoleOrgService;
+import com.brycehan.boot.system.entity.po.SysRoleDept;
+import com.brycehan.boot.system.mapper.SysRoleDeptMapper;
+import com.brycehan.boot.system.service.SysRoleDeptService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +22,7 @@ import java.util.List;
  */
 @Service
 @RequiredArgsConstructor
-public class SysRoleOrgServiceImpl extends BaseServiceImpl<SysRoleOrgMapper, SysRoleOrg> implements SysRoleOrgService {
+public class SysRoleDeptServiceImpl extends BaseServiceImpl<SysRoleDeptMapper, SysRoleDept> implements SysRoleDeptService {
 
     @Transactional(rollbackFor = Exception.class)
     @Override
@@ -33,8 +33,8 @@ public class SysRoleOrgServiceImpl extends BaseServiceImpl<SysRoleOrgMapper, Sys
         // 需要新增的部门IDs
         Collection<Long> insertDeptIds = CollUtil.subtract(deptIds, dbDeptIds);
         if (CollUtil.isNotEmpty(insertDeptIds)) {
-            List<SysRoleOrg> list = insertDeptIds.stream().map(deptId -> {
-                SysRoleOrg dataScope = new SysRoleOrg();
+            List<SysRoleDept> list = insertDeptIds.stream().map(deptId -> {
+                SysRoleDept dataScope = new SysRoleDept();
                 dataScope.setId(IdGenerator.nextId());
                 dataScope.setDeptId(deptId);
                 dataScope.setRoleId(roleId);
@@ -48,9 +48,9 @@ public class SysRoleOrgServiceImpl extends BaseServiceImpl<SysRoleOrgMapper, Sys
         // 需要删除的部门IDs
         Collection<Long> deleteDeptIds = CollUtil.subtract(dbDeptIds, deptIds);
         if (CollUtil.isNotEmpty(deleteDeptIds)) {
-            LambdaQueryWrapper<SysRoleOrg> queryWrapper = new LambdaQueryWrapper<>();
-            queryWrapper.eq(SysRoleOrg::getRoleId, roleId);
-            queryWrapper.in(SysRoleOrg::getDeptId, deleteDeptIds);
+            LambdaQueryWrapper<SysRoleDept> queryWrapper = new LambdaQueryWrapper<>();
+            queryWrapper.eq(SysRoleDept::getRoleId, roleId);
+            queryWrapper.in(SysRoleDept::getDeptId, deleteDeptIds);
 
             remove(queryWrapper);
         }
@@ -58,18 +58,18 @@ public class SysRoleOrgServiceImpl extends BaseServiceImpl<SysRoleOrgMapper, Sys
 
     @Override
     public List<Long> getDeptIdsByRoleId(Long roleId) {
-        LambdaQueryWrapper<SysRoleOrg> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(SysRoleOrg::getRoleId, roleId);
+        LambdaQueryWrapper<SysRoleDept> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(SysRoleDept::getRoleId, roleId);
 
-        List<SysRoleOrg> sysUserRoles = baseMapper.selectList(queryWrapper);
+        List<SysRoleDept> sysUserRoles = baseMapper.selectList(queryWrapper);
 
-        return sysUserRoles.stream().map(SysRoleOrg::getDeptId)
+        return sysUserRoles.stream().map(SysRoleDept::getDeptId)
                 .toList();
     }
 
     @Override
     public void deleteByRoleIds(List<Long> roleIds) {
-        baseMapper.delete(new LambdaQueryWrapper<SysRoleOrg>().in(SysRoleOrg::getRoleId, roleIds));
+        baseMapper.delete(new LambdaQueryWrapper<SysRoleDept>().in(SysRoleDept::getRoleId, roleIds));
     }
 
 }

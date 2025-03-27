@@ -30,18 +30,18 @@
     </sql>
 
     <select id="list" resultType="com.brycehan.boot.system.entity.po.SysDept">
-        select so.id, so.name, so.code, so.parent_id, so.ancestor,
-        so.leader, so.contact_number, so.email, so.sort, so.status,
-        so.deleted, so.created_user_id, so.created_time,
-        so.updated_user_id, so.updated_time
-        from brc_sys_dept so
-        where so.deleted is null
+        select sd.id, sd.name, sd.code, sd.parent_id, sd.ancestor,
+        sd.leader, sd.contact_number, sd.email, sd.sort, sd.status,
+        sd.deleted, sd.created_user_id, sd.created_time,
+        sd.updated_user_id, sd.updated_time
+        from brc_sys_dept sd
+        where sd.deleted is null
         <if test="name != null and name != ''">
-            and so.name like concat('%', #{params.name}, '%')
+            and sd.name like concat('%', #{params.name}, '%')
         </if>
         <if test="status != null">
-            and so.status = #{status}
+            and sd.status = #{status}
         </if>
-        order by so.parent_id, so.sort asc
+        order by sd.parent_id, sd.sort asc
     </select>
 </mapper>

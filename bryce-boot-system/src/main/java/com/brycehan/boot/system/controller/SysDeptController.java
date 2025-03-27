@@ -90,7 +90,7 @@ public class SysDeptController {
     @PreAuthorize("@auth.hasAuthority('system:org:info')")
     @GetMapping(path = "/{id}")
     public ResponseResult<SysDeptVo> get(@Parameter(description = "系统部门ID", required = true) @PathVariable Long id) {
-        sysDeptService.checkOrgDataScope(id);
+        sysDeptService.checkDeptDataScope(id);
         SysDept sysDept = sysDeptService.getById(id);
         return ResponseResult.ok(SysDeptConvert.INSTANCE.convert(sysDept));
     }

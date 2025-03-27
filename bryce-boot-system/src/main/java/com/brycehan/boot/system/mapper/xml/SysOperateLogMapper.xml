@@ -24,7 +24,7 @@
         <result column="user_id" property="userId"/>
         <result column="username" property="username"/>
         <result column="dept_id" property="deptId"/>
-        <result column="org_name" property="orgName"/>
+        <result column="dept_name" property="deptName"/>
         <result column="created_time" property="createdTime"/>
     </resultMap>
 
@@ -33,7 +33,7 @@
         id, name, module_name, request_uri, request_method,
         request_param, json_result, error_message, operated_type, operated_time,
         duration, status, ip, location, source_client,
-        user_agent, user_id, username, dept_id, org_name,
+        user_agent, user_id, username, dept_id, dept_name,
         created_time
     </sql>
 

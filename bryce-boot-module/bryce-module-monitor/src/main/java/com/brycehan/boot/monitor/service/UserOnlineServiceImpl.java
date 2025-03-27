@@ -64,8 +64,8 @@ public class UserOnlineServiceImpl implements UserOnlineService {
         List<UserOnlineVo> userOnlineVoList = ListUtil.page(userOnlinePageDto.getCurrent() - 1, userOnlinePageDto.getSize(), list);
 
         // 分页数据，处理部门名称
-        Map<Long, String> orgNames = sysDeptService.getOrgNamesByIds(userOnlineVoList.stream().map(UserOnlineVo::getDeptId).toList());
-        userOnlineVoList.forEach(onlineUserVo -> onlineUserVo.setOrgName(orgNames.get(onlineUserVo.getDeptId())));
+        Map<Long, String> deptNames = sysDeptService.getDeptNamesByIds(userOnlineVoList.stream().map(UserOnlineVo::getDeptId).toList());
+        userOnlineVoList.forEach(onlineUserVo -> onlineUserVo.setDeptName(deptNames.get(onlineUserVo.getDeptId())));
 
         return new PageResult<>(userOnlineVoList.size(), userOnlineVoList);
     }
@@ -146,8 +146,8 @@ public class UserOnlineServiceImpl implements UserOnlineService {
         list.sort(Comparator.comparing(UserOnlineVo::getLoginTime).reversed());
 
         // 处理部门名称
-        Map<Long, String> orgNames = sysDeptService.getOrgNamesByIds(list.stream().map(UserOnlineVo::getDeptId).toList());
-        list.forEach(onlineUserVo -> onlineUserVo.setOrgName(orgNames.get(onlineUserVo.getDeptId())));
+        Map<Long, String> deptNames = sysDeptService.getDeptNamesByIds(list.stream().map(UserOnlineVo::getDeptId).toList());
+        list.forEach(onlineUserVo -> onlineUserVo.setDeptName(deptNames.get(onlineUserVo.getDeptId())));
 
         return new PageResult<>(keys.size(), list);
     }

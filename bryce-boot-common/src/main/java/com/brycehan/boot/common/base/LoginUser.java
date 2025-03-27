@@ -53,7 +53,7 @@ public class LoginUser implements UserDetails {
 
     private Long deptId;
 
-    private String orgName;
+    private String deptName;
 
     private StatusType status;
 

@@ -68,8 +68,8 @@ public class SysOperateLogServiceImpl extends BaseServiceImpl<SysOperateLogMappe
         SysOperateLogVo sysOperateLogVo = SysOperateLogConvert.INSTANCE.convert(sysOperateLog);
 
         // 部门名称
-        String orgName = sysDeptService.getOrgNameById(sysOperateLogVo.getDeptId());
-        sysOperateLogVo.setOrgName(orgName);
+        String deptName = sysDeptService.getDeptNameById(sysOperateLogVo.getDeptId());
+        sysOperateLogVo.setDeptName(deptName);
 
         return sysOperateLogVo;
     }
