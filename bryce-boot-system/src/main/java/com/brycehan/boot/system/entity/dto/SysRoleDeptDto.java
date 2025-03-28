@@ -10,7 +10,7 @@ import lombok.EqualsAndHashCode;
 import java.util.List;
 
 /**
- * 系统角色部门Dto
+ * 系统角色部门 Dto
  *
  * @since 2023/09/13
  * @author Bryce Han

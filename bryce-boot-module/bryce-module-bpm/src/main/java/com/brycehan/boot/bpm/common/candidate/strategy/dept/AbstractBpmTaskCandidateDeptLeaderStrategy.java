@@ -1,4 +1,4 @@
-package com.brycehan.boot.bpm.common.candidate.strategy;
+package com.brycehan.boot.bpm.common.candidate.strategy.dept;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Assert;

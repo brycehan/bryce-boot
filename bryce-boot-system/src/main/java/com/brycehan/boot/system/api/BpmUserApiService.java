@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.brycehan.boot.api.system.BpmUserApi;
 import com.brycehan.boot.api.system.vo.BpmUserVo;
 import com.brycehan.boot.common.base.ServerException;
-import com.brycehan.boot.common.base.response.UserResponseStatus;
+import com.brycehan.boot.common.base.response.SystemResponseStatus;
 import com.brycehan.boot.common.enums.StatusType;
 import com.brycehan.boot.system.entity.po.SysUser;
 import com.brycehan.boot.system.entity.po.SysUserPost;
@@ -88,10 +88,10 @@ public class BpmUserApiService implements BpmUserApi {
         userIds.forEach(id -> {
             SysUser user = userMap.get(id);
             if (user == null) {
-                throw ServerException.of(UserResponseStatus.USER_ACCOUNT_NOT_EXISTS);
+                throw ServerException.of(SystemResponseStatus.USER_USERNAME_NOT_EXISTS);
             }
             if (!StatusType.ENABLE.equals(user.getStatus())) {
-                throw ServerException.of(UserResponseStatus.USER_ACCOUNT_DISABLED, user.getNickname());
+                throw ServerException.of(SystemResponseStatus.USER_USERNAME_DISABLED, user.getNickname());
             }
         });
     }

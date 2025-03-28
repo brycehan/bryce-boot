@@ -2,10 +2,7 @@ package com.brycehan.boot.framework.common;
 
 import cn.hutool.core.util.ReflectUtil;
 import com.brycehan.boot.common.base.ServerException;
-import com.brycehan.boot.common.base.response.HttpResponseStatus;
-import com.brycehan.boot.common.base.response.ResponseResult;
-import com.brycehan.boot.common.base.response.UploadResponseStatus;
-import com.brycehan.boot.common.base.response.UserResponseStatus;
+import com.brycehan.boot.common.base.response.*;
 import com.brycehan.boot.common.util.ServletUtils;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.ConstraintViolation;
@@ -91,7 +88,8 @@ public class ServerExceptionHandler {
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseResult<Void> handleException(BadCredentialsException e) {
         log.error(" 密码错误异常，{}", e.getMessage());
-        return ResponseResult.error(UserResponseStatus.USER_USERNAME_OR_PASSWORD_ERROR);
+
+        return ResponseResult.error(SystemResponseStatus.USER_USERNAME_OR_PASSWORD_ERROR);
     }
 
     /**
@@ -103,7 +101,7 @@ public class ServerExceptionHandler {
     public ResponseResult<Void> handleException(MultipartException e) {
         log.error("上传文件异常，{}", e.getMessage());
         if (e instanceof MaxUploadSizeExceededException) {
-            return ResponseResult.error(UploadResponseStatus.UPLOAD_EXCEED_MAX_SIZE, maxRequestSize);
+            return ResponseResult.error(StorageResponseStatus.UPLOAD_EXCEED_MAX_SIZE, maxRequestSize);
         }
         return ResponseResult.error(e.getMessage());
     }
@@ -225,7 +223,7 @@ public class ServerExceptionHandler {
     @ExceptionHandler(InternalAuthenticationServiceException.class)
     public ResponseResult<Void> handleException(InternalAuthenticationServiceException e) {
         log.error("账号与密码不匹配，{}", e.getMessage());
-        return ResponseResult.error(UserResponseStatus.USER_USERNAME_OR_PASSWORD_ERROR.code(), e.getMessage());
+        return ResponseResult.error(SystemResponseStatus.USER_USERNAME_OR_PASSWORD_ERROR.code(), e.getMessage());
     }
 
     /**
@@ -237,7 +235,7 @@ public class ServerExceptionHandler {
     @ExceptionHandler(DisabledException.class)
     public ResponseResult<Void> handleException(DisabledException e) {
         log.error("用户账户没有启用异常，{}", e.getLocalizedMessage());
-        return ResponseResult.error(UserResponseStatus.USER_ACCOUNT_DISABLED);
+        return ResponseResult.error(SystemResponseStatus.USER_USERNAME_DISABLED);
     }
 
     /**

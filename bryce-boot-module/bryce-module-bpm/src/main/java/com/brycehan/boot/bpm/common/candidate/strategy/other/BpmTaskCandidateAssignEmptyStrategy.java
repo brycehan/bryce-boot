@@ -1,4 +1,4 @@
-package com.brycehan.boot.bpm.common.candidate.strategy;
+package com.brycehan.boot.bpm.common.candidate.strategy.other;
 
 import cn.hutool.core.lang.Assert;
 import com.brycehan.boot.bpm.common.BpmnModelUtils;

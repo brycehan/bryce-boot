@@ -3,7 +3,7 @@ package com.brycehan.boot.framework.security;
 import cn.hutool.core.date.BetweenFormatter;
 import cn.hutool.core.date.DateUtil;
 import com.brycehan.boot.common.base.ServerException;
-import com.brycehan.boot.common.base.response.UserResponseStatus;
+import com.brycehan.boot.common.base.response.SystemResponseStatus;
 import com.brycehan.boot.common.constant.CacheConstants;
 import com.brycehan.boot.common.util.JsonUtils;
 import lombok.RequiredArgsConstructor;
@@ -45,7 +45,7 @@ public class LoginUserDetailsCheck implements UserDetailsChecker {
             retryCount = 0;
         }
         if (retryCount >= maxRetryCount) {
-            throw new ServerException(UserResponseStatus.USER_PASSWORD_RETRY_LIMIT_EXCEEDED, retryCount.toString(), DateUtil.formatBetween(lockDuration.toMillis(), BetweenFormatter.Level.MINUTE));
+            throw new ServerException(SystemResponseStatus.USER_PASSWORD_RETRY_LIMIT_EXCEEDED, retryCount.toString(), DateUtil.formatBetween(lockDuration.toMillis(), BetweenFormatter.Level.MINUTE));
         }
     }
 

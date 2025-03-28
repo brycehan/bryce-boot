@@ -16,6 +16,7 @@ import com.brycehan.boot.system.entity.convert.SysDeptConvert;
 import com.brycehan.boot.system.entity.dto.SysDeptDto;
 import com.brycehan.boot.system.entity.po.SysDept;
 import com.brycehan.boot.system.entity.po.SysUser;
+import com.brycehan.boot.system.entity.vo.SysDeptSimpleVo;
 import com.brycehan.boot.system.entity.vo.SysDeptVo;
 import com.brycehan.boot.system.mapper.SysDeptMapper;
 import com.brycehan.boot.system.service.SysDeptService;
@@ -26,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * 系统部门服务实现类
@@ -74,13 +76,13 @@ public class SysDeptServiceImpl extends BaseServiceImpl<SysDeptMapper, SysDept> 
         // 判断是否有子部门
         long orgCount = count(new LambdaQueryWrapper<SysDept>().in(SysDept::getParentId, idsDto.getIds()));
         if (orgCount > 0) {
-            throw new ServerException(SystemResponseStatus.ORG_EXIST_CHILDREN_CANNOT_BE_DELETED);
+            throw new ServerException(SystemResponseStatus.DEPT_EXITS_CHILDREN);
         }
 
         // 判断部门下面是否有用户
         Long userCount = Db.lambdaQuery(SysUser.class).in(SysUser::getDeptId, idsDto.getIds()).count();
         if (userCount > 0) {
-            throw new ServerException(SystemResponseStatus.ORG_EXIST_CHILDREN_CANNOT_BE_DELETED);
+            throw new ServerException(SystemResponseStatus.DEPT_EXITS_CHILDREN);
         }
 
         // 删除
@@ -96,6 +98,17 @@ public class SysDeptServiceImpl extends BaseServiceImpl<SysDeptMapper, SysDept> 
         // 部门列表
         List<SysDept> sysDeptList = baseMapper.list(params);
         return TreeUtils.build(SysDeptConvert.INSTANCE.convert(sysDeptList));
+    }
+
+    @Override
+    public List<SysDeptSimpleVo> simpleList(SysDeptDto sysDeptDto) {
+        LambdaQueryWrapper<SysDept> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.select(SysDept::getId, SysDept::getName, SysDept::getParentId);
+        queryWrapper.eq(Objects.nonNull(sysDeptDto.getStatus()), SysDept::getStatus, sysDeptDto.getStatus());
+
+        List<SysDept> sysDepts = baseMapper.selectList(queryWrapper);
+
+        return SysDeptConvert.INSTANCE.convertSimple(sysDepts);
     }
 
     @Override

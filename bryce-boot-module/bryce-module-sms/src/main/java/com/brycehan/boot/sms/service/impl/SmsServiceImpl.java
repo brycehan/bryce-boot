@@ -2,6 +2,7 @@ package com.brycehan.boot.sms.service.impl;
 
 import com.brycehan.boot.common.base.RedisKeys;
 import com.brycehan.boot.common.base.ServerException;
+import com.brycehan.boot.common.base.response.SmsResponseStatus;
 import com.brycehan.boot.sms.service.SmsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,14 +37,14 @@ public class SmsServiceImpl implements SmsService {
         SmsBlend smsBlend = SmsFactory.getSmsBlend("sms1");
 
         if (smsBlend == null) {
-            throw new RuntimeException("短信配置错误");
+            throw ServerException.of(SmsResponseStatus.CONFIG_ERROR);
         }
 
         // 判断是否超过发送次数
         String smsTodayCountKey = RedisKeys.getSmsTodayCountKey(phone);
         Integer smsTodayCount = redisTemplate.opsForValue().get(smsTodayCountKey);
         if (smsTodayCount != null && smsTodayCount >= numberTextMessagesSentPerDay) {
-            throw new ServerException("短信发送次数超过限制，请明天再试");
+            throw ServerException.of(SmsResponseStatus.SEND_NUMBER_PER_DAY_EXCEED_LIMIT);
         }
 
         SmsResponse smsResponse = smsBlend.sendMessage(phone, templateId, params);

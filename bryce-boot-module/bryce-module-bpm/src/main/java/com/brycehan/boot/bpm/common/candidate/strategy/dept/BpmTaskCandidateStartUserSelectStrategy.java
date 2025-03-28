@@ -1,11 +1,13 @@
-package com.brycehan.boot.bpm.common.candidate.strategy;
+package com.brycehan.boot.bpm.common.candidate.strategy.dept;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.ObjectUtil;
 import com.brycehan.boot.bpm.common.BpmnModelUtils;
 import com.brycehan.boot.bpm.common.BpmnVariableConstants;
+import com.brycehan.boot.bpm.common.FlowableUtils;
 import com.brycehan.boot.bpm.common.candidate.BpmTaskCandidateStrategyEnum;
+import com.brycehan.boot.bpm.common.candidate.strategy.user.BpmTaskCandidateUserStrategy;
 import com.brycehan.boot.bpm.service.BpmProcessInstanceService;
 import com.google.common.collect.Sets;
 import jakarta.annotation.Resource;
@@ -23,8 +25,8 @@ import java.util.*;
 /**
  * 发起人自选 {@link BpmTaskCandidateUserStrategy} 实现类
  *
+ * @since 2025/3/27
  * @author Bryce Han
- * @since 2025/3/4
  */
 @Component
 public class BpmTaskCandidateStartUserSelectStrategy extends AbstractBpmTaskCandidateDeptLeaderStrategy {
@@ -46,16 +48,11 @@ public class BpmTaskCandidateStartUserSelectStrategy extends AbstractBpmTaskCand
         return false;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public LinkedHashSet<Long> calculateUsersByTask(DelegateExecution execution, String param) {
         ProcessInstance processInstance = processInstanceService.getProcessInstance(execution.getProcessInstanceId());
         Assert.notNull(processInstance, "流程实例({})不能为空", execution.getProcessInstanceId());
-        Map<String, List<Long>> startUserSelectAssignees = new HashMap<>();
-        Map<String, Object> processVariables = processInstance.getProcessVariables();
-        if (processVariables != null) {
-            startUserSelectAssignees = (Map<String, List<Long>>) processVariables.get(BpmnVariableConstants.PROCESS_START_USER_SELECT_ASSIGNEES);
-        }
+        Map<String, List<Long>> startUserSelectAssignees = FlowableUtils.getStartUserSelectAssignees(processInstance);
         Assert.notNull(startUserSelectAssignees, "流程实例({}) 的发起人自选审批人不能为空",
                 execution.getProcessInstanceId());
         // 获得审批人
@@ -70,7 +67,7 @@ public class BpmTaskCandidateStartUserSelectStrategy extends AbstractBpmTaskCand
         if (processVariables == null) {
             return Sets.newLinkedHashSet();
         }
-        Map<String, List<Long>> startUserSelectAssignees =  (Map<String, List<Long>>) processVariables.get(BpmnVariableConstants.PROCESS_START_USER_SELECT_ASSIGNEES);;
+        Map<String, List<Long>> startUserSelectAssignees =  (Map<String, List<Long>>) processVariables.get(BpmnVariableConstants.PROCESS_START_USER_SELECT_ASSIGNEES);
         if (startUserSelectAssignees == null) {
             return Sets.newLinkedHashSet();
         }
@@ -95,8 +92,7 @@ public class BpmTaskCandidateStartUserSelectStrategy extends AbstractBpmTaskCand
         if (CollUtil.isEmpty(tasks)) {
             return Collections.emptyList();
         }
-        tasks.removeIf(task -> ObjectUtil.notEqual(BpmnModelUtils.parseCandidateStrategy(task),
-                BpmTaskCandidateStrategyEnum.START_USER_SELECT.getValue()));
+        tasks.removeIf(task -> ObjectUtil.notEqual(BpmnModelUtils.parseCandidateStrategy(task), BpmTaskCandidateStrategyEnum.START_USER_SELECT.getValue()));
         return tasks;
     }
 

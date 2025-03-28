@@ -16,19 +16,16 @@ import lombok.experimental.Accessors;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public enum AuthResponseStatus implements ResponseStatus {
 
-    AUTH_ROLE_BLOCKED(1000, "角色已封禁，请联系管理员"),
+    // AUTH
+    AUTH_LOGIN_BAD_CREDENTIALS(1_000_000, "登录失败，账号密码不正确"),
+    AUTH_LOGIN_USER_DISABLED(1_000_001, "登录失败，账号被禁用"),
+    AUTH_LOGIN_CAPTCHA_CODE_ERROR(1_000_004, "验证码不正确，原因：{}"),
+    AUTH_THIRD_LOGIN_NOT_BIND(1_000_005, "未绑定账号，需要进行绑定"),
+    AUTH_MOBILE_NOT_EXISTS(1_000_007, "手机号不存在"),
+    AUTH_REGISTER_CAPTCHA_CODE_ERROR(1_000_008, "验证码不正确，原因：{}"),
+    AUTH_TOKEN_INVALID(1_000_009, "用户令牌无效"),
 
-    AUTH_NO_PERMISSION(1001, "您没有数据的权限，请联系管理员添加权限 [{}]"),
-
-    AUTH_NO_CREATE_PERMISSION(1002, "您没有创建数据的权限，请联系管理员添加权限 [{}]"),
-
-    AUTH_NO_UPDATE_PERMISSION(1003, "您没有修改数据的权限，请联系管理员添加权限 [{}]"),
-
-    AUTH_NO_DELETE_PERMISSION(1004, "您没有删除数据的权限，请联系管理员添加权限 [{}]"),
-
-    AUTH_NO_EXPORT_PERMISSION(1005, "您没有导出数据的权限，请联系管理员添加权限 [{}]"),
-
-    AUTH_NO_VIEW_PERMISSION(1006, "您没有查看数据的权限，请联系管理员添加权限 [{}]");
+    ;
 
     /**
      * 状态编码

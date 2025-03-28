@@ -13,6 +13,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.brycehan.boot.common.base.IdGenerator;
 import com.brycehan.boot.common.base.LoginUser;
 import com.brycehan.boot.common.base.LoginUserContext;
+import com.brycehan.boot.common.base.ServerException;
+import com.brycehan.boot.common.base.response.SystemResponseStatus;
 import com.brycehan.boot.common.constant.DataConstants;
 import com.brycehan.boot.common.entity.PageResult;
 import com.brycehan.boot.common.entity.dto.IdsDto;
@@ -37,6 +39,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * 系统角色表服务实现类
@@ -264,5 +268,31 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
 
         // 修改时，同角色编码同ID为编码唯一
         return Objects.isNull(sysRole) || Objects.equals(sysRoleCodeDto.getId(), sysRole.getId());
+    }
+
+    @Override
+    public void validateRoleList(Collection<Long> roleIds) {
+        if (CollUtil.isEmpty(roleIds)) {
+            return;
+        }
+        // 获得角色信息
+        LambdaQueryWrapper<SysRole> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.select(SysRole::getId)
+                .eq(SysRole::getId, roleIds)
+                .eq(SysRole::getStatus, StatusType.ENABLE);
+
+        List<SysRole> roles = baseMapper.selectList(queryWrapper);
+        Map<Long, SysRole> roleMap = roles.stream().collect(Collectors.toMap(SysRole::getId, Function.identity()));
+
+        // 校验
+        roleIds.forEach(id -> {
+            SysRole role = roleMap.get(id);
+            if (role == null) {
+                throw ServerException.of(SystemResponseStatus.ROLE_NOT_EXISTS);
+            }
+            if (!StatusType.ENABLE.equals(role.getStatus())) {
+                throw ServerException.of(SystemResponseStatus.ROLE_IS_DISABLE, role.getName());
+            }
+        });
     }
 }

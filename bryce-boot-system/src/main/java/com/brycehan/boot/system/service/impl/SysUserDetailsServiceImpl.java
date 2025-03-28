@@ -4,7 +4,7 @@ import cn.hutool.http.useragent.UserAgent;
 import cn.hutool.http.useragent.UserAgentUtil;
 import com.brycehan.boot.common.base.LoginUser;
 import com.brycehan.boot.common.base.ServerException;
-import com.brycehan.boot.common.base.response.UserResponseStatus;
+import com.brycehan.boot.common.base.response.SystemResponseStatus;
 import com.brycehan.boot.common.enums.StatusType;
 import com.brycehan.boot.common.util.IpUtils;
 import com.brycehan.boot.common.util.LocationUtils;
@@ -45,7 +45,7 @@ public class SysUserDetailsServiceImpl implements SysUserDetailsService {
         // 账号不可用
         if (sysUser.getStatus() == StatusType.DISABLE) {
             log.info("登录用户：{}已被锁定.", sysUser.getUsername());
-            throw new ServerException(UserResponseStatus.USER_ACCOUNT_LOCKED);
+            throw new ServerException(SystemResponseStatus.USER_USERNAME_LOCKED);
         }
 
         LoginUser loginUser = SysUserConvert.INSTANCE.convertLoginUser(sysUser);

@@ -3,7 +3,7 @@ package com.brycehan.boot.common.util;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.StrUtil;
 import com.brycehan.boot.common.base.ServerException;
-import com.brycehan.boot.common.base.response.UploadResponseStatus;
+import com.brycehan.boot.common.base.response.StorageResponseStatus;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -27,7 +27,7 @@ public class FileUploadUtils {
         String originalFilename = file.getOriginalFilename();
         String extension = getExtension(file);
         if (allowedExtensions != null && !isAllowedExtension(extension, allowedExtensions)) {
-            throw new ServerException(UploadResponseStatus.UPLOAD_INVALID_EXTENSION, originalFilename, extension,
+            throw new ServerException(StorageResponseStatus.UPLOAD_INVALID_EXTENSION, originalFilename, extension,
                     StrUtil.join(",", allowedExtensions));
         }
     }

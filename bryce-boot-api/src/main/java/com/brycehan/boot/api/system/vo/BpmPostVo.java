@@ -1,41 +1,43 @@
 package com.brycehan.boot.api.system.vo;
+
+import com.brycehan.boot.common.enums.StatusType;
 import lombok.Data;
 
 import java.io.Serial;
 import java.io.Serializable;
 
 /**
- * 流程部门 Vo
+ * Bpm 岗位 Vo
  *
- * @since 2023/09/28
+ * @since 2025/3/28
  * @author Bryce Han
  */
 @Data
-public class BpmDeptVo implements Serializable {
+public class BpmPostVo implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
     /**
-     * 部门编号
+     * 岗位序号
      */
     private Long id;
     /**
-     * 部门名称
+     * 岗位名称
      */
     private String name;
     /**
-     * 父部门编号
+     * 岗位编码
      */
-    private Long parentId;
+    private String code;
     /**
-     * 负责人的用户编号
+     * 岗位排序
      */
-    private Long leaderUserId;
+    private Integer sort;
     /**
-     * 部门状态
-     * <br/>
-     * 枚举 {@link com.brycehan.boot.common.enums.StatusType}
+     * 状态
+     * <br>
+     * 枚举 {@link StatusType}
      */
     private Integer status;
 

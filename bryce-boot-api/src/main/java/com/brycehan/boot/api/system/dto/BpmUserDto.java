@@ -4,6 +4,8 @@ package com.brycehan.boot.api.system.dto;
 import com.brycehan.boot.common.enums.StatusType;
 import lombok.Data;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Set;
 
 /**
@@ -13,7 +15,10 @@ import java.util.Set;
  * @author Bryce Han
  */
 @Data
-public class BpmUserDto {
+public class BpmUserDto implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     /**
      * 用户ID

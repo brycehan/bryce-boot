@@ -151,8 +151,8 @@ public class SysUserController {
      * @return 系统用户列表
      */
     @Operation(summary = "系统用户简单列表查询")
-    @PostMapping(path = "/simple-list")
-    public ResponseResult<List<SysUserSimpleVo>> simpleList(@RequestBody SysUserDto sysUserDto) {
+    @GetMapping(path = "/simple-list")
+    public ResponseResult<List<SysUserSimpleVo>> simpleList(SysUserDto sysUserDto) {
         List<SysUserSimpleVo> list = sysUserService.simpleList(sysUserDto);
         return ResponseResult.ok(list);
     }

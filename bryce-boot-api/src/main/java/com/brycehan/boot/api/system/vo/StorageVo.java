@@ -5,6 +5,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.Data;
 
+import java.io.Serial;
+import java.io.Serializable;
+
 /**
  * 存储 vo
  *
@@ -13,7 +16,10 @@ import lombok.Data;
  */
 @Data
 @Tag(name = "存储 vo")
-public class StorageVo {
+public class StorageVo implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     /**
      * 文件名称

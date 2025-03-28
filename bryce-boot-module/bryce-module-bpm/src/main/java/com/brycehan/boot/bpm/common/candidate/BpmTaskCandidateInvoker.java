@@ -50,7 +50,7 @@ public class BpmTaskCandidateInvoker {
     public void validateBpmnConfig(byte[] bpmnBytes) {
         BpmnModel bpmnModel = BpmnModelUtils.getBpmnModel(bpmnBytes);
         assert bpmnModel != null;
-        List<UserTask> userTaskList = BpmnModelUtils.getBpmnModelElements(bpmnModel, UserTask.class);
+        List<UserTask> userTaskList = BpmnModelUtils.getFlowElementsOfType(bpmnModel, UserTask.class);
         // 遍历所有的 UserTask，校验审批人配置
         userTaskList.forEach(userTask -> {
             // 1.1 非人工审批，无需校验审批人配置

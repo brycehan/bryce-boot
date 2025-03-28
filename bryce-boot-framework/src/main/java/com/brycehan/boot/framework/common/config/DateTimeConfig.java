@@ -2,6 +2,7 @@ package com.brycehan.boot.framework.common.config;
 
 import cn.hutool.core.util.StrUtil;
 import jakarta.validation.constraints.NotNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.format.FormatterRegistry;
@@ -19,6 +20,7 @@ import java.time.format.DateTimeFormatter;
  * @since 2025/3/25
  */
 @Configuration
+@RequiredArgsConstructor
 public class DateTimeConfig implements WebMvcConfigurer {
 
     @Override

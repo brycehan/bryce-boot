@@ -2,6 +2,7 @@ package com.brycehan.boot.system.entity.convert;
 
 import com.brycehan.boot.system.entity.dto.SysDeptDto;
 import com.brycehan.boot.system.entity.po.SysDept;
+import com.brycehan.boot.system.entity.vo.SysDeptSimpleVo;
 import com.brycehan.boot.system.entity.vo.SysDeptVo;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
@@ -25,5 +26,7 @@ public interface SysDeptConvert {
     SysDeptVo convert(SysDept sysDept);
 
     List<SysDeptVo> convert(List<SysDept> sysDeptList);
+
+    List<SysDeptSimpleVo> convertSimple(List<SysDept> sysDeptList);
 
 }

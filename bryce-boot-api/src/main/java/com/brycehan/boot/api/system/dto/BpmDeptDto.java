@@ -1,6 +1,9 @@
 package com.brycehan.boot.api.system.dto;
 import lombok.Data;
 
+import java.io.Serial;
+import java.io.Serializable;
+
 /**
  * 流程部门 Dto
  *
@@ -8,7 +11,10 @@ import lombok.Data;
  * @author Bryce Han
  */
 @Data
-public class BpmDeptDto {
+public class BpmDeptDto implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     /**
      * 部门编号

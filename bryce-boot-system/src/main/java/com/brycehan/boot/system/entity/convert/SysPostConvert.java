@@ -1,9 +1,12 @@
 package com.brycehan.boot.system.entity.convert;
 
+import com.brycehan.boot.api.system.vo.BpmPostVo;
 import com.brycehan.boot.system.entity.dto.SysPostDto;
 import com.brycehan.boot.system.entity.po.SysPost;
 import com.brycehan.boot.system.entity.vo.SysPostVo;
+import org.mapstruct.EnumMapping;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
@@ -25,5 +28,10 @@ public interface SysPostConvert {
     SysPostVo convert(SysPost sysPost);
 
     List<SysPostVo> convert(List<SysPost> sysPostList);
+
+    @Mapping(source = "status.value", target = "status")
+    BpmPostVo convertBpm(SysPost sysPost);
+
+    List<BpmPostVo> convertBpm(List<SysPost> sysPostList);
 
 }

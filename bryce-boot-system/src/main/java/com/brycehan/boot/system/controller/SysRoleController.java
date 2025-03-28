@@ -167,9 +167,9 @@ public class SysRoleController {
      */
     @Operation(summary = "列表查询")
     @PreAuthorize("isAuthenticated()")
-    @GetMapping(path = "/list")
-    public ResponseResult<List<SysRoleVo>> list() {
-        List<SysRoleVo> list = sysRoleService.list(new SysRolePageDto());
+    @GetMapping(path = "/simple-list")
+    public ResponseResult<List<SysRoleVo>> simpleList(SysRolePageDto sysRolePageDto) {
+        List<SysRoleVo> list = sysRoleService.list(sysRolePageDto);
         return ResponseResult.ok(list);
     }
 

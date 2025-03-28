@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.brycehan.boot.framework.mybatis.service.BaseService;
 import com.brycehan.boot.system.entity.dto.SysDeptDto;
 import com.brycehan.boot.system.entity.po.SysDept;
+import com.brycehan.boot.system.entity.vo.SysDeptSimpleVo;
 import com.brycehan.boot.system.entity.vo.SysDeptVo;
 import org.springframework.util.CollectionUtils;
 
@@ -41,6 +42,14 @@ public interface SysDeptService extends BaseService<SysDept> {
      * @return 部门列表
      */
     List<SysDeptVo> list(SysDeptDto sysDeptDto);
+
+    /**
+     * 列表查询，用于前端 select 选择
+     *
+     * @param sysDeptDto 查询参数
+     * @return 部门列表
+     */
+    List<SysDeptSimpleVo> simpleList(SysDeptDto sysDeptDto);
 
     /**
      * 根据部门ID，获取子部门ID列表（包含本部门ID）

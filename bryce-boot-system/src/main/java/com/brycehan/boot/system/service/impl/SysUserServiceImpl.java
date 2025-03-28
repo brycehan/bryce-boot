@@ -15,7 +15,7 @@ import com.brycehan.boot.common.base.IdGenerator;
 import com.brycehan.boot.common.base.LoginUser;
 import com.brycehan.boot.common.base.LoginUserContext;
 import com.brycehan.boot.common.base.ServerException;
-import com.brycehan.boot.common.base.response.UserResponseStatus;
+import com.brycehan.boot.common.base.response.SystemResponseStatus;
 import com.brycehan.boot.common.constant.DataConstants;
 import com.brycehan.boot.common.constant.ParamConstants;
 import com.brycehan.boot.common.entity.PageResult;
@@ -376,7 +376,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         // 校验是否已注册
         SysUser user = baseMapper.getByUsername(sysUser.getUsername());
         if (user != null) {
-            throw new ServerException(UserResponseStatus.USER_REGISTER_EXISTS, sysUser.getUsername());
+            throw new ServerException(SystemResponseStatus.USER_REGISTER_EXISTS, sysUser.getUsername());
         }
 
         sysUser.setId(IdGenerator.nextId());
@@ -420,7 +420,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         if (StringUtils.isNotEmpty(sysUser.getPhone())) {
             SysUser user = baseMapper.getByPhone(sysUser.getPhone());
             if (Objects.nonNull(user) && !user.getId().equals(sysUser.getId())) {
-                throw new ServerException(UserResponseStatus.USER_PROFILE_PHONE_EXISTS, sysUser.getPhone());
+                throw new ServerException(SystemResponseStatus.USER_PROFILE_PHONE_EXISTS, sysUser.getPhone());
             }
         }
 
@@ -428,7 +428,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         if (StringUtils.isNotEmpty(sysUser.getEmail())) {
             SysUser user = baseMapper.getByEmail(sysUser.getEmail());
             if (Objects.nonNull(user) && !user.getId().equals(sysUser.getId())) {
-                throw new ServerException(UserResponseStatus.USER_PROFILE_EMAIL_EXISTS, sysUser.getPhone());
+                throw new ServerException(SystemResponseStatus.USER_PROFILE_EMAIL_EXISTS, sysUser.getPhone());
             }
         }
 
@@ -439,7 +439,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
             return;
         }
 
-        throw new ServerException(UserResponseStatus.USER_PROFILE_ALTER_INFO_ERROR);
+        throw new ServerException(SystemResponseStatus.USER_PROFILE_ALTER_INFO_ERROR);
     }
 
     @Override
@@ -455,7 +455,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         StorageVo storageVo = storageApi.upload(file, AccessType.PUBLIC, MimeTypeUtils.IMAGE_EXTENSION);
 
         if (storageVo == null || StringUtils.isEmpty(storageVo.getUrl())) {
-            throw new ServerException(UserResponseStatus.USER_PROFILE_ALTER_AVATAR_ERROR);
+            throw new ServerException(SystemResponseStatus.USER_PROFILE_ALTER_AVATAR_ERROR);
         }
 
         SysUser sysUser = new SysUser();
@@ -470,7 +470,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
             return storageVo.getUrl();
         }
 
-        throw new ServerException(UserResponseStatus.USER_PROFILE_ALTER_AVATAR_ERROR);
+        throw new ServerException(SystemResponseStatus.USER_PROFILE_ALTER_AVATAR_ERROR);
     }
 
     @Override
@@ -481,17 +481,17 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
 
         // 校验密码
         if (!passwordEncoder.matches(passwordDto.getPassword(), sysUser.getPassword())) {
-            throw new ServerException(UserResponseStatus.USER_PASSWORD_NOT_MATCH);
+            throw new ServerException(SystemResponseStatus.USER_PASSWORD_NOT_MATCH);
         }
         if (passwordEncoder.matches(passwordDto.getNewPassword(), sysUser.getPassword())) {
-            throw new ServerException(UserResponseStatus.USER_PASSWORD_SAME_AS_OLD_ERROR);
+            throw new ServerException(SystemResponseStatus.USER_PASSWORD_SAME_AS_OLD_ERROR);
         }
 
         sysUser.setPassword(passwordEncoder.encode(passwordDto.getNewPassword()));
 
         // 更新密码
         if (!updateById(sysUser)) {
-            throw new ServerException(UserResponseStatus.USER_PASSWORD_CHANGE_ERROR);
+            throw new ServerException(SystemResponseStatus.USER_PASSWORD_CHANGE_ERROR);
         }
     }
 

@@ -84,6 +84,14 @@ public interface SysUserRoleService extends BaseService<SysUserRole> {
     List<Long> getUserIdsByRoleId(Long roleId);
 
     /**
+     * 根据角色IDs，查询拥有该角色的用户IDs
+     *
+     * @param roleIds 角色IDs
+     * @return 用户IDs
+     */
+    List<Long> getUserIdsByRoleIds(List<Long> roleIds);
+
+    /**
      * 根据角色ID，查询拥有该角色的用户数量
      *
      * @param roleId 角色ID

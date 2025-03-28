@@ -57,10 +57,10 @@ public class BpmDeptApiService implements BpmDeptApi {
         ids.forEach(id -> {
             BpmDeptVo dept = deptMap.get(id);
             if (dept == null) {
-                throw ServerException.of(SystemResponseStatus.ORG_NOT_FOUND);
+                throw ServerException.of(SystemResponseStatus.DEPT_NOT_FOUND);
             }
             if (!StatusType.ENABLE.getValue().equals(dept.getStatus())) {
-                throw ServerException.of(SystemResponseStatus.ORG_NOT_ENABLE, dept.getName());
+                throw ServerException.of(SystemResponseStatus.DEPT_NOT_ENABLE, dept.getName());
             }
         });
     }

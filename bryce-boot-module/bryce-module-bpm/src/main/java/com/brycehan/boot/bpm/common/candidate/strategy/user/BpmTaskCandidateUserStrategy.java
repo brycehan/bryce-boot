@@ -1,4 +1,4 @@
-package com.brycehan.boot.bpm.common.candidate.strategy;
+package com.brycehan.boot.bpm.common.candidate.strategy.user;
 
 import cn.hutool.core.text.StrPool;
 import cn.hutool.core.util.StrUtil;

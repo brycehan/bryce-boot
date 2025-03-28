@@ -7,6 +7,7 @@ import com.brycehan.boot.system.entity.dto.*;
 import com.brycehan.boot.system.entity.po.SysRole;
 import com.brycehan.boot.system.entity.vo.SysRoleVo;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -116,4 +117,10 @@ public interface SysRoleService extends BaseService<SysRole> {
      */
     boolean checkRoleCodeUnique(SysRoleCodeDto sysRoleCodeDto);
 
+    /**
+     * 校验角色是否存在
+     *
+     * @param roleIds 角色IDs
+     */
+    void validateRoleList(Collection<Long> roleIds);
 }

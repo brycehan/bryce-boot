@@ -8,6 +8,7 @@ import com.brycehan.boot.system.entity.dto.SysPostPageDto;
 import com.brycehan.boot.system.entity.po.SysPost;
 import com.brycehan.boot.system.entity.vo.SysPostVo;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -64,11 +65,17 @@ public interface SysPostService extends BaseService<SysPost> {
     List<String> getPostNameList(List<Long> postIdList);
 
     /**
+     * 根据岗位ID列表校验岗位列表是否存在
+     *
+     * @param postIds 岗位ID列表
+     */
+    void validatePostList(Collection<Long> postIds);
+
+    /**
      * 检查岗位编码是否唯一
      *
      * @param sysPostCodeDto 岗位编码Dto
      * @return 是否唯一
      */
     boolean checkPostCodeUnique(SysPostCodeDto sysPostCodeDto);
-
 }

@@ -1,7 +1,7 @@
 package com.brycehan.boot.system.controller;
 
 import com.brycehan.boot.common.base.response.ResponseResult;
-import com.brycehan.boot.common.base.response.UserResponseStatus;
+import com.brycehan.boot.common.base.response.SystemResponseStatus;
 import com.brycehan.boot.common.entity.dto.RegisterDto;
 import com.brycehan.boot.framework.operatelog.annotation.OperateLog;
 import com.brycehan.boot.framework.operatelog.annotation.OperatedType;
@@ -44,7 +44,7 @@ public class AuthRegisterController {
             return ResponseResult.ok();
         }
 
-        return ResponseResult.error(UserResponseStatus.USER_REGISTER_NOT_ENABLED);
+        return ResponseResult.error(SystemResponseStatus.USER_REGISTER_NOT_ENABLED);
     }
 
     /**

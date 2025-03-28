@@ -4,6 +4,8 @@ import cn.hutool.core.collection.CollUtil;
 import com.brycehan.boot.api.email.EmailApi;
 import com.brycehan.boot.api.email.dto.ToMailDto;
 import com.brycehan.boot.api.email.dto.ToVerifyCodeEmailDto;
+import com.brycehan.boot.common.base.ServerException;
+import com.brycehan.boot.common.base.response.EmailResponseStatus;
 import com.brycehan.boot.common.constant.DataConstants;
 import com.brycehan.boot.common.enums.EmailType;
 import com.brycehan.boot.common.util.FileUploadUtils;
@@ -64,7 +66,8 @@ public class EmailServiceImpl implements EmailService, EmailApi {
         try {
             javaMailSender.send(message);
         } catch (MailException e) {
-            throw new RuntimeException("普通邮件发送失败");
+            log.error("邮件发送失败", e);
+            throw ServerException.of(EmailResponseStatus.SEND_FAIL);
         }
     }
 
@@ -82,14 +85,16 @@ public class EmailServiceImpl implements EmailService, EmailApi {
                     try {
                         messageHelper.addAttachment(Objects.requireNonNull(f.getOriginalFilename()), f);
                     } catch (Exception e) {
-                        throw new RuntimeException("邮件附件参数错误");
+                        log.error("邮件附件参数错误", e);
+                        throw ServerException.of(EmailResponseStatus.ATTACHMENT_PARAM_ERROR);
                     }
                 });
             }
 
             javaMailSender.send(message);
         } catch (Exception e) {
-            throw new RuntimeException("邮件发送失败");
+            log.error("邮件发送失败", e);
+            throw ServerException.of(EmailResponseStatus.SEND_FAIL);
         }
     }
 

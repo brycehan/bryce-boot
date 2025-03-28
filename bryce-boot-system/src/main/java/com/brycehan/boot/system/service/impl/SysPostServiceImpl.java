@@ -7,6 +7,8 @@ import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.brycehan.boot.common.base.IdGenerator;
+import com.brycehan.boot.common.base.ServerException;
+import com.brycehan.boot.common.base.response.SystemResponseStatus;
 import com.brycehan.boot.common.entity.PageResult;
 import com.brycehan.boot.common.entity.dto.IdsDto;
 import com.brycehan.boot.common.enums.StatusType;
@@ -26,9 +28,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 
 /**
@@ -117,6 +119,26 @@ public class SysPostServiceImpl extends BaseServiceImpl<SysPostMapper, SysPost> 
         queryWrapper.select(SysPost::getName);
         queryWrapper.in(SysPost::getId, postIdList);
         return baseMapper.selectList(queryWrapper).stream().map(SysPost::getName).toList();
+    }
+
+    @Override
+    public void validatePostList(Collection<Long> postIds) {
+        if (CollUtil.isEmpty(postIds)) {
+            return;
+        }
+        // 获得岗位信息
+        List<SysPost> posts = baseMapper.selectByIds(postIds);
+        Map<Long, SysPost> postMap = posts.stream().collect(Collectors.toMap(SysPost::getId, Function.identity()));
+        // 校验
+        postIds.forEach(id -> {
+            SysPost post = postMap.get(id);
+            if (post == null) {
+                throw ServerException.of(SystemResponseStatus.POST_NOT_FOUND);
+            }
+            if (!StatusType.ENABLE.equals(post.getStatus())) {
+                throw ServerException.of(SystemResponseStatus.POST_NOT_ENABLE, post.getName());
+            }
+        });
     }
 
     @Override

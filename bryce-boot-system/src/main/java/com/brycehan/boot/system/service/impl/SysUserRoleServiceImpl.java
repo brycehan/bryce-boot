@@ -164,6 +164,20 @@ public class SysUserRoleServiceImpl extends BaseServiceImpl<SysUserRoleMapper, S
     }
 
     @Override
+    public List<Long> getUserIdsByRoleIds(List<Long> roleIds) {
+        if (CollUtil.isEmpty(roleIds)) {
+            return List.of();
+        }
+        var queryWrapper = new LambdaQueryWrapper<SysUserRole>();
+        queryWrapper.select(SysUserRole::getUserId);
+        queryWrapper.in(SysUserRole::getRoleId, roleIds);
+
+        List<SysUserRole> sysUserRoles = baseMapper.selectList(queryWrapper);
+
+        return sysUserRoles.stream().map(SysUserRole::getUserId).toList();
+    }
+
+    @Override
     public int countUserRoleByRoleId(Long roleId) {
         LambdaQueryWrapper<SysUserRole> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(SysUserRole::getRoleId, roleId);

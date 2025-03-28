@@ -9,6 +9,7 @@ import com.brycehan.boot.framework.operatelog.annotation.OperatedType;
 import com.brycehan.boot.system.entity.convert.SysDeptConvert;
 import com.brycehan.boot.system.entity.dto.SysDeptDto;
 import com.brycehan.boot.system.entity.po.SysDept;
+import com.brycehan.boot.system.entity.vo.SysDeptSimpleVo;
 import com.brycehan.boot.system.entity.vo.SysDeptVo;
 import com.brycehan.boot.system.service.SysDeptService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -106,6 +107,19 @@ public class SysDeptController {
     @PostMapping(path = "/list")
     public ResponseResult<List<SysDeptVo>> list(@Validated @RequestBody SysDeptDto sysDeptDto) {
         List<SysDeptVo> list = sysDeptService.list(sysDeptDto);
+        return ResponseResult.ok(list);
+    }
+
+    /**
+     * 系统部门列表查询，用于前端 select 下拉框
+     *
+     * @param sysDeptDto 查询条件
+     * @return 系统部门列表
+     */
+    @Operation(summary = "列表查询")
+    @GetMapping(path = "/simple-list")
+    public ResponseResult<List<SysDeptSimpleVo>> simpleList(SysDeptDto sysDeptDto) {
+        List<SysDeptSimpleVo> list = sysDeptService.simpleList(sysDeptDto);
         return ResponseResult.ok(list);
     }
 

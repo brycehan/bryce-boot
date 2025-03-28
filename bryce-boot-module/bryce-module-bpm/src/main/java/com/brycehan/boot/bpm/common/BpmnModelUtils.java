@@ -82,27 +82,6 @@ public class BpmnModelUtils {
     }
 
     /**
-     * 获取BPMN 流程中，指定类型的元素集合
-     *
-     * @param bpmnModel bpmnModel
-     * @param clazz     clazz，例如 UserTask、Gateway等
-     * @param <T>       T
-     * @return List
-     */
-    @SuppressWarnings("unchecked")
-    public static <T extends FlowElement> List<T> getFlowElementsOfType(BpmnModel bpmnModel, Class<T> clazz) {
-//        List<T> flowElements = new ArrayList<>();
-//        bpmnModel.getProcesses().forEach(process -> flowElements.addAll(process.findFlowElementsOfType(clazz)));
-        List<T> flowElements = new ArrayList<>();
-        bpmnModel.getProcesses().forEach(process -> process.getFlowElements().forEach(flowElement -> {
-            if (flowElement.getClass().isAssignableFrom(clazz)) {
-                flowElements.add((T) flowElement);
-            }
-        }));
-        return flowElements;
-    }
-
-    /**
      * 解析候选人策略
      *
      * @param userTask 任务节点
@@ -509,21 +488,23 @@ public class BpmnModelUtils {
     }
 
     /**
-     * 获得 BPMN 流程中，指定的元素们
+     * 获取BPMN 流程中，指定类型的元素集合
      *
-     * @param model 模型
-     * @param clazz 指定元素。例如说，{@link UserTask}、{@link Gateway} 等等
-     * @return 元素们
+     * @param bpmnModel 模型
+     * @param clazz     clazz，例如 {@link UserTask}、{@link Gateway} 等等
+     * @param <T>       T
+     * @return List     元素集合
      */
     @SuppressWarnings("unchecked")
-    public static <T extends FlowElement> List<T> getBpmnModelElements(BpmnModel model, Class<T> clazz) {
-        List<T> result = new ArrayList<>();
-        model.getProcesses().forEach(process -> process.getFlowElements().forEach(flowElement -> {
+    public static <T extends FlowElement> List<T> getFlowElementsOfType(BpmnModel bpmnModel, Class<T> clazz) {
+//        bpmnModel.getProcesses().forEach(process -> flowElements.addAll(process.findFlowElementsOfType(clazz)));
+        List<T> flowElements = new ArrayList<>();
+        bpmnModel.getProcesses().forEach(process -> process.getFlowElements().forEach(flowElement -> {
             if (flowElement.getClass().isAssignableFrom(clazz)) {
-                result.add((T) flowElement);
+                flowElements.add((T) flowElement);
             }
         }));
-        return result;
+        return flowElements;
     }
 
     /**
