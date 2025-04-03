@@ -30,9 +30,9 @@ public class ServerErrorController implements ErrorController {
         int status = response.getStatus();
         log.error("请求出错了，状态码：{}", status);
         if(status == 401) {
-            return ResponseResult.error(HttpResponseStatus.HTTP_UNAUTHORIZED);
+            return ResponseResult.of(HttpResponseStatus.HTTP_UNAUTHORIZED);
         } else if(status == 404) {
-            return ResponseResult.error(HttpResponseStatus.HTTP_NOT_FOUND);
+            return ResponseResult.of(HttpResponseStatus.HTTP_NOT_FOUND);
         }
 
         Throwable throwable = (Throwable) request.getAttribute(RequestDispatcher.ERROR_EXCEPTION);
@@ -41,7 +41,7 @@ public class ServerErrorController implements ErrorController {
             return ResponseResult.error();
         }
 
-        return ResponseResult.error(throwable.getMessage());
+        return ResponseResult.of(throwable.getMessage());
     }
 
 }

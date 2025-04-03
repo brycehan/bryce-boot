@@ -44,7 +44,7 @@ public class AuthRegisterController {
             return ResponseResult.ok();
         }
 
-        return ResponseResult.error(SystemResponseStatus.USER_REGISTER_NOT_ENABLED);
+        return ResponseResult.of(SystemResponseStatus.USER_REGISTER_NOT_ENABLED);
     }
 
     /**

@@ -2,6 +2,7 @@ package com.brycehan.boot.system.controller;
 
 import com.brycehan.boot.common.base.LoginUserContext;
 import com.brycehan.boot.common.base.response.ResponseResult;
+import com.brycehan.boot.common.base.response.SystemResponseStatus;
 import com.brycehan.boot.common.base.validator.SaveGroup;
 import com.brycehan.boot.common.base.validator.UpdateGroup;
 import com.brycehan.boot.common.entity.dto.IdsDto;
@@ -89,7 +90,7 @@ public class SysMenuController {
         // 判断是否有子菜单或按钮
         Long count = sysMenuService.getSubMenuCount(idsDto.getIds());
         if (count > 0) {
-            return ResponseResult.warn("存在子菜单,不允许删除");
+            return ResponseResult.of(SystemResponseStatus.DEPT_EXITS_CHILDREN);
         }
 
         sysMenuService.delete(idsDto);

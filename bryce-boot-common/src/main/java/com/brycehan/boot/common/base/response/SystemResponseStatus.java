@@ -62,8 +62,8 @@ public enum SystemResponseStatus implements ResponseStatus {
     DEPT_NAME_DUPLICATE(6_003_000, "已经存在该名字的部门", ResponseType.ERROR),
     DEPT_PARENT_NOT_EXITS(6_003_001,"父级部门不存在", ResponseType.ERROR),
     DEPT_NOT_FOUND(6_003_002, "当前部门不存在", ResponseType.ERROR),
-    DEPT_EXITS_CHILDREN(6_003_003, "存在下级部门，无法删除", ResponseType.ERROR),
-    DEPT_PARENT_ERROR(6_003_004, "不能设置自己为父部门", ResponseType.ERROR),
+    DEPT_EXITS_CHILDREN(6_003_003, "存在下级部门，不允许删除", ResponseType.WARN),
+    DEPT_PARENT_ERROR(6_003_004, "不能设置自己为父部门", ResponseType.WARN),
     DEPT_NOT_ENABLE(6_003_006, "部门({})不处于开启状态，不允许选择", ResponseType.ERROR),
     DEPT_PARENT_IS_CHILD(6_003_007, "不能设置自己的子部门为父部门", ResponseType.ERROR),
     

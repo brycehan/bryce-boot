@@ -64,7 +64,7 @@ public class ServerExceptionHandler {
                 .map(DefaultMessageSourceResolvable::getDefaultMessage)
                 .collect(Collectors.joining(","));
         log.error("数据绑定异常，{}", e.getMessage());
-        return ResponseResult.error(HttpResponseStatus.HTTP_BAD_REQUEST.code(), message);
+        return ResponseResult.of(HttpResponseStatus.HTTP_BAD_REQUEST.code(), message);
     }
 
     /**
@@ -76,7 +76,7 @@ public class ServerExceptionHandler {
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseResult<Void> handleException(AccessDeniedException e) {
         log.error("没有权限，禁止访问，{}", e.getMessage());
-        return ResponseResult.error(HttpResponseStatus.HTTP_FORBIDDEN);
+        return ResponseResult.of(HttpResponseStatus.HTTP_FORBIDDEN);
     }
 
     /**
@@ -89,7 +89,7 @@ public class ServerExceptionHandler {
     public ResponseResult<Void> handleException(BadCredentialsException e) {
         log.error(" 密码错误异常，{}", e.getMessage());
 
-        return ResponseResult.error(SystemResponseStatus.USER_USERNAME_OR_PASSWORD_ERROR);
+        return ResponseResult.of(SystemResponseStatus.USER_USERNAME_OR_PASSWORD_ERROR);
     }
 
     /**
@@ -101,9 +101,9 @@ public class ServerExceptionHandler {
     public ResponseResult<Void> handleException(MultipartException e) {
         log.error("上传文件异常，{}", e.getMessage());
         if (e instanceof MaxUploadSizeExceededException) {
-            return ResponseResult.error(StorageResponseStatus.UPLOAD_EXCEED_MAX_SIZE, maxRequestSize);
+            return ResponseResult.of(StorageResponseStatus.UPLOAD_EXCEED_MAX_SIZE, maxRequestSize);
         }
-        return ResponseResult.error(e.getMessage());
+        return ResponseResult.of(e.getMessage());
     }
 
     /**
@@ -115,7 +115,7 @@ public class ServerExceptionHandler {
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public ResponseResult<Void> handleException(HttpRequestMethodNotSupportedException e) {
         log.error("不支持{}类型的方法", e.getMethod(), e);
-        return ResponseResult.error(HttpResponseStatus.HTTP_METHOD_NOT_ALLOWED, e.getMethod());
+        return ResponseResult.of(HttpResponseStatus.HTTP_METHOD_NOT_ALLOWED, e.getMethod());
     }
 
     /**
@@ -128,7 +128,7 @@ public class ServerExceptionHandler {
     public ResponseResult<Void> handleException(MethodArgumentNotValidException e) {
         List<String> errors = e.getFieldErrors().stream().map(fieldError -> getFieldCNName(fieldError) + fieldError.getDefaultMessage()).collect(Collectors.toList());
         log.error("实体字段校验不通过异常，{}", e.getMessage());
-        return ResponseResult.error(HttpResponseStatus.HTTP_BAD_REQUEST.code(), String.join("，", errors));
+        return ResponseResult.of(HttpResponseStatus.HTTP_BAD_REQUEST.code(), String.join("，", errors));
     }
 
     /**
@@ -177,7 +177,7 @@ public class ServerExceptionHandler {
                 .map(violation -> getFieldCNName(violation) + violation.getMessage())
                 .collect(Collectors.joining(","));
         log.error("数据校验异常，{}", e.getMessage());
-        return ResponseResult.error(HttpResponseStatus.HTTP_BAD_REQUEST.code(), message);
+        return ResponseResult.of(HttpResponseStatus.HTTP_BAD_REQUEST.code(), message);
     }
 
     /**
@@ -223,7 +223,7 @@ public class ServerExceptionHandler {
     @ExceptionHandler(InternalAuthenticationServiceException.class)
     public ResponseResult<Void> handleException(InternalAuthenticationServiceException e) {
         log.error("账号与密码不匹配，{}", e.getMessage());
-        return ResponseResult.error(SystemResponseStatus.USER_USERNAME_OR_PASSWORD_ERROR.code(), e.getMessage());
+        return ResponseResult.of(SystemResponseStatus.USER_USERNAME_OR_PASSWORD_ERROR.code(), e.getMessage());
     }
 
     /**
@@ -235,7 +235,7 @@ public class ServerExceptionHandler {
     @ExceptionHandler(DisabledException.class)
     public ResponseResult<Void> handleException(DisabledException e) {
         log.error("用户账户没有启用异常，{}", e.getLocalizedMessage());
-        return ResponseResult.error(SystemResponseStatus.USER_USERNAME_DISABLED);
+        return ResponseResult.of(SystemResponseStatus.USER_USERNAME_DISABLED);
     }
 
     /**
@@ -247,7 +247,7 @@ public class ServerExceptionHandler {
     @ExceptionHandler(NoResourceFoundException.class)
     public ResponseResult<Void> handleException(NoResourceFoundException e) {
         log.error("资源不存在：{}", e.getResourcePath());
-        return ResponseResult.error(HttpResponseStatus.HTTP_NOT_FOUND);
+        return ResponseResult.of(HttpResponseStatus.HTTP_NOT_FOUND);
     }
 
     /**
@@ -260,7 +260,7 @@ public class ServerExceptionHandler {
     public ResponseResult<Void> handleException(WxErrorException e) {
         WxError error = e.getError();
         log.error("调用微信API异常，错误码：{}，错误消息：{}", error.getErrorCode(), error.getErrorMsg());
-        return ResponseResult.error(error.getErrorMsg());
+        return ResponseResult.of(error.getErrorMsg());
     }
 
     /**
@@ -272,7 +272,7 @@ public class ServerExceptionHandler {
     @ExceptionHandler(ServerException.class)
     public ResponseResult<Void> handleException(ServerException e) {
         log.error("服务器异常", e);
-        return ResponseResult.error(e);
+        return ResponseResult.of(e);
     }
 
     /**
@@ -284,7 +284,7 @@ public class ServerExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseResult<Void> handleException(Exception e) {
         log.error("系统内部异常", e);
-        return ResponseResult.error(HttpResponseStatus.HTTP_INTERNAL_ERROR.code(), e.getMessage());
+        return ResponseResult.of(HttpResponseStatus.HTTP_INTERNAL_ERROR.code(), e.getMessage());
     }
 
 }

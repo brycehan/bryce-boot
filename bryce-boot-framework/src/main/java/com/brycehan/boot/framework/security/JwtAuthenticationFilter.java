@@ -58,10 +58,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter implements Ord
         try {
             decodedJWT = jwtTokenProvider.validateToken(accessToken);
         } catch (TokenExpiredException e) {
-            ServletUtils.render(response, ResponseResult.error(HttpResponseStatus.HTTP_UNAUTHORIZED.code(), "登录状态已过期"));
+            ServletUtils.render(response, ResponseResult.of(HttpResponseStatus.HTTP_UNAUTHORIZED.code(), "登录状态已过期"));
             return;
         } catch (Exception e) {
-            ServletUtils.render(response, ResponseResult.error(HttpResponseStatus.HTTP_UNAUTHORIZED.code(), "访问令牌校验失败"));
+            ServletUtils.render(response, ResponseResult.of(HttpResponseStatus.HTTP_UNAUTHORIZED.code(), "访问令牌校验失败"));
             return;
         }
 

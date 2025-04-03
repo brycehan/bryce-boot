@@ -43,16 +43,16 @@ public class ResponseResult<T> implements Serializable {
     private T data;
 
     /**
-     * 响应时间
-     */
-    @Schema(description = "响应时间")
-    private LocalDateTime time;
-
-    /**
      * 响应类型
      */
     @Schema(description = "响应类型")
     private ResponseType type;
+
+    /**
+     * 响应时间
+     */
+    @Schema(description = "响应时间")
+    private LocalDateTime time;
 
     /**
      * 响应成功
@@ -84,8 +84,8 @@ public class ResponseResult<T> implements Serializable {
         ResponseResult<T> responseResult = new ResponseResult<>();
         responseResult.setData(data);
         responseResult.setMessage(message);
-        responseResult.setTime(LocalDateTime.now());
         responseResult.setType(ResponseType.SUCCESS);
+        responseResult.setTime(LocalDateTime.now());
         return responseResult;
     }
 
@@ -109,7 +109,7 @@ public class ResponseResult<T> implements Serializable {
      * @return 响应结果
      */
     public static <T> ResponseResult<T> error() {
-        return error(HttpResponseStatus.HTTP_INTERNAL_ERROR);
+        return of(HttpResponseStatus.HTTP_INTERNAL_ERROR);
     }
 
     /**
@@ -118,19 +118,8 @@ public class ResponseResult<T> implements Serializable {
      * @param message 响应消息
      * @return 响应结果
      */
-    public static <T> ResponseResult<T> error(String message) {
-        return error(HttpResponseStatus.HTTP_INTERNAL_ERROR.code(), message, HttpResponseStatus.HTTP_INTERNAL_ERROR.type());
-    }
-
-    /**
-     * 响应失败
-     *
-     * @param code    响应编码
-     * @param message 响应消息
-     * @return 响应结果
-     */
-    public static <T> ResponseResult<T> error(Integer code, String message) {
-        return error(code, message, ResponseType.ERROR);
+    public static <T> ResponseResult<T> of(String message) {
+        return of(HttpResponseStatus.HTTP_INTERNAL_ERROR.code(), message, HttpResponseStatus.HTTP_INTERNAL_ERROR.type());
     }
 
     /**
@@ -140,7 +129,18 @@ public class ResponseResult<T> implements Serializable {
      * @param message 响应消息
      * @return 响应结果
      */
-    public static <T> ResponseResult<T> error(Integer code, String message, ResponseType type) {
+    public static <T> ResponseResult<T> of(Integer code, String message) {
+        return of(code, message, ResponseType.ERROR);
+    }
+
+    /**
+     * 响应失败
+     *
+     * @param code    响应编码
+     * @param message 响应消息
+     * @return 响应结果
+     */
+    public static <T> ResponseResult<T> of(Integer code, String message, ResponseType type) {
         ResponseResult<T> responseResult = new ResponseResult<>();
         responseResult.setCode(code);
         responseResult.setMessage(message);
@@ -155,8 +155,8 @@ public class ResponseResult<T> implements Serializable {
      * @param responseStatus 响应状态
      * @return 响应结果
      */
-    public static <T> ResponseResult<T> error(ResponseStatus responseStatus) {
-        return error(responseStatus.code(), responseStatus.message(), responseStatus.type());
+    public static <T> ResponseResult<T> of(ResponseStatus responseStatus) {
+        return of(responseStatus.code(), responseStatus.message(), responseStatus.type());
     }
 
    /**
@@ -166,8 +166,8 @@ public class ResponseResult<T> implements Serializable {
      * @param params         参数
      * @return 响应结果
      */
-    public static <T> ResponseResult<T> error(ResponseStatus responseStatus, Object... params) {
-        return error(responseStatus.code(), StrUtil.format(responseStatus.message(), params), responseStatus.type());
+    public static <T> ResponseResult<T> of(ResponseStatus responseStatus, Object... params) {
+        return of(responseStatus.code(), StrUtil.format(responseStatus.message(), params), responseStatus.type());
     }
 
     /**
@@ -176,8 +176,8 @@ public class ResponseResult<T> implements Serializable {
      * @param serverException 服务异常
      * @return 响应结果
      */
-    public static <T> ResponseResult<T> error(ServerException serverException) {
-        return error(serverException.getCode(), serverException.getMessage(), serverException.getType());
+    public static <T> ResponseResult<T> of(ServerException serverException) {
+        return of(serverException.getCode(), serverException.getMessage(), serverException.getType());
     }
 
 }

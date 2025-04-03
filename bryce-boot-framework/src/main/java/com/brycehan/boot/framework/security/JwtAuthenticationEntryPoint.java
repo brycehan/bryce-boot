@@ -23,7 +23,7 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) {
         log.error("验证不通过，请求地址：{}，提示信息：{}", request.getRequestURI(), authException.getMessage());
-        ServletUtils.render(response, ResponseResult.error(HttpResponseStatus.HTTP_UNAUTHORIZED));
+        ServletUtils.render(response, ResponseResult.of(HttpResponseStatus.HTTP_UNAUTHORIZED));
     }
 
 }

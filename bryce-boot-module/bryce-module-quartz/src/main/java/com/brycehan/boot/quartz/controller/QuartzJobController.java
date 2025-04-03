@@ -52,7 +52,7 @@ public class QuartzJobController {
     @PostMapping
     public ResponseResult<Void> save(@Validated(value = SaveGroup.class) @RequestBody QuartzJobDto quartzJobDto) {
         if(!CronExpression.isValidExpression(quartzJobDto.getCronExpression())) {
-            return ResponseResult.error("操作失败，Cron 表达式错误");
+            return ResponseResult.of("操作失败，Cron 表达式错误");
         }
 
         // 检查 Bean 的合法性
@@ -74,7 +74,7 @@ public class QuartzJobController {
     @PutMapping
     public ResponseResult<Void> update(@Validated(value = UpdateGroup.class) @RequestBody QuartzJobDto quartzJobDto) {
         if(!CronExpression.isValidExpression(quartzJobDto.getCronExpression())) {
-            return ResponseResult.error("操作失败，Cron 表达式错误");
+            return ResponseResult.of("操作失败，Cron 表达式错误");
         }
 
         // 检查 Bean 的合法性

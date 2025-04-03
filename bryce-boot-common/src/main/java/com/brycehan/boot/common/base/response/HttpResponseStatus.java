@@ -44,7 +44,7 @@ public enum HttpResponseStatus implements ResponseStatus {
 
     HTTP_SYSTEM_BUSY(598, "系统繁忙", ResponseType.ERROR),
 
-    HTTP_WARN(600, "系统警告消息", ResponseType.ERROR),
+    HTTP_WARN(600, "系统警告消息", ResponseType.WARN),
     ;
 
 
