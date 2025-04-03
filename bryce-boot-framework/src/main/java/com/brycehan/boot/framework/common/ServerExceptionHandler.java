@@ -272,7 +272,7 @@ public class ServerExceptionHandler {
     @ExceptionHandler(ServerException.class)
     public ResponseResult<Void> handleException(ServerException e) {
         log.error("服务器异常", e);
-        return ResponseResult.error(e.getCode(), e.getMessage());
+        return ResponseResult.error(e);
     }
 
     /**

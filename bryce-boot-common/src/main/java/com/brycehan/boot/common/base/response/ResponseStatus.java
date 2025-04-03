@@ -23,6 +23,12 @@ public interface ResponseStatus {
     String value();
 
     /**
+     * 获取响应类型
+     *
+     * @return 响应类型
+     */
+    ResponseType type();
+    /**
      * 获取响应消息
      *
      * @return 响应消息

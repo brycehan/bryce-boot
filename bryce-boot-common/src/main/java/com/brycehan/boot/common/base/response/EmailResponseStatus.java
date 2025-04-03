@@ -17,10 +17,10 @@ import lombok.experimental.Accessors;
 public enum EmailResponseStatus implements ResponseStatus {
 
     // 发送
-    SEND_FAIL(3_000_00, "邮件发送失败"),
+    SEND_FAIL(3_000_00, "邮件发送失败", ResponseType.ERROR),
 
     // 附件
-    ATTACHMENT_PARAM_ERROR(3_001_01, "邮件附件参数错误"),
+    ATTACHMENT_PARAM_ERROR(3_001_01, "邮件附件参数错误", ResponseType.ERROR),
     ;
 
     /**
@@ -33,4 +33,8 @@ public enum EmailResponseStatus implements ResponseStatus {
      */
     private final String value;
 
+    /**
+     * 响应类型
+     */
+    private final ResponseType type;
 }

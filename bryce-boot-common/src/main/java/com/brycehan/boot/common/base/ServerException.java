@@ -3,6 +3,7 @@ package com.brycehan.boot.common.base;
 import cn.hutool.core.util.StrUtil;
 import com.brycehan.boot.common.base.response.HttpResponseStatus;
 import com.brycehan.boot.common.base.response.ResponseStatus;
+import com.brycehan.boot.common.base.response.ResponseType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
@@ -40,28 +41,37 @@ public class ServerException extends RuntimeException {
      */
     private Object[] messageArgs;
 
+    /**
+     * 响应类型
+     */
+    private ResponseType type;
+
     public ServerException(String message) {
         super(message);
         code = HttpResponseStatus.HTTP_INTERNAL_ERROR.code();
         this.message = message;
+        type = ResponseType.ERROR;
     }
 
     public ServerException(Integer code, String message) {
         super(message);
         this.code = code;
         this.message = message;
+        type = ResponseType.ERROR;
     }
 
     public ServerException(String message, Throwable throwable) {
         super(message, throwable);
         code = HttpResponseStatus.HTTP_INTERNAL_ERROR.code();
         this.message = message;
+        type = ResponseType.ERROR;
     }
 
     public ServerException(ResponseStatus responseStatus, Object... params) {
         super(StrUtil.format(responseStatus.message(), params));
         code = responseStatus.code();
         message = StrUtil.format(responseStatus.message(), params);
+        type = responseStatus.type();
     }
 
     /**

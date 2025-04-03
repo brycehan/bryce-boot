@@ -49,6 +49,12 @@ public class ResponseResult<T> implements Serializable {
     private LocalDateTime time;
 
     /**
+     * 响应类型
+     */
+    @Schema(description = "响应类型")
+    private ResponseType type;
+
+    /**
      * 响应成功
      *
      * @return 响应结果
@@ -79,6 +85,7 @@ public class ResponseResult<T> implements Serializable {
         responseResult.setData(data);
         responseResult.setMessage(message);
         responseResult.setTime(LocalDateTime.now());
+        responseResult.setType(ResponseType.SUCCESS);
         return responseResult;
     }
 
@@ -92,6 +99,7 @@ public class ResponseResult<T> implements Serializable {
         ResponseResult<T> responseResult = new ResponseResult<>();
         responseResult.setCode(HttpResponseStatus.HTTP_WARN.code());
         responseResult.setMessage(message);
+        responseResult.setType(ResponseType.WARN);
         return responseResult;
     }
 
@@ -111,7 +119,7 @@ public class ResponseResult<T> implements Serializable {
      * @return 响应结果
      */
     public static <T> ResponseResult<T> error(String message) {
-        return error(HttpResponseStatus.HTTP_INTERNAL_ERROR.code(), message);
+        return error(HttpResponseStatus.HTTP_INTERNAL_ERROR.code(), message, HttpResponseStatus.HTTP_INTERNAL_ERROR.type());
     }
 
     /**
@@ -122,10 +130,22 @@ public class ResponseResult<T> implements Serializable {
      * @return 响应结果
      */
     public static <T> ResponseResult<T> error(Integer code, String message) {
+        return error(code, message, ResponseType.ERROR);
+    }
+
+    /**
+     * 响应失败
+     *
+     * @param code    响应编码
+     * @param message 响应消息
+     * @return 响应结果
+     */
+    public static <T> ResponseResult<T> error(Integer code, String message, ResponseType type) {
         ResponseResult<T> responseResult = new ResponseResult<>();
         responseResult.setCode(code);
         responseResult.setMessage(message);
         responseResult.setTime(LocalDateTime.now());
+        responseResult.setType(type);
         return responseResult;
     }
 
@@ -136,7 +156,7 @@ public class ResponseResult<T> implements Serializable {
      * @return 响应结果
      */
     public static <T> ResponseResult<T> error(ResponseStatus responseStatus) {
-        return error(responseStatus.code(), responseStatus.message());
+        return error(responseStatus.code(), responseStatus.message(), responseStatus.type());
     }
 
    /**
@@ -147,7 +167,7 @@ public class ResponseResult<T> implements Serializable {
      * @return 响应结果
      */
     public static <T> ResponseResult<T> error(ResponseStatus responseStatus, Object... params) {
-        return error(responseStatus.code(), StrUtil.format(responseStatus.message(), params));
+        return error(responseStatus.code(), StrUtil.format(responseStatus.message(), params), responseStatus.type());
     }
 
     /**
@@ -157,7 +177,7 @@ public class ResponseResult<T> implements Serializable {
      * @return 响应结果
      */
     public static <T> ResponseResult<T> error(ServerException serverException) {
-        return error(serverException.getCode(), serverException.getMessage());
+        return error(serverException.getCode(), serverException.getMessage(), serverException.getType());
     }
 
 }
