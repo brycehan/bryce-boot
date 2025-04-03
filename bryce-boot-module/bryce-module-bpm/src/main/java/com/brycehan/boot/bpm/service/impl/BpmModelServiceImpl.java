@@ -70,7 +70,7 @@ public class BpmModelServiceImpl implements BpmModelService {
      */
     @Override
     @Transactional
-    public void save(BpmModelDto bpmModelDto) {
+    public String save(BpmModelDto bpmModelDto) {
         // 校验流程标识是否已经存在
         Model model = repositoryService.createModelQuery()
                 .modelKey(bpmModelDto.getKey())
@@ -85,6 +85,7 @@ public class BpmModelServiceImpl implements BpmModelService {
 
         // 保存 Model 对象
         ((BpmModelServiceImpl) AopContext.currentProxy()).saveModel(model, bpmModelDto);
+        return model.getId();
     }
 
     /**

@@ -129,9 +129,9 @@ public class SysPostController {
      * @return 响应结果
      */
     @Operation(summary = "查询系统岗位列表")
-    @GetMapping(path = "/list")
-    public ResponseResult<List<SysPostVo>> list() {
-        List<SysPostVo> list = sysPostService.list(new SysPostPageDto());
+    @GetMapping(path = "/simple-list")
+    public ResponseResult<List<SysPostVo>> simpleList() {
+        List<SysPostVo> list = sysPostService.simpleList(new SysPostPageDto());
         return ResponseResult.ok(list);
     }
 

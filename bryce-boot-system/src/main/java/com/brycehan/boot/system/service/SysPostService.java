@@ -54,7 +54,7 @@ public interface SysPostService extends BaseService<SysPost> {
      * @param sysPostPageDto 分页参数
      * @return 岗位列表
      */
-    List<SysPostVo> list(SysPostPageDto sysPostPageDto);
+    List<SysPostVo> simpleList(SysPostPageDto sysPostPageDto);
 
     /**
      * 根据岗位ID列表查询岗位名称列表

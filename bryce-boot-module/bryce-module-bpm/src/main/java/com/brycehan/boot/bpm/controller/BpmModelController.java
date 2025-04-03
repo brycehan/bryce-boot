@@ -28,10 +28,11 @@ import java.util.List;
  * @author Bryce Han
  * @since 2025/02/24
  */
-@Tag(name = "流程模型", description = "bpmModel")
-@RequestMapping("/bpm/model")
-@RestController
+@Validated
 @RequiredArgsConstructor
+@Tag(name = "流程模型", description = "bpmModel")
+@RestController
+@RequestMapping("/bpm/model")
 public class BpmModelController {
 
     private final BpmModelService bpmModelService;
@@ -46,9 +47,9 @@ public class BpmModelController {
     @OperateLog(type = OperatedType.INSERT)
     @PreAuthorize("@auth.hasAuthority('bpm:model:save')")
     @PostMapping
-    public ResponseResult<Void> save(@Validated(value = SaveGroup.class) @RequestBody BpmModelDto bpmModelDto) {
-        bpmModelService.save(bpmModelDto);
-        return ResponseResult.ok();
+    public ResponseResult<String> save(@Validated(value = SaveGroup.class) @RequestBody BpmModelDto bpmModelDto) {
+        String modelId = bpmModelService.save(bpmModelDto);
+        return ResponseResult.ok(modelId);
     }
 
     /**
@@ -76,7 +77,7 @@ public class BpmModelController {
     @OperateLog(type = OperatedType.DELETE)
     @PreAuthorize("@auth.hasAuthority('bpm:model:delete')")
     @DeleteMapping
-    public ResponseResult<Void> delete(@NotEmptyElements @Size(min = 1, max = 10) @RequestBody List<String> ids) {
+    public ResponseResult<Void> delete(@NotEmptyElements @Size(min = 1, max = 100) @RequestBody List<String> ids) {
         bpmModelService.delete(ids);
         return ResponseResult.ok();
     }

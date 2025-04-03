@@ -101,7 +101,7 @@ public class SysPostServiceImpl extends BaseServiceImpl<SysPostMapper, SysPost> 
     }
 
     @Override
-    public List<SysPostVo> list(SysPostPageDto sysPostPageDto) {
+    public List<SysPostVo> simpleList(SysPostPageDto sysPostPageDto) {
         // 正常岗位列表
         sysPostPageDto.setStatus(StatusType.ENABLE);
         List<SysPost> sysPostList = baseMapper.selectList(getWrapper(sysPostPageDto));

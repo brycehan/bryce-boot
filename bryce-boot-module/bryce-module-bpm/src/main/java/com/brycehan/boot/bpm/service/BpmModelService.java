@@ -2,12 +2,9 @@ package com.brycehan.boot.bpm.service;
 
 import com.brycehan.boot.bpm.entity.dto.BpmModelDto;
 import com.brycehan.boot.bpm.entity.dto.BpmModelPageDto;
-import com.brycehan.boot.bpm.entity.dto.BpmProcessDefinitionInfoPageDto;
 import com.brycehan.boot.bpm.entity.vo.BpmModelVo;
-import com.brycehan.boot.bpm.entity.vo.BpmProcessDefinitionInfoVo;
 import com.brycehan.boot.bpm.entity.vo.BpmSimpleModelNodeVo;
 import com.brycehan.boot.common.entity.PageResult;
-import com.brycehan.boot.common.entity.dto.IdsDto;
 import jakarta.validation.constraints.NotEmpty;
 
 import java.util.List;
@@ -25,7 +22,7 @@ public interface BpmModelService {
      *
      * @param bpmModelDto 流程定义信息Dto
      */
-    void save(BpmModelDto bpmModelDto);
+    String save(BpmModelDto bpmModelDto);
 
     /**
      * 更新流程定义信息
