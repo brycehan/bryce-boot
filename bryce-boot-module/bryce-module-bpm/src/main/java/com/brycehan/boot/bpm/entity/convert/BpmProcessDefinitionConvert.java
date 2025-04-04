@@ -44,17 +44,10 @@ public interface BpmProcessDefinitionConvert {
         List<BpmProcessDefinitionVo> bpmProcessDefinitionVos = new ArrayList<>(processDefinitions.size());
         for (ProcessDefinition processDefinition : processDefinitions) {
             BpmProcessDefinitionVo bpmProcessDefinitionVo = new BpmProcessDefinitionVo();
-            // 流程定义信息
-            bpmProcessDefinitionVo.setId(processDefinition.getId());
-            bpmProcessDefinitionVo.setName(processDefinition.getName());
-            bpmProcessDefinitionVo.setKey(processDefinition.getKey());
-            bpmProcessDefinitionVo.setVersion(processDefinition.getVersion());
-            bpmProcessDefinitionVo.setCategory(categoryNameMap.get(Long.parseLong(processDefinition.getCategory())));
-            bpmProcessDefinitionVo.setSuspensionState(processDefinition.isSuspended() ? 1 : 0);
-            bpmProcessDefinitionVo.setDescription(processDefinition.getDescription());
-
             BpmProcessDefinitionInfo bpmProcessDefinitionInfo = processDefinitionInfoMap.get(processDefinition.getId());
-            if (bpmProcessDefinitionInfo != null) {
+            if (bpmProcessDefinitionInfo == null) {
+                continue;
+            } else {
                 // 表单信息
                 bpmProcessDefinitionVo.setFormType(bpmProcessDefinitionInfo.getFormType());
                 bpmProcessDefinitionVo.setFormId(bpmProcessDefinitionInfo.getFormId());
@@ -65,6 +58,15 @@ public interface BpmProcessDefinitionConvert {
                 bpmProcessDefinitionVo.setModelType(bpmProcessDefinitionInfo.getModelType());
                 bpmProcessDefinitionVo.setDescription(bpmProcessDefinitionInfo.getDescription());
             }
+
+            // 流程定义信息
+            bpmProcessDefinitionVo.setId(processDefinition.getId());
+            bpmProcessDefinitionVo.setName(processDefinition.getName());
+            bpmProcessDefinitionVo.setKey(processDefinition.getKey());
+            bpmProcessDefinitionVo.setVersion(processDefinition.getVersion());
+            bpmProcessDefinitionVo.setCategory(categoryNameMap.get(Long.parseLong(processDefinition.getCategory())));
+            bpmProcessDefinitionVo.setSuspensionState(processDefinition.isSuspended() ? 1 : 0);
+            bpmProcessDefinitionVo.setDescription(processDefinition.getDescription());
 
             // 部署时间
             Deployment deployment = deploymentMap.get(processDefinition.getDeploymentId());

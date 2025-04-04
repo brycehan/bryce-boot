@@ -3,6 +3,8 @@ package com.brycehan.boot.bpm.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.brycehan.boot.bpm.common.BpmnModelConstants;
 import com.brycehan.boot.bpm.common.BpmnModelUtils;
 import com.brycehan.boot.bpm.entity.convert.BpmProcessDefinitionConvert;
@@ -33,6 +35,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 
@@ -231,7 +234,12 @@ public class BpmProcessDefinitionServiceImpl implements BpmProcessDefinitionServ
         Map<String, Deployment> deploymentMap = getDeploymentMap(processDefinitions.stream().map(ProcessDefinition::getDeploymentId).toList());
 
         // 获取流程定义信息
-        Map<String, BpmProcessDefinitionInfo> processDefinitionInfoMap = bpmProcessDefinitionInfoService.getProcessDefinitionInfoMap(processDefinitions.stream().map(ProcessDefinition::getId).toList());
+        LambdaQueryWrapper<BpmProcessDefinitionInfo> queryWrapper = Wrappers.lambdaQuery();
+        queryWrapper.eq(bpmProcessDefinitionPageDto.getVisible() != null, BpmProcessDefinitionInfo::getVisible, bpmProcessDefinitionPageDto.getVisible());
+        queryWrapper.in(BpmProcessDefinitionInfo::getProcessDefinitionId, processDefinitions.stream().map(ProcessDefinition::getId).toList());
+
+        List<BpmProcessDefinitionInfo> list = bpmProcessDefinitionInfoService.list(queryWrapper);
+        Map<String, BpmProcessDefinitionInfo> processDefinitionInfoMap = list.stream().collect(Collectors.toMap(BpmProcessDefinitionInfo::getProcessDefinitionId, Function.identity()));
 
         // 获取表单信息
         Map<Long, String> formNameMap = bpmFormService.getFormNameMap(processDefinitionInfoMap.values().stream().map(BpmProcessDefinitionInfo::getFormId).toList());

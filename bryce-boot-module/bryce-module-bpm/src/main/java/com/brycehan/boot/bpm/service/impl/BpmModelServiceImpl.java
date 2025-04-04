@@ -38,6 +38,7 @@ import org.springframework.aop.framework.AopContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -185,7 +186,7 @@ public class BpmModelServiceImpl implements BpmModelService {
 
         // 保存流程定义信息
         if (Objects.equals(BpmModelType.BPMN.getValue(), bpmModelDto.getType())) {
-            updateModelBpmnXml(model.getId(), bpmModelDto.getBpmnXml());
+            ((BpmModelServiceImpl) AopContext.currentProxy()).updateModelBpmnXml(model.getId(), bpmModelDto.getBpmnXml());
         } else {
             if (bpmModelDto.getSimpleModel() == null) {
                 return;
@@ -193,11 +194,14 @@ public class BpmModelServiceImpl implements BpmModelService {
         }
     }
 
+    @Transactional
     @Override
     public void updateModelBpmnXml(String id, String bpmnXml) {
         if (StrUtil.isBlank(bpmnXml)) {
             return;
         }
+        // 校验流程图
+        validateBpmnXml(bpmnXml.getBytes(StandardCharsets.UTF_8));
 
         repositoryService.addModelEditorSource(id, StrUtil.utf8Bytes(bpmnXml));
     }

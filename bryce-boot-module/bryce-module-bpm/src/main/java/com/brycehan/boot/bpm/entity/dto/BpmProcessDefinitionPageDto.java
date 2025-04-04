@@ -27,4 +27,10 @@ public class BpmProcessDefinitionPageDto extends BasePageDto {
      */
     @Schema(description = "流程分类ID")
     private String category;
+
+    /**
+     * 可见范围
+     */
+    @Schema(description = "可见范围")
+    private Integer visible;
 }

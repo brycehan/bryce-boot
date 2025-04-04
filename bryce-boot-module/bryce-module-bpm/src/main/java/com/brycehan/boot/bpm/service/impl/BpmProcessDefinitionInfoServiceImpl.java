@@ -22,6 +22,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 
@@ -71,7 +72,7 @@ public class BpmProcessDefinitionInfoServiceImpl extends BaseServiceImpl<BpmProc
         LambdaQueryWrapper<BpmProcessDefinitionInfo> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.in(BpmProcessDefinitionInfo::getProcessDefinitionId, processDefinitionIds);
         List<BpmProcessDefinitionInfo> bpmProcessDefinitionInfos = baseMapper.selectList(queryWrapper);
-        return bpmProcessDefinitionInfos.stream().collect(Collectors.toMap(BpmProcessDefinitionInfo::getProcessDefinitionId, bpmProcessDefinitionInfo -> bpmProcessDefinitionInfo));
+        return bpmProcessDefinitionInfos.stream().collect(Collectors.toMap(BpmProcessDefinitionInfo::getProcessDefinitionId, Function.identity()));
     }
 
     @Override
