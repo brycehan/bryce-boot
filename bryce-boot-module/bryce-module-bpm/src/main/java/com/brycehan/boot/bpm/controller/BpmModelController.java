@@ -1,6 +1,7 @@
 package com.brycehan.boot.bpm.controller;
 
 import com.brycehan.boot.bpm.entity.dto.BpmModelDto;
+import com.brycehan.boot.bpm.entity.dto.BpmModelKeyDto;
 import com.brycehan.boot.bpm.entity.dto.BpmModelPageDto;
 import com.brycehan.boot.bpm.entity.vo.BpmModelVo;
 import com.brycehan.boot.bpm.service.BpmModelService;
@@ -137,5 +138,18 @@ public class BpmModelController {
     public ResponseResult<?> updateState(@PathVariable String id, @PathVariable Integer state) {
         bpmModelService.updateState(id, state);
         return ResponseResult.ok();
+    }
+
+    /**
+     * 校验key是否可用
+     *
+     * @param bpmModelKeyDto Bpm 模型 Dto
+     * @return 响应结果，key是否可用
+     */
+    @Operation(summary = "校验手机号码是否可注册（true：可用，false：不可以）")
+    @GetMapping(path = "/checkKeyUnique")
+    public ResponseResult<Boolean> checkKeyUnique(@Validated BpmModelKeyDto bpmModelKeyDto) {
+        boolean checked = bpmModelService.checkKeyUnique(bpmModelKeyDto);
+        return ResponseResult.ok(checked);
     }
 }

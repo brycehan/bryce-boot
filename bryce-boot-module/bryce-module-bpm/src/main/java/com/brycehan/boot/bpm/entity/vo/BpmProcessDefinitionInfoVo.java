@@ -1,5 +1,6 @@
 package com.brycehan.boot.bpm.entity.vo;
 
+import com.brycehan.boot.common.enums.VisibleType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import java.time.LocalDateTime;
@@ -103,7 +104,7 @@ public class BpmProcessDefinitionInfoVo implements Serializable {
      * 可见范围
      */
     @Schema(description = "可见范围")
-    private Integer visible;
+    private VisibleType visible;
 
     /**
      * 排序

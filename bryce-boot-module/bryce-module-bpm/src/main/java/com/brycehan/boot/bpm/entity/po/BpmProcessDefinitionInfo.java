@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import com.brycehan.boot.bpm.entity.vo.BpmModelMetaInfoVo;
 import com.brycehan.boot.common.entity.BaseEntity;
+import com.brycehan.boot.common.enums.VisibleType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -87,7 +88,7 @@ public class BpmProcessDefinitionInfo extends BaseEntity {
     /**
      * 可见范围
      */
-    private Integer visible;
+    private VisibleType visible;
 
     /**
      * 排序

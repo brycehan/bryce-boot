@@ -144,6 +144,8 @@ public class BpmProcessInstanceCopyServiceImpl extends BaseServiceImpl<BpmProces
                 .setActivityId(activityId).setActivityName(activityName)
                 .setProcessDefinitionId(processInstance.getProcessDefinitionId())).toList();
 
+        copyList.forEach(copy -> copy.setId(IdGenerator.nextId()));
+
         baseMapper.insert(copyList);
     }
 

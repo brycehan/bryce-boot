@@ -1,11 +1,11 @@
 package com.brycehan.boot.bpm.service;
 
 import com.brycehan.boot.bpm.entity.dto.BpmModelDto;
+import com.brycehan.boot.bpm.entity.dto.BpmModelKeyDto;
 import com.brycehan.boot.bpm.entity.dto.BpmModelPageDto;
 import com.brycehan.boot.bpm.entity.vo.BpmModelVo;
 import com.brycehan.boot.bpm.entity.vo.BpmSimpleModelNodeVo;
 import com.brycehan.boot.common.entity.PageResult;
-import jakarta.validation.constraints.NotEmpty;
 
 import java.util.List;
 
@@ -82,7 +82,7 @@ public interface BpmModelService {
      *
      * @param id 模型ID
      */
-    void deploy(@NotEmpty String id);
+    void deploy(String id);
 
     /**
      * 更新流程定义状态
@@ -91,4 +91,12 @@ public interface BpmModelService {
      * @param state 状态
      */
     void updateState(String id, Integer state);
+
+    /**
+     * 校验模型KEY是否唯一
+     *
+     * @param bpmModelKeyDto 模型信息
+     * @return true：唯一，false：不唯一
+     */
+    boolean checkKeyUnique(BpmModelKeyDto bpmModelKeyDto);
 }

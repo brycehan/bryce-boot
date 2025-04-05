@@ -2,6 +2,7 @@ package com.brycehan.boot.common.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -14,6 +15,7 @@ import java.time.LocalDateTime;
  * @author Bryce Han
  */
 @Data
+@Accessors(chain = true)
 public abstract class BaseEntity implements Serializable {
 
     @Serial

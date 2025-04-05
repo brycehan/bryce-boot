@@ -30,7 +30,7 @@ import java.util.List;
  * @since 2025/03/08
  */
 @Tag(name = "用户组", description = "bpmUserGroup")
-@RequestMapping("/bpm/userGroup")
+@RequestMapping("/bpm/user-group")
 @RestController
 @RequiredArgsConstructor
 public class BpmUserGroupController {
@@ -45,7 +45,7 @@ public class BpmUserGroupController {
      */
     @Operation(summary = "保存用户组")
     @OperateLog(type = OperatedType.INSERT)
-    @PreAuthorize("@auth.hasAuthority('bpm:userGroup:save')")
+    @PreAuthorize("@auth.hasAuthority('bpm:user-group:save')")
     @PostMapping
     public ResponseResult<Void> save(@Validated(value = SaveGroup.class) @RequestBody BpmUserGroupDto bpmUserGroupDto) {
         bpmUserGroupService.save(bpmUserGroupDto);
@@ -60,7 +60,7 @@ public class BpmUserGroupController {
      */
     @Operation(summary = "更新用户组")
     @OperateLog(type = OperatedType.UPDATE)
-    @PreAuthorize("@auth.hasAuthority('bpm:userGroup:update')")
+    @PreAuthorize("@auth.hasAuthority('bpm:user-group:update')")
     @PutMapping
     public ResponseResult<Void> update(@Validated(value = UpdateGroup.class) @RequestBody BpmUserGroupDto bpmUserGroupDto) {
         bpmUserGroupService.update(bpmUserGroupDto);
@@ -75,7 +75,7 @@ public class BpmUserGroupController {
      */
     @Operation(summary = "删除用户组")
     @OperateLog(type = OperatedType.DELETE)
-    @PreAuthorize("@auth.hasAuthority('bpm:userGroup:delete')")
+    @PreAuthorize("@auth.hasAuthority('bpm:user-group:delete')")
     @DeleteMapping
     public ResponseResult<Void> delete(@Validated @RequestBody IdsDto idsDto) {
         bpmUserGroupService.delete(idsDto);
@@ -89,7 +89,7 @@ public class BpmUserGroupController {
      * @return 响应结果
      */
     @Operation(summary = "查询用户组详情")
-    @PreAuthorize("@auth.hasAuthority('bpm:userGroup:info')")
+    @PreAuthorize("@auth.hasAuthority('bpm:user-group:info')")
     @GetMapping(path = "/{id}")
     public ResponseResult<BpmUserGroupVo> get(@Parameter(description = "用户组ID", required = true) @PathVariable Long id) {
         BpmUserGroup bpmUserGroup = bpmUserGroupService.getById(id);
@@ -103,7 +103,7 @@ public class BpmUserGroupController {
      * @return 用户组分页列表
      */
     @Operation(summary = "用户组分页查询")
-    @PreAuthorize("@auth.hasAuthority('bpm:userGroup:page')")
+    @PreAuthorize("@auth.hasAuthority('bpm:user-group:page')")
     @PostMapping(path = "/page")
     public ResponseResult<PageResult<BpmUserGroupVo>> page(@Validated @RequestBody BpmUserGroupPageDto bpmUserGroupPageDto) {
         PageResult<BpmUserGroupVo> page = bpmUserGroupService.page(bpmUserGroupPageDto);
@@ -116,7 +116,7 @@ public class BpmUserGroupController {
      * @param bpmUserGroupPageDto 查询条件
      */
     @Operation(summary = "用户组导出")
-    @PreAuthorize("@auth.hasAuthority('bpm:userGroup:export')")
+    @PreAuthorize("@auth.hasAuthority('bpm:user-group:export')")
     @PostMapping(path = "/export")
     public void export(@Validated @RequestBody BpmUserGroupPageDto bpmUserGroupPageDto) {
         bpmUserGroupService.export(bpmUserGroupPageDto);

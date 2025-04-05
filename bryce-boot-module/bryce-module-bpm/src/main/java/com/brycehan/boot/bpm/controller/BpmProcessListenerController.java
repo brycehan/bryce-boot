@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.*;
  * @since 2025/03/25
  */
 @Tag(name = "流程监听器", description = "bpmProcessListener")
-@RequestMapping("/bpm/processListener")
+@RequestMapping("/bpm/process-listener")
 @RestController
 @RequiredArgsConstructor
 public class BpmProcessListenerController {
@@ -43,7 +43,7 @@ public class BpmProcessListenerController {
      */
     @Operation(summary = "保存流程监听器")
     @OperateLog(type = OperatedType.INSERT)
-    @PreAuthorize("@auth.hasAuthority('bpm:processListener:save')")
+    @PreAuthorize("@auth.hasAuthority('bpm:process-listener:save')")
     @PostMapping
     public ResponseResult<Void> save(@Validated(value = SaveGroup.class) @RequestBody BpmProcessListenerDto bpmProcessListenerDto) {
         bpmProcessListenerService.save(bpmProcessListenerDto);
@@ -58,7 +58,7 @@ public class BpmProcessListenerController {
      */
     @Operation(summary = "更新流程监听器")
     @OperateLog(type = OperatedType.UPDATE)
-    @PreAuthorize("@auth.hasAuthority('bpm:processListener:update')")
+    @PreAuthorize("@auth.hasAuthority('bpm:process-listener:update')")
     @PutMapping
     public ResponseResult<Void> update(@Validated(value = UpdateGroup.class) @RequestBody BpmProcessListenerDto bpmProcessListenerDto) {
         bpmProcessListenerService.update(bpmProcessListenerDto);
@@ -73,7 +73,7 @@ public class BpmProcessListenerController {
      */
     @Operation(summary = "删除流程监听器")
     @OperateLog(type = OperatedType.DELETE)
-    @PreAuthorize("@auth.hasAuthority('bpm:processListener:delete')")
+    @PreAuthorize("@auth.hasAuthority('bpm:process-listener:delete')")
     @DeleteMapping
     public ResponseResult<Void> delete(@Validated @RequestBody IdsDto idsDto) {
         bpmProcessListenerService.delete(idsDto);
@@ -87,7 +87,7 @@ public class BpmProcessListenerController {
      * @return 响应结果
      */
     @Operation(summary = "查询流程监听器详情")
-    @PreAuthorize("@auth.hasAuthority('bpm:processListener:info')")
+    @PreAuthorize("@auth.hasAuthority('bpm:process-listener:info')")
     @GetMapping(path = "/{id}")
     public ResponseResult<BpmProcessListenerVo> get(@Parameter(description = "流程监听器ID", required = true) @PathVariable Long id) {
         BpmProcessListener bpmProcessListener = bpmProcessListenerService.getById(id);
@@ -101,7 +101,7 @@ public class BpmProcessListenerController {
      * @return 流程监听器分页列表
      */
     @Operation(summary = "流程监听器分页查询")
-    @PreAuthorize("@auth.hasAuthority('bpm:processListener:page')")
+    @PreAuthorize("@auth.hasAuthority('bpm:process-listener:page')")
     @PostMapping(path = "/page")
     public ResponseResult<PageResult<BpmProcessListenerVo>> page(@Validated @RequestBody BpmProcessListenerPageDto bpmProcessListenerPageDto) {
         PageResult<BpmProcessListenerVo> page = bpmProcessListenerService.page(bpmProcessListenerPageDto);
@@ -114,7 +114,7 @@ public class BpmProcessListenerController {
      * @param bpmProcessListenerPageDto 查询条件
      */
     @Operation(summary = "流程监听器导出")
-    @PreAuthorize("@auth.hasAuthority('bpm:processListener:export')")
+    @PreAuthorize("@auth.hasAuthority('bpm:process-listener:export')")
     @PostMapping(path = "/export")
     public void export(@Validated @RequestBody BpmProcessListenerPageDto bpmProcessListenerPageDto) {
         bpmProcessListenerService.export(bpmProcessListenerPageDto);

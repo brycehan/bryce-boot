@@ -3,6 +3,7 @@ package com.brycehan.boot.bpm.entity.dto;
 import com.brycehan.boot.common.entity.BaseDto;
 import com.brycehan.boot.common.base.validator.SaveGroup;
 import com.brycehan.boot.common.base.validator.UpdateGroup;
+import com.brycehan.boot.common.enums.VisibleType;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Size;
 import org.hibernate.validator.constraints.Length;
@@ -119,7 +120,7 @@ public class BpmProcessDefinitionInfoDto extends BaseDto {
      * 可见范围
      */
     @Schema(description = "可见范围")
-    private Integer visible;
+    private VisibleType visible;
 
     /**
      * 排序

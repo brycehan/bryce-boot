@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.*;
  * @since 2025/03/25
  */
 @Tag(name = "流程表达式", description = "bpmProcessExpression")
-@RequestMapping("/bpm/processExpression")
+@RequestMapping("/bpm/process-expression")
 @RestController
 @RequiredArgsConstructor
 public class BpmProcessExpressionController {
@@ -43,7 +43,7 @@ public class BpmProcessExpressionController {
      */
     @Operation(summary = "保存流程表达式")
     @OperateLog(type = OperatedType.INSERT)
-    @PreAuthorize("@auth.hasAuthority('bpm:processExpression:save')")
+    @PreAuthorize("@auth.hasAuthority('bpm:process-expression:save')")
     @PostMapping
     public ResponseResult<Void> save(@Validated(value = SaveGroup.class) @RequestBody BpmProcessExpressionDto bpmProcessExpressionDto) {
         bpmProcessExpressionService.save(bpmProcessExpressionDto);
@@ -58,7 +58,7 @@ public class BpmProcessExpressionController {
      */
     @Operation(summary = "更新流程表达式")
     @OperateLog(type = OperatedType.UPDATE)
-    @PreAuthorize("@auth.hasAuthority('bpm:processExpression:update')")
+    @PreAuthorize("@auth.hasAuthority('bpm:process-expression:update')")
     @PutMapping
     public ResponseResult<Void> update(@Validated(value = UpdateGroup.class) @RequestBody BpmProcessExpressionDto bpmProcessExpressionDto) {
         bpmProcessExpressionService.update(bpmProcessExpressionDto);
@@ -73,7 +73,7 @@ public class BpmProcessExpressionController {
      */
     @Operation(summary = "删除流程表达式")
     @OperateLog(type = OperatedType.DELETE)
-    @PreAuthorize("@auth.hasAuthority('bpm:processExpression:delete')")
+    @PreAuthorize("@auth.hasAuthority('bpm:process-expression:delete')")
     @DeleteMapping
     public ResponseResult<Void> delete(@Validated @RequestBody IdsDto idsDto) {
         bpmProcessExpressionService.delete(idsDto);
@@ -87,7 +87,7 @@ public class BpmProcessExpressionController {
      * @return 响应结果
      */
     @Operation(summary = "查询流程表达式详情")
-    @PreAuthorize("@auth.hasAuthority('bpm:processExpression:info')")
+    @PreAuthorize("@auth.hasAuthority('bpm:process-expression:info')")
     @GetMapping(path = "/{id}")
     public ResponseResult<BpmProcessExpressionVo> get(@Parameter(description = "流程表达式ID", required = true) @PathVariable Long id) {
         BpmProcessExpression bpmProcessExpression = bpmProcessExpressionService.getById(id);
@@ -101,7 +101,7 @@ public class BpmProcessExpressionController {
      * @return 流程表达式分页列表
      */
     @Operation(summary = "流程表达式分页查询")
-    @PreAuthorize("@auth.hasAuthority('bpm:processExpression:page')")
+    @PreAuthorize("@auth.hasAuthority('bpm:process-expression:page')")
     @PostMapping(path = "/page")
     public ResponseResult<PageResult<BpmProcessExpressionVo>> page(@Validated @RequestBody BpmProcessExpressionPageDto bpmProcessExpressionPageDto) {
         PageResult<BpmProcessExpressionVo> page = bpmProcessExpressionService.page(bpmProcessExpressionPageDto);
@@ -114,7 +114,7 @@ public class BpmProcessExpressionController {
      * @param bpmProcessExpressionPageDto 查询条件
      */
     @Operation(summary = "流程表达式导出")
-    @PreAuthorize("@auth.hasAuthority('bpm:processExpression:export')")
+    @PreAuthorize("@auth.hasAuthority('bpm:process-expression:export')")
     @PostMapping(path = "/export")
     public void export(@Validated @RequestBody BpmProcessExpressionPageDto bpmProcessExpressionPageDto) {
         bpmProcessExpressionService.export(bpmProcessExpressionPageDto);

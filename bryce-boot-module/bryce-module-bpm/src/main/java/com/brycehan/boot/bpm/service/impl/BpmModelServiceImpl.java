@@ -7,6 +7,7 @@ import com.brycehan.boot.bpm.common.BpmModelType;
 import com.brycehan.boot.bpm.common.BpmnModelUtils;
 import com.brycehan.boot.bpm.entity.convert.BpmModelConvert;
 import com.brycehan.boot.bpm.entity.dto.BpmModelDto;
+import com.brycehan.boot.bpm.entity.dto.BpmModelKeyDto;
 import com.brycehan.boot.bpm.entity.dto.BpmModelMetaInfoDto;
 import com.brycehan.boot.bpm.entity.dto.BpmModelPageDto;
 import com.brycehan.boot.bpm.entity.po.BpmForm;
@@ -26,10 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.flowable.bpmn.model.BpmnModel;
 import org.flowable.bpmn.model.StartEvent;
 import org.flowable.bpmn.model.UserTask;
-import org.flowable.engine.HistoryService;
 import org.flowable.engine.RepositoryService;
-import org.flowable.engine.RuntimeService;
-import org.flowable.engine.TaskService;
 import org.flowable.engine.repository.Deployment;
 import org.flowable.engine.repository.Model;
 import org.flowable.engine.repository.ModelQuery;
@@ -57,9 +55,6 @@ import java.util.stream.Collectors;
 public class BpmModelServiceImpl implements BpmModelService {
 
     private final RepositoryService repositoryService;
-    private final RuntimeService runtimeService;
-    private final TaskService taskService;
-    private final HistoryService historyService;
     private final BpmProcessDefinitionService bpmProcessDefinitionService;
     private final BpmFormService bpmFormService;
     private final BpmCategoryService bpmCategoryService;
@@ -144,11 +139,9 @@ public class BpmModelServiceImpl implements BpmModelService {
         if (StrUtil.isNotBlank(bpmModelPageDto.getName())) {
             modelQuery.modelNameLike("%" + bpmModelPageDto.getName() + "%");
         }
-        int firstResult = (bpmModelPageDto.getCurrent() - 1) * bpmModelPageDto.getSize();
-        int maxResults = bpmModelPageDto.getSize();
 
         // 分页查询模型列表
-        List<Model> models = modelQuery.listPage(firstResult, maxResults);
+        List<Model> models = modelQuery.listPage(bpmModelPageDto.getOffset(), bpmModelPageDto.getSize());
 
         if (CollUtil.isEmpty(models)) {
             return new PageResult<>(0, List.of());
@@ -187,10 +180,6 @@ public class BpmModelServiceImpl implements BpmModelService {
         // 保存流程定义信息
         if (Objects.equals(BpmModelType.BPMN.getValue(), bpmModelDto.getType())) {
             ((BpmModelServiceImpl) AopContext.currentProxy()).updateModelBpmnXml(model.getId(), bpmModelDto.getBpmnXml());
-        } else {
-            if (bpmModelDto.getSimpleModel() == null) {
-                return;
-            }
         }
     }
 
@@ -264,6 +253,18 @@ public class BpmModelServiceImpl implements BpmModelService {
         }
         // 更新流程定义状态
         bpmProcessDefinitionService.updateProcessDefinitionStatus(processDefinition.getId(), state == 1);
+    }
+
+    @Override
+    public boolean checkKeyUnique(BpmModelKeyDto bpmModelKeyDto) {
+
+        ModelQuery modelQuery = repositoryService.createModelQuery();
+        modelQuery.modelKey(bpmModelKeyDto.getKey());
+        // 查询模型
+        Model model = modelQuery.singleResult();
+
+        // 修改时，同Key同ID为Key唯一
+        return Objects.isNull(model) || Objects.equals(bpmModelKeyDto.getId(), model.getId());
     }
 
     /**
