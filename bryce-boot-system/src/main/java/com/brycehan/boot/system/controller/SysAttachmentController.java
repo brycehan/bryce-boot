@@ -87,7 +87,7 @@ public class SysAttachmentController {
      * @return 响应结果
      */
     @Operation(summary = "查询系统附件详情")
-    @PreAuthorize("@auth.hasAuthority('system:attachment:info')")
+    @PreAuthorize("@auth.hasAuthority('system:attachment:query')")
     @GetMapping(path = "/{id}")
     public ResponseResult<SysAttachmentVo> get(@Parameter(description = "系统附件ID", required = true) @PathVariable Long id) {
         SysAttachment sysAttachment = sysAttachmentService.getById(id);
@@ -101,7 +101,7 @@ public class SysAttachmentController {
      * @return 系统附件分页列表
      */
     @Operation(summary = "系统附件分页查询")
-    @PreAuthorize("@auth.hasAuthority('system:attachment:page')")
+    @PreAuthorize("@auth.hasAuthority('system:attachment:query')")
     @PostMapping(path = "/page")
     public ResponseResult<PageResult<SysAttachmentVo>> page(@Validated @RequestBody SysAttachmentPageDto sysAttachmentPageDto) {
         PageResult<SysAttachmentVo> page = sysAttachmentService.page(sysAttachmentPageDto);
@@ -114,7 +114,7 @@ public class SysAttachmentController {
      * @param id 附件ID
      */
     @Operation(summary = "系统附件下载")
-    @PreAuthorize("@auth.hasAuthority('system:attachment:info')")
+    @PreAuthorize("@auth.hasAuthority('system:attachment:query')")
     @GetMapping(path = "/secure/download/{id}")
     public void download(@PathVariable Long id) {
         sysAttachmentService.download(id);

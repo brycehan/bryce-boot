@@ -106,7 +106,7 @@ public class SysRoleController {
      * @return 响应结果
      */
     @Operation(summary = "查询系统角色详情")
-    @PreAuthorize("@auth.hasAuthority('system:role:info')")
+    @PreAuthorize("@auth.hasAuthority('system:role:query')")
     @GetMapping(path = "/{id}")
     public ResponseResult<SysRoleVo> get(@Parameter(description = "系统角色ID", required = true) @PathVariable Long id) {
         sysRoleService.checkRoleDataScope(id);
@@ -132,7 +132,7 @@ public class SysRoleController {
      * @return 系统角色分页列表
      */
     @Operation(summary = "系统角色分页查询")
-    @PreAuthorize("@auth.hasAuthority('system:role:page')")
+    @PreAuthorize("@auth.hasAuthority('system:role:query')")
     @PostMapping(path = "/page")
     public ResponseResult<PageResult<SysRoleVo>> page(@Validated @RequestBody SysRolePageDto sysRolePageDto) {
         PageResult<SysRoleVo> page = sysRoleService.page(sysRolePageDto);

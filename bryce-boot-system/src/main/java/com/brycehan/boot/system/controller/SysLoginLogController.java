@@ -54,7 +54,7 @@ public class SysLoginLogController {
      * @return 响应结果
      */
     @Operation(summary = "查询系统登录日志详情")
-    @PreAuthorize("@auth.hasAuthority('system:loginLog:info')")
+    @PreAuthorize("@auth.hasAuthority('system:loginLog:query')")
     @GetMapping(path = "/{id}")
     public ResponseResult<SysLoginLogVo> get(@Parameter(description = "系统登录日志ID", required = true) @PathVariable Long id) {
         SysLoginLog sysLoginLog = sysLoginLogService.getById(id);
@@ -68,7 +68,7 @@ public class SysLoginLogController {
      * @return 系统登录日志分页列表
      */
     @Operation(summary = "系统登录日志分页查询")
-    @PreAuthorize("@auth.hasAuthority('system:loginLog:page')")
+    @PreAuthorize("@auth.hasAuthority('system:loginLog:query')")
     @PostMapping(path = "/page")
     public ResponseResult<PageResult<SysLoginLogVo>> page(@Validated @RequestBody SysLoginLogPageDto sysLoginLogPageDto) {
         PageResult<SysLoginLogVo> page = sysLoginLogService.page(sysLoginLogPageDto);

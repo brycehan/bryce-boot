@@ -37,11 +37,4 @@ public interface SysDictDataService extends BaseService<SysDictData> {
      */
     PageResult<SysDictDataVo> page(SysDictDataPageDto sysDictDataPageDto);
 
-    /**
-     * 系统字典数据导出数据
-     *
-     * @param sysDictDataPageDto 系统字典数据查询条件
-     */
-    void export(SysDictDataPageDto sysDictDataPageDto);
-
 }

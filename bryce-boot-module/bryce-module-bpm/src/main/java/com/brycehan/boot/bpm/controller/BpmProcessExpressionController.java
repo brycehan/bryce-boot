@@ -87,7 +87,7 @@ public class BpmProcessExpressionController {
      * @return 响应结果
      */
     @Operation(summary = "查询流程表达式详情")
-    @PreAuthorize("@auth.hasAuthority('bpm:process-expression:info')")
+    @PreAuthorize("@auth.hasAuthority('bpm:process-expression:query')")
     @GetMapping(path = "/{id}")
     public ResponseResult<BpmProcessExpressionVo> get(@Parameter(description = "流程表达式ID", required = true) @PathVariable Long id) {
         BpmProcessExpression bpmProcessExpression = bpmProcessExpressionService.getById(id);
@@ -101,7 +101,7 @@ public class BpmProcessExpressionController {
      * @return 流程表达式分页列表
      */
     @Operation(summary = "流程表达式分页查询")
-    @PreAuthorize("@auth.hasAuthority('bpm:process-expression:page')")
+    @PreAuthorize("@auth.hasAuthority('bpm:process-expression:query')")
     @PostMapping(path = "/page")
     public ResponseResult<PageResult<BpmProcessExpressionVo>> page(@Validated @RequestBody BpmProcessExpressionPageDto bpmProcessExpressionPageDto) {
         PageResult<BpmProcessExpressionVo> page = bpmProcessExpressionService.page(bpmProcessExpressionPageDto);

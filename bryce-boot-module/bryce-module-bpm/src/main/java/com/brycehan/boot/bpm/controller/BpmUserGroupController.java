@@ -89,7 +89,7 @@ public class BpmUserGroupController {
      * @return 响应结果
      */
     @Operation(summary = "查询用户组详情")
-    @PreAuthorize("@auth.hasAuthority('bpm:user-group:info')")
+    @PreAuthorize("@auth.hasAuthority('bpm:user-group:query')")
     @GetMapping(path = "/{id}")
     public ResponseResult<BpmUserGroupVo> get(@Parameter(description = "用户组ID", required = true) @PathVariable Long id) {
         BpmUserGroup bpmUserGroup = bpmUserGroupService.getById(id);
@@ -103,7 +103,7 @@ public class BpmUserGroupController {
      * @return 用户组分页列表
      */
     @Operation(summary = "用户组分页查询")
-    @PreAuthorize("@auth.hasAuthority('bpm:user-group:page')")
+    @PreAuthorize("@auth.hasAuthority('bpm:user-group:query')")
     @PostMapping(path = "/page")
     public ResponseResult<PageResult<BpmUserGroupVo>> page(@Validated @RequestBody BpmUserGroupPageDto bpmUserGroupPageDto) {
         PageResult<BpmUserGroupVo> page = bpmUserGroupService.page(bpmUserGroupPageDto);

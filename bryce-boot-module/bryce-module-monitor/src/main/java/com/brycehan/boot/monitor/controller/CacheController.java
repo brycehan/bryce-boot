@@ -36,7 +36,7 @@ public class CacheController {
      * @return 响应结果
      */
     @Operation(summary = "缓存相关信息")
-    @PreAuthorize("@auth.hasAuthority('monitor:cache:info')")
+    @PreAuthorize("@auth.hasAuthority('monitor:cache:query')")
     @GetMapping(path = "/info")
     public ResponseResult<Map<String, Object>> info() {
         Map<String, Object> result = new HashMap<>();

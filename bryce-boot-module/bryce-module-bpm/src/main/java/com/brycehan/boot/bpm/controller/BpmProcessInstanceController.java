@@ -55,7 +55,7 @@ public class BpmProcessInstanceController {
      * @return 响应结果
      */
     @Operation(summary = "查询流程实例详情")
-    @PreAuthorize("@auth.hasAuthority('bpm:process-definition:info')")
+    @PreAuthorize("@auth.hasAuthority('bpm:process-definition:query')")
     @GetMapping(path = "/{processInstanceId}")
     public ResponseResult<BpmProcessInstanceVo> get(@PathVariable String processInstanceId) {
         BpmProcessInstanceVo bpmProcessInstanceVo = bpmProcessInstanceService.getById(processInstanceId);

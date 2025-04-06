@@ -89,7 +89,7 @@ public class BpmCategoryController {
      * @return 响应结果
      */
     @Operation(summary = "查询流程分类详情")
-    @PreAuthorize("@auth.hasAuthority('bpm:category:info')")
+    @PreAuthorize("@auth.hasAuthority('bpm:category:query')")
     @GetMapping(path = "/{id}")
     public ResponseResult<BpmCategoryVo> get(@Parameter(description = "流程分类ID", required = true) @PathVariable Long id) {
         BpmCategory bpmCategory = bpmCategoryService.getById(id);
@@ -103,7 +103,7 @@ public class BpmCategoryController {
      * @return 流程分类分页列表
      */
     @Operation(summary = "流程分类分页查询")
-    @PreAuthorize("@auth.hasAuthority('bpm:category:page')")
+    @PreAuthorize("@auth.hasAuthority('bpm:category:query')")
     @PostMapping(path = "/page")
     public ResponseResult<PageResult<BpmCategoryVo>> page(@Validated @RequestBody BpmCategoryPageDto bpmCategoryPageDto) {
         PageResult<BpmCategoryVo> page = bpmCategoryService.page(bpmCategoryPageDto);

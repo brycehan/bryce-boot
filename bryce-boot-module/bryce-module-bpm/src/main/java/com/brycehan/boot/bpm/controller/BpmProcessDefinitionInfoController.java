@@ -3,12 +3,9 @@ package com.brycehan.boot.bpm.controller;
 import com.brycehan.boot.common.entity.PageResult;
 import com.brycehan.boot.common.entity.dto.IdsDto;
 import com.brycehan.boot.common.base.response.ResponseResult;
-import com.brycehan.boot.common.base.validator.SaveGroup;
-import com.brycehan.boot.common.base.validator.UpdateGroup;
 import com.brycehan.boot.framework.operatelog.annotation.OperateLog;
 import com.brycehan.boot.framework.operatelog.annotation.OperatedType;
 import com.brycehan.boot.bpm.entity.convert.BpmProcessDefinitionInfoConvert;
-import com.brycehan.boot.bpm.entity.dto.BpmProcessDefinitionInfoDto;
 import com.brycehan.boot.bpm.entity.dto.BpmProcessDefinitionInfoPageDto;
 import com.brycehan.boot.bpm.entity.po.BpmProcessDefinitionInfo;
 import com.brycehan.boot.bpm.service.BpmProcessDefinitionInfoService;
@@ -57,7 +54,7 @@ public class BpmProcessDefinitionInfoController {
      * @return 响应结果
      */
     @Operation(summary = "查询流程定义信息详情")
-    @PreAuthorize("@auth.hasAuthority('bpm:processDefinitionInfo:info')")
+    @PreAuthorize("@auth.hasAuthority('bpm:processDefinitionInfo:query')")
     @GetMapping(path = "/{id}")
     public ResponseResult<BpmProcessDefinitionInfoVo> get(@Parameter(description = "流程定义信息ID", required = true) @PathVariable Long id) {
         BpmProcessDefinitionInfo bpmProcessDefinitionInfo = bpmProcessDefinitionInfoService.getById(id);
@@ -71,7 +68,7 @@ public class BpmProcessDefinitionInfoController {
      * @return 流程定义信息分页列表
      */
     @Operation(summary = "流程定义信息分页查询")
-    @PreAuthorize("@auth.hasAuthority('bpm:processDefinitionInfo:page')")
+    @PreAuthorize("@auth.hasAuthority('bpm:processDefinitionInfo:query')")
     @PostMapping(path = "/page")
     public ResponseResult<PageResult<BpmProcessDefinitionInfoVo>> page(@Validated @RequestBody BpmProcessDefinitionInfoPageDto bpmProcessDefinitionInfoPageDto) {
         PageResult<BpmProcessDefinitionInfoVo> page = bpmProcessDefinitionInfoService.page(bpmProcessDefinitionInfoPageDto);

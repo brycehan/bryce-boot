@@ -89,7 +89,7 @@ public class BpmFormController {
      * @return 响应结果
      */
     @Operation(summary = "查询表单定义详情")
-    @PreAuthorize("@auth.hasAuthority('bpm:form:info')")
+    @PreAuthorize("@auth.hasAuthority('bpm:form:query')")
     @GetMapping(path = "/{id}")
     public ResponseResult<BpmFormVo> get(@Parameter(description = "表单定义ID", required = true) @PathVariable Long id) {
         BpmForm bpmForm = bpmFormService.getById(id);
@@ -103,7 +103,7 @@ public class BpmFormController {
      * @return 表单定义分页列表
      */
     @Operation(summary = "表单定义分页查询")
-    @PreAuthorize("@auth.hasAuthority('bpm:form:page')")
+    @PreAuthorize("@auth.hasAuthority('bpm:form:query')")
     @PostMapping(path = "/page")
     public ResponseResult<PageResult<BpmFormVo>> page(@Validated @RequestBody BpmFormPageDto bpmFormPageDto) {
         PageResult<BpmFormVo> page = bpmFormService.page(bpmFormPageDto);

@@ -52,7 +52,7 @@ public class SysOperateLogController {
      * @return 响应结果
      */
     @Operation(summary = "查询系统操作日志详情")
-    @PreAuthorize("@auth.hasAuthority('system:operateLog:info')")
+    @PreAuthorize("@auth.hasAuthority('system:operateLog:query')")
     @GetMapping(path = "/{id}")
     public ResponseResult<SysOperateLogVo> get(@Parameter(description = "系统操作日志ID", required = true) @PathVariable Long id) {
         SysOperateLogVo sysOperateLogVo = sysOperateLogService.get(id);
@@ -66,7 +66,7 @@ public class SysOperateLogController {
      * @return 系统操作日志分页列表
      */
     @Operation(summary = "系统操作日志分页查询")
-    @PreAuthorize("@auth.hasAuthority('system:operateLog:page')")
+    @PreAuthorize("@auth.hasAuthority('system:operateLog:query')")
     @PostMapping(path = "/page")
     public ResponseResult<PageResult<SysOperateLogVo>> page(@Validated @RequestBody SysOperateLogPageDto sysOperateLogPageDto) {
         PageResult<SysOperateLogVo> page = sysOperateLogService.page(sysOperateLogPageDto);

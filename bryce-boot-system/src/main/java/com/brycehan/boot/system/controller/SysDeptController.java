@@ -88,7 +88,7 @@ public class SysDeptController {
      * @return 响应结果
      */
     @Operation(summary = "查询系统部门详情")
-    @PreAuthorize("@auth.hasAuthority('system:org:info')")
+    @PreAuthorize("@auth.hasAuthority('system:org:query')")
     @GetMapping(path = "/{id}")
     public ResponseResult<SysDeptVo> get(@Parameter(description = "系统部门ID", required = true) @PathVariable Long id) {
         sysDeptService.checkDeptDataScope(id);

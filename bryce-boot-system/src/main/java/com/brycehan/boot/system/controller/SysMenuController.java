@@ -105,7 +105,7 @@ public class SysMenuController {
      * @return 响应结果
      */
     @Operation(summary = "查询系统菜单详情")
-    @PreAuthorize("@auth.hasAuthority('system:menu:info')")
+    @PreAuthorize("@auth.hasAuthority('system:menu:query')")
     @GetMapping(path = "/{id}")
     public ResponseResult<SysMenuVo> get(@Parameter(description = "系统菜单ID", required = true) @PathVariable Long id) {
         SysMenu sysMenu = sysMenuService.getById(id);

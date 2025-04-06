@@ -71,7 +71,7 @@ public class SysAreaCodeController {
      * @return 响应结果
      */
     @Operation(summary = "查询地区编码详情")
-    @PreAuthorize("@auth.hasAuthority('system:areaCode:info')")
+    @PreAuthorize("@auth.hasAuthority('system:areaCode:query')")
     @GetMapping(path = "/{id}")
     public ResponseResult<SysAreaCodeVo> get(@Parameter(description = "地区编码ID", required = true) @PathVariable Long id) {
         SysAreaCode sysAreaCode = sysAreaCodeService.getById(id);
@@ -85,7 +85,7 @@ public class SysAreaCodeController {
      * @return 地区编码分页列表
      */
     @Operation(summary = "地区编码分页查询")
-    @PreAuthorize("@auth.hasAuthority('system:areaCode:page')")
+    @PreAuthorize("@auth.hasAuthority('system:areaCode:query')")
     @PostMapping(path = "/page")
     public ResponseResult<PageResult<SysAreaCodeVo>> page(@Validated @RequestBody SysAreaCodePageDto sysAreaCodePageDto) {
         PageResult<SysAreaCodeVo> page = sysAreaCodeService.page(sysAreaCodePageDto);

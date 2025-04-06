@@ -35,7 +35,7 @@ public class BpmProcessDefinitionController {
      * @return 响应结果
      */
     @Operation(summary = "查询流程定义信息详情")
-    @PreAuthorize("@auth.hasAuthority('bpm:process-definition:info')")
+    @PreAuthorize("@auth.hasAnyAuthority('bpm:process-definition:query', 'bpm:model:query')")
     @GetMapping(path = "/{id}")
     public ResponseResult<BpmProcessDefinitionVo> get(@PathVariable String id) {
         BpmProcessDefinitionVo bpmProcessDefinition = bpmProcessDefinitionService.getById(id);
@@ -43,13 +43,13 @@ public class BpmProcessDefinitionController {
     }
 
     /**
-     * 流程定义分页查询
+     * 流程定义分页查询，用于流程模型历史分页查询
      *
      * @param bpmProcessDefinitionPageDto 查询条件
      * @return 流程定义分页列表
      */
-    @Operation(summary = "流程定义分页查询")
-    @PreAuthorize("@auth.hasAuthority('bpm:process-definition:page')")
+    @Operation(summary = "流程定义分页查询，用于流程模型历史分页查询")
+    @PreAuthorize("@auth.hasAnyAuthority('bpm:process-definition:query', 'bpm:model:query')")
     @PostMapping(path = "/page")
     public ResponseResult<PageResult<BpmProcessDefinitionVo>> page(@Validated @RequestBody BpmProcessDefinitionPageDto bpmProcessDefinitionPageDto) {
         PageResult<BpmProcessDefinitionVo> page = bpmProcessDefinitionService.page(bpmProcessDefinitionPageDto);

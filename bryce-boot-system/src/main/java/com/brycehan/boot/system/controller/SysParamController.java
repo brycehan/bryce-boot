@@ -88,7 +88,7 @@ public class SysParamController {
      * @return 响应结果
      */
     @Operation(summary = "查询系统参数详情")
-    @PreAuthorize("@auth.hasAuthority('system:param:info')")
+    @PreAuthorize("@auth.hasAuthority('system:param:query')")
     @GetMapping(path = "/{id}")
     public ResponseResult<SysParamVo> get(@Parameter(description = "系统参数ID", required = true) @PathVariable Long id) {
         SysParam sysParam = sysParamService.getById(id);
@@ -102,7 +102,7 @@ public class SysParamController {
      * @return 系统参数分页列表
      */
     @Operation(summary = "系统参数分页查询")
-    @PreAuthorize("@auth.hasAuthority('system:param:page')")
+    @PreAuthorize("@auth.hasAuthority('system:param:query')")
     @PostMapping(path = "/page")
     public ResponseResult<PageResult<SysParamVo>> page(@Validated @RequestBody SysParamPageDto sysParamPageDto) {
         PageResult<SysParamVo> page = sysParamService.page(sysParamPageDto);

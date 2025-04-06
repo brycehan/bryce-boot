@@ -54,7 +54,7 @@ public class QuartzJobLogController {
      * @return 响应结果
      */
     @Operation(summary = "查询quartz定时任务调度日志详情")
-    @PreAuthorize("@auth.hasAuthority('quartz:jobLog:info')")
+    @PreAuthorize("@auth.hasAuthority('quartz:jobLog:query')")
     @GetMapping(path = "/{id}")
     public ResponseResult<QuartzJobLogVo> get(@Parameter(description = "quartz定时任务调度日志ID", required = true) @PathVariable Long id) {
         QuartzJobLog quartzJobLog = quartzJobLogService.getById(id);
@@ -68,7 +68,7 @@ public class QuartzJobLogController {
      * @return quartz定时任务调度日志分页列表
      */
     @Operation(summary = "quartz定时任务调度日志分页查询")
-    @PreAuthorize("@auth.hasAuthority('quartz:jobLog:page')")
+    @PreAuthorize("@auth.hasAuthority('quartz:jobLog:query')")
     @PostMapping(path = "/page")
     public ResponseResult<PageResult<QuartzJobLogVo>> page(@Validated @RequestBody QuartzJobLogPageDto quartzJobLogPageDto) {
         PageResult<QuartzJobLogVo> page = quartzJobLogService.page(quartzJobLogPageDto);

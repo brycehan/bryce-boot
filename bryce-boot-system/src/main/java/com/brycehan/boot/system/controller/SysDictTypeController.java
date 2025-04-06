@@ -91,7 +91,7 @@ public class SysDictTypeController {
      * @return 响应结果
      */
     @Operation(summary = "查询系统字典类型详情")
-    @PreAuthorize("@auth.hasAuthority('system:dictType:info')")
+    @PreAuthorize("@auth.hasAuthority('system:dictType:query')")
     @GetMapping(path = "/{id}")
     public ResponseResult<SysDictTypeVo> get(@Parameter(description = "系统字典类型ID", required = true) @PathVariable Long id) {
         SysDictType sysDictType = sysDictTypeService.getById(id);
@@ -105,7 +105,7 @@ public class SysDictTypeController {
      * @return 系统字典类型分页列表
      */
     @Operation(summary = "系统字典类型分页查询")
-    @PreAuthorize("@auth.hasAuthority('system:dictType:page')")
+    @PreAuthorize("@auth.hasAuthority('system:dictType:query')")
     @PostMapping(path = "/page")
     public ResponseResult<PageResult<SysDictTypeVo>> page(@Validated @RequestBody SysDictTypePageDto sysDictTypePageDto) {
         PageResult<SysDictTypeVo> page = sysDictTypeService.page(sysDictTypePageDto);

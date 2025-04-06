@@ -110,7 +110,7 @@ public class SysUserController {
      * @return 响应结果
      */
     @Operation(summary = "查询系统用户详情")
-    @PreAuthorize("@auth.hasAuthority('system:user:info')")
+    @PreAuthorize("@auth.hasAuthority('system:user:query')")
     @GetMapping(path = "/{id}")
     public ResponseResult<SysUserVo> get(@Parameter(description = "系统用户ID", required = true) @PathVariable Long id) {
         SysUserVo sysUserVo = sysUserService.get(id);
@@ -124,7 +124,7 @@ public class SysUserController {
      * @return 系统用户分页列表
      */
     @Operation(summary = "系统用户分页查询")
-    @PreAuthorize("@auth.hasAuthority('system:user:page')")
+    @PreAuthorize("@auth.hasAuthority('system:user:query')")
     @PostMapping(path = "/page")
     public ResponseResult<PageResult<SysUserVo>> page(@Validated @RequestBody SysUserPageDto sysUserPageDto) {
         PageResult<SysUserVo> page = sysUserService.page(sysUserPageDto);

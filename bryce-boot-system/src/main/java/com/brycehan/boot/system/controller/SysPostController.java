@@ -90,7 +90,7 @@ public class SysPostController {
      * @return 响应结果
      */
     @Operation(summary = "查询系统岗位详情")
-    @PreAuthorize("@auth.hasAuthority('system:post:info')")
+    @PreAuthorize("@auth.hasAuthority('system:post:query')")
     @GetMapping(path = "/{id}")
     public ResponseResult<SysPostVo> get(@Parameter(description = "系统岗位ID", required = true) @PathVariable Long id) {
         SysPost sysPost = sysPostService.getById(id);
@@ -104,7 +104,7 @@ public class SysPostController {
      * @return 系统岗位分页列表
      */
     @Operation(summary = "系统岗位分页查询")
-    @PreAuthorize("@auth.hasAuthority('system:post:page')")
+    @PreAuthorize("@auth.hasAuthority('system:post:query')")
     @PostMapping(path = "/page")
     public ResponseResult<PageResult<SysPostVo>> page(@Validated @RequestBody SysPostPageDto sysPostPageDto) {
         PageResult<SysPostVo> page = sysPostService.page(sysPostPageDto);

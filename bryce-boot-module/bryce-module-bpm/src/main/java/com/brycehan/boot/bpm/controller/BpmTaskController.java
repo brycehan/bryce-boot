@@ -131,8 +131,7 @@ public class BpmTaskController {
     @Operation(summary = "获得指定流程实例的任务列表", description = "包括完成的、未完成的")
     @Parameter(name = "processInstanceId", description = "流程实例的编号", required = true)
     @PreAuthorize("@auth.hasAuthority('bpm:task:query')")
-    public ResponseResult<List<BpmTaskVo>> getTaskListByProcessInstanceId(
-            @RequestParam("processInstanceId") String processInstanceId) {
+    public ResponseResult<List<BpmTaskVo>> getTaskListByProcessInstanceId(String processInstanceId) {
         List<HistoricTaskInstance> taskList = taskService.getTaskListByProcessInstanceId(processInstanceId, true);
         if (CollUtil.isEmpty(taskList)) {
             return ResponseResult.ok(Collections.emptyList());

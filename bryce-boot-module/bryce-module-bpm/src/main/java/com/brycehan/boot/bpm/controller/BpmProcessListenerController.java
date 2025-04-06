@@ -87,7 +87,7 @@ public class BpmProcessListenerController {
      * @return 响应结果
      */
     @Operation(summary = "查询流程监听器详情")
-    @PreAuthorize("@auth.hasAuthority('bpm:process-listener:info')")
+    @PreAuthorize("@auth.hasAuthority('bpm:process-listener:query')")
     @GetMapping(path = "/{id}")
     public ResponseResult<BpmProcessListenerVo> get(@Parameter(description = "流程监听器ID", required = true) @PathVariable Long id) {
         BpmProcessListener bpmProcessListener = bpmProcessListenerService.getById(id);
@@ -101,7 +101,7 @@ public class BpmProcessListenerController {
      * @return 流程监听器分页列表
      */
     @Operation(summary = "流程监听器分页查询")
-    @PreAuthorize("@auth.hasAuthority('bpm:process-listener:page')")
+    @PreAuthorize("@auth.hasAuthority('bpm:process-listener:query')")
     @PostMapping(path = "/page")
     public ResponseResult<PageResult<BpmProcessListenerVo>> page(@Validated @RequestBody BpmProcessListenerPageDto bpmProcessListenerPageDto) {
         PageResult<BpmProcessListenerVo> page = bpmProcessListenerService.page(bpmProcessListenerPageDto);

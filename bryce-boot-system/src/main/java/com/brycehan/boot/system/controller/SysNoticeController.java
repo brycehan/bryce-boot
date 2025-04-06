@@ -85,7 +85,7 @@ public class SysNoticeController {
      * @return 响应结果
      */
     @Operation(summary = "查询系统通知公告详情")
-    @PreAuthorize("@auth.hasAuthority('system:notice:info')")
+    @PreAuthorize("@auth.hasAuthority('system:notice:query')")
     @GetMapping(path = "/{id}")
     public ResponseResult<SysNoticeVo> get(@Parameter(description = "系统通知公告ID", required = true) @PathVariable Long id) {
         SysNoticeVo sysNoticeVo = sysNoticeService.get(id);
@@ -99,7 +99,7 @@ public class SysNoticeController {
      * @return 系统通知公告分页列表
      */
     @Operation(summary = "系统通知公告分页查询")
-    @PreAuthorize("@auth.hasAuthority('system:notice:page')")
+    @PreAuthorize("@auth.hasAuthority('system:notice:query')")
     @PostMapping(path = "/page")
     public ResponseResult<PageResult<SysNoticeVo>> page(@Validated @RequestBody SysNoticePageDto sysNoticePageDto) {
         PageResult<SysNoticeVo> page = sysNoticeService.page(sysNoticePageDto);

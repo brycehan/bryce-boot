@@ -90,7 +90,7 @@ public class BpmModelController {
      * @return 响应结果
      */
     @Operation(summary = "查询模型详情")
-    @PreAuthorize("@auth.hasAuthority('bpm:model:info')")
+    @PreAuthorize("@auth.hasAuthority('bpm:model:query')")
     @GetMapping(path = "/{id}")
     public ResponseResult<BpmModelVo> get(@PathVariable String id) {
         BpmModelVo bpmModelVo = bpmModelService.getById(id);
@@ -104,7 +104,7 @@ public class BpmModelController {
      * @return 流程模型分页列表
      */
     @Operation(summary = "流程模型分页列表")
-    @PreAuthorize("@auth.hasAuthority('bpm:model:page')")
+    @PreAuthorize("@auth.hasAuthority('bpm:model:query')")
     @PostMapping(path = "/page")
     public ResponseResult<PageResult<BpmModelVo>> page(@Validated @RequestBody BpmModelPageDto bpmModelPageDto) {
         PageResult<BpmModelVo> page = bpmModelService.page(bpmModelPageDto);

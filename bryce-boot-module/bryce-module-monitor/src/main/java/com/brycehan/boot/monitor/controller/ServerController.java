@@ -26,7 +26,7 @@ public class ServerController {
      * @return 响应结果
      */
     @Operation(summary = "服务器相关信息")
-    @PreAuthorize("@auth.hasAuthority('monitor:server:info')")
+    @PreAuthorize("@auth.hasAuthority('monitor:server:query')")
     @GetMapping(path = "/info")
     public ResponseResult<Server> info() {
         return ResponseResult.ok(new Server());

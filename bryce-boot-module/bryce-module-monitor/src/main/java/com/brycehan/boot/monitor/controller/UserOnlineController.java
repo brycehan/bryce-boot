@@ -36,7 +36,7 @@ public class UserOnlineController {
      * @return 在线用户分页列表
      */
     @Operation(summary = "在线用户分页查询")
-    @PreAuthorize("@auth.hasAuthority('monitor:onlineUser:page')")
+    @PreAuthorize("@auth.hasAuthority('monitor:onlineUser:query')")
     @PostMapping(path = "/page")
     public ResponseResult<PageResult<UserOnlineVo>> page(@Validated @RequestBody UserOnlinePageDto userOnlinePageDto) {
         if (StringUtils.isNotBlank(userOnlinePageDto.getUsername()) || StringUtils.isNotBlank(userOnlinePageDto.getLoginIp())) {

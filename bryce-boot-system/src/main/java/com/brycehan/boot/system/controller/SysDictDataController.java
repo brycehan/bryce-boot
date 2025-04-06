@@ -87,7 +87,7 @@ public class SysDictDataController {
      * @return 响应结果
      */
     @Operation(summary = "查询系统字典数据详情")
-    @PreAuthorize("@auth.hasAuthority('system:dictData:info')")
+    @PreAuthorize("@auth.hasAuthority('system:dictData:query')")
     @GetMapping(path = "/{id}")
     public ResponseResult<SysDictDataVo> get(@Parameter(description = "系统字典数据ID", required = true) @PathVariable Long id) {
         SysDictData sysDictData = sysDictDataService.getById(id);
@@ -101,23 +101,11 @@ public class SysDictDataController {
      * @return 系统字典数据分页列表
      */
     @Operation(summary = "系统字典数据分页查询")
-    @PreAuthorize("@auth.hasAuthority('system:dictData:page')")
+    @PreAuthorize("@auth.hasAuthority('system:dictData:query')")
     @PostMapping(path = "/page")
     public ResponseResult<PageResult<SysDictDataVo>> page(@Validated @RequestBody SysDictDataPageDto sysDictDataPageDto) {
         PageResult<SysDictDataVo> page = sysDictDataService.page(sysDictDataPageDto);
         return ResponseResult.ok(page);
-    }
-
-    /**
-     * 系统字典数据导出数据
-     *
-     * @param sysDictDataPageDto 查询条件
-     */
-    @Operation(summary = "系统字典数据导出")
-    @PreAuthorize("@auth.hasAuthority('system:dictData:export')")
-    @PostMapping(path = "/export")
-    public void export(@Validated @RequestBody SysDictDataPageDto sysDictDataPageDto) {
-        sysDictDataService.export(sysDictDataPageDto);
     }
 
 }
