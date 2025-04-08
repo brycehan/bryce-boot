@@ -45,7 +45,7 @@ public class SysDept extends BaseEntity {
     /**
      * 负责人
      */
-    private String leader;
+    private Long leaderUserId;
 
     /**
      * 联系电话

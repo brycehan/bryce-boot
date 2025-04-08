@@ -45,7 +45,13 @@ public class SysDeptVo extends TreeNode<SysDeptVo> {
      * 负责人
      */
     @Schema(description = "负责人")
-    private String leader;
+    private Long leaderUserId;
+
+    /**
+     * 负责人昵称
+     */
+    @Schema(description = "负责人昵称")
+    private String leaderName;
 
     /**
      * 联系电话

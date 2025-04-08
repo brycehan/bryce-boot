@@ -5,6 +5,9 @@ import cn.hutool.core.util.StrUtil;
 import com.brycehan.boot.bpm.common.BpmFormType;
 import com.brycehan.boot.bpm.common.BpmModelType;
 import com.brycehan.boot.bpm.common.BpmnModelUtils;
+import com.brycehan.boot.bpm.common.FlowableUtils;
+import com.brycehan.boot.bpm.common.candidate.BpmTaskCandidateInvoker;
+import com.brycehan.boot.bpm.common.type.BpmReasonEnum;
 import com.brycehan.boot.bpm.entity.convert.BpmModelConvert;
 import com.brycehan.boot.bpm.entity.dto.BpmModelDto;
 import com.brycehan.boot.bpm.entity.dto.BpmModelKeyDto;
@@ -14,10 +17,9 @@ import com.brycehan.boot.bpm.entity.po.BpmForm;
 import com.brycehan.boot.bpm.entity.vo.BpmModelMetaInfoVo;
 import com.brycehan.boot.bpm.entity.vo.BpmModelVo;
 import com.brycehan.boot.bpm.entity.vo.BpmSimpleModelNodeVo;
-import com.brycehan.boot.bpm.service.BpmCategoryService;
-import com.brycehan.boot.bpm.service.BpmFormService;
-import com.brycehan.boot.bpm.service.BpmModelService;
-import com.brycehan.boot.bpm.service.BpmProcessDefinitionService;
+import com.brycehan.boot.bpm.service.*;
+import com.brycehan.boot.common.base.LoginUser;
+import com.brycehan.boot.common.base.LoginUserContext;
 import com.brycehan.boot.common.base.ServerException;
 import com.brycehan.boot.common.base.response.BpmResponseStatus;
 import com.brycehan.boot.common.entity.PageResult;
@@ -27,11 +29,17 @@ import lombok.extern.slf4j.Slf4j;
 import org.flowable.bpmn.model.BpmnModel;
 import org.flowable.bpmn.model.StartEvent;
 import org.flowable.bpmn.model.UserTask;
+import org.flowable.engine.HistoryService;
 import org.flowable.engine.RepositoryService;
+import org.flowable.engine.RuntimeService;
+import org.flowable.engine.TaskService;
+import org.flowable.engine.history.HistoricProcessInstance;
 import org.flowable.engine.repository.Deployment;
 import org.flowable.engine.repository.Model;
 import org.flowable.engine.repository.ModelQuery;
 import org.flowable.engine.repository.ProcessDefinition;
+import org.flowable.engine.runtime.ProcessInstance;
+import org.flowable.task.api.Task;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -58,6 +66,11 @@ public class BpmModelServiceImpl implements BpmModelService {
     private final BpmProcessDefinitionService bpmProcessDefinitionService;
     private final BpmFormService bpmFormService;
     private final BpmCategoryService bpmCategoryService;
+    private final BpmTaskCandidateInvoker taskCandidateInvoker;
+    private final BpmProcessInstanceCopyService bpmProcessInstanceCopyService;
+    private final HistoryService historyService;
+    private final RuntimeService runtimeService;
+    private final TaskService taskService;
 
     /**
      * 添加模型
@@ -67,19 +80,21 @@ public class BpmModelServiceImpl implements BpmModelService {
     @Override
     @Transactional
     public String save(BpmModelDto bpmModelDto) {
-        // 校验流程标识是否已经存在
+        // 1. 校验流程标识是否已经存在
         Model model = repositoryService.createModelQuery()
+                .modelTenantId(FlowableUtils.getTenantId())
                 .modelKey(bpmModelDto.getKey())
                 .singleResult();
         if (model != null) {
             throw ServerException.of(BpmResponseStatus.MODEL_KEY_EXISTS, bpmModelDto.getKey());
         }
 
-        // 创建 Model 对象
+        // 2. 创建 Model 对象
         model = repositoryService.newModel();
         BpmModelConvert.INSTANCE.copyToModel(model, bpmModelDto);
+        model.setTenantId(FlowableUtils.getTenantId());
 
-        // 保存 Model 对象
+        // 3. 保存 Model 对象
         ((BpmModelServiceImpl) AopContext.currentProxy()).saveModel(model, bpmModelDto);
         return model.getId();
     }
@@ -92,30 +107,30 @@ public class BpmModelServiceImpl implements BpmModelService {
     @Override
     @Transactional
     public void update(BpmModelDto bpmModelDto) {
-        // 校验操作流程模型的权限
-//        Model model = validateModelManager(bpmModelDto.getId(), LoginUserContext.currentUserId());
-        // 校验模型是否存在
+        // 1. 校验操作流程模型的权限
         Model model = validateModelExist(bpmModelDto.getId());
-        // 填充模型信息
+        validateModelManager(model, LoginUserContext.currentUserId());
+        // 2. 填充模型信息
         BpmModelConvert.INSTANCE.copyToModel(model, bpmModelDto);
-        // 保存模型
+        // 3. 保存模型
         ((BpmModelServiceImpl) AopContext.currentProxy()).saveModel(model, bpmModelDto);
     }
 
     @Override
     @Transactional
-    public void delete(List<String> ids) {
+    public void delete(List<String> ids, Long userId) {
         for (String id : ids) {
-            // 校验操作流程模型的权限
-            Model model = repositoryService.getModel(id);
-
+            // 1. 校验流程模型是否存在
+            Model model = validateModelExist(id, false);
             if (model == null) {
                 continue;
             }
+            // 2. 校验操作流程模型的权限
+            validateModelManager(model, userId);
 
-            // 删除模型
+            // 3. 删除模型
             repositoryService.deleteModel(id);
-            // 禁用流程定义
+            // 4. 禁用流程定义
             bpmProcessDefinitionService.updateProcessDefinitionSuspended(model.getDeploymentId());
         }
     }
@@ -174,10 +189,10 @@ public class BpmModelServiceImpl implements BpmModelService {
      */
     @Transactional
     protected void saveModel(Model model, BpmModelDto bpmModelDto) {
-        // 保存 Model 对象
+        // 1. 保存 Model 对象
         repositoryService.saveModel(model);
 
-        // 保存流程定义信息
+        // 2. 保存流程图信息
         if (Objects.equals(BpmModelType.BPMN.getValue(), bpmModelDto.getType())) {
             ((BpmModelServiceImpl) AopContext.currentProxy()).updateModelBpmnXml(model.getId(), bpmModelDto.getBpmnXml());
         }
@@ -214,45 +229,70 @@ public class BpmModelServiceImpl implements BpmModelService {
 
     @Transactional
     @Override
-    public void deploy(String id) {
-        // 校验模型是否存在
+    public void deploy(String id, Long userId) {
+        // 1.1. 校验模型是否存在
         Model model = validateModelExist(id);
+        validateModelManager(model, userId);
 
-        // 校验表单已经配置
+        // 1.2. 校验表单已经配置
         BpmModelMetaInfoVo metaInfo = BpmModelConvert.INSTANCE.parseMetaInfoVo(model);
         BpmForm bpmForm = validateFormConfig(metaInfo);
 
-        // 校验流程图
+        // 1.3. 校验流程图
         byte[] bpmnXml = getModelBpmnXml(id);
         validateBpmnXml(bpmnXml);
 
-        // 校验任务分配规则是否配置
+        // 1.4. 校验任务分配规则是否配置
+        taskCandidateInvoker.validateBpmnConfig(bpmnXml);
 
-        // 获取仿钉钉流程设计器模型数据
-        String simpleModelJson = getSimpleModelJson(id);
+        // 2.1. 部署流程
+        ProcessDefinition processDefinition = bpmProcessDefinitionService.deploy(model, metaInfo, bpmnXml, null, bpmForm);
 
-        // 部署流程
-        ProcessDefinition processDefinition = bpmProcessDefinitionService.deploy(model, metaInfo, bpmnXml, simpleModelJson, bpmForm);
-
-        // 将旧的流程定义进行挂起。也就是说，只有最新部署的流程定义，才可以发起任务
+        // 2.2. 将旧的流程定义进行挂起。也就是说，只有最新部署的流程定义，才可以发起任务
         bpmProcessDefinitionService.updateProcessDefinitionSuspended(model.getDeploymentId());
 
-        // 更新模型的 deploymentId, 进行关联
+        // 2.3. 更新模型的 deploymentId, 进行关联
         model.setDeploymentId(processDefinition.getDeploymentId());
         repositoryService.saveModel(model);
     }
 
     @Override
-    public void updateState(String id, Integer state) {
-        // 校验模型是否存在
+    public void updateState(String id, Integer state, Long userId) {
+        // 1. 校验模型是否存在
         Model model = validateModelExist(id);
-        // 校验流程定义是否存在
+        validateModelManager(model, userId);
+        // 2. 校验流程定义是否存在
         ProcessDefinition processDefinition = bpmProcessDefinitionService.getProcessDefinitionByDeploymentId(model.getDeploymentId());
         if (processDefinition == null) {
             throw ServerException.of(BpmResponseStatus.PROCESS_DEFINITION_NOT_EXIST, model.getDeploymentId());
         }
-        // 更新流程定义状态
+        // 3. 更新流程定义状态
         bpmProcessDefinitionService.updateProcessDefinitionStatus(processDefinition.getId(), state == 1);
+    }
+
+    @Override
+    public void cleanModel(String id, Long userId) {
+        // 1. 校验流程模型存在与权限
+        Model model = validateModelExist(id);
+        validateModelManager(model, userId);
+
+        // 2. 清理所有流程数据
+        // 2.1 先取消所有正在运行的流程
+        List<ProcessInstance> processInstances = runtimeService.createProcessInstanceQuery().processDefinitionKey(model.getKey()).list();
+        processInstances.forEach(processInstance -> {
+            runtimeService.deleteProcessInstance(processInstance.getId(), BpmReasonEnum.CANCEL_BY_SYSTEM.getReason());
+            historyService.deleteHistoricProcessInstance(processInstance.getId());
+            bpmProcessInstanceCopyService.deleteProcessInstanceCopy(processInstance.getId());
+        });
+        // 2.2 再从历史中删除所有相关的流程数据
+        List<HistoricProcessInstance> historicProcessInstances = historyService.createHistoricProcessInstanceQuery().processDefinitionKey(model.getKey()).list();
+        historicProcessInstances.forEach(historicProcessInstance -> {
+            historyService.deleteHistoricProcessInstance(historicProcessInstance.getId());
+            bpmProcessInstanceCopyService.deleteProcessInstanceCopy(historicProcessInstance.getId());
+        });
+        // 2.3 清理所有 Task
+        List<Task> tasks = taskService.createTaskQuery().processDefinitionKey(model.getKey()).list();
+        tasks.forEach(task -> taskService.deleteTask(task.getId(),BpmReasonEnum.CANCEL_BY_PROCESS_CLEAN.getReason()));
     }
 
     @Override
@@ -310,15 +350,26 @@ public class BpmModelServiceImpl implements BpmModelService {
     /**
      * 校验用户是否是模型的管理员
      *
-     * @param modelId 模型ID
+     * @param model 模型
      * @param userId  用户ID
+     */
+    private void validateModelManager(Model model, Long userId) {
+        BpmModelMetaInfoDto metaInfo = BpmModelConvert.INSTANCE.parseMetaInfoDto(model);
+        if (metaInfo == null || !(LoginUser.isSuperAdmin(userId) || CollUtil.contains(metaInfo.getManagerUserIds(), userId))) {
+            throw ServerException.of(BpmResponseStatus.MODEL_UPDATE_NOT_MANAGER, model.getId());
+        }
+    }
+
+    /**
+     * 校验模型是否存在
+     *
+     * @param modelId 模型ID
      * @return Model
      */
-    private Model validateModelManager(String modelId, Long userId) {
-        Model model = validateModelExist(modelId);
-        BpmModelMetaInfoDto metaInfo = BpmModelConvert.INSTANCE.parseMetaInfoDto(model);
-        if (metaInfo == null || !CollUtil.contains(metaInfo.getManagerUserIds(), userId)) {
-            throw ServerException.of(BpmResponseStatus.MODEL_UPDATE_NOT_MANAGER, modelId);
+    private Model validateModelExist(String modelId, boolean throwException) {
+        Model model = repositoryService.getModel(modelId);
+        if (model == null && throwException) {
+            throw ServerException.of(BpmResponseStatus.MODEL_NOT_EXISTS, modelId);
         }
         return model;
     }
@@ -330,26 +381,23 @@ public class BpmModelServiceImpl implements BpmModelService {
      * @return Model
      */
     private Model validateModelExist(String modelId) {
-        Model model = repositoryService.getModel(modelId);
-        if (model == null) {
-            throw ServerException.of(BpmResponseStatus.MODEL_NOT_EXISTS, modelId);
-        }
-        return model;
+        return validateModelExist(modelId, true);
     }
 
     private void validateBpmnXml(byte[] bpmnXml) {
+        // 1. 获取 BpmnModel
         BpmnModel bpmnModel = BpmnModelUtils.getBpmnModel(bpmnXml);
         if (bpmnModel == null) {
             throw ServerException.of(BpmResponseStatus.MODEL_NOT_EXISTS);
         }
 
-        // 没有 StartEvent
+        // 2. 没有 StartEvent
         StartEvent startEvent = BpmnModelUtils.getStartEvent(bpmnModel);
         if (startEvent == null) {
             throw ServerException.of(BpmResponseStatus.MODEL_BPMN_START_EVENT_NOT_EXISTS);
         }
 
-        // 校验 UserTask 的 name 属性是否配置
+        // 3. 校验 UserTask 的 name 属性是否配置
         List<UserTask> userTasks = BpmnModelUtils.getFlowElementsOfType(bpmnModel, UserTask.class);
         userTasks.forEach(userTask -> {
             if (StrUtil.isBlank(userTask.getName())) {

@@ -6,6 +6,7 @@ import com.brycehan.boot.common.entity.BaseDto;
 import com.brycehan.boot.common.enums.DataScopeType;
 import com.brycehan.boot.common.enums.StatusType;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Length;
@@ -41,6 +42,7 @@ public class SysRoleDto extends BaseDto {
      */
     @Schema(description = "角色编码")
     @Length(max = 50, groups = {SaveGroup.class, UpdateGroup.class})
+    @Pattern(regexp = "^[A-Z_]+$", message = "必须是大写字母或下划线", groups = {SaveGroup.class, UpdateGroup.class})
     private String code;
 
     /**

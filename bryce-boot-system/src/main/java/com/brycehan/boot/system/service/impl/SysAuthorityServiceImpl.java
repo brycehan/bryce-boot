@@ -1,6 +1,5 @@
 package com.brycehan.boot.system.service.impl;
 
-import cn.hutool.core.collection.CollUtil;
 import com.brycehan.boot.common.constant.DataConstants;
 import com.brycehan.boot.system.entity.convert.SysRoleConvert;
 import com.brycehan.boot.system.entity.po.SysRole;
@@ -34,6 +33,7 @@ public class SysAuthorityServiceImpl implements SysAuthorityService {
 
         // 超级管理员，拥有最高权限
         if (sysUser.isSuperAdmin()) {
+            sysUser.setRoleSet(Set.of(DataConstants.SUPER_ADMIN_CODE));
             return Set.of(DataConstants.ROLE_SUPER_ADMIN_CODE);
         }
 
@@ -42,23 +42,21 @@ public class SysAuthorityServiceImpl implements SysAuthorityService {
         if (findRole) {
             Set<SysRole> roles = sysRoleService.getRoleByUserId(sysUser.getId());
             // 获取角色的菜单权限
-            if (CollUtil.isNotEmpty(roles)) {
-                for (SysRole role : roles) {
-                    Set<String> authorityByRoleId = sysMenuService.findAuthorityByRoleId(role.getId());
-                    role.setAuthoritySet(authorityByRoleId);
-                    authoritySet.addAll(authorityByRoleId);
-                }
+            for (SysRole role : roles) {
+                Set<String> authorityByRoleId = sysMenuService.findAuthorityByRoleId(role.getId());
+                role.setAuthoritySet(authorityByRoleId);
+                authoritySet.addAll(authorityByRoleId);
             }
 
             sysUser.setRoles(SysRoleConvert.INSTANCE.convert(roles));
+            sysUser.setRoleSet(roles.stream().map(SysRole::getCode).collect(Collectors.toSet()));
 
-            Set<String> roleSet = roles.stream().map(role -> DataConstants.ROLE_PREFIX + role.getCode()).collect(Collectors.toSet());
-            authoritySet.addAll(roleSet);
+            Set<String> authorityRoleSet = roles.stream().map(role -> DataConstants.ROLE_PREFIX + role.getCode()).collect(Collectors.toSet());
+            authoritySet.addAll(authorityRoleSet);
         } else {
             authoritySet = sysMenuService.findAuthorityByUserId(sysUser.getId());
         }
 
         return authoritySet;
     }
-
 }

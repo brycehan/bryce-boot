@@ -8,6 +8,7 @@ import com.brycehan.boot.common.enums.StatusType;
 import com.brycehan.boot.common.enums.VisibleType;
 import com.brycehan.boot.system.common.MenuType;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Length;
@@ -63,6 +64,7 @@ public class SysMenuDto extends BaseDto {
      */
     @Schema(description = "权限标识")
     @Length(max = 100, groups = {SaveGroup.class, UpdateGroup.class})
+    @Pattern(regexp = "^(?!ROLE_)[a-z:]+$", message = "不以ROLE_ 开头，并且必须是小写字母或英文冒号", groups = {SaveGroup.class, UpdateGroup.class})
     private String authority;
 
     /**

@@ -53,8 +53,7 @@ public class SysDeptDto extends TreeNode<SysDeptDto> {
      * 负责人
      */
     @Schema(description = "负责人")
-    @Length(max = 50, groups = {SaveGroup.class, UpdateGroup.class})
-    private String leader;
+    private Long leaderUserId;
 
     /**
      * 联系电话

@@ -46,6 +46,9 @@ public interface BpmModelConvert {
      */
     @SuppressWarnings("all")
     default BpmModelMetaInfoDto parseMetaInfoDto(Model model) {
+        if (model == null) {
+            return null;
+        }
         BpmModelMetaInfoDto bpmModelMetaInfoDto = JsonUtils.readValue(model.getMetaInfo(), BpmModelMetaInfoDto.class);
         if (bpmModelMetaInfoDto == null) {
             return null;

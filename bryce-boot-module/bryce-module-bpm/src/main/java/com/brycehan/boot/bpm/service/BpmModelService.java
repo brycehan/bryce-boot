@@ -35,8 +35,9 @@ public interface BpmModelService {
      * 删除模型信息
      *
      * @param ids IDs
+     * @param userId 用户ID
      */
-    void delete(List<String> ids);
+    void delete(List<String> ids, Long userId);
 
     /**
      * 根据模型ID查询模型详情
@@ -81,16 +82,26 @@ public interface BpmModelService {
      * 部署流程模型
      *
      * @param id 模型ID
+     * @param userId 用户ID
      */
-    void deploy(String id);
+    void deploy(String id, Long userId);
 
     /**
      * 更新流程定义状态
      *
      * @param id   模型ID
      * @param state 状态
+     * @param userId 用户ID
      */
-    void updateState(String id, Integer state);
+    void updateState(String id, Integer state, Long userId);
+
+    /**
+     * 清理模型
+     *
+     * @param id 模型ID
+     * @param userId 用户ID
+     */
+    void cleanModel(String id, Long userId);
 
     /**
      * 校验模型KEY是否唯一
@@ -99,4 +110,5 @@ public interface BpmModelService {
      * @return true：唯一，false：不唯一
      */
     boolean checkKeyUnique(BpmModelKeyDto bpmModelKeyDto);
+
 }

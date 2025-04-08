@@ -5,6 +5,7 @@ import com.brycehan.boot.bpm.entity.dto.BpmModelKeyDto;
 import com.brycehan.boot.bpm.entity.dto.BpmModelPageDto;
 import com.brycehan.boot.bpm.entity.vo.BpmModelVo;
 import com.brycehan.boot.bpm.service.BpmModelService;
+import com.brycehan.boot.common.base.LoginUserContext;
 import com.brycehan.boot.common.base.response.ResponseResult;
 import com.brycehan.boot.common.base.validator.NotEmptyElements;
 import com.brycehan.boot.common.base.validator.SaveGroup;
@@ -13,6 +14,7 @@ import com.brycehan.boot.common.entity.PageResult;
 import com.brycehan.boot.framework.operatelog.annotation.OperateLog;
 import com.brycehan.boot.framework.operatelog.annotation.OperatedType;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
@@ -79,7 +81,7 @@ public class BpmModelController {
     @PreAuthorize("@auth.hasAuthority('bpm:model:delete')")
     @DeleteMapping
     public ResponseResult<Void> delete(@NotEmptyElements @Size(min = 1, max = 100) @RequestBody List<String> ids) {
-        bpmModelService.delete(ids);
+        bpmModelService.delete(ids, LoginUserContext.currentUserId());
         return ResponseResult.ok();
     }
 
@@ -121,7 +123,7 @@ public class BpmModelController {
     @PreAuthorize("@auth.hasAuthority('bpm:model:deploy')")
     @PostMapping(path = "/deploy")
     public ResponseResult<?> deploy(@NotEmpty String id) {
-        bpmModelService.deploy(id);
+        bpmModelService.deploy(id, LoginUserContext.currentUserId());
         return ResponseResult.ok();
     }
 
@@ -136,8 +138,23 @@ public class BpmModelController {
     @PreAuthorize("@auth.hasAuthority('bpm:model:update')")
     @PatchMapping(path = "/{id}/{state}")
     public ResponseResult<?> updateState(@PathVariable String id, @PathVariable Integer state) {
-        bpmModelService.updateState(id, state);
+        bpmModelService.updateState(id, state, LoginUserContext.currentUserId());
         return ResponseResult.ok();
+    }
+
+    /**
+     * 清理模型
+     *
+     * @param id 模型ID
+     * @return 结果
+     */
+    @Operation(summary = "清理模型")
+    @Parameter(name = "id", description = "编号", required = true)
+    @PreAuthorize("@auth.hasRole('SUPER_ADMIN')")
+    @DeleteMapping("/clean/{id}")
+    public ResponseResult<Boolean> cleanModel(@PathVariable String id) {
+        bpmModelService.cleanModel(id, LoginUserContext.currentUserId());
+        return  ResponseResult.ok(true);
     }
 
     /**

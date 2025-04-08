@@ -56,6 +56,7 @@ public class SysUserDetailsServiceImpl implements SysUserDetailsService {
         // 用户权限集合
         Set<String> authoritySet = sysAuthorityService.findAuthority(sysUser, true);
         loginUser.setRoles(sysUser.getRoles());
+        loginUser.setRoleSet(sysUser.getRoleSet());
         loginUser.setAuthoritySet(authoritySet);
 
         return loginUser;

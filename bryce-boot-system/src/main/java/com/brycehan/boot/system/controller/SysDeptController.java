@@ -44,7 +44,7 @@ public class SysDeptController {
      */
     @Operation(summary = "保存系统部门")
     @OperateLog(type = OperatedType.INSERT)
-    @PreAuthorize("@auth.hasAuthority('system:org:save')")
+    @PreAuthorize("@auth.hasAuthority('system:dept:save')")
     @PostMapping
     public ResponseResult<Void> save(@Validated(value = SaveGroup.class) @RequestBody SysDeptDto sysDeptDto) {
         sysDeptService.save(sysDeptDto);
@@ -59,7 +59,7 @@ public class SysDeptController {
      */
     @Operation(summary = "更新系统部门")
     @OperateLog(type = OperatedType.UPDATE)
-    @PreAuthorize("@auth.hasAuthority('system:org:update')")
+    @PreAuthorize("@auth.hasAuthority('system:dept:update')")
     @PutMapping
     public ResponseResult<Void> update(@Validated(value = UpdateGroup.class) @RequestBody SysDeptDto sysDeptDto) {
         sysDeptService.update(sysDeptDto);
@@ -74,7 +74,7 @@ public class SysDeptController {
      */
     @Operation(summary = "删除系统部门")
     @OperateLog(type = OperatedType.DELETE)
-    @PreAuthorize("@auth.hasAuthority('system:org:delete')")
+    @PreAuthorize("@auth.hasAuthority('system:dept:delete')")
     @DeleteMapping
     public ResponseResult<Void> delete(@Validated @RequestBody IdsDto idsDto) {
         sysDeptService.delete(idsDto);
@@ -88,7 +88,7 @@ public class SysDeptController {
      * @return 响应结果
      */
     @Operation(summary = "查询系统部门详情")
-    @PreAuthorize("@auth.hasAuthority('system:org:query')")
+    @PreAuthorize("@auth.hasAuthority('system:dept:query')")
     @GetMapping(path = "/{id}")
     public ResponseResult<SysDeptVo> get(@Parameter(description = "系统部门ID", required = true) @PathVariable Long id) {
         sysDeptService.checkDeptDataScope(id);
@@ -103,7 +103,7 @@ public class SysDeptController {
      * @return 系统部门列表
      */
     @Operation(summary = "列表查询")
-    @PreAuthorize("@auth.hasAuthority('system:org:list')")
+    @PreAuthorize("@auth.hasAuthority('system:dept:list')")
     @PostMapping(path = "/list")
     public ResponseResult<List<SysDeptVo>> list(@Validated @RequestBody SysDeptDto sysDeptDto) {
         List<SysDeptVo> list = sysDeptService.list(sysDeptDto);

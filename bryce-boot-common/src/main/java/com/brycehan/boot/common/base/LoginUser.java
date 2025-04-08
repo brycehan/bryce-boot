@@ -138,11 +138,6 @@ public class LoginUser implements UserDetails {
     private Set<Long> SubDeptIds;
 
     /**
-     * 拥有权限集合
-     */
-    private Set<String> authoritySet;
-
-    /**
      * 拥有角色集合
      */
     private Set<RoleVo> roles;
@@ -151,6 +146,11 @@ public class LoginUser implements UserDetails {
      * 拥有角色编码集合
      */
     private Set<String> roleSet;
+
+    /**
+     * 拥有权限集合
+     */
+    private Set<String> authoritySet;
 
     @JsonIgnore
     @Override
@@ -202,5 +202,15 @@ public class LoginUser implements UserDetails {
      */
     public static boolean isSuperAdmin(LoginUser loginUser) {
         return Optional.ofNullable(loginUser).map(LoginUser::getId).map(id -> id == 1L).orElse(false);
+    }
+
+    /**
+     * 是否是超级管理员
+     *
+     * @param userId 用户标识
+     * @return true 是超级管理员
+     */
+    public static boolean isSuperAdmin(Long userId) {
+        return Optional.ofNullable(userId).map(id -> id == 1L).orElse(false);
     }
 }

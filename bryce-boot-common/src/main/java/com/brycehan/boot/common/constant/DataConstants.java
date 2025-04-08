@@ -51,6 +51,11 @@ public class DataConstants {
     public static final String ROLE_SUPER_ADMIN_CODE = "ROLE_SUPER_ADMIN";
 
     /**
+     * 超级管理员编码
+     */
+    public static final String SUPER_ADMIN_CODE = "SUPER_ADMIN";
+
+    /**
      * 超级管理员角色ID
      */
     public static final Long ROLE_SUPER_ADMIN_ID = 1L;

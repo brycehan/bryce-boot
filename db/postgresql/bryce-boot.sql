@@ -33,7 +33,7 @@ create table brc_sys_dept
     code            varchar(30),
     parent_id       bigint       not null,
     ancestor        varchar(255),
-    leader          varchar(50),
+    leader_user_id  bigint,
     contact_number  varchar(20),
     email           varchar(50),
     remark          varchar(500),
@@ -52,7 +52,7 @@ comment on column brc_sys_dept.name is '部门名称';
 comment on column brc_sys_dept.code is '部门编码';
 comment on column brc_sys_dept.parent_id is '父部门ID';
 comment on column brc_sys_dept.ancestor is '祖级部门列表';
-comment on column brc_sys_dept.leader is '负责人';
+comment on column brc_sys_dept.leader_user_id is '负责人';
 comment on column brc_sys_dept.contact_number is '联系电话';
 comment on column brc_sys_dept.email is '邮箱';
 comment on column brc_sys_dept.remark is '备注';
@@ -67,16 +67,16 @@ comment on column brc_sys_dept.updated_time is '修改时间';
 create index idx_brc_sys_dept_parent_id on brc_sys_dept (parent_id);
 
 -- 初始化-系统部门表数据
-INSERT INTO brc_sys_dept (id, name, code, parent_id, ancestor, leader, contact_number, email, remark, sort, status, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (100, 'Bryce科技', null, 0, '0', '韩先生', '15800008001', 'brycehan@163.com', null, 0, 1, null, 1, now(), 1, now());
-INSERT INTO brc_sys_dept (id, name, code, parent_id, ancestor, leader, contact_number, email, remark, sort, status, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (101, '北京总公司', null, 100, '0,100', '韩先生', '15800008002', 'brycehan@163.com', null, 1, 1, null, 1, now(), 1, now());
-INSERT INTO brc_sys_dept (id, name, code, parent_id, ancestor, leader, contact_number, email, remark, sort, status, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (102, '济南分公司', null, 100, '0,100', '韩先生', '15800008003', 'brycehan@163.com', null, 2, 1, null, 1, now(), 1, now());
-INSERT INTO brc_sys_dept (id, name, code, parent_id, ancestor, leader, contact_number, email, remark, sort, status, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (103, '研发部门', null, 101, '0,100,101', '韩先生', '15800008004', 'brycehan@163.com', null, 1, 1, null, 1, now(), 1, now());
-INSERT INTO brc_sys_dept (id, name, code, parent_id, ancestor, leader, contact_number, email, remark, sort, status, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (104, '市场部门', null, 101, '0,100,101', '韩先生', '15800008005', 'brycehan@163.com', null, 2, 1, null, 1, now(), 1, now());
-INSERT INTO brc_sys_dept (id, name, code, parent_id, ancestor, leader, contact_number, email, remark, sort, status, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (105, '测试部门', null, 101, '0,100,101', '韩先生', '15800008006', 'brycehan@163.com', null, 3, 1, null, 1, now(), 1, now());
-INSERT INTO brc_sys_dept (id, name, code, parent_id, ancestor, leader, contact_number, email, remark, sort, status, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (106, '财务部门', null, 101, '0,100,101', '韩先生', '15800008007', 'brycehan@163.com', null, 4, 1, null, 1, now(), 1, now());
-INSERT INTO brc_sys_dept (id, name, code, parent_id, ancestor, leader, contact_number, email, remark, sort, status, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (107, '运维部门', null, 101, '0,100,101', '韩先生', '15800008008', 'brycehan@163.com', null, 5, 1, null, 1, now(), 1, now());
-INSERT INTO brc_sys_dept (id, name, code, parent_id, ancestor, leader, contact_number, email, remark, sort, status, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (108, '市场部门', null, 102, '0,100,102', '韩先生', '15800008009', 'brycehan@163.com', null, 1, 1, null, 1, now(), 1, now());
-INSERT INTO brc_sys_dept (id, name, code, parent_id, ancestor, leader, contact_number, email, remark, sort, status, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (109, '财务部门', null, 102, '0,100,102', '韩先生', '15800008010', 'brycehan@163.com', null, 2, 1, null, 1, now(), 1, now());
+INSERT INTO brc_sys_dept (id, name, code, parent_id, ancestor, leader_user_id, contact_number, email, remark, sort, status, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (100, 'Bryce科技', null, 0, '0', 1, '15800008001', 'brycehan@163.com', null, 0, 1, null, 1, now(), 1, now());
+INSERT INTO brc_sys_dept (id, name, code, parent_id, ancestor, leader_user_id, contact_number, email, remark, sort, status, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (101, '北京总公司', null, 100, '0,100', 1, '15800008002', 'brycehan@163.com', null, 1, 1, null, 1, now(), 1, now());
+INSERT INTO brc_sys_dept (id, name, code, parent_id, ancestor, leader_user_id, contact_number, email, remark, sort, status, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (102, '济南分公司', null, 100, '0,100', 1, '15800008003', 'brycehan@163.com', null, 2, 1, null, 1, now(), 1, now());
+INSERT INTO brc_sys_dept (id, name, code, parent_id, ancestor, leader_user_id, contact_number, email, remark, sort, status, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (103, '研发部门', null, 101, '0,100,101', 1, '15800008004', 'brycehan@163.com', null, 1, 1, null, 1, now(), 1, now());
+INSERT INTO brc_sys_dept (id, name, code, parent_id, ancestor, leader_user_id, contact_number, email, remark, sort, status, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (104, '市场部门', null, 101, '0,100,101', null, '15800008005', 'brycehan@163.com', null, 2, 1, null, 1, now(), 1, now());
+INSERT INTO brc_sys_dept (id, name, code, parent_id, ancestor, leader_user_id, contact_number, email, remark, sort, status, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (105, '测试部门', null, 101, '0,100,101', null, '15800008006', 'brycehan@163.com', null, 3, 1, null, 1, now(), 1, now());
+INSERT INTO brc_sys_dept (id, name, code, parent_id, ancestor, leader_user_id, contact_number, email, remark, sort, status, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (106, '财务部门', null, 101, '0,100,101', null, '15800008007', 'brycehan@163.com', null, 4, 1, null, 1, now(), 1, now());
+INSERT INTO brc_sys_dept (id, name, code, parent_id, ancestor, leader_user_id, contact_number, email, remark, sort, status, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (107, '运维部门', null, 101, '0,100,101', null, '15800008008', 'brycehan@163.com', null, 5, 1, null, 1, now(), 1, now());
+INSERT INTO brc_sys_dept (id, name, code, parent_id, ancestor, leader_user_id, contact_number, email, remark, sort, status, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (108, '市场部门', null, 102, '0,100,102', null, '15800008009', 'brycehan@163.com', null, 1, 1, null, 1, now(), 1, now());
+INSERT INTO brc_sys_dept (id, name, code, parent_id, ancestor, leader_user_id, contact_number, email, remark, sort, status, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (109, '财务部门', null, 102, '0,100,102', null, '15800008010', 'brycehan@163.com', null, 2, 1, null, 1, now(), 1, now());
 
 -- 2、系统用户表
 create table brc_sys_user
@@ -170,8 +170,8 @@ comment on column brc_sys_role.updated_user_id is '修改者ID';
 comment on column brc_sys_role.updated_time is '修改时间';
 
 -- 初始化-系统角色表数据
-INSERT INTO brc_sys_role (id, name, code, data_scope, sort, status, remark, dept_id, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1, '管理员', 'admin', 1, 0, 1, '管理员', null, null, 1, now(), 1, now());
-INSERT INTO brc_sys_role (id, name, code, data_scope, sort, status, remark, dept_id, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (2, '默认角色', 'default', 1, 0, 1, '默认角色', null, null, 1, now(), 1, now());
+INSERT INTO brc_sys_role (id, name, code, data_scope, sort, status, remark, dept_id, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (1, '管理员', 'SUPER_ADMIN', 1, 0, 1, '管理员', null, null, 1, now(), 1, now());
+INSERT INTO brc_sys_role (id, name, code, data_scope, sort, status, remark, dept_id, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (2, '默认角色', 'DEFAULT', 1, 0, 1, '默认角色', null, null, 1, now(), 1, now());
 
 -- 4、系统用户角色关联表
 create table brc_sys_user_role

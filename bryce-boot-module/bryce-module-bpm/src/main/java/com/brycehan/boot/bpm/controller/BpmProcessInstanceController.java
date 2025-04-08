@@ -55,7 +55,9 @@ public class BpmProcessInstanceController {
      * @return 响应结果
      */
     @Operation(summary = "查询流程实例详情")
-    @PreAuthorize("@auth.hasAuthority('bpm:process-definition:query')")
+    @PreAuthorize(
+            "@auth.hasAnyAuthority('bpm:task:manager-query', 'bpm:process-instance:my-query', 'bpm:process-instance:manager-query', 'bpm:task:todo-query', 'bpm:task:done-query', 'bpm:process-instance:copy-query')"
+    )
     @GetMapping(path = "/{processInstanceId}")
     public ResponseResult<BpmProcessInstanceVo> get(@PathVariable String processInstanceId) {
         BpmProcessInstanceVo bpmProcessInstanceVo = bpmProcessInstanceService.getById(processInstanceId);
@@ -69,7 +71,7 @@ public class BpmProcessInstanceController {
      * @return 流程实例分页列表
      */
     @Operation(summary = "流程实例分页查询")
-    @PreAuthorize("@auth.hasAuthority('bpm:process-instance:manager-page')")
+    @PreAuthorize("@auth.hasAuthority('bpm:process-instance:manager-query')")
     @PostMapping(path = "/manager-page")
     public ResponseResult<PageResult<BpmProcessInstanceVo>> managerPage(@Validated @RequestBody BpmProcessInstancePageDto bpmProcessInstancePageDto) {
         PageResult<BpmProcessInstanceVo> managerPage = bpmProcessInstanceService.managerPage(bpmProcessInstancePageDto);
@@ -83,7 +85,7 @@ public class BpmProcessInstanceController {
      * @return 流程实例分页列表
      */
     @Operation(summary = "流程实例分页查询")
-    @PreAuthorize("@auth.hasAuthority('bpm:process-instance:my-page')")
+    @PreAuthorize("@auth.hasAuthority('bpm:process-instance:my-query')")
     @PostMapping(path = "/my-page")
     public ResponseResult<PageResult<BpmProcessInstanceVo>> myPage(@Validated @RequestBody BpmProcessInstancePageDto bpmProcessInstancePageDto) {
         PageResult<BpmProcessInstanceVo> managerPage = bpmProcessInstanceService.myPage(bpmProcessInstancePageDto);
@@ -126,7 +128,9 @@ public class BpmProcessInstanceController {
      */
     @GetMapping("/get-approval-detail")
     @Operation(summary = "获得审批详情")
-    @PreAuthorize("@auth.hasAuthority('bpm:process-instance:query')")
+    @PreAuthorize(
+            "@auth.hasAnyAuthority('bpm:process-instance:manager-query', 'bpm:task:manager-query', 'bpm:process-instance:my-query', 'bpm:task:todo-query', 'bpm:task:done-query', 'bpm:process-instance:copy-query')"
+    )
     public ResponseResult<BpmApprovalDetailVo> getApprovalDetail(@Validated BpmApprovalDetailDto bpmApprovalDetailDto) {
         BpmApprovalDetailVo bpmApprovalDetailVo = bpmProcessInstanceService.getApprovalDetail(LoginUserContext.currentUserId(), bpmApprovalDetailDto);
         return ResponseResult.ok(bpmApprovalDetailVo);
@@ -140,8 +144,11 @@ public class BpmProcessInstanceController {
      */
     @GetMapping("/get-bpmn-model-view")
     @Operation(summary = "获取流程实例的 BPMN 模型视图", description = "在【流程详细】界面中，进行调用")
+    @PreAuthorize(
+            "@auth.hasAnyAuthority('bpm:model:query', 'bpm:process-instance:manager-query', 'bpm:task:manager-query', 'bpm:process-instance:my-query', 'bpm:task:todo-query', 'bpm:task:done-query', 'bpm:process-instance:copy-query')"
+    )
     @Parameter(name = "id", description = "流程实例的编号", required = true)
-    public ResponseResult<BpmProcessInstanceBpmnModelViewVo> getProcessInstanceBpmnModelView(@RequestParam(value = "id") String id) {
+    public ResponseResult<BpmProcessInstanceBpmnModelViewVo> getProcessInstanceBpmnModelView(String id) {
         BpmProcessInstanceBpmnModelViewVo bpmProcessInstanceBpmnModelViewVo = bpmProcessInstanceService.getProcessInstanceBpmnModelView(id);
         return ResponseResult.ok(bpmProcessInstanceBpmnModelViewVo);
     }

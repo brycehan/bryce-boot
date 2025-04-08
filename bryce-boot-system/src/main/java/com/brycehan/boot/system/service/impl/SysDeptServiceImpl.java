@@ -24,10 +24,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * 系统部门服务实现类
@@ -97,7 +94,22 @@ public class SysDeptServiceImpl extends BaseServiceImpl<SysDeptMapper, SysDept> 
 
         // 部门列表
         List<SysDept> sysDeptList = baseMapper.list(params);
-        return TreeUtils.build(SysDeptConvert.INSTANCE.convert(sysDeptList));
+
+        if (sysDeptList.isEmpty()) {
+            return List.of();
+        }
+        List<SysDeptVo> deptVoList = SysDeptConvert.INSTANCE.convert(sysDeptList);
+        // 部门负责人名称
+        Map<Long, String> userNames = Db.lambdaQuery(SysUser.class)
+                .select(SysUser::getId, SysUser::getNickname)
+                .in(SysUser::getId, deptVoList.stream().map(SysDeptVo::getLeaderUserId).toList())
+                .list().stream().collect(
+                        (HashMap::new),
+                        (m, v) -> m.put(v.getId(), v.getNickname()),
+                        HashMap::putAll
+                );
+        deptVoList.forEach(sysDeptVo -> sysDeptVo.setLeaderName(userNames.get(sysDeptVo.getLeaderUserId())));
+        return TreeUtils.build(deptVoList);
     }
 
     @Override

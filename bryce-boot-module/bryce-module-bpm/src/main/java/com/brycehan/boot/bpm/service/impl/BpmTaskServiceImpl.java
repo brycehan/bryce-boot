@@ -1225,7 +1225,6 @@ public class BpmTaskServiceImpl implements BpmTaskService {
                             BpmDeptVo dept = startUser.getDeptId() != null ? bpmDeptApi.getDept(startUser.getDeptId()) : null;
                             Assert.notNull(dept, "提交人({})部门({})信息为空", processInstance.getStartUserId(), startUser.getDeptId());
                             // 找不到部门负责人的情况下，自动审批通过
-                            // noinspection DataFlowIssue
                             if (dept.getLeaderUserId() == null) {
                                 getSelf().approveTask(Long.valueOf(task.getAssignee()), new BpmTaskApproveDto().setId(task.getId())
                                         .setReason(BpmReasonEnum.ASSIGN_START_USER_APPROVE_WHEN_DEPT_LEADER_NOT_FOUND.getReason()));

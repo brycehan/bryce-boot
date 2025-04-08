@@ -59,7 +59,7 @@ public class BpmTaskController {
 
     @GetMapping("todo-page")
     @Operation(summary = "获取 Todo 待办任务分页")
-    @PreAuthorize("@auth.hasAuthority('bpm:task:todo-page')")
+    @PreAuthorize("@auth.hasAuthority('bpm:task:todo-query')")
     public ResponseResult<PageResult<BpmTaskVo>> getTaskTodoPage(@Validated BpmTaskPageDto pageVO) {
         PageResult<Task> pageResult = taskService.getTaskTodoPage(LoginUserContext.currentUserId(), pageVO);
         if (CollUtil.isEmpty(pageResult.getList())) {
@@ -79,7 +79,7 @@ public class BpmTaskController {
 
     @GetMapping("done-page")
     @Operation(summary = "获取 Done 已办任务分页")
-    @PreAuthorize("@auth.hasAuthority('bpm:task:done-page')")
+    @PreAuthorize("@auth.hasAuthority('bpm:task:done-query')")
     public ResponseResult<PageResult<BpmTaskVo>> getTaskDonePage(@Validated BpmTaskPageDto pageVO) {
         PageResult<HistoricTaskInstance> pageResult = taskService.getTaskDonePage(LoginUserContext.currentUserId(), pageVO);
         if (CollUtil.isEmpty(pageResult.getList())) {
@@ -105,7 +105,7 @@ public class BpmTaskController {
      */
     @PostMapping("manager-page")
     @Operation(summary = "获取全部任务的分页", description = "用于【流程任务】菜单")
-    @PreAuthorize("@auth.hasAuthority('bpm:task:manager-page')")
+    @PreAuthorize("@auth.hasAuthority('bpm:task:manager-query')")
     public ResponseResult<PageResult<BpmTaskVo>> getTaskManagerPage(@RequestBody@Validated BpmTaskPageDto pageVO) {
         PageResult<HistoricTaskInstance> pageResult = taskService.getTaskPage(LoginUserContext.currentUserId(), pageVO);
         if (CollUtil.isEmpty(pageResult.getList())) {
@@ -130,7 +130,9 @@ public class BpmTaskController {
     @GetMapping("/list-by-process-instance-id")
     @Operation(summary = "获得指定流程实例的任务列表", description = "包括完成的、未完成的")
     @Parameter(name = "processInstanceId", description = "流程实例的编号", required = true)
-    @PreAuthorize("@auth.hasAuthority('bpm:task:query')")
+    @PreAuthorize(
+            "@auth.hasAnyAuthority('bpm:task:manager-query', 'bpm:process-instance:my-query', 'bpm:process-instance:manager-query', 'bpm:task:todo-query', 'bpm:task:done-query', 'bpm:process-instance:copy-query')"
+    )
     public ResponseResult<List<BpmTaskVo>> getTaskListByProcessInstanceId(String processInstanceId) {
         List<HistoricTaskInstance> taskList = taskService.getTaskListByProcessInstanceId(processInstanceId, true);
         if (CollUtil.isEmpty(taskList)) {
