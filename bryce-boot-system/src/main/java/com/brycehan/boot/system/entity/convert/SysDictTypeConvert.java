@@ -2,6 +2,7 @@ package com.brycehan.boot.system.entity.convert;
 
 import com.brycehan.boot.system.entity.dto.SysDictTypeDto;
 import com.brycehan.boot.system.entity.po.SysDictType;
+import com.brycehan.boot.system.entity.vo.SysDictTypeSimpleVo;
 import com.brycehan.boot.system.entity.vo.SysDictTypeVo;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
@@ -26,4 +27,7 @@ public interface SysDictTypeConvert {
 
     List<SysDictTypeVo> convert(List<SysDictType> sysDictTypeList);
 
+    SysDictTypeSimpleVo convertSimple(SysDictType sysDictType);
+
+    List<SysDictTypeSimpleVo> convertSimple(List<SysDictType> sysDictTypeList);
 }

@@ -31,6 +31,8 @@ public class SysAuthorityServiceImpl implements SysAuthorityService {
     @Override
     public Set<String> findAuthority(SysUser sysUser, boolean findRole) {
 
+        if (sysUser == null) return Set.of();
+
         // 超级管理员，拥有最高权限
         if (sysUser.isSuperAdmin()) {
             sysUser.setRoleSet(Set.of(DataConstants.SUPER_ADMIN_CODE));

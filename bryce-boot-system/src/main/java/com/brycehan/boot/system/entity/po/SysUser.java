@@ -7,6 +7,7 @@ import com.brycehan.boot.common.entity.BaseEntity;
 import com.brycehan.boot.common.entity.vo.RoleVo;
 import com.brycehan.boot.common.enums.GenderType;
 import com.brycehan.boot.common.enums.StatusType;
+import com.brycehan.boot.system.entity.convert.SysUserConvert;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.util.CollectionUtils;
@@ -165,18 +166,7 @@ public class SysUser extends BaseEntity {
     }
 
     public static SysUser of(LoginUser loginUser) {
-        SysUser sysUser = new SysUser();
-        sysUser.setId(loginUser.getId());
-        sysUser.setUsername(loginUser.getUsername());
-        sysUser.setNickname(loginUser.getNickname());
-        sysUser.setAvatar(loginUser.getAvatar());
-        sysUser.setGender(loginUser.getGender());
-        sysUser.setPhone(loginUser.getPhone());
-        sysUser.setEmail(loginUser.getEmail());
-        sysUser.setStatus(loginUser.getStatus());
-        sysUser.setRoles(loginUser.getRoles());
-        sysUser.setAuthoritySet(loginUser.getAuthoritySet());
-        return sysUser;
+        return SysUserConvert.INSTANCE.convertSysUser(loginUser);
     }
 
     public static SysUser of(Long userId) {

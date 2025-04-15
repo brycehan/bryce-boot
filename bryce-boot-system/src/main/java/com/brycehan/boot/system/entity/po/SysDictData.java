@@ -39,6 +39,8 @@ public class SysDictData extends BaseEntity {
 
     /**
      * 标签属性
+     * <br>
+     * default、primary、success、info、warning、danger
      */
     private String labelClass;
 

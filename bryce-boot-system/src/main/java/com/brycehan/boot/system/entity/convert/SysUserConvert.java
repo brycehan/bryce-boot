@@ -43,4 +43,5 @@ public interface SysUserConvert {
 
     SysUser convert(SysUserExcelDto sysUserExcelDto);
 
+    SysUser convertSysUser(LoginUser loginUser);
 }

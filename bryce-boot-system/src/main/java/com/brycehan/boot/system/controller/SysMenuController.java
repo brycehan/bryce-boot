@@ -1,5 +1,6 @@
 package com.brycehan.boot.system.controller;
 
+import com.brycehan.boot.common.base.LoginUser;
 import com.brycehan.boot.common.base.LoginUserContext;
 import com.brycehan.boot.common.base.response.ResponseResult;
 import com.brycehan.boot.common.base.response.SystemResponseStatus;
@@ -14,9 +15,8 @@ import com.brycehan.boot.system.entity.dto.SysMenuAuthorityDto;
 import com.brycehan.boot.system.entity.dto.SysMenuDto;
 import com.brycehan.boot.system.entity.dto.SysMenuPageDto;
 import com.brycehan.boot.system.entity.po.SysMenu;
-import com.brycehan.boot.system.entity.po.SysUser;
 import com.brycehan.boot.system.entity.vo.SysMenuVo;
-import com.brycehan.boot.system.service.SysAuthorityService;
+import com.brycehan.boot.system.entity.vo.SysUserPermissionVo;
 import com.brycehan.boot.system.service.SysMenuService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -28,7 +28,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 
 /**
@@ -44,7 +43,6 @@ import java.util.Set;
 public class SysMenuController {
 
     private final SysMenuService sysMenuService;
-    private final SysAuthorityService sysAuthorityService;
 
     /**
      * 保存系统菜单
@@ -144,10 +142,13 @@ public class SysMenuController {
      * @return 响应结果
      */
     @Operation(summary = "获取用户权限标识", description = "用户权限标识集合")
-    @GetMapping(path = "/authority")
-    public ResponseResult<Set<String>> authority() {
-        Set<String> authoritySet = sysAuthorityService.findAuthority(SysUser.of(Objects.requireNonNull(LoginUserContext.currentUser())), false);
-        return ResponseResult.ok(authoritySet);
+    @GetMapping(path = "/permission")
+    public ResponseResult<SysUserPermissionVo> authority() {
+        LoginUser loginUser = LoginUserContext.currentUser();
+        SysUserPermissionVo sysUserPermissionVo = new SysUserPermissionVo();
+        sysUserPermissionVo.setRoleSet(Objects.requireNonNull(loginUser).getRoleSet());
+        sysUserPermissionVo.setAuthoritySet(loginUser.getAuthoritySet());
+        return ResponseResult.ok(sysUserPermissionVo);
     }
 
     /**

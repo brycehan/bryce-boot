@@ -99,7 +99,7 @@ public interface BpmProcessInstanceConvert {
         return bpmProcessInstanceVo;
     }
 
-    @Mapping(source = "from.id", target = "to.id", ignore = true)
+    @Mapping(target = "to.id", source = "from.id", ignore = true)
     void copyTo(BpmProcessDefinitionInfo from, @MappingTarget BpmProcessDefinitionVo to);
 
     default BpmProcessInstanceStatusEvent buildProcessInstanceStatusEvent(Object source, ProcessInstance instance, Integer status) {

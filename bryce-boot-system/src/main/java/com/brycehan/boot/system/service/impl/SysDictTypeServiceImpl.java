@@ -5,27 +5,23 @@ import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.brycehan.boot.common.base.IdGenerator;
 import com.brycehan.boot.common.entity.PageResult;
+import com.brycehan.boot.common.enums.StatusType;
 import com.brycehan.boot.common.util.excel.ExcelUtils;
 import com.brycehan.boot.framework.mybatis.service.impl.BaseServiceImpl;
 import com.brycehan.boot.system.entity.convert.SysDictTypeConvert;
 import com.brycehan.boot.system.entity.dto.SysDictTypeCodeDto;
 import com.brycehan.boot.system.entity.dto.SysDictTypeDto;
 import com.brycehan.boot.system.entity.dto.SysDictTypePageDto;
-import com.brycehan.boot.system.entity.po.SysDictData;
 import com.brycehan.boot.system.entity.po.SysDictType;
+import com.brycehan.boot.system.entity.vo.SysDictTypeSimpleVo;
 import com.brycehan.boot.system.entity.vo.SysDictTypeVo;
-import com.brycehan.boot.system.entity.vo.SysDictVo;
 import com.brycehan.boot.system.mapper.SysDictTypeMapper;
-import com.brycehan.boot.system.service.SysDictDataService;
 import com.brycehan.boot.system.service.SysDictTypeService;
-import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -33,14 +29,11 @@ import java.util.Objects;
 /**
  * 系统字典类型服务实现类
  *
- * @since 2023/09/05
  * @author Bryce Han
+ * @since 2023/09/05
  */
 @Service
-@RequiredArgsConstructor
 public class SysDictTypeServiceImpl extends BaseServiceImpl<SysDictTypeMapper, SysDictType> implements SysDictTypeService {
-
-    private final SysDictDataService sysDictDataService;
 
     /**
      * 添加系统字典类型
@@ -94,28 +87,12 @@ public class SysDictTypeServiceImpl extends BaseServiceImpl<SysDictTypeMapper, S
     }
 
     @Override
-    public List<SysDictVo> dictList() {
-        // 全部字典类型列表
-        List<SysDictType> typeList = baseMapper.selectList(Wrappers.emptyWrapper());
-        // 全部字典数据列表
-        List<SysDictData> dataList = sysDictDataService.list(new LambdaQueryWrapper<SysDictData>()
-                .orderByAsc(SysDictData::getSort));
-
-        // 全部字典列表
-        List<SysDictVo> dictVoList = new ArrayList<>(typeList.size());
-        for (SysDictType sysDictType : typeList) {
-            SysDictVo sysDictVo = new SysDictVo();
-            sysDictVo.setDictType(sysDictType.getDictType());
-
-            List<SysDictVo.DictData> list = dataList.stream()
-                    .filter(data -> sysDictType.getId().equals(data.getDictTypeId()))
-                    .map(data -> new SysDictVo.DictData(data.getDictLabel(), data.getDictValue(), data.getLabelClass()))
-                    .toList();
-
-            sysDictVo.getDatalist().addAll(list);
-            dictVoList.add(sysDictVo);
-        }
-        return dictVoList;
+    public List<SysDictTypeSimpleVo> getSimpleList() {
+        LambdaQueryWrapper<SysDictType> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.select(SysDictType::getId, SysDictType::getDictType, SysDictType::getDictName);
+        queryWrapper.eq(SysDictType::getStatus, StatusType.ENABLE);
+        List<SysDictType> sysDictTypeList = baseMapper.selectList(queryWrapper);
+        return SysDictTypeConvert.INSTANCE.convertSimple(sysDictTypeList);
     }
 
     @Override

@@ -110,6 +110,6 @@ public interface BpmProcessDefinitionConvert {
         return respVO;
     }
 
-    @Mapping(source = "from.id", target = "to.id", ignore = true)
+    @Mapping(target = "to.id", source = "from.id", ignore = true)
     void copyTo(BpmProcessDefinitionInfo from, @MappingTarget BpmProcessDefinitionVo to);
 }

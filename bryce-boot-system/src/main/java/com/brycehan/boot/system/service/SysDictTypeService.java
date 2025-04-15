@@ -6,8 +6,8 @@ import com.brycehan.boot.system.entity.dto.SysDictTypeCodeDto;
 import com.brycehan.boot.system.entity.dto.SysDictTypeDto;
 import com.brycehan.boot.system.entity.dto.SysDictTypePageDto;
 import com.brycehan.boot.system.entity.po.SysDictType;
+import com.brycehan.boot.system.entity.vo.SysDictTypeSimpleVo;
 import com.brycehan.boot.system.entity.vo.SysDictTypeVo;
-import com.brycehan.boot.system.entity.vo.SysDictVo;
 
 import java.util.List;
 
@@ -49,11 +49,11 @@ public interface SysDictTypeService extends BaseService<SysDictType> {
     void export(SysDictTypePageDto sysDictTypePageDto);
 
     /**
-     * 获取全部字典列表数据
+     * 获得全部字典类型列表
      *
-     * @return 字典列表数据
+     * @return 字典类型精简信息列表
      */
-    List<SysDictVo> dictList();
+    List<SysDictTypeSimpleVo> getSimpleList();
 
     /**
      * 校验字典类型编码是否唯一

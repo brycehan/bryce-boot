@@ -277,8 +277,8 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
         }
         // 获得角色信息
         LambdaQueryWrapper<SysRole> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.select(SysRole::getId)
-                .eq(SysRole::getId, roleIds)
+        queryWrapper.select(SysRole::getId, SysRole::getStatus)
+                .in(SysRole::getId, roleIds)
                 .eq(SysRole::getStatus, StatusType.ENABLE);
 
         List<SysRole> roles = baseMapper.selectList(queryWrapper);

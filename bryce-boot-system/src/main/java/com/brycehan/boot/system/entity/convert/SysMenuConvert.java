@@ -1,11 +1,9 @@
 package com.brycehan.boot.system.entity.convert;
 
-import com.brycehan.boot.common.entity.vo.MenuVo;
 import com.brycehan.boot.system.entity.dto.SysMenuDto;
 import com.brycehan.boot.system.entity.po.SysMenu;
 import com.brycehan.boot.system.entity.vo.SysMenuVo;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
@@ -28,6 +26,4 @@ public interface SysMenuConvert {
 
     List<SysMenuVo> convert(List<SysMenu> sysMenuList);
 
-    @Mapping(source = "name", target = "name")
-    List<MenuVo> convertMenu(List<SysMenuVo> sysMenuVoList);
 }

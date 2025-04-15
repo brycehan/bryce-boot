@@ -12,8 +12,8 @@ import com.brycehan.boot.system.entity.dto.SysDictTypeCodeDto;
 import com.brycehan.boot.system.entity.dto.SysDictTypeDto;
 import com.brycehan.boot.system.entity.dto.SysDictTypePageDto;
 import com.brycehan.boot.system.entity.po.SysDictType;
+import com.brycehan.boot.system.entity.vo.SysDictTypeSimpleVo;
 import com.brycehan.boot.system.entity.vo.SysDictTypeVo;
-import com.brycehan.boot.system.entity.vo.SysDictVo;
 import com.brycehan.boot.system.service.SysDictTypeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -32,7 +32,7 @@ import java.util.List;
  * @author Bryce Han
  */
 @Tag(name = "系统字典类型")
-@RequestMapping("/system/dictType")
+@RequestMapping("/system/dict-type")
 @RestController
 @RequiredArgsConstructor
 public class SysDictTypeController {
@@ -47,7 +47,7 @@ public class SysDictTypeController {
      */
     @Operation(summary = "保存系统字典类型")
     @OperateLog(type = OperatedType.INSERT)
-    @PreAuthorize("@auth.hasAuthority('system:dictType:save')")
+    @PreAuthorize("@auth.hasAuthority('system:dict-type:save')")
     @PostMapping
     public ResponseResult<Void> save(@Validated(value = SaveGroup.class) @RequestBody SysDictTypeDto sysDictTypeDto) {
         sysDictTypeService.save(sysDictTypeDto);
@@ -62,7 +62,7 @@ public class SysDictTypeController {
      */
     @Operation(summary = "更新系统字典类型")
     @OperateLog(type = OperatedType.UPDATE)
-    @PreAuthorize("@auth.hasAuthority('system:dictType:update')")
+    @PreAuthorize("@auth.hasAuthority('system:dict-type:update')")
     @PutMapping
     public ResponseResult<Void> update(@Validated(value = UpdateGroup.class) @RequestBody SysDictTypeDto sysDictTypeDto) {
         sysDictTypeService.update(sysDictTypeDto);
@@ -77,7 +77,7 @@ public class SysDictTypeController {
      */
     @Operation(summary = "删除系统字典类型")
     @OperateLog(type = OperatedType.DELETE)
-    @PreAuthorize("@auth.hasAuthority('system:dictType:delete')")
+    @PreAuthorize("@auth.hasAuthority('system:dict-type:delete')")
     @DeleteMapping
     public ResponseResult<Void> delete(@Validated @RequestBody IdsDto idsDto) {
         sysDictTypeService.delete(idsDto);
@@ -91,7 +91,7 @@ public class SysDictTypeController {
      * @return 响应结果
      */
     @Operation(summary = "查询系统字典类型详情")
-    @PreAuthorize("@auth.hasAuthority('system:dictType:query')")
+    @PreAuthorize("@auth.hasAuthority('system:dict-type:query')")
     @GetMapping(path = "/{id}")
     public ResponseResult<SysDictTypeVo> get(@Parameter(description = "系统字典类型ID", required = true) @PathVariable Long id) {
         SysDictType sysDictType = sysDictTypeService.getById(id);
@@ -105,7 +105,7 @@ public class SysDictTypeController {
      * @return 系统字典类型分页列表
      */
     @Operation(summary = "系统字典类型分页查询")
-    @PreAuthorize("@auth.hasAuthority('system:dictType:query')")
+    @PreAuthorize("@auth.hasAuthority('system:dict-type:query')")
     @PostMapping(path = "/page")
     public ResponseResult<PageResult<SysDictTypeVo>> page(@Validated @RequestBody SysDictTypePageDto sysDictTypePageDto) {
         PageResult<SysDictTypeVo> page = sysDictTypeService.page(sysDictTypePageDto);
@@ -118,22 +118,22 @@ public class SysDictTypeController {
      * @param sysDictTypePageDto 查询条件
      */
     @Operation(summary = "系统字典类型导出")
-    @PreAuthorize("@auth.hasAuthority('system:dictType:export')")
+    @PreAuthorize("@auth.hasAuthority('system:dict-type:export')")
     @PostMapping(path = "/export")
     public void export(@Validated @RequestBody SysDictTypePageDto sysDictTypePageDto) {
         sysDictTypeService.export(sysDictTypePageDto);
     }
 
     /**
-     * 全部字典数据
+     * 获得全部字典类型列表
      *
-     * @return 全部字典数据列表
+     * @return 字典类型列表
      */
-    @Operation(summary = "全部字典数据")
-    @GetMapping(path = "/dictList")
-    public ResponseResult<List<SysDictVo>> dictList() {
-        List<SysDictVo> dictVoList = sysDictTypeService.dictList();
-        return ResponseResult.ok(dictVoList);
+    @GetMapping(path =  "/simple-list")
+    @Operation(summary = "获得全部字典类型列表", description = "包括开启的字典类型，主要用于前端的下拉选项")
+    public ResponseResult<List<SysDictTypeSimpleVo>> getSimpleList() {
+        List<SysDictTypeSimpleVo> list = sysDictTypeService.getSimpleList();
+        return ResponseResult.ok(list);
     }
 
     /**

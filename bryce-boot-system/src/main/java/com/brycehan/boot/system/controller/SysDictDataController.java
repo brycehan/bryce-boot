@@ -5,12 +5,14 @@ import com.brycehan.boot.common.base.validator.SaveGroup;
 import com.brycehan.boot.common.base.validator.UpdateGroup;
 import com.brycehan.boot.common.entity.PageResult;
 import com.brycehan.boot.common.entity.dto.IdsDto;
+import com.brycehan.boot.common.enums.StatusType;
 import com.brycehan.boot.framework.operatelog.annotation.OperateLog;
 import com.brycehan.boot.framework.operatelog.annotation.OperatedType;
 import com.brycehan.boot.system.entity.convert.SysDictDataConvert;
 import com.brycehan.boot.system.entity.dto.SysDictDataDto;
 import com.brycehan.boot.system.entity.dto.SysDictDataPageDto;
 import com.brycehan.boot.system.entity.po.SysDictData;
+import com.brycehan.boot.system.entity.vo.SysDictDataSimpleVo;
 import com.brycehan.boot.system.entity.vo.SysDictDataVo;
 import com.brycehan.boot.system.service.SysDictDataService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -21,11 +23,14 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * 系统字典数据API
  *
- * @since 2023/09/08
  * @author Bryce Han
+ * @since 2023/09/08
  */
 @Tag(name = "系统字典数据")
 @RequestMapping("/system/dictData")
@@ -106,6 +111,18 @@ public class SysDictDataController {
     public ResponseResult<PageResult<SysDictDataVo>> page(@Validated @RequestBody SysDictDataPageDto sysDictDataPageDto) {
         PageResult<SysDictDataVo> page = sysDictDataService.page(sysDictDataPageDto);
         return ResponseResult.ok(page);
+    }
+
+    /**
+     * 全部字典数据
+     *
+     * @return 全部字典数据列表
+     */
+    @Operation(summary = "全部字典数据")
+    @GetMapping(path = "/dictMap")
+    public ResponseResult<Map<String, List<SysDictDataSimpleVo>>> dictMap() {
+        Map<String, List<SysDictDataSimpleVo>> dictMap = sysDictDataService.dictMap(StatusType.ENABLE);
+        return ResponseResult.ok(dictMap);
     }
 
 }
