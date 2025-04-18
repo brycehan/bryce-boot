@@ -30,6 +30,12 @@ public interface SysUserMapper extends BryceBaseMapper<SysUser> {
         return selectOne(new LambdaQueryWrapper<SysUser>().eq(SysUser::getEmail, email), false);
     }
 
+    /**
+     * 用户列表
+     *
+     * @param params 查询参数
+     * @return 用户列表
+     */
     @SelectProvider(type = SelectSqlProvider.class, method = "list")
     List<SysUser> list(Map<String, Object> params);
 
@@ -39,7 +45,7 @@ public interface SysUserMapper extends BryceBaseMapper<SysUser> {
     class SelectSqlProvider {
 
         /**
-         * 部门列表
+         * 用户列表
          *
          * @return SQL
          */

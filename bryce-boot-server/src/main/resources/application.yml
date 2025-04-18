@@ -38,8 +38,6 @@ knife4j:
 
 # mybatis plus 配置
 mybatis-plus:
-  # 实体包名别名
-  type-aliases-package: com.brycehan.boot.*.entity.po
   # 原生配置
   configuration:
     # 是否开启下划线和驼峰命名的映射

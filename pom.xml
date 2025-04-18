@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.3.6</version>
+        <version>3.3.10</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.brycehan.boot</groupId>
@@ -19,7 +19,7 @@
     <properties>
         <revision>0.0.1-SNAPSHOT</revision>
         <!-- Java 版本 -->
-        <java.version>17</java.version>
+        <java.version>21</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -341,13 +341,6 @@
     <build>
         <!-- 资源 -->
         <resources>
-            <!-- 编译时包含 Mybatis XML文件 -->
-            <resource>
-                <directory>src/main/java</directory>
-                <includes>
-                    <include>**/*Mapper.xml</include>
-                </includes>
-            </resource>
             <!-- 编译时包含 resources 文件夹下资源 -->
             <resource>
                 <directory>src/main/resources</directory>

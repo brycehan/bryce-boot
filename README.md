@@ -1,4 +1,4 @@
-## Bryce Boot
+## 🔥 Bryce Boot
 
 本项目是一个基于 Vue/Element Plus 和 Spring Boot 前后端分离的架构。
 
@@ -7,7 +7,7 @@
 * 开发平台后端工程（微服务）：[https://github.com/brycehan/bryce-cloud](https://github.com/brycehan/bryce-cloud)
 * 超好用的代码生成器：[https://github.com/brycehan/bryce-generator](https://github.com/brycehan/bryce-generator)
 
-## 平台简介
+## 🍟 平台简介
 
 布莱斯是一套全部开源的快速开发平台，毫无保留给个人及企业免费使用。
 
@@ -18,7 +18,19 @@
 * 高效率开发，使用代码生成器可以一键生成前后端代码。
 * 微服务版本，请移步[bryce-cloud](https://github.com/brycehan/bryce-cloud)。
 
-## 系统模块
+## 📌 版本说明
+
+| 核心库                  | 当前版本                                                                               |
+|----------------------|------------------------------------------------------------------------------------|
+| JDK                  | ![Static Badge](https://img.shields.io/badge/JDK-21-blue)                          |
+| Spring Boot          | ![Static Badge](https://img.shields.io/badge/Spring_Boot-3.3.10-blue)              |
+| Spring Cloud         | ![Static Badge](https://img.shields.io/badge/Spring_Cloud-2023.0.3-blue)           |
+| Spring Cloud Alibaba | ![Static Badge](https://img.shields.io/badge/Spring_Cloud_Alibaba-2023.0.1.2-blue) |
+| Mybatis Plus         | ![Static Badge](https://img.shields.io/badge/Mybatis_Plus-3.5.9-blue)              |
+| Node.js              | ![Static Badge](https://img.shields.io/badge/Node.js-22.0-blue)                    |
+| Vue.js               | ![Static Badge](https://img.shields.io/badge/Vue.js-3.5.13-blue)                   |
+
+## 🎨 文件结构
 
 ~~~
 bryce-boot
@@ -42,7 +54,7 @@ bryce-boot
 ├── pom.xml                 // 公共依赖
 ~~~
 
-## 内置功能
+## 🌭 内置功能
 
 1.  用户管理：用户是系统操作者，该功能主要完成系统用户配置。
 2.  部门管理：配置系统组织部门（公司、部门、小组），树结构展现支持数据权限。
@@ -61,7 +73,7 @@ bryce-boot
 15.  服务监控：监视当前系统CPU、内存、磁盘、堆栈等相关信息。
 16.  缓存监控：对系统的缓存信息查询，命令统计等。
 
-## 演示图
+## 😎 演示图
 
 | ![bryce-cloud登录](images/1.png)    | ![bryce-cloud首页](images/2.png)      |
 |-----------------------------------|-------------------------------------|
