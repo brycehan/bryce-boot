@@ -65,7 +65,7 @@ public class BpmProcessExpressionServiceImpl extends BaseServiceImpl<BpmProcessE
     @Override
     public PageResult<BpmProcessExpressionVo> page(BpmProcessExpressionPageDto bpmProcessExpressionPageDto) {
         IPage<BpmProcessExpression> page = baseMapper.selectPage(bpmProcessExpressionPageDto.toPage(), getWrapper(bpmProcessExpressionPageDto));
-        return new PageResult<>(page.getTotal(), BpmProcessExpressionConvert.INSTANCE.convert(page.getRecords()));
+        return PageResult.of(BpmProcessExpressionConvert.INSTANCE.convert(page.getRecords()), page.getTotal());
     }
 
     /**

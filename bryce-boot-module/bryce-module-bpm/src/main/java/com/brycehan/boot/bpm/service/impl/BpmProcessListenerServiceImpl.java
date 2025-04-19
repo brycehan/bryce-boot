@@ -118,7 +118,7 @@ public class BpmProcessListenerServiceImpl extends BaseServiceImpl<BpmProcessLis
     @Override
     public PageResult<BpmProcessListenerVo> page(BpmProcessListenerPageDto bpmProcessListenerPageDto) {
         IPage<BpmProcessListener> page = baseMapper.selectPage(bpmProcessListenerPageDto.toPage(), getWrapper(bpmProcessListenerPageDto));
-        return new PageResult<>(page.getTotal(), BpmProcessListenerConvert.INSTANCE.convert(page.getRecords()));
+        return PageResult.of(BpmProcessListenerConvert.INSTANCE.convert(page.getRecords()), page.getTotal());
     }
 
     /**

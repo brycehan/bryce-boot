@@ -40,7 +40,7 @@ public class BpmProcessDefinitionInfoServiceImpl extends BaseServiceImpl<BpmProc
     @Override
     public PageResult<BpmProcessDefinitionInfoVo> page(BpmProcessDefinitionInfoPageDto bpmProcessDefinitionInfoPageDto) {
         IPage<BpmProcessDefinitionInfo> page = baseMapper.selectPage(bpmProcessDefinitionInfoPageDto.toPage(), getWrapper(bpmProcessDefinitionInfoPageDto));
-        return new PageResult<>(page.getTotal(), BpmProcessDefinitionInfoConvert.INSTANCE.convert(page.getRecords()));
+        return PageResult.of(BpmProcessDefinitionInfoConvert.INSTANCE.convert(page.getRecords()), page.getTotal());
     }
 
     /**

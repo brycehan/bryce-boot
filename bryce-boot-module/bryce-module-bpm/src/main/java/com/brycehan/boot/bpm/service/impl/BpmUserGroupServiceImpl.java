@@ -66,7 +66,7 @@ public class BpmUserGroupServiceImpl extends BaseServiceImpl<BpmUserGroupMapper,
     @Override
     public PageResult<BpmUserGroupVo> page(BpmUserGroupPageDto bpmUserGroupPageDto) {
         IPage<BpmUserGroup> page = baseMapper.selectPage(bpmUserGroupPageDto.toPage(), getWrapper(bpmUserGroupPageDto));
-        return new PageResult<>(page.getTotal(), BpmUserGroupConvert.INSTANCE.convert(page.getRecords()));
+        return PageResult.of(BpmUserGroupConvert.INSTANCE.convert(page.getRecords()), page.getTotal());
     }
 
     /**

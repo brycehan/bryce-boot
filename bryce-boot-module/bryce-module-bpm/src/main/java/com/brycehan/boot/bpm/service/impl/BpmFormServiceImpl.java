@@ -63,7 +63,7 @@ public class BpmFormServiceImpl extends BaseServiceImpl<BpmFormMapper, BpmForm> 
     @Override
     public PageResult<BpmFormVo> page(BpmFormPageDto bpmFormPageDto) {
         IPage<BpmForm> page = baseMapper.selectPage(bpmFormPageDto.toPage(), getWrapper(bpmFormPageDto));
-        return new PageResult<>(page.getTotal(), BpmFormConvert.INSTANCE.convert(page.getRecords()));
+        return PageResult.of(BpmFormConvert.INSTANCE.convert(page.getRecords()), page.getTotal());
     }
 
     @Override

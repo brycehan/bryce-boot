@@ -115,7 +115,7 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
     @Override
     public PageResult<SysRoleVo> page(SysRolePageDto sysRolePageDto) {
         IPage<SysRole> page = baseMapper.selectPage(sysRolePageDto.toPage(), getWrapper(sysRolePageDto));
-        return new PageResult<>(page.getTotal(), SysRoleConvert.INSTANCE.convert(page.getRecords()));
+        return PageResult.of(SysRoleConvert.INSTANCE.convert(page.getRecords()), page.getTotal());
     }
 
     /**
@@ -209,7 +209,7 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
         queryWrapper.ne(SysRole::getId, DataConstants.ROLE_SUPER_ADMIN_ID);
 
         if (CollUtil.isEmpty(roleIds) && sysAssignRolePageDto.getAssigned() == YesNoType.YES) {
-            return new PageResult<>(0, new ArrayList<>(0));
+            return PageResult.empty();
         }
 
         // 已分配/未分配 条件过滤
@@ -223,7 +223,7 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole> 
 
         // 分页查询
         IPage<SysRole> page = page(sysAssignRolePageDto.toPage(), queryWrapper);
-        return new PageResult<>(page.getTotal(), SysRoleConvert.INSTANCE.convert(page.getRecords()));
+        return PageResult.of(SysRoleConvert.INSTANCE.convert(page.getRecords()), page.getTotal());
     }
 
     @Override

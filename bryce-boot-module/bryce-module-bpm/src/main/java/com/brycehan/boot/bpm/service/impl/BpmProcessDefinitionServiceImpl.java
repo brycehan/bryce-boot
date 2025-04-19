@@ -205,7 +205,8 @@ public class BpmProcessDefinitionServiceImpl implements BpmProcessDefinitionServ
         // 获取表单信息
         Map<Long, String> formNameMap = bpmFormService.getFormNameMap(processDefinitionInfoMap.values().stream().map(BpmProcessDefinitionInfo::getFormId).toList());
 
-        return PageResult.of(count, BpmProcessDefinitionConvert.INSTANCE.convert(processDefinitions, categoryNameMap, processDefinitionInfoMap, formNameMap, deploymentMap));
+        List<BpmProcessDefinitionVo> list = BpmProcessDefinitionConvert.INSTANCE.convert(processDefinitions, categoryNameMap, processDefinitionInfoMap, formNameMap, deploymentMap);
+        return PageResult.of(list, count);
     }
 
     @Override

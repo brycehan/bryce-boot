@@ -291,7 +291,7 @@ public class BpmProcessInstanceServiceImpl implements BpmProcessInstanceService 
         }
         // 2.2 查询列表
         List<HistoricProcessInstance> processInstanceList = processInstanceQuery.listPage(pageDto.getOffset(), pageDto.getSize());
-        return new PageResult<>(processInstanceCount, processInstanceList);
+        return PageResult.of(processInstanceList, processInstanceCount);
     }
 
     private Map<String, String> getFormFieldsPermission(BpmnModel bpmnModel,
@@ -818,8 +818,9 @@ public class BpmProcessInstanceServiceImpl implements BpmProcessInstanceService 
         Map<Long, BpmDeptVo> deptMap = bpmDeptApi.getDeptMap(deptIds);
 
         Map<String, BpmProcessDefinitionInfo> processDefinitionInfoMap = bpmProcessDefinitionInfoService.getProcessDefinitionInfoMap(processDefinitionIds);
-        return PageResult.of(processInstancePage.getTotal(), BpmProcessInstanceConvert.INSTANCE.buildProcessInstances(historicProcessInstances,
-                processDefinitionMap, categoryNameMap, taskMap, userMap, deptMap, processDefinitionInfoMap));
+        List<BpmProcessInstanceVo> bpmProcessInstanceVoList = BpmProcessInstanceConvert.INSTANCE.buildProcessInstances(historicProcessInstances,
+                processDefinitionMap, categoryNameMap, taskMap, userMap, deptMap, processDefinitionInfoMap);
+        return PageResult.of(bpmProcessInstanceVoList, processInstancePage.getTotal());
     }
 
     @Override
@@ -842,7 +843,8 @@ public class BpmProcessInstanceServiceImpl implements BpmProcessInstanceService 
         Map<Long, String> categoryNameMap = bpmCategoryService.getCategoryNameMap(categoryIds);
 
         Map<String, BpmProcessDefinitionInfo> processDefinitionInfoMap = bpmProcessDefinitionInfoService.getProcessDefinitionInfoMap(processDefinitionIds);
-        return PageResult.of(processInstancePage.getTotal(), BpmProcessInstanceConvert.INSTANCE.buildProcessInstances(historicProcessInstances,
-                processDefinitionMap, categoryNameMap, taskMap, null, null, processDefinitionInfoMap));
+        List<BpmProcessInstanceVo> bpmProcessInstanceVoList = BpmProcessInstanceConvert.INSTANCE.buildProcessInstances(historicProcessInstances,
+                processDefinitionMap, categoryNameMap, taskMap, null, null, processDefinitionInfoMap);
+        return PageResult.of(bpmProcessInstanceVoList, processInstancePage.getTotal());
     }
 }

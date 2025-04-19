@@ -218,7 +218,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         Map<Long, String> deptNames = sysDeptService.getDeptNamesByIds(list.stream().map(SysUser::getDeptId).toList());
         sysUserVoList.forEach(sysUserVo -> sysUserVo.setDeptName(deptNames.get(sysUserVo.getDeptId())));
 
-        return new PageResult<>(page.getTotal(), sysUserVoList);
+        return PageResult.of(sysUserVoList, page.getTotal());
     }
 
     @Override
@@ -564,7 +564,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
         queryWrapper.select(SysUser::getId, SysUser::getUsername, SysUser::getNickname, SysUser::getPhone, SysUser::getStatus, SysUser::getCreatedTime);
 
         if (CollUtil.isEmpty(userIds) && sysAssignUserPageDto.getAssigned() == YesNoType.YES) {
-            return new PageResult<>(0, new ArrayList<>(0));
+            return PageResult.empty();
         }
 
         // 已分配/未分配 条件过滤
@@ -579,7 +579,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
 
         // 分页查询
         IPage<SysUser> page = page(sysAssignUserPageDto.toPage(), queryWrapper);
-        return new PageResult<>(page.getTotal(), SysUserConvert.INSTANCE.convert(page.getRecords()));
+        return PageResult.of(SysUserConvert.INSTANCE.convert(page.getRecords()), page.getTotal());
     }
 
     @Override

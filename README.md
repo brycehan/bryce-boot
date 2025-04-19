@@ -7,7 +7,7 @@
 * 开发平台后端工程（微服务）：[https://github.com/brycehan/bryce-cloud](https://github.com/brycehan/bryce-cloud)
 * 超好用的代码生成器：[https://github.com/brycehan/bryce-generator](https://github.com/brycehan/bryce-generator)
 
-## 🍟 平台简介
+## 🐳 平台简介
 
 布莱斯是一套全部开源的快速开发平台，毫无保留给个人及企业免费使用。
 

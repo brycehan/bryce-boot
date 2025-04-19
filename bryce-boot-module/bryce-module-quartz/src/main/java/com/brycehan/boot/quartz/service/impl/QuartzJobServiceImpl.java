@@ -94,7 +94,7 @@ public class QuartzJobServiceImpl extends BaseServiceImpl<QuartzJobMapper, Quart
     @Override
     public PageResult<QuartzJobVo> page(QuartzJobPageDto quartzJobPageDto) {
         IPage<QuartzJob> page = baseMapper.selectPage(quartzJobPageDto.toPage(), getWrapper(quartzJobPageDto));
-        return new PageResult<>(page.getTotal(), QuartzJobConvert.INSTANCE.convert(page.getRecords()));
+        return PageResult.of(QuartzJobConvert.INSTANCE.convert(page.getRecords()), page.getTotal());
     }
 
     /**

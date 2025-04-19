@@ -60,7 +60,7 @@ public class BpmCategoryServiceImpl extends BaseServiceImpl<BpmCategoryMapper, B
     @Override
     public PageResult<BpmCategoryVo> page(BpmCategoryPageDto bpmCategoryPageDto) {
         IPage<BpmCategory> page = baseMapper.selectPage(bpmCategoryPageDto.toPage(), getWrapper(bpmCategoryPageDto));
-        return new PageResult<>(page.getTotal(), BpmCategoryConvert.INSTANCE.convert(page.getRecords()));
+        return PageResult.of(BpmCategoryConvert.INSTANCE.convert(page.getRecords()), page.getTotal());
     }
 
     @Override

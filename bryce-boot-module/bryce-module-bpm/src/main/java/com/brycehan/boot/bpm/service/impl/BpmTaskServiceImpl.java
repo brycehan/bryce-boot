@@ -115,7 +115,7 @@ public class BpmTaskServiceImpl implements BpmTaskService {
             return PageResult.empty();
         }
         List<Task> tasks = taskQuery.listPage(bpmTaskPageDto.getOffset(), bpmTaskPageDto.getSize());
-        return new PageResult<>(count, tasks);
+        return PageResult.of(tasks, count);
     }
 
     @Override
@@ -184,7 +184,7 @@ public class BpmTaskServiceImpl implements BpmTaskService {
             return PageResult.empty();
         }
         List<HistoricTaskInstance> tasks = taskQuery.listPage(bpmTaskPageDto.getOffset(), bpmTaskPageDto.getSize());
-        return new PageResult<>(count, tasks);
+        return PageResult.of(tasks, count);
     }
 
     @Override
@@ -209,7 +209,7 @@ public class BpmTaskServiceImpl implements BpmTaskService {
             return PageResult.empty();
         }
         List<HistoricTaskInstance> tasks = taskQuery.listPage(bpmTaskPageDto.getOffset(), bpmTaskPageDto.getSize());
-        return new PageResult<>(count, tasks);
+        return PageResult.of(tasks, count);
     }
 
     @Override

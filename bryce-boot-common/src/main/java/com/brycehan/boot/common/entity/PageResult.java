@@ -6,6 +6,7 @@ import lombok.Data;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -22,7 +23,13 @@ public class PageResult<T> implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    private static final PageResult<?> EMPTY = new PageResult<>(0, List.of());
+    private static final PageResult<?> EMPTY = new PageResult<>(Collections.emptyList(), 0);
+
+    /**
+     * 列表数据
+     */
+    @Schema(description = "列表数据")
+    private List<T> list;
 
     /**
      * 总条数
@@ -30,11 +37,6 @@ public class PageResult<T> implements Serializable {
     @Schema(description = "总条数")
     private long total;
 
-    /**
-     * 列表数据
-     */
-    @Schema(description = "列表数据")
-    private List<T> list;
 
     @SuppressWarnings("unchecked")
     public static <T> PageResult<T> empty() {
@@ -47,10 +49,10 @@ public class PageResult<T> implements Serializable {
      * @param total 总条数
      * @param list  列表数据
      */
-    public static <T> PageResult<T> of(long total, List<T> list) {
+    public static <T> PageResult<T> of(List<T> list, long total) {
         if (total == 0) {
             return empty();
         }
-        return new PageResult<>(total, list);
+        return new PageResult<>(list, total);
     }
 }

@@ -48,7 +48,7 @@ public class SysAreaCodeServiceImpl extends BaseServiceImpl<SysAreaCodeMapper, S
     @Override
     public PageResult<SysAreaCodeVo> page(SysAreaCodePageDto sysAreaCodePageDto) {
         IPage<SysAreaCode> page = baseMapper.selectPage(sysAreaCodePageDto.toPage(), getWrapper(sysAreaCodePageDto));
-        return new PageResult<>(page.getTotal(), SysAreaCodeConvert.INSTANCE.convert(page.getRecords()));
+        return PageResult.of(SysAreaCodeConvert.INSTANCE.convert(page.getRecords()), page.getTotal());
     }
 
     /**

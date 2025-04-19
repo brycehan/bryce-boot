@@ -38,7 +38,7 @@ public class UserOnlineServiceImpl implements UserOnlineService {
         Set<String> keys = redisTemplate.keys(patternKeys);
 
         if (keys == null) {
-            return new PageResult<>(0, new ArrayList<>(0));
+            return PageResult.empty();
         }
 
         List<UserOnlineVo> list = new ArrayList<>();
@@ -67,7 +67,7 @@ public class UserOnlineServiceImpl implements UserOnlineService {
         Map<Long, String> deptNames = sysDeptService.getDeptNamesByIds(userOnlineVoList.stream().map(UserOnlineVo::getDeptId).toList());
         userOnlineVoList.forEach(onlineUserVo -> onlineUserVo.setDeptName(deptNames.get(onlineUserVo.getDeptId())));
 
-        return new PageResult<>(userOnlineVoList.size(), userOnlineVoList);
+        return PageResult.of(userOnlineVoList, userOnlineVoList.size());
     }
 
     /**
@@ -129,7 +129,7 @@ public class UserOnlineServiceImpl implements UserOnlineService {
         Set<String> keys = redisTemplate.keys(patternKeys);
 
         if (keys == null) {
-            return new PageResult<>(0, new ArrayList<>(0));
+            return PageResult.empty();
         }
 
         // 逻辑分页
@@ -149,7 +149,7 @@ public class UserOnlineServiceImpl implements UserOnlineService {
         Map<Long, String> deptNames = sysDeptService.getDeptNamesByIds(list.stream().map(UserOnlineVo::getDeptId).toList());
         list.forEach(onlineUserVo -> onlineUserVo.setDeptName(deptNames.get(onlineUserVo.getDeptId())));
 
-        return new PageResult<>(keys.size(), list);
+        return PageResult.of(list, keys.size());
     }
 
     @Override

@@ -74,7 +74,7 @@ public class BpmTaskController {
         Map<String, BpmProcessDefinitionInfo> processDefinitionInfoMap = bpmProcessDefinitionInfoService.getProcessDefinitionInfoMap(
                 pageResult.getList().stream().map(Task::getProcessDefinitionId).toList());
         List<BpmTaskVo> bpmTaskVoList = BpmTaskConvert.INSTANCE.buildTodoTaskPage(pageResult.getList(), processInstanceMap, userMap, processDefinitionInfoMap);
-        return ResponseResult.ok(PageResult.of(pageResult.getTotal(), bpmTaskVoList));
+        return ResponseResult.ok(PageResult.of(bpmTaskVoList, pageResult.getTotal()));
     }
 
     @GetMapping("done-page")
@@ -94,7 +94,7 @@ public class BpmTaskController {
         Map<String, BpmProcessDefinitionInfo> processDefinitionInfoMap = bpmProcessDefinitionInfoService.getProcessDefinitionInfoMap(
                 pageResult.getList().stream().map(HistoricTaskInstance::getProcessDefinitionId).toList());
         List<BpmTaskVo> bpmTaskVoList = BpmTaskConvert.INSTANCE.buildTaskPage(pageResult.getList(), processInstanceMap, userMap, null, processDefinitionInfoMap);
-        return ResponseResult.ok(PageResult.of(pageResult.getTotal(), bpmTaskVoList));
+        return ResponseResult.ok(PageResult.of(bpmTaskVoList, pageResult.getTotal()));
     }
 
     /**
@@ -124,7 +124,7 @@ public class BpmTaskController {
         List<String> processDefinitionIds = pageResult.getList().stream().map(HistoricTaskInstance::getProcessDefinitionId).toList();
         Map<String, BpmProcessDefinitionInfo> processDefinitionInfoMap = bpmProcessDefinitionInfoService.getProcessDefinitionInfoMap(processDefinitionIds);
         List<BpmTaskVo> bpmTaskVoList = BpmTaskConvert.INSTANCE.buildTaskPage(pageResult.getList(), processInstanceMap, userMap, deptMap, processDefinitionInfoMap);
-        return ResponseResult.ok(PageResult.of(pageResult.getTotal(), bpmTaskVoList));
+        return ResponseResult.ok(PageResult.of(bpmTaskVoList, pageResult.getTotal()));
     }
 
     @GetMapping("/list-by-process-instance-id")

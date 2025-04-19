@@ -159,7 +159,7 @@ public class BpmModelServiceImpl implements BpmModelService {
         List<Model> models = modelQuery.listPage(bpmModelPageDto.getOffset(), bpmModelPageDto.getSize());
 
         if (CollUtil.isEmpty(models)) {
-            return new PageResult<>(0, List.of());
+            return PageResult.empty();
         }
 
         // 查询表单名称信息
@@ -178,7 +178,8 @@ public class BpmModelServiceImpl implements BpmModelService {
         List<ProcessDefinition> processDefinitions = bpmProcessDefinitionService.getProcessDefinitionsByDeploymentIds(deploymentIds);
         Map<String, ProcessDefinition> processDefinitionMap = processDefinitions.stream().collect(Collectors.toMap(ProcessDefinition::getDeploymentId, pd -> pd));
 
-        return new PageResult<>(modelQuery.count(), BpmModelConvert.INSTANCE.convert(models, formNameMap, categoryNameMap, deploymentMap, processDefinitionMap));
+        List<BpmModelVo> list = BpmModelConvert.INSTANCE.convert(models, formNameMap, categoryNameMap, deploymentMap, processDefinitionMap);
+        return PageResult.of(list, modelQuery.count());
     }
 
     /**

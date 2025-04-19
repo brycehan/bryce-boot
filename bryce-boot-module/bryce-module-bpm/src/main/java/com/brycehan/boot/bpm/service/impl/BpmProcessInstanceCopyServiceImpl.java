@@ -82,7 +82,7 @@ public class BpmProcessInstanceCopyServiceImpl extends BaseServiceImpl<BpmProces
     @Override
     public PageResult<BpmProcessInstanceCopy> page(BpmProcessInstanceCopyPageDto bpmProcessInstanceCopyPageDto) {
         IPage<BpmProcessInstanceCopy> page = baseMapper.selectPage(bpmProcessInstanceCopyPageDto.toPage(), getWrapper(bpmProcessInstanceCopyPageDto));
-        return new PageResult<>(page.getTotal(), page.getRecords());
+        return PageResult.of(page.getRecords(), page.getTotal());
     }
 
     /**

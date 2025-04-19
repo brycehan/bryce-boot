@@ -92,7 +92,7 @@ public class BpmProcessInstanceCopyController {
             return copyVO;
         }).toList();
 
-        return ResponseResult.ok(PageResult.of(pageResult.getTotal(), list));
+        return ResponseResult.ok(PageResult.of(list, pageResult.getTotal()));
     }
 
 }

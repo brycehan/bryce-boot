@@ -61,7 +61,7 @@ public class SysLoginLogServiceImpl extends BaseServiceImpl<SysLoginLogMapper, S
     @Override
     public PageResult<SysLoginLogVo> page(SysLoginLogPageDto sysLoginLogPageDto) {
         IPage<SysLoginLog> page = baseMapper.selectPage(sysLoginLogPageDto.toPage(), getWrapper(sysLoginLogPageDto));
-        return new PageResult<>(page.getTotal(), SysLoginLogConvert.INSTANCE.convert(page.getRecords()));
+        return PageResult.of(SysLoginLogConvert.INSTANCE.convert(page.getRecords()), page.getTotal());
     }
 
     /**

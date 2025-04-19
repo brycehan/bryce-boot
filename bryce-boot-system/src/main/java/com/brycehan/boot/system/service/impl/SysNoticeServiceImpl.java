@@ -79,7 +79,7 @@ public class SysNoticeServiceImpl extends BaseServiceImpl<SysNoticeMapper, SysNo
 
             if (CollUtil.isEmpty(list)) {
                 // 没有匹配用户时返回空
-                return new PageResult<>(0, new ArrayList<>(0));
+                return PageResult.empty();
             }
 
             wrapper.in(SysNotice::getCreatedUserId, list.stream().map(SysUser::getId).toList());
@@ -93,7 +93,7 @@ public class SysNoticeServiceImpl extends BaseServiceImpl<SysNoticeMapper, SysNo
         Map<Long, String> usernames = sysUserService.getUsernamesByIds(sysNoticeVoList.stream().map(SysNoticeVo::getCreatedUserId).toList());
         sysNoticeVoList.forEach(sysNotice -> sysNotice.setCreatedUsername(usernames.get(sysNotice.getCreatedUserId())));
 
-        return new PageResult<>(page.getTotal(), sysNoticeVoList);
+        return PageResult.of(sysNoticeVoList, page.getTotal());
     }
 
     /**
