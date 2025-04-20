@@ -95,6 +95,15 @@ public class BpmFormServiceImpl extends BaseServiceImpl<BpmFormMapper, BpmForm> 
     }
 
     @Override
+    public String getFormName(Long formId) {
+        LambdaQueryWrapper<BpmForm> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.select(BpmForm::getId, BpmForm::getName);
+        queryWrapper.eq(BpmForm::getId, formId);
+        BpmForm bpmForm = baseMapper.selectOne(queryWrapper, false);
+        return Objects.nonNull(bpmForm) ? bpmForm.getName() : "";
+    }
+
+    @Override
     public Map<Long, String> getFormNameMap(List<Long> formIds) {
         if (CollUtil.isEmpty(CollUtil.newHashSet(formIds))) {
             return Map.of();

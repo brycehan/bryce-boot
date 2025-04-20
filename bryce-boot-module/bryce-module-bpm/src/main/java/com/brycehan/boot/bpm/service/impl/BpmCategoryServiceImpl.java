@@ -92,6 +92,18 @@ public class BpmCategoryServiceImpl extends BaseServiceImpl<BpmCategoryMapper, B
     }
 
     @Override
+    public String getCategoryName(Long categoryId) {
+        if (categoryId == null) {
+            return null;
+        }
+        LambdaQueryWrapper<BpmCategory> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.select(BpmCategory::getName);
+        queryWrapper.eq(BpmCategory::getId, categoryId);
+        BpmCategory bpmCategory = baseMapper.selectOne(queryWrapper, false);
+        return bpmCategory != null ? bpmCategory.getName() : "";
+    }
+
+    @Override
     public Map<Long, String> getCategoryNameMap(List<Long> categoryIds) {
         if (CollUtil.isEmpty(CollUtil.newHashSet(categoryIds))) {
             return Map.of();

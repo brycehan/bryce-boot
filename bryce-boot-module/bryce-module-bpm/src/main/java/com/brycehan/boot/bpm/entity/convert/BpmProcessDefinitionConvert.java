@@ -79,6 +79,45 @@ public interface BpmProcessDefinitionConvert {
         return bpmProcessDefinitionVos;
     }
 
+    default BpmProcessDefinitionVo convert(ProcessDefinition processDefinition,
+                                                 String categoryName,
+                                                 BpmProcessDefinitionInfo bpmProcessDefinitionInfo,
+                                                 String formName,
+                                                 Deployment deployment) {
+        if (processDefinition == null || bpmProcessDefinitionInfo == null) {
+            return null;
+        }
+
+        BpmProcessDefinitionVo bpmProcessDefinitionVo = new BpmProcessDefinitionVo();
+
+        // 表单信息
+        bpmProcessDefinitionVo.setFormType(bpmProcessDefinitionInfo.getFormType());
+        bpmProcessDefinitionVo.setFormId(bpmProcessDefinitionInfo.getFormId());
+        bpmProcessDefinitionVo.setFormName(formName);
+        bpmProcessDefinitionVo.setFormConf(bpmProcessDefinitionInfo.getFormConf());
+        bpmProcessDefinitionVo.setFormFields(bpmProcessDefinitionInfo.getFormFields());
+
+        // 模型信息
+        bpmProcessDefinitionVo.setModelType(bpmProcessDefinitionInfo.getModelType());
+        bpmProcessDefinitionVo.setDescription(bpmProcessDefinitionInfo.getDescription());
+
+        // 流程定义信息
+        bpmProcessDefinitionVo.setId(processDefinition.getId());
+        bpmProcessDefinitionVo.setName(processDefinition.getName());
+        bpmProcessDefinitionVo.setKey(processDefinition.getKey());
+        bpmProcessDefinitionVo.setVersion(processDefinition.getVersion());
+        bpmProcessDefinitionVo.setCategoryName(categoryName);
+        bpmProcessDefinitionVo.setSuspensionState(processDefinition.isSuspended() ? 1 : 0);
+        bpmProcessDefinitionVo.setDescription(processDefinition.getDescription());
+
+        // 部署时间
+        if (deployment != null) {
+            bpmProcessDefinitionVo.setDeploymentTime(DateUtil.toLocalDateTime(deployment.getDeploymentTime()));
+        }
+
+        return bpmProcessDefinitionVo;
+    }
+
     default BpmProcessDefinitionVo buildProcessDefinition(ProcessDefinition definition,
                                                               Deployment deployment,
                                                               BpmProcessDefinitionInfo processDefinitionInfo,

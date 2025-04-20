@@ -38,8 +38,8 @@ public class BpmProcessDefinitionController {
     @PreAuthorize("@auth.hasAnyAuthority('bpm:process-definition:query', 'bpm:model:query')")
     @GetMapping(path = "/{id}")
     public ResponseResult<BpmProcessDefinitionVo> get(@PathVariable String id) {
-        BpmProcessDefinitionVo bpmProcessDefinition = bpmProcessDefinitionService.getById(id);
-        return ResponseResult.ok(bpmProcessDefinition);
+        BpmProcessDefinitionVo bpmProcessDefinitionVo = bpmProcessDefinitionService.getById(id);
+        return ResponseResult.ok(bpmProcessDefinitionVo);
     }
 
     /**

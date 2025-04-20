@@ -56,6 +56,14 @@ public interface BpmFormService extends BaseService<BpmForm> {
     void export(BpmFormPageDto bpmFormPageDto);
 
     /**
+     * 根据表单ID获取表单名称
+     *
+     * @param formId 表单ID
+     * @return 表单名称
+     */
+    String getFormName(Long formId);
+
+    /**
      * 根据表单ID集合获取表单名称Map
      *
      * @param formIds 表单ID集合

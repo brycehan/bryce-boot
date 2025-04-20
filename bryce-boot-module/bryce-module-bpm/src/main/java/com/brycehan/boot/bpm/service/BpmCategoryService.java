@@ -56,6 +56,14 @@ public interface BpmCategoryService extends BaseService<BpmCategory> {
     void export(BpmCategoryPageDto bpmCategoryPageDto);
 
     /**
+     * 根据流程分类ID获取流程分类名称
+     *
+     * @param categoryId 流程分类ID
+     * @return 流程分类名称
+     */
+    String getCategoryName(Long categoryId);
+
+    /**
      * 获取流程分类名称Map
      *
      * @param categoryIds 流程分类ID集合

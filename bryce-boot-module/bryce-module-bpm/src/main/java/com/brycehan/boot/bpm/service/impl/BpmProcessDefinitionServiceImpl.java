@@ -2,6 +2,7 @@ package com.brycehan.boot.bpm.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -168,10 +169,23 @@ public class BpmProcessDefinitionServiceImpl implements BpmProcessDefinitionServ
            return null;
        }
 
+        // 获取分类名称
+        String categoryName = bpmCategoryService.getCategoryName(NumberUtil.parseLong(processDefinition.getCategory(), null));
+
+        // 获取部署信息
+        Deployment deployment = repositoryService.createDeploymentQuery().deploymentId(processDefinition.getDeploymentId()).singleResult();
+
+        // 获取扩展信息
+        BpmProcessDefinitionInfo bpmProcessDefinitionInfo = bpmProcessDefinitionInfoService.getProcessDefinitionInfo(processDefinition.getId());
+
+        // 获取表单名称
+        String formName = bpmFormService.getFormName(bpmProcessDefinitionInfo.getFormId());
+
+        BpmProcessDefinitionVo bpmProcessDefinitionVo = BpmProcessDefinitionConvert.INSTANCE.convert(processDefinition, categoryName, bpmProcessDefinitionInfo, formName, deployment);
+
+        // BPMN XML
         BpmnModel bpmnModel = repositoryService.getBpmnModel(processDefinition.getId());
-        String bpmnXml = BpmnModelUtils.getBpmnXml(bpmnModel);
-        BpmProcessDefinitionVo bpmProcessDefinitionVo = new BpmProcessDefinitionVo();
-        bpmProcessDefinitionVo.setBpmnXml(bpmnXml);
+        bpmProcessDefinitionVo.setBpmnXml(BpmnModelUtils.getBpmnXml(bpmnModel));
         return bpmProcessDefinitionVo;
     }
 

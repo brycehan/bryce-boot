@@ -33,6 +33,14 @@ public interface BpmProcessDefinitionInfoService extends BaseService<BpmProcessD
     void export(BpmProcessDefinitionInfoPageDto bpmProcessDefinitionInfoPageDto);
 
     /**
+     * 获取流程定义信息
+     *
+     * @param processDefinitionId 流程定义信息ID
+     * @return 流程定义信息
+     */
+    BpmProcessDefinitionInfo getProcessDefinitionInfo(String processDefinitionId);
+
+    /**
      * 获取流程定义信息Map
      *
      * @param processDefinitionIds 流程定义编号列表
@@ -40,11 +48,4 @@ public interface BpmProcessDefinitionInfoService extends BaseService<BpmProcessD
      */
     Map<String, BpmProcessDefinitionInfo> getProcessDefinitionInfoMap(List<String> processDefinitionIds);
 
-    /**
-     * 获取流程定义信息
-     *
-     * @param processDefinitionId 流程定义信息ID
-     * @return 流程定义信息
-     */
-    BpmProcessDefinitionInfo getProcessDefinitionInfo(String processDefinitionId);
 }
