@@ -1,5 +1,6 @@
 package com.brycehan.boot.quartz.common.utils;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import com.brycehan.boot.common.base.IdGenerator;
@@ -29,8 +30,7 @@ public abstract class AbstractQuartzJob implements Job {
     @Override
     public void execute(JobExecutionContext context) {
         QuartzJob quartzJob = new QuartzJob();
-        BeanUtils.copyProperties(context.getMergedJobDataMap().get(QuartzUtils.JOB_PARAM_KEY), quartzJob);
-
+        BeanUtil.copyProperties(context.getMergedJobDataMap().get(QuartzUtils.JOB_PARAM_KEY), quartzJob);
         threadLocal.set(LocalDateTime.now());
         try {
             doExecute(quartzJob);

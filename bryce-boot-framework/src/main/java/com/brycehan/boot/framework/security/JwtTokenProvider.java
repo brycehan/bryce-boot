@@ -69,9 +69,13 @@ public class JwtTokenProvider {
         } else { // 没有记住我
             switch (Objects.requireNonNull(loginUser.getSourceClientType())) {
                 case PC, H5, UNKNOWN -> {
-                    loginUser.setUserKey(TokenUtils.uuid());
-                    loginUser.setExpireTime(now.plus(jwt.getDefaultTokenValidity()));
-                    claims.put(JwtConstants.USER_KEY, loginUser.getUserKey());
+                    loginUser.setExpireTime(now.plus(jwt.getWebTokenValidity()));
+                    if (jwt.isCacheEnable()) {
+                        loginUser.setUserKey(TokenUtils.uuid());
+                        claims.put(JwtConstants.USER_KEY, loginUser.getUserKey());
+                    } else {
+                        claims.put(JwtConstants.USER_DATA, JsonUtils.writeValueAsString(loginUser));
+                    }
                 }
                 case APP, MINI_APP -> {
                     loginUser.setExpireTime(now.plus(jwt.getAppTokenValidity()));
@@ -81,17 +85,17 @@ public class JwtTokenProvider {
         }
 
 
-        return generateToken(claims, loginUser.getExpireTime());
+        return generateToken(claims, loginUser);
     }
 
     /**
      * 从数据声明生成令牌
      *
      * @param claims 数据声明
-     * @param expiredTime 过期时间
+     * @param loginUser 登录用户
      * @return 令牌
      */
-    public String generateToken(Map<String, Object> claims, LocalDateTime expiredTime) {
+    public String generateToken(Map<String, Object> claims, LoginUser loginUser) {
         AuthProperties.Jwt jwt = authProperties.getJwt();
         if (jwt == null || StrUtil.isBlank(jwt.getSecret())) {
             return null;
@@ -99,10 +103,13 @@ public class JwtTokenProvider {
 
         // 指定加密方式
         Algorithm algorithm = Algorithm.HMAC256(jwt.getSecret());
+        // 签发时间
+        Instant loginTimeInstant = loginUser.getLoginTime().atZone(ZoneId.systemDefault()).toInstant();
         // 过期时间
-        Instant expiredTimeInstant = expiredTime.atZone(ZoneId.systemDefault()).toInstant();
+        Instant expiredTimeInstant = loginUser.getExpireTime().atZone(ZoneId.systemDefault()).toInstant();
         return JWT.create()
                 .withPayload(claims)
+                .withIssuedAt(loginTimeInstant)
                 .withExpiresAt(expiredTimeInstant)
                 // 签发 JWT
                 .sign(algorithm);
@@ -110,7 +117,7 @@ public class JwtTokenProvider {
 
     public void cache(LoginUser loginUser) {
         // 记住我
-        if (Boolean.TRUE.equals(loginUser.getRememberMe())) {
+        if (Boolean.TRUE.equals(loginUser.getRememberMe() || StrUtil.isEmpty(loginUser.getUserKey()))) {
             return;
         }
 

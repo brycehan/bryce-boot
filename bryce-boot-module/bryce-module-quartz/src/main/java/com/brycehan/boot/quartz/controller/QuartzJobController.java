@@ -9,6 +9,7 @@ import com.brycehan.boot.common.entity.PageResult;
 import com.brycehan.boot.common.entity.dto.IdsDto;
 import com.brycehan.boot.framework.operatelog.annotation.OperateLog;
 import com.brycehan.boot.framework.operatelog.annotation.OperatedType;
+import com.brycehan.boot.quartz.common.JobStatus;
 import com.brycehan.boot.quartz.entity.convert.QuartzJobConvert;
 import com.brycehan.boot.quartz.entity.dto.QuartzJobDto;
 import com.brycehan.boot.quartz.entity.dto.QuartzJobPageDto;
@@ -157,15 +158,16 @@ public class QuartzJobController {
     /**
      * 修改quartz定时任务状态
      *
-     * @param quartzJobDto quartz定时任务调度Dto
+     * @param id quartz定时任务调度ID
+     * @param status quartz定时任务调度状态
      * @return 响应结果
      */
     @Operation(summary = "修改quartz定时任务状态")
     @OperateLog(type = OperatedType.UPDATE)
     @PreAuthorize("@auth.hasAuthority('quartz:job:update')")
-    @PutMapping(path = "/status")
-    public ResponseResult<Void> status(@Validated(value = UpdateGroup.class) @RequestBody QuartzJobDto quartzJobDto) {
-        quartzJobService.changeStatus(quartzJobDto);
+    @PatchMapping(path = "/{id}/{status}")
+    public ResponseResult<Void> status(@PathVariable Long id, @PathVariable JobStatus status) {
+        quartzJobService.changeStatus(id, status);
         return ResponseResult.ok();
     }
 

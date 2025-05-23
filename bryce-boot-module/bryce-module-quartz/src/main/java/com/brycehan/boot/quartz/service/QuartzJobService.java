@@ -2,6 +2,7 @@ package com.brycehan.boot.quartz.service;
 
 import com.brycehan.boot.common.entity.PageResult;
 import com.brycehan.boot.framework.mybatis.service.BaseService;
+import com.brycehan.boot.quartz.common.JobStatus;
 import com.brycehan.boot.quartz.entity.dto.QuartzJobDto;
 import com.brycehan.boot.quartz.entity.dto.QuartzJobPageDto;
 import com.brycehan.boot.quartz.entity.po.QuartzJob;
@@ -53,8 +54,9 @@ public interface QuartzJobService extends BaseService<QuartzJob> {
 
     /**
      * 修改quartz定时任务状态
-     * @param quartzJobDto quartz定时任务调度Dto
+     * @param id quartz定时任务调度id
+     * @param status quartz定时任务调度状态
      */
-    void changeStatus(QuartzJobDto quartzJobDto);
+    void changeStatus(Long id, JobStatus status);
 
 }

@@ -132,19 +132,19 @@ public class QuartzJobServiceImpl extends BaseServiceImpl<QuartzJobMapper, Quart
     }
 
     @Override
-    public void changeStatus(QuartzJobDto quartzJobDto) {
-        QuartzJob quartzJob = getById(quartzJobDto.getId());
+    public void changeStatus(Long id, JobStatus status) {
+        QuartzJob quartzJob = getById(id);
         if(quartzJob == null) {
             return;
         }
 
         // 更新数据
-        quartzJob.setStatus(quartzJobDto.getStatus());
+        quartzJob.setStatus(status);
         updateById(quartzJob);
 
-        if(JobStatus.PAUSE == quartzJobDto.getStatus()) {
+        if(JobStatus.PAUSE == status) {
             QuartzUtils.pauseJob(scheduler, quartzJob);
-        } else if (JobStatus.NORMAL == quartzJobDto.getStatus()) {
+        } else if (JobStatus.NORMAL == status) {
             QuartzUtils.resumeJob(scheduler, quartzJob);
         }
     }

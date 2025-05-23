@@ -8,6 +8,8 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.time.Duration;
 
 /**
@@ -41,9 +43,11 @@ public class AuthProperties {
         }
     }
 
-    @Getter
-    @Setter
-    public static class Jwt {
+    @Data
+    public static class Jwt implements Serializable {
+
+        @Serial
+        private static final long serialVersionUID = 1L;
 
         /**
          * 密钥
@@ -56,14 +60,19 @@ public class AuthProperties {
         private String authoritiesKey = "auth";
 
         /**
-         * 默认token有效期
+         * web token有效期
          */
-        private Duration defaultTokenValidity = Duration.ofHours(2L);
+        private Duration webTokenValidity = Duration.ofHours(2L);
 
         /**
          * App token有效期
          */
         private Duration appTokenValidity =  Duration.ofDays(30L);
+
+        /**
+         * 是否启用缓存
+         */
+        private boolean  cacheEnable = true;
     }
 
     @Getter

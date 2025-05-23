@@ -61,10 +61,11 @@ public class SysMenuDto extends BaseDto {
 
     /**
      * 权限标识
+     * ^(?!ROLE_) 正则表达式不以 ROLE_ 开头
      */
     @Schema(description = "权限标识")
     @Length(max = 100, groups = {SaveGroup.class, UpdateGroup.class})
-    @Pattern(regexp = "^(?!ROLE_)[a-z:]+$", message = "不以ROLE_ 开头，并且必须是小写字母或英文冒号", groups = {SaveGroup.class, UpdateGroup.class})
+    @Pattern(regexp = "^(?!ROLE_)[a-z:\\d]*$", message = "必须是小写字母数字或英文冒号", groups = {SaveGroup.class, UpdateGroup.class})
     private String authority;
 
     /**

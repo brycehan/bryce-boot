@@ -135,7 +135,7 @@ public class LoginUser implements UserDetails {
     /**
      * 用户所在部门的下级部门集合（包含用户的所在部门）
      */
-    private Set<Long> SubDeptIds;
+    private Set<Long> subDeptIds;
 
     /**
      * 拥有角色集合

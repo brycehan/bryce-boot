@@ -164,6 +164,8 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenuMapper, SysMenu> 
 
     @Override
     public boolean checkAuthorityUnique(SysMenuAuthorityDto sysMenuAuthorityDto) {
+        if (StringUtils.isEmpty(sysMenuAuthorityDto.getAuthority())) return true;
+
         LambdaQueryWrapper<SysMenu> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper
                 .select(SysMenu::getAuthority, SysMenu::getId)
