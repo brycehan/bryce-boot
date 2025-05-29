@@ -451,8 +451,8 @@ INSERT INTO brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_c
 INSERT INTO brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, sort, status, remark, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (170, '执行监听器', 'execution', 17, 'primary', 1, 1, null, null, 1, now(), 1, now());
 INSERT INTO brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, sort, status, remark, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (171, '任务监听器', 'task', 17, 'success', 2, 1, null, null, 1, now(), 1, now());
 INSERT INTO brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, sort, status, remark, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (180, 'Java 类', 'class', 18, 'primary', 1, 1, null, null, 1, now(), 1, now());
-INSERT INTO brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, sort, status, remark, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (180, '表达式', 'expression', 18, 'success', 2, 1, null, null, 1, now(), 1, now());
-INSERT INTO brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, sort, status, remark, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (180, '代理表达式', 'delegateExpression', 18, 'info', 3, 1, null, null, 1, now(), 1, now());
+INSERT INTO brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, sort, status, remark, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (181, '表达式', 'expression', 18, 'success', 2, 1, null, null, 1, now(), 1, now());
+INSERT INTO brc_sys_dict_data (id, dict_label, dict_value, dict_type_id, label_class, sort, status, remark, deleted, created_user_id, created_time, updated_user_id, updated_time) VALUES (182, '代理表达式', 'delegateExpression', 18, 'info', 3, 1, null, null, 1, now(), 1, now());
 
 -- 14、系统参数表
 create table brc_sys_param
