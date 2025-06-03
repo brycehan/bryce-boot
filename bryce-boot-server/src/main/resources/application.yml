@@ -4,7 +4,7 @@ spring:
     # 应用名称
     name: bryce-boot
   profiles:
-    include: bryce,bpm
+    include: bryce
     # 环境 dev|prod
     active: dev
   # Jackson 配置
@@ -22,6 +22,46 @@ spring:
     servlet:
       # 启动时初始化 mvc servlet
       load-on-startup: 0
+  mail:
+    # smtp服务主机 smtp.163.com smtps 465 qq邮箱为smtp.qq.com
+    host: smtp.163.com
+    # 服务协议
+    protocol: smtps
+    # 端口
+    port: 465
+    # 发送邮件的账户
+    username: brycehan@163.com
+    # 授权码
+    password: xxx
+    test-connection: false
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+
+#sms:
+#  config-type: yaml
+#  is-print: false
+#  login-template-id: SMS_463676981
+#  register-template-id: SMS_463676982
+#  number_text_messages_sent_per_day: 5
+#  blends:
+#    sms1:
+#      # 框架定义的厂商名称标识
+#      supplier: alibaba
+#      # 有些称为accessKey有些称之为apiKey，也有称为sdkKey或者appId。
+#      access-key-id: ...
+#      # 称为accessSecret有些称之为apiSecret。
+#      access-key-secret: ...
+#      # 您的短信签名
+#      signature: BryceAdmin
+#      # 短信自动重试间隔时间  默认五秒
+#      retry-interval: 5
+#      # 短信重试次数，默认0次不重试，如果你需要短信重试则根据自己的需求修改值即可
+#      max-retries: 0
 
 # 服务器配置
 server:
@@ -63,3 +103,118 @@ mybatis-plus:
       # 逻辑未删除值
       logic-not-delete-value: 'null'
 
+bryce:
+  # 项目配置
+  application:
+    # 名称
+    name: Bryce Boot
+    # 版本
+    version: @project.version@
+    # 版权年份
+    copyright-year: 2025
+    # 实例演示开关
+    demo-enabled: true
+
+  # id 生成器
+  id:
+    # 机器码
+    worker-id: 0
+    # 机器码位长
+    worker-id-bit-length: 6
+    seq-bit-length: 10
+    # 起始时间
+    base-time: 1692948713117
+
+  # 线程池
+  thread-pool:
+    # 核心线程数
+    core-pool-size: 5
+    # 最大线程数
+    maximum-pool-size: 10
+    # 存活时间（单位：秒）
+    keep-alive-time: 300
+    # 任务队列的任务数
+    work-queue-size: 1000
+
+  # 验证码配置
+  captcha:
+    width: 300
+    height: 80
+    font-size: 54
+    length: 2
+    expiration: 5m
+
+  # 权限过滤
+  auth:
+    # jwt 令牌
+    jwt:
+      # 令牌密钥
+      secret: UZCiSM60eRJMOFA9mbiy
+      # 权限键
+      authorities-key: auth
+      #令牌有效期（默认2小时）
+      web-token-validity: 2h
+      #App令牌有效期（默认30天）
+      app-token-validity: 30d
+      # 是否启用缓存
+      cache-enable: true
+    # 忽略的URL
+    ignore-urls:
+      all:
+        - /generator-ui/**
+        - /auth/register/**
+        - /error
+      get:
+        - /
+        - /doc.html
+        - /v3/api-docs/**
+        - /webjars/**
+        - /favicon.ico
+        - /auth/logout
+        - /auth/captcha/**
+        - /auth/sms/**
+        - /storage/public/**
+      post:
+        - /auth/loginByAccount
+        - /auth/loginByPhone
+        - /auth/app/account/login
+        - /auth/app/sms/login
+
+  # xss 过滤
+  xss:
+    enabled: true
+    exclude-urls:
+      - /system/notice
+      - /mp
+
+  # 用户配置
+  user:
+    password:
+      # 密码最大错误次数
+      max-retry-count: 5
+      # 密码锁定间隔（默认10分钟）
+      lock-duration: 10m
+
+  # 存储配置
+  storage:
+    enabled: true
+    config:
+      # 存储类型 local|minio|aliyun|tencent|qiniu|huawei
+      type: local
+      endpoint: http://localhost:${server.port}
+    local:
+      # 路径 System.getProperty("user.home") + projectName;
+      directory: ${user.home}/bryce-boot
+    # minio 配置
+    minio:
+      endpoint: http://127.0.0.1:9000
+      access-key: pybhzHB3EZBGIGQGQ3eh
+      secret-key: Ljk81lhOK2ykR4BiGEQfOxer4OXStdUpyiMdtyxX
+      bucket-name: bryce-boot
+
+  # 代码生成
+  generator:
+    # 表前缀（类名不会包含表前缀）
+    table-prefix: brc_
+    # 默认生成包名称，根据实际需要修改
+    package-name: com.brycehan.boot

@@ -15,7 +15,6 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>bryce-module-bpm</module>
         <module>bryce-module-email</module>
         <module>bryce-module-monitor</module>
         <module>bryce-module-quartz</module>

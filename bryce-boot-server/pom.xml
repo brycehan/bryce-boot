@@ -19,11 +19,6 @@
             <groupId>com.brycehan.boot</groupId>
             <artifactId>bryce-boot-system</artifactId>
         </dependency>
-        <!-- 工作流组件 -->
-        <dependency>
-            <groupId>com.brycehan.boot</groupId>
-            <artifactId>bryce-module-bpm</artifactId>
-        </dependency>
         <!-- 监控组件 -->
         <dependency>
             <groupId>com.brycehan.boot</groupId>

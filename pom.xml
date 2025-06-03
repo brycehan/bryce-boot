@@ -109,12 +109,6 @@
                 <artifactId>bryce-boot-module</artifactId>
                 <version>${project.version}</version>
             </dependency>
-            <!-- 工作流模块 -->
-            <dependency>
-                <groupId>com.brycehan.boot</groupId>
-                <artifactId>bryce-module-bpm</artifactId>
-                <version>${project.version}</version>
-            </dependency>
             <!-- 邮件模块 -->
             <dependency>
                 <groupId>com.brycehan.boot</groupId>
