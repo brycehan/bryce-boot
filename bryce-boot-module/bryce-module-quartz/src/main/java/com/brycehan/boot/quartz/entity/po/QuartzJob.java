@@ -55,7 +55,7 @@ public class QuartzJob extends BaseEntity {
     private String cronExpression;
 
     /**
-     * 是否并发执行（N：否，Y：是）
+     * 是否并发执行
      */
     private YesNoType concurrent;
 

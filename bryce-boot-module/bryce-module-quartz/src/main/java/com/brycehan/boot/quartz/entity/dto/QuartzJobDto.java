@@ -70,9 +70,9 @@ public class QuartzJobDto extends BaseDto {
     private String cronExpression;
 
     /**
-     * 是否并发执行（N：否，Y：是）
+     * 是否并发执行
      */
-    @Schema(description = "是否并发执行（N：否，Y：是）")
+    @Schema(description = "是否并发执行")
     private YesNoType concurrent;
 
     /**

@@ -40,7 +40,7 @@ create table brc_quartz_job
     method          varchar(100)                  not null comment '执行方法',
     params          varchar(500)                  null comment '参数',
     cron_expression varchar(255)                  null comment 'cron 表达式',
-    concurrent      char        default 'N'       null comment '是否并发执行（N：否，Y：是）',
+    concurrent      tinyint     default 0         null comment '是否并发执行',
     sort            int         default 0         null comment '显示顺序',
     status          tinyint     default 1         null comment '状态（0：暂停，1：正常）',
     remark          varchar(500)                  null comment '备注',

@@ -86,9 +86,9 @@ public class QuartzJobVo implements Serializable {
     private String cronExpression;
 
     /**
-     * 是否并发执行（N：否，Y：是）
+     * 是否并发执行
      */
-    @Schema(description = "是否并发执行（N：否，Y：是）")
+    @Schema(description = "是否并发执行")
     @ColumnWidth(20)
     @ExcelProperty(value = "并发执行", converter = EnumDescConverter.class)
     private YesNoType concurrent;

@@ -16,15 +16,15 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum YesNoType {
 
-    YES("Y", "是"),
-    NO("N", "否");
+    YES(1, "是"),
+    NO(0, "否");
 
     /**
      * 类型值
      */
     @JsonValue
     @EnumValue
-    private final String value;
+    private final Integer value;
 
     /**
      * 描述
@@ -38,7 +38,7 @@ public enum YesNoType {
      * @param value 值
      * @return 枚举类型
      */
-    public static YesNoType of(String value) {
+    public static YesNoType of(Integer value) {
         for (YesNoType type : values()) {
             if (type.getValue().equals(value)) {
                 return type;

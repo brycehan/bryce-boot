@@ -59,7 +59,7 @@ comment on column brc_quartz_job.bean_name is 'Spring Bean 名称';
 comment on column brc_quartz_job.method is '执行方法';
 comment on column brc_quartz_job.params is '参数';
 comment on column brc_quartz_job.cron_expression is 'cron 表达式';
-comment on column brc_quartz_job.concurrent is '是否并发执行（N：否，Y：是）';
+comment on column brc_quartz_job.concurrent is '是否并发执行';
 comment on column brc_quartz_job.sort is '显示顺序';
 comment on column brc_quartz_job.status is '状态（0：暂停，1：正常）';
 comment on column brc_quartz_job.remark is '备注';
