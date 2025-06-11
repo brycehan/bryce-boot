@@ -36,9 +36,9 @@ public class SysAssignUserPageDto extends BasePageDto {
     private Long roleId;
 
     /**
-     * 是否已分配（N：未分配，Y：已分配）
+     * 是否已分配
      */
-    @Schema(description = "是否已分配（N：未分配，Y：已分配）")
+    @Schema(description = "是否已分配")
     private YesNoType assigned;
 
 }

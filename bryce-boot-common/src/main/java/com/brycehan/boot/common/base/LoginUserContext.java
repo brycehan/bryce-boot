@@ -73,4 +73,13 @@ public class LoginUserContext {
         context.setAuthentication(authentication);
         SecurityContextHolder.setContext(context);
     }
+
+    public static String currentOpenId() {
+        LoginUser loginUser = currentUser();
+        if(loginUser == null){
+            return null;
+        }
+
+        return loginUser.getOpenId();
+    }
 }

@@ -5,7 +5,7 @@ spring:
     name: bryce-boot
   profiles:
     include: bryce
-    # 环境 dev|prod
+    # 环境 dev | prod
     active: dev
   # Jackson 配置
   jackson:
@@ -22,6 +22,7 @@ spring:
     servlet:
       # 启动时初始化 mvc servlet
       load-on-startup: 0
+
   mail:
     # smtp服务主机 smtp.163.com smtps 465 qq邮箱为smtp.qq.com
     host: smtp.163.com
@@ -67,14 +68,6 @@ spring:
 server:
   # 服务器 HTTP 端口
   port: 8090
-
-# 接口文档
-knife4j:
-  enable: true
-  basic:
-    enable: false # 开启登录
-    username: swagger
-    password: 123456
 
 # mybatis plus 配置
 mybatis-plus:
@@ -161,14 +154,10 @@ bryce:
     # 忽略的URL
     ignore-urls:
       all:
-        - /generator-ui/**
         - /auth/register/**
         - /error
       get:
         - /
-        - /doc.html
-        - /v3/api-docs/**
-        - /webjars/**
         - /favicon.ico
         - /auth/logout
         - /auth/captcha/**
@@ -177,15 +166,12 @@ bryce:
       post:
         - /auth/loginByAccount
         - /auth/loginByPhone
-        - /auth/app/account/login
-        - /auth/app/sms/login
 
   # xss 过滤
   xss:
     enabled: true
     exclude-urls:
       - /system/notice
-      - /mp
 
   # 用户配置
   user:
@@ -211,10 +197,3 @@ bryce:
       access-key: pybhzHB3EZBGIGQGQ3eh
       secret-key: Ljk81lhOK2ykR4BiGEQfOxer4OXStdUpyiMdtyxX
       bucket-name: bryce-boot
-
-  # 代码生成
-  generator:
-    # 表前缀（类名不会包含表前缀）
-    table-prefix: brc_
-    # 默认生成包名称，根据实际需要修改
-    package-name: com.brycehan.boot

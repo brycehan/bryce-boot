@@ -68,6 +68,33 @@ spring:
         queue-capacity: 10
         keep-alive: 5m
 
+bryce:
+  # 代码生成
+  generator:
+    # 表前缀（类名不会包含表前缀）
+    table-prefix: brc_
+    # 默认生成包名称，根据实际需要修改
+    package-name: com.brycehan.boot
+
+  # 权限过滤
+  auth:
+    # 忽略的URL
+    ignore-urls:
+      all:
+        - /generator-ui/**
+      get:
+        - /doc.html
+        - /v3/api-docs/**
+        - /webjars/**
+
+# 接口文档
+knife4j:
+  enable: true
+  basic:
+    enable: false # 开启登录
+    username: swagger
+    password: 123456
+
 # 日志配置
 logging:
   level:
